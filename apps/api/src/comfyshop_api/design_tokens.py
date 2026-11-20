@@ -21,5 +21,6 @@ COLORS = {
     "success": "#c4da9b",
     "overlay": "#000000b8",
     "scrim": "#000000d9",
+    "on-media": "#eeeeec",
     "clear": "transparent",
 }

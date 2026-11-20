@@ -48,6 +48,7 @@ from comfyshop_api.services.machines import (
     finish_task,
     lock_leased_task,
     machine_read,
+    record_heartbeat,
 )
 from comfyshop_api.services.machine_links import (
     LINK_TTL_MS,
@@ -135,9 +136,7 @@ def update_catalog(body: MachineCatalog, db: DB, machine: CurrentMachine):
 
 @router.post("/heartbeat", response_model=MachineRead)
 def heartbeat(body: MachineHeartbeat, db: DB, machine: CurrentMachine) -> MachineRead:
-    machine.device = body.device
-    machine.capabilities = {"nodes": body.nodes}
-    machine.last_seen = now_ms()
+    record_heartbeat(db, machine, body)
     db.commit()
     return machine_read(machine)
 

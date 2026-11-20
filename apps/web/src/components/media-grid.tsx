@@ -16,8 +16,10 @@ export type CardView = {
   label: string;
   title: string;
   media: Media | null;
+  coverImage?: Media | null;
   detail?: ReactNode;
   pressed?: boolean;
+  disabled?: boolean;
   badge?: ReactNode;
 };
 type GridActions = {
@@ -36,10 +38,12 @@ function GridCard({ data, index, width }: MediaRendererProps<Entry>) {
         className="media-card-open"
         aria-label={card.label}
         aria-pressed={card.pressed}
+        disabled={card.disabled}
         onClick={(event) => open(data, event.currentTarget)}
       >
         <MediaCardContent
           media={card.media}
+          coverImage={card.coverImage}
           title={card.title}
           width={width}
           index={index}

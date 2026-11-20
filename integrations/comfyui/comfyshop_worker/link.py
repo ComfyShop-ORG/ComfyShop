@@ -1,4 +1,4 @@
-"""首次启动时把这台工作机接入账号：在浏览器确认后取得密钥并写入配置文件。"""
+"""没有密钥时在浏览器确认接入，并把取得的密钥写入配置文件。"""
 
 import asyncio
 from io import StringIO
@@ -108,6 +108,7 @@ async def link_machine(
                     echo(line)
             echo(f"  {url}")
             echo(f"或打开 {server_url}/machines/link 输入代码 {code[:4]}-{code[4:]}")
+        echo("重装后可以在接入页选择重新连接原工作机。")
         echo("也可以在网页的工作机页面手动添加，把下载的 worker.json 放到启动文件旁后重新启动。")
         echo("等待确认…")
         deadline = time.monotonic() + start["expiresIn"]
@@ -120,17 +121,25 @@ async def link_machine(
             if response.status_code == 410:
                 break
             try:
-                result = response.json() if response.is_success else None
+                result = (
+                    response.json() if response.is_success or response.status_code == 409 else None
+                )
             except ValueError:
                 # 例如反向代理临时返回的网页，下一轮再问。
                 continue
-            if result and result["status"] == "approved":
+            if not isinstance(result, dict):
+                continue
+            if response.status_code == 409:
+                detail = result.get("detail")
+                if isinstance(detail, str):
+                    raise LinkError(f"{detail}。请重新启动工作机申请接入。")
+                continue
+            if result.get("status") == "approved":
                 try:
                     save_key(config_file, result["apiKey"])
                 except OSError as error:
                     raise LinkError(
-                        f"无法把密钥写入 {config_file}：{error}。请检查文件权限后重新启动工作机，"
-                        "并在网页撤销这次接入后多出的离线工作机。"
+                        f"无法把密钥写入 {config_file}：{error}。请检查文件权限后重新接入。"
                     ) from None
                 echo(f"已接入：{result['machineName']}")
                 return

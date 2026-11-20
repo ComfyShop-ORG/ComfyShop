@@ -138,7 +138,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-4);
-  margin: var(--space-4) 0;
+  margin: 0;
   padding: var(--space-4);
   background: var(--color-raised);
   font-size: var(--font-sm);
@@ -151,7 +151,7 @@
   margin: var(--space-1) 0 0;
 }
 .machine-link-warning {
-  margin: 0 0 var(--space-4);
+  margin: 0;
   color: var(--color-warning);
   font-size: var(--font-sm);
 }

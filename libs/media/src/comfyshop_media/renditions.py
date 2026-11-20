@@ -140,6 +140,26 @@ def _image(source: Path, sizes: list[int]) -> dict[int, bytes]:
         raise MediaError("unavailable", "暂时无法生成图片缩略图") from None
 
 
+def avatar_thumbnail(content: bytes) -> bytes:
+    """把上传图片按 EXIF 方向居中裁成 256 像素方图，仅保存重新编码的 WebP。"""
+    try:
+        with Image.open(BytesIO(content), formats=["JPEG", "PNG", "WEBP"]) as original:
+            if original.width * original.height > 20_000_000:
+                raise MediaError("invalid", "头像图片不能超过 2000 万像素")
+            ImageOps.exif_transpose(original, in_place=True)
+            alpha = "A" in original.getbands() or "transparency" in original.info
+            with (
+                original.convert("RGBA" if alpha else "RGB") as image,
+                ImageOps.fit(image, (256, 256), Image.Resampling.LANCZOS) as resized,
+                BytesIO() as output,
+            ):
+                resized.info.clear()
+                resized.save(output, format="WEBP", quality=82)
+                return output.getvalue()
+    except (OSError, SyntaxError, ValueError, Image.DecompressionBombError):
+        raise MediaError("invalid", "请选择有效的 JPG、PNG 或 WebP 图片") from None
+
+
 def _video_input(source: Path, ffmpeg: str, start_ms: int = 0) -> list[str]:
     """读取视频的 ffmpeg 参数。`start_ms` 大于 0 时从这一刻开始解码。"""
     return [

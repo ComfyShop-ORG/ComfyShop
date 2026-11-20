@@ -30,6 +30,16 @@ WORKER_ARCHIVE = "/api/v1/worker/package"
 SKILL_FILES = {"SKILL.md", "scripts/comfyshop.py"}
 CLIENTS = {"codex": ".agents", "claude-code": ".claude"}
 MAX_ARCHIVE_BYTES = 1024 * 1024
+OFFICIAL_TEMPLATE_CATEGORIES = {
+    "Image": "image",
+    "Image Tools": "image_tool",
+    "Video": "video",
+    "Video Tools": "video_tool",
+    "Audio": "audio",
+    "3D Model": "3d",
+    "Vector": "vector",
+    "LLM": "llm",
+}
 
 
 class Operation(NamedTuple):
@@ -38,12 +48,14 @@ class Operation(NamedTuple):
     filters: tuple[str, ...] = ()
     payload: bool = False
     output: Literal["json", "graph", "file"] = "json"
+    binary: bool = False
 
 
 OPERATIONS = {
     "platform.health": Operation("GET", "/health"),
     "workspace.favorites": Operation("GET", "/workspace"),
     "workflow.get": Operation("GET", "/workflows/{workflow_id}", ("version_id",)),
+    "workflow.versions": Operation("GET", "/workflows/{workflow_id}/versions"),
     "workflow.import": Operation("POST", "/workflows", payload=True),
     "workflow.update": Operation("PATCH", "/workflows/{workflow_id}", payload=True),
     "workflow.restore": Operation("POST", "/workflows/{workflow_id}/restore"),
@@ -58,8 +70,10 @@ OPERATIONS = {
     "workflow.set-cover": Operation("PUT", "/workflows/{workflow_id}/cover", payload=True),
     "workflow.favorite": Operation("PUT", "/workflows/{workflow_id}/favorite"),
     "workflow.unfavorite": Operation("DELETE", "/workflows/{workflow_id}/favorite"),
-    "task.list": Operation("GET", "/tasks", ("workflow_id", "state", "cursor", "limit")),
-    "task.activity": Operation("GET", "/tasks/activity", ("workflow_id", "task_id")),
+    "task.list": Operation(
+        "GET", "/tasks", ("workflow_id", "version_id", "state", "cursor", "limit")
+    ),
+    "task.activity": Operation("GET", "/tasks/activity", ("workflow_id", "version_id", "task_id")),
     "task.get": Operation("GET", "/tasks/{task_id}"),
     "task.inputs": Operation("GET", "/tasks/{task_id}/inputs"),
     "task.graph": Operation("GET", "/tasks/{task_id}/graph", output="graph"),
@@ -68,11 +82,14 @@ OPERATIONS = {
     "task.cancel": Operation("POST", "/tasks/{task_id}/cancel"),
     "task.delete": Operation("DELETE", "/tasks/{task_id}"),
     "execution.list": Operation(
-        "GET", "/executions", ("workflow_id", "task_id", "cursor", "limit")
+        "GET", "/executions", ("workflow_id", "version_id", "task_id", "cursor", "limit")
     ),
     "execution.get": Operation("GET", "/executions/{execution_id}"),
     "execution.replay": Operation("GET", "/executions/{execution_id}/replay"),
     "execution.set-cover": Operation("PUT", "/executions/{execution_id}/cover", payload=True),
+    "execution.cover-thumbnail": Operation(
+        "GET", "/executions/{execution_id}/cover/{sha256}/thumbnail", ("size",), output="file"
+    ),
     "execution.delete-artifacts": Operation("DELETE", "/executions/{execution_id}/artifacts"),
     "execution.restore-artifacts": Operation(
         "POST", "/executions/{execution_id}/artifacts/restore"
@@ -95,15 +112,43 @@ OPERATIONS = {
     "asset.thumbnail": Operation("GET", "/assets/{asset_id}/thumbnail", ("size",), output="file"),
     "asset.download": Operation("GET", "/assets/{asset_id}/file", output="file"),
     "asset.delete": Operation("DELETE", "/assets/{asset_id}"),
-    "work.list": Operation("GET", "/works", ("scope", "workflow_id", "author", "cursor", "limit")),
+    "work.list": Operation(
+        "GET",
+        "/works",
+        (
+            "scope",
+            "workflow_id",
+            "version_id",
+            "current_version_only",
+            "author",
+            "category",
+            "cursor",
+            "limit",
+        ),
+    ),
     "work.get": Operation("GET", "/works/{work_id}"),
+    "work.set-cover": Operation("PUT", "/works/{work_id}/cover", payload=True),
+    "work.cover-thumbnail": Operation(
+        "GET", "/works/{work_id}/cover/{sha256}/thumbnail", ("size",), output="file"
+    ),
     "work.artifacts": Operation("GET", "/works/{work_id}/artifacts", ("cursor", "limit")),
     "work.inputs": Operation("GET", "/works/{work_id}/inputs"),
+    "work.asset-download": Operation(
+        "GET", "/works/{work_id}/assets/{asset_id}/file", ("download",), output="file"
+    ),
+    "work.asset-thumbnail": Operation(
+        "GET", "/works/{work_id}/assets/{asset_id}/thumbnail", ("size",), output="file"
+    ),
     "work.replay": Operation("GET", "/works/{work_id}/replay"),
     "work.publish": Operation("POST", "/works", payload=True),
     "work.unpublish": Operation("DELETE", "/works/{work_id}"),
     "work.delete": Operation("POST", "/works/{work_id}/delete"),
     "work.restore": Operation("POST", "/works/{work_id}/restore"),
+    "author.get": Operation("GET", "/authors/{username}"),
+    "author.avatar": Operation("GET", "/authors/{user_id}/avatar/{version}", output="file"),
+    "account.nickname": Operation("PUT", "/auth/profile", payload=True),
+    "account.avatar-upload": Operation("PUT", "/auth/profile/avatar", payload=True, binary=True),
+    "account.avatar-remove": Operation("DELETE", "/auth/profile/avatar"),
     "account.password": Operation("POST", "/auth/password", payload=True),
     "account.email": Operation("PUT", "/auth/email", payload=True),
     "account.email-confirm": Operation("POST", "/auth/email/confirm", payload=True),
@@ -205,6 +250,13 @@ class Client:
                 raise ClientError("平台响应无效")
             return result
 
+    def upload(self, path: str, file: Path, csrf: str) -> Any:
+        headers = {"Content-Type": "application/octet-stream", "X-CSRF-Token": csrf}
+        with file.open("rb") as source:
+            headers["Content-Length"] = str(os.fstat(source.fileno()).st_size)
+            with self.open("PUT", path, data=source, headers=headers) as response:
+                return json.load(response)
+
     def session(self):
         return self.request("GET", "/auth/session")
 
@@ -260,6 +312,14 @@ def identifier(value: str) -> str:
     return value
 
 
+def path_value(parameter: str, value: str) -> str:
+    if parameter != "username":
+        return identifier(value)
+    if not re.fullmatch(r"[\w-]{2,32}", value):
+        raise ClientError("请使用平台返回的账号名")
+    return quote(value, safe="")
+
+
 def path_parameters(operation: Operation) -> list[str]:
     return re.findall(r"\{([a-z_]+)\}", operation.path)
 
@@ -274,6 +334,9 @@ def list_operations() -> dict:
                 "ids": path_parameters(operation),
                 "query": operation.filters,
                 "requiresBody": operation.payload,
+                "bodyFormat": ("file" if operation.binary else "json")
+                if operation.payload
+                else None,
                 "output": operation.output,
             }
             for name, operation in OPERATIONS.items()
@@ -302,7 +365,9 @@ def call_operation(client: Client, args: argparse.Namespace) -> Any:
     parameters = path_parameters(operation)
     if len(parameters) != len(args.ids):
         raise ClientError("所需位置参数为 " + ("、".join(parameters) or "无"))
-    path = operation.path.format(**dict(zip(parameters, map(identifier, args.ids))))
+    path = operation.path.format(
+        **{name: path_value(name, value) for name, value in zip(parameters, args.ids)}
+    )
     filters: dict[str, str] = {}
     for item in args.query:
         key, delimiter, value = item.partition("=")
@@ -312,11 +377,12 @@ def call_operation(client: Client, args: argparse.Namespace) -> Any:
     path = query(path, **filters)
 
     if operation.payload != (args.body is not None):
+        source = "图片文件" if operation.binary else "JSON文件"
         raise ClientError(
-            "此操作需要 --body JSON文件" if operation.payload else "此操作不接受 --body"
+            f"此操作需要 --body {source}" if operation.payload else "此操作不接受 --body"
         )
     body = None
-    if args.body:
+    if args.body and not operation.binary:
         body = json.loads(args.body.read_text(encoding="utf-8-sig"))
         if not isinstance(body, dict):
             raise ClientError("请求文件需要包含一个 JSON 对象")
@@ -328,12 +394,23 @@ def call_operation(client: Client, args: argparse.Namespace) -> Any:
 
     csrf = client.csrf() if operation.method != "GET" else None
     with new_output(args.out) if args.out else nullcontext() as output:
-        result = client.request(operation.method, path, body, csrf=csrf)
+        if operation.binary:
+            assert args.body is not None and csrf is not None
+            result = client.upload(path, args.body, csrf)
+        else:
+            result = client.request(operation.method, path, body, csrf=csrf)
+        if args.operation == "workflow.import":
+            explain_import_format(result)
         if operation.output == "graph":
             result = result["graph"]
         if output is not None:
             output.write(json_bytes(result))
     return {"path": str(args.out.resolve())} if args.out else result
+
+
+def explain_import_format(workflow: dict) -> None:
+    if workflow.get("format") == "ui":
+        print("已保存编辑器格式。运行请从 ComfyUI 导出 API JSON，并上传新版本。", file=sys.stderr)
 
 
 def configure_machine(client: Client, args: argparse.Namespace) -> dict:
@@ -480,15 +557,8 @@ def results(client: Client, task_id: str) -> dict:
 
 
 def upload(client: Client, path: Path, asset_id: UUID):
-    headers = {
-        "Content-Type": "application/octet-stream",
-        "X-CSRF-Token": client.csrf(),
-    }
     endpoint = query(f"/assets/{asset_id}", filename=path.name)
-    with path.open("rb") as source:
-        headers["Content-Length"] = str(os.fstat(source.fileno()).st_size)
-        with client.open("PUT", endpoint, data=source, headers=headers) as response:
-            return json.load(response)
+    return client.upload(endpoint, path, client.csrf())
 
 
 def save_download(response, destination: Path) -> dict:
@@ -504,6 +574,151 @@ def download(client: Client, artifact_id: str, destination: Path) -> dict:
     endpoint = f"/artifacts/{quote(artifact_id, safe='')}/file"
     with client.open("GET", endpoint) as response:
         return save_download(response, destination)
+
+
+def official_template(index: Path, name: str) -> tuple[str, dict]:
+    groups = json.loads(index.read_text(encoding="utf-8-sig"))
+    if not isinstance(groups, list):
+        raise ClientError("请提供 ComfyUI 模板包的 templates/index.json")
+    matches = [
+        (OFFICIAL_TEMPLATE_CATEGORIES[group["title"]], template)
+        for group in groups
+        if isinstance(group, dict)
+        and isinstance(group.get("title"), str)
+        and group["title"] in OFFICIAL_TEMPLATE_CATEGORIES
+        and isinstance(group.get("templates"), list)
+        for template in group["templates"]
+        if isinstance(template, dict) and template.get("name") == name
+    ]
+    if len(matches) != 1:
+        raise ClientError(f"无法在官方分类中唯一匹配模板「{name}」")
+    return matches[0]
+
+
+class TemplateInput(NamedTuple):
+    file: str
+    revision: str
+    node_id: str
+    node_type: str
+    kind: str
+
+
+def official_inputs(template: dict) -> list[TemplateInput]:
+    name = template["name"]
+    io = template.get("io", {})
+    inputs = io.get("inputs", []) if isinstance(io, dict) else None
+    if not isinstance(inputs, list):
+        raise ClientError(f"模板「{name}」的素材索引无效")
+    result = []
+    for entry in inputs:
+        if not isinstance(entry, dict):
+            raise ClientError(f"模板「{name}」的素材记录无效")
+        filename, revision = entry.get("file"), entry.get("sourceRevision")
+        if (
+            not isinstance(filename, str)
+            or filename in {"", ".", ".."}
+            or any(character in filename for character in "/\\\0")
+        ):
+            raise ClientError(f"模板「{name}」的素材文件名无效")
+        if not isinstance(revision, str) or not re.fullmatch(r"[0-9a-f]{40}", revision):
+            raise ClientError(f"模板「{name}」的素材「{filename}」缺少固定的 sourceRevision")
+        node_id, node_type, kind = (
+            entry.get("nodeId"),
+            entry.get("nodeType"),
+            entry.get("mediaType"),
+        )
+        if (
+            type(node_id) not in {str, int}
+            or not isinstance(node_type, str)
+            or kind not in ("image", "video", "audio", "3d")
+        ):
+            raise ClientError(f"模板「{name}」的素材「{filename}」缺少可用的节点或媒体类型")
+        result.append(TemplateInput(filename, revision, str(node_id), node_type, kind))
+    return result
+
+
+def template_field(template: str, material: TemplateInput, graph: dict, form: dict) -> str:
+    candidates = []
+    direct = []
+    for field in form["fields"]:
+        node_id = field["nodeId"]
+        node = graph.get(node_id, {})
+        if node.get("class_type") != material.node_type or field["kind"] != material.kind:
+            continue
+        value = node.get("inputs", {}).get(field["inputName"])
+        if (
+            isinstance(value, str)
+            and value.removesuffix(" [input]").replace("\\", "/").split("/")[-1] == material.file
+        ):
+            if node_id == material.node_id:
+                direct.append(field["id"])
+            candidates.append(field["id"])
+    matches = direct or candidates
+    if len(matches) == 1:
+        return matches[0]
+    raise ClientError(
+        f"模板「{template}」的素材「{material.file}」无法匹配节点 {material.node_id} 的表单字段"
+    )
+
+
+def prepare_template_materials(client: Client, args: argparse.Namespace) -> dict:
+    _, template = official_template(args.index, args.template_name)
+    name = template["name"]
+    materials = official_inputs(template)
+    workflow_id = identifier(args.workflow_id)
+    endpoint = f"/workflows/{workflow_id}"
+    workflow = client.request("GET", query(endpoint, version_id=args.version))
+    if workflow["format"] != "api":
+        raise ClientError(f"模板「{name}」需先上传 ComfyUI 导出的 API JSON")
+    version = workflow["versionId"]
+    graph = client.request("GET", query(endpoint + "/graph", version_id=version))["graph"]
+    form_path = query(endpoint + "/inputs", machine_id=args.machine_id, version_id=version)
+    initial = client.request("GET", form_path)
+    for material in materials:
+        template_field(name, material, graph, initial)
+
+    assets: dict[TemplateInput, str] = {}
+    with TemporaryDirectory(prefix="comfyshop-template-") as temporary:
+        fetched: dict[tuple[str, str], str] = {}
+        source_opener = build_opener(NoRedirect())
+        for material in materials:
+            key = material.revision, material.file
+            if key not in fetched:
+                print(f"准备模板「{name}」的「{material.file}」", file=sys.stderr)
+                folder = Path(temporary) / material.revision
+                folder.mkdir(exist_ok=True)
+                local = folder / material.file
+                url = (
+                    "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/"
+                    f"{material.revision}/input/{quote(material.file, safe='')}"
+                )
+                try:
+                    with open_response(source_opener, Request(url)) as response:
+                        save_download(response, local)
+                    asset = upload(client, local, uuid4())
+                    if asset["media"]["kind"] != material.kind:
+                        raise ClientError("素材类型与官方索引不符")
+                    fetched[key] = asset["id"]
+                except (ClientError, OSError, HTTPException) as error:
+                    raise ClientError(
+                        f"模板「{name}」的素材「{material.file}」准备失败。{error}"
+                    ) from error
+            assets[material] = fetched[key]
+
+    current = client.request("GET", form_path)
+    input_values = {
+        template_field(name, material, graph, current): {"assetId": asset_id}
+        for material, asset_id in assets.items()
+    }
+    if len(input_values) != len(assets):
+        raise ClientError(f"模板「{name}」有多个素材对应同一个表单字段")
+    return {
+        "workflowId": workflow["id"],
+        "versionId": version,
+        "machineId": current["machineId"],
+        "inputSchemaHash": current["schemaHash"],
+        "inputValues": input_values,
+    }
 
 
 def parser() -> argparse.ArgumentParser:
@@ -526,11 +741,31 @@ def parser() -> argparse.ArgumentParser:
     call.add_argument("--out", type=Path)
     workflows = commands.add_parser("workflows", help="搜索工作流")
     workflows.add_argument("--scope", choices=["public", "mine", "favorites"], default="public")
-    workflows.add_argument("--category", choices=["all", "image", "video", "tool"])
+    workflows.add_argument(
+        "--category",
+        choices=["all", *OFFICIAL_TEMPLATE_CATEGORIES.values(), "tool"],
+    )
     workflows.add_argument("--search")
     workflows.add_argument("--sort", choices=["updated", "popular"])
     workflows.add_argument("--cursor")
     workflows.add_argument("--limit", type=int)
+    for name, help_text in (
+        ("import-template", "用官方索引导入工作流及分类"),
+        ("classify-template", "按官方索引校正已有工作流分类"),
+    ):
+        template = commands.add_parser(name, help=help_text)
+        template.add_argument("index", type=Path)
+        template.add_argument("template_name")
+        if name == "import-template":
+            template.add_argument("graph", type=Path)
+        else:
+            template.add_argument("workflow_id")
+    inputs = commands.add_parser("template-inputs", help="下载并绑定官方模板的固定版本素材")
+    inputs.add_argument("index", type=Path)
+    inputs.add_argument("template_name")
+    inputs.add_argument("workflow_id")
+    inputs.add_argument("machine_id")
+    inputs.add_argument("--version")
     commands.add_parser("workflow-link", help="取得工作流分享地址").add_argument("workflow_id")
     commands.add_parser("machines", help="查看自己的工作机")
     for command, target, help_text in (
@@ -614,6 +849,26 @@ def run(args: argparse.Namespace) -> tuple[dict | list | None, int]:
             limit=args.limit,
         )
         return client.request("GET", endpoint), 0
+    if command == "import-template":
+        category, template = official_template(args.index, args.template_name)
+        graph = json.loads(args.graph.read_text(encoding="utf-8-sig"))
+        body = {
+            "name": template.get("title") or args.template_name,
+            "category": category,
+            "graph": graph,
+        }
+        workflow = client.request("POST", "/workflows", body, csrf=client.csrf())
+        explain_import_format(workflow)
+        return workflow, 0
+    if command == "classify-template":
+        category, _ = official_template(args.index, args.template_name)
+        endpoint = "/workflows/" + identifier(args.workflow_id)
+        workflow = client.request("GET", endpoint)
+        if workflow["category"] == category:
+            return workflow, 0
+        return client.request("PATCH", endpoint, {"category": category}, csrf=client.csrf()), 0
+    if command == "template-inputs":
+        return prepare_template_materials(client, args), 0
     if command == "workflow-link":
         workflow_id = identifier(args.workflow_id)
         workflow = client.request("GET", f"/workflows/{workflow_id}")

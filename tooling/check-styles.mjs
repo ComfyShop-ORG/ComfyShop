@@ -10,6 +10,7 @@ const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const sourceRoots = ['apps/web/src', 'packages/ui/src', 'packages/media/src'];
 const radixVariables = new Set([
   '--radix-select-trigger-width',
+  '--radix-select-content-available-width',
   '--radix-select-content-available-height',
   '--radix-select-content-transform-origin',
   '--radix-dropdown-menu-content-transform-origin',
@@ -122,8 +123,9 @@ export function inspectTokens({ tokens, css, sources, checker }) {
     else roots.add(name);
   };
   for (const [group, values] of Object.entries(tokens)) {
+    const prefix = group === 'lightColor' ? 'color' : group;
     for (const [key, value] of Object.entries(values)) {
-      const name = `--${group}-${key}`;
+      const name = `--${prefix}-${key}`;
       tokenNames.add(name);
       define(name);
       for (const dependency of variableReferences(String(value)))

@@ -11,7 +11,17 @@ from sqlalchemy.orm import QueryableAttribute, Session
 
 from comfyshop_api.core.config import Settings
 from comfyshop_api.db import write_lock
-from comfyshop_api.models import Artifact, Asset, MediaObject, Task, TaskAsset, User, now_ms
+from comfyshop_api.models import (
+    Artifact,
+    Asset,
+    MediaObject,
+    Task,
+    TaskAsset,
+    User,
+    WorkAsset,
+    new_id,
+    now_ms,
+)
 from comfyshop_api.services.originals import attach_original
 from comfyshop_media.uploads import ReceivedMedia
 
@@ -49,10 +59,12 @@ def _used(db: Session, owner_id: str) -> int:
     return used or 0
 
 
-def ensure_quota_for_reuse(db: Session, owner_id: str, asset_ids: list[str], quota: int) -> None:
+def ensure_quota_for_reuse(
+    db: Session, owner_id: str, asset_ids: list[str], quota: int, *, includes_new: bool = False
+) -> None:
     """重新使用已释放的素材（再次上传相同文件或在新任务里引用）时，它要重新占用配额。
 
-    放回后超出 `quota` 返回 413。仍计入配额的素材不受影响。
+    放回后超出 `quota` 返回 413。`includes_new` 表示本事务还加入了新素材，须核对总用量。
     """
     revived = db.scalar(
         select(func.coalesce(func.sum(MediaObject.size), 0))
@@ -60,7 +72,7 @@ def ensure_quota_for_reuse(db: Session, owner_id: str, asset_ids: list[str], quo
         .join(Asset.media)
         .where(Asset.id.in_(asset_ids), Asset.owner_id == owner_id, _released())
     )
-    if revived and _used(db, owner_id) + revived > quota:
+    if (revived or includes_new) and _used(db, owner_id) + (revived or 0) > quota:
         raise HTTPException(413, QUOTA_FULL)
 
 
@@ -73,6 +85,26 @@ def ensure_quota_for_restore(db: Session, owner_id: str, task_id: str, quota: in
     asset_ids = list(db.scalars(select(TaskAsset.asset_id).where(TaskAsset.task_id == task_id)))
     if asset_ids:
         ensure_quota_for_reuse(db, owner_id, asset_ids, quota)
+
+
+def _matching_asset(db: Session, owner_id: str, sha256: str) -> Asset | None:
+    return db.scalar(
+        select(Asset)
+        .where(Asset.owner_id == owner_id, Asset.sha256 == sha256)
+        .order_by(Asset.created_at.desc(), Asset.id)
+        .limit(1)
+        .with_for_update(of=Asset)
+    )
+
+
+def reuse_shared_asset(db: Session, owner_id: str, shared: WorkAsset) -> tuple[Asset, bool]:
+    """在接收账号锁内复用原件，返回账号自己的素材及是否新建。由调用方校验授权、配额并提交。"""
+    existing = _matching_asset(db, owner_id, shared.sha256)
+    if existing:
+        return existing, False
+    asset = Asset(id=new_id(), owner_id=owner_id, filename=shared.filename, sha256=shared.sha256)
+    db.add(asset)
+    return asset, True
 
 
 def store_asset(
@@ -98,13 +130,7 @@ def store_asset(
         if prior.sha256 != media.sha256:
             raise HTTPException(409, "重复上传的文件不一致")
         return prior
-    same = db.scalar(
-        select(Asset)
-        .where(Asset.owner_id == owner_id, Asset.sha256 == media.sha256)
-        .order_by(Asset.created_at.desc(), Asset.id)
-        .limit(1)
-        .with_for_update(of=Asset)
-    )
+    same = _matching_asset(db, owner_id, media.sha256)
     if same:
         ensure_quota_for_reuse(db, owner_id, [same.id], config.asset_quota_bytes)
         same.created_at = now_ms()

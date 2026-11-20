@@ -1,7 +1,7 @@
 import type { Media } from '@comfyshop/api-client';
 
-function cardLongEdge(media: Media, cardWidth: number) {
-  return Math.max(1, (cardWidth * Math.max(media.width, media.height)) / media.width);
+function cardLongEdge(width: number, height: number, cardWidth: number) {
+  return Math.max(1, (cardWidth * Math.max(width, height)) / width);
 }
 
 function sizeAtLeast(sizes: number[], edge: number) {
@@ -10,8 +10,8 @@ function sizeAtLeast(sizes: number[], edge: number) {
 
 export function cardThumbnail(media: Media, cardWidth: number) {
   const thumbnail = media.thumbnail;
-  if (!thumbnail?.sizes.length) return null;
-  const edge = cardLongEdge(media, cardWidth);
+  if (!thumbnail?.sizes.length || !media.width || !media.height) return null;
+  const edge = cardLongEdge(media.width, media.height, cardWidth);
   const normal = sizeAtLeast(thumbnail.sizes, edge);
   const url = (size: number) => `${thumbnail.src}?size=${size}`;
   return {
@@ -24,6 +24,6 @@ export function cardThumbnail(media: Media, cardWidth: number) {
 
 export function cardVideoPreview(media: Media, cardWidth: number) {
   const preview = media.videoPreview;
-  if (!preview?.sizes.length) return null;
-  return `${preview.src}?size=${sizeAtLeast(preview.sizes, cardLongEdge(media, cardWidth))}`;
+  if (!preview?.sizes.length || !media.width || !media.height) return null;
+  return `${preview.src}?size=${sizeAtLeast(preview.sizes, cardLongEdge(media.width, media.height, cardWidth))}`;
 }

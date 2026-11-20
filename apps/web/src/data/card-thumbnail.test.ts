@@ -8,8 +8,11 @@ const portrait: Media = {
   src: '/api/v1/artifacts/example/file',
   width: 512,
   height: 768,
+  kind: 'image',
   video: null,
   videoPreview: null,
+  filename: null,
+  durationMs: null,
   thumbnail,
 };
 

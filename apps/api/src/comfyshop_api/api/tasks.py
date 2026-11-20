@@ -29,7 +29,7 @@ from comfyshop_api.schemas import (
     TaskRead,
     TaskWaitReason,
 )
-from comfyshop_api.security import Config, CurrentUser, DB, Writer
+from comfyshop_api.security import Config, CurrentUser, DB, LockedWriter, Writer
 from comfyshop_api.services.media_records import asset_read
 from comfyshop_api.services.machines import machine_is_online
 from comfyshop_api.services import tasks as task_service
@@ -42,7 +42,7 @@ router = APIRouter(prefix="/tasks", tags=["tasks"])
 # 同一账号重复提交相同幂等键和参数时返回原任务（200），参数冲突时返回 409。
 @router.post("", response_model=TaskRead, status_code=201, responses={200: {"model": TaskRead}})
 def create_task(
-    body: TaskCreate, response: Response, db: DB, user: Writer, config: Config
+    body: TaskCreate, response: Response, db: DB, user: LockedWriter, config: Config
 ) -> TaskRead:
     task, created = submit_task(db, user, body, config.asset_quota_bytes)
     if not created:
@@ -56,6 +56,7 @@ def list_tasks(
     db: DB,
     user: CurrentUser,
     workflow_id: str | None = None,
+    version_id: str | None = None,
     state: Literal["active", "succeeded", "failed", "cancelled"] | None = None,
     cursor: str | None = Query(default=None, max_length=512),
     limit: int = Query(default=24, ge=1, le=100),
@@ -63,6 +64,8 @@ def list_tasks(
     query = select(Task).where(Task.owner_id == user.id, Task.visible())
     if workflow_id:
         query = query.where(Task.workflow_id == workflow_id)
+    if version_id:
+        query = query.where(Task.version_id == version_id)
     if state:
         query = query.where(Task.status.in_(Status.ACTIVE if state == "active" else (state,)))
     position = decode_cursor(cursor, 2)
@@ -80,11 +83,17 @@ def list_tasks(
 
 @router.get("/activity", response_model=TaskActivity)
 def task_activity(
-    db: DB, user: CurrentUser, workflow_id: str | None = None, task_id: str | None = None
+    db: DB,
+    user: CurrentUser,
+    workflow_id: str | None = None,
+    version_id: str | None = None,
+    task_id: str | None = None,
 ) -> TaskActivity:
     filters = [Task.owner_id == user.id]
     if workflow_id:
         filters.append(Task.workflow_id == workflow_id)
+    if version_id:
+        filters.append(Task.version_id == version_id)
     if task_id:
         filters.append(Task.id == task_id)
     active = db.execute(

@@ -18,12 +18,7 @@ import {
 import { useWorkspace } from '../../app/use-workspace';
 import { useAction } from '../../components/use-action';
 import { isEditorGraph, readGraph } from '../../data/workflow-import';
-
-export const workflowCategories = [
-  { value: 'image', label: '图像' },
-  { value: 'video', label: '视频' },
-  { value: 'tool', label: '工具' },
-] as const;
+import { workflowCategories } from '../../domain/workflow-categories';
 
 export function WorkflowSettings({
   workflow,
@@ -88,6 +83,7 @@ export function WorkflowSettings({
               });
               await Promise.all([
                 queries.invalidateQueries({ queryKey: ['workflows'] }),
+                queries.invalidateQueries({ queryKey: ['works'] }),
                 queries.invalidateQueries({ queryKey: ['workflow-form'] }),
               ]);
               setOpen(false);

@@ -8,8 +8,9 @@ export type WorkflowRouteState = {
   replaySource?: { executionId: string } | { workId: string };
 };
 
-export function workflowPath(id: string) {
-  return '/workflows/' + encodeURIComponent(id);
+export function workflowPath(id: string, versionId?: string) {
+  const path = '/workflows/' + encodeURIComponent(id);
+  return versionId ? `${path}?${new URLSearchParams({ version: versionId })}` : path;
 }
 
 /** 作品的分享地址：打开来源工作流并直接展示这件作品。 */

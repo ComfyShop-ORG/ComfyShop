@@ -1,11 +1,16 @@
 /**
- * 账号设置弹框：绑定或更换邮箱、修改密码和注销账号。敏感修改都需要再次输入当前密码，
+ * 个人资料和账号设置弹框。敏感修改需要再次输入当前密码，
  * 新邮箱在确认邮件里点击链接后才生效。
  */
-import { useId, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import type { FormEvent, ReactNode } from 'react';
-import { CheckIcon, EnvelopeClosedIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import {
+  CheckIcon,
+  EnvelopeClosedIcon,
+  ExclamationTriangleIcon,
+  UploadIcon,
+} from '@radix-ui/react-icons';
 import {
   Button,
   Checkbox,
@@ -13,12 +18,18 @@ import {
   DialogClose,
   DialogContent,
   Field,
+  FileInput,
   Input,
   Tabs,
 } from '@comfyshop/ui';
 import { useWorkspace } from '../../app/use-workspace';
+import { ProfileAvatar } from '../../components/profile-avatar';
+import { useAction } from '../../components/use-action';
+import { readAvatarSource } from '../../data/avatar-crop';
 import { ActiveMark } from '../../motion';
+import { AvatarCropDialog } from './avatar-crop-dialog';
 
+export type AccountSection = 'profile' | 'settings';
 type Tab = 'email' | 'password' | 'delete';
 const tabs: { id: Tab; label: string }[] = [
   // 邮箱一组的名称按绑定状态显示要做的事：未绑定为「绑定邮箱」，已绑定为「更换邮箱」。
@@ -52,7 +63,7 @@ function SettingsForm({
   const [message, setMessage] = useState<{ error: boolean; text: string }>();
   async function run(event: FormEvent) {
     event.preventDefault();
-    if (busy) return;
+    if (busy || disabled) return;
     setBusy(true);
     setMessage(undefined);
     try {
@@ -121,12 +132,110 @@ function PasswordInput({
   );
 }
 
+function ProfileSettings() {
+  const id = useId();
+  const { state, workspace } = useWorkspace();
+  const avatarPicker = useRef<HTMLInputElement>(null);
+  const [avatarSource, setAvatarSource] = useState<Blob | null>(null);
+  const [draft, setDraft] = useState<string>();
+  const [avatarStatus, setAvatarStatus] = useState('');
+  const avatarAction = useAction('头像更新失败');
+  const nickname = draft ?? state.nickname ?? '';
+  const normalized = nickname.trim().normalize('NFC');
+
+  return (
+    <div className="account-profile">
+      <Field label="头像" htmlFor={id + '-avatar'} detail="JPG、PNG 或 WebP，最大 5 MB">
+        <div className="account-avatar-actions">
+          <FileInput
+            ref={avatarPicker}
+            id={id + '-avatar'}
+            accept="image/jpeg,image/png,image/webp"
+            disabled={avatarAction.busy}
+            onChange={(event) => {
+              const file = event.currentTarget.files?.[0];
+              event.currentTarget.value = '';
+              if (file)
+                void avatarAction.run(async () => {
+                  setAvatarStatus('');
+                  setAvatarSource(await readAvatarSource(file));
+                });
+            }}
+          >
+            <UploadIcon />
+            {avatarAction.busy ? '处理中' : state.avatarUrl ? '更换头像' : '选择图片'}
+          </FileInput>
+          {state.avatarUrl && (
+            <Button
+              variant="ghost"
+              size="small"
+              disabled={avatarAction.busy}
+              onClick={() =>
+                void avatarAction.run(async () => {
+                  setAvatarStatus('');
+                  await workspace.updateProfile({ avatar: null });
+                  setAvatarStatus('头像已移除');
+                })
+              }
+            >
+              移除头像
+            </Button>
+          )}
+        </div>
+        {avatarAction.error ? (
+          <p className="form-error" role="alert">
+            {avatarAction.error}
+          </p>
+        ) : avatarStatus ? (
+          <p className="form-hint account-saved" role="status">
+            {avatarStatus}
+          </p>
+        ) : null}
+      </Field>
+      <SettingsForm
+        action="保存昵称"
+        done="昵称已保存"
+        disabled={normalized === (state.nickname ?? '')}
+        submit={async () => {
+          if ([...normalized].length > 32) return '昵称不能超过 32 个字符。';
+          await workspace.updateProfile({ nickname: normalized || null });
+          setDraft((current) => (current === nickname ? undefined : current));
+        }}
+      >
+        <Field label="昵称" htmlFor={id + '-nickname'} detail="最多 32 个字符，留空显示账号名">
+          <Input
+            id={id + '-nickname'}
+            value={nickname}
+            autoComplete="nickname"
+            maxLength={64}
+            placeholder={state.user ?? undefined}
+            onChange={(event) => setDraft(event.target.value)}
+          />
+        </Field>
+      </SettingsForm>
+      {avatarSource && (
+        <AvatarCropDialog
+          source={avatarSource}
+          save={async (avatar) => {
+            await workspace.updateProfile({ avatar });
+            setAvatarStatus('头像已更新');
+          }}
+          onClose={() => setAvatarSource(null)}
+          restoreFocus={() => avatarPicker.current?.focus({ preventScroll: true })}
+        />
+      )}
+    </div>
+  );
+}
+
 export function AccountDialog({
+  section,
   open,
   onOpenChange,
   onDeleted,
   restoreFocus,
 }: {
+  section: AccountSection;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   /** 注销成功后调用，由上层回到首页。 */
@@ -144,10 +253,43 @@ export function AccountDialog({
           restoreFocus();
         }}
       >
-        {/* 内容随弹框关闭而卸载，每次打开都从邮箱一组和已保存的值开始。 */}
-        <AccountSettings onDeleted={onDeleted} />
+        {section === 'profile' ? (
+          <>
+            <AccountHeading profile />
+            <ProfileSettings />
+          </>
+        ) : (
+          <AccountSettings onDeleted={onDeleted} />
+        )}
       </DialogContent>
     </Dialog.Root>
+  );
+}
+
+function AccountHeading({ profile = false }: { profile?: boolean }) {
+  const { state } = useWorkspace();
+  const displayName = state.nickname ?? state.user ?? '';
+  return (
+    <header className="account-heading">
+      <ProfileAvatar name={displayName} src={state.avatarUrl} className="account-avatar" />
+      <div className="account-identity">
+        <Dialog.Title title={profile ? undefined : displayName}>
+          {profile ? '个人资料' : displayName}
+        </Dialog.Title>
+        {!profile && state.nickname && state.nickname !== state.user && (
+          <p className="form-hint" title={state.user ?? undefined}>
+            账号 {state.user}
+          </p>
+        )}
+        <Dialog.Description
+          className={profile || state.email ? 'form-hint' : 'form-hint account-unbound'}
+          title={(profile ? state.user : state.email) ?? undefined}
+        >
+          {profile ? `账号 ${state.user ?? ''}` : (state.email ?? '未绑定邮箱')}
+        </Dialog.Description>
+      </div>
+      <DialogClose />
+    </header>
   );
 }
 
@@ -166,21 +308,7 @@ function AccountSettings({ onDeleted }: { onDeleted: () => void }) {
   const [closePassword, setClosePassword] = useState('');
   return (
     <>
-      <header className="account-heading">
-        <span className="account-avatar" aria-hidden="true">
-          {state.user?.slice(0, 1).toUpperCase()}
-        </span>
-        <div className="account-identity">
-          <Dialog.Title>{state.user}</Dialog.Title>
-          <Dialog.Description
-            className={state.email ? 'form-hint' : 'form-hint account-unbound'}
-            title={state.email ?? undefined}
-          >
-            {state.email ?? '未绑定邮箱'}
-          </Dialog.Description>
-        </div>
-        <DialogClose />
-      </header>
+      <AccountHeading />
       <Tabs.Root value={tab} onValueChange={(value) => setTab(value as Tab)}>
         <Tabs.List className="account-tabs" aria-label="账号设置">
           {tabs.map((item) => (

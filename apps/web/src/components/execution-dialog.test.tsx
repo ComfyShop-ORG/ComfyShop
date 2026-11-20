@@ -46,9 +46,12 @@ const artifact = (id: string, executionId = 'first'): Artifact => ({
     src: `/${id}.png`,
     width: 300,
     height: 300,
+    kind: 'image',
     video: null,
     thumbnail: null,
     videoPreview: null,
+    filename: null,
+    durationMs: null,
   },
   executionId,
   outputNodeId: '1',
@@ -70,9 +73,13 @@ const first: Execution = {
   inputValues: {},
   coverArtifactId: 'a',
   coverFrameMs: null,
+  coverImage: null,
   media: artifact('a').media,
   imageCount: 2,
   videoCount: 0,
+  audioCount: 0,
+  modelCount: 0,
+  artifactCount: 2,
   created: 1,
 };
 const second: Execution = {
@@ -80,6 +87,7 @@ const second: Execution = {
   id: 'second',
   workflowName: '第二组',
   imageCount: 1,
+  artifactCount: 1,
   coverArtifactId: 'c',
   media: artifact('c', 'second').media,
 };
@@ -107,7 +115,9 @@ async function setup() {
       );
     if (path === '/api/v1/artifacts/a' && init?.method === 'DELETE') {
       members = [artifact('b')];
-      return Promise.resolve(Response.json({ ...first, imageCount: 1, coverArtifactId: 'b' }));
+      return Promise.resolve(
+        Response.json({ ...first, imageCount: 1, artifactCount: 1, coverArtifactId: 'b' }),
+      );
     }
     if (path === '/api/v1/artifacts/a/restore') {
       members = [artifact('a'), artifact('b')];

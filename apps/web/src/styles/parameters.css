@@ -1,4 +1,155 @@
-/* 参数编辑器。 */
+/* 参数编辑器与本次参数面板。 */
+.run-parameter-dialog {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  width: min(var(--size-parameter-dialog), calc(100vw - var(--space-8)));
+  padding: var(--space-6);
+}
+.run-parameter-toolbar {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-4);
+}
+.run-parameter-toolbar .ui-select-trigger {
+  width: 100%;
+}
+.run-parameter-filters {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  color: var(--color-muted);
+  font-size: var(--font-sm);
+}
+.run-parameter-filters label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.run-parameter-filters > span {
+  margin-inline-start: auto;
+}
+.run-parameter-results {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+  min-height: 0;
+  min-width: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+.run-parameter-section {
+  min-width: 0;
+  border: var(--line-thin) solid var(--color-border);
+}
+.run-parameter-section h3 {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: var(--font-base);
+  font-weight: var(--font-medium);
+}
+.run-parameter-section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.run-parameter-section-heading h3 {
+  flex: 1;
+}
+.run-parameter-section-heading:has(.run-parameter-hidden-switch)
+  :is(h3, .run-parameter-section-trigger) {
+  color: var(--color-text);
+}
+.run-parameter-hidden-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--size-touch);
+  padding-inline: var(--space-4);
+  color: var(--color-text);
+  font-size: var(--font-sm);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.run-parameter-hidden-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+  margin-inline: var(--space-4);
+  padding-block: var(--space-1) var(--space-3);
+}
+.run-parameter-section[data-state='open'] > .run-parameter-hidden-meta {
+  border-block-end: var(--line-thin) solid var(--color-border);
+}
+.run-parameter-hidden-note {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: flex-start;
+  gap: var(--space-2);
+  min-width: 0;
+  margin: 0;
+  color: var(--color-muted);
+  font-size: var(--font-sm);
+}
+.run-parameter-hidden-note svg {
+  color: var(--color-warning);
+}
+.run-parameter-hidden-note-scope {
+  white-space: nowrap;
+}
+section.run-parameter-section h3,
+.run-parameter-section h3 > span {
+  padding: var(--space-3) var(--space-4);
+}
+.run-parameter-section h3 > span {
+  display: block;
+}
+.run-parameter-section-heading h3:only-child .run-parameter-section-trigger {
+  justify-content: space-between;
+  width: 100%;
+}
+.run-parameter-section-trigger[data-state='open'] svg {
+  transform: rotate(180deg);
+}
+.run-parameter-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  list-style: none;
+}
+.run-parameter-row {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.run-parameter-row[hidden] {
+  display: none;
+}
+.run-parameter-row .ui-select-trigger {
+  width: 100%;
+}
+.run-parameter-readonly {
+  min-width: 0;
+  color: var(--color-muted);
+  font-size: var(--font-sm);
+}
+.run-parameter-readonly pre {
+  max-height: var(--size-parameter-preview);
+  margin: var(--space-2) 0 0;
+  padding: var(--space-2);
+  overflow: auto;
+  background: var(--color-canvas);
+  color: var(--color-text);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
 .parameter-dialog {
   display: flex;
   flex-direction: column;
@@ -118,6 +269,16 @@
   }
 }
 @media (max-width: 700px) {
+  .run-parameter-dialog {
+    padding: var(--space-4);
+  }
+  .run-parameter-toolbar,
+  .run-parameter-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .run-parameter-filters > span {
+    margin-inline-start: 0;
+  }
   .parameter-dialog {
     padding: var(--space-4);
   }

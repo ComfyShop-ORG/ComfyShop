@@ -15,7 +15,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.engine import CursorResult
 
 from comfyshop_api.core.config import Settings, get_settings
-from comfyshop_api.db import get_db
+from comfyshop_api.db import get_db, write_lock
 from comfyshop_api.models import AuthAttempt, LoginSession, User, now_ms
 
 COOKIE_NAME = "comfyshop_session"
@@ -89,6 +89,28 @@ def protect_write(
 
 
 Writer = Annotated[User, Depends(protect_write)]
+
+
+def lock_session_account(db: Session, user: User, session_hash: str) -> None:
+    """锁住账号并重新核对会话，避免旧会话在改密码或注销后继续写入。"""
+    write_lock(db, User, user.id)
+    db.refresh(user)
+    session = db.get(LoginSession, session_hash, populate_existing=True)
+    if (
+        user.deleted_at is not None
+        or session is None
+        or session.user_id != user.id
+        or session.expires_at <= now_ms()
+    ):
+        raise HTTPException(401, "请先登录")
+
+
+def lock_writer(request: Request, db: DB, user: Writer) -> User:
+    lock_session_account(db, user, digest(request.cookies[COOKIE_NAME]))
+    return user
+
+
+LockedWriter = Annotated[User, Depends(lock_writer)]
 
 
 def establish_session(

@@ -616,6 +616,361 @@
         }
       }
     },
+    "/api/v1/auth/profile": {
+      "put": {
+        "tags": ["auth"],
+        "summary": "Update Nickname",
+        "operationId": "update_nickname_api_v1_auth_profile_put",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NicknameUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRead"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/profile/avatar": {
+      "put": {
+        "tags": ["auth"],
+        "summary": "Upload Avatar",
+        "operationId": "upload_avatar_api_v1_auth_profile_avatar_put",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRead"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["auth"],
+        "summary": "Remove Avatar",
+        "operationId": "remove_avatar_api_v1_auth_profile_avatar_delete",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRead"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        }
+      }
+    },
     "/api/v1/auth/email": {
       "put": {
         "tags": ["auth"],
@@ -1149,6 +1504,231 @@
         }
       }
     },
+    "/api/v1/authors/{username}": {
+      "get": {
+        "tags": ["authors"],
+        "summary": "Get Author",
+        "operationId": "get_author_api_v1_authors__username__get",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Username"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorRead"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        }
+      }
+    },
+    "/api/v1/authors/{user_id}/avatar/{version}": {
+      "get": {
+        "tags": ["authors"],
+        "summary": "Get Avatar",
+        "operationId": "get_avatar_api_v1_authors__user_id__avatar__version__get",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "User Id"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$",
+              "title": "Version"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "image/webp": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "304": {
+            "description": "头像未修改"
+          }
+        }
+      }
+    },
     "/api/v1/workflows/{workflow_id}/inputs": {
       "get": {
         "tags": ["workflows"],
@@ -1482,8 +2062,15 @@
             "in": "query",
             "required": false,
             "schema": {
-              "enum": ["all", "image", "video", "tool"],
-              "type": "string",
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/WorkflowCategory"
+                },
+                {
+                  "enum": ["all", "tool"],
+                  "type": "string"
+                }
+              ],
               "default": "all",
               "title": "Category"
             }
@@ -2043,6 +2630,111 @@
         "responses": {
           "204": {
             "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        }
+      }
+    },
+    "/api/v1/workflows/{workflow_id}/versions": {
+      "get": {
+        "tags": ["workflows"],
+        "summary": "List Workflow Versions",
+        "operationId": "list_workflow_versions_api_v1_workflows__workflow_id__versions_get",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Workflow Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowVersions"
+                }
+              }
+            }
           },
           "401": {
             "content": {
@@ -3089,6 +3781,22 @@
             }
           },
           {
+            "name": "version_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Version Id"
+            }
+          },
+          {
             "name": "state",
             "in": "query",
             "required": false,
@@ -3244,6 +3952,22 @@
                 }
               ],
               "title": "Workflow Id"
+            }
+          },
+          {
+            "name": "version_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Version Id"
             }
           },
           {
@@ -4596,7 +5320,15 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MachineCreate"
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/MachineCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/MachineReconnect"
+                  }
+                ],
+                "title": "Body"
               }
             }
           }
@@ -8182,6 +8914,22 @@
             }
           },
           {
+            "name": "version_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Version Id"
+            }
+          },
+          {
             "name": "task_id",
             "in": "query",
             "required": false,
@@ -8693,7 +9441,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExecutionCoverUpdate"
+                "$ref": "#/components/schemas/CoverUpdate"
               }
             }
           }
@@ -8705,6 +9453,145 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ExecutionRead"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        }
+      }
+    },
+    "/api/v1/executions/{execution_id}/cover/{sha256}/thumbnail": {
+      "get": {
+        "tags": ["executions"],
+        "summary": "Execution Cover Thumbnail",
+        "operationId": "execution_cover_thumbnail_api_v1_executions__execution_id__cover__sha256__thumbnail_get",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "execution_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Execution Id"
+            }
+          },
+          {
+            "name": "sha256",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sha256"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "maximum": 1280,
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Size"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "image/webp": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/jpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -9030,6 +9917,24 @@
             }
           },
           {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/WorkflowCategory"
+                },
+                {
+                  "enum": ["all", "tool"],
+                  "type": "string"
+                }
+              ],
+              "default": "all",
+              "title": "Category"
+            }
+          },
+          {
             "name": "workflow_id",
             "in": "query",
             "required": false,
@@ -9043,6 +9948,32 @@
                 }
               ],
               "title": "Workflow Id"
+            }
+          },
+          {
+            "name": "version_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Version Id"
+            }
+          },
+          {
+            "name": "current_version_only",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Current Version Only"
             }
           },
           {
@@ -9387,6 +10318,276 @@
         }
       }
     },
+    "/api/v1/works/{work_id}/cover": {
+      "put": {
+        "tags": ["works"],
+        "summary": "Set Work Cover",
+        "operationId": "set_work_cover_api_v1_works__work_id__cover_put",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "work_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Work Id"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CoverUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkRead"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        }
+      }
+    },
+    "/api/v1/works/{work_id}/cover/{sha256}/thumbnail": {
+      "get": {
+        "tags": ["works"],
+        "summary": "Work Cover Thumbnail",
+        "operationId": "work_cover_thumbnail_api_v1_works__work_id__cover__sha256__thumbnail_get",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "work_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Work Id"
+            }
+          },
+          {
+            "name": "sha256",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Sha256"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "maximum": 1280,
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Size"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "image/webp": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/jpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        }
+      }
+    },
     "/api/v1/works/{work_id}/artifacts": {
       "get": {
         "tags": ["works"],
@@ -9549,6 +10750,264 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/TaskInputsRead"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        }
+      }
+    },
+    "/api/v1/works/{work_id}/assets/{asset_id}/file": {
+      "get": {
+        "tags": ["works"],
+        "summary": "Work Asset File",
+        "operationId": "work_asset_file_api_v1_works__work_id__assets__asset_id__file_get",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "work_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Work Id"
+            }
+          },
+          {
+            "name": "asset_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Asset Id"
+            }
+          },
+          {
+            "name": "download",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Download"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRead"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          }
+        }
+      }
+    },
+    "/api/v1/works/{work_id}/assets/{asset_id}/thumbnail": {
+      "get": {
+        "tags": ["works"],
+        "summary": "Work Asset Thumbnail",
+        "operationId": "work_asset_thumbnail_api_v1_works__work_id__assets__asset_id__thumbnail_get",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "work_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Work Id"
+            }
+          },
+          {
+            "name": "asset_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Asset Id"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "maximum": 1280,
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "目标长边像素",
+              "title": "Size"
+            },
+            "description": "目标长边像素"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "image/webp": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/jpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -10159,6 +11618,40 @@
         "required": ["assetId"],
         "title": "AssetReference"
       },
+      "AuthorRead": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "nickname": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nickname"
+          },
+          "avatarUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avatarurl"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["username", "nickname", "avatarUrl"],
+        "title": "AuthorRead"
+      },
       "ClaimRequest": {
         "properties": {
           "protocolVersion": {
@@ -10184,6 +11677,157 @@
         "type": "object",
         "required": ["protocolVersion", "claimId", "leaseSecret"],
         "title": "ClaimRequest"
+      },
+      "CoverImageRead": {
+        "properties": {
+          "src": {
+            "type": "string",
+            "title": "Src"
+          },
+          "width": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Width"
+          },
+          "height": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Height"
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["image", "video", "audio", "3d"],
+            "title": "Kind",
+            "default": "image"
+          },
+          "video": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Video"
+          },
+          "thumbnail": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ThumbnailRead"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "videoPreview": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ThumbnailRead"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "filename": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Filename"
+          },
+          "durationMs": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Durationms"
+          },
+          "sha256": {
+            "type": "string",
+            "title": "Sha256"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "src",
+          "width",
+          "height",
+          "kind",
+          "video",
+          "thumbnail",
+          "videoPreview",
+          "filename",
+          "durationMs",
+          "sha256"
+        ],
+        "title": "CoverImageRead",
+        "description": "独立封面只提供经过对应结果或作品授权的缩略图地址。"
+      },
+      "CoverUpdate": {
+        "properties": {
+          "artifactId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Artifactid"
+          },
+          "assetId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assetid"
+          },
+          "frameMs": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 86400000.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Framems"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "CoverUpdate"
       },
       "Credentials": {
         "properties": {
@@ -10276,31 +11920,6 @@
         "type": "object",
         "required": ["clientIds"],
         "title": "ExecutionComplete"
-      },
-      "ExecutionCoverUpdate": {
-        "properties": {
-          "artifactId": {
-            "type": "string",
-            "title": "Artifactid"
-          },
-          "frameMs": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "maximum": 86400000.0,
-                "minimum": 0.0
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Framems"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": ["artifactId"],
-        "title": "ExecutionCoverUpdate"
       },
       "ExecutionPage": {
         "properties": {
@@ -10418,6 +12037,16 @@
             ],
             "title": "Coverframems"
           },
+          "coverImage": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CoverImageRead"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "media": {
             "anyOf": [
               {
@@ -10435,6 +12064,18 @@
           "videoCount": {
             "type": "integer",
             "title": "Videocount"
+          },
+          "audioCount": {
+            "type": "integer",
+            "title": "Audiocount"
+          },
+          "modelCount": {
+            "type": "integer",
+            "title": "Modelcount"
+          },
+          "artifactCount": {
+            "type": "integer",
+            "title": "Artifactcount"
           },
           "created": {
             "type": "integer",
@@ -10455,9 +12096,13 @@
           "inputValues",
           "coverArtifactId",
           "coverFrameMs",
+          "coverImage",
           "media",
           "imageCount",
           "videoCount",
+          "audioCount",
+          "modelCount",
+          "artifactCount",
           "created"
         ],
         "title": "ExecutionRead"
@@ -10719,6 +12364,11 @@
             "type": "string",
             "title": "Name"
           },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "approved", "linked"],
+            "title": "Status"
+          },
           "requestedAt": {
             "type": "integer",
             "title": "Requestedat"
@@ -10745,7 +12395,7 @@
         },
         "additionalProperties": false,
         "type": "object",
-        "required": ["code", "name", "requestedAt", "expiresAt", "source", "sameNetwork"],
+        "required": ["code", "name", "status", "requestedAt", "expiresAt", "source", "sameNetwork"],
         "title": "MachineLinkRead"
       },
       "MachineLinkRequest": {
@@ -10921,6 +12571,20 @@
         ],
         "title": "MachineRead"
       },
+      "MachineReconnect": {
+        "properties": {
+          "machineId": {
+            "type": "string",
+            "maxLength": 36,
+            "minLength": 1,
+            "title": "Machineid"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["machineId"],
+        "title": "MachineReconnect"
+      },
       "MediaRead": {
         "properties": {
           "src": {
@@ -10928,12 +12592,32 @@
             "title": "Src"
           },
           "width": {
-            "type": "integer",
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Width"
           },
           "height": {
-            "type": "integer",
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Height"
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["image", "video", "audio", "3d"],
+            "title": "Kind",
+            "default": "image"
           },
           "video": {
             "anyOf": [
@@ -10965,12 +12649,64 @@
                 "type": "null"
               }
             ]
+          },
+          "filename": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Filename"
+          },
+          "durationMs": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Durationms"
           }
         },
         "additionalProperties": false,
         "type": "object",
-        "required": ["src", "width", "height", "video", "thumbnail", "videoPreview"],
+        "required": [
+          "src",
+          "width",
+          "height",
+          "kind",
+          "video",
+          "thumbnail",
+          "videoPreview",
+          "filename",
+          "durationMs"
+        ],
         "title": "MediaRead"
+      },
+      "NicknameUpdate": {
+        "properties": {
+          "nickname": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 32
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nickname"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["nickname"],
+        "title": "NicknameUpdate"
       },
       "NodeCatalog": {
         "properties": {
@@ -11002,7 +12738,17 @@
         "properties": {
           "kind": {
             "type": "string",
-            "enum": ["string", "integer", "number", "boolean", "choice", "image", "video"],
+            "enum": [
+              "string",
+              "integer",
+              "number",
+              "boolean",
+              "choice",
+              "image",
+              "video",
+              "audio",
+              "3d"
+            ],
             "title": "Kind"
           },
           "label": {
@@ -11707,13 +13453,35 @@
       },
       "UserRead": {
         "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id"
-          },
           "username": {
             "type": "string",
             "title": "Username"
+          },
+          "nickname": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nickname"
+          },
+          "avatarUrl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avatarurl"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id"
           },
           "email": {
             "anyOf": [
@@ -11740,7 +13508,7 @@
         },
         "additionalProperties": false,
         "type": "object",
-        "required": ["id", "username", "email", "pendingEmail"],
+        "required": ["username", "nickname", "avatarUrl", "id", "email", "pendingEmail"],
         "title": "UserRead"
       },
       "WorkCreate": {
@@ -11771,7 +13539,14 @@
             "title": "Artifactids"
           },
           "coverArtifactId": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Coverartifactid"
           },
           "coverFrameMs": {
@@ -11787,10 +13562,44 @@
             ],
             "title": "Coverframems"
           },
+          "coverAssetId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coverassetid"
+          },
+          "executionCoverSha256": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Executioncoversha256"
+          },
           "shareParameters": {
             "type": "boolean",
             "title": "Shareparameters",
             "default": false
+          },
+          "shareAssets": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Shareassets"
           },
           "description": {
             "type": "string",
@@ -11801,7 +13610,7 @@
         },
         "additionalProperties": false,
         "type": "object",
-        "required": ["id", "executionId", "title", "artifactIds", "coverArtifactId"],
+        "required": ["id", "executionId", "title", "artifactIds"],
         "title": "WorkCreate"
       },
       "WorkPage": {
@@ -11844,6 +13653,9 @@
             "type": "string",
             "title": "Author"
           },
+          "authorProfile": {
+            "$ref": "#/components/schemas/AuthorRead"
+          },
           "owner": {
             "type": "string",
             "title": "Owner"
@@ -11855,6 +13667,9 @@
           "workflowName": {
             "type": "string",
             "title": "Workflowname"
+          },
+          "category": {
+            "$ref": "#/components/schemas/WorkflowCategory"
           },
           "versionId": {
             "type": "string",
@@ -11878,6 +13693,16 @@
               }
             ],
             "title": "Coverframems"
+          },
+          "coverImage": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CoverImageRead"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "media": {
             "$ref": "#/components/schemas/MediaRead"
@@ -11932,13 +13757,16 @@
           "id",
           "title",
           "author",
+          "authorProfile",
           "owner",
           "workflowId",
           "workflowName",
+          "category",
           "versionId",
           "executionId",
           "coverArtifactId",
           "coverFrameMs",
+          "coverImage",
           "media",
           "assetCount",
           "published",
@@ -12004,6 +13832,37 @@
         "required": ["error"],
         "title": "WorkerFailure"
       },
+      "WorkflowAutomaticSize": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "automatic",
+            "title": "Kind",
+            "default": "automatic"
+          },
+          "widthFieldId": {
+            "type": "string",
+            "title": "Widthfieldid"
+          },
+          "heightFieldId": {
+            "type": "string",
+            "title": "Heightfieldid"
+          },
+          "usesReference": {
+            "type": "boolean",
+            "title": "Usesreference"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["kind", "widthFieldId", "heightFieldId", "usesReference"],
+        "title": "WorkflowAutomaticSize"
+      },
+      "WorkflowCategory": {
+        "type": "string",
+        "enum": ["image", "image_tool", "video", "video_tool", "audio", "3d", "vector", "llm"],
+        "title": "WorkflowCategory"
+      },
       "WorkflowCoverUpdate": {
         "properties": {
           "workId": {
@@ -12032,9 +13891,15 @@
             "title": "Name"
           },
           "category": {
-            "type": "string",
-            "enum": ["image", "video", "tool"],
-            "title": "Category",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WorkflowCategory"
+              },
+              {
+                "type": "string",
+                "const": "tool"
+              }
+            ],
             "default": "image"
           },
           "graph": {
@@ -12047,6 +13912,34 @@
         "type": "object",
         "required": ["name", "graph"],
         "title": "WorkflowCreate"
+      },
+      "WorkflowCropRegion": {
+        "properties": {
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "x": {
+            "type": "integer",
+            "title": "X"
+          },
+          "y": {
+            "type": "integer",
+            "title": "Y"
+          },
+          "width": {
+            "type": "integer",
+            "title": "Width"
+          },
+          "height": {
+            "type": "integer",
+            "title": "Height"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["label", "x", "y", "width", "height"],
+        "title": "WorkflowCropRegion"
       },
       "WorkflowForm": {
         "properties": {
@@ -12090,6 +13983,44 @@
             "type": "object",
             "title": "Parametercontrols"
           },
+          "parameterPresentation": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/WorkflowParameterPresentation"
+            },
+            "type": "object",
+            "title": "Parameterpresentation"
+          },
+          "outputSizes": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/WorkflowRatioSize"
+                },
+                {
+                  "$ref": "#/components/schemas/WorkflowAutomaticSize"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Outputsizes"
+          },
+          "referenceTimelines": {
+            "items": {
+              "$ref": "#/components/schemas/WorkflowReferenceTimeline"
+            },
+            "type": "array",
+            "title": "Referencetimelines"
+          },
+          "imageCrops": {
+            "additionalProperties": {
+              "items": {
+                "$ref": "#/components/schemas/WorkflowCropRegion"
+              },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Imagecrops"
+          },
           "originalDefaults": {
             "additionalProperties": {
               "anyOf": [
@@ -12109,6 +14040,13 @@
             },
             "type": "object",
             "title": "Originaldefaults"
+          },
+          "sharedAssets": {
+            "items": {
+              "$ref": "#/components/schemas/AssetRead"
+            },
+            "type": "array",
+            "title": "Sharedassets"
           }
         },
         "additionalProperties": false,
@@ -12121,7 +14059,12 @@
           "issues",
           "parameterLayout",
           "parameterControls",
-          "originalDefaults"
+          "parameterPresentation",
+          "outputSizes",
+          "referenceTimelines",
+          "imageCrops",
+          "originalDefaults",
+          "sharedAssets"
         ],
         "title": "WorkflowForm"
       },
@@ -12129,7 +14072,17 @@
         "properties": {
           "kind": {
             "type": "string",
-            "enum": ["string", "integer", "number", "boolean", "choice", "image", "video"],
+            "enum": [
+              "string",
+              "integer",
+              "number",
+              "boolean",
+              "choice",
+              "image",
+              "video",
+              "audio",
+              "3d"
+            ],
             "title": "Kind"
           },
           "label": {
@@ -12497,6 +14450,111 @@
         "required": ["machineId", "parameterLayout"],
         "title": "WorkflowParameterLayoutUpdate"
       },
+      "WorkflowParameterPresentation": {
+        "properties": {
+          "choiceLabels": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Choicelabels"
+          },
+          "guidance": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Guidance"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["choiceLabels", "guidance"],
+        "title": "WorkflowParameterPresentation"
+      },
+      "WorkflowRatioSize": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "ratio",
+            "title": "Kind",
+            "default": "ratio"
+          },
+          "ratioFieldId": {
+            "type": "string",
+            "title": "Ratiofieldid"
+          },
+          "megapixelsFieldId": {
+            "type": "string",
+            "title": "Megapixelsfieldid"
+          },
+          "multipleFieldId": {
+            "type": "string",
+            "title": "Multiplefieldid"
+          },
+          "roundTo": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roundto"
+          },
+          "latentMultiple": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latentmultiple"
+          },
+          "modelMultiple": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modelmultiple"
+          },
+          "promptFieldId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Promptfieldid"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "ratioFieldId",
+          "megapixelsFieldId",
+          "multipleFieldId",
+          "roundTo",
+          "latentMultiple",
+          "modelMultiple",
+          "promptFieldId"
+        ],
+        "title": "WorkflowRatioSize"
+      },
       "WorkflowRead": {
         "properties": {
           "id": {
@@ -12511,14 +14569,15 @@
             "type": "string",
             "title": "Author"
           },
+          "authorProfile": {
+            "$ref": "#/components/schemas/AuthorRead"
+          },
           "owner": {
             "type": "string",
             "title": "Owner"
           },
           "category": {
-            "type": "string",
-            "enum": ["image", "video", "tool"],
-            "title": "Category"
+            "$ref": "#/components/schemas/WorkflowCategory"
           },
           "published": {
             "type": "boolean",
@@ -12595,6 +14654,7 @@
           "id",
           "name",
           "author",
+          "authorProfile",
           "owner",
           "category",
           "published",
@@ -12611,6 +14671,63 @@
           "runs"
         ],
         "title": "WorkflowRead"
+      },
+      "WorkflowReferenceFrame": {
+        "properties": {
+          "imageFieldId": {
+            "type": "string",
+            "title": "Imagefieldid"
+          },
+          "timeFieldId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timefieldid"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["imageFieldId", "timeFieldId"],
+        "title": "WorkflowReferenceFrame"
+      },
+      "WorkflowReferenceTimeline": {
+        "properties": {
+          "durationFieldId": {
+            "type": "string",
+            "title": "Durationfieldid"
+          },
+          "framesPerSecond": {
+            "type": "integer",
+            "title": "Framespersecond",
+            "default": 24
+          },
+          "minimumFrames": {
+            "type": "integer",
+            "title": "Minimumframes",
+            "default": 5
+          },
+          "frameStep": {
+            "type": "integer",
+            "title": "Framestep",
+            "default": 17
+          },
+          "frames": {
+            "items": {
+              "$ref": "#/components/schemas/WorkflowReferenceFrame"
+            },
+            "type": "array",
+            "title": "Frames"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["durationFieldId", "framesPerSecond", "minimumFrames", "frameStep", "frames"],
+        "title": "WorkflowReferenceTimeline"
       },
       "WorkflowUpdate": {
         "properties": {
@@ -12630,14 +14747,16 @@
           "category": {
             "anyOf": [
               {
+                "$ref": "#/components/schemas/WorkflowCategory"
+              },
+              {
                 "type": "string",
-                "enum": ["image", "video", "tool"]
+                "const": "tool"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Category"
+            ]
           },
           "description": {
             "anyOf": [
@@ -12667,6 +14786,45 @@
         "additionalProperties": false,
         "type": "object",
         "title": "WorkflowUpdate"
+      },
+      "WorkflowVersionRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "number": {
+            "type": "integer",
+            "title": "Number"
+          },
+          "published": {
+            "type": "boolean",
+            "title": "Published"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["id", "number", "published"],
+        "title": "WorkflowVersionRead"
+      },
+      "WorkflowVersions": {
+        "properties": {
+          "currentVersionId": {
+            "type": "string",
+            "title": "Currentversionid"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkflowVersionRead"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["currentVersionId", "items"],
+        "title": "WorkflowVersions"
       },
       "WorkspaceRead": {
         "properties": {

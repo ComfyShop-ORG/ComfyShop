@@ -5,7 +5,7 @@ from typing import Annotated, Literal, cast
 
 from fastapi import Depends, Header, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from sqlalchemy import case, delete, select, update
+from sqlalchemy import case, delete, or_, select, update
 from sqlalchemy.engine import CursorResult
 from sqlalchemy.orm import Session
 
@@ -18,7 +18,7 @@ from comfyshop_api.models import (
     UserPreference,
     now_ms,
 )
-from comfyshop_api.schemas import MachineRead
+from comfyshop_api.schemas import MachineHeartbeat, MachineRead
 from comfyshop_api.security import DB, digest
 from comfyshop_api.services.executions import fail_unfinished_executions, task_executions_complete
 
@@ -94,7 +94,13 @@ def reset_key(db: Session, machine: Machine) -> str:
 
 
 def _forget_links(db: Session, machine: Machine) -> None:
-    db.execute(delete(MachineLink).where(MachineLink.machine_id == machine.id))
+    db.execute(
+        delete(MachineLink).where(
+            or_(
+                MachineLink.machine_id == machine.id, MachineLink.reconnect_machine_id == machine.id
+            )
+        )
+    )
 
 
 def revoke(db: Session, machine: Machine) -> None:
@@ -134,6 +140,25 @@ def machine_read(machine: Machine) -> MachineRead:
     )
 
 
+def _invalid_key() -> HTTPException:
+    return HTTPException(401, "工作机密钥无效", headers={"WWW-Authenticate": "Bearer"})
+
+
+def record_heartbeat(db: Session, machine: Machine, body: MachineHeartbeat) -> None:
+    """记录工作机心跳，写入时复核密钥，避免换发前已通过认证的心跳更新新连接。"""
+    result = db.execute(
+        update(Machine)
+        .where(
+            Machine.id == machine.id,
+            Machine.key_hash == machine.key_hash,
+            Machine.revoked_at.is_(None),
+        )
+        .values(device=body.device, capabilities={"nodes": body.nodes}, last_seen=now_ms())
+    )
+    if not cast(CursorResult, result).rowcount:
+        raise _invalid_key()
+
+
 def authenticate_machine(
     db: DB,
     credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(bearer)],
@@ -144,7 +169,7 @@ def authenticate_machine(
         else None
     )
     if not machine or machine.revoked_at:
-        raise HTTPException(401, "工作机密钥无效", headers={"WWW-Authenticate": "Bearer"})
+        raise _invalid_key()
     return machine
 
 

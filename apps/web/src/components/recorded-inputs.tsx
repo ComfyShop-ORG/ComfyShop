@@ -10,7 +10,7 @@ const previewEdge = Number.parseFloat(size['parameter-preview']);
 /**
  * 按字段名称列出一组已保存的参数。
  * @param taskId 本人任务的输入定义，包含参考素材。
- * @param workId 作品公开的参数，访客也能读取，不含素材。两者指定其一。
+ * @param workId 作品公开的输入，访客也能读取。两者指定其一。
  */
 export function RecordedInputs({
   taskId,
@@ -66,11 +66,12 @@ export function RecordedInputs({
             const asset = value && typeof value === 'object' ? assetsById.get(value.assetId) : null;
             const media = asset?.media;
             const thumbnail =
-              media &&
-              cardThumbnail(
-                media,
-                (previewEdge * media.width) / Math.max(media.width, media.height),
-              );
+              media?.width && media.height
+                ? cardThumbnail(
+                    media,
+                    (previewEdge * media.width) / Math.max(media.width, media.height),
+                  )
+                : null;
             return (
               <div className="recorded-input" key={id}>
                 <dt>
@@ -93,8 +94,8 @@ export function RecordedInputs({
                         <img
                           src={thumbnail.src}
                           srcSet={thumbnail.srcSet}
-                          width={asset.media.width}
-                          height={asset.media.height}
+                          width={asset.media.width ?? undefined}
+                          height={asset.media.height ?? undefined}
                           alt=""
                           loading="lazy"
                           decoding="async"

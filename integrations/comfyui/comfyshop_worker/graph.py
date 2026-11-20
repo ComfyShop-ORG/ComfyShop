@@ -2,6 +2,8 @@
 
 from copy import deepcopy
 
+from comfyshop_worker.catalog import asset_kind
+
 
 class WorkflowError(Exception):
     pass
@@ -40,7 +42,7 @@ def preflight(graph: dict, object_info: dict) -> None:
             options = (
                 definition[1] if len(definition) > 1 and isinstance(definition[1], dict) else {}
             )
-            if options.get("image_upload") or options.get("video_upload"):
+            if asset_kind(node["class_type"], name, options):
                 # Uploads arrive after inventory refresh. ComfyUI validates the
                 # newly written file when it accepts the prompt.
                 continue

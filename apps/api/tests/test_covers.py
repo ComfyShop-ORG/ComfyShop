@@ -362,8 +362,55 @@ def test_only_results_of_a_published_version_become_works(authenticated, setting
     # 草稿版本的结果不能公开，也不会成为访客看到的封面。
     rejected = publish(unpublished)
     assert rejected.status_code == 409 and "未发布的工作流版本" in rejected.json()["detail"]
-    assert TestClient(client.app).get(url).json()["media"] is None
-    assert publish(published).status_code == 201
+    guest = TestClient(client.app)
+    assert guest.get(url).json()["media"] is None
+    first_version = {"id": workflow["versionId"], "number": 1, "published": True}
+    second_version = {"id": draft["versionId"], "number": 2, "published": False}
+    assert guest.get(f"{url}/versions").json() == {
+        "currentVersionId": first_version["id"],
+        "items": [first_version],
+    }
+    assert client.get(f"{url}/versions").json() == {
+        "currentVersionId": second_version["id"],
+        "items": [second_version, first_version],
+    }
+
+    old = publish(published)
+    also_old = publish(published)
+    assert old.status_code == also_old.status_code == 201
+    showcase = {"author": "owner", "current_version_only": True}
+    before = guest.get("/api/v1/works", params=showcase).json()
+    assert {item["id"] for item in before["items"]} == {old.json()["id"], also_old.json()["id"]}
+    assert client.post(f"{url}/publish").status_code == 200
+    assert guest.get("/api/v1/works", params=showcase).json()["items"] == []
+    assert guest.get(f"/api/v1/works/{old.json()['id']}").status_code == 200
+    assert guest.get(f"/api/v1/artifacts/{published}/file").status_code == 200
+    new = publish(unpublished)
+    assert new.status_code == 201
+    after = guest.get("/api/v1/works", params=showcase).json()
+    assert [item["id"] for item in after["items"]] == [new.json()["id"]]
+    own = client.get("/api/v1/works", params={"scope": "mine"}).json()
+    assert len(own["items"]) == 3
+    assert guest.get(f"{url}/versions").json() == {
+        "currentVersionId": second_version["id"],
+        "items": [{**second_version, "published": True}, first_version],
+    }
+    assert guest.get(url).json()["versionId"] == second_version["id"]
+    params = {"workflow_id": workflow["id"], "version_id": first_version["id"], "limit": 1}
+    first_page = guest.get("/api/v1/works", params=params).json()
+    second_page = guest.get(
+        "/api/v1/works", params={**params, "cursor": first_page["nextCursor"]}
+    ).json()
+    assert {item["id"] for item in first_page["items"] + second_page["items"]} == {
+        old.json()["id"],
+        also_old.json()["id"],
+    }
+    assert second_page["nextCursor"] is None
+    latest = guest.get(
+        "/api/v1/works", params={**params, "version_id": second_version["id"]}
+    ).json()
+    assert [item["id"] for item in latest["items"]] == [new.json()["id"]]
+    assert guest.get(f"/api/v1/works/{old.json()['id']}").json()["versionId"] == first_version["id"]
 
 
 def test_a_chosen_video_frame_becomes_the_group_work_and_workflow_cover(

@@ -19,11 +19,19 @@ const isActive = (status: Task['status']) => status === 'queued' || status === '
 /** 任务列表的筛选：active 为排队或执行中，其余为同名的结束状态。 */
 export type TaskFilter = NonNullable<NonNullable<Parameters<ApiClient['tasks']>[0]>['state']>;
 
-const taskHistoryKey = (userId?: string, workflowId?: string, state?: TaskFilter) =>
-  ['tasks', userId, workflowId, state] as const;
+const taskHistoryKey = (
+  userId?: string,
+  workflowId?: string,
+  state?: TaskFilter,
+  versionId?: string,
+) => ['tasks', userId, workflowId, state, ...(versionId ? [versionId] : [])] as const;
 
-export const executionHistoryKey = (userId?: string, workflowId?: string, taskId?: string) =>
-  ['executions', userId, workflowId, taskId] as const;
+export const executionHistoryKey = (
+  userId?: string,
+  workflowId?: string,
+  taskId?: string,
+  versionId?: string,
+) => ['executions', userId, workflowId, taskId, ...(versionId ? [versionId] : [])] as const;
 
 /** 合并较新的活动更新，保留终态，并避免执行状态从运行退回排队。 */
 export function taskWithProgress(task: Task, update?: TaskUpdate): Task {
@@ -37,42 +45,53 @@ export function taskHistoryOptions(
   userId?: string,
   workflowId?: string,
   state?: TaskFilter,
+  versionId?: string,
 ) {
   return infiniteQueryOptions({
-    queryKey: taskHistoryKey(userId, workflowId, state),
+    queryKey: taskHistoryKey(userId, workflowId, state, versionId),
     enabled: !!userId,
     initialPageParam: null as string | null,
     queryFn: ({ pageParam, signal }) =>
-      api.tasks({ workflow_id: workflowId, state, cursor: pageParam }, signal),
+      api.tasks(
+        { workflow_id: workflowId, version_id: versionId, state, cursor: pageParam },
+        signal,
+      ),
     getNextPageParam: (page) => page.nextCursor ?? undefined,
   });
 }
 
 /**
- * 按用户、工作流或单个任务创建活动查询。任务移出活动列表时单独读取最终状态。
+ * 按用户、工作流、版本或单个任务创建活动查询。任务移出活动列表时单独读取最终状态。
  * 返回轮询配置。完成执行数变化时刷新对应结果，已加载的任务历史页继续保留。
  */
 export function taskActivityOptions(
   api: ApiClient,
   queries: QueryClient,
   userId?: string,
-  workflowId?: string,
-  taskId?: string,
-  state?: TaskFilter,
+  {
+    workflowId,
+    taskId,
+    state,
+    versionId,
+  }: { workflowId?: string; taskId?: string; state?: TaskFilter; versionId?: string } = {},
 ) {
-  const queryKey = ['task-activity', userId, workflowId, taskId, state] as const;
-  const resultsKey = executionHistoryKey(userId, workflowId, taskId);
+  const queryKey = ['task-activity', userId, workflowId, taskId, state, versionId] as const;
+  const resultsKey = executionHistoryKey(userId, workflowId, taskId, versionId);
+  const historyKey = taskHistoryKey(userId, workflowId, state, versionId);
   const history = () =>
     taskId
       ? []
       : (queries
-          .getQueryData<InfiniteData<TaskPage>>(taskHistoryKey(userId, workflowId, state))
+          .getQueryData<InfiniteData<TaskPage>>(historyKey)
           ?.pages.flatMap((page) => page.items) ?? []);
   return queryOptions({
     queryKey,
     enabled: !!userId,
     queryFn: async ({ signal }): Promise<Activity> => {
-      const activity = await api.taskActivity({ workflow_id: workflowId, task_id: taskId }, signal);
+      const activity = await api.taskActivity(
+        { workflow_id: workflowId, version_id: versionId, task_id: taskId },
+        signal,
+      );
       const previous = queries.getQueryData<Activity>(queryKey);
       const updates = new Map<string, TaskUpdate>(
         activity.activeTasks.map((task) => [task.id, task]),
@@ -99,7 +118,7 @@ export function taskActivityOptions(
       signal.throwIfAborted();
       if (details.includes(null))
         void queries.invalidateQueries({
-          queryKey: taskHistoryKey(userId, workflowId, state),
+          queryKey: historyKey,
           exact: true,
         });
       for (const detail of details) {
@@ -115,12 +134,13 @@ export function taskActivityOptions(
       if (ended)
         void queries.invalidateQueries({
           queryKey: ['tasks', userId],
-          predicate: ({ queryKey }) =>
-            queryKey[3] !== undefined &&
-            (!workflowId || queryKey[2] === undefined || queryKey[2] === workflowId),
+          predicate: ({ queryKey: [, , historyWorkflow, historyState, historyVersion] }) =>
+            historyState !== undefined &&
+            (!workflowId || historyWorkflow === undefined || historyWorkflow === workflowId) &&
+            (!versionId || historyVersion === undefined || historyVersion === versionId),
         });
       if (previous?.completedExecutions !== activity.completedExecutions)
-        void queries.invalidateQueries({ queryKey: resultsKey, exact: true });
+        void queries.invalidateQueries({ queryKey: resultsKey });
       return { ...activity, updates: Object.fromEntries(updates) };
     },
     refetchInterval: ({ state }) => {

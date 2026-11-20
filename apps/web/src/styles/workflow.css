@@ -137,6 +137,7 @@
   object-fit: contain;
 }
 .video-controls {
+  --color-text: var(--color-on-media);
   position: absolute;
   inset: auto var(--space-3) var(--space-3);
   display: flex;
@@ -184,6 +185,7 @@
 .author-link {
   color: inherit;
   text-decoration: none;
+  overflow-wrap: anywhere;
 }
 .author-link:hover {
   color: var(--color-text);
@@ -215,6 +217,10 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
+}
+.author-heading h1 {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .author-avatar {
   width: var(--space-8);
@@ -283,6 +289,14 @@
 .run-form .ui-select-trigger {
   width: 100%;
 }
+.output-size-fields {
+  display: grid;
+  gap: var(--space-5);
+}
+.reference-frame-fields {
+  display: grid;
+  gap: var(--space-3);
+}
 .asset-input {
   display: grid;
   gap: var(--space-3);
@@ -291,11 +305,39 @@
   background: var(--color-canvas);
   min-width: 0;
 }
-.asset-preview img,
+.asset-preview > img,
 .asset-preview video {
   max-height: 200px;
   width: 100%;
   object-fit: contain;
+}
+.asset-crop-preview {
+  position: relative;
+  margin-inline: auto;
+  overflow: hidden;
+}
+.asset-crop-preview > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.asset-crop-region {
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+  border: var(--line-thin) solid var(--color-on-media);
+  box-shadow: inset 0 0 0 var(--line-thin) var(--color-scrim);
+}
+.asset-crop-region > span {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  padding: var(--space-1);
+  background: var(--color-scrim);
+  color: var(--color-on-media);
+  font-size: var(--font-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .asset-caption {
   display: flex;
@@ -333,6 +375,20 @@
   gap: var(--space-3);
   flex-shrink: 0;
   padding: var(--space-4) var(--space-6) var(--space-6);
+}
+.run-action-buttons {
+  display: flex;
+  gap: var(--space-2);
+}
+.run-parameter-trigger {
+  flex-shrink: 0;
+}
+.run-parameter-issue-count {
+  color: var(--color-warning);
+  font-size: var(--font-xs);
+}
+.run-hidden-changes {
+  justify-self: start;
 }
 .generate-button {
   width: 100%;

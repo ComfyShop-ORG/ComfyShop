@@ -1,6 +1,11 @@
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 
-const source = JSON.parse(await readFile(new URL('./src/tokens.json', import.meta.url), 'utf8'));
+const { lightColor, ...source } = JSON.parse(
+  await readFile(new URL('./src/tokens.json', import.meta.url), 'utf8'),
+);
+for (const name of Object.keys(lightColor)) {
+  if (!Object.hasOwn(source.color, name)) throw new Error(`未知的浅色主题 token：${name}`);
+}
 const apiDirectory = new URL('../../apps/api/src/comfyshop_api/', import.meta.url);
 const paletteFile = new URL('design_tokens.py', apiDirectory);
 const palette = [
@@ -58,14 +63,24 @@ if (process.argv.includes('--check')) {
     process.exitCode = 1;
   }
 } else {
-  const declarations = Object.entries(source).flatMap(([group, values]) =>
-    Object.entries(values).map(([name, value]) => `  --${group}-${name}: ${value};`),
-  );
+  const declarations = (group, values) =>
+    Object.entries(values).map(([name, value]) => `  --${group}-${name}: ${value};`);
+  const defaults = Object.entries(source).flatMap(([group, values]) => declarations(group, values));
+  const css = [
+    '/* Generated from src/tokens.json. */',
+    ':root {',
+    '  color-scheme: dark;',
+    ...defaults,
+    '}',
+    '',
+    ":root[data-theme='light'] {",
+    '  color-scheme: light;',
+    ...declarations('color', lightColor),
+    '}',
+    '',
+  ].join('\n');
   await mkdir(new URL('./dist/', import.meta.url), { recursive: true });
-  await writeFile(
-    new URL('./dist/tokens.css', import.meta.url),
-    `/* Generated from src/tokens.json. */\n:root {\n${declarations.join('\n')}\n}\n`,
-  );
+  await writeFile(new URL('./dist/tokens.css', import.meta.url), css);
   await mkdir(apiDirectory, { recursive: true });
   await writeFile(paletteFile, palette);
   await mkdir(publicDirectory, { recursive: true });

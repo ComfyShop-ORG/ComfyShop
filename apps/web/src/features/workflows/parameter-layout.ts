@@ -10,6 +10,7 @@ export type ParameterSection = WorkflowParameterDisplay['section'];
 export type ParameterRow = WorkflowInput &
   Partial<Pick<WorkflowParameterDisplay, 'displayName' | 'help' | 'control' | 'defaultValue'>> & {
     controls?: WorkflowForm['parameterControls'][string];
+    presentation?: WorkflowForm['parameterPresentation'][string];
     originalDefault?: WorkflowForm['originalDefaults'][string];
   };
 export type ParameterGroups = Record<ParameterSection, ParameterRow[]>;
@@ -20,8 +21,19 @@ export const parameterSections = [
   { value: 'hidden', label: '不显示' },
 ] as const;
 
+export const assetInputTypes = {
+  image: { accept: 'image/png,image/jpeg,image/webp,image/gif', label: '上传图片' },
+  video: { accept: 'video/mp4,video/webm', label: '上传视频' },
+  audio: { accept: 'audio/flac,.flac', label: '上传音频' },
+  '3d': { accept: 'model/gltf-binary,.glb', label: '上传模型' },
+} as const;
+
+export function isAssetInput(kind: WorkflowInput['kind']): kind is keyof typeof assetInputTypes {
+  return Object.hasOwn(assetInputTypes, kind);
+}
+
 export function canHideParameter(field: WorkflowInput) {
-  return field.kind !== 'image' && field.kind !== 'video';
+  return !isAssetInput(field.kind);
 }
 
 /** 选项字段的当前值是否不在所选工作机提供的选项里，例如工作机缺少该模型。 */
@@ -37,12 +49,18 @@ export function groupParameters(
   layout: readonly WorkflowParameterDisplay[],
   controls: WorkflowForm['parameterControls'],
   originalDefaults: WorkflowForm['originalDefaults'],
+  presentation: WorkflowForm['parameterPresentation'],
 ): ParameterGroups {
   const groups: ParameterGroups = { default: [], advanced: [], hidden: [] };
   const remaining = new Map(
     fields.map((field) => [
       field.id,
-      { ...field, controls: controls[field.id], originalDefault: originalDefaults[field.id] },
+      {
+        ...field,
+        controls: controls[field.id],
+        presentation: presentation[field.id],
+        originalDefault: originalDefaults[field.id],
+      },
     ]),
   );
   for (const entry of layout) {

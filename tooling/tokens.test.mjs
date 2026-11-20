@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
 
-test('token edits regenerate CSS, brand colors and the packaged mail palette; checks never overwrite drift', async (t) => {
+test('token edits regenerate both CSS themes, brand colors and the packaged mail palette', async (t) => {
   const root = await mkdtemp(join(tmpdir(), 'comfyshop-token-build-'));
   t.after(() => rm(root, { recursive: true, force: true }));
   const directory = join(root, 'packages/tokens');
@@ -34,6 +34,7 @@ test('token edits regenerate CSS, brand colors and the packaged mail palette; ch
   const tokens = JSON.parse(await readFile(input, 'utf8'));
   tokens.color.canvas = tokens.color.canvas === '#010203' ? '#112233' : '#010203';
   tokens.color.accent = tokens.color.canvas;
+  tokens.lightColor.canvas = tokens.lightColor.canvas === '#dddddd' ? '#eaeaea' : '#dddddd';
   await writeFile(input, JSON.stringify(tokens));
   const stale = run('--check');
   assert.equal(stale.status, 1);
@@ -46,7 +47,17 @@ test('token edits regenerate CSS, brand colors and the packaged mail palette; ch
   assert.equal(run().status, 0);
   assert.equal(run('--check').status, 0);
   assert.ok((await readFile(palette, 'utf8')).includes(`"canvas": "${tokens.color.canvas}"`));
-  assert.ok((await readFile(css, 'utf8')).includes(`--color-canvas: ${tokens.color.canvas};`));
+  const updatedCss = await readFile(css, 'utf8');
+  assert.ok(
+    updatedCss.includes(
+      `:root {\n  color-scheme: dark;\n  --color-canvas: ${tokens.color.canvas};`,
+    ),
+  );
+  assert.ok(
+    updatedCss.includes(
+      `:root[data-theme='light'] {\n  color-scheme: light;\n  --color-canvas: ${tokens.lightColor.canvas};`,
+    ),
+  );
   assert.ok((await readFile(brand, 'utf8')).includes(`color="${tokens.color.accent}"`));
   assert.ok((await readFile(favicon, 'utf8')).includes(await readFile(brand, 'utf8')));
 });

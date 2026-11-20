@@ -17,6 +17,7 @@ export function ParameterValueField({
   id = `input-${field.id}`,
   help,
   value,
+  issueId,
   disabled = false,
   onChange,
 }: {
@@ -24,6 +25,7 @@ export function ParameterValueField({
   id?: string;
   help?: string;
   value: InputValue;
+  issueId?: string;
   disabled?: boolean;
   onChange: (value: InputValue) => void;
 }) {
@@ -54,6 +56,8 @@ export function ParameterValueField({
             'aria-valuemin': minimum / scale,
             'aria-valuemax': maximum / scale,
             'aria-valuenow': value,
+            'aria-invalid': issueId ? true : undefined,
+            'aria-describedby': issueId,
           }}
           onValueChange={(next) => onChange(next / scale)}
         />
@@ -74,9 +78,13 @@ export function ParameterValueField({
     );
   } else if (field.kind === 'choice') {
     const encode = (choice: InputValue) => JSON.stringify(choice);
+    const labels = field.presentation?.choiceLabels ?? {};
     const options = field.choices.map((choice) => ({
       value: encode(choice),
-      label: String(choice),
+      label:
+        typeof choice === 'string' && Object.hasOwn(labels, choice)
+          ? labels[choice]
+          : String(choice),
       disabled: false,
     }));
     const selected = encode(value);
@@ -92,6 +100,8 @@ export function ParameterValueField({
         id={id}
         label={field.label}
         disabled={disabled}
+        aria-invalid={issueId ? true : undefined}
+        aria-describedby={issueId}
         value={selected}
         onValueChange={(next) => onChange(JSON.parse(next) as InputValue)}
         options={options}
@@ -103,6 +113,8 @@ export function ParameterValueField({
         id={id}
         disabled={disabled}
         type={field.integerAsString ? 'text' : 'number'}
+        aria-invalid={issueId ? true : undefined}
+        aria-describedby={issueId}
         inputMode={field.kind === 'integer' ? 'numeric' : 'decimal'}
         value={typeof value === 'number' || typeof value === 'string' ? value : ''}
         min={field.minimum ?? undefined}
@@ -126,7 +138,6 @@ export function ParameterValueField({
         id={id}
         disabled={disabled}
         value={typeof value === 'string' ? value : ''}
-        maxLength={8000}
         onChange={(event) => onChange(event.target.value)}
       />
     );
@@ -136,7 +147,6 @@ export function ParameterValueField({
         id={id}
         disabled={disabled}
         value={typeof value === 'string' ? value : ''}
-        maxLength={8000}
         onChange={(event) => onChange(event.target.value)}
       />
     );
@@ -148,7 +158,7 @@ export function ParameterValueField({
       help={help}
     >
       {control}
-      {unavailableChoice(field, value) && (
+      {!issueId && unavailableChoice(field, value) && (
         <p className="form-error" role="alert">
           当前工作机没有这个选项，请改选可用项。
         </p>

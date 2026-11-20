@@ -168,6 +168,8 @@ function FieldHelp({ label, help }: { label: string; help: string }) {
           // 只显示文字说明，不是需要操作的弹层：不算作打开的弹框，也不抢焦点。
           role="tooltip"
           className="ui-tooltip ui-help"
+          // 文案覆盖相邻控件时，点击仍交给该控件。
+          style={{ pointerEvents: 'none' }}
           sideOffset={8}
           // 与页面两侧的留白一致，窄屏上不贴着屏幕边缘。
           collisionPadding={16}
@@ -290,6 +292,7 @@ type SelectProps = Omit<ComponentPropsWithoutRef<typeof SelectPrimitive.Root>, '
   options: readonly ChoiceOption[];
   id?: string;
   className?: string;
+  placeholder?: string;
   triggerProps?: Omit<
     ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>,
     'children' | 'id' | 'className'
@@ -297,7 +300,7 @@ type SelectProps = Omit<ComponentPropsWithoutRef<typeof SelectPrimitive.Root>, '
 };
 
 export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
-  { label, options, id, className, triggerProps, ...props },
+  { label, options, id, className, placeholder, triggerProps, ...props },
   ref,
 ) {
   return (
@@ -309,7 +312,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
         aria-label={triggerProps?.['aria-label'] ?? label}
         className={cx('ui-select-trigger', className)}
       >
-        <SelectPrimitive.Value />
+        <SelectPrimitive.Value placeholder={placeholder} />
         <SelectPrimitive.Icon>
           <ChevronDownIcon />
         </SelectPrimitive.Icon>

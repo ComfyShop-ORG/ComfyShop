@@ -37,7 +37,17 @@ def history_outputs(history: dict) -> list[dict]:
                 "temp",
             }:
                 suffix = Path(value["filename"]).suffix.lower()
-                if suffix in {".png", ".jpg", ".jpeg", ".webp", ".gif", ".mp4", ".webm", ".mov"}:
+                if suffix in {
+                    ".png",
+                    ".jpg",
+                    ".jpeg",
+                    ".webp",
+                    ".gif",
+                    ".mp4",
+                    ".webm",
+                    ".mov",
+                    ".flac",
+                } or (suffix == ".glb" and value.get("type", "output") == "output"):
                     descriptor = {
                         key: value.get(key, "output" if key == "type" else "")
                         for key in ["filename", "subfolder", "type"]
@@ -55,7 +65,7 @@ def history_outputs(history: dict) -> list[dict]:
     for node_id, output in sorted(history.get("outputs", {}).items()):
         collect(output, node_id, "")
     if not files:
-        raise WorkflowError("工作流未输出可保存的图像或视频")
+        raise WorkflowError("工作流未输出平台支持的图像、视频、FLAC 音频或 GLB 模型")
     return [{**descriptor, "outputIndex": index} for index, descriptor in enumerate(files.values())]
 
 
@@ -134,6 +144,8 @@ class Comfy:
             "image/gif": ".gif",
             "video/mp4": ".mp4",
             "video/webm": ".webm",
+            "audio/flac": ".flac",
+            "model/gltf-binary": ".glb",
         }.get(asset["contentType"])
         if not suffix:
             raise WorkflowError("不支持的素材格式")

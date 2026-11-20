@@ -1,6 +1,7 @@
 import secrets
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException, Request, Response
+from fastapi.concurrency import run_in_threadpool
 from sqlalchemy import delete, select
 
 from comfyshop_api.models import LoginSession, User
@@ -11,6 +12,7 @@ from comfyshop_api.schemas import (
     EmailConfirm,
     EmailUpdate,
     ErrorRead,
+    NicknameUpdate,
     PasswordChange,
     PasswordResetConfirm,
     PasswordResetRequest,
@@ -32,7 +34,7 @@ from comfyshop_api.security import (
     verify_password,
 )
 
-from comfyshop_api.services import accounts
+from comfyshop_api.services import accounts, profiles
 from comfyshop_api.services.mail import send_mail
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -47,7 +49,7 @@ def clear_cookie(response: Response, settings: Config) -> None:
 @router.get("/session", response_model=SessionRead)
 def get_session(request: Request, session: MaybeSession) -> SessionRead:
     return SessionRead(
-        user=UserRead.model_validate(session.user) if session else None,
+        user=UserRead.from_user(session.user) if session else None,
         csrf_token=csrf_for(request.cookies[COOKIE_NAME]) if session else None,
     )
 
@@ -86,7 +88,7 @@ def register(
             body.email,
             *accounts.email_confirmation_mail(settings, user, token),
         )
-    return SessionRead(user=UserRead.model_validate(user), csrf_token=csrf)
+    return SessionRead(user=UserRead.from_user(user), csrf_token=csrf)
 
 
 @router.post("/login", response_model=SessionRead)
@@ -104,7 +106,7 @@ def login(
         raise HTTPException(401, "账号或密码错误")
     forgive(db, attempt)
     csrf = establish_session(user, request, response, db, settings)
-    return SessionRead(user=UserRead.model_validate(user), csrf_token=csrf)
+    return SessionRead(user=UserRead.from_user(user), csrf_token=csrf)
 
 
 @router.post("/logout", status_code=204)
@@ -135,6 +137,44 @@ def change_password(body: PasswordChange, request: Request, db: DB, user: Writer
     return Response(status_code=204)
 
 
+@router.put("/profile", response_model=UserRead)
+def update_nickname(body: NicknameUpdate, request: Request, db: DB, user: Writer) -> UserRead:
+    profiles.update_nickname(db, user, digest(request.cookies[COOKIE_NAME]), body.nickname)
+    db.commit()
+    return UserRead.from_user(user)
+
+
+@router.put(
+    "/profile/avatar",
+    response_model=UserRead,
+    openapi_extra={
+        "requestBody": {
+            "required": True,
+            "content": {
+                "application/octet-stream": {"schema": {"type": "string", "format": "binary"}}
+            },
+        }
+    },
+)
+async def upload_avatar(request: Request, db: DB, user: Writer) -> UserRead:
+    image = await profiles.receive_avatar(request)
+    session_hash = digest(request.cookies[COOKIE_NAME])
+
+    def save() -> UserRead:
+        profiles.update_avatar(db, user, session_hash, image)
+        db.commit()
+        return UserRead.from_user(user)
+
+    return await run_in_threadpool(save)
+
+
+@router.delete("/profile/avatar", response_model=UserRead)
+def remove_avatar(request: Request, db: DB, user: Writer) -> UserRead:
+    profiles.update_avatar(db, user, digest(request.cookies[COOKIE_NAME]), None)
+    db.commit()
+    return UserRead.from_user(user)
+
+
 # 新邮箱先记为等待确认并发出确认邮件，原邮箱在确认前照常用于找回密码。空值立即解除绑定。
 @router.put("/email", response_model=UserRead, responses={503: {"model": ErrorRead}})
 def update_email(
@@ -163,7 +203,7 @@ def update_email(
             body.email,
             *accounts.email_confirmation_mail(settings, user, token),
         )
-    return UserRead.model_validate(user)
+    return UserRead.from_user(user)
 
 
 # 确认邮件里的链接由网页提交到这里。不要求登录：邮件可能在另一台设备上打开。

@@ -6,6 +6,7 @@ import { Button } from '@comfyshop/ui';
 import { useExecutions } from '../app/use-workspace';
 import type { ReplayAction } from '../domain/types';
 import { ExecutionDialog, countLabel } from './execution-dialog';
+import { durationLabel } from './generation-stage';
 import { MediaCollection } from './media-grid';
 import { MediaPreview } from './media-preview';
 import type { CardView } from './media-grid';
@@ -16,21 +17,28 @@ const executionCard =
   (scoped: boolean) =>
   (execution: Execution): CardView => {
     const created = new Date(execution.created);
+    const timestamp = created.toLocaleString('zh-CN', {
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    const filename = !execution.coverImage ? execution.media?.filename : null;
+    const duration = execution.media?.durationMs;
     return {
       label: `查看 ${execution.workflowName} 在 ${created.toLocaleString('zh-CN')} 的第 ${execution.index + 1} 次执行`,
-      title: scoped
-        ? created.toLocaleString('zh-CN', {
-            month: 'numeric',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-          })
-        : execution.workflowName,
+      title: filename || (scoped ? timestamp : execution.workflowName),
       media: execution.media,
+      coverImage: execution.coverImage,
       detail: (
         <>
           {countLabel(execution)}
-          {!scoped && <span>{created.toLocaleDateString('zh-CN')}</span>}
+          {!!duration && <span>{durationLabel(duration)}</span>}
+          {filename ? (
+            <span title={execution.workflowName}>{timestamp}</span>
+          ) : (
+            !scoped && <span>{created.toLocaleDateString('zh-CN')}</span>
+          )}
         </>
       ),
     };
@@ -38,6 +46,7 @@ const executionCard =
 
 export function ExecutionCollection({
   workflowId,
+  versionId,
   taskId,
   scrollRoot,
   quietEmpty,
@@ -45,6 +54,7 @@ export function ExecutionCollection({
   onReplay,
 }: {
   workflowId?: string;
+  versionId?: string;
   taskId?: string;
   scrollRoot?: HTMLElement | null;
   /** 调用方已经在别处说明了当前状态时，空列表不再显示「暂无结果」。 */
@@ -53,7 +63,7 @@ export function ExecutionCollection({
   featured?: boolean;
   onReplay?: ReplayAction;
 }) {
-  const query = useExecutions(workflowId, taskId);
+  const query = useExecutions(workflowId, taskId, versionId);
   const { selected, select, fallbackRef, open, close, restoreFocus } =
     useCollectionSelection<Execution>();
   const { items } = collectionFeed(query);
@@ -62,7 +72,7 @@ export function ExecutionCollection({
     <>
       {hero?.media && (
         <div className="generation-hero">
-          {hero.media.video ? (
+          {hero.media.kind !== 'image' ? (
             <MediaPreview media={hero.media} name={hero.workflowName} autoPlay />
           ) : (
             <span
@@ -81,7 +91,7 @@ export function ExecutionCollection({
             >
               查看与发布
             </Button>
-            {hero.imageCount + hero.videoCount === 1 ? (
+            {hero.artifactCount === 1 ? (
               <Button size="small" asChild>
                 <a href={`${hero.media.video || hero.media.src}?download=true`} download>
                   <DownloadIcon />
@@ -98,7 +108,7 @@ export function ExecutionCollection({
         <MediaCollection
           query={query}
           label="我的结果"
-          resetKey={`${workflowId ?? 'all'}:${taskId ?? 'all'}`}
+          resetKey={`${workflowId ?? 'all'}:${versionId ?? 'all'}:${taskId ?? 'all'}`}
           scrollRoot={scrollRoot}
           fillSparse={!!scrollRoot}
           view={executionCard(!!workflowId)}

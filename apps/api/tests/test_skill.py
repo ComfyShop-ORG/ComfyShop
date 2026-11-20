@@ -1,4 +1,5 @@
 import json
+from io import BytesIO
 import os
 from pathlib import Path
 import runpy
@@ -94,6 +95,9 @@ def test_skill_covers_user_api_contract():
             item["name"] for item in endpoint.get("parameters", ()) if item["in"] == "query"
         }
         assert operation.payload == ("requestBody" in endpoint)
+        if operation.payload:
+            content_type = "application/octet-stream" if operation.binary else "application/json"
+            assert content_type in endpoint["requestBody"]["content"]
         covered.add((operation.method, operation.path))
     relevant = {
         (verb.upper(), path.removeprefix("/api/v1"))
@@ -110,6 +114,34 @@ def test_skill_download_installs_into_both_client_directories(skill_server, tmp_
         skill = installed_skill(web, address, home, tmp_path, client_name)
         account = skill["parser"]().parse_args(["account"])
         assert skill["run"](account) == ({"server": address, "user": None}, 0)
+
+
+def test_installed_skill_updates_profile_and_downloads_avatar(skill_server, tmp_path):
+    address, home, web = skill_server
+    skill = installed_skill(web, address, home, tmp_path, "codex")
+
+    def run(*args):
+        result, status = skill["run"](skill["parser"]().parse_args(args))
+        assert status == 0
+        return result
+
+    credentials = {"username": "摄影账号", "password": "test-only-password"}
+    skill["Client"](address).login(**credentials, register=True)
+    nickname = tmp_path / "profile.json"
+    nickname.write_text(json.dumps({"nickname": "摄影师"}), encoding="utf-8")
+    assert run("call", "account.nickname", "--body", str(nickname))["nickname"] == "摄影师"
+    image = tmp_path / "avatar.png"
+    image.write_bytes(image_bytes())
+    saved = run("call", "account.avatar-upload", "--body", str(image))
+    profile = run("call", "author.get", credentials["username"])
+    assert profile["avatarUrl"] == saved["avatarUrl"]
+    _, user_id, _, version = profile["avatarUrl"].rsplit("/", 3)
+    download = tmp_path / "avatar.webp"
+    assert run("call", "author.avatar", user_id, version, "--out", str(download)) == {
+        "path": str(download.resolve())
+    }
+    assert download.read_bytes().startswith(b"RIFF")
+    assert run("call", "account.avatar-remove")["avatarUrl"] is None
 
 
 def test_installed_skill_submits_real_tasks_and_reads_private_results(
@@ -207,7 +239,7 @@ def test_installed_skill_submits_real_tasks_and_reads_private_results(
 
 
 def test_installed_skill_manages_workflows_tasks_and_works(
-    skill_server, tmp_path, graph, monkeypatch
+    skill_server, tmp_path, graph, monkeypatch, capsys
 ):
     address, home, web = skill_server
     skill = installed_skill(web, address, home, tmp_path, "codex")
@@ -242,6 +274,14 @@ def test_installed_skill_manages_workflows_tasks_and_works(
     workflow = call_with_body(
         "workflow.import", body={"name": "原名", "category": "image", "graph": graph}
     )
+    assert workflow["format"] == "api"
+    assert not capsys.readouterr().err
+    editor = call_with_body(
+        "workflow.import", body={"name": "编辑器原图", "graph": {"nodes": [{"type": "SaveImage"}]}}
+    )
+    assert editor["format"] == "ui"
+    assert "从 ComfyUI 导出 API JSON" in capsys.readouterr().err
+    run("call", "workflow.delete", editor["id"])
     workflow_id = workflow["id"]
     version_id = workflow["versionId"]
     assert (
@@ -251,10 +291,34 @@ def test_installed_skill_manages_workflows_tasks_and_works(
         "url": f"{address}/workflows/{workflow_id}",
         "published": False,
     }
+    index = tmp_path / "index.json"
+    index.write_text(
+        json.dumps(
+            [
+                {
+                    "title": "Vector",
+                    "type": "image",
+                    "templates": [{"name": "vector-example", "title": "矢量模板"}],
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+    official_graph = tmp_path / "official.api.json"
+    official_graph.write_text(json.dumps(graph), encoding="utf-8")
+    imported = run("import-template", str(index), "vector-example", str(official_graph))
+    assert (imported["name"], imported["category"]) == ("矢量模板", "vector")
+    classified = run("classify-template", str(index), "vector-example", workflow_id)
+    assert (classified["id"], classified["versionId"], classified["category"]) == (
+        workflow_id,
+        version_id,
+        "vector",
+    )
+    run("call", "workflow.delete", imported["id"])
     run("call", "workflow.favorite", workflow_id)
     assert run("call", "workspace.favorites")["favoriteIds"] == [workflow_id]
     assert (
-        run("workflows", "--scope", "favorites", "--category", "image", "--sort", "popular")[
+        run("workflows", "--scope", "favorites", "--category", "vector", "--sort", "popular")[
             "items"
         ][0]["id"]
         == workflow_id
@@ -315,6 +379,9 @@ def test_installed_skill_manages_workflows_tasks_and_works(
         "shareParameters": True,
     }
     work = call_with_body("work.publish", body=work_body)
+    assert work["category"] == "vector"
+    assert run("call", "work.list", "--query", "category=vector")["items"][0]["id"] == work["id"]
+    assert not run("call", "work.list", "--query", "category=image")["items"]
     assert call_with_body("work.publish", body=work_body)["id"] == work["id"]
     assert run("call", "work.artifacts", work["id"])["items"][0]["id"] == first
     replay = run("call", "work.replay", work["id"])
@@ -346,6 +413,80 @@ def test_installed_skill_manages_workflows_tasks_and_works(
     assert not run("results", task_id)["executions"]
     run("call", "workflow.delete", workflow_id)
     assert not run("workflows", "--scope", "mine")["items"]
+
+
+def test_official_reference_inputs_are_pinned_and_bound(skill_server, tmp_path, monkeypatch):
+    address, home, web = skill_server
+    skill = installed_skill(web, address, home, tmp_path, "codex")
+    client = skill["Client"](address)
+    client.login("template-owner", "local-test-password", register=True)
+    machine = client.request("POST", "/machines", {"name": "素材"}, csrf=client.csrf())
+    graph = {
+        "4": {"class_type": "LoadImage", "inputs": {"image": "reference.png"}},
+        "9": {"class_type": "SaveImage", "inputs": {"images": ["4", 0]}},
+    }
+    workflow = client.request(
+        "POST", "/workflows", {"name": "示例", "graph": graph}, csrf=client.csrf()
+    )
+    catalog = {
+        "nodes": {
+            "LoadImage": {"inputs": {"image": {"kind": "image"}}},
+            "SaveImage": {"outputNode": True},
+        }
+    }
+    assert (
+        web.put(
+            "/api/v1/worker/catalog",
+            json=catalog,
+            headers={"Authorization": "Bearer " + machine["apiKey"]},
+        ).status_code
+        == 200
+    )
+    revision = "a" * 40
+    source = {
+        "file": "reference.png",
+        "nodeId": 4,
+        "nodeType": "LoadImage",
+        "mediaType": "image",
+        "sourceRevision": revision,
+    }
+    index = tmp_path / "index.json"
+    index_data = [
+        {"title": "Image", "templates": [{"name": "example", "io": {"inputs": [source]}}]}
+    ]
+    index.write_text(json.dumps(index_data), encoding="utf-8")
+    original = skill["open_response"]
+    requested = []
+    pixels = image_bytes()
+
+    def open_response(opener, request):
+        if request.full_url.startswith("https://raw.githubusercontent.com/"):
+            requested.append(request.full_url)
+            response = BytesIO(pixels)
+            response.headers = {"Content-Length": str(len(pixels))}
+            return response
+        return original(opener, request)
+
+    monkeypatch.setitem(
+        skill["prepare_template_materials"].__globals__, "open_response", open_response
+    )
+    args = skill["parser"]().parse_args(
+        ["template-inputs", str(index), "example", workflow["id"], machine["machine"]["id"]]
+    )
+    prepared, status = skill["run"](args)
+    assert status == 0
+    assert requested == [
+        f"https://raw.githubusercontent.com/Comfy-Org/workflow_templates/{revision}/input/reference.png"
+    ]
+    task = client.request(
+        "POST", "/tasks", {**prepared, "idempotencyKey": str(uuid4())}, csrf=client.csrf()
+    )
+    assert task["status"] == "queued" and task["inputValues"] == prepared["inputValues"]
+    source.pop("sourceRevision")
+    index.write_text(json.dumps(index_data), encoding="utf-8")
+    with pytest.raises(skill["ClientError"], match="reference.png.*sourceRevision"):
+        skill["run"](args)
+    assert len(requested) == 1
 
 
 def test_skill_preserves_machine_key_until_new_configuration_can_be_saved(skill_server, tmp_path):

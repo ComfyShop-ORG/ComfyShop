@@ -5,14 +5,17 @@ export type AuthSession = components['schemas']['SessionRead'];
 export type Workflow = components['schemas']['WorkflowRead'];
 export type WorkflowCreate = components['schemas']['WorkflowCreate'];
 export type WorkflowUpdate = components['schemas']['WorkflowUpdate'];
+export type WorkflowVersion = components['schemas']['WorkflowVersionRead'];
 export type TaskCreate = components['schemas']['TaskCreate'];
 export type Task = components['schemas']['TaskRead'];
 export type Media = components['schemas']['MediaRead'];
 export type Machine = components['schemas']['MachineRead'];
 export type MachineKey = components['schemas']['MachineKey'];
+export type Asset = components['schemas']['AssetRead'];
 export type Artifact = components['schemas']['ArtifactRead'];
 export type Execution = components['schemas']['ExecutionRead'];
 export type Work = components['schemas']['WorkRead'];
+export type CoverUpdate = components['schemas']['CoverUpdate'];
 export type Replay = components['schemas']['ReplayRead'];
 /** 重跑来源最多指定一种。executionId 表示自己的执行，workId 表示作品。 */
 export type ReplaySource = { executionId?: string; workId?: string };
@@ -143,6 +146,12 @@ export function createApiClient(
   return {
     session: async (signal?: AbortSignal) =>
       remember(await call('get', '/api/v1/auth/session', { signal })),
+    updateNickname: (nickname: string | null) =>
+      call('put', '/api/v1/auth/profile', { body: { nickname } }),
+    uploadAvatar: (file: Blob) => call('put', '/api/v1/auth/profile/avatar', { body: file }),
+    removeAvatar: () => call('delete', '/api/v1/auth/profile/avatar', {}),
+    author: (username: string, signal?: AbortSignal) =>
+      call('get', '/api/v1/authors/{username}', { path: { username }, signal }),
     login: async (username: string, password: string) =>
       remember(await call('post', '/api/v1/auth/login', { body: { username, password } })),
     register: async (username: string, password: string, email?: string) =>
@@ -177,6 +186,11 @@ export function createApiClient(
       call('get', '/api/v1/workflows/{workflow_id}', {
         path: { workflow_id: id },
         query: { version_id: versionId },
+        signal,
+      }),
+    workflowVersions: (id: string, signal?: AbortSignal) =>
+      call('get', '/api/v1/workflows/{workflow_id}/versions', {
+        path: { workflow_id: id },
         signal,
       }),
     workflowForm: (
@@ -265,8 +279,10 @@ export function createApiClient(
     createMachine: (name: string) => call('post', '/api/v1/machines', { body: { name } }),
     machineLink: (code: string, signal?: AbortSignal) =>
       call('get', '/api/v1/machines/links/{code}', { path: { code }, signal }),
-    approveMachineLink: (code: string, name: string) =>
-      call('post', '/api/v1/machines/links/{code}/approve', { path: { code }, body: { name } }),
+    approveMachineLink: (
+      code: string,
+      body: Options<Operation<'/api/v1/machines/links/{code}/approve', 'post'>>['body'],
+    ) => call('post', '/api/v1/machines/links/{code}/approve', { path: { code }, body }),
     defaultMachine: (id: string) =>
       call('put', '/api/v1/machines/{machine_id}/default', { path: { machine_id: id } }),
     rotateMachine: (id: string) =>
@@ -281,6 +297,8 @@ export function createApiClient(
       call('post', '/api/v1/artifacts/{artifact_id}/restore', { path: { artifact_id: id } }),
     executions: (query: Query<'/api/v1/executions'> = {}, signal?: AbortSignal) =>
       call('get', '/api/v1/executions', { query, signal }),
+    execution: (id: string) =>
+      call('get', '/api/v1/executions/{execution_id}', { path: { execution_id: id } }),
     deleteExecutionArtifacts: (id: string) =>
       call('delete', '/api/v1/executions/{execution_id}/artifacts', {
         path: { execution_id: id },
@@ -290,10 +308,10 @@ export function createApiClient(
         path: { execution_id: id },
       }),
     /** 指定结果组封面。`frameMs` 是封面视频取哪一刻的画面，不传用首帧。 */
-    setExecutionCover: (id: string, artifactId: string, frameMs?: number) =>
+    setExecutionCover: (id: string, body: CoverUpdate) =>
       call('put', '/api/v1/executions/{execution_id}/cover', {
         path: { execution_id: id },
-        body: { artifactId, frameMs: frameMs || null },
+        body,
       }),
     replayExecution: (id: string, signal?: AbortSignal) =>
       call('get', '/api/v1/executions/{execution_id}/replay', {
@@ -304,7 +322,7 @@ export function createApiClient(
       call('get', '/api/v1/works', { query, signal }),
     work: (id: string, signal?: AbortSignal) =>
       call('get', '/api/v1/works/{work_id}', { path: { work_id: id }, signal }),
-    /** 作者随作品公开的参数字段。素材不随作品公开，返回的素材列表为空。 */
+    /** 作者随作品公开的参数字段和参考素材。 */
     workInputs: (id: string, signal?: AbortSignal) =>
       call('get', '/api/v1/works/{work_id}/inputs', { path: { work_id: id }, signal }),
     workArtifacts: (id: string, cursor?: string | null, signal?: AbortSignal) =>
@@ -315,6 +333,8 @@ export function createApiClient(
       }),
     publishWork: (body: components['schemas']['WorkCreate']) =>
       call('post', '/api/v1/works', { body }),
+    setWorkCover: (id: string, body: CoverUpdate) =>
+      call('put', '/api/v1/works/{work_id}/cover', { path: { work_id: id }, body }),
     unpublishWork: (id: string) =>
       call('delete', '/api/v1/works/{work_id}', { path: { work_id: id } }),
     deleteWork: (id: string) =>

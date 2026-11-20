@@ -20,8 +20,8 @@ from comfyshop_api.models import (
     Workflow,
     WorkflowVersion,
 )
-from comfyshop_api.schemas import MediaRead, WorkflowRead
-from comfyshop_api.services.media_records import artifact_media
+from comfyshop_api.schemas import AuthorRead, MediaRead, WorkflowRead
+from comfyshop_api.services.media_records import artifact_media, cover_image_read
 from comfyshop_api.services.works import public_work_condition
 
 
@@ -120,8 +120,7 @@ def workflow_covers(
     `viewer_id` 是作者本人时，还没有公开作品的工作流使用其最近一次成功执行的首张成品，
     这张封面只有作者能看到。公共列表传 `None`，所有人看到相同的封面。
     """
-    # 封面成品，以及它是视频时所选画面的时间点。
-    covers: dict[str, tuple[Artifact, int | None]] = {}
+    covers: dict[str, MediaRead] = {}
     if not workflows:
         return {}
     public = (
@@ -138,16 +137,20 @@ def workflow_covers(
     pinned = public.where(Work.id == Workflow.cover_work_id).scalar_subquery()
     latest = public.order_by(Work.created_at.desc(), Work.id.desc()).limit(1).scalar_subquery()
     # 每个工作流只返回一个成品；最新公开作品可沿复合索引取首项，不展开历史作品。
-    # 封面跟随那件作品自己的封面，包括作者为视频选定的画面。
+    # 封面跟随那件作品自己的图片或视频画面。
     chosen = aliased(Work)
-    for workflow_id, artifact, frame_ms in db.execute(
-        select(Workflow.id, Artifact, chosen.cover_frame_ms)
+    picture = aliased(MediaObject)
+    for workflow_id, work_id, artifact, frame_ms, image in db.execute(
+        select(Workflow.id, chosen.id, Artifact, chosen.cover_frame_ms, picture)
         .select_from(Workflow)
         .join(chosen, chosen.id == func.coalesce(pinned, latest))
         .join(Artifact, Artifact.id == chosen.cover_artifact_id)
+        .outerjoin(picture, picture.sha256 == chosen.cover_image_sha256)
         .where(Workflow.id.in_([workflow.id for workflow in workflows]))
     ).tuples():
-        covers[workflow_id] = (artifact, frame_ms)
+        covers[workflow_id] = cover_image_read("works", work_id, image) or artifact_media(
+            artifact, frame_ms
+        )
     private_ids = [
         workflow.id
         for workflow in workflows
@@ -188,11 +191,8 @@ def workflow_covers(
             .join(Artifact, Artifact.id == private)
             .where(Workflow.id.in_(private_ids))
         ).tuples():
-            covers[workflow_id] = (artifact, None)
-    return {
-        workflow_id: artifact_media(artifact, frame_ms)
-        for workflow_id, (artifact, frame_ms) in covers.items()
-    }
+            covers[workflow_id] = artifact_media(artifact)
+    return covers
 
 
 def workflow_stats(db: Session, workflows: Sequence[Workflow]) -> dict[str, tuple[int, int]]:
@@ -235,6 +235,7 @@ def workflow_read(
         id=workflow.id,
         name=workflow.name,
         author=workflow.owner.username,
+        author_profile=AuthorRead.from_user(workflow.owner),
         owner=workflow.owner_id,
         category=workflow.category,
         published=workflow.deleted_at is None and workflow.published and version.published,

@@ -11,11 +11,14 @@ import { Button, DropdownMenu, IconButton, Input, Logo, Toast, Tooltip } from '@
 import { CardActions } from '../components/card-actions';
 import { Notify } from '../components/notify';
 import type { NoticeAction } from '../components/notify';
+import { ProfileAvatar } from '../components/profile-avatar';
 import { AccountDialog } from '../features/auth/account-dialog';
+import type { AccountSection } from '../features/auth/account-dialog';
 import { EmailConfirmDialog } from '../features/auth/email-confirm-dialog';
 import { LoginDialog } from '../features/auth/login-dialog';
 import type { RequireAuth } from '../features/auth/login-dialog';
 import { AppRoutes } from './app-routes';
+import { ThemeToggle } from './theme-toggle';
 import { useWorkspace } from './use-workspace';
 import { workflowOverlayState, workflowPath, workflowRouteState } from './workflow-route';
 import type { Workflow, WorkflowFilters } from '../domain/types';
@@ -36,6 +39,7 @@ function hasOpenDialog() {
 
 export function App() {
   const { state, workspace } = useWorkspace();
+  const displayName = state.nickname ?? state.user ?? '';
   const queries = useQueryClient();
   const location = useLocation();
   const { key: locationKey, pathname } = location;
@@ -74,7 +78,11 @@ export function App() {
     );
   }
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-  const [accountOpen, setAccountOpen] = useState(false);
+  const [account, setAccount] = useState<{ section: AccountSection; open: boolean }>({
+    section: 'settings',
+    open: false,
+  });
+  const setAccountOpen = (open: boolean) => setAccount((previous) => ({ ...previous, open }));
   const [login, setLogin] = useState<{
     locationKey: string;
     action?: () => void | Promise<void>;
@@ -205,7 +213,7 @@ export function App() {
   }, [focusSearch]);
   if (login && login.locationKey !== locationKey) setLogin(null);
   // 会话在别处失效时关掉账号设置，下次登录不会自己弹出来。
-  if (accountOpen && !state.user) setAccountOpen(false);
+  if (account.open && !state.user) setAccountOpen(false);
   return (
     <Tooltip.Provider delayDuration={400}>
       <Toast.Provider duration={2600}>
@@ -307,6 +315,7 @@ export function App() {
                   >
                     <MagnifyingGlassIcon />
                   </IconButton>
+                  <ThemeToggle />
                   {state.user ? (
                     <DropdownMenu.Root>
                       <DropdownMenu.Trigger asChild>
@@ -314,12 +323,10 @@ export function App() {
                           ref={accountRef}
                           className="account-button"
                           variant="ghost"
-                          aria-label={`账户 ${state.user}`}
+                          aria-label={`账户 ${displayName}`}
                         >
-                          <span className="avatar-small">
-                            {state.user.slice(0, 1).toUpperCase()}
-                          </span>
-                          <span>{state.user}</span>
+                          <ProfileAvatar name={displayName} src={state.avatarUrl} />
+                          <span>{displayName}</span>
                           <ChevronDownIcon />
                         </Button>
                       </DropdownMenu.Trigger>
@@ -333,7 +340,13 @@ export function App() {
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             className="ui-menu-item"
-                            onSelect={() => setAccountOpen(true)}
+                            onSelect={() => setAccount({ section: 'profile', open: true })}
+                          >
+                            个人资料
+                          </DropdownMenu.Item>
+                          <DropdownMenu.Item
+                            className="ui-menu-item"
+                            onSelect={() => setAccount({ section: 'settings', open: true })}
                           >
                             账号设置
                           </DropdownMenu.Item>
@@ -415,7 +428,9 @@ export function App() {
             )}
             {state.user && (
               <AccountDialog
-                open={accountOpen}
+                key={state.userId}
+                section={account.section}
+                open={account.open}
                 onOpenChange={setAccountOpen}
                 restoreFocus={() => accountRef.current?.focus()}
                 onDeleted={() => {

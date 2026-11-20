@@ -1,10 +1,11 @@
-from fastapi import APIRouter, HTTPException, Query, Response
+from fastapi import APIRouter, Query, Request, Response
+from fastapi.concurrency import run_in_threadpool
 from sqlalchemy import select, tuple_
 
 from comfyshop_api.models import Status, Artifact, Execution, Task
 from comfyshop_api.pagination import decode_cursor, split_page
 from comfyshop_api.schemas import (
-    ExecutionCoverUpdate,
+    CoverUpdate,
     ExecutionPage,
     ExecutionRead,
     ReplayRead,
@@ -13,13 +14,13 @@ from comfyshop_api.security import Config, CurrentUser, DB, Writer
 from comfyshop_api.services.assets import ensure_quota_for_restore
 from comfyshop_api.services.artifacts import (
     delete_result_artifacts,
-    lock_execution_media,
     restore_result_artifacts,
 )
-from comfyshop_media.renditions import cover_frame
-from comfyshop_api.services.media_records import media_source
+from comfyshop_api.services.covers import readable_execution_cover, update_execution_cover
 from comfyshop_api.services.executions import execution_reads, owned_execution
+from comfyshop_api.services.media_responses import THUMBNAIL_RESPONSES, thumbnail_response
 from comfyshop_api.services.workflows import replay_workflow_read
+from comfyshop_media.renditions import MAX_THUMBNAIL_SIZE
 
 router = APIRouter(prefix="/executions", tags=["executions"])
 
@@ -29,6 +30,7 @@ def list_executions(
     db: DB,
     user: CurrentUser,
     workflow_id: str | None = None,
+    version_id: str | None = None,
     task_id: str | None = None,
     cursor: str | None = Query(default=None, max_length=512),
     limit: int = Query(default=24, ge=1, le=100),
@@ -47,6 +49,8 @@ def list_executions(
     )
     if workflow_id:
         query = query.where(Task.workflow_id == workflow_id)
+    if version_id:
+        query = query.where(Task.version_id == version_id)
     if task_id:
         query = query.where(Task.id == task_id)
     position = decode_cursor(cursor, 2)
@@ -85,30 +89,31 @@ def restore_execution_artifacts(
     return execution_reads(db, [(execution, task)])[0]
 
 
-# 指定结果分组的封面。所选成品须属于这次成功执行且未被删除。封面是视频时可用
-# `frame_ms` 指定取哪一刻的画面，不传则用首帧；时间超出视频长度返回 422。
 @router.put("/{execution_id}/cover", response_model=ExecutionRead)
 def set_execution_cover(
-    execution_id: str, body: ExecutionCoverUpdate, db: DB, user: Writer, config: Config
-):
-    execution, task = owned_execution(db, execution_id, user.id)
-    chosen = select(Artifact).where(
-        Artifact.id == body.artifact_id,
-        Artifact.execution_id == execution.id,
-        Artifact.visible(),
-    )
-    artifact = db.scalar(chosen)
-    if execution.status != Status.SUCCEEDED or not artifact:
-        raise HTTPException(404, "成品不存在")
-    # 截取画面可能要几秒，在取得写锁之前完成。
-    frame_ms = cover_frame(media_source(artifact.media), config, body.frame_ms)
-    lock_execution_media(db, execution.id)
-    if not db.scalar(chosen.execution_options(populate_existing=True)):
-        raise HTTPException(404, "成品不存在")
-    execution.cover_artifact_id = artifact.id
-    execution.cover_frame_ms = frame_ms
+    execution_id: str, body: CoverUpdate, db: DB, user: Writer, config: Config
+) -> ExecutionRead:
+    execution, task = update_execution_cover(db, execution_id, user.id, body, config)
     db.commit()
     return execution_reads(db, [(execution, task)])[0]
+
+
+@router.get(
+    "/{execution_id}/cover/{sha256}/thumbnail",
+    response_class=Response,
+    responses=THUMBNAIL_RESPONSES,
+)
+async def execution_cover_thumbnail(
+    execution_id: str,
+    sha256: str,
+    request: Request,
+    db: DB,
+    user: CurrentUser,
+    config: Config,
+    size: int | None = Query(default=None, ge=1, le=MAX_THUMBNAIL_SIZE),
+) -> Response:
+    media = await run_in_threadpool(readable_execution_cover, db, execution_id, user.id, sha256)
+    return await thumbnail_response(request, media, config, size)
 
 
 @router.get("/{execution_id}/replay", response_model=ReplayRead)

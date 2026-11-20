@@ -17,3 +17,28 @@ def test_description_author_filter_and_favorite_count(authenticated, graph):
     assert mine("owner") == [workflow["id"]] and mine("someone-else") == []
     cleared = client.patch(f"/api/v1/workflows/{workflow['id']}", json={"description": ""})
     assert cleared.json()["description"] == ""
+
+
+def test_official_categories_are_saved_and_filtered(authenticated, graph):
+    client = authenticated
+    categories = ("image", "image_tool", "video", "video_tool", "audio", "3d", "vector", "llm")
+    workflow_ids = {}
+    for category in categories:
+        response = client.post(
+            "/api/v1/workflows", json={"name": category, "category": category, "graph": graph}
+        )
+        assert response.status_code == 201, response.text
+        assert response.json()["category"] == category
+        workflow_ids[category] = response.json()["id"]
+
+    def filtered(category):
+        response = client.get("/api/v1/workflows", params={"scope": "mine", "category": category})
+        assert response.status_code == 200, response.text
+        return {item["id"] for item in response.json()["items"]}
+
+    for category, workflow_id in workflow_ids.items():
+        assert filtered(category) == {workflow_id}
+    assert filtered("tool") == {workflow_ids["image_tool"], workflow_ids["video_tool"]}
+    revised = client.patch(f"/api/v1/workflows/{workflow_ids['image']}", json={"category": "llm"})
+    assert revised.status_code == 200, revised.text
+    assert filtered("llm") == {workflow_ids["image"], workflow_ids["llm"]}

@@ -16,7 +16,7 @@ from comfyshop_api.models import (
 )
 from comfyshop_api.schemas import ExecutionRead, JobSeed
 from comfyshop_api.services.inputs import plan_execution_seeds, seed_fields
-from comfyshop_api.services.media_records import artifact_media
+from comfyshop_api.services.media_records import artifact_media, cover_image_read, preferred_cover
 
 
 def create_executions(db: Session, task: Task) -> None:
@@ -93,14 +93,6 @@ def owned_execution(db: Session, execution_id: str, user_id: str) -> tuple[Execu
     return record[0], record[1]
 
 
-def _preferred_cover(artifacts: list[Artifact]) -> Artifact:
-    """从排序后的非空成品列表选封面，优先取第一张图片。"""
-    return next(
-        (artifact for artifact in artifacts if artifact.media.content_type.startswith("image/")),
-        artifacts[0],
-    )
-
-
 def execution_reads(
     db: Session, records: Sequence[tuple[Execution, Task] | Row[tuple[Execution, Task]]]
 ) -> list[ExecutionRead]:
@@ -120,7 +112,7 @@ def execution_reads(
         # 选定的画面只属于用户指定的那份封面；它被删除后改用的封面从首帧开始。
         frame_ms = execution.cover_frame_ms if cover else None
         if cover is None and artifacts:
-            cover = _preferred_cover(artifacts)
+            cover = preferred_cover(artifacts)
         result.append(
             ExecutionRead(
                 id=execution.id,
@@ -134,9 +126,15 @@ def execution_reads(
                 input_values=execution.input_values,
                 cover_artifact_id=cover.id if cover else None,
                 cover_frame_ms=frame_ms,
+                cover_image=cover_image_read("executions", execution.id, execution.cover_image)
+                if artifacts
+                else None,
                 media=artifact_media(cover, frame_ms) if cover else None,
                 image_count=sum(a.media.content_type.startswith("image/") for a in artifacts),
                 video_count=sum(a.media.content_type.startswith("video/") for a in artifacts),
+                audio_count=sum(a.media.content_type.startswith("audio/") for a in artifacts),
+                model_count=sum(a.media.content_type == "model/gltf-binary" for a in artifacts),
+                artifact_count=len(artifacts),
                 created=execution.created_at,
             )
         )

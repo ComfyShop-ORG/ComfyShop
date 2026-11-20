@@ -126,3 +126,19 @@ def test_a_proxy_page_while_waiting_does_not_end_the_link(config_file):
         )
     )
     assert json.loads(config_file.read_text())["apiKey"] == "cs_key"
+
+
+def test_reconnection_conflict_is_shown_in_the_worker_window(config_file):
+    detail = "请先停止原工作机，等它离线且空闲后重新连接"
+    transport, _ = platform([httpx.Response(409, json={"detail": detail})])
+    with pytest.raises(LinkError, match=detail):
+        asyncio.run(
+            link_machine(
+                "http://platform.test",
+                config_file,
+                echo=lambda _line: None,
+                open_browser=lambda _url: True,
+                transport=transport,
+            )
+        )
+    assert not config_file.exists()

@@ -1,9 +1,20 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0b0b0b" />
+    <meta name="color-scheme" content="dark" />
+    <script>
+      // 在样式和应用加载前恢复外观。
+      try {
+        if (localStorage.getItem('comfyshop.theme') === 'light') {
+          document.documentElement.dataset.theme = 'light';
+          document.querySelector('meta[name="color-scheme"]').content = 'light';
+        }
+      } catch {
+        // 浏览器禁止访问存储时使用默认外观。
+      }
+    </script>
     <meta name="description" content="ComfyShop 工作流与创作空间" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>ComfyShop</title>

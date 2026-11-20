@@ -3,7 +3,7 @@ import { createContext, useContext } from 'react';
 import { queryOptions, useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ApiError } from '@comfyshop/api-client';
 import type { ApiClient, AuthSession, WorkflowCreate, TaskCreate } from '@comfyshop/api-client';
-import type { WorkflowFilters } from '../domain/types';
+import type { Category, WorkflowFilters } from '../domain/types';
 import {
   executionHistoryKey,
   taskActivityOptions,
@@ -26,6 +26,17 @@ function useSession() {
     queryFn: ({ signal }) => api.session(signal),
     retry: false,
     refetchOnWindowFocus: true,
+  });
+}
+
+export function useAuthor(username: string) {
+  const api = useApi();
+  const session = useSession();
+  return useQuery({
+    queryKey: ['authors', session.data?.user?.id ?? null, username],
+    enabled: !!username && !session.isPending,
+    queryFn: ({ signal }) => api.author(username, signal),
+    retry: (count, error) => !(error instanceof ApiError && error.status === 404) && count < 2,
   });
 }
 
@@ -56,30 +67,35 @@ export function useWorkflowPages(filters?: WorkflowFilters) {
   return { pages, resetKey: identity.join(':') };
 }
 
-export function workflowDetailOptions(api: ApiClient, userId: string | null, workflowId: string) {
+export function workflowDetailOptions(
+  api: ApiClient,
+  userId: string | null,
+  workflowId: string,
+  versionId?: string,
+) {
   return queryOptions({
-    queryKey: ['workflows', 'detail', userId, workflowId],
-    queryFn: ({ signal }) => api.workflow(workflowId, signal),
+    queryKey: ['workflows', 'detail', userId, workflowId, ...(versionId ? [versionId] : [])],
+    queryFn: ({ signal }) => api.workflow(workflowId, signal, versionId),
     retry: (count, error) => !(error instanceof ApiError && error.status === 404) && count < 2,
   });
 }
 
-export function useWorkflowDetail(workflowId: string) {
+export function useWorkflowDetail(workflowId: string, versionId?: string) {
   const api = useApi();
   const session = useSession();
   return useQuery({
-    ...workflowDetailOptions(api, session.data?.user?.id ?? null, workflowId),
+    ...workflowDetailOptions(api, session.data?.user?.id ?? null, workflowId, versionId),
     enabled: !!workflowId && !session.isPending,
   });
 }
 
-export function useTasks(workflowId?: string, state?: TaskFilter) {
+export function useTasks(workflowId?: string, state?: TaskFilter, versionId?: string) {
   const api = useApi();
   const userId = useSession().data?.user?.id;
   const queries = useQueryClient();
-  const history = useInfiniteQuery(taskHistoryOptions(api, userId, workflowId, state));
+  const history = useInfiniteQuery(taskHistoryOptions(api, userId, workflowId, state, versionId));
   const activity = useQuery(
-    taskActivityOptions(api, queries, userId, workflowId, undefined, state),
+    taskActivityOptions(api, queries, userId, { workflowId, state, versionId }),
   );
   const items =
     history.data?.pages.flatMap((page) =>
@@ -107,17 +123,22 @@ export function useMachines() {
   });
 }
 
-export function useExecutions(workflowId?: string, taskId?: string) {
+export function useExecutions(workflowId?: string, taskId?: string, versionId?: string) {
   const api = useApi();
   const userId = useSession().data?.user?.id;
   const queries = useQueryClient();
-  const activity = useQuery(taskActivityOptions(api, queries, userId, workflowId, taskId));
+  const activity = useQuery(
+    taskActivityOptions(api, queries, userId, { workflowId, taskId, versionId }),
+  );
   return useInfiniteQuery({
-    queryKey: executionHistoryKey(userId, workflowId, taskId),
+    queryKey: executionHistoryKey(userId, workflowId, taskId, versionId),
     enabled: !!userId && !activity.isPending,
     initialPageParam: null as string | null,
     queryFn: ({ pageParam, signal }) =>
-      api.executions({ workflow_id: workflowId, task_id: taskId, cursor: pageParam }, signal),
+      api.executions(
+        { workflow_id: workflowId, version_id: versionId, task_id: taskId, cursor: pageParam },
+        signal,
+      ),
     getNextPageParam: (page) => page.nextCursor ?? undefined,
   });
 }
@@ -126,15 +147,28 @@ export function useWorks(
   workflowId?: string,
   scope: 'public' | 'mine' = 'public',
   author?: string,
+  category: Category = 'all',
+  versionId?: string,
 ) {
   const api = useApi();
   const session = useSession();
   return useInfiniteQuery({
-    queryKey: ['works', session.data?.user?.id, workflowId, scope, author],
+    queryKey: ['works', session.data?.user?.id, workflowId, scope, author, category, versionId],
     enabled: scope === 'public' || !!session.data?.user,
     initialPageParam: null as string | null,
     queryFn: ({ pageParam, signal }) =>
-      api.works({ workflow_id: workflowId, scope, author, cursor: pageParam }, signal),
+      api.works(
+        {
+          workflow_id: workflowId,
+          version_id: versionId,
+          current_version_only: scope === 'public' && !versionId ? true : undefined,
+          scope,
+          author,
+          category,
+          cursor: pageParam,
+        },
+        signal,
+      ),
     getNextPageParam: (page) => page.nextCursor ?? undefined,
   });
 }
@@ -155,6 +189,8 @@ export function useWorkspace() {
     api,
     state: {
       user: user?.username ?? null,
+      nickname: user?.nickname ?? null,
+      avatarUrl: user?.avatarUrl ?? null,
       email: user?.email ?? null,
       /** 已填写、还在等邮件确认的邮箱。 */
       pendingEmail: user?.pendingEmail ?? null,
@@ -180,11 +216,36 @@ export function useWorkspace() {
         queries.removeQueries({ predicate: (query) => query.queryKey[0] !== 'session' });
         queries.setQueryData(['session'], { user: null, csrfToken: null });
       },
+      updateProfile: async (change: { nickname: string | null } | { avatar: File | null }) => {
+        const saved =
+          'nickname' in change
+            ? await api.updateNickname(change.nickname)
+            : change.avatar
+              ? await api.uploadAvatar(change.avatar)
+              : await api.removeAvatar();
+        const fields =
+          'nickname' in change ? { nickname: saved.nickname } : { avatarUrl: saved.avatarUrl };
+        queries.setQueryData<AuthSession>(['session'], (session) =>
+          session?.user?.id === saved.id
+            ? { ...session, user: { ...session.user, ...fields } }
+            : session,
+        );
+        void Promise.all(
+          ['session', 'authors', 'workflows', 'works', 'workflow-route-replay'].map((key) =>
+            queries.invalidateQueries({ queryKey: [key] }),
+          ),
+        );
+      },
       /** 绑定或解除邮箱，并更新当前会话里的账号信息。 */
       updateEmail: async (email: string | null, password: string) => {
         const updated = await api.updateEmail(email, password);
         queries.setQueryData<AuthSession>(['session'], (session) =>
-          session ? { ...session, user: updated } : session,
+          session?.user?.id === updated.id
+            ? {
+                ...session,
+                user: { ...session.user, email: updated.email, pendingEmail: updated.pendingEmail },
+              }
+            : session,
         );
       },
       /** 注销账号并清空本机缓存的个人数据。 */

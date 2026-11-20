@@ -287,6 +287,7 @@ def delete_account(db: Session, user: User, placeholder_hash: str) -> None:
     db.execute(delete(LoginSession).where(LoginSession.user_id == user.id))
     user.username = DELETED_NAME
     user.username_key = f"deleted:{user.id}"
+    user.nickname = user.avatar_digest = user.avatar_image = None
     # 占位哈希由调用方在锁外算好，原密码随即失效。
     user.password_hash = placeholder_hash
     user.email = user.email_key = None

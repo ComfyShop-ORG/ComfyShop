@@ -8,6 +8,7 @@ import type { ReplayAction } from '../domain/types';
 import { ArtifactDisplay, AssetGallery, useArtifactPages } from './artifact-collection';
 import { BrowseDialog } from './browse-dialog-content';
 import { CollectionStatus } from './collection-status';
+import { CoverDialog } from './cover-dialog';
 import { DeleteButton } from './delete-button';
 import { durationLabel } from './generation-stage';
 import { ExecutionPublicationBar } from './execution-publication-bar';
@@ -27,6 +28,8 @@ export const countLabel = (execution: Execution) =>
   [
     execution.imageCount ? `${execution.imageCount} 张图片` : '',
     execution.videoCount ? `${execution.videoCount} 个视频` : '',
+    execution.audioCount ? `${execution.audioCount} 份音频` : '',
+    execution.modelCount ? `${execution.modelCount} 个 3D 模型` : '',
   ]
     .filter(Boolean)
     .join(' · ');
@@ -51,6 +54,8 @@ export function ExecutionDialog({
   const [execution, setExecution] = useState(initialExecution);
   const [tab, setTab] = useState('artifacts');
   const [publishedWork, setPublishedWork] = useState<Work>();
+  const [editingCoverId, setEditingCoverId] = useState<string>();
+  const coverAction = useRef<HTMLButtonElement>(null);
   // 只有一份成品时在本弹框内放大，不再叠加一层预览。
   const [expanded, setExpanded] = useState(false);
   const query = useArtifactPages({ executionId: execution.id });
@@ -75,7 +80,8 @@ export function ExecutionDialog({
   }
   const feed = collectionFeed(query);
   const { items } = feed;
-  const artifactCount = execution.imageCount + execution.videoCount;
+  const artifactCount = execution.artifactCount;
+  const editingCover = editingCoverId === execution.id;
   const single = artifactCount === 1 ? items[0] : null;
   // 挂在当前可见的发布入口上：未选择时是“发布作品”，选择中是“下一步”。
   const publicationAction = useRef<HTMLButtonElement>(null);
@@ -94,7 +100,7 @@ export function ExecutionDialog({
     pages,
     execution.id,
     select,
-    busy || selecting || !!publication.draft || !!selected,
+    busy || selecting || editingCover || !!publication.draft || !!selected,
   );
   // 多份成品里点开的那一份在本弹框内放大，方向键和两侧箭头改为在成品之间切换。
   const assetNavigation = useCollectionNavigation(
@@ -104,7 +110,7 @@ export function ExecutionDialog({
       clearError();
       selectAsset(asset);
     },
-    busy,
+    busy || editingCover,
   );
   function leaveAsset() {
     closeAsset();
@@ -127,7 +133,7 @@ export function ExecutionDialog({
   }
   /** 单份成品的操作。`positionMs` 是视频当前的播放位置，用来把这一刻的画面选作组封面。 */
   function assetActions(asset: Artifact, positionMs: number) {
-    const isCover = asset.id === execution.coverArtifactId;
+    const isCover = !execution.coverImage && asset.id === execution.coverArtifactId;
     const chosenFrame = isCover ? (execution.coverFrameMs ?? 0) : null;
     return (
       <>
@@ -138,7 +144,12 @@ export function ExecutionDialog({
               disabled={busy || chosenFrame === positionMs}
               onClick={() =>
                 void action(async () => {
-                  setExecution(await api.setExecutionCover(execution.id, asset.id, positionMs));
+                  setExecution(
+                    await api.setExecutionCover(execution.id, {
+                      artifactId: asset.id,
+                      frameMs: positionMs,
+                    }),
+                  );
                   await refresh('executions');
                 })
               }
@@ -152,18 +163,19 @@ export function ExecutionDialog({
             )}
           </>
         ) : (
-          artifactCount > 1 && (
+          asset.media.kind === 'image' &&
+          (artifactCount > 1 || !!execution.coverImage) && (
             <Button
               size="small"
-              disabled={busy || asset.id === execution.coverArtifactId}
+              disabled={busy || isCover}
               onClick={() =>
                 void action(async () => {
-                  setExecution(await api.setExecutionCover(execution.id, asset.id));
+                  setExecution(await api.setExecutionCover(execution.id, { artifactId: asset.id }));
                   await refresh('executions');
                 })
               }
             >
-              {asset.id === execution.coverArtifactId ? '当前组封面' : '设为组封面'}
+              {isCover ? '当前组封面' : '设为组封面'}
             </Button>
           )
         )}
@@ -182,12 +194,12 @@ export function ExecutionDialog({
           disabled={busy || selecting || !!navigation?.pending}
           onDelete={async () => {
             const next = await api.deleteArtifact(asset.id);
-            if (next.imageCount + next.videoCount > 0) await refresh();
+            if (next.artifactCount > 0) await refresh();
             return next;
           }}
           onDeleted={(next) => {
             clearError();
-            if (next.imageCount + next.videoCount === 0) {
+            if (next.artifactCount === 0) {
               onClose();
               void refresh();
             } else {
@@ -220,6 +232,16 @@ export function ExecutionDialog({
       restoreFocus={restoreFocus}
       actions={
         <>
+          {!selecting && artifactCount > 0 && (
+            <Button
+              ref={coverAction}
+              size="small"
+              disabled={busy || navigation?.pending}
+              onClick={() => setEditingCoverId(execution.id)}
+            >
+              更换封面
+            </Button>
+          )}
           {onReplay && (
             <Button
               size="small"
@@ -257,7 +279,7 @@ export function ExecutionDialog({
                   await refresh();
                 },
               })}
-              description="将隐藏本次执行剩余的所有图片和视频，原文件保留在平台存储。"
+              description="将隐藏本次执行剩余的所有成品，原文件保留在平台存储。"
               disabled={busy || navigation?.pending}
               onDelete={() => api.deleteExecutionArtifacts(execution.id)}
               onDeleted={() => {
@@ -363,10 +385,25 @@ export function ExecutionDialog({
           {error}
         </p>
       )}
+      {editingCover && (
+        <CoverDialog
+          key={`cover:${execution.id}`}
+          title="更换结果封面"
+          record={execution}
+          artifacts={query}
+          restoreFocus={() => coverAction.current?.focus({ preventScroll: true })}
+          onClose={() => setEditingCoverId(undefined)}
+          onSave={async (choice) => {
+            setExecution(await api.setExecutionCover(execution.id, choice));
+            await refresh('executions');
+          }}
+        />
+      )}
       {publication.draft && (
         <PublishWorkDialog
           execution={execution}
           assets={publication.draft}
+          outputs={query}
           returnToSelection={selecting}
           restoreFocus={focusPublicationAction}
           onClose={publication.closeDraft}

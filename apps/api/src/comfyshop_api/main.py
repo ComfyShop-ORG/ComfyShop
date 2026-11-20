@@ -16,6 +16,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 
 from comfyshop_api.api.auth import router as auth_router
+from comfyshop_api.api.authors import router as authors_router
 from comfyshop_api.api.health import router as health_router
 from comfyshop_api.api.tasks import router as tasks_router
 from comfyshop_api.api.workflows import router as workflows_router
@@ -130,6 +131,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.allowed_hosts)
     app.include_router(health_router, prefix="/api/v1")
     app.include_router(auth_router, prefix="/api/v1")
+    app.include_router(authors_router, prefix="/api/v1")
     app.include_router(workflows_router, prefix="/api/v1")
     app.include_router(tasks_router, prefix="/api/v1")
     app.include_router(machines_router, prefix="/api/v1")
@@ -148,6 +150,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             detail = "密码需为 8–128 位"
         elif "username" in fields:
             detail = "账号格式无效"
+        elif "nickname" in fields:
+            detail = "昵称需为单行，最多 32 个字符"
         return JSONResponse(status_code=422, content={"detail": detail})
 
     @app.exception_handler(StorageError)

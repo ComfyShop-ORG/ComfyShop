@@ -31,7 +31,7 @@ from comfyshop_api.services.assets import ensure_quota_for_restore, ensure_quota
 from comfyshop_api.services.inputs import compile_inputs
 from comfyshop_api.services.media_records import artifact_media
 from comfyshop_api.services.workflows import readable_version, readable_workflow
-from comfyshop_api.services.works import readable_work
+from comfyshop_api.services.works import readable_work, reuse_work_inputs
 
 
 def task_covers(db: Session, tasks: list[Task]) -> dict[str, MediaRead]:
@@ -112,7 +112,7 @@ def _submitted_before(db: Session, user_id: str, key: str, request_hash: str) ->
 
 
 def submit_task(db: Session, user: User, body: TaskCreate, asset_quota: int) -> tuple[Task, bool]:
-    """校验版本、重跑来源、工作机和输入后写入排队任务，返回任务及是否新建。
+    """在调用方锁定的账号下校验输入并写入排队任务，返回任务及是否新建。
 
     同一账号重复提交相同幂等键和参数时返回原任务。参数冲突或没有可用工作机返回
     HTTP 409，重跑来源与版本不匹配或图不是 API 格式返回 422。
@@ -142,6 +142,7 @@ def submit_task(db: Session, user: User, body: TaskCreate, asset_quota: int) -> 
         _, source_task = owned_execution(db, body.source_execution_id, user.id)
         if source_task.workflow_id != workflow.id or source_task.version_id != version.id:
             raise HTTPException(422, "重跑来源与工作流版本不匹配")
+    source = None
     if body.source_work_id:
         source = readable_work(db, body.source_work_id, user.id)
         if source.workflow_id != workflow.id or source.version_id != version.id:
@@ -153,11 +154,17 @@ def submit_task(db: Session, user: User, body: TaskCreate, asset_quota: int) -> 
     machine = db.get(Machine, machine_id) if machine_id else None
     if not machine or machine.owner_id != user.id or machine.revoked_at:
         raise HTTPException(409, "请选择可用的工作机")
-    input_graph, input_values, input_schema, assets = compile_inputs(
-        db, version, machine, body.input_values, body.input_schema_hash
+    values, includes_new = (
+        reuse_work_inputs(db, source, user.id, body.input_values)
+        if source is not None
+        else (body.input_values, False)
     )
-    # 引用已释放的素材会让它重新计入配额。
-    ensure_quota_for_reuse(db, user.id, [asset.asset_id for asset in assets], asset_quota)
+    input_graph, input_values, input_schema, assets = compile_inputs(
+        db, version, machine, values, body.input_schema_hash
+    )
+    ensure_quota_for_reuse(
+        db, user.id, [asset.asset_id for asset in assets], asset_quota, includes_new=includes_new
+    )
     task = Task(
         owner_id=user.id,
         workflow_id=workflow.id,

@@ -11,9 +11,18 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from comfyshop_api.models import Asset, Machine, TaskAsset, WorkflowVersion
+from comfyshop_api.services.media_records import media_kind
+from comfyshop_api.services.parameter_features import (
+    image_crops_for,
+    output_sizes_for,
+    parameter_presentation_for,
+    reference_timelines_for,
+    validate_reference_timelines,
+)
 from comfyshop_api.schemas import (
     AssetReference,
     InputValue,
+    MEDIA_INPUT_KINDS,
     NodeCatalog,
     NodeInput,
     ParameterSlider,
@@ -25,6 +34,7 @@ from comfyshop_api.schemas import (
 )
 
 MAX_SAFE_INTEGER = 2**53 - 1
+MAX_TEXT_INPUT_LENGTH = 65_536
 SEED_INPUT_NAMES = {"seed", "noise_seed"}
 
 LABELS = {
@@ -37,6 +47,8 @@ LABELS = {
     "video": "参考视频",
     "file": "参考视频",
     "video_path": "参考视频",
+    "audio": "参考音频",
+    "model_file": "参考模型",
     "seed": "随机种子",
     "noise_seed": "随机种子",
     "steps": "步数",
@@ -141,6 +153,38 @@ def _node_title(node: dict, definition: NodeCatalog) -> str:
     return str((meta.get("title") if isinstance(meta, dict) else None) or definition.title)
 
 
+def _reachable_graph(graph: dict, catalog: dict) -> dict:
+    """保守地从已知输出节点回溯依赖。目录不完整时，由 ComfyUI 确认执行范围。"""
+    if any(node["class_type"] not in catalog for node in graph.values()):
+        return graph
+    pending = []
+    for node_id, node in graph.items():
+        spec = catalog[node["class_type"]]
+        if spec.get("output_node", spec.get("outputNode", False)):
+            pending.append(node_id)
+    if not pending:
+        return graph
+
+    reachable = set()
+    while pending:
+        node_id = pending.pop()
+        if node_id in reachable:
+            continue
+        reachable.add(node_id)
+        for value in graph[node_id]["inputs"].values():
+            if (
+                isinstance(value, list)
+                and len(value) == 2
+                and isinstance(value[0], str)
+                and value[0] in graph
+                and type(value[1]) is int
+            ):
+                pending.append(value[0])
+    if len(reachable) == len(graph):
+        return graph
+    return {node_id: node for node_id, node in graph.items() if node_id in reachable}
+
+
 def _graph_fields(graph: dict, catalog: dict) -> tuple[list[WorkflowInput], list[str]]:
     """把图中可编辑的简单输入转成表单字段，同时收集缺少节点等问题。
 
@@ -167,7 +211,7 @@ def _graph_fields(graph: dict, catalog: dict) -> tuple[list[WorkflowInput], list
             except (TypeError, ValueError):
                 issues.append("无效的数值默认值：" + name)
                 continue
-            media = spec.kind in {"image", "video"}
+            media = spec.kind in MEDIA_INPUT_KINDS
             # 文本源节点上的文本字段按它接入的提示词输入归类。
             sourced = spec.kind == "string" and (
                 spec.multiline
@@ -237,13 +281,16 @@ def _apply_author_defaults(
     return original_defaults
 
 
-def _schema_hash(version: WorkflowVersion, machine: Machine, fields: list[WorkflowInput]) -> str:
-    """表单定义的指纹。图、节点目录或任一字段（含生效的默认值）变化都会改变它。"""
+def _schema_hash(
+    version: WorkflowVersion, graph: dict, fields: list[WorkflowInput], issues: list[str]
+) -> str:
+    """表单定义的指纹，绑定版本、执行节点和提交所需的有效字段。"""
     encoded = json.dumps(
         {
             "graph": version.graph_hash,
-            "catalog": machine.catalog_hash,
+            "nodes": list(graph),
             "fields": [f.model_dump() for f in fields],
+            "issues": issues,
         },
         sort_keys=True,
         separators=(",", ":"),
@@ -260,24 +307,39 @@ def form_for(
     缺少节点写入表单的 `issues`。界面 JSON 返回 HTTP 422，节点目录尚未同步返回 409。
     图中的连接与复杂值保留在图内，只有已识别的简单输入会出现在表单。
     """
+    form, graph = _form_and_graph(
+        version, machine, include_original_defaults=include_original_defaults
+    )
+    form.output_sizes = output_sizes_for(graph, form.fields)
+    form.reference_timelines = reference_timelines_for(graph, form.fields)
+    form.image_crops = image_crops_for(graph, form.fields)
+    form.parameter_presentation = parameter_presentation_for(graph, form.fields)
+    return form
+
+
+def _form_and_graph(
+    version: WorkflowVersion, machine: Machine, *, include_original_defaults: bool = False
+) -> tuple[WorkflowForm, dict]:
     if version.format != "api":
         raise HTTPException(422, "请从 ComfyUI 导出 API 格式的工作流")
     if not machine.catalog:
         raise HTTPException(409, "工作机尚未同步节点定义")
-    fields, issues = _graph_fields(version.graph, machine.catalog)
+    graph = _reachable_graph(version.graph, machine.catalog)
+    fields, issues = _graph_fields(graph, machine.catalog)
     layout = parameter_layout_for(version)
     original_defaults = _apply_author_defaults(
         fields, layout, keep_original=include_original_defaults
     )
-    return WorkflowForm(
+    form = WorkflowForm(
         version_id=version.id,
         machine_id=machine.id,
-        schema_hash=_schema_hash(version, machine, fields),
+        schema_hash=_schema_hash(version, graph, fields, issues),
         fields=fields,
         issues=issues,
         parameter_layout=layout,
         original_defaults=original_defaults,
     )
+    return form, graph
 
 
 def parameter_layout_for(version: WorkflowVersion) -> list[WorkflowParameterDisplay]:
@@ -348,7 +410,7 @@ def update_parameter_layout(
         field = fields.get(entry.field_id)
         if field is None or entry.field_id in seen:
             raise HTTPException(422, "参数有重复或已变化，请刷新后重试")
-        if entry.section == "hidden" and field.kind in {"image", "video"}:
+        if entry.section == "hidden" and field.kind in MEDIA_INPUT_KINDS:
             raise HTTPException(422, f"{field.label}需要上传，请放到可见区域")
         stored = previous.get(entry.field_id)
         if stored and "control" not in entry.model_fields_set:
@@ -373,6 +435,18 @@ def update_parameter_layout(
     return saved
 
 
+def _snap_float_noise(number: Decimal, origin: Decimal, step: Decimal, value: float) -> Decimal:
+    """仅消除浮点运算尾差，保留刻度之间的合法值。"""
+    try:
+        remainder = (number - origin) % step
+        if abs(remainder) > step / 2:
+            remainder -= step.copy_sign(remainder)
+        tolerance = min(4 * Decimal(str(math.ulp(value))), step / 1_000_000)
+        return number - remainder if abs(remainder) <= tolerance else number
+    except DecimalException:
+        return number
+
+
 def _check_number(
     field: WorkflowInput, number: Decimal, *, float_value: float | None = None
 ) -> Decimal:
@@ -380,18 +454,16 @@ def _check_number(
         raise ValueError()
     minimum = Decimal(field.minimum) if field.minimum is not None else None
     # 种子取范围内的任意整数，批量执行逐次加一，不受步长约束。
-    if field.step is not None and not _is_seed(field.kind, field.input_name):
-        step = Decimal(field.step)
-        if step > 0 and (remainder := (number - (minimum or 0)) % step):
-            if float_value is None:
-                raise ValueError()
-            if abs(remainder) > step / 2:
-                remainder -= step.copy_sign(remainder)
-            # Snap only binary floating-point noise, with a cap relative to the node's step.
-            tolerance = min(4 * Decimal(str(math.ulp(float_value))), step / 1_000_000)
-            if abs(remainder) > tolerance:
-                raise ValueError()
-            number -= remainder
+    if field.step is not None and (step := Decimal(field.step)) > 0:
+        origin = minimum if minimum is not None else Decimal(0)
+        if float_value is not None:
+            number = _snap_float_noise(number, origin, step, float_value)
+        elif (
+            field.kind == "integer"
+            and not _is_seed(field.kind, field.input_name)
+            and (number - origin) % step
+        ):
+            raise ValueError()
     if minimum is not None and number < minimum:
         raise ValueError()
     if field.maximum is not None and number > Decimal(field.maximum):
@@ -444,10 +516,16 @@ def _scalar_value(field: WorkflowInput, value: InputValue) -> ScalarInput:
             ) and value == choice:
                 return choice
         raise HTTPException(422, f"{field.label}的选项无效：当前工作机没有「{str(value)[:120]}」")
-    if field.kind in {"image", "video"}:
+    if field.kind in MEDIA_INPUT_KINDS:
         raise HTTPException(422, f"{field.label}需要在运行时提供素材")
-    if not isinstance(value, str) or len(value) > 8000:
-        raise HTTPException(422, f"{field.label}内容无效")
+    if not isinstance(value, str):
+        raise HTTPException(422, f"节点 {field.node_id} 的「{field.input_name}」必须是文本")
+    if len(value) > MAX_TEXT_INPUT_LENGTH:
+        raise HTTPException(
+            422,
+            f"节点 {field.node_id} 的「{field.input_name}」有 {len(value)} 个字符，"
+            f"最多允许 {MAX_TEXT_INPUT_LENGTH} 个字符",
+        )
     return value
 
 
@@ -525,7 +603,7 @@ def compile_inputs(
     依次返回图的副本、标准化输入、表单快照和待写入的素材绑定。
     定义变更或依赖有问题返回 HTTP 409，素材不可访问返回 404，输入无效返回 422。
     """
-    form = form_for(version, machine)
+    form, execution_graph = _form_and_graph(version, machine)
     if form.schema_hash != schema_hash:
         raise HTTPException(409, "工作机输入配置已更新，请刷新后重试")
     if form.issues:
@@ -533,18 +611,18 @@ def compile_inputs(
     by_id = {f.id: f for f in form.fields}
     if set(values) - by_id.keys():
         raise HTTPException(422, "参数不属于当前工作流")
-    graph = deepcopy(version.graph)
+    graph = deepcopy(execution_graph)
     normalized = {}
     assets = []
     for field in form.fields:
         value = values.get(field.id, field.default)
-        if field.kind in {"image", "video"}:
+        if field.kind in MEDIA_INPUT_KINDS:
             if not isinstance(value, AssetReference):
                 raise HTTPException(422, f"请上传{field.label}")
             asset = db.get(Asset, value.asset_id)
             if not asset or asset.owner_id != machine.owner_id:
                 raise HTTPException(404, "素材不存在")
-            if not asset.media.content_type.startswith(field.kind + "/"):
+            if media_kind(asset.media.content_type) != field.kind:
                 raise HTTPException(422, f"{field.label}的文件类型不匹配")
             assets.append(
                 TaskAsset(node_id=field.node_id, input_name=field.input_name, asset_id=asset.id)
@@ -555,10 +633,22 @@ def compile_inputs(
         compiled = _scalar_value(field, value)
         graph[field.node_id]["inputs"][field.input_name] = compiled
         normalized[field.id] = _encode_scalar(field, compiled)
+    validate_reference_timelines(graph, form.fields, normalized, form.parameter_layout)
     return (
         graph,
         normalized,
-        form.model_dump(exclude={"parameter_layout", "parameter_controls", "original_defaults"}),
+        form.model_dump(
+            exclude={
+                "parameter_layout",
+                "parameter_controls",
+                "parameter_presentation",
+                "original_defaults",
+                "shared_assets",
+                "output_sizes",
+                "reference_timelines",
+                "image_crops",
+            }
+        ),
         assets,
     )
 
@@ -567,8 +657,14 @@ def replay_defaults(form: WorkflowForm, values: dict) -> WorkflowForm:
     for field in form.fields:
         if field.id in values:
             value = values[field.id]
-            if field.kind in {"image", "video"} and value:
+            if field.kind in MEDIA_INPUT_KINDS:
+                # 旧目录可能把工作机文件名保存成普通选项。
+                if not isinstance(value, dict):
+                    continue
                 value = AssetReference.model_validate(value)
+            elif isinstance(value, dict):
+                # 当前工作机将旧素材字段定义为普通参数时，使用当前字段默认值。
+                continue
             elif field.kind == "integer" and type(value) in {int, str}:
                 try:
                     integer = int(value)

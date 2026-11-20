@@ -1,41 +1,52 @@
 /** 展示公共或个人作品，详情只加载该作品选中的成品。 */
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router';
 import type { Artifact, Work } from '@comfyshop/api-client';
-import { Button, Tabs } from '@comfyshop/ui';
+import { Button, Select, Tabs } from '@comfyshop/ui';
 import { useWorks, useWorkspace } from '../app/use-workspace';
 import type { ReplayAction } from '../domain/types';
+import { workflowCategoryFilters } from '../domain/workflow-categories';
 import type { RequireAuth } from '../features/auth/login-dialog';
 import { authorPath, workLink } from '../app/workflow-route';
 import { ArtifactCollection, useArtifactPages } from './artifact-collection';
 import { BrowseDialog } from './browse-dialog-content';
 import { CopyLink } from './copy-link';
+import { CoverDialog } from './cover-dialog';
 import { DeleteButton } from './delete-button';
 import { MediaCollection } from './media-grid';
 import { RecordedInputs } from './recorded-inputs';
+import { ProfileAvatar } from './profile-avatar';
 import type { CardView } from './media-grid';
 import { useAction } from './use-action';
 import { useCollectionNavigation, useCollectionSelection } from './use-collection-navigation';
 import type { CollectionPages } from './use-collection-navigation';
 
-const workCard = (work: Work): CardView => ({
-  label: `查看作品 ${work.title}`,
-  title: work.title,
-  media: work.media,
-  detail: (
-    <>
-      {work.author}
-      <span>
-        {work.assetCount} 份成品{!work.published && ' · 已取消公开'}
-      </span>
-    </>
-  ),
-});
+function workCard(work: Work): CardView {
+  const author = work.authorProfile.nickname ?? work.author;
+  return {
+    label: `查看作品 ${work.title}`,
+    title: work.title,
+    media: work.media,
+    coverImage: work.coverImage,
+    detail: (
+      <>
+        <ProfileAvatar name={author} src={work.authorProfile.avatarUrl} />
+        <span className="profile-name">{author}</span>
+        <span>
+          {work.assetCount} 份成品{!work.published && ' · 已取消公开'}
+        </span>
+      </>
+    ),
+  };
+}
 
 export function WorkCollection({
   workflowId,
+  versionId,
+  linkedWork,
+  onLinkedWorkClose,
   scope = 'public',
   author,
   scrollRoot,
@@ -45,6 +56,9 @@ export function WorkCollection({
   requireAuth,
 }: {
   workflowId?: string;
+  versionId?: string;
+  linkedWork?: Work;
+  onLinkedWorkClose?: () => void;
   scope?: 'public' | 'mine';
   /** 只看这位作者公开的作品，值为账号名。 */
   author?: string;
@@ -55,41 +69,49 @@ export function WorkCollection({
   replayAfterSignIn?: (source: { workId: string }) => void;
   requireAuth?: RequireAuth;
 }) {
-  const { api } = useWorkspace();
-  const query = useWorks(workflowId, scope, author);
+  const [params, setParams] = useSearchParams();
+  const category = workflowId
+    ? 'all'
+    : (workflowCategoryFilters.find(({ value }) => value === params.get('category'))?.value ??
+      'all');
+  const query = useWorks(workflowId, scope, author, category, versionId);
   const { selected, select, fallbackRef, open, close, restoreFocus } =
     useCollectionSelection<Work>();
-  // 作品链接是工作流地址加 `work` 参数。带着它打开工作流时直接展示这件作品。
-  const [params, setParams] = useSearchParams();
-  const linkedId = workflowId ? params.get('work') : null;
-  const linked = useQuery({
-    queryKey: ['works', 'linked', linkedId],
-    enabled: !!linkedId,
-    queryFn: ({ signal }) => api.work(linkedId!, signal),
-    retry: false,
-  });
-  const linkedWork = linked.data?.workflowId === workflowId ? linked.data : undefined;
   useEffect(() => {
     if (linkedWork) select(linkedWork);
   }, [linkedWork, select]);
   function closeWork() {
     close();
-    if (linkedId)
-      setParams(
-        (current) => {
-          current.delete('work');
-          return current;
-        },
-        { replace: true, state: null, preventScrollReset: true },
-      );
+    if (linkedWork) onLinkedWorkClose?.();
   }
   return (
     <>
+      {!workflowId && (
+        <div className="page-toolbar">
+          <Select
+            className="sort-select"
+            label="作品分类"
+            value={category}
+            options={workflowCategoryFilters}
+            onValueChange={(value) =>
+              setParams(
+                (current) => {
+                  const next = new URLSearchParams(current);
+                  if (value === 'all') next.delete('category');
+                  else next.set('category', value);
+                  return next;
+                },
+                { replace: true, preventScrollReset: true },
+              )
+            }
+          />
+        </div>
+      )}
       <div ref={fallbackRef} tabIndex={-1}>
         <MediaCollection
           query={query}
           label="作品"
-          resetKey={`${workflowId ?? 'all'}:${scope}:${author ?? ''}`}
+          resetKey={`${workflowId ?? 'all'}:${versionId ?? ''}:${scope}:${author ?? ''}:${category}`}
           scrollRoot={scrollRoot}
           fillSparse={!!scrollRoot}
           view={workCard}
@@ -143,8 +165,11 @@ function WorkDialog({
   const { api, state } = useWorkspace();
   const queries = useQueryClient();
   const [scrollRoot, setScrollRoot] = useState<HTMLDivElement | null>(null);
+  const [editingCoverId, setEditingCoverId] = useState<string>();
+  const coverAction = useRef<HTMLButtonElement>(null);
+  const editingCover = editingCoverId === work.id;
   const { busy, error, run } = useAction('操作失败', work.id);
-  const navigation = useCollectionNavigation(pages, work.id, select, busy);
+  const navigation = useCollectionNavigation(pages, work.id, select, busy || editingCover);
   const mine = work.owner === state.userId;
   // 作者可以把自己的公开作品指定为工作流封面。来源工作流不可读时不提供这个操作。
   const workflow = useQuery({
@@ -154,6 +179,7 @@ function WorkDialog({
     retry: false,
   });
   const pinned = workflow.data?.coverWorkId === work.id;
+  const usesWorkCover = work.published && workflow.data?.owner === state.userId;
   const shared = Object.keys(work.inputValues).length > 0;
   const [tab, setTab] = useState('artifacts');
   // 成品在本弹框内放大：一份成品记 on，多份成品记当前放大的那一份。换作品后失效。
@@ -169,7 +195,7 @@ function WorkDialog({
     artifacts,
     current.asset?.id ?? '',
     focusAsset,
-    busy,
+    busy || editingCover,
   );
   return (
     <BrowseDialog
@@ -210,7 +236,17 @@ function WorkDialog({
               载入参数
             </Button>
           )}
-          {mine && work.published && workflow.data?.owner === state.userId && (
+          {mine && (
+            <Button
+              ref={coverAction}
+              size="small"
+              disabled={busy || navigation?.pending}
+              onClick={() => setEditingCoverId(work.id)}
+            >
+              更换封面
+            </Button>
+          )}
+          {mine && usesWorkCover && (
             <Button
               size="small"
               disabled={busy}
@@ -275,11 +311,34 @@ function WorkDialog({
         </>
       }
     >
+      {editingCover && (
+        <CoverDialog
+          key={`cover:${work.id}`}
+          title="更换作品封面"
+          note={
+            pinned
+              ? '这件作品用作工作流封面，保存后工作流入口也会更新。'
+              : usesWorkCover && !workflow.data?.coverWorkId
+                ? '工作流使用这件作品作封面时，入口也会更新。'
+                : undefined
+          }
+          record={work}
+          artifacts={artifacts}
+          restoreFocus={() => coverAction.current?.focus({ preventScroll: true })}
+          onClose={() => setEditingCoverId(undefined)}
+          onSave={async (choice) => {
+            const updated = await api.setWorkCover(work.id, choice);
+            select(updated);
+            void queries.invalidateQueries({ queryKey: ['works'] });
+            void queries.invalidateQueries({ queryKey: ['workflows'] });
+          }}
+        />
+      )}
       <div className="preview-caption">
         <span>
           {work.workflowName} ·{' '}
           <Link className="author-link" to={authorPath(work.author)}>
-            {work.author}
+            {work.authorProfile.nickname ?? work.author}
           </Link>
         </span>
         <span>{work.assetCount} 份成品</span>

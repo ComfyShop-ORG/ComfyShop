@@ -1,6 +1,7 @@
 /* 工作流目录：筛选、排序、媒体卡片和空状态。 */
 .filter-group {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-1);
   align-items: center;
 }
@@ -72,6 +73,7 @@
   inset: auto 0 0;
   padding: var(--space-10) var(--space-4) var(--space-4);
   background: linear-gradient(var(--color-clear), var(--color-scrim));
+  color: var(--color-on-media);
   display: grid;
   gap: var(--space-2);
 }
@@ -89,7 +91,6 @@
   gap: var(--space-2);
   font-size: var(--font-xs);
   font-weight: var(--font-regular);
-  color: var(--color-text);
 }
 .media-card-author > svg,
 .media-card-author > span:last-child:not(:first-child) {
@@ -97,6 +98,12 @@
 }
 .media-card-author > svg {
   opacity: 0;
+}
+.profile-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .media-card-output {
   min-width: 0;
@@ -117,7 +124,7 @@
   right: var(--space-3);
   top: var(--space-3);
   background: var(--color-overlay);
-  color: var(--color-text);
+  color: var(--color-on-media);
   opacity: 0;
 }
 .media-card:hover .media-card-save,
@@ -134,6 +141,7 @@
   gap: var(--space-1);
   padding: var(--space-1) var(--space-2);
   background: var(--color-overlay);
+  color: var(--color-on-media);
   font-size: var(--font-xs);
 }
 .empty-state {

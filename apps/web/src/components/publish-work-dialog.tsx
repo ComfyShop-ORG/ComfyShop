@@ -1,6 +1,6 @@
-/** 把一次成功执行里选定的成品发布为作品，并从中选择作品封面。 */
+/** 确认要公开的成品、封面和输入范围。 */
 import { useRef, useState } from 'react';
-import { durationLabel } from './generation-stage';
+import { useQuery } from '@tanstack/react-query';
 import type { Artifact, Execution, Work } from '@comfyshop/api-client';
 import {
   Button,
@@ -9,18 +9,22 @@ import {
   DialogContent,
   Field,
   Input,
-  Switch,
+  RadioGroup,
   TextArea,
 } from '@comfyshop/ui';
 import { useWorkspace } from '../app/use-workspace';
 import { createRequestId } from '../data/request-id';
-import { AssetGallery } from './artifact-collection';
+import type { useArtifactPages } from './artifact-collection';
+import { CoverPicker, isVisualOutput, outputCover } from './cover-picker';
+import type { CoverDraft } from './cover-picker';
 import { useAction } from './use-action';
+import { collectionFeed } from './use-collection-navigation';
 import { useDialogFocus } from './use-dialog-focus';
 
 export function PublishWorkDialog({
   execution,
   assets,
+  outputs,
   returnToSelection,
   restoreFocus,
   onClose,
@@ -28,27 +32,73 @@ export function PublishWorkDialog({
 }: {
   execution: Execution;
   assets: Artifact[];
+  outputs: ReturnType<typeof useArtifactPages>;
   returnToSelection: boolean;
   restoreFocus: () => void;
   onClose: () => void;
   onPublished: (work: Work) => void;
 }) {
-  const { api } = useWorkspace();
+  const { api, state } = useWorkspace();
   const [title, setTitle] = useState(execution.workflowName);
-  const [cover, setCover] = useState(
-    assets.find((asset) => asset.id === execution.coverArtifactId)?.id ?? assets[0].id,
+  const [previous, setPrevious] = useState(execution);
+  const [cover, setCover] = useState<CoverDraft | null>();
+  const feed = collectionFeed(outputs);
+  const selectedIds = new Set(assets.map((asset) => asset.id));
+  const candidates = feed.items.filter(
+    (asset) => asset.media.kind === 'image' || selectedIds.has(asset.id),
   );
-  const [share, setShare] = useState(false);
+  const visual = assets.filter(isVisualOutput);
+  const original = assets.find((asset) => !isVisualOutput(asset));
+  const preferred =
+    visual.find((asset) => asset.id === previous.coverArtifactId) ??
+    visual.find((asset) => asset.media.kind === 'image') ??
+    visual[0];
+  const defaultCover = preferred ? outputCover(preferred, previous) : null;
+  const inherited = cover === undefined ? previous.coverImage : null;
+  const resultPicture: CoverDraft | null =
+    previous.media?.kind === 'image' &&
+    previous.coverArtifactId &&
+    !selectedIds.has(previous.coverArtifactId)
+      ? { source: { artifactId: previous.coverArtifactId }, media: previous.media }
+      : null;
+  const representative =
+    cover === undefined
+      ? inherited
+        ? defaultCover
+        : (resultPicture ?? defaultCover)
+      : cover?.source.assetId
+        ? defaultCover
+        : cover;
+  const coverArtifactId = representative?.source.artifactId;
+  const separateImage =
+    inherited || cover?.source.assetId || (coverArtifactId && !selectedIds.has(coverArtifactId));
+  const [scope, setScope] = useState('full');
   const [description, setDescription] = useState('');
-  const { busy, error, run } = useAction('发布失败');
+  const { busy, error, run, clearError } = useAction('发布失败');
+  const upload = useAction('上传封面失败');
+  const refresh = useAction('读取结果封面失败');
+  const pending = busy || upload.busy || refresh.busy;
   const intent = useRef<{ fingerprint: string; id: string } | null>(null);
-  const [scrollRoot, setScrollRoot] = useState<HTMLDivElement | null>(null);
   const { titleRef, focusProps } = useDialogFocus(restoreFocus);
+  const referenceIds = new Set(
+    Object.values(execution.inputValues).flatMap((value) =>
+      value && typeof value === 'object' ? [value.assetId] : [],
+    ),
+  );
+  const showReferences = scope === 'full' && referenceIds.size > 0;
+  const recorded = useQuery({
+    queryKey: ['publish-inputs', state.userId, execution.taskId],
+    queryFn: ({ signal }) => api.taskInputs(execution.taskId, signal),
+    enabled: showReferences,
+    retry: false,
+  });
+  const references = recorded.data?.assets.filter((asset) => referenceIds.has(asset.id)) ?? [];
+  const ready = !showReferences || (recorded.isSuccess && references.length === referenceIds.size);
   return (
     <Dialog.Root
       open
       onOpenChange={(open) => {
-        if (!open && !busy) onClose();
+        if (!open && !pending) onClose();
       }}
     >
       <DialogContent compact className="publish-dialog" {...focusProps}>
@@ -56,22 +106,23 @@ export function PublishWorkDialog({
           <Dialog.Title ref={titleRef} tabIndex={-1}>
             发布作品
           </Dialog.Title>
-          <DialogClose disabled={busy} />
+          <DialogClose disabled={pending} />
         </div>
         <form
           className="publish-form"
           onSubmit={(event) => {
             event.preventDefault();
-            if (!title.trim()) return;
+            if (!title.trim() || !ready || pending) return;
             const body = {
               executionId: execution.id,
-              artifactIds: assets.map((asset) => asset.id),
-              coverArtifactId: cover,
-              // 封面仍是结果组的封面视频时，沿用在结果里为它选定的画面。
-              coverFrameMs:
-                cover === execution.coverArtifactId ? (execution.coverFrameMs ?? null) : null,
+              artifactIds: [...selectedIds],
+              coverArtifactId: coverArtifactId ?? null,
+              coverFrameMs: representative?.source.frameMs ?? null,
+              coverAssetId: cover?.source.assetId,
+              executionCoverSha256: inherited?.sha256,
               title: title.trim(),
-              shareParameters: share,
+              shareParameters: scope !== 'artifacts',
+              shareAssets: scope === 'full',
               description: description.trim(),
             };
             void run(async () => {
@@ -105,30 +156,110 @@ export function PublishWorkDialog({
               onChange={(event) => setDescription(event.target.value)}
             />
           </Field>
-          <div className="form-section-heading">
-            <span>{assets.length > 1 ? '选择作品封面' : '作品封面'}</span>
-            <span>公开 {assets.length} 份成品</span>
-          </div>
-          <div className="publish-media-scroll" ref={setScrollRoot}>
-            <AssetGallery
-              items={assets}
-              onOpen={(asset) => setCover(asset.id)}
-              selected={new Set([cover])}
+          <details open={assets.length <= 6}>
+            <summary>公开 {assets.length} 份成品</summary>
+            <ul className="publish-reference-files">
+              {assets.map((asset) => (
+                <li key={asset.id}>{asset.filename}</li>
+              ))}
+            </ul>
+          </details>
+          <div className="cover-picker">
+            <span className="form-section-heading">作品封面</span>
+            <CoverPicker
+              {...feed}
+              items={candidates}
               resetKey={`publish:${execution.id}`}
-              scrollRoot={scrollRoot}
+              previous={previous}
+              selected={inherited || cover?.source.assetId ? null : coverArtifactId}
+              media={inherited ?? cover?.media ?? representative?.media ?? original?.media ?? null}
+              disabled={busy || refresh.busy}
+              upload={upload}
+              onChoose={setCover}
             />
+            {separateImage && <p className="form-hint">这张封面图片将随作品公开。</p>}
+            <div className="collection-actions">
+              {(previous.coverImage || resultPicture) && cover !== undefined && (
+                <Button size="small" disabled={pending} onClick={() => setCover(undefined)}>
+                  使用结果封面
+                </Button>
+              )}
+              {defaultCover &&
+                (separateImage ||
+                  (cover !== undefined && coverArtifactId !== defaultCover.source.artifactId)) && (
+                  <Button size="small" disabled={pending} onClick={() => setCover(defaultCover)}>
+                    使用默认成品封面
+                  </Button>
+                )}
+              {original &&
+                cover !== null &&
+                (inherited || representative || cover?.source.assetId) && (
+                  <Button size="small" disabled={pending} onClick={() => setCover(null)}>
+                    移除封面
+                  </Button>
+                )}
+            </div>
+            {inherited && error && (
+              <Button
+                size="small"
+                disabled={pending}
+                onClick={() =>
+                  void refresh.run(async () => {
+                    setPrevious(await api.execution(execution.id));
+                    clearError();
+                  })
+                }
+              >
+                重新读取结果封面
+              </Button>
+            )}
+            {refresh.error && (
+              <p className="form-error" role="alert">
+                {refresh.error}
+              </p>
+            )}
           </div>
-          {cover === execution.coverArtifactId && !!execution.coverFrameMs && (
-            <p className="form-hint">
-              封面使用在结果里为这个视频选定的画面（{durationLabel(execution.coverFrameMs)}）。
-            </p>
-          )}
-          <Field label="公开参数" htmlFor={`share-parameters-${execution.id}`}>
-            <Switch
-              id={`share-parameters-${execution.id}`}
-              checked={share}
-              onCheckedChange={setShare}
+          <Field label="公开范围">
+            <RadioGroup
+              label="公开范围"
+              value={scope}
+              options={[
+                { value: 'full', label: '公开完整输入（含素材） · 推荐' },
+                { value: 'parameters', label: '公开参数' },
+                { value: 'artifacts', label: '仅公开成品' },
+              ]}
+              disabled={busy}
+              onValueChange={setScope}
             />
+            {showReferences && recorded.isPending && (
+              <span className="form-hint" role="status">
+                正在读取参考素材…
+              </span>
+            )}
+            {showReferences && recorded.isError && (
+              <div className="inline-status" role="alert">
+                {recorded.error.message}
+                <Button size="small" onClick={() => void recorded.refetch()}>
+                  重试
+                </Button>
+              </div>
+            )}
+            {showReferences &&
+              recorded.isSuccess &&
+              (ready ? (
+                <>
+                  <span className="form-hint">以下参考素材将随作品公开，访客可下载和复用。</span>
+                  <ul className="publish-reference-files">
+                    {references.map((asset) => (
+                      <li key={asset.id}>{asset.filename}</li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <span className="form-error" role="alert">
+                  部分参考素材已不可用，请调整公开范围。
+                </span>
+              ))}
           </Field>
           {error && (
             <p className="form-error" role="alert">
@@ -137,9 +268,9 @@ export function PublishWorkDialog({
           )}
           <div className="compact-dialog-footer">
             <Dialog.Close asChild>
-              <Button disabled={busy}>{returnToSelection ? '返回选择' : '取消'}</Button>
+              <Button disabled={pending}>{returnToSelection ? '返回选择' : '取消'}</Button>
             </Dialog.Close>
-            <Button type="submit" variant="primary" disabled={busy || !title.trim()}>
+            <Button type="submit" variant="primary" disabled={pending || !title.trim() || !ready}>
               {busy ? '发布中' : '发布作品'}
             </Button>
           </div>

@@ -1,9 +1,11 @@
-import type { WorkflowCreate } from '@comfyshop/api-client';
+import type { Workflow, WorkflowCreate } from '@comfyshop/api-client';
 
 type Graph = Record<string, unknown>;
 
 /** 输出视频的常见节点。图里出现它们时，导入的工作流默认归入视频分类。 */
 const videoNodes = /video|animat|vhs_/i;
+const modelOutputs = new Set(['Save3DAdvanced', 'SaveGLB']);
+const audioOutputs = new Set(['SaveAudioAdvanced', 'SaveAudio', 'SaveAudioMP3', 'SaveAudioOpus']);
 
 /**
  * 读取 ComfyUI 导出的 JSON 文件。
@@ -36,12 +38,19 @@ function nodeTypes(graph: Graph): string[] {
   });
 }
 
+function suggestedCategory(graph: Graph): Workflow['category'] {
+  const types = nodeTypes(graph);
+  if (types.some((type) => modelOutputs.has(type))) return '3d';
+  if (types.some((type) => audioOutputs.has(type))) return 'audio';
+  return types.some((type) => videoNodes.test(type)) ? 'video' : 'image';
+}
+
 /** 以文件名为工作流名称。分类按输出节点推断，导入后可在工作流里修改。 */
 export async function readWorkflow(file: File): Promise<WorkflowCreate> {
   const graph = await readGraph(file);
   return {
     name: file.name.replace(/\.json$/i, '').slice(0, 120),
-    category: nodeTypes(graph).some((type) => videoNodes.test(type)) ? 'video' : 'image',
+    category: suggestedCategory(graph),
     graph,
   };
 }

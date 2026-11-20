@@ -1,15 +1,15 @@
 import { useSearchParams } from 'react-router';
 import { Button, Select, ToggleGroup } from '@comfyshop/ui';
-import type { Category, Sort } from '../../domain/types';
+import type { Sort } from '../../domain/types';
+import { workflowCategoryFilters } from '../../domain/workflow-categories';
 import { WorkflowCollection } from './workflow-collection';
 import { ActiveMark } from '../../motion';
-
-const categories: Category[] = ['all', 'image', 'video', 'tool'];
 
 export function CatalogPage({ search, clearSearch }: { search: string; clearSearch: () => void }) {
   // 分类和排序写在地址里，打开工作流再返回、刷新或分享链接时保持不变。
   const [params, setParams] = useSearchParams();
-  const category = categories.find((value) => value === params.get('category')) ?? 'all';
+  const category =
+    workflowCategoryFilters.find(({ value }) => value === params.get('category'))?.value ?? 'all';
   const sort: Sort = params.get('sort') === 'popular' ? 'popular' : 'updated';
   function choose(key: 'category' | 'sort', value: string, fallback: string) {
     setParams(
@@ -34,12 +34,7 @@ export function CatalogPage({ search, clearSearch }: { search: string; clearSear
           }}
           aria-label="工作流分类"
         >
-          {[
-            { value: 'all', label: '全部' },
-            { value: 'image', label: '图像' },
-            { value: 'video', label: '视频' },
-            { value: 'tool', label: '工具' },
-          ].map((item) => (
+          {workflowCategoryFilters.map((item) => (
             <ToggleGroup.Item key={item.value} value={item.value} asChild>
               <Button size="small" variant="ghost">
                 {item.value === category && <ActiveMark group="catalog-category" />}

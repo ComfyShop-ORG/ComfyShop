@@ -106,6 +106,41 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/auth/profile': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /** Update Nickname */
+    put: operations['update_nickname_api_v1_auth_profile_put'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/auth/profile/avatar': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /** Upload Avatar */
+    put: operations['upload_avatar_api_v1_auth_profile_avatar_put'];
+    post?: never;
+    /** Remove Avatar */
+    delete: operations['remove_avatar_api_v1_auth_profile_avatar_delete'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/auth/email': {
     parameters: {
       query?: never;
@@ -191,6 +226,40 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/authors/{username}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Author */
+    get: operations['get_author_api_v1_authors__username__get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/authors/{user_id}/avatar/{version}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Avatar */
+    get: operations['get_avatar_api_v1_authors__user_id__avatar__version__get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/workflows/{workflow_id}/inputs': {
     parameters: {
       query?: never;
@@ -260,6 +329,23 @@ export interface paths {
     head?: never;
     /** Update Workflow */
     patch: operations['update_workflow_api_v1_workflows__workflow_id__patch'];
+    trace?: never;
+  };
+  '/api/v1/workflows/{workflow_id}/versions': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** List Workflow Versions */
+    get: operations['list_workflow_versions_api_v1_workflows__workflow_id__versions_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
     trace?: never;
   };
   '/api/v1/workflows/{workflow_id}/graph': {
@@ -1101,6 +1187,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/executions/{execution_id}/cover/{sha256}/thumbnail': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Execution Cover Thumbnail */
+    get: operations['execution_cover_thumbnail_api_v1_executions__execution_id__cover__sha256__thumbnail_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/executions/{execution_id}/replay': {
     parameters: {
       query?: never;
@@ -1154,6 +1257,40 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/works/{work_id}/cover': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /** Set Work Cover */
+    put: operations['set_work_cover_api_v1_works__work_id__cover_put'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/works/{work_id}/cover/{sha256}/thumbnail': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Work Cover Thumbnail */
+    get: operations['work_cover_thumbnail_api_v1_works__work_id__cover__sha256__thumbnail_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/works/{work_id}/artifacts': {
     parameters: {
       query?: never;
@@ -1180,6 +1317,40 @@ export interface paths {
     };
     /** Work Inputs */
     get: operations['work_inputs_api_v1_works__work_id__inputs_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/works/{work_id}/assets/{asset_id}/file': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Work Asset File */
+    get: operations['work_asset_file_api_v1_works__work_id__assets__asset_id__file_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/works/{work_id}/assets/{asset_id}/thumbnail': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Work Asset Thumbnail */
+    get: operations['work_asset_thumbnail_api_v1_works__work_id__assets__asset_id__thumbnail_get'];
     put?: never;
     post?: never;
     delete?: never;
@@ -1325,6 +1496,15 @@ export interface components {
       /** Assetid */
       assetId: string;
     };
+    /** AuthorRead */
+    AuthorRead: {
+      /** Username */
+      username: string;
+      /** Nickname */
+      nickname: string | null;
+      /** Avatarurl */
+      avatarUrl: string | null;
+    };
     /** ClaimRequest */
     ClaimRequest: {
       /**
@@ -1339,6 +1519,43 @@ export interface components {
        * Format: password
        */
       leaseSecret: string;
+    };
+    /**
+     * CoverImageRead
+     * @description 独立封面只提供经过对应结果或作品授权的缩略图地址。
+     */
+    CoverImageRead: {
+      /** Src */
+      src: string;
+      /** Width */
+      width: number | null;
+      /** Height */
+      height: number | null;
+      /**
+       * Kind
+       * @default image
+       * @enum {string}
+       */
+      kind: 'image' | 'video' | 'audio' | '3d';
+      /** Video */
+      video: string | null;
+      thumbnail: components['schemas']['ThumbnailRead'] | null;
+      videoPreview: components['schemas']['ThumbnailRead'] | null;
+      /** Filename */
+      filename: string | null;
+      /** Durationms */
+      durationMs: number | null;
+      /** Sha256 */
+      sha256: string;
+    };
+    /** CoverUpdate */
+    CoverUpdate: {
+      /** Artifactid */
+      artifactId?: string | null;
+      /** Assetid */
+      assetId?: string | null;
+      /** Framems */
+      frameMs?: number | null;
     };
     /** Credentials */
     Credentials: {
@@ -1374,13 +1591,6 @@ export interface components {
     ExecutionComplete: {
       /** Clientids */
       clientIds: string[];
-    };
-    /** ExecutionCoverUpdate */
-    ExecutionCoverUpdate: {
-      /** Artifactid */
-      artifactId: string;
-      /** Framems */
-      frameMs?: number | null;
     };
     /** ExecutionPage */
     ExecutionPage: {
@@ -1418,11 +1628,18 @@ export interface components {
       coverArtifactId: string | null;
       /** Coverframems */
       coverFrameMs: number | null;
+      coverImage: components['schemas']['CoverImageRead'] | null;
       media: components['schemas']['MediaRead'] | null;
       /** Imagecount */
       imageCount: number;
       /** Videocount */
       videoCount: number;
+      /** Audiocount */
+      audioCount: number;
+      /** Modelcount */
+      modelCount: number;
+      /** Artifactcount */
+      artifactCount: number;
       /** Created */
       created: number;
     };
@@ -1542,6 +1759,11 @@ export interface components {
       code: string;
       /** Name */
       name: string;
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: 'pending' | 'approved' | 'linked';
       /** Requestedat */
       requestedAt: number;
       /** Expiresat */
@@ -1615,18 +1837,38 @@ export interface components {
       /** Nodecount */
       nodeCount: number;
     };
+    /** MachineReconnect */
+    MachineReconnect: {
+      /** Machineid */
+      machineId: string;
+    };
     /** MediaRead */
     MediaRead: {
       /** Src */
       src: string;
       /** Width */
-      width: number;
+      width: number | null;
       /** Height */
-      height: number;
+      height: number | null;
+      /**
+       * Kind
+       * @default image
+       * @enum {string}
+       */
+      kind: 'image' | 'video' | 'audio' | '3d';
       /** Video */
       video: string | null;
       thumbnail: components['schemas']['ThumbnailRead'] | null;
       videoPreview: components['schemas']['ThumbnailRead'] | null;
+      /** Filename */
+      filename: string | null;
+      /** Durationms */
+      durationMs: number | null;
+    };
+    /** NicknameUpdate */
+    NicknameUpdate: {
+      /** Nickname */
+      nickname: string | null;
     };
     /** NodeCatalog */
     NodeCatalog: {
@@ -1651,7 +1893,8 @@ export interface components {
        * Kind
        * @enum {string}
        */
-      kind: 'string' | 'integer' | 'number' | 'boolean' | 'choice' | 'image' | 'video';
+      kind:
+        'string' | 'integer' | 'number' | 'boolean' | 'choice' | 'image' | 'video' | 'audio' | '3d';
       /**
        * Label
        * @default
@@ -1876,10 +2119,14 @@ export interface components {
     };
     /** UserRead */
     UserRead: {
-      /** Id */
-      id: string;
       /** Username */
       username: string;
+      /** Nickname */
+      nickname: string | null;
+      /** Avatarurl */
+      avatarUrl: string | null;
+      /** Id */
+      id: string;
       /** Email */
       email: string | null;
       /** Pendingemail */
@@ -1896,14 +2143,20 @@ export interface components {
       /** Artifactids */
       artifactIds: string[];
       /** Coverartifactid */
-      coverArtifactId: string;
+      coverArtifactId?: string | null;
       /** Coverframems */
       coverFrameMs?: number | null;
+      /** Coverassetid */
+      coverAssetId?: string | null;
+      /** Executioncoversha256 */
+      executionCoverSha256?: string | null;
       /**
        * Shareparameters
        * @default false
        */
       shareParameters: boolean;
+      /** Shareassets */
+      shareAssets?: boolean | null;
       /**
        * Description
        * @default
@@ -1925,12 +2178,14 @@ export interface components {
       title: string;
       /** Author */
       author: string;
+      authorProfile: components['schemas']['AuthorRead'];
       /** Owner */
       owner: string;
       /** Workflowid */
       workflowId: string;
       /** Workflowname */
       workflowName: string;
+      category: components['schemas']['WorkflowCategory'];
       /** Versionid */
       versionId: string;
       /** Executionid */
@@ -1939,6 +2194,7 @@ export interface components {
       coverArtifactId: string;
       /** Coverframems */
       coverFrameMs: number | null;
+      coverImage: components['schemas']['CoverImageRead'] | null;
       media: components['schemas']['MediaRead'];
       /** Assetcount */
       assetCount: number;
@@ -1977,6 +2233,27 @@ export interface components {
       /** Error */
       error: string;
     };
+    /** WorkflowAutomaticSize */
+    WorkflowAutomaticSize: {
+      /**
+       * Kind
+       * @default automatic
+       * @constant
+       */
+      kind: 'automatic';
+      /** Widthfieldid */
+      widthFieldId: string;
+      /** Heightfieldid */
+      heightFieldId: string;
+      /** Usesreference */
+      usesReference: boolean;
+    };
+    /**
+     * WorkflowCategory
+     * @enum {string}
+     */
+    WorkflowCategory:
+      'image' | 'image_tool' | 'video' | 'video_tool' | 'audio' | '3d' | 'vector' | 'llm';
     /** WorkflowCoverUpdate */
     WorkflowCoverUpdate: {
       /** Workid */
@@ -1986,16 +2263,25 @@ export interface components {
     WorkflowCreate: {
       /** Name */
       name: string;
-      /**
-       * Category
-       * @default image
-       * @enum {string}
-       */
-      category: 'image' | 'video' | 'tool';
+      /** @default image */
+      category: components['schemas']['WorkflowCategory'] | 'tool';
       /** Graph */
       graph: {
         [key: string]: unknown;
       };
+    };
+    /** WorkflowCropRegion */
+    WorkflowCropRegion: {
+      /** Label */
+      label: string;
+      /** X */
+      x: number;
+      /** Y */
+      y: number;
+      /** Width */
+      width: number;
+      /** Height */
+      height: number;
     };
     /** WorkflowForm */
     WorkflowForm: {
@@ -2015,10 +2301,26 @@ export interface components {
       parameterControls: {
         [key: string]: components['schemas']['WorkflowParameterControls'];
       };
+      /** Parameterpresentation */
+      parameterPresentation: {
+        [key: string]: components['schemas']['WorkflowParameterPresentation'];
+      };
+      /** Outputsizes */
+      outputSizes: (
+        components['schemas']['WorkflowRatioSize'] | components['schemas']['WorkflowAutomaticSize']
+      )[];
+      /** Referencetimelines */
+      referenceTimelines: components['schemas']['WorkflowReferenceTimeline'][];
+      /** Imagecrops */
+      imageCrops: {
+        [key: string]: components['schemas']['WorkflowCropRegion'][];
+      };
       /** Originaldefaults */
       originalDefaults: {
         [key: string]: string | boolean | number;
       };
+      /** Sharedassets */
+      sharedAssets: components['schemas']['AssetRead'][];
     };
     /** WorkflowInput */
     WorkflowInput: {
@@ -2026,7 +2328,8 @@ export interface components {
        * Kind
        * @enum {string}
        */
-      kind: 'string' | 'integer' | 'number' | 'boolean' | 'choice' | 'image' | 'video';
+      kind:
+        'string' | 'integer' | 'number' | 'boolean' | 'choice' | 'image' | 'video' | 'audio' | '3d';
       /**
        * Label
        * @default
@@ -2133,6 +2436,38 @@ export interface components {
       /** Parameterlayout */
       parameterLayout: components['schemas']['WorkflowParameterDisplay-Input'][];
     };
+    /** WorkflowParameterPresentation */
+    WorkflowParameterPresentation: {
+      /** Choicelabels */
+      choiceLabels: {
+        [key: string]: string;
+      };
+      /** Guidance */
+      guidance: string | null;
+    };
+    /** WorkflowRatioSize */
+    WorkflowRatioSize: {
+      /**
+       * Kind
+       * @default ratio
+       * @constant
+       */
+      kind: 'ratio';
+      /** Ratiofieldid */
+      ratioFieldId: string;
+      /** Megapixelsfieldid */
+      megapixelsFieldId: string;
+      /** Multiplefieldid */
+      multipleFieldId: string;
+      /** Roundto */
+      roundTo: number | null;
+      /** Latentmultiple */
+      latentMultiple: number | null;
+      /** Modelmultiple */
+      modelMultiple: number | null;
+      /** Promptfieldid */
+      promptFieldId: string | null;
+    };
     /** WorkflowRead */
     WorkflowRead: {
       /** Id */
@@ -2141,13 +2476,10 @@ export interface components {
       name: string;
       /** Author */
       author: string;
+      authorProfile: components['schemas']['AuthorRead'];
       /** Owner */
       owner: string;
-      /**
-       * Category
-       * @enum {string}
-       */
-      category: 'image' | 'video' | 'tool';
+      category: components['schemas']['WorkflowCategory'];
       /** Published */
       published: boolean;
       /** Versionid */
@@ -2184,18 +2516,62 @@ export interface components {
        */
       runs: number;
     };
+    /** WorkflowReferenceFrame */
+    WorkflowReferenceFrame: {
+      /** Imagefieldid */
+      imageFieldId: string;
+      /** Timefieldid */
+      timeFieldId: string | null;
+    };
+    /** WorkflowReferenceTimeline */
+    WorkflowReferenceTimeline: {
+      /** Durationfieldid */
+      durationFieldId: string;
+      /**
+       * Framespersecond
+       * @default 24
+       */
+      framesPerSecond: number;
+      /**
+       * Minimumframes
+       * @default 5
+       */
+      minimumFrames: number;
+      /**
+       * Framestep
+       * @default 17
+       */
+      frameStep: number;
+      /** Frames */
+      frames: components['schemas']['WorkflowReferenceFrame'][];
+    };
     /** WorkflowUpdate */
     WorkflowUpdate: {
       /** Name */
       name?: string | null;
-      /** Category */
-      category?: ('image' | 'video' | 'tool') | null;
+      category?: components['schemas']['WorkflowCategory'] | 'tool' | null;
       /** Description */
       description?: string | null;
       /** Graph */
       graph?: {
         [key: string]: unknown;
       } | null;
+    };
+    /** WorkflowVersionRead */
+    WorkflowVersionRead: {
+      /** Id */
+      id: string;
+      /** Number */
+      number: number;
+      /** Published */
+      published: boolean;
+    };
+    /** WorkflowVersions */
+    WorkflowVersions: {
+      /** Currentversionid */
+      currentVersionId: string;
+      /** Items */
+      items: components['schemas']['WorkflowVersionRead'][];
     };
     /** WorkspaceRead */
     WorkspaceRead: {
@@ -2730,6 +3106,269 @@ export interface operations {
       };
     };
   };
+  update_nickname_api_v1_auth_profile_put: {
+    parameters: {
+      query?: never;
+      header?: {
+        'X-CSRF-Token'?: string | null;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['NicknameUpdate'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['UserRead'];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Request Entity Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+    };
+  };
+  upload_avatar_api_v1_auth_profile_avatar_put: {
+    parameters: {
+      query?: never;
+      header?: {
+        'X-CSRF-Token'?: string | null;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/octet-stream': string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['UserRead'];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Request Entity Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+    };
+  };
+  remove_avatar_api_v1_auth_profile_avatar_delete: {
+    parameters: {
+      query?: never;
+      header?: {
+        'X-CSRF-Token'?: string | null;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['UserRead'];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Request Entity Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+    };
+  };
   update_email_api_v1_auth_email_put: {
     parameters: {
       query?: never;
@@ -3179,6 +3818,184 @@ export interface operations {
       };
     };
   };
+  get_author_api_v1_authors__username__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        username: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['AuthorRead'];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Request Entity Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+    };
+  };
+  get_avatar_api_v1_authors__user_id__avatar__version__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        user_id: string;
+        version: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'image/webp': string;
+        };
+      };
+      /** @description 头像未修改 */
+      304: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Request Entity Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+    };
+  };
   workflow_inputs_api_v1_workflows__workflow_id__inputs_get: {
     parameters: {
       query: {
@@ -3365,7 +4182,7 @@ export interface operations {
     parameters: {
       query?: {
         scope?: 'public' | 'mine' | 'favorites';
-        category?: 'all' | 'image' | 'video' | 'tool';
+        category?: components['schemas']['WorkflowCategory'] | ('all' | 'tool');
         search?: string;
         author?: string;
         sort?: 'updated' | 'popular';
@@ -3737,6 +4554,91 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['WorkflowRead'];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Request Entity Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+    };
+  };
+  list_workflow_versions_api_v1_workflows__workflow_id__versions_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        workflow_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['WorkflowVersions'];
         };
       };
       /** @description Unauthorized */
@@ -4413,6 +5315,7 @@ export interface operations {
     parameters: {
       query?: {
         workflow_id?: string | null;
+        version_id?: string | null;
         state?: ('active' | 'succeeded' | 'failed' | 'cancelled') | null;
         cursor?: string | null;
         limit?: number;
@@ -4599,6 +5502,7 @@ export interface operations {
     parameters: {
       query?: {
         workflow_id?: string | null;
+        version_id?: string | null;
         task_id?: string | null;
       };
       header?: never;
@@ -5635,7 +6539,8 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['MachineCreate'];
+        'application/json':
+          components['schemas']['MachineCreate'] | components['schemas']['MachineReconnect'];
       };
     };
     responses: {
@@ -8192,6 +9097,7 @@ export interface operations {
     parameters: {
       query?: {
         workflow_id?: string | null;
+        version_id?: string | null;
         task_id?: string | null;
         cursor?: string | null;
         limit?: number;
@@ -8546,7 +9452,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['ExecutionCoverUpdate'];
+        'application/json': components['schemas']['CoverUpdate'];
       };
     };
     responses: {
@@ -8557,6 +9463,95 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['ExecutionRead'];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Request Entity Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+    };
+  };
+  execution_cover_thumbnail_api_v1_executions__execution_id__cover__sha256__thumbnail_get: {
+    parameters: {
+      query?: {
+        size?: number | null;
+      };
+      header?: never;
+      path: {
+        execution_id: string;
+        sha256: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'image/webp': string;
+          'image/jpeg': string;
         };
       };
       /** @description Unauthorized */
@@ -8713,7 +9708,10 @@ export interface operations {
     parameters: {
       query?: {
         scope?: 'public' | 'mine';
+        category?: components['schemas']['WorkflowCategory'] | ('all' | 'tool');
         workflow_id?: string | null;
+        version_id?: string | null;
+        current_version_only?: boolean;
         author?: string;
         cursor?: string | null;
         limit?: number;
@@ -9057,6 +10055,186 @@ export interface operations {
       };
     };
   };
+  set_work_cover_api_v1_works__work_id__cover_put: {
+    parameters: {
+      query?: never;
+      header?: {
+        'X-CSRF-Token'?: string | null;
+      };
+      path: {
+        work_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CoverUpdate'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['WorkRead'];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Request Entity Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+    };
+  };
+  work_cover_thumbnail_api_v1_works__work_id__cover__sha256__thumbnail_get: {
+    parameters: {
+      query?: {
+        size?: number | null;
+      };
+      header?: never;
+      path: {
+        work_id: string;
+        sha256: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'image/webp': string;
+          'image/jpeg': string;
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Request Entity Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+    };
+  };
   work_artifacts_api_v1_works__work_id__artifacts_get: {
     parameters: {
       query?: {
@@ -9163,6 +10341,182 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['TaskInputsRead'];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Request Entity Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+    };
+  };
+  work_asset_file_api_v1_works__work_id__assets__asset_id__file_get: {
+    parameters: {
+      query?: {
+        download?: boolean;
+      };
+      header?: never;
+      path: {
+        work_id: string;
+        asset_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Request Entity Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+    };
+  };
+  work_asset_thumbnail_api_v1_works__work_id__assets__asset_id__thumbnail_get: {
+    parameters: {
+      query?: {
+        /** @description 目标长边像素 */
+        size?: number | null;
+      };
+      header?: never;
+      path: {
+        work_id: string;
+        asset_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'image/webp': string;
+          'image/jpeg': string;
         };
       };
       /** @description Unauthorized */

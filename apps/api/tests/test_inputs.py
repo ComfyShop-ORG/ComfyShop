@@ -5,7 +5,7 @@ from uuid import uuid4
 from fastapi.testclient import TestClient
 from PIL import Image
 import pytest
-from helpers import execution_id, sync_machine
+from helpers import execution_id, sync_machine, task_body
 
 
 def picture(color="black"):
@@ -39,9 +39,15 @@ def prepared(authenticated):
         "2": {"class_type": "CLIPTextEncode", "inputs": {"text": "a bottle"}},
         "3": {
             "class_type": "KSampler",
-            "inputs": {"positive": ["2", 0], "seed": 2**64 - 1, "steps": 20, "cfg": 4.5},
+            "inputs": {
+                "positive": ["2", 0],
+                "latent_image": ["1", 0],
+                "seed": 2**64 - 1,
+                "steps": 20,
+                "cfg": 4.5,
+            },
         },
-        "4": {"class_type": "SaveImage", "inputs": {"images": ["1", 0]}},
+        "4": {"class_type": "SaveImage", "inputs": {"images": ["3", 0]}},
     }
     workflow = client.post(
         "/api/v1/workflows", json={"name": "reference workflow", "graph": graph}
@@ -142,12 +148,42 @@ def test_reference_upload_binding_and_frozen_graph(prepared):
     )
 
 
+def test_unconnected_painter_is_not_required_by_the_execution_graph(prepared):
+    client, worker, workflow, _, _, asset, body, catalog = prepared
+    endpoint = f"/api/v1/workflows/{workflow['id']}"
+    graph = client.get(endpoint + "/graph").json()["graph"]
+    graph["81"] = {"class_type": "Painter", "inputs": {"mask": "private-mask.png [input]"}}
+    catalog["nodes"]["Painter"] = {"inputs": {"mask": {"kind": "image"}}}
+    assert worker.put("/api/v1/worker/catalog", json=catalog).status_code == 200
+    saved = client.patch(endpoint, json={"graph": graph})
+    assert saved.status_code == 200, saved.text
+    params = {"machine_id": body["machineId"], "version_id": saved.json()["versionId"]}
+    form = client.get(endpoint + "/inputs", params=params).json()
+    assert not form["issues"]
+    reference = next(field for field in form["fields"] if field["kind"] == "image")
+    assert reference["nodeId"] == "1"
+    assert all(field["nodeId"] != "81" for field in form["fields"])
+    submission = task_body(client, saved.json(), body["machineId"])
+    assert client.post("/api/v1/tasks", json=submission).status_code == 422
+    submitted = client.post(
+        "/api/v1/tasks",
+        json={**submission, "inputValues": {reference["id"]: {"assetId": asset["id"]}}},
+    )
+    assert submitted.status_code == 201, submitted.text
+    claim = worker.post(
+        "/api/v1/worker/claim",
+        json={"protocolVersion": 3, "claimId": str(uuid4()), "leaseSecret": uuid4().hex},
+    )
+    assert "81" not in claim.json()["graph"]
+    assert "81" in client.get(endpoint + "/graph").json()["graph"]
+
+
 def test_parameters_and_schema_are_validated_before_queueing(prepared):
     client, worker, _, _, fields, _, body, catalog = prepared
     for name, value in [
         ("steps", 151),
         ("steps", 1.2),
-        ("cfg", 2.2),
+        ("cfg", 100.2),
         ("cfg", "2.5"),
         ("seed", "18446744073709551616"),
         ("seed", "1e5"),
@@ -175,6 +211,59 @@ def test_parameters_and_schema_are_validated_before_queueing(prepared):
     worker.put("/api/v1/worker/catalog", json=catalog)
     assert client.post("/api/v1/tasks", json=body).status_code == 409
     assert client.get("/api/v1/tasks").json()["items"] == []
+
+
+def test_unrelated_catalog_updates_and_uploads_do_not_invalidate_a_form(prepared):
+    client, worker, workflow, form, _, _, body, catalog = prepared
+    catalog["nodes"]["OtherWorkflowLoader"] = {
+        "inputs": {"model": {"kind": "choice", "choices": ["new.safetensors"]}}
+    }
+    assert worker.put("/api/v1/worker/catalog", json=catalog).status_code == 200
+    assert (
+        client.put(
+            f"/api/v1/assets/{uuid4()}", params={"filename": "extra.png"}, content=picture("white")
+        ).status_code
+        == 200
+    )
+    refreshed = client.get(
+        f"/api/v1/workflows/{workflow['id']}/inputs",
+        params={"machine_id": body["machineId"], "version_id": body["versionId"]},
+    ).json()
+    assert refreshed["schemaHash"] == form["schemaHash"]
+    original = client.post("/api/v1/tasks", json=body)
+    assert original.status_code == 201, original.text
+    retry = client.post("/api/v1/tasks", json=body)
+    assert retry.status_code == 200 and retry.json()["id"] == original.json()["id"]
+
+
+def test_long_text_defaults_and_explicit_values_are_preserved(authenticated, graph):
+    client = authenticated
+    default = ('参考 "光线" 🐈\n' * 5000)[:38_449]
+    graph["1"]["inputs"]["text"] = default
+    created = client.post("/api/v1/workflows", json={"name": "长文本", "graph": graph})
+    assert created.status_code == 201, created.text
+    workflow = created.json()
+    body = task_body(client, workflow)
+
+    inherited = client.post("/api/v1/tasks", json=body)
+    assert inherited.status_code == 201, inherited.text
+    text_id = next(
+        key for key, value in inherited.json()["inputValues"].items() if value == default
+    )
+    explicit = "🖼" * 65_536
+    submitted = client.post(
+        "/api/v1/tasks",
+        json={**body, "idempotencyKey": str(uuid4()), "inputValues": {text_id: explicit}},
+    )
+    assert submitted.status_code == 201, submitted.text
+    assert submitted.json()["inputValues"][text_id] == explicit
+
+    rejected = client.post(
+        "/api/v1/tasks",
+        json={**body, "idempotencyKey": str(uuid4()), "inputValues": {text_id: explicit + "。"}},
+    )
+    assert rejected.status_code == 422
+    assert rejected.json()["detail"] == "节点 1 的「text」有 65537 个字符，最多允许 65536 个字符"
 
 
 def test_float_rounding_noise_is_normalized_on_form_read_and_submission(authenticated):
@@ -219,6 +308,7 @@ def test_float_rounding_noise_is_normalized_on_form_read_and_submission(authenti
         ({scale: 1.0500000000000003, megapixels: 2.4000000000000004}, 1.05),
         ({scale: 1.0499999999999998}, 1.05),
         ({scale: 8.000000000000002}, 8.0),
+        ({scale: 1.055}, 1.055),
     ):
         queued = client.post(
             "/api/v1/tasks",
@@ -231,7 +321,7 @@ def test_float_rounding_noise_is_normalized_on_form_read_and_submission(authenti
     assert fields["scale_by"]["default"] == 1.05
     assert fields["megapixels"]["default"] == 2.4
     assert client.get(f"{base}/graph").json()["graph"] == graph
-    for invalid in (1.055, 0.009, 8.010000000000002):
+    for invalid in (0.009, 8.010000000000002):
         rejected = client.post(
             "/api/v1/tasks",
             json={**body, "idempotencyKey": str(uuid4()), "inputValues": {scale: invalid}},
@@ -245,6 +335,44 @@ def test_float_rounding_noise_is_normalized_on_form_read_and_submission(authenti
     assert claimed.status_code == 200, claimed.text
     assert claimed.json()["graph"]["1"]["inputs"]["scale_by"] == 1.05
     assert claimed.json()["graph"]["2"]["inputs"]["megapixels"] == 2.4
+
+
+def test_pixal3d_bias_uses_the_reported_bounds(authenticated):
+    client = authenticated
+    machine = client.post("/api/v1/machines", json={"name": "Pixal3D"}).json()
+    sync_machine(
+        client,
+        machine,
+        {
+            "nodes": {
+                "BakeAmbientOcclusion": {
+                    "inputs": {
+                        "bias": {
+                            "kind": "number",
+                            "minimum": "0.0001",
+                            "maximum": "0.2",
+                            "step": "0.0005",
+                        }
+                    }
+                }
+            }
+        },
+    )
+    graph = {"233": {"class_type": "BakeAmbientOcclusion", "inputs": {"bias": 0.01}}}
+    workflow = client.post("/api/v1/workflows", json={"name": "Pixal3D", "graph": graph}).json()
+    body = task_body(client, workflow, machine["machine"]["id"])
+    inherited = client.post("/api/v1/tasks", json=body)
+    assert inherited.status_code == 201, inherited.text
+    (field_id,) = inherited.json()["inputValues"]
+    assert inherited.json()["inputValues"][field_id] == 0.01
+    for value, status in ((0.0001, 201), (0.2, 201), (0, 422), (0.2001, 422)):
+        response = client.post(
+            "/api/v1/tasks",
+            json={**body, "idempotencyKey": str(uuid4()), "inputValues": {field_id: value}},
+        )
+        assert response.status_code == status, response.text
+        if status == 201:
+            assert response.json()["inputValues"][field_id] == value
 
 
 def test_assets_are_private_and_cannot_cross_accounts(prepared):
@@ -373,8 +501,15 @@ def test_execution_snapshots_and_public_replay_never_share_source_assets(prepare
     assert second["inputValues"][fields["image"]["id"]] == {"assetId": asset["id"]}
     client.post(f"/api/v1/workflows/{workflow['id']}/publish", json={})
     work = client.post("/api/v1/works", json=publish_body(second, outputs)).json()
+    assert client.put("/api/v1/auth/profile", json={"nickname": "创作者"}).status_code == 200
+    avatar = client.put("/api/v1/auth/profile/avatar", content=picture()).json()["avatarUrl"]
     anonymous = TestClient(client.app)
     public = anonymous.get(f"/api/v1/works/{work['id']}").json()
+    profile = anonymous.get(f"/api/v1/authors/{public['author']}").json()
+    assert profile == {"username": public["author"], "nickname": "创作者", "avatarUrl": avatar}
+    assert anonymous.get(avatar).headers["content-type"] == "image/webp"
+    assert public["authorProfile"] == profile
+    assert anonymous.get(f"/api/v1/workflows/{workflow['id']}").json()["authorProfile"] == profile
     assert fields["image"]["id"] not in public["inputValues"]
     assert public["inputValues"][fields["seed"]["id"]] == "0"
     assert public["description"] == ""
@@ -409,6 +544,7 @@ def test_execution_snapshots_and_public_replay_never_share_source_assets(prepare
     restored = {f["id"]: f["default"] for f in replay_form["fields"]}
     assert restored[fields["seed"]["id"]] == "0"
     assert restored[fields["image"]["id"]] is None
+    assert replay_form["sharedAssets"] == []
     assert client.get(
         f"/api/v1/workflows/{workflow['id']}/inputs",
         params={
@@ -417,6 +553,94 @@ def test_execution_snapshots_and_public_replay_never_share_source_assets(prepare
             "execution_id": second["id"],
         },
     ).json()["fields"][0]["default"] == {"assetId": asset["id"]}
+
+
+def test_full_work_inputs_replay_with_work_scoped_assets(prepared, settings):
+    from test_outputs import publish_body, run_group
+    from test_worker import claim_body
+
+    author, worker, workflow, _, fields, asset, body, catalog = prepared
+    task = author.post("/api/v1/tasks", json=body).json()
+    claim = claim_body()
+    worker.post("/api/v1/worker/claim", json=claim)
+    execution, outputs = run_group(author, worker, task["id"], claim["leaseSecret"])
+    assert author.post(f"/api/v1/workflows/{workflow['id']}/publish", json={}).status_code == 200
+    publication = {**publish_body(execution, outputs), "shareAssets": True}
+    published = author.post("/api/v1/works", json=publication)
+    assert published.status_code == 201, published.text
+    work = published.json()
+    assert author.post("/api/v1/works", json=publication).json() == work
+    scalar_only = author.post("/api/v1/works", json=publish_body(execution, outputs)).json()
+
+    image_id = fields["image"]["id"]
+    shared_id = work["inputValues"][image_id]["assetId"]
+    assert shared_id != asset["id"]
+    assert (
+        work["inputValues"][fields["seed"]["id"]] == execution["inputValues"][fields["seed"]["id"]]
+    )
+    base = f"/api/v1/works/{work['id']}"
+    guest = TestClient(author.app)
+    details = guest.get(base + "/inputs")
+    (shared,) = details.json()["assets"]
+    assert (shared["id"], shared["filename"]) == (shared_id, asset["filename"])
+    original = shared["media"]["src"]
+    thumbnail = shared["media"]["thumbnail"]["src"]
+    assert guest.get(original).content == picture()
+    assert guest.get(thumbnail).status_code == 200
+    assert guest.get(base + f"/assets/{asset['id']}/file").status_code == 404
+    assert (
+        guest.get(f"/api/v1/works/{scalar_only['id']}/assets/{shared_id}/file").status_code == 404
+    )
+
+    viewer = TestClient(author.app, headers={"Origin": "http://testserver"})
+    session = viewer.post(
+        "/api/v1/auth/register", json={"username": "full-replay", "password": "viewer-password"}
+    ).json()
+    viewer.headers["X-CSRF-Token"] = session["csrfToken"]
+    machine = viewer.post("/api/v1/machines", json={"name": "viewer"}).json()
+    viewer_worker = sync_machine(viewer, machine, catalog)
+    machine_id = machine["machine"]["id"]
+    assert viewer.get(asset["media"]["src"]).status_code == 404
+    assert viewer.get(f"/api/v1/assets/{shared_id}").status_code == 404
+    form_path = f"/api/v1/workflows/{workflow['id']}/inputs"
+    source = {"machine_id": machine_id, "version_id": workflow["versionId"], "work_id": work["id"]}
+    replay = viewer.get(form_path, params=source).json()
+    restored = {field["id"]: field["default"] for field in replay["fields"]}
+    assert restored[image_id] == {"assetId": shared_id}
+    assert replay["sharedAssets"] == [shared]
+    submission = {
+        **body,
+        "machineId": machine_id,
+        "inputSchemaHash": replay["schemaHash"],
+        "idempotencyKey": str(uuid4()),
+        "inputValues": restored,
+    }
+    assert viewer.post("/api/v1/tasks", json=submission).status_code == 404
+    submission["sourceWorkId"] = work["id"]
+    settings.asset_quota_bytes = asset["size"] - 1
+    assert viewer.post("/api/v1/tasks", json=submission).status_code == 413
+    settings.asset_quota_bytes = asset["size"]
+    response = viewer.post("/api/v1/tasks", json=submission)
+    assert response.status_code == 201, response.text
+    queued = response.json()
+    private_id = queued["inputValues"][image_id]["assetId"]
+    assert private_id not in {asset["id"], shared_id}
+    assert viewer.post("/api/v1/tasks", json=submission).json()["id"] == queued["id"]
+    repeated = viewer.post("/api/v1/tasks", json={**submission, "idempotencyKey": str(uuid4())})
+    assert repeated.status_code == 201
+    assert repeated.json()["inputValues"][image_id]["assetId"] == private_id
+
+    assert author.delete(base).status_code == 204
+    assert guest.get(original).status_code == guest.get(thumbnail).status_code == 404
+    assert viewer.get(form_path, params=source).status_code == 404
+    claim = claim_body()
+    job = viewer_worker.post("/api/v1/worker/claim", json=claim).json()
+    assert job["task"]["sourceWorkId"] == work["id"] and job["assets"][0]["id"] == private_id
+    supplied = viewer_worker.get(
+        f"/api/v1/worker/tasks/{job['task']['id']}/assets/{private_id}",
+        headers={"X-Task-Lease": claim["leaseSecret"]},
+    )
+    assert supplied.content == picture()
 
 
 def test_text_primitives_feeding_a_prompt_are_shown_by_default(authenticated):
@@ -439,14 +663,17 @@ def test_text_primitives_feeding_a_prompt_are_shown_by_default(authenticated):
     graph = {
         "1": {"class_type": "PrimitiveStringMultiline", "inputs": {"value": "a lighthouse"}},
         "2": {"class_type": "PrimitiveStringMultiline", "inputs": {"value": "blurry"}},
-        "3": {"class_type": "PrimitiveStringMultiline", "inputs": {"value": "unused note"}},
+        "3": {"class_type": "PrimitiveStringMultiline", "inputs": {"value": "lighthouse-output"}},
         "4": {"class_type": "CLIPTextEncode", "inputs": {"text": ["1", 0]}},
         "5": {"class_type": "CLIPTextEncode", "inputs": {"text": ["2", 0]}},
         "6": {
             "class_type": "KSampler",
             "inputs": {"positive": ["4", 0], "negative": ["5", 0], "steps": 20},
         },
-        "7": {"class_type": "SaveImage", "inputs": {"images": ["6", 0]}},
+        "7": {
+            "class_type": "SaveImage",
+            "inputs": {"images": ["6", 0], "filename_prefix": ["3", 0]},
+        },
     }
     workflow = client.post("/api/v1/workflows", json={"name": "sourced", "graph": graph}).json()
     form = client.get(

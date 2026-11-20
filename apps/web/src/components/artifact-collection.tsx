@@ -8,7 +8,7 @@ import {
   EnterFullScreenIcon,
   ExitFullScreenIcon,
 } from '@radix-ui/react-icons';
-import type { Artifact } from '@comfyshop/api-client';
+import type { Artifact, Media } from '@comfyshop/api-client';
 import { Button } from '@comfyshop/ui';
 import { useWorkspace } from '../app/use-workspace';
 import { MediaPreview } from './media-preview';
@@ -16,14 +16,22 @@ import { MediaGrid } from './media-grid';
 import { CollectionStatus } from './collection-status';
 import { collectionFeed } from './use-collection-navigation';
 
+function artifactFormat(media: Media) {
+  if (media.kind === 'audio') return 'FLAC';
+  if (media.kind === '3d') return 'GLB';
+  return `${media.width} × ${media.height}`;
+}
+
 export function AssetGallery({
   selected,
+  disabled,
   ...grid
 }: {
   items: Artifact[];
   onOpen: (asset: Artifact, source: HTMLElement) => void;
   /** 提供时列表进入选择模式，卡片显示勾选状态。 */
   selected?: ReadonlySet<string>;
+  disabled?: boolean;
   scrollRoot?: HTMLElement | null;
   resetKey: string;
   hasNextPage?: boolean;
@@ -41,15 +49,14 @@ export function AssetGallery({
           title: asset.filename,
           media: asset.media,
           pressed: selected ? chosen : undefined,
+          disabled,
           detail: (
             <>
               <span className="media-card-output">
                 {asset.outputNodeTitle || '输出'}
                 {asset.outputNodeId && ` · ${asset.outputNodeId}`}
               </span>
-              <span className="media-card-dimensions">
-                {asset.media.width} × {asset.media.height}
-              </span>
+              <span className="media-card-dimensions">{artifactFormat(asset.media)}</span>
             </>
           ),
           badge: selected && (
@@ -107,7 +114,7 @@ export function ArtifactDisplay({
   return (
     <div className="artifact-display" data-expanded={expanded}>
       <div className="artifact-stage">
-        {onOpen && !artifact.media.video ? (
+        {onOpen && artifact.media.kind === 'image' ? (
           // 鼠标点图片即可放大。键盘使用下方的「放大查看」按钮，这里不进入 Tab 顺序。
           <span
             className="artifact-zoom"
@@ -139,11 +146,11 @@ export function ArtifactDisplay({
             {artifact.outputSlot && ` / ${artifact.outputSlot}`} · {artifact.outputIndex + 1}
           </span>
           <span>
-            {artifact.media.width} × {artifact.media.height} · {fileSizeLabel(artifact.size)}
+            {artifactFormat(artifact.media)} · {fileSizeLabel(artifact.size)}
           </span>
         </div>
         <div className="collection-actions">
-          {onOpen && (
+          {onOpen && (expanded || artifact.media.kind !== 'audio') && (
             <Button size="small" onClick={(event) => onOpen(event.currentTarget)}>
               {expanded ? <ExitFullScreenIcon /> : <EnterFullScreenIcon />}
               {expanded ? closeLabel : '放大查看'}

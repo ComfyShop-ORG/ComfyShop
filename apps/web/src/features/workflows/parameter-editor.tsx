@@ -39,6 +39,8 @@ const parameterTypeLabels: Record<ParameterRow['kind'], string> = {
   choice: '选项',
   image: '图片',
   video: '视频',
+  audio: '音频',
+  '3d': '3D模型',
 };
 
 const controlLabels: Record<NonNullable<ParameterRow['control']>, string> = {

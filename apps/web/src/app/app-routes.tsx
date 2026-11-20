@@ -1,6 +1,6 @@
 /** 页面路由与登录边界。工作流详情可从列表以弹框打开，也可直接通过链接进入。 */
-import { lazy, Suspense, useEffect } from 'react';
-import type { ReactNode } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import { Link, Navigate, Route, Routes, useLocation } from 'react-router';
 import { Button } from '@comfyshop/ui';
 import type { ReplayAction } from '../domain/types';
@@ -24,6 +24,13 @@ const loadWorkflowPage = async () => {
   return page;
 };
 const LazyWorkflowPage = lazy(loadWorkflowPage);
+
+function WorkflowPage(props: ComponentProps<typeof LazyWorkflowPage>) {
+  // 页面打开后保持同一组件，避免预取完成后的上层更新重建工作流草稿。
+  const [Page] = useState(() => loadedWorkflowPage ?? LazyWorkflowPage);
+  return <Page {...props} />;
+}
+
 const MachinesPage = lazy(() => import('../features/machines/machines-page'));
 const MachineLinkDialog = lazy(() => import('../features/machines/machine-link-dialog'));
 const WorkCollection = lazy(() =>
@@ -68,7 +75,6 @@ export function AppRoutes({
     const timer = window.setTimeout(() => void loadWorkflowPage(), 1200);
     return () => window.clearTimeout(timer);
   }, []);
-  const WorkflowPage = loadedWorkflowPage ?? LazyWorkflowPage;
   const catalog = <CatalogPage search={search} clearSearch={clearSearch} />;
   const details = (
     <Suspense

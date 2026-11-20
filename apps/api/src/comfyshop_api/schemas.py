@@ -3,7 +3,7 @@
 import re
 import unicodedata
 from decimal import Decimal, InvalidOperation
-from typing import Annotated, Any, Literal
+from typing import TYPE_CHECKING, Annotated, Any, Literal, Self, get_args
 
 from pydantic import (
     BaseModel,
@@ -15,8 +15,14 @@ from pydantic import (
     StrictFloat,
     StrictStr,
     field_validator,
+    model_validator,
 )
 from pydantic.alias_generators import to_camel
+
+from comfyshop_api.core.categories import WorkflowCategory
+
+if TYPE_CHECKING:
+    from comfyshop_api.models import User
 
 
 class DTO(BaseModel):
@@ -99,9 +105,35 @@ class AccountDelete(DTO):
     password: SecretStr = Field(max_length=128)
 
 
-class UserRead(DTO):
-    id: str
+class NicknameUpdate(DTO):
+    nickname: str | None = Field(max_length=32)
+
+    @field_validator("nickname", mode="before")
+    @classmethod
+    def normalize_nickname(cls, value: object) -> object:
+        if not isinstance(value, str):
+            return value
+        value = unicodedata.normalize("NFC", value).strip()
+        if any(unicodedata.category(char) in {"Cc", "Cs", "Zl", "Zp"} for char in value):
+            raise ValueError("昵称需为单行文字")
+        return value or None
+
+
+class AuthorRead(DTO):
     username: str
+    nickname: str | None = None
+    avatar_url: str | None = None
+
+    @classmethod
+    def from_user(cls, user: "User") -> Self:
+        profile = cls.model_validate(user)
+        if user.avatar_digest is not None:
+            profile.avatar_url = f"/api/v1/authors/{user.id}/avatar/{user.avatar_digest}"
+        return profile
+
+
+class UserRead(AuthorRead):
+    id: str
     email: str | None = None
     # 已填写、还在等邮件确认的邮箱。确认前找回密码仍使用 `email`。
     pending_email: str | None = None
@@ -117,20 +149,40 @@ class ThumbnailRead(DTO):
     sizes: list[int] = Field(description="缩略图长边像素档位，从小到大")
 
 
+MediaKind = Literal["image", "video", "audio", "3d"]
+MEDIA_INPUT_KINDS = get_args(MediaKind)
+
+
 class MediaRead(DTO):
     src: str
-    width: int
-    height: int
+    width: int | None
+    height: int | None
+    kind: MediaKind = "image"
     video: str | None = None
     thumbnail: ThumbnailRead | None = None
     video_preview: ThumbnailRead | None = None
+    filename: str | None = None
+    duration_ms: int | None = None
 
 
-# 分类值分别为 image（图像）、video（视频）、tool（工具）。
+class CoverImageRead(MediaRead):
+    """独立封面只提供经过对应结果或作品授权的缩略图地址。"""
+
+    sha256: str
+
+
+def _workflow_category(value: object) -> object:
+    return WorkflowCategory.IMAGE_TOOL if value == "tool" else value
+
+
 class WorkflowCreate(DTO):
     name: str = Field(min_length=1, max_length=120)
-    category: Literal["image", "video", "tool"] = "image"
+    category: WorkflowCategory = WorkflowCategory.IMAGE
     graph: dict[str, Any]
+
+    _category = field_validator(
+        "category", mode="before", json_schema_input_type=WorkflowCategory | Literal["tool"]
+    )(_workflow_category)
 
     @field_validator("name")
     @classmethod
@@ -142,18 +194,23 @@ class WorkflowCreate(DTO):
 
 class WorkflowUpdate(DTO):
     name: str | None = Field(default=None, min_length=1, max_length=120)
-    category: Literal["image", "video", "tool"] | None = None
+    category: WorkflowCategory | None = None
     # 不传表示不修改，空字符串清除简介。
     description: str | None = Field(default=None, max_length=2000)
     graph: dict[str, Any] | None = None
+
+    _category = field_validator(
+        "category", mode="before", json_schema_input_type=WorkflowCategory | Literal["tool"] | None
+    )(_workflow_category)
 
 
 class WorkflowRead(DTO):
     id: str
     name: str
     author: str
+    author_profile: AuthorRead
     owner: str
-    category: Literal["image", "video", "tool"]
+    category: WorkflowCategory
     published: bool
     version_id: str
     version: int
@@ -174,6 +231,17 @@ class WorkflowRead(DTO):
 class WorkflowPage(DTO):
     items: list[WorkflowRead]
     next_cursor: str | None
+
+
+class WorkflowVersionRead(DTO):
+    id: str
+    number: int
+    published: bool
+
+
+class WorkflowVersions(DTO):
+    current_version_id: str
+    items: list[WorkflowVersionRead]
 
 
 class GraphRead(DTO):
@@ -271,6 +339,10 @@ class MachineCreate(DTO):
     name: str = Field(min_length=1, max_length=80, pattern=r".*\S.*")
 
 
+class MachineReconnect(DTO):
+    machine_id: str = Field(min_length=1, max_length=36)
+
+
 class MachineRead(DTO):
     id: str
     name: str
@@ -313,6 +385,7 @@ class MachineLinkResult(DTO):
 class MachineLinkRead(DTO):
     code: str
     name: str
+    status: Literal["pending", "approved", "linked"]
     requested_at: int
     expires_at: int
     # 申请来自的网络地址，以及它是否与正在查看确认页的浏览器在同一网络。地址未知或
@@ -403,9 +476,13 @@ class ExecutionRead(DTO):
     cover_artifact_id: str | None
     # 封面视频所选画面的时间点，单位毫秒。用首帧或封面是图片时为空。
     cover_frame_ms: int | None = None
+    cover_image: CoverImageRead | None = None
     media: MediaRead | None
     image_count: int
     video_count: int
+    audio_count: int
+    model_count: int
+    artifact_count: int
     created: int
 
 
@@ -427,10 +504,20 @@ MAX_COVER_FRAME_MS = 24 * 60 * 60 * 1000
 CoverFrame = Annotated[int | None, Field(ge=0, le=MAX_COVER_FRAME_MS)]
 
 
-class ExecutionCoverUpdate(DTO):
-    artifact_id: str
+class CoverUpdate(DTO):
+    # 使用一个成品或一张私有图片。两者都为空时恢复默认。
+    artifact_id: str | None = None
+    asset_id: str | None = None
     # 封面是视频时取哪一刻的画面，单位毫秒。不传或传 0 用首帧，只有视频可以指定。
     frame_ms: CoverFrame = None
+
+    @model_validator(mode="after")
+    def validate_source(self) -> Self:
+        if self.artifact_id is not None and self.asset_id is not None:
+            raise ValueError("只能选择一种封面来源")
+        if self.frame_ms and self.artifact_id is None:
+            raise ValueError("指定视频画面前请选择封面成品")
+        return self
 
 
 class WorkflowCoverUpdate(DTO):
@@ -443,24 +530,41 @@ class WorkCreate(DTO):
     execution_id: str
     title: str = Field(min_length=1, max_length=120, pattern=r".*\S.*")
     artifact_ids: list[str] = Field(min_length=1, max_length=1024)
-    cover_artifact_id: str
+    # 同次执行中未选中公开的图片也可以只用作展示封面。
+    cover_artifact_id: str | None = None
     # 封面是视频时取哪一刻的画面，单位毫秒。不传或传 0 用首帧，只有视频可以指定。
     cover_frame_ms: CoverFrame = None
+    cover_asset_id: str | None = None
+    # 确认发布时预览的结果封面。仅接受该次执行仍在使用的图片。
+    execution_cover_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
     share_parameters: bool = False
+    # 完整输入包括标量参数和本次执行使用的参考素材。
+    share_assets: bool | None = None
     description: str = Field(default="", max_length=1000)
+
+    @model_validator(mode="after")
+    def validate_cover_source(self) -> Self:
+        if self.cover_asset_id is not None and self.execution_cover_sha256 is not None:
+            raise ValueError("只能选择一种独立封面来源")
+        if self.cover_frame_ms and self.cover_artifact_id is None:
+            raise ValueError("指定视频画面前请选择封面成品")
+        return self
 
 
 class WorkRead(DTO):
     id: str
     title: str
     author: str
+    author_profile: AuthorRead
     owner: str
     workflow_id: str
     workflow_name: str
+    category: WorkflowCategory
     version_id: str
     execution_id: str
     cover_artifact_id: str
     cover_frame_ms: int | None = None
+    cover_image: CoverImageRead | None = None
     media: MediaRead
     asset_count: int
     published: bool
@@ -498,7 +602,7 @@ class WorkflowInputQuery(BaseModel):
 
 class NodeInput(DTO):
     # string 文本，integer 整数，number 数值，boolean 开关，choice 枚举，image/video 素材。
-    kind: Literal["string", "integer", "number", "boolean", "choice", "image", "video"]
+    kind: Literal["string", "integer", "number", "boolean", "choice", MediaKind]
     label: str = Field(default="", max_length=160)
     choices: list[StrictStr | StrictInt | StrictFloat | StrictBool] = Field(
         default_factory=list, max_length=5000
@@ -559,6 +663,11 @@ class WorkflowParameterControls(DTO):
     slider: ParameterSlider | None = None
 
 
+class WorkflowParameterPresentation(DTO):
+    choice_labels: dict[str, str] = Field(default_factory=dict)
+    guidance: str | None = None
+
+
 class WorkflowParameterDisplay(DTO):
     """单个参数的展示与默认值配置。数组中的位置决定区内顺序。"""
 
@@ -580,6 +689,45 @@ class WorkflowParameterLayoutUpdate(DTO):
     parameter_layout: list[WorkflowParameterDisplay]
 
 
+class WorkflowRatioSize(DTO):
+    kind: Literal["ratio"] = "ratio"
+    ratio_field_id: str
+    megapixels_field_id: str
+    multiple_field_id: str
+    round_to: int | None = None
+    latent_multiple: int | None = None
+    model_multiple: int | None = None
+    prompt_field_id: str | None = None
+
+
+class WorkflowAutomaticSize(DTO):
+    kind: Literal["automatic"] = "automatic"
+    width_field_id: str
+    height_field_id: str
+    uses_reference: bool
+
+
+class WorkflowReferenceFrame(DTO):
+    image_field_id: str
+    time_field_id: str | None = None
+
+
+class WorkflowReferenceTimeline(DTO):
+    duration_field_id: str
+    frames_per_second: int = 24
+    minimum_frames: int = 5
+    frame_step: int = 17
+    frames: list[WorkflowReferenceFrame]
+
+
+class WorkflowCropRegion(DTO):
+    label: str
+    x: int
+    y: int
+    width: int
+    height: int
+
+
 class WorkflowForm(DTO):
     version_id: str
     machine_id: str
@@ -588,7 +736,12 @@ class WorkflowForm(DTO):
     issues: list[str] = Field(default_factory=list)
     parameter_layout: list[WorkflowParameterDisplay] = Field(default_factory=list)
     parameter_controls: dict[str, WorkflowParameterControls] = Field(default_factory=dict)
+    parameter_presentation: dict[str, WorkflowParameterPresentation] = Field(default_factory=dict)
+    output_sizes: list[WorkflowRatioSize | WorkflowAutomaticSize] = Field(default_factory=list)
+    reference_timelines: list[WorkflowReferenceTimeline] = Field(default_factory=list)
+    image_crops: dict[str, list[WorkflowCropRegion]] = Field(default_factory=dict)
     original_defaults: dict[str, ScalarInput] = Field(default_factory=dict)
+    shared_assets: list["AssetRead"] = Field(default_factory=list)
 
 
 class AssetRead(DTO):

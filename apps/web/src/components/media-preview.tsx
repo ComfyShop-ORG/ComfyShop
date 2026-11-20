@@ -1,8 +1,10 @@
-import { useRef, useState } from 'react';
+import { lazy, Suspense, useRef, useState } from 'react';
 import { PauseIcon, PlayIcon, SpeakerLoudIcon, SpeakerOffIcon } from '@radix-ui/react-icons';
 import { IconButton, TrackSlider } from '@comfyshop/ui';
 import { durationLabel } from './generation-stage';
 import type { Media } from '../domain/types';
+
+const ModelPreview = lazy(() => import('./model-preview'));
 
 /**
  * @param autoPlay 打开时静音播放视频。系统设置为减少动态效果时保持静止。
@@ -29,13 +31,29 @@ export function MediaPreview({
     setPosition(seconds);
     onPosition?.(Math.round(seconds * 1000));
   }
+  if (media.kind === 'audio')
+    return (
+      <audio
+        className="audio-preview"
+        src={media.src}
+        controls
+        preload="metadata"
+        aria-label={name}
+      />
+    );
+  if (media.kind === '3d')
+    return (
+      <Suspense fallback={<span role="status">正在读取模型</span>}>
+        <ModelPreview key={media.src} src={media.src} name={name} />
+      </Suspense>
+    );
   if (!media.video)
     return (
       <img
         className="preview-image"
         src={media.src}
-        width={media.width}
-        height={media.height}
+        width={media.width ?? undefined}
+        height={media.height ?? undefined}
         alt={name}
       />
     );
@@ -44,8 +62,8 @@ export function MediaPreview({
       <video
         ref={video}
         src={media.video}
-        width={media.width}
-        height={media.height}
+        width={media.width ?? undefined}
+        height={media.height ?? undefined}
         poster={media.src || undefined}
         muted={muted}
         autoPlay={autoPlay && !matchMedia('(prefers-reduced-motion: reduce)').matches}

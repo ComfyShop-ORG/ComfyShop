@@ -4,12 +4,14 @@
 
 1. 用 `workflows --scope public --search "关键词"` 搜索。范围包括 `public`、`mine`、`favorites`。可按 `--category image`、`--sort updated` 或 `--sort popular` 筛选和排序。有 `nextCursor` 时用 `--cursor` 翻页。记录工作流的 `id`、`versionId`。生成需要 API 格式工作流。
 2. 用 `machines` 查看工作机名称、在线状态、节点数量和账户默认设置。按用户指定选择，未指定时可使用可用的默认工作机。用 `form <工作流ID> <工作机ID> --version <版本ID>` 读取实际参数，检查 `issues` 和必填字段。
-3. 用字段 `id` 索引输入，按类型、范围、步长及选项填写。大整数按字段要求使用十进制字符串。参考素材用 `upload <本地文件> --asset-id <UUID>` 上传，输入值填写 `{"assetId": "上传返回的 ID"}`。账号里已有相同文件时，平台返回已有素材，返回的 ID 可能与传入的 UUID 不同。同一份上传重试沿用 UUID。
+3. 用字段 `id` 索引输入，按类型、范围及选项填写。浮点数可取范围内的值，步长用于控件增减。大整数按字段要求使用十进制字符串。参考素材用 `upload <本地文件> --asset-id <UUID>` 上传，输入值填写 `{"assetId": "上传返回的 ID"}`。账号里已有相同文件时，平台返回已有素材，返回的 ID 可能与传入的 UUID 不同。同一份上传重试沿用 UUID。
+
+- 官方模板可用 `template-inputs <templates/index.json> <模板ID> <工作流ID> <工作机ID> [--version <版本ID>]` 准备默认素材。命令按对应 `sourceRevision` 下载、上传并绑定，返回输入值和上传后重新读取的表单哈希。发起生成时把结果合入提交 JSON，再填写执行次数和幂等键。
 
 ## 重跑以前的结果
 
 - 用 `call execution.replay <执行ID>` 或 `call work.replay <作品ID>` 查到来源工作流、准确版本和来源记录 ID。
-- 同一个 `form` 命令传入来源版本，再加 `--from-execution <执行ID>` 或 `--from-work <作品ID>`。逐项把需要保留的重跑值写入 `inputValues`。自己的执行可沿用有权限的参考素材。公开作品的重跑参数来自作者公开的值，必填素材由当前用户提供。
+- 同一个 `form` 命令传入来源版本，再加 `--from-execution <执行ID>` 或 `--from-work <作品ID>`。逐项把需要保留的重跑值写入 `inputValues`。自己的执行可沿用有权限的参考素材。作品表单回填作者公开的值，`sharedAssets` 提供公开参考文件的预览地址。空的必填素材由当前用户提供。
 - 提交时把相应来源写入 `sourceExecutionId` 或 `sourceWorkId`。一条任务使用一个来源。仅查看以前的参数时交付查询结果，用户要求生成时再提交。
 
 ## 提交与取回结果

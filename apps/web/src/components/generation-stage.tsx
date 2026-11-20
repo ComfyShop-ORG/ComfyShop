@@ -68,7 +68,10 @@ export function GenerationStage({
         <div
           className="generation-canvas"
           data-status={task.status}
-          style={{ aspectRatio: media ? `${media.width} / ${media.height}` : '1 / 1' }}
+          style={{
+            aspectRatio:
+              media?.width && media.height ? `${media.width} / ${media.height}` : '1 / 1',
+          }}
         >
           <span
             className="generation-fill"

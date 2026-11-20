@@ -90,15 +90,20 @@ def original_response(
     return _ObjectResponse(original, dict(response.headers))
 
 
+def image_revalidation(request: Request, version: str) -> tuple[dict[str, str], bool]:
+    tag = f'"{version}"'
+    headers = {"Cache-Control": "private, no-cache", "ETag": tag}
+    condition = request.headers.get("if-none-match", "")
+    tags = {value.strip().removeprefix("W/") for value in condition.split(",")}
+    return headers, "*" in tags or tag in tags
+
+
 async def thumbnail_response(
     request: Request, media: MediaObject, config: MediaSettings, size: int | None, frame_ms: int = 0
 ) -> Response:
     source = media_source(media)
-    tag = f'"{thumbnail_key(source, size, frame_ms)}"'
-    headers = {"Cache-Control": "private, no-cache", "ETag": tag}
-    condition = request.headers.get("if-none-match", "")
-    tags = {value.strip().removeprefix("W/") for value in condition.split(",")}
-    if "*" in tags or tag in tags:
+    headers, unchanged = image_revalidation(request, thumbnail_key(source, size, frame_ms))
+    if unchanged:
         return Response(status_code=304, headers=headers)
     content, content_type = await to_thread.run_sync(
         read_thumbnail, source, config, size, frame_ms, limiter=_thumbnail_threads

@@ -13,6 +13,7 @@ import { workflowPath } from '../../app/workflow-route';
 import type { WorkflowRouteState } from '../../app/workflow-route';
 import type { RequireAuth } from '../auth/login-dialog';
 import WorkflowDialog from './workflow-dialog';
+import type { WorkflowTab } from './workflow-dialog';
 
 export default function SharedWorkflowPage({
   overlay,
@@ -30,7 +31,31 @@ export default function SharedWorkflowPage({
   const [params, setParams] = useSearchParams();
   const queries = useQueryClient();
   const { api, state } = useWorkspace();
-  const workflow = useWorkflowDetail(workflowId ?? '');
+  const [versionTab, setVersionTab] = useState<{
+    workflowId: string;
+    versionId: string;
+    tab: WorkflowTab;
+  }>();
+  const linkedId = params.get('work');
+  const linked = useQuery({
+    queryKey: ['works', 'linked', state.userId, linkedId],
+    enabled: !!linkedId && state.ready,
+    queryFn: ({ signal }) => api.work(linkedId!, signal),
+    retry: false,
+  });
+  const linkedWork = linked.data?.workflowId === workflowId ? linked.data : undefined;
+  const versionId = linkedWork?.versionId ?? params.get('version') ?? undefined;
+  const workflow = useWorkflowDetail(
+    linkedId && linked.isPending ? '' : (workflowId ?? ''),
+    versionId,
+  );
+  const versions = useQuery({
+    queryKey: ['workflows', 'versions', state.userId, workflowId],
+    enabled: !!workflow.data,
+    queryFn: ({ signal }) => api.workflowVersions(workflowId!, signal),
+  });
+  const currentVersionId =
+    versions.data?.currentVersionId ?? (versionId ? undefined : workflow.data?.versionId);
   const { pages } = useWorkflowPages(overlay?.filters);
   // 访客点了作品的「载入参数」再登录：弹框按新身份重建，参数由这里读取后交给新弹框。
   // 只对这个工作流和登录后的那个账号有效，换了工作流或账号就不再载入。
@@ -48,18 +73,21 @@ export default function SharedWorkflowPage({
       ? { workId: signedInReplay.workId }
       : undefined;
   const source = deferred ?? overlay?.replaySource;
+  function showVersion(nextVersionId: string | undefined, routeState = overlay) {
+    setParams(
+      (prior) => {
+        const next = new URLSearchParams(prior);
+        next.delete('work');
+        if (nextVersionId && nextVersionId !== currentVersionId) next.set('version', nextVersionId);
+        else next.delete('version');
+        return next;
+      },
+      { replace: true, state: routeState, preventScrollReset: true },
+    );
+  }
   function replayAfterSignIn({ workId }: { workId: string }) {
     setSignedInReplay({ workId, workflowId: workflowId ?? '' });
-    // 作品弹框是由地址里的 `work` 打开的，载入参数后去掉它，切回「作品」时不会再弹出。
-    if (params.has('work'))
-      setParams(
-        (prior) => {
-          const next = new URLSearchParams(prior);
-          next.delete('work');
-          return next;
-        },
-        { replace: true, state: overlay, preventScrollReset: true },
-      );
+    if (linkedId) showVersion(versionId);
   }
   const replay = useQuery({
     queryKey: ['workflow-route-replay', state.userId, source],
@@ -101,11 +129,26 @@ export default function SharedWorkflowPage({
     );
     return content;
   }
+  const detail = workflow.data;
   const initialReplay = replay.data?.workflow.id === workflowId ? replay.data : undefined;
+  const initialTab =
+    !linkedWork && versionTab?.workflowId === detail.id && versionTab.versionId === detail.versionId
+      ? versionTab.tab
+      : undefined;
   return (
     <WorkflowDialog
       key={state.userId ?? 'guest'}
-      workflow={workflow.data}
+      workflow={detail}
+      currentVersionId={currentVersionId}
+      versions={versions.data?.items ?? []}
+      linkedWork={linkedWork}
+      onLinkedWorkClose={() => showVersion(versionId)}
+      onVersionChange={(nextVersionId, tab) => {
+        setSignedInReplay(undefined);
+        setVersionTab({ workflowId: detail.id, versionId: nextVersionId, tab });
+        showVersion(nextVersionId, overlay && { ...overlay, replaySource: undefined });
+      }}
+      initialTab={initialTab}
       initialReplay={initialReplay}
       initialReplayError={source && replay.error ? replay.error.message : undefined}
       replayAfterSignIn={replayAfterSignIn}

@@ -1,4 +1,4 @@
-"""数据库映射。任务包含多次执行，每次执行可产生多份成品，作品只关联选中的成品。"""
+"""数据库映射。任务包含多次执行，作品保存选中的成品和允许公开的输入。"""
 
 from time import time_ns
 from typing import Final, Literal
@@ -11,6 +11,7 @@ from sqlalchemy import (
     ForeignKey,
     Index,
     JSON,
+    LargeBinary,
     String,
     Text,
     UniqueConstraint,
@@ -18,6 +19,7 @@ from sqlalchemy import (
 from sqlalchemy import ColumnElement
 from sqlalchemy.orm import Mapped, declared_attr, mapped_column, relationship
 
+from comfyshop_api.core.categories import WorkflowCategory, WorkflowCategoryFilter
 from comfyshop_api.db import Base
 
 
@@ -74,6 +76,9 @@ class User(Base):
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
     username: Mapped[str] = mapped_column(String(32))
     username_key: Mapped[str] = mapped_column(String(64), unique=True)
+    nickname: Mapped[str | None] = mapped_column(String(32))
+    avatar_digest: Mapped[str | None] = mapped_column(String(64))
+    avatar_image: Mapped[bytes | None] = mapped_column(LargeBinary, deferred=True)
     password_hash: Mapped[str] = mapped_column(Text)
     # 找回密码用的邮箱，可以不填。`email_key` 是比较用的小写形式。
     email: Mapped[str | None] = mapped_column(String(254))
@@ -119,7 +124,7 @@ class Workflow(SoftDelete, Base):
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
     owner_id: Mapped[str] = mapped_column(ForeignKey("users.id"), index=True)
     name: Mapped[str] = mapped_column(String(120))
-    category: Mapped[Literal["image", "video", "tool"]] = mapped_column(String(16), default="image")
+    category: Mapped[WorkflowCategory] = mapped_column(String(16), default=WorkflowCategory.IMAGE)
     published: Mapped[bool] = mapped_column(Boolean, default=False)
     published_version_id: Mapped[str | None] = mapped_column(String(36))
     # 作者指定用作封面的作品。为空或该作品不再公开时，取作者最近公开的作品。
@@ -133,8 +138,17 @@ class Workflow(SoftDelete, Base):
         order_by="WorkflowVersion.number", lazy="selectin"
     )
     __table_args__ = (
-        CheckConstraint("category IN ('image','video','tool')", name="workflow_category"),
+        CheckConstraint(
+            "category IN (" + ",".join(repr(item.value) for item in WorkflowCategory) + ")",
+            name="workflow_category",
+        ),
     )
+
+    @classmethod
+    def in_category(cls, category: WorkflowCategoryFilter) -> ColumnElement[bool]:
+        if category == "tool":
+            return cls.category.in_((WorkflowCategory.IMAGE_TOOL, WorkflowCategory.VIDEO_TOOL))
+        return cls.category == category
 
 
 class WorkflowVersion(Base):
@@ -229,10 +243,10 @@ class Machine(Base):
 
 
 class MachineLink(Base):
-    """工作机首次启动时的接入申请。
+    """没有密钥的工作机提交的接入申请。
 
     工作机保存 `secret_hash` 的原值，网页用 `code` 找到申请。账号确认后写入 `owner_id`，
-    工作机随后凭原值换取密钥并记下 `machine_id`。密钥在换取时才生成，这里不保存；换取的
+    重新连接时还记下 `reconnect_machine_id`。工作机凭原值换取密钥后写入 `machine_id`。
     回复丢失时，工作机在申请到期前凭同一原值重试，平台为同一台工作机换发密钥。
     """
 
@@ -245,6 +259,7 @@ class MachineLink(Base):
     # 申请来自的网络地址，确认页据此提示申请是否来自当前浏览器所在的网络。
     source_ip: Mapped[str] = mapped_column(String(64), default="", server_default="")
     machine_id: Mapped[str | None] = mapped_column(ForeignKey("machines.id"))
+    reconnect_machine_id: Mapped[str | None] = mapped_column(ForeignKey("machines.id"))
     created_at: Mapped[int] = mapped_column(BigInteger, default=now_ms)
     expires_at: Mapped[int] = mapped_column(BigInteger)
 
@@ -256,15 +271,16 @@ class UserPreference(Base):
 
 
 class MediaObject(Base):
-    """原件登记。实际的素材与成品外键决定原件何时可以回收。"""
+    """原件登记。素材、成品、封面和作品输入的外键决定原件何时可以回收。"""
 
     __tablename__ = "media_objects"
     sha256: Mapped[str] = mapped_column(String(64), primary_key=True)
     storage_name: Mapped[str] = mapped_column(String(96), unique=True)
     size: Mapped[int] = mapped_column(BigInteger)
     content_type: Mapped[str] = mapped_column(String(80))
-    width: Mapped[int]
-    height: Mapped[int]
+    width: Mapped[int | None]
+    height: Mapped[int | None]
+    duration_ms: Mapped[int | None] = mapped_column(BigInteger)
 
 
 class OriginalDeletion(Base):
@@ -275,17 +291,20 @@ class OriginalDeletion(Base):
     retry_at: Mapped[int] = mapped_column(BigInteger, index=True)
 
 
-class StoredMedia:
-    """输入素材和成品各自保留所有权和文件名，原件按内容复用。"""
+class MediaRecord:
+    """业务记录保留各自的文件名，原件按内容复用。"""
 
-    owner_id: Mapped[str] = mapped_column(ForeignKey("users.id"), index=True)
     filename: Mapped[str] = mapped_column(String(200))
     sha256: Mapped[str] = mapped_column(ForeignKey("media_objects.sha256"), index=True)
-    created_at: Mapped[int] = mapped_column(BigInteger, default=now_ms)
 
     @declared_attr
     def media(cls) -> Mapped[MediaObject]:
         return relationship(MediaObject, lazy="joined", innerjoin=True)
+
+
+class StoredMedia(MediaRecord):
+    owner_id: Mapped[str] = mapped_column(ForeignKey("users.id"), index=True)
+    created_at: Mapped[int] = mapped_column(BigInteger, default=now_ms)
 
 
 class Artifact(SoftDelete, StoredMedia, Base):
@@ -314,10 +333,14 @@ class Execution(Base):
     status: Mapped[StatusValue] = mapped_column(String(16), default=Status.QUEUED)
     prompt_id: Mapped[str | None] = mapped_column(String(64))
     manifest: Mapped[list | None] = mapped_column(JSON)
-    # 所有者指定的组封面。为空或该成品已删除时，取首张图片。
+    # 所有者指定的组封面成品。为空或该成品已删除时，从本组剩余成品中选取。
     cover_artifact_id: Mapped[str | None] = mapped_column(String(36))
     # 封面是视频时取哪一刻的画面，单位毫秒。为空时用首帧。
     cover_frame_ms: Mapped[int | None] = mapped_column(BigInteger)
+    cover_image_sha256: Mapped[str | None] = mapped_column(
+        ForeignKey("media_objects.sha256"), index=True
+    )
+    cover_image: Mapped[MediaObject | None] = relationship(lazy="joined")
     created_at: Mapped[int] = mapped_column(BigInteger, default=now_ms)
     updated_at: Mapped[int] = mapped_column(BigInteger, default=now_ms)
     __table_args__ = (
@@ -352,6 +375,10 @@ class Work(SoftDelete, Base):
     cover_artifact_id: Mapped[str] = mapped_column(ForeignKey("artifacts.id"))
     # 封面是视频时取哪一刻的画面，单位毫秒。为空时用首帧。
     cover_frame_ms: Mapped[int | None] = mapped_column(BigInteger)
+    cover_image_sha256: Mapped[str | None] = mapped_column(
+        ForeignKey("media_objects.sha256"), index=True
+    )
+    cover_image: Mapped[MediaObject | None] = relationship(lazy="joined")
     input_values: Mapped[dict] = mapped_column(JSON, default=dict)
     published: Mapped[bool] = mapped_column(Boolean, default=True)
     created_at: Mapped[int] = mapped_column(BigInteger, default=now_ms)
@@ -374,6 +401,14 @@ class WorkArtifact(Base):
     artifact_id: Mapped[str] = mapped_column(ForeignKey("artifacts.id"), primary_key=True)
     position: Mapped[int]
     __table_args__ = (UniqueConstraint("work_id", "position", name="uq_work_artifact_position"),)
+
+
+class WorkAsset(MediaRecord, Base):
+    """随作品公开的参考文件。授权和文件名取自发布时的输入快照。"""
+
+    __tablename__ = "work_assets"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    work_id: Mapped[str] = mapped_column(ForeignKey("works.id"), index=True)
 
 
 class Asset(StoredMedia, Base):

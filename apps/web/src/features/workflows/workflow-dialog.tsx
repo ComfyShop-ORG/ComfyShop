@@ -4,7 +4,7 @@ import type { RefObject } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useHref } from 'react-router';
 import { DownloadIcon } from '@radix-ui/react-icons';
-import { Button, Dialog, DialogClose, IconButton, Tabs } from '@comfyshop/ui';
+import { Button, Dialog, DialogClose, IconButton, Select, Tabs } from '@comfyshop/ui';
 import { CancelTaskButton, TaskState } from '../../components/task-state';
 import { TaskDetailsDialog } from '../../components/task-details';
 import { ExecutionCollection } from '../../components/execution-collection';
@@ -21,7 +21,7 @@ import { useTasks, useWorkspace } from '../../app/use-workspace';
 import { workflowPath } from '../../app/workflow-route';
 import { downloadJson } from '../../data/download';
 import type { Task, Workflow } from '../../domain/types';
-import type { InputValue, Replay } from '@comfyshop/api-client';
+import type { InputValue, Replay, Work, WorkflowVersion } from '@comfyshop/api-client';
 import type { RequireAuth } from '../auth/login-dialog';
 import { RunForm } from './run-form';
 import type { RunIntent } from './run-form';
@@ -32,12 +32,21 @@ type WorkflowDraft = {
   replay: Replay | null;
   executionCount: number;
   inputValues: Record<string, InputValue> | null;
+  hiddenInputValues: Record<string, InputValue>;
   machineId: string | null;
   intent?: RunIntent;
 };
 
+export type WorkflowTab = 'works' | 'results';
+
 type WorkflowDetailsProps = {
   workflow: Workflow;
+  currentVersionId?: string;
+  versions: WorkflowVersion[];
+  onVersionChange: (versionId: string, tab: WorkflowTab) => void;
+  initialTab?: WorkflowTab;
+  linkedWork?: Work;
+  onLinkedWorkClose: () => void;
   initialReplay?: Replay;
   initialReplayError?: string;
   /** 访客在作品上点「载入参数」后登录时，由外层页面载入参数。 */
@@ -74,19 +83,22 @@ export default function WorkflowDialog({
     replay: initialReplay ?? null,
     executionCount: 1,
     inputValues: null,
+    hiddenInputValues: {},
     machineId: null,
   };
+  const draft = drafts[draftKey] ?? initialDraft;
+  const versionId = draft.replay?.workflow.versionId ?? workflow.versionId;
   const queries = useQueryClient();
-  const { items, history } = useTasks(workflow.id);
+  const { items, history } = useTasks(workflow.id, undefined, versionId);
   const refreshed = useRef(new Map<string, string>());
   const latestSuccess = items.find((task) => task.status === 'succeeded')?.id;
   useEffect(() => {
-    if (latestSuccess && refreshed.current.get(workflow.id) !== latestSuccess) {
-      refreshed.current.set(workflow.id, latestSuccess);
+    if (latestSuccess && refreshed.current.get(versionId) !== latestSuccess) {
+      refreshed.current.set(versionId, latestSuccess);
       void queries.invalidateQueries({ queryKey: ['workflows'] });
       void queries.invalidateQueries({ queryKey: ['artifacts'] });
     }
-  }, [latestSuccess, queries, workflow.id]);
+  }, [latestSuccess, queries, versionId]);
   return (
     <Dialog.Root
       open
@@ -108,7 +120,7 @@ export default function WorkflowDialog({
           tasks={items}
           tasksComplete={!history.isPending && !history.hasNextPage}
           onClose={onClose}
-          draft={drafts[draftKey] ?? initialDraft}
+          draft={draft}
           updateDraft={(update) =>
             setDrafts((prior) => {
               const draft = prior[draftKey] ?? initialDraft;
@@ -132,6 +144,12 @@ export default function WorkflowDialog({
 
 function WorkflowPanel({
   workflow,
+  currentVersionId,
+  versions,
+  onVersionChange,
+  initialTab,
+  linkedWork,
+  onLinkedWorkClose,
   initialReplay,
   initialReplayError,
   replayAfterSignIn,
@@ -148,7 +166,7 @@ function WorkflowPanel({
 }: WorkflowDetailsProps & {
   titleRef: RefObject<HTMLHeadingElement | null>;
   tasks: Task[];
-  /** 这个工作流的任务历史是否已全部读取。 */
+  /** 当前版本的任务历史是否已全部读取。 */
   tasksComplete: boolean;
   onClose: () => void;
   draft: WorkflowDraft;
@@ -160,21 +178,39 @@ function WorkflowPanel({
   const queries = useQueryClient();
   const { replay } = draft;
   const activeWorkflow = replay?.workflow ?? workflow;
-  const sharePath = useHref(workflowPath(workflow.id));
-  const [tab, setTab] = useState(initialReplay ? 'results' : 'works');
+  const versionOptions = versions.map((version) => ({
+    value: version.id,
+    label: `v${version.number}${!version.published ? ' 草稿' : version.id === currentVersionId ? ' 当前' : ''}`,
+  }));
+  if (!versions.some((version) => version.id === activeWorkflow.versionId)) {
+    versionOptions.unshift({
+      value: activeWorkflow.versionId,
+      label: `v${activeWorkflow.version}`,
+    });
+  }
+  const isCurrentVersion = activeWorkflow.versionId === currentVersionId;
+  const sharePath = useHref(
+    workflowPath(workflow.id, isCurrentVersion ? undefined : activeWorkflow.versionId),
+  );
+  const [tab, setTab] = useState<WorkflowTab>(initialTab ?? (initialReplay ? 'results' : 'works'));
   const [scrollRoot, setScrollRoot] = useState<HTMLDivElement | null>(null);
-  const [resultTaskId, setResultTaskId] = useState<string | undefined>();
+  const [resultTask, setResultTask] = useState<Pick<Task, 'id' | 'versionId'>>();
+  const resultTaskId =
+    resultTask?.versionId === activeWorkflow.versionId ? resultTask.id : undefined;
   const [submission, setSubmission] = useState<{ task: Task; userId: string | null }>();
   const [taskDetails, setTaskDetails] = useState<{
     task: Task;
     source: HTMLElement;
     userId: string | null;
   } | null>(null);
-  const submittedTask = submission?.userId === state.userId ? submission?.task : undefined;
+  const submittedTask =
+    submission?.userId === state.userId && submission?.task.versionId === activeWorkflow.versionId
+      ? submission.task
+      : undefined;
   const currentTask = state.user
     ? submittedTask
       ? (tasks.find((task) => task.id === submittedTask.id) ?? submittedTask)
-      : tasks[0]
+      : tasks.find((task) => task.versionId === activeWorkflow.versionId)
     : undefined;
   const formId = useId();
   // 浏览器标签显示当前工作流，关闭弹框后恢复站点名称。
@@ -200,13 +236,20 @@ function WorkflowPanel({
     ? (tasks.find((task) => task.id === resultTaskId) ??
       (submittedTask?.id === resultTaskId ? submittedTask : undefined))
     : undefined;
-  const ownDraft = workflow.owner === state.userId && !workflow.published;
+  const canManage = isCurrentVersion && workflow.owner === state.userId;
+  const ownDraft = canManage && !activeWorkflow.published;
   // 历史没读完时无法确定有没有成功记录，交给平台在发布时判断。
   const versionSucceeded =
-    tasks.some((task) => task.versionId === workflow.versionId && task.status === 'succeeded') ||
-    (tasksComplete ? false : undefined);
+    tasks.some(
+      (task) => task.versionId === activeWorkflow.versionId && task.status === 'succeeded',
+    ) || (tasksComplete ? false : undefined);
   function loadReplay(next: Replay) {
-    updateDraft(() => ({ replay: next, executionCount: 1, inputValues: null }));
+    updateDraft(() => ({
+      replay: next,
+      executionCount: 1,
+      inputValues: null,
+      hiddenInputValues: {},
+    }));
     notify('已载入参数');
   }
   async function download() {
@@ -228,7 +271,26 @@ function WorkflowPanel({
           </Dialog.Title>
         </div>
         <div className="dialog-heading-actions">
-          <span className="version">v{activeWorkflow.version}</span>
+          {versionOptions.length > 1 ? (
+            <Select
+              label="工作流版本"
+              options={versionOptions}
+              value={activeWorkflow.versionId}
+              disabled={operations.size > 0}
+              onValueChange={(versionId) => {
+                if (replay)
+                  updateDraft(() => ({
+                    replay: null,
+                    inputValues: null,
+                    hiddenInputValues: {},
+                    intent: undefined,
+                  }));
+                onVersionChange(versionId, tab);
+              }}
+            />
+          ) : (
+            <span className="version">v{activeWorkflow.version}</span>
+          )}
           <IconButton
             label={state.user ? '下载 JSON' : '登录后下载 JSON'}
             onClick={(event) => requireAuth(event.currentTarget, download, '登录后下载工作流文件')}
@@ -236,10 +298,14 @@ function WorkflowPanel({
             <DownloadIcon />
           </IconButton>
           <CopyLink href={sharePath} title="工作流链接" />
-          {workflow.owner === state.userId && (
-            <WorkflowSettings workflow={workflow} disabled={operations.size > 0} notify={notify} />
+          {canManage && (
+            <WorkflowSettings
+              workflow={activeWorkflow}
+              disabled={operations.size > 0}
+              notify={notify}
+            />
           )}
-          {workflow.owner === state.userId && (
+          {canManage && (
             <DeleteButton
               label="删除工作流"
               done="已删除工作流"
@@ -293,8 +359,8 @@ function WorkflowPanel({
             className="viewer-tabs"
             value={tab}
             onValueChange={(value) => {
-              if (value === 'results') setResultTaskId(undefined);
-              setTab(value);
+              if (value === 'results') setResultTask(undefined);
+              setTab(value === 'results' ? 'results' : 'works');
             }}
           >
             <Tabs.List className="viewer-tab-list" aria-label="工作流内容">
@@ -312,14 +378,20 @@ function WorkflowPanel({
             <div className="viewer-scroll" ref={setScrollRoot}>
               <Tabs.Content value="works" className="gallery-panel">
                 <WorkCollection
+                  key={activeWorkflow.versionId}
                   workflowId={workflow.id}
+                  versionId={activeWorkflow.versionId}
+                  linkedWork={
+                    linkedWork?.versionId === activeWorkflow.versionId ? linkedWork : undefined
+                  }
+                  onLinkedWorkClose={onLinkedWorkClose}
                   scrollRoot={scrollRoot}
                   emptyAction={
                     state.user && (
                       <Button
                         size="small"
                         onClick={() => {
-                          setResultTaskId(undefined);
+                          setResultTask(undefined);
                           setTab('results');
                         }}
                       >
@@ -341,9 +413,9 @@ function WorkflowPanel({
                         <Button
                           variant="ghost"
                           size="small"
-                          onClick={() => setResultTaskId(undefined)}
+                          onClick={() => setResultTask(undefined)}
                         >
-                          查看这个工作流的全部结果
+                          查看此版本的全部结果
                         </Button>
                       </div>
                     )}
@@ -366,7 +438,9 @@ function WorkflowPanel({
                       }
                     >
                       <ExecutionCollection
+                        key={activeWorkflow.versionId}
                         workflowId={workflow.id}
+                        versionId={activeWorkflow.versionId}
                         taskId={resultTaskId}
                         scrollRoot={scrollRoot}
                         quietEmpty={!!stagedTask && stagedTask.status !== 'succeeded'}
@@ -399,7 +473,9 @@ function WorkflowPanel({
           formId={formId}
           workflow={activeWorkflow}
           publishAction={
-            ownDraft && <PublishWorkflowButton workflow={workflow} hasSuccess={versionSucceeded} />
+            ownDraft && (
+              <PublishWorkflowButton workflow={activeWorkflow} hasSuccess={versionSucceeded} />
+            )
           }
           taskSummary={
             currentTask && (
@@ -412,7 +488,7 @@ function WorkflowPanel({
                   variant="ghost"
                   size="small"
                   onClick={() => {
-                    setResultTaskId(currentTask.id);
+                    setResultTask(currentTask);
                     setTab('results');
                     scrollRoot?.scrollIntoView({ block: 'nearest' });
                   }}
@@ -442,6 +518,10 @@ function WorkflowPanel({
           onInputValuesChange={(update) =>
             updateDraft((prior) => ({ inputValues: update(prior.inputValues) }))
           }
+          hiddenInputValues={draft.hiddenInputValues}
+          onHiddenInputValuesChange={(update) =>
+            updateDraft((prior) => ({ hiddenInputValues: update(prior.hiddenInputValues) }))
+          }
           intent={draft.intent}
           onIntentChange={(intent) => updateDraft(() => ({ intent }))}
           operations={operations}
@@ -455,12 +535,17 @@ function WorkflowPanel({
               : undefined
           }
           onReset={() =>
-            updateDraft(() => ({ replay: null, inputValues: null, executionCount: 1 }))
+            updateDraft(() => ({
+              replay: null,
+              inputValues: null,
+              hiddenInputValues: {},
+              executionCount: 1,
+            }))
           }
           requireAuth={requireAuth}
           onRun={(task) => {
             setSubmission({ task, userId: state.userId });
-            setResultTaskId(task.id);
+            setResultTask(task);
             setTab('results');
             notify('已加入队列');
           }}

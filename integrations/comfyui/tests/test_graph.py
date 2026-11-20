@@ -2,8 +2,43 @@ from copy import deepcopy
 
 import pytest
 
+from comfyshop_worker.catalog import make_catalog
 from comfyshop_worker.comfy import history_outputs
 from comfyshop_worker.graph import WorkflowError, preflight, prepare_bound_graph
+
+
+def test_successful_audio_is_collected_from_comfy_history():
+    descriptor = {"filename": "music.flac", "type": "output", "subfolder": "audio"}
+    assert history_outputs(
+        {
+            "status": {"completed": True, "status_str": "success"},
+            "outputs": {"10": {"audio": [descriptor]}},
+        }
+    ) == [{**descriptor, "outputNodeId": "10", "outputSlot": "audio", "outputIndex": 0}]
+
+
+def test_glb_collection_keeps_the_saved_original_and_skips_the_temp_copy():
+    model = {"filename": "model.glb", "type": "output", "subfolder": "3d"}
+    assert history_outputs(
+        {
+            "status": {"completed": True, "status_str": "success"},
+            "outputs": {"9": {"3d": [{**model, "type": "temp"}]}, "10": {"3d": [model]}},
+        }
+    ) == [{**model, "outputNodeId": "10", "outputSlot": "3d", "outputIndex": 0}]
+
+
+@pytest.mark.parametrize(
+    ("node", "field", "kind", "suffix"),
+    [("LoadAudio", "audio", "audio", "flac"), ("Load3DAdvanced", "model_file", "3d", "glb")],
+)
+def test_uploaded_fields_do_not_require_a_preexisting_work_machine_file(node, field, kind, suffix):
+    info = {node: {"input": {"required": {field: [[f"existing.{suffix}"]]}}}}
+    spec = make_catalog(info)["nodes"][node]["inputs"][field]
+    assert spec["kind"] == kind and spec["choices"] == []
+    preflight(
+        {"1": {"class_type": node, "inputs": {field: f"ComfyShop/task/reference.{suffix}"}}},
+        info,
+    )
 
 
 def test_bound_graph_applies_api_seed_without_changing_frozen_inputs_or_links():

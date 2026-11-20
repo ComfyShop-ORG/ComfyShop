@@ -1,18 +1,25 @@
 import hashlib
+from io import BytesIO
+import shutil
+from struct import pack
+import subprocess
 from uuid import uuid4
 
 from fastapi.testclient import TestClient
+from PIL import Image
+import pytest
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from comfyshop_api.models import Execution, Task, Work, now_ms
+from comfyshop_api.models import Execution, MediaObject, Task, Work, now_ms
 from comfyshop_api.services.machines import expire_leases
+from comfyshop_api.services.originals import retire_unreferenced_originals
 from test_worker import claim_body, image_bytes, setup_job
-from helpers import task_body, sync_machine
+from helpers import execution_id, task_body, sync_machine
 import json
 
 
-def run_group(client, worker, task_id, lease, index=0, members=3):
+def run_group(client, worker, task_id, lease, index=0, members=3, media=None):
     base = f"/api/v1/worker/tasks/{task_id}"
     headers = {"X-Task-Lease": lease}
     heartbeat = {
@@ -36,14 +43,14 @@ def run_group(client, worker, task_id, lease, index=0, members=3):
     )
     assert started.status_code == 200, started.text
     outputs = []
-    for position in range(members):
-        data = image_bytes()
+    files = media if media is not None else [("png", image_bytes(), "images")] * members
+    for position, (suffix, data, slot) in enumerate(files):
         params = {
-            "filename": f"output-{index}-{position}.png",
+            "filename": f"output-{index}-{position}.{suffix}",
             "sha256": hashlib.sha256(data).hexdigest(),
             "execution_index": index,
             "output_node_id": "2",
-            "output_slot": "images",
+            "output_slot": slot,
             "output_index": position,
         }
         response = worker.put(
@@ -51,8 +58,8 @@ def run_group(client, worker, task_id, lease, index=0, members=3):
         )
         assert response.status_code == 200, response.text
         outputs.append(response.json())
-    manifest = {"clientIds": [f"r{index}_{position}" for position in range(members)]}
-    if members > 1:
+    manifest = {"clientIds": [f"r{index}_{position}" for position in range(len(files))]}
+    if len(files) > 1:
         assert (
             worker.post(
                 base + f"/executions/{index}/complete",
@@ -76,6 +83,295 @@ def run_group(client, worker, task_id, lease, index=0, members=3):
         == completed.json()["id"]
     )
     return completed.json(), outputs
+
+
+@pytest.fixture
+def flac(settings, tmp_path):
+    if not shutil.which(settings.ffmpeg) or not shutil.which(settings.ffprobe):
+        pytest.skip("ffmpeg and ffprobe are required for FLAC acceptance")
+    file = tmp_path / "sample.flac"
+    subprocess.run(
+        [
+            settings.ffmpeg,
+            "-v",
+            "error",
+            "-f",
+            "lavfi",
+            "-i",
+            "sine=duration=0.3",
+            str(file),
+        ],
+        check=True,
+    )
+    return file.read_bytes()
+
+
+def glb_bytes():
+    vertices = pack("<9f", -1, 0, 0, 1, 0, 0, 0, 1, 0)
+    descriptor = {
+        "asset": {"version": "2.0"},
+        "scene": 0,
+        "scenes": [{"nodes": [0]}],
+        "nodes": [{"mesh": 0}],
+        "meshes": [{"primitives": [{"attributes": {"POSITION": 0}}]}],
+        "buffers": [{"byteLength": len(vertices)}],
+        "bufferViews": [{"buffer": 0, "byteLength": len(vertices)}],
+        "accessors": [
+            {
+                "bufferView": 0,
+                "componentType": 5126,
+                "count": 3,
+                "type": "VEC3",
+                "min": [-1, 0, 0],
+                "max": [1, 1, 0],
+            }
+        ],
+    }
+    metadata = json.dumps(descriptor).encode()
+    metadata += b" " * (-len(metadata) % 4)
+    chunks = (
+        pack("<I4s", len(metadata), b"JSON")
+        + metadata
+        + pack("<I4s", len(vertices), b"BIN\x00")
+        + vertices
+    )
+    return pack("<4sII", b"glTF", 2, 12 + len(chunks)) + chunks
+
+
+def test_models_and_image_previews_are_separate_originals(authenticated, graph):
+    client = authenticated
+    machine, task, _ = setup_job(client, graph)
+    worker = TestClient(client.app, headers={"Authorization": "Bearer " + machine["apiKey"]})
+    claim = claim_body()
+    assert worker.post("/api/v1/worker/claim", json=claim).status_code == 200
+    glb = glb_bytes()
+    execution, (model, image) = run_group(
+        client,
+        worker,
+        task["id"],
+        claim["leaseSecret"],
+        media=[("glb", glb, "3d"), ("png", image_bytes(), "images")],
+    )
+    assert (execution["modelCount"], execution["imageCount"], execution["artifactCount"]) == (
+        1,
+        1,
+        2,
+    )
+    assert execution["media"] == image["media"]
+    assert model["contentType"] == "model/gltf-binary"
+    assert model["media"]["kind"] == "3d" and model["media"]["thumbnail"] is None
+    response = client.get(model["media"]["src"], params={"download": "true"})
+    assert response.status_code == 200 and response.content == glb
+    assert response.headers["content-type"] == "model/gltf-binary"
+    invalid = client.put(
+        f"/api/v1/assets/{uuid4()}", params={"filename": "truncated.glb"}, content=glb[:-4]
+    )
+    assert invalid.status_code == 422 and "GLB" in invalid.json()["detail"]
+    workflow = f"/api/v1/workflows/{task['workflowId']}"
+    assert client.patch(workflow, json={"category": "3d"}).status_code == 200
+    assert client.post(workflow + "/publish").status_code == 200
+    request = {
+        "id": str(uuid4()),
+        "executionId": execution["id"],
+        "title": "带预览的模型",
+        "artifactIds": [model["id"], image["id"]],
+        "coverArtifactId": image["id"],
+    }
+    visitor = TestClient(client.app)
+    preview_only = client.post(
+        "/api/v1/works", json={**request, "id": str(uuid4()), "artifactIds": [model["id"]]}
+    )
+    assert preview_only.status_code == 201, preview_only.text
+    shared_model = preview_only.json()
+    assert shared_model["assetCount"] == 1 and shared_model["media"] == model["media"]
+    assert visitor.get(shared_model["coverImage"]["src"]).status_code == 200
+    assert visitor.get(image["media"]["src"]).status_code == 404
+    published = client.post("/api/v1/works", json=request)
+    assert published.status_code == 201, published.text
+    assert published.json()["media"] == image["media"]
+    assert published.json()["category"] == "3d"
+    model_only = client.post(
+        "/api/v1/works",
+        json={**request, "id": str(uuid4()), "artifactIds": [model["id"]], "coverArtifactId": None},
+    )
+    assert model_only.status_code == 201, model_only.text
+    assert model_only.json()["media"] == model["media"]
+    assert TestClient(client.app).get(model["media"]["src"]).content == glb
+
+
+def test_audio_only_execution_preserves_the_flac(authenticated, graph, flac):
+    client = authenticated
+    machine, task, _ = setup_job(client, graph)
+    worker = TestClient(client.app, headers={"Authorization": "Bearer " + machine["apiKey"]})
+    claim = claim_body()
+    assert worker.post("/api/v1/worker/claim", json=claim).status_code == 200
+    execution, (artifact,) = run_group(
+        client, worker, task["id"], claim["leaseSecret"], media=[("flac", flac, "audio")]
+    )
+    assert execution["status"] == "succeeded"
+    assert (execution["audioCount"], execution["artifactCount"]) == (1, 1)
+    assert client.get(f"/api/v1/tasks/{task['id']}").json()["status"] == "succeeded"
+    assert artifact["contentType"] == "audio/flac"
+    media = artifact["media"]
+    assert media["kind"] == "audio" and media["width"] is None and media["height"] is None
+    assert media["durationMs"] == 300 and media["filename"] == artifact["filename"]
+    assert media["thumbnail"] is None
+    assert client.get(media["src"]).content == flac
+    assert client.get(media["src"], headers={"Range": "bytes=0-3"}).content == b"fLaC"
+    visitor = TestClient(client.app)
+    assert visitor.get(media["src"]).status_code == 404
+    assert client.post(f"/api/v1/workflows/{task['workflowId']}/publish").status_code == 200
+    body = {
+        "id": str(uuid4()),
+        "executionId": execution["id"],
+        "title": "音频作品",
+        "artifactIds": [artifact["id"]],
+    }
+    published = client.post("/api/v1/works", json=body)
+    assert published.status_code == 201, published.text
+    assert published.json()["media"] == media
+    assert client.post("/api/v1/works", json=body).status_code == 200
+    assert visitor.get(media["src"]).content == flac
+
+
+@pytest.mark.parametrize(("suffix", "kind"), [("flac", "audio"), ("glb", "3d")])
+def test_independent_covers_preserve_originals_and_publication(
+    authenticated, graph, request, suffix, kind
+):
+    client = authenticated
+    visitor = TestClient(client.app)
+    content = request.getfixturevalue("flac") if kind == "audio" else glb_bytes()
+    machine, task, _ = setup_job(client, graph)
+    worker = TestClient(client.app, headers={"Authorization": "Bearer " + machine["apiKey"]})
+    claim = claim_body()
+    assert worker.post("/api/v1/worker/claim", json=claim).status_code == 200
+    execution, (artifact,) = run_group(
+        client, worker, task["id"], claim["leaseSecret"], media=[(suffix, content, kind)]
+    )
+    execution_url = f"/api/v1/executions/{execution['id']}/cover"
+    workflow_url = f"/api/v1/workflows/{task['workflowId']}"
+    assert client.post(f"{workflow_url}/publish").status_code == 200
+    assert client.put(execution_url, json={"assetId": "missing"}).status_code == 404
+
+    def upload_cover(color):
+        image = BytesIO()
+        Image.new("RGB", (68, 104), color).save(image, "PNG")
+        response = client.put(
+            f"/api/v1/assets/{uuid4()}", params={"filename": "cover.png"}, content=image.getvalue()
+        )
+        assert response.status_code == 200, response.text
+        return response.json()
+
+    first = upload_cover("green")
+    next_image = upload_cover("blue")
+    chosen = client.put(execution_url, json={"assetId": first["id"]})
+    assert chosen.status_code == 200, chosen.text
+    preview = chosen.json()["coverImage"]
+    assert chosen.json()["media"] == artifact["media"]
+    assert preview["width"] == 68 and preview["height"] == 104
+    assert client.get(preview["src"]).headers["content-type"].startswith("image/")
+    assert visitor.get(preview["src"]).status_code == 401
+
+    body = {
+        "id": str(uuid4()),
+        "executionId": execution["id"],
+        "title": "独立封面",
+        "artifactIds": [artifact["id"]],
+        "executionCoverSha256": preview["sha256"],
+    }
+    published = client.post("/api/v1/works", json=body)
+    assert published.status_code == 201, published.text
+    work = published.json()
+    work_url = f"/api/v1/works/{work['id']}"
+    assert work["media"]["kind"] == kind and work["assetCount"] == 1
+    assert work["media"]["filename"].endswith(f".{suffix}")
+    assert visitor.get(work["media"]["src"]).content == content
+    work_cover = work["coverImage"]["src"]
+    assert work_cover != preview["src"]
+    assert visitor.get(work_cover).content == client.get(preview["src"]).content
+    assert visitor.get(first["media"]["src"]).status_code == 401
+    assert visitor.get(workflow_url).json()["media"]["src"] == work_cover
+    assert visitor.get(f"{work_url}/inputs").json()["assets"] == []
+
+    replaced = client.put(execution_url, json={"assetId": next_image["id"]})
+    assert replaced.json()["coverImage"]["sha256"] == next_image["sha256"]
+    assert client.get(preview["src"]).status_code == 404
+    assert client.post("/api/v1/works", json=body).status_code == 200
+    assert client.post("/api/v1/works", json={**body, "id": str(uuid4())}).status_code == 409
+    assert client.delete(f"/api/v1/assets/{first['id']}").status_code == 204
+    with Session(client.app.state.engine) as db:
+        retire_unreferenced_originals(db)
+        assert db.get(MediaObject, first["sha256"]) is not None
+    assert visitor.get(work_cover).status_code == 200
+
+    changed = client.put(f"{work_url}/cover", json={"assetId": next_image["id"]})
+    assert changed.status_code == 200, changed.text
+    assert changed.json()["media"] == artifact["media"]
+    new_cover = changed.json()["coverImage"]["src"]
+    assert visitor.get(work_cover).status_code == 404
+    assert visitor.get(workflow_url).json()["media"]["src"] == new_cover
+    assert client.put(execution_url, json={}).json()["coverImage"] is None
+    assert visitor.get(new_cover).status_code == 200
+    etag = visitor.get(new_cover).headers["etag"]
+    assert client.delete(work_url).status_code == 204
+    assert visitor.get(new_cover, headers={"If-None-Match": etag}).status_code == 404
+    assert client.get(new_cover).status_code == 200
+    assert client.put(f"{work_url}/cover", json={}).json()["coverImage"] is None
+    with Session(client.app.state.engine) as db:
+        retire_unreferenced_originals(db)
+        assert db.get(MediaObject, first["sha256"]) is None
+
+
+@pytest.mark.parametrize(
+    ("node_class", "input_name", "kind", "suffix", "content_type"),
+    [
+        ("LoadAudio", "audio", "audio", "flac", "audio/flac"),
+        ("Load3D", "model_file", "3d", "glb", "model/gltf-binary"),
+    ],
+)
+def test_reference_asset_binds_and_handles_old_replays(
+    authenticated, request, node_class, input_name, kind, suffix, content_type
+):
+    client = authenticated
+    data = request.getfixturevalue("flac") if kind == "audio" else glb_bytes()
+    machine = client.post("/api/v1/machines", json={"name": "素材工作机"}).json()
+    machine_id = machine["machine"]["id"]
+    filename = f"old.{suffix}"
+    spec = {"kind": "choice", "choices": [filename]}
+    catalog = {"nodes": {node_class: {"inputs": {input_name: spec}}}}
+    worker = sync_machine(client, machine, catalog)
+    graph = {"1": {"class_type": node_class, "inputs": {input_name: filename}}}
+    workflow = client.post("/api/v1/workflows", json={"name": "参考输入", "graph": graph}).json()
+    old = client.post("/api/v1/tasks", json=task_body(client, workflow, machine_id)).json()
+    assert client.post(f"/api/v1/tasks/{old['id']}/cancel").status_code == 200
+    spec.update(kind=kind, choices=[])
+    assert worker.put("/api/v1/worker/catalog", json=catalog).status_code == 200
+
+    replay = client.get(
+        f"/api/v1/workflows/{workflow['id']}/inputs",
+        params={"machine_id": machine_id, "execution_id": execution_id(client, old["id"])},
+    )
+    assert replay.status_code == 200, replay.text
+    (field,) = replay.json()["fields"]
+    assert field["kind"] == kind and field["default"] is None
+    body = task_body(client, workflow, machine_id)
+    assert client.post("/api/v1/tasks", json=body).status_code == 422
+    asset = client.put(
+        f"/api/v1/assets/{uuid4()}", params={"filename": f"reference.{suffix}"}, content=data
+    ).json()
+    queued = client.post(
+        "/api/v1/tasks", json={**body, "inputValues": {field["id"]: {"assetId": asset["id"]}}}
+    )
+    assert queued.status_code == 201, queued.text
+    claim = claim_body()
+    job = worker.post("/api/v1/worker/claim", json=claim).json()
+    assert job["graph"]["1"]["inputs"][input_name] == "__comfyshop_asset__:" + asset["id"]
+    assert job["assets"][0]["contentType"] == content_type
+    transferred = worker.get(
+        f"/api/v1/worker/tasks/{queued.json()['id']}/assets/{asset['id']}",
+        headers={"X-Task-Lease": claim["leaseSecret"]},
+    )
+    assert transferred.content == data
 
 
 def completed_group(client, graph):
@@ -227,6 +523,51 @@ def test_expiry_finalizes_running_task_with_committed_manifest(authenticated, gr
     assert result["status"] == result["stage"] == "succeeded"
     assert result["progress"] == 100 and result["error"] is None
     assert client.get(outputs[0]["media"]["src"]).status_code == 200
+
+
+def test_workflow_histories_filter_by_version_before_pagination(authenticated, settings, graph):
+    from test_covers import add_result
+
+    client = authenticated
+    owner = client.get("/api/v1/auth/session").json()["user"]["id"]
+    first = client.post("/api/v1/workflows", json={"name": "版本结果", "graph": graph}).json()
+    workflow_id = first["id"]
+    older = add_result(client, settings, first, owner, 1)
+    newer = add_result(client, settings, first, owner, 2)
+    second = client.patch(
+        f"/api/v1/workflows/{workflow_id}",
+        json={"graph": {"1": {"class_type": "CLIPTextEncode", "inputs": {"text": "修订版"}}}},
+    ).json()
+    latest = add_result(client, settings, second, owner, 3)
+
+    path = "/api/v1/executions"
+    params = {"workflow_id": workflow_id, "version_id": first["versionId"], "limit": 1}
+    page = client.get(path, params=params).json()
+    assert [r["coverArtifactId"] for r in page["items"]] == [newer]
+    page = client.get(path, params={**params, "cursor": page["nextCursor"]}).json()
+    assert [r["coverArtifactId"] for r in page["items"]] == [older]
+    assert page["nextCursor"] is None
+
+    current = client.get(path, params={**params, "version_id": second["versionId"]}).json()
+    (item,) = current["items"]
+    assert item["coverArtifactId"] == latest and item["versionId"] == second["versionId"]
+    assert client.get(path, params={**params, "task_id": item["taskId"]}).json()["items"] == []
+    assert [r["coverArtifactId"] for r in client.get(path).json()["items"]] == [
+        latest,
+        newer,
+        older,
+    ]
+
+    summary = client.get("/api/v1/tasks", params=params).json()
+    (newest_in_version,) = summary["items"]
+    assert newest_in_version["versionId"] == first["versionId"]
+    assert newest_in_version["media"]["src"] == f"/api/v1/artifacts/{newer}/file"
+    activity = "/api/v1/tasks/activity"
+    for version, completed in ((first, 2), (second, 1)):
+        response = client.get(
+            activity, params={"workflow_id": workflow_id, "version_id": version["versionId"]}
+        )
+        assert response.json() == {"activeTasks": [], "completedExecutions": completed}
 
 
 def test_work_subset_cover_grants_and_cross_version_replay_are_independent(authenticated, graph):

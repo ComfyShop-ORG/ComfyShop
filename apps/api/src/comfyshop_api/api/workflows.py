@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException, Query, Response
 from sqlalchemy import exists, func, or_, select, tuple_
 from sqlalchemy.exc import IntegrityError
 
+from comfyshop_api.core.categories import WorkflowCategoryFilter
 from comfyshop_api.models import (
     Status,
     Execution,
@@ -25,6 +26,8 @@ from comfyshop_api.schemas import (
     WorkflowPage,
     WorkflowRead,
     WorkflowUpdate,
+    WorkflowVersionRead,
+    WorkflowVersions,
     WorkspaceRead,
     WorkflowForm,
     WorkflowInputQuery,
@@ -51,7 +54,8 @@ from comfyshop_api.services.inputs import (
     update_parameter_layout,
 )
 from comfyshop_api.services.executions import owned_execution
-from comfyshop_api.services.works import readable_work
+from comfyshop_api.services.media_records import asset_read
+from comfyshop_api.services.works import readable_work, work_assets
 
 router = APIRouter(tags=["workflows"])
 
@@ -86,6 +90,7 @@ def workflow_inputs(
         if work.version_id != version.id:
             raise HTTPException(404, "作品不存在")
         form = replay_defaults(form, work.input_values)
+        form.shared_assets = [asset_read(asset) for asset in work_assets(db, work.id)]
     form.parameter_controls = parameter_controls_for(form.fields)
     return normalize_float_defaults(form)
 
@@ -117,7 +122,7 @@ def list_workflows(
     db: DB,
     session: MaybeSession,
     scope: Literal["public", "mine", "favorites"] = "public",
-    category: Literal["all", "image", "video", "tool"] = "all",
+    category: WorkflowCategoryFilter = "all",
     search: str = Query(default="", max_length=120),
     author: str = Query(default="", max_length=32),
     sort: Literal["updated", "popular"] = "updated",
@@ -139,7 +144,7 @@ def list_workflows(
                 .where(or_(Workflow.owner_id == session.user_id, Workflow.published.is_(True)))
             )
     if category != "all":
-        query = query.where(Workflow.category == category)
+        query = query.where(Workflow.in_category(category))
     if search.strip():
         query = query.where(Workflow.name.contains(search.strip(), autoescape=True))
     if author.strip():
@@ -205,6 +210,20 @@ def get_workflow(
     workflow = readable_workflow(db, workflow_id, viewer_id)
     version = readable_version(db, workflow, version_id, viewer_id)
     return version_workflow_read(db, workflow, version, viewer_id)
+
+
+@router.get("/workflows/{workflow_id}/versions", response_model=WorkflowVersions)
+def list_workflow_versions(workflow_id: str, db: DB, session: MaybeSession) -> WorkflowVersions:
+    viewer_id = session.user_id if session else None
+    workflow = readable_workflow(db, workflow_id, viewer_id)
+    return WorkflowVersions(
+        current_version_id=visible_version(workflow, viewer_id).id,
+        items=[
+            WorkflowVersionRead(id=version.id, number=version.number, published=version.published)
+            for version in reversed(workflow.versions)
+            if version.published or workflow.owner_id == viewer_id
+        ],
+    )
 
 
 # 下载工作流文件需要登录。公开工作流对所有登录账号开放，私有工作流只对作者开放。

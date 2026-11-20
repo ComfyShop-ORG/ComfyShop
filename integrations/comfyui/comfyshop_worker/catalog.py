@@ -3,6 +3,23 @@
 import math
 
 
+def asset_kind(name: str, field: str, options: dict) -> str | None:
+    if options.get("model_upload") or (
+        name in {"Load3D", "Load3DAdvanced"} and field == "model_file"
+    ):
+        return "3d"
+    if options.get("audio_upload") or (name == "LoadAudio" and field == "audio"):
+        return "audio"
+    if options.get("video_upload") or (
+        name in {"LoadVideo", "VHS_LoadVideo", "VHS_LoadVideoPath"}
+        and field in {"file", "video", "video_path"}
+    ):
+        return "video"
+    if options.get("image_upload") or (name in {"LoadImage", "LoadImageMask"} and field == "image"):
+        return "image"
+    return None
+
+
 def make_catalog(info: dict) -> dict:
     nodes = {}
     for name, node in info.items():
@@ -31,15 +48,8 @@ def make_catalog(info: dict) -> dict:
                 definition[1] if len(definition) > 1 and isinstance(definition[1], dict) else {}
             )
             choices = []
-            if options.get("video_upload") or (
-                name in {"LoadVideo", "VHS_LoadVideo", "VHS_LoadVideoPath"}
-                and field in {"file", "video", "video_path"}
-            ):
-                kind = "video"
-            elif options.get("image_upload") or (
-                name in {"LoadImage", "LoadImageMask"} and field == "image"
-            ):
-                kind = "image"
+            if asset := asset_kind(name, field, options):
+                kind = asset
             elif isinstance(kind, list):
                 choices, kind = kind, "choice"
             elif kind == "COMBO":

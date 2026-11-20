@@ -1,9 +1,9 @@
 /** 网页筛选值和任务文案。状态原始取值由平台 API 定义。 */
-import type { Replay } from '@comfyshop/api-client';
+import type { Replay, Workflow } from '@comfyshop/api-client';
 
 export type { Workflow, Task, Media } from '@comfyshop/api-client';
-/** all 表示不限分类，其余依次为图像、视频和工具。 */
-export type Category = 'all' | 'image' | 'video' | 'tool';
+/** all 表示不限分类。 */
+export type Category = 'all' | Workflow['category'];
 /** updated 按更新时间排序，popular 优先按收藏数排序。 */
 export type Sort = 'updated' | 'popular';
 export type WorkflowFilters = {

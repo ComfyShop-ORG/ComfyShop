@@ -7,7 +7,16 @@ from sqlalchemy.dialects.postgresql import insert as postgres_insert
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 from sqlalchemy.orm import Session
 
-from comfyshop_api.models import Artifact, Asset, MediaObject, OriginalDeletion, now_ms
+from comfyshop_api.models import (
+    Artifact,
+    Asset,
+    Execution,
+    MediaObject,
+    OriginalDeletion,
+    Work,
+    WorkAsset,
+    now_ms,
+)
 from comfyshop_media.storage import MediaStorage
 from comfyshop_media.uploads import ReceivedMedia
 
@@ -41,6 +50,7 @@ def attach_original(db: Session, upload: ReceivedMedia, stored: bool) -> MediaOb
         content_type=upload.content_type,
         width=upload.width,
         height=upload.height,
+        duration_ms=upload.duration_ms,
     )
     # 并发上传复用先登记的原件。冲突分支取得行锁并返回当前原件。
     original = db.scalars(
@@ -70,9 +80,13 @@ def release_uploads(db: Session, names: list[str]) -> None:
 
 
 def retire_unreferenced_originals(db: Session) -> None:
-    """登记没有素材或成品外键的原件，软删除的成品也保留原件。"""
-    unreferenced = ~exists().where(Asset.sha256 == MediaObject.sha256) & ~exists().where(
-        Artifact.sha256 == MediaObject.sha256
+    """登记没有素材、成品、封面或作品输入引用的原件。"""
+    unreferenced = (
+        ~exists().where(Asset.sha256 == MediaObject.sha256)
+        & ~exists().where(Artifact.sha256 == MediaObject.sha256)
+        & ~exists().where(Execution.cover_image_sha256 == MediaObject.sha256)
+        & ~exists().where(Work.cover_image_sha256 == MediaObject.sha256)
+        & ~exists().where(WorkAsset.sha256 == MediaObject.sha256)
     )
     candidates = list(
         db.scalars(

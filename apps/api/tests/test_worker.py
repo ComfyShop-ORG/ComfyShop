@@ -315,15 +315,19 @@ def test_first_start_link_is_approved_in_the_browser_and_redeemed_once(client):
     spaced = f"{link['code'][:4].lower()}-{link['code'][4:]}"
     shown = client.get(f"/api/v1/machines/links/{spaced}").json()
     assert shown["name"] == "studio-pc"
+    assert shown["status"] == "pending"
     # 测试客户端的来源不是合法 IP，地址未知时不判断是否同一网络。
     assert shown["requestedAt"] <= shown["expiresAt"]
     assert shown["source"] == "" and not shown["sameNetwork"]
     approved = client.post(f"/api/v1/machines/links/{spaced}/approve", json={"name": "工作室"})
     assert approved.status_code == 204
-    # 确认过的申请不能再被别的页面确认。
-    assert client.get(f"/api/v1/machines/links/{link['code']}").status_code == 404
+    # 确认账号可查看进度，工作机兑换密钥前列表仍为空。
+    shown = client.get(f"/api/v1/machines/links/{link['code']}").json()
+    assert shown["status"] == "approved" and shown["name"] == "工作室"
+    assert client.get("/api/v1/machines").json()["items"] == []
     lost = client.post("/api/v1/worker/links/token", json=token).json()
     assert lost["status"] == "approved" and lost["machineName"] == "工作室"
+    assert client.get(f"/api/v1/machines/links/{link['code']}").json()["status"] == "linked"
     # 回复丢失后工作机重试：同一台工作机换发密钥，丢失的那份失效，不会多出一台。
     redeemed = client.post("/api/v1/worker/links/token", json=token).json()
     assert redeemed["status"] == "approved" and redeemed["apiKey"] != lost["apiKey"]
@@ -342,6 +346,92 @@ def test_first_start_link_is_approved_in_the_browser_and_redeemed_once(client):
         headers={"Authorization": "Bearer " + redeemed["apiKey"]},
     )
     assert heartbeat.status_code == 200, heartbeat.text
+
+
+def test_reinstalled_worker_reconnects_to_the_same_machine_and_claims_its_queue(
+    authenticated, graph
+):
+    client = authenticated
+    original, task, _ = setup_job(client, graph)
+    machine_id = original["machine"]["id"]
+    assert client.put(f"/api/v1/machines/{machine_id}/default").status_code == 204
+    sibling = client.post("/api/v1/machines", json={"name": "4090"}).json()
+    heartbeat = {"protocolVersion": 3, "device": "shared-host"}
+    for machine in (original, sibling):
+        worker = TestClient(client.app, headers={"Authorization": "Bearer " + machine["apiKey"]})
+        assert worker.post("/api/v1/worker/heartbeat", json=heartbeat).status_code == 200
+    with Session(client.app.state.engine) as db:
+        db.get(Machine, machine_id).last_seen = now_ms() - 60_000
+        db.commit()
+
+    previous = client.get("/api/v1/machines").json()
+    link = client.post("/api/v1/worker/links", json={"name": "shared-host"}).json()
+    path = f"/api/v1/machines/links/{link['code']}"
+    assert client.post(path + "/approve", json={"machineId": machine_id}).status_code == 204
+    approval = client.get(path).json()
+    assert (approval["status"], approval["name"]) == ("approved", original["machine"]["name"])
+    assert client.get("/api/v1/machines").json() == previous
+
+    token = {"secret": link["secret"]}
+    lost_key = client.post("/api/v1/worker/links/token", json=token).json()["apiKey"]
+    new_key = client.post("/api/v1/worker/links/token", json=token).json()["apiKey"]
+    assert client.get(path).json()["status"] == "linked"
+    for stale in (original["apiKey"], lost_key):
+        assert (
+            client.post(
+                "/api/v1/worker/heartbeat",
+                json=heartbeat,
+                headers={"Authorization": "Bearer " + stale},
+            ).status_code
+            == 401
+        )
+    worker = TestClient(client.app, headers={"Authorization": "Bearer " + new_key})
+    connected = worker.post("/api/v1/worker/heartbeat", json=heartbeat).json()
+    assert connected["id"] == machine_id and connected["online"]
+    assert client.post("/api/v1/worker/links/token", json=token).status_code == 410
+    current = client.get("/api/v1/machines").json()
+    assert current["defaultMachineId"] == machine_id
+    assert [machine["id"] for machine in current["items"]] == [
+        machine["id"] for machine in previous["items"]
+    ]
+    assert worker.post("/api/v1/worker/claim", json=claim_body()).json()["task"]["id"] == task["id"]
+    sibling_worker = TestClient(
+        client.app, headers={"Authorization": "Bearer " + sibling["apiKey"]}
+    )
+    assert sibling_worker.post("/api/v1/worker/heartbeat", json=heartbeat).status_code == 200
+
+
+def test_reconnection_checks_ownership_and_availability_before_issuing_a_key(authenticated):
+    client = authenticated
+    other = TestClient(client.app, headers={"Origin": "http://testserver"})
+    session = other.post(
+        "/api/v1/auth/register", json={"username": "other-owner", "password": "different-password"}
+    ).json()
+    other.headers["X-CSRF-Token"] = session["csrfToken"]
+    original = client.post("/api/v1/machines", json={"name": "原工作机"}).json()
+    machine_id = original["machine"]["id"]
+    body = {"machineId": machine_id}
+    link = client.post("/api/v1/worker/links", json={}).json()
+    path = f"/api/v1/machines/links/{link['code']}"
+    assert other.post(path + "/approve", json=body).status_code == 404
+    with Session(client.app.state.engine) as db:
+        db.get(Machine, machine_id).busy_until = now_ms() + 60_000
+        db.commit()
+    assert client.post(path + "/approve", json=body).status_code == 409
+    with Session(client.app.state.engine) as db:
+        db.get(Machine, machine_id).busy_until = 0
+        db.commit()
+    assert client.post(path + "/approve", json={**body, "name": "另一台"}).status_code == 422
+    assert client.post(path + "/approve", json=body).status_code == 204
+
+    worker = TestClient(client.app, headers={"Authorization": "Bearer " + original["apiKey"]})
+    assert worker.post("/api/v1/worker/heartbeat", json={"protocolVersion": 3}).status_code == 200
+    token = {"secret": link["secret"]}
+    assert client.post("/api/v1/worker/links/token", json=token).status_code == 409
+    assert client.get(path).status_code == 409
+    assert worker.post("/api/v1/worker/heartbeat", json={"protocolVersion": 3}).status_code == 200
+    assert client.post(f"/api/v1/machines/{machine_id}/rotate").status_code == 200
+    assert client.post("/api/v1/worker/links/token", json=token).status_code == 410
 
 
 def test_expired_link_cannot_be_approved_or_redeemed(client, monkeypatch):
@@ -412,6 +502,39 @@ def test_concurrent_link_redemption_creates_one_machine(authenticated, monkeypat
     assert sorted(statuses) == [200, 401]
 
 
+def test_only_one_of_two_pending_reconnections_can_replace_the_key(authenticated, monkeypatch):
+    client = authenticated
+    previous = client.get("/api/v1/machines").json()
+    machine_id = previous["defaultMachineId"]
+    links = [client.post("/api/v1/worker/links", json={}).json() for _ in range(2)]
+    for link in links:
+        assert (
+            client.post(
+                f"/api/v1/machines/links/{link['code']}/approve", json={"machineId": machine_id}
+            ).status_code
+            == 204
+        )
+    with monkeypatch.context() as context:
+        synchronize_link_reads(context)
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            requests = [
+                pool.submit(
+                    client.post, "/api/v1/worker/links/token", json={"secret": link["secret"]}
+                )
+                for link in links
+            ]
+            responses = [request.result() for request in requests]
+    assert sorted(response.status_code for response in responses) == [200, 410]
+    key = next(response.json()["apiKey"] for response in responses if response.status_code == 200)
+    connected = client.post(
+        "/api/v1/worker/heartbeat",
+        headers={"Authorization": "Bearer " + key},
+        json={"protocolVersion": 3},
+    )
+    assert connected.status_code == 200 and connected.json()["id"] == machine_id
+    assert len(client.get("/api/v1/machines").json()["items"]) == len(previous["items"])
+
+
 def test_competing_accounts_cannot_both_approve_a_link(authenticated, monkeypatch):
     client = authenticated
     other = TestClient(client.app, headers={"Origin": "http://testserver"})
@@ -430,10 +553,13 @@ def test_competing_accounts_cannot_both_approve_a_link(authenticated, monkeypatc
             ]
             statuses = [request.result().status_code for request in requests]
     assert sorted(statuses) == [204, 404]
-    redeemed = client.post("/api/v1/worker/links/token", json={"secret": link["secret"]})
-    assert redeemed.status_code == 200
     winner = (client, other)[statuses.index(204)]
     loser = (client, other)[statuses.index(404)]
+    read_path = f"/api/v1/machines/links/{link['code']}"
+    assert winner.get(read_path).json()["status"] == "approved"
+    assert loser.get(read_path).status_code == 404
+    redeemed = client.post("/api/v1/worker/links/token", json={"secret": link["secret"]})
+    assert redeemed.status_code == 200
     assert (
         sum(machine["name"] == "接入" for machine in winner.get("/api/v1/machines").json()["items"])
         == 1

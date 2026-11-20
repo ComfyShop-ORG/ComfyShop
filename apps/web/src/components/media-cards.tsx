@@ -5,7 +5,9 @@ import {
   BookmarkFilledIcon,
   BookmarkIcon,
   Component1Icon,
+  CubeIcon,
   PlayIcon,
+  SpeakerLoudIcon,
 } from '@radix-ui/react-icons';
 import { Button, IconButton } from '@comfyshop/ui';
 import type { MediaRendererProps } from '@comfyshop/media';
@@ -14,6 +16,7 @@ import type { Media } from '@comfyshop/api-client';
 import { useWorkspace } from '../app/use-workspace';
 import { cardThumbnail, cardVideoPreview } from '../data/card-thumbnail';
 import { CardActions } from './card-actions';
+import { ProfileAvatar } from './profile-avatar';
 
 const hoverDelayMs = 300;
 const motionHover =
@@ -21,19 +24,26 @@ const motionHover =
 
 export function MediaCardContent({
   media,
+  coverImage,
   title,
   width,
   detail,
   index = 0,
 }: {
   media: Media | null;
+  coverImage?: Media | null;
   title: string;
   width: number;
   detail?: ReactNode;
   index?: number;
 }) {
-  const thumbnail = media ? cardThumbnail(media, width) : null;
+  const [failedCover, setFailedCover] = useState<string>();
+  const image = coverImage && coverImage.src !== failedCover ? coverImage : media;
+  const thumbnail = image ? cardThumbnail(image, width) : null;
   const preview = media ? cardVideoPreview(media, width) : null;
+  const Placeholder =
+    media?.kind === 'audio' ? SpeakerLoudIcon : media?.kind === '3d' ? CubeIcon : Component1Icon;
+  const kind = media?.kind;
   const [clip, setClip] = useState<{ src: string; visible: boolean } | null>(null);
   const timer = useRef<number | undefined>(undefined);
   const video = useRef<HTMLVideoElement>(null);
@@ -88,12 +98,13 @@ export function MediaCardContent({
       onPointerCancel={stopPreview}
       onPointerDown={stopPreview}
     >
-      {media && thumbnail ? (
+      {image && thumbnail ? (
         <img
+          key={image.src}
           srcSet={thumbnail.srcSet}
           src={thumbnail.src}
-          width={media.width}
-          height={media.height}
+          width={image.width ?? undefined}
+          height={image.height ?? undefined}
           alt=""
           decoding="async"
           loading={index < 4 ? 'eager' : 'lazy'}
@@ -104,10 +115,11 @@ export function MediaCardContent({
           onLoad={(event) => {
             event.currentTarget.dataset.loaded = 'true';
           }}
+          onError={image === coverImage ? () => setFailedCover(image.src) : undefined}
         />
       ) : (
         <span className="media-placeholder" aria-hidden="true">
-          <Component1Icon />
+          <Placeholder />
         </span>
       )}
       {activeSrc && (
@@ -127,10 +139,10 @@ export function MediaCardContent({
           onError={stopPreview}
         />
       )}
-      {media?.video && (
+      {(kind === 'video' || kind === 'audio' || kind === '3d') && (
         <span className="media-card-kind">
-          <PlayIcon />
-          视频
+          {kind === 'video' ? <PlayIcon /> : <Placeholder />}
+          {kind === 'video' ? '视频' : kind === 'audio' ? '音频' : '3D 模型'}
         </span>
       )}
       <span className="media-card-caption">
@@ -145,6 +157,7 @@ export function WorkflowCard({ data, index, width }: MediaRendererProps<Workflow
   const actions = useContext(CardActions);
   const { state } = useWorkspace();
   const saved = state.favorites.includes(data.id);
+  const author = data.authorProfile.nickname ?? data.author;
   return (
     <article className="media-card">
       <Button
@@ -160,8 +173,8 @@ export function WorkflowCard({ data, index, width }: MediaRendererProps<Workflow
           index={index}
           detail={
             <>
-              <span className="avatar-small">{data.author.slice(0, 1).toUpperCase()}</span>
-              {data.author}
+              <ProfileAvatar name={author} src={data.authorProfile.avatarUrl} />
+              <span className="profile-name">{author}</span>
               <ArrowTopRightIcon />
             </>
           }

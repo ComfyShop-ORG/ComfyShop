@@ -58,8 +58,10 @@ await test('activity polls keep cursor pages, refresh results on completion, and
   });
   const queries = new QueryClient();
   const history = taskHistoryOptions(api, 'owner', 'workflow');
-  const activity = taskActivityOptions(api, queries, 'owner', 'workflow');
+  const activity = taskActivityOptions(api, queries, 'owner', { workflowId: 'workflow' });
   const results = executionHistoryKey('owner', 'workflow');
+  const earlierVersion = executionHistoryKey('owner', 'workflow', undefined, 'v2');
+  const currentVersion = executionHistoryKey('owner', 'workflow', undefined, 'v3');
   const unrelated = executionHistoryKey('owner', 'different');
   const pages = {
     pages: [
@@ -72,7 +74,10 @@ await test('activity polls keep cursor pages, refresh results on completion, and
   queries.setQueryData(history.queryKey, pages);
   await queries.fetchQuery(activity);
   queries.setQueryData(results, { pages: [], pageParams: [] });
+  queries.setQueryData(earlierVersion, { pages: [{ items: [] }], pageParams: [null] });
+  queries.setQueryData(currentVersion, { pages: [], pageParams: [] });
   queries.setQueryData(unrelated, { pages: [], pageParams: [] });
+  assert.notDeepEqual(queries.getQueryData(earlierVersion), queries.getQueryData(currentVersion));
 
   progress = 45;
   let snapshot = await queries.fetchQuery(activity);
@@ -84,6 +89,8 @@ await test('activity polls keep cursor pages, refresh results on completion, and
   completedExecutions = 1;
   await queries.fetchQuery(activity);
   assert.equal(queries.getQueryState(results)?.isInvalidated, true);
+  assert.equal(queries.getQueryState(earlierVersion)?.isInvalidated, true);
+  assert.equal(queries.getQueryState(currentVersion)?.isInvalidated, true);
   assert.equal(queries.getQueryState(unrelated)?.isInvalidated, false);
 
   activeVisible = false;
@@ -144,7 +151,10 @@ await test('terminal transitions refresh status filters even when their history 
       queries.setQueryData(otherOwner.queryKey, history);
 
       // 当前筛选没有历史条目，仍能根据活动集合的变化发现任务结束。
-      const activity = taskActivityOptions(api, queries, 'owner', 'workflow', undefined, status);
+      const activity = taskActivityOptions(api, queries, 'owner', {
+        workflowId: 'workflow',
+        state: status,
+      });
       await queries.fetchQuery(activity);
       ended = true;
       await queries.fetchQuery(activity);
@@ -174,4 +184,29 @@ await test('terminal transitions refresh status filters even when their history 
       );
       queries.clear();
     });
+});
+
+await test('a version-scoped activity poll refreshes that version of the results', async () => {
+  let completedExecutions = 0;
+  const api = createApiClient('http://local.test', (url) => {
+    const request = new URL(url instanceof Request ? url.url : url);
+    assert.equal(request.searchParams.get('workflow_id'), 'workflow');
+    assert.equal(request.searchParams.get('version_id'), 'v3');
+    return Promise.resolve(Response.json({ activeTasks: [], completedExecutions }));
+  });
+  const queries = new QueryClient();
+  const activity = taskActivityOptions(api, queries, 'owner', {
+    workflowId: 'workflow',
+    versionId: 'v3',
+  });
+  await queries.fetchQuery(activity);
+  const earlier = executionHistoryKey('owner', 'workflow', undefined, 'v2');
+  const current = executionHistoryKey('owner', 'workflow', undefined, 'v3');
+  for (const key of [earlier, current]) queries.setQueryData(key, { pages: [], pageParams: [] });
+
+  completedExecutions = 1;
+  await queries.fetchQuery(activity);
+  assert.equal(queries.getQueryState(earlier)?.isInvalidated, false);
+  assert.equal(queries.getQueryState(current)?.isInvalidated, true);
+  queries.clear();
 });

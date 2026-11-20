@@ -1,5 +1,5 @@
 /** 按当前工作机读取输入定义，编辑本次参数，并向平台提交排队任务。 */
-import { lazy, Suspense, useState } from 'react';
+import { Fragment, lazy, Suspense, useState } from 'react';
 import type { ReactNode } from 'react';
 import { Link } from 'react-router';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -17,17 +17,24 @@ import type {
   Workflow,
   ReplaySource,
   Task,
+  WorkflowForm,
   WorkflowParameterDisplay,
 } from '@comfyshop/api-client';
 import { useMachines, useWorkspace } from '../../app/use-workspace';
 import { authorPath } from '../../app/workflow-route';
+import { ProfileAvatar } from '../../components/profile-avatar';
 import { createRequestId } from '../../data/request-id';
 import type { RequireAuth } from '../auth/login-dialog';
 import { InputField } from './input-field';
-import { formValues } from './form-values';
-import { groupParameters, unavailableChoice } from './parameter-layout';
-import { workflowCategories } from './workflow-settings';
+import { applyInputPatch } from './form-values';
+import { AutomaticSizeFields, RatioSizePreview } from './output-size';
+import { promptWithAspect } from './output-specification';
+import { workflowCategories } from '../../domain/workflow-categories';
 import type { ParameterRow } from './parameter-layout';
+import RunParameterDialog from './run-parameter-dialog';
+import type { RunParameterDialogMode } from './run-parameter-dialog';
+import { runParameterState } from './run-parameter-state';
+import { workflowFormQuery } from './workflow-form-query';
 
 const ParameterEditor = lazy(() => import('./parameter-editor'));
 
@@ -44,6 +51,8 @@ export function RunForm({
   onExecutionCountChange,
   inputValues,
   onInputValuesChange,
+  hiddenInputValues,
+  onHiddenInputValuesChange,
   intent,
   onIntentChange,
   operations,
@@ -66,6 +75,10 @@ export function RunForm({
   onInputValuesChange: (
     update: (prior: Record<string, InputValue> | null) => Record<string, InputValue>,
   ) => void;
+  hiddenInputValues: Record<string, InputValue>;
+  onHiddenInputValuesChange: (
+    update: (prior: Record<string, InputValue>) => Record<string, InputValue>,
+  ) => void;
   intent?: RunIntent;
   onIntentChange: (intent: RunIntent | undefined) => void;
   operations: ReadonlySet<string>;
@@ -76,6 +89,7 @@ export function RunForm({
   onRun: (task: Task) => void;
 }) {
   const { api, workspace, state } = useWorkspace();
+  const author = workflow.authorProfile.nickname ?? workflow.author;
   const queries = useQueryClient();
   const machines = useMachines();
   // 在线的工作机排在前面，同一状态内保持平台返回的顺序。
@@ -95,6 +109,10 @@ export function RunForm({
   const machine =
     available.find(({ id }) => id === (selectedMachine ?? recentMachine)) ?? defaultMachine;
   const machineId = machine?.id ?? '';
+  const machineOptions = available.map((item) => ({
+    value: item.id,
+    label: `${item.name} · ${item.online ? (item.busy ? '忙碌' : '在线') : '离线'}`,
+  }));
   const onlineAlternative =
     machine && !machine.online ? available.find((item) => item.online) : undefined;
   function chooseMachine(id: string) {
@@ -105,36 +123,64 @@ export function RunForm({
   // 编辑器格式的图不能直接执行，表单只在 API 格式下生成。
   const editorFormat = workflow.format === 'ui';
   const formKey = ['workflow-form', state.userId, workflow.id, workflow.versionId] as const;
+  const readForm = (id: string) => workflowFormQuery(api, formKey, id, replaySource);
   const schema = useQuery({
-    queryKey: [...formKey, machineId, replaySource],
+    ...readForm(machineId),
     enabled: !!state.user && !!machineId && !editorFormat,
-    queryFn: ({ signal }) =>
-      api.workflowForm(workflow.id, workflow.versionId, machineId, signal, replaySource),
-    retry: false,
   });
   const submitOperation = formId + ':submit';
   const errorId = formId + '-error';
   const submitting = operations.has(submitOperation);
   const pending = operations.size > 0;
   const [error, setError] = useState('');
-  const fields = schema.data?.fields ?? [];
-  const parameters = groupParameters(
-    fields,
-    schema.data?.parameterLayout ?? [],
-    schema.data?.parameterControls ?? {},
-    schema.data?.originalDefaults ?? {},
+  const [parameterPanel, setParameterPanel] = useState<RunParameterDialogMode>(null);
+  const {
+    groups: parameters,
+    rows,
+    values,
+    issues,
+    frameCounts,
+    changedHidden,
+  } = runParameterState(schema.data, inputValues, { hiddenValues: hiddenInputValues });
+  const canEditParameters = workflow.owner === state.userId && rows.length > 0;
+  const sizes = schema.data?.outputSizes ?? [];
+  const visibleRows = new Map(
+    [...parameters.default, ...parameters.advanced].map((row) => [row.id, row]),
   );
-  const canEditParameters = workflow.owner === state.userId && fields.length > 0;
-  const values = formValues(
-    fields,
-    inputValues,
-    new Set(parameters.hidden.map((field) => field.id)),
-  );
+  const frameTimes = new Map<string, string | null>();
+  const pairedTimeIds = new Set<string>();
+  const timingDetails = new Map<string, string>();
+  for (const timeline of schema.data?.referenceTimelines ?? []) {
+    const { durationFieldId, framesPerSecond } = timeline;
+    const count = frameCounts.get(durationFieldId);
+    if (count != null) {
+      timingDetails.set(durationFieldId, `参考帧按 ${framesPerSecond} 帧/秒定位，共 ${count} 帧。`);
+    }
+    for (const { imageFieldId, timeFieldId } of timeline.frames) {
+      if (!frameTimes.has(imageFieldId)) {
+        frameTimes.set(imageFieldId, timeFieldId);
+        if (timeFieldId && visibleRows.has(timeFieldId)) pairedTimeIds.add(timeFieldId);
+      }
+    }
+  }
+  const advancedRows = parameters.advanced.filter((row) => !pairedTimeIds.has(row.id));
+  const boundPrompts = new Map<string, string>();
+  for (const size of sizes) {
+    if (
+      size.kind === 'ratio' &&
+      size.promptFieldId &&
+      (visibleRows.has(size.promptFieldId) ||
+        changedHidden.has(size.promptFieldId) ||
+        changedHidden.has(size.ratioFieldId))
+    ) {
+      boundPrompts.set(size.promptFieldId, size.ratioFieldId);
+    }
+  }
+  const [sizeReset, setSizeReset] = useState(0);
+  const sharedAssets = new Map(schema.data?.sharedAssets?.map((asset) => [asset.id, asset]));
   const hasIssues = schema.isError || !!schema.data?.issues.length;
   // 默认区为空或高级区里有需要处理的选项时展开高级参数，用户手动开合后以用户为准。
-  const unavailable = [...parameters.default, ...parameters.advanced].filter((field) =>
-    unavailableChoice(field, values[field.id]),
-  );
+  const unavailableCount = [...issues.values()].filter((issue) => issue.kind === 'choice').length;
   const [countText, setCountText] = useState<string>();
   const [countSeen, setCountSeen] = useState(executionCount);
   const replayKey = JSON.stringify(replaySource ?? null);
@@ -150,7 +196,7 @@ export function RunForm({
   const advancedOpen =
     advancedChoice ??
     (parameters.default.length === 0 ||
-      parameters.advanced.some((field) => unavailableChoice(field, values[field.id])));
+      parameters.advanced.some((field) => issues.get(field.id)?.kind === 'choice'));
   function change(id: string, value: InputValue) {
     setError('');
     onInputValuesChange((prior) => ({ ...prior, [id]: value }));
@@ -159,49 +205,149 @@ export function RunForm({
     onPendingChange(formId + ':asset:' + id, busy);
   }
   function renderField(field: ParameterRow, primary: boolean) {
+    const value = values[field.id];
+    const issue = issues.get(field.id);
+    const pairedTime = frameTimes.get(field.id);
+    const hiddenTiming =
+      pairedTime && !visibleRows.has(pairedTime) ? issues.get(pairedTime) : undefined;
     return (
       <InputField
         key={field.id}
-        field={{ ...field, label: field.displayName || field.label, primary }}
-        help={field.help ?? undefined}
-        value={values[field.id]}
+        field={{ ...field, primary }}
+        value={value}
+        linkedAspect={boundPrompts.has(field.id)}
+        sharedAsset={
+          value && typeof value === 'object' ? sharedAssets.get(value.assetId) : undefined
+        }
+        issue={(issue?.kind === 'asset' ? undefined : issue?.message) ?? hiddenTiming?.message}
+        crops={schema.data?.imageCrops?.[field.id]}
         onChange={(value) => change(field.id, value)}
         onBusy={uploadState}
       />
     );
   }
+  function renderGroup(rows: ParameterRow[], primary: boolean) {
+    const positions = new Map(rows.map((row, index) => [row.id, index]));
+    return rows.map((row, index) => {
+      if (pairedTimeIds.has(row.id)) return null;
+      if (frameTimes.has(row.id)) {
+        const timeId = frameTimes.get(row.id);
+        const timing = timeId && visibleRows.get(timeId);
+        return (
+          <div key={row.id} className="reference-frame-fields">
+            {renderField(row, primary)}
+            {timing && renderField(timing, primary)}
+            {timeId === null && <p className="form-hint">作为整段视频的基础参考。</p>}
+          </div>
+        );
+      }
+      const automatic = sizes.find(
+        (size): size is Extract<WorkflowForm['outputSizes'][number], { kind: 'automatic' }> =>
+          size.kind === 'automatic' &&
+          (row.id === size.widthFieldId || row.id === size.heightFieldId),
+      );
+      if (automatic) {
+        const width = positions.get(automatic.widthFieldId);
+        const height = positions.get(automatic.heightFieldId);
+        if (width !== undefined && height !== undefined) {
+          if (index !== Math.min(width, height)) return null;
+          return (
+            <AutomaticSizeFields
+              key={JSON.stringify([row.id, machineId, replayKey, sizeReset])}
+              id={`size-${row.id}`}
+              width={values[automatic.widthFieldId]}
+              height={values[automatic.heightFieldId]}
+              usesReference={automatic.usesReference}
+              onAutomatic={() => {
+                setError('');
+                onInputValuesChange((prior) => ({
+                  ...prior,
+                  [automatic.widthFieldId]: 0,
+                  [automatic.heightFieldId]: 0,
+                }));
+              }}
+            >
+              {renderField(rows[width], primary)}
+              {renderField(rows[height], primary)}
+            </AutomaticSizeFields>
+          );
+        }
+      }
+      const ratio = sizes.find(
+        (size): size is Extract<WorkflowForm['outputSizes'][number], { kind: 'ratio' }> =>
+          size.kind === 'ratio' &&
+          row.id ===
+            (visibleRows.has(size.megapixelsFieldId) ? size.megapixelsFieldId : size.ratioFieldId),
+      );
+      return (
+        <Fragment key={row.id}>
+          {renderField(row, primary)}
+          {timingDetails.has(row.id) && <p className="form-hint">{timingDetails.get(row.id)}</p>}
+          {ratio && (
+            <RatioSizePreview
+              ratio={values[ratio.ratioFieldId]}
+              megapixels={values[ratio.megapixelsFieldId]}
+              multiple={values[ratio.multipleFieldId]}
+              roundTo={ratio.roundTo}
+              latentMultiple={ratio.latentMultiple}
+              modelMultiple={ratio.modelMultiple}
+            />
+          )}
+        </Fragment>
+      );
+    });
+  }
   async function saveParameterLayout(layout: WorkflowParameterDisplay[]) {
     await api.saveWorkflowParameterLayout(workflow.id, workflow.versionId, machineId, layout);
     await queries.invalidateQueries({ queryKey: formKey });
   }
+  function focusField(id: string) {
+    if (advancedRows.some((row) => row.id === id)) setAdvancedChoice(true);
+    requestAnimationFrame(() => {
+      const input = document.getElementById(`input-${id}`);
+      input?.scrollIntoView({ block: 'center' });
+      input?.focus({ preventScroll: true });
+    });
+  }
   async function submit() {
-    if (!state.user || !machineId || !schema.data || hasIssues || pending) return;
+    if (!state.user || !machineId || !schema.data || hasIssues || pending || parameterPanel) return;
     // 输入框里的次数无效时不提交，避免悄悄沿用上一次有效的次数。
     if (countInvalid) {
       setError('执行次数需为 1–32 的整数');
       document.getElementById('run-count')?.focus();
       return;
     }
-    // 必传素材缺失时先在本地指出，并把对应的上传框带到视野内。
-    const missing = [...parameters.default, ...parameters.advanced].find(
-      (field) => (field.kind === 'image' || field.kind === 'video') && !values[field.id],
-    );
-    if (missing) {
-      setError(`请上传${missing.displayName || missing.label}`);
-      if (parameters.advanced.includes(missing)) setAdvancedChoice(true);
-      requestAnimationFrame(() => {
-        const input = document.getElementById(`input-${missing.id}`);
-        input?.scrollIntoView({ block: 'center' });
-        input?.focus({ preventScroll: true });
-      });
+    const invalid = issues.entries().next().value;
+    if (invalid) {
+      const [id, issue] = invalid;
+      if (visibleRows.has(id)) {
+        setError(issue.message);
+        focusField(id);
+      } else {
+        setError('');
+        setParameterPanel('issues');
+      }
       return;
+    }
+    const submittedValues = { ...values };
+    for (const [promptId, ratioId] of boundPrompts) {
+      // 原样重跑使用历史记录，用户重新编辑提示词或比例时再同步。
+      if (
+        !replaySource ||
+        Object.hasOwn(inputValues ?? {}, promptId) ||
+        Object.hasOwn(inputValues ?? {}, ratioId) ||
+        changedHidden.has(promptId) ||
+        changedHidden.has(ratioId)
+      ) {
+        submittedValues[promptId] = promptWithAspect(values[promptId], values[ratioId]);
+      }
     }
     const body = {
       workflowId: workflow.id,
       versionId: workflow.versionId,
       machineId,
       executionCount,
-      inputValues: values,
+      inputValues: submittedValues,
       inputSchemaHash: schema.data.schemaHash,
       sourceExecutionId: replaySource?.executionId,
       sourceWorkId: replaySource?.workId,
@@ -239,13 +385,13 @@ export function RunForm({
           </span>
           <h1>{workflow.name}</h1>
           <div className="author-line">
-            <span className="avatar-small">{workflow.author.slice(0, 1).toUpperCase()}</span>
+            <ProfileAvatar name={author} src={workflow.authorProfile.avatarUrl} />
             <Link
               className="author-link"
               to={authorPath(workflow.author)}
-              aria-label={`查看 ${workflow.author} 的工作流`}
+              aria-label={`查看 ${author} 的工作流`}
             >
-              {workflow.author}
+              {author}
             </Link>
             <span className="meta-status">{workflow.published ? '已公开' : '私有'}</span>
           </div>
@@ -306,10 +452,7 @@ export function RunForm({
                   onValueChange={chooseMachine}
                   options={[
                     ...(!machineId ? [{ value: 'none', label: '选择工作机', disabled: true }] : []),
-                    ...available.map((item) => ({
-                      value: item.id,
-                      label: `${item.name} · ${item.online ? (item.busy ? '忙碌' : '在线') : '离线'}`,
-                    })),
+                    ...machineOptions,
                   ]}
                 />
                 {machine && !machine.online && (
@@ -352,12 +495,18 @@ export function RunForm({
                 正在读取输入参数
               </p>
             )}
-            {unavailable.length > 0 && (
-              <p className="form-error" role="alert">
-                这台工作机缺少 {unavailable.length} 项参数的当前选项：
-                {unavailable.map((field) => field.displayName || field.label).join('、')}
-                。已在对应参数下标出，改选可用项后再生成。
-              </p>
+            {unavailableCount > 0 && (
+              <div className="form-error" role="alert">
+                <span>当前工作机有 {unavailableCount} 项参数需要处理。</span>
+                <Button
+                  size="small"
+                  variant="ghost"
+                  disabled={pending}
+                  onClick={() => setParameterPanel('issues')}
+                >
+                  查看待处理
+                </Button>
+              </div>
             )}
             {schema.data && (
               <div className="form-section-heading">
@@ -366,6 +515,7 @@ export function RunForm({
                   label="重置参数"
                   onClick={() => {
                     setCountText(undefined);
+                    setSizeReset((prior) => prior + 1);
                     onReset();
                   }}
                 >
@@ -373,8 +523,8 @@ export function RunForm({
                 </IconButton>
               </div>
             )}
-            {parameters.default.map((field) => renderField(field, true))}
-            {parameters.advanced.length > 0 && (
+            {renderGroup(parameters.default, true)}
+            {advancedRows.length > 0 && (
               <Collapsible.Root
                 className="advanced"
                 open={advancedOpen}
@@ -388,7 +538,7 @@ export function RunForm({
                   </Button>
                 </Collapsible.Trigger>
                 <Collapsible.Content className="ui-collapsible advanced-content">
-                  {parameters.advanced.map((field) => renderField(field, false))}
+                  {renderGroup(advancedRows, false)}
                 </Collapsible.Content>
               </Collapsible.Root>
             )}
@@ -449,22 +599,56 @@ export function RunForm({
           </p>
         )}
         {taskSummary}
-        <Button
-          className="generate-button"
-          form={state.user ? formId : undefined}
-          type={state.user ? 'submit' : 'button'}
-          variant="primary"
-          onClick={
-            state.user
-              ? undefined
-              : (event) => requireAuth(event.currentTarget, undefined, '登录后用自己的工作机生成')
-          }
-          disabled={pending || (!!state.user && (!schema.data || hasIssues))}
-        >
-          <PlayIcon />
-          <span>{submitting ? '提交中' : state.user ? '生成' : '登录后生成'}</span>
-          <ArrowRightIcon />
-        </Button>
+        {changedHidden.size > 0 && (
+          <Button
+            size="small"
+            variant="ghost"
+            className="run-hidden-changes"
+            disabled={pending}
+            onClick={() => setParameterPanel('hidden-changed')}
+          >
+            本次已修改 {changedHidden.size} 个隐藏参数
+          </Button>
+        )}
+        <div className="run-action-buttons">
+          {!!state.user && rows.length > 0 && (
+            <RunParameterDialog
+              mode={parameterPanel}
+              issueCount={issues.size}
+              disabled={pending}
+              initialMachineId={machineId}
+              machines={machineOptions}
+              initialDraft={inputValues}
+              initialHiddenDraft={hiddenInputValues}
+              readForm={readForm}
+              onApply={(nextMachineId, patch, hiddenPatch) => {
+                if (nextMachineId !== machineId) chooseMachine(nextMachineId);
+                if (Object.keys(patch).length)
+                  onInputValuesChange((prior) => applyInputPatch(prior, patch));
+                if (Object.keys(hiddenPatch).length)
+                  onHiddenInputValuesChange((prior) => applyInputPatch(prior, hiddenPatch));
+                setError('');
+              }}
+              onOpenChange={setParameterPanel}
+            />
+          )}
+          <Button
+            className="generate-button"
+            form={state.user ? formId : undefined}
+            type={state.user ? 'submit' : 'button'}
+            variant="primary"
+            onClick={
+              state.user
+                ? undefined
+                : (event) => requireAuth(event.currentTarget, undefined, '登录后用自己的工作机生成')
+            }
+            disabled={pending || (!!state.user && (!schema.data || hasIssues))}
+          >
+            <PlayIcon />
+            <span>{submitting ? '提交中' : state.user ? '生成' : '登录后生成'}</span>
+            <ArrowRightIcon />
+          </Button>
+        </div>
       </div>
     </div>
   );

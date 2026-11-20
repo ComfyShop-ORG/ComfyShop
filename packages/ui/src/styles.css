@@ -4,7 +4,6 @@
   box-sizing: border-box;
 }
 html {
-  color-scheme: dark;
   background: var(--color-canvas);
   /* 页面长短变化时保留滚动条的位置，页头和工具栏不随之横移。 */
   scrollbar-gutter: stable;
@@ -346,6 +345,7 @@ button:disabled {
 }
 .ui-select-content {
   min-width: var(--radix-select-trigger-width);
+  max-width: min(var(--radix-select-content-available-width), var(--size-select-menu));
   max-height: var(--radix-select-content-available-height);
   background: var(--color-hover);
   padding: var(--space-1);
@@ -370,6 +370,7 @@ button:disabled {
   outline: none;
   cursor: pointer;
   font-size: var(--font-sm);
+  overflow-wrap: anywhere;
 }
 .ui-select-item[data-highlighted] {
   background: var(--color-raised);

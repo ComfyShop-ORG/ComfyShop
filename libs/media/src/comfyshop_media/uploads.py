@@ -2,12 +2,14 @@
 
 import json
 import hashlib
+import math
 import os
 import subprocess
 import warnings
 from collections.abc import AsyncIterable
 from dataclasses import dataclass
 from pathlib import Path
+from struct import unpack
 from uuid import uuid4
 
 from anyio import to_thread
@@ -24,8 +26,9 @@ class ReceivedMedia:
     sha256: str
     size: int
     content_type: str
-    width: int
-    height: int
+    width: int | None
+    height: int | None
+    duration_ms: int | None = None
 
 
 async def receive_media(
@@ -56,15 +59,49 @@ async def receive_media(
         digest = checksum.hexdigest()
         if not size or (expected_hash and digest != expected_hash):
             raise MediaError("invalid", "文件校验失败")
-        kind, width, height = await to_thread.run_sync(inspect_media, path, ffprobe)
-        return ReceivedMedia(path, digest, size, kind, width, height)
+        kind, width, height, duration_ms = await to_thread.run_sync(inspect_media, path, ffprobe)
+        return ReceivedMedia(path, digest, size, kind, width, height, duration_ms)
     except BaseException:
         path.unlink(missing_ok=True)
         raise
 
 
-def inspect_media(path: Path, ffprobe: str) -> tuple[str, int, int]:
-    """从文件内容识别 MIME 类型、宽和高。"""
+def _is_glb(path: Path) -> bool:
+    with path.open("rb") as source:
+        header = source.read(20)
+        if header[:4] != b"glTF":
+            return False
+        if len(header) != 20:
+            raise MediaError("invalid", "GLB 文件头不完整")
+        version, size, metadata_size, chunk_type = unpack("<III4s", header[4:])
+        if (
+            version != 2
+            or size != path.stat().st_size
+            or chunk_type != b"JSON"
+            or not 4 <= metadata_size <= min(size - 20, 32 * 1024 * 1024)
+            or metadata_size % 4
+        ):
+            raise MediaError("invalid", "GLB 文件头或元数据大小无效")
+        try:
+            info = json.loads(source.read(metadata_size))
+            if info["asset"]["version"] != "2.0":
+                raise ValueError()
+        except (KeyError, TypeError, ValueError, RecursionError):
+            raise MediaError("invalid", "GLB 元数据无效") from None
+        if source.tell() < size:
+            chunk = source.read(8)
+            if len(chunk) != 8:
+                raise MediaError("invalid", "GLB 数据块不完整")
+            length, kind = unpack("<I4s", chunk)
+            if kind != b"BIN\x00" or length % 4 or source.tell() + length != size:
+                raise MediaError("invalid", "GLB 数据块无效")
+    return True
+
+
+def inspect_media(path: Path, ffprobe: str) -> tuple[str, int | None, int | None, int | None]:
+    """从文件内容识别 MIME 类型、宽高和可用的音频时长。"""
+    if _is_glb(path):
+        return "model/gltf-binary", None, None, None
     try:
         with warnings.catch_warnings():
             warnings.simplefilter("error", Image.DecompressionBombWarning)
@@ -74,7 +111,7 @@ def inspect_media(path: Path, ffprobe: str) -> tuple[str, int, int]:
                     raise MediaError("invalid", "不支持的图像格式")
                 width, height = image.size
                 image.verify()
-                return content_type, width, height
+                return content_type, width, height, None
     except UnidentifiedImageError:
         pass
     except (OSError, ValueError, Image.DecompressionBombError, Image.DecompressionBombWarning):
@@ -88,9 +125,9 @@ def inspect_media(path: Path, ffprobe: str) -> tuple[str, int, int]:
                 "-protocol_whitelist",
                 "file,pipe",
                 "-format_whitelist",
-                "mov,matroska,webm",
+                "mov,matroska,webm,flac",
                 "-show_entries",
-                "stream=codec_type,width,height:format=format_name",
+                "stream=codec_type,codec_name,width,height:format=format_name,duration",
                 "-of",
                 "json",
                 str(path),
@@ -100,8 +137,18 @@ def inspect_media(path: Path, ffprobe: str) -> tuple[str, int, int]:
             check=True,
         )
         info = json.loads(result.stdout)
-        stream = next(s for s in info["streams"] if s.get("codec_type") == "video")
         kind = info["format"]["format_name"]
+        if kind == "flac" and any(
+            track.get("codec_type") == "audio" and track.get("codec_name") == "flac"
+            for track in info["streams"]
+        ):
+            raw = info["format"].get("duration", "N/A")
+            duration = float(raw) * 1000 if raw != "N/A" else 0
+            duration_ms = (
+                round(duration) if math.isfinite(duration) and 0 < duration < 2**63 else None
+            )
+            return "audio/flac", None, None, duration_ms
+        stream = next(s for s in info["streams"] if s.get("codec_type") == "video")
         content_type = (
             "video/webm"
             if "webm" in kind
@@ -112,8 +159,8 @@ def inspect_media(path: Path, ffprobe: str) -> tuple[str, int, int]:
         width, height = int(stream["width"]), int(stream["height"])
         if not content_type or not 0 < width <= 32768 or not 0 < height <= 32768:
             raise ValueError()
-        return content_type, width, height
+        return content_type, width, height, None
     except FileNotFoundError:
-        raise MediaError("unavailable", "服务器需要安装 ffprobe 才能接收视频") from None
+        raise MediaError("unavailable", "服务器需要安装 ffprobe 才能接收音频或视频") from None
     except (subprocess.SubprocessError, ValueError, KeyError, StopIteration):
-        raise MediaError("invalid", "文件不是有效的图像或视频") from None
+        raise MediaError("invalid", "文件不是有效的图像、视频、FLAC 音频或 GLB 模型") from None

@@ -88,7 +88,7 @@ def test_version_defaults_apply_to_new_tasks_and_preserve_replay_inputs(prepared
         [{"fieldId": fields["image"]["id"], "section": "default", "defaultValue": "image.png"}],
         [{"fieldId": fields["seed"]["id"], "section": "default", "control": "slider"}],
         [{"fieldId": fields["image"]["id"], "section": "default", "control": "textarea"}],
-        [{"fieldId": cfg, "section": "advanced", "defaultValue": 6.6}],
+        [{"fieldId": cfg, "section": "advanced", "defaultValue": 100.1}],
         [hidden, hidden],
         [{"fieldId": "0" * 64, "section": "default"}],
     ):
