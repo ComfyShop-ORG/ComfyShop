@@ -1,0 +1,203 @@
+# Docker 部署
+
+Web 和 API 使用同一个镜像，默认监听 `0.0.0.0:8688`。前端在构建阶段编译，运行时由 FastAPI 提供静态资源，使用同源 Cookie，无需额外 Nginx。
+
+## Compose 启动
+
+在仓库根目录执行：
+
+```sh
+docker compose up -d --build --wait
+```
+
+访问 `http://localhost:8688`；其他设备使用服务器实际地址。首次使用全新数据卷时，入口只执行 Alembic 迁移创建表结构，不导入账号、工作流、作品、任务或工作机。用户自行注册账号，再导入工作流、连接工作机。
+
+默认配置如下：
+
+- Compose 项目名为 `comfyshop`，服务名为 `app`。
+- 宿主机和容器内端口均为 `8688`，对所有 IPv4 网卡开放。
+- `comfyshop-data` 数据卷挂载到 `/data`，保存 SQLite 数据库、原件和派生缓存。新上传的原件写入 `originals/`。
+- 容器以 UID/GID `10001` 运行，自动执行迁移，配置 `unless-stopped` 重启策略。
+- 健康检查请求 `/api/v1/health`。镜像包含 `ffmpeg` 和 `ffprobe`，用于检查视频采集结果并生成封面与短片。
+
+查看状态、日志或停止服务：
+
+```sh
+docker compose ps
+docker compose logs -f app
+docker compose down
+```
+
+正常启动、重启和 `down` 均保留数据卷。使用宿主机目录替代数据卷时，该目录需要允许 UID/GID `10001` 读写。
+
+## 团队版 Compose
+
+[`compose.team.yaml`](../compose.team.yaml) 使用 PostgreSQL 17。默认原文件仍写入应用卷，可选本地 RustFS 或外部 S3 兼容存储。团队版默认入口为 `http://127.0.0.1:9688`，项目和数据卷与基础版各自独立。数据库和 RustFS 端口只在 Compose 网络内可用。团队版需要 Docker Compose v2.20.0 或更新版本。
+
+从独立的 [`.env.team.example`](../.env.team.example) 创建环境文件。以下命令中的目录是示例，请指定仓库外的私有目录，并用 `openssl rand -hex 24` 为 `COMFYSHOP_POSTGRES_PASSWORD` 生成 URL 安全的密码。
+
+```sh
+TEAM_CONFIG_DIR=/absolute/private/comfyshop-team
+TEAM_ENV="$TEAM_CONFIG_DIR/team.env"
+install -d -m 700 "$TEAM_CONFIG_DIR"
+(umask 077; test -e "$TEAM_ENV" || cp .env.team.example "$TEAM_ENV")
+chmod 600 "$TEAM_ENV"
+
+team() {
+  docker compose --env-file "$TEAM_ENV" -f compose.team.yaml "$@"
+}
+```
+
+- **PostgreSQL 和本地存储**。保留 `COMFYSHOP_STORAGE_BACKEND=local`，运行 `team up -d --build --wait`。
+- **PostgreSQL 和本地 RustFS**。设置 `COMFYSHOP_STORAGE_BACKEND=s3`、`COMFYSHOP_S3_ENDPOINT_URL=http://rustfs:9000`、`COMFYSHOP_S3_ADDRESSING_STYLE=path`、独立的桶名和访问密钥。运行 `team --profile rustfs up -d --build --wait`，初始化服务核对并按需创建私有桶，成功后 Compose 启动应用。
+- **PostgreSQL 和外部 S3**。同样选择 `s3`，将端点、区域、寻址模式、桶名和凭据填入独立环境文件。预先创建私有专用桶，然后运行 `team up -d --build --wait`。初始化服务会核对应用凭据能访问该桶。AWS S3 可省略端点。凭据也可由 SDK 凭据链提供。
+
+S3 账号需要列出桶和读、写、删 `originals/`、`derived/` 下的对象。兼容端点需支持条件 PUT、单段 Range GET 和批量删除对象。原件由 API 鉴权并流式返回，视频拖动使用 `206 Partial Content`。S3 的多段 Range 请求返回完整原件。S3 模式在桶中保存派生文件，应用卷保存本地缓存。应用卷缓存清理后会先尝试读取 S3，缺失时用原件再生成。
+
+开启桶版本控制后，回收原件会写入删除标记，非当前版本继续占用存储。按团队的备份保留期限，为 `originals/` 设置非当前版本到期和过期删除标记清理规则。对 `derived/` 可单独设置较短的非当前版本保留期。应用的派生缓存容量按当前版本计算。
+
+直接运行 API 或使用独立镜像时，可通过 `COMFYSHOP_DATABASE_URL=postgresql+psycopg://…` 接入已有 PostgreSQL。原文件存储的环境变量与团队版相同，数据库与存储可分别选择。
+
+SQLite 和 PostgreSQL 都由 Alembic 从空库创建首版结构。后续版本的数据库变更从首版基线继续追加。
+
+### 从 SQLite 备份迁入团队版
+
+备份须来自已停机的基础版。归档根目录包含 `comfyshop.db`，有原件时同时包含 `originals/`。先在源实例等待活动任务结束并停止应用。以下示例在仓库外写入备份和校验文件。
+
+```sh
+BACKUP_DIR=/absolute/private/comfyshop-backup
+install -d -m 700 "$BACKUP_DIR"
+umask 077
+docker compose stop app
+docker compose run --rm --no-deps -T --entrypoint tar app --hard-dereference -C /data -cf - . > "$BACKUP_DIR/data.tar"
+(cd "$BACKUP_DIR" && shasum -a 256 data.tar > SHA256SUMS)
+```
+
+使用全新的目标数据库和空的原文件存储。以下是 RustFS 示例。若目标使用本地存储或外部 S3，预备好存储后只启动 `db`，其余命令去掉 `--profile rustfs`。
+
+```sh
+(cd "$BACKUP_DIR" && shasum -a 256 -c SHA256SUMS)
+team --profile rustfs build app
+team --profile rustfs up -d --wait db rustfs
+team --profile rustfs run --rm -T rustfs-init
+team --profile rustfs run --rm --no-deps -T app python -m comfyshop_api.restore_data - < "$BACKUP_DIR/data.tar"
+team --profile rustfs up -d --wait
+```
+
+导入会先将临时 SQLite 副本升级到目标版本，检查引用、原件大小和 SHA-256，再以事务写入 PostgreSQL，保留账号、工作流版本、任务、执行、作品、工作机记录及媒体 ID。恢复后用原账号重新登录，重新申请重置密码和邮箱确认链接。缩略图、视频封面和短片会按需生成。若最终提交的回执丢失，恢复工具重连 PostgreSQL 核对事务结果。若数据库暂时无法连接，待连接恢复后核对账号和媒体记录。导入中断且目标库为空时，可用同一份备份重试。工具校验目标中已有原件的键、大小和 SHA-256，再补齐缺失文件。
+
+### 团队版备份与容器重建
+
+备份时等待活动任务结束，停止应用后从同一时间点备份数据库和原文件。
+
+```sh
+team --profile rustfs stop app
+team exec -T db pg_dump -U comfyshop -Fc comfyshop > "$BACKUP_DIR/database.dump"
+```
+
+本地存储模式用上节的 `tar` 命令归档应用卷，将命令开头的 `docker compose` 换成 `team`。S3 模式同步备份专用桶，保留对象键及 Content-Type。可使用服务提供的私有桶备份，或者在自管 RustFS 停机后归档其数据卷。恢复团队版时先准备同一份备份的原文件和空 PostgreSQL 数据库，再执行 `team exec -T db pg_restore -U comfyshop -d comfyshop --exit-on-error --single-transaction --no-owner --no-privileges < "$BACKUP_DIR/database.dump"`，最后启动应用。
+
+重建时保留项目名、环境文件和数据卷。以 RustFS 为例运行 `team --profile rustfs up -d --force-recreate --wait`。查看 `team --profile rustfs ps`，请求 `/api/v1/health`，再核对原账号、任务和公开作品能读取。用原账号打开私有素材，确认其他账号和访客无法读取。选择可播放的视频在浏览器拖动进度，网络面板中的原视频 API 应返回 `206` 和 `Content-Range`。撤回公开后再用访客请求原文件，应返回 `404`。
+
+## 端口与配置
+
+平台支持的环境变量、默认值和允许范围见 [`.env.example`](../.env.example)。工作机从自己的启动环境读取设置，取值见 [工作机配置](../integrations/comfyui/README.md#工作机配置)。
+
+`8688` 是默认端口。可用 `COMFYSHOP_PORT` 调整宿主机入口；容器内始终使用 `8688`。例如：
+
+```sh
+COMFYSHOP_PORT=9688 docker compose up -d --build --wait
+```
+
+API 配置通过 Compose 的 `environment` 注入。将自定义配置保存在仓库外的覆盖文件，例如 `/absolute/private/compose.settings.yaml`：
+
+```yaml
+services:
+  app:
+    environment:
+      COMFYSHOP_ALLOWED_HOSTS: '["127.0.0.1","comfyshop.example"]'
+```
+
+再使用两个配置文件启动：
+
+```sh
+docker compose -f compose.yaml -f /absolute/private/compose.settings.yaml up -d --build --wait
+```
+
+将示例域名换成实际域名或 IP，保留 `127.0.0.1` 供健康检查使用。容器默认配置 `COMFYSHOP_DATA_DIR=/data`、`COMFYSHOP_STATIC_DIR=/app/dist`；通过 HTTPS 入口访问时可设置 `COMFYSHOP_COOKIE_SECURE=true`。Compose 的 `--env-file` 用于变量替换，不会自动将所有变量传入应用。
+
+部署在反向代理（例如负责 HTTPS 的 Nginx）之后时：
+
+- 设置 `COMFYSHOP_PUBLIC_URL` 为用户访问的地址，例如 `https://comfyshop.example`。工作机启动包里的 `serverUrl` 和分享预览图使用此地址；未设置时取请求的地址，经代理转发后可能变成 `http://` 或内网地址。
+- 设置 uvicorn 读取的 `FORWARDED_ALLOW_IPS` 为代理的地址，即容器看到的代理来源地址，例如 `172.18.0.1`（示例，以实际网络为准）。登录、找回密码和工作机接入申请按来源地址限制频率，不设置时所有访问者共用代理的地址，容易一起被限制。只填写实际的代理地址，不要使用 `*`。代理必须用真实来源覆盖（或追加到末尾）`X-Forwarded-For`，不能原样转发客户端自带的值，例如 Nginx 的 `proxy_set_header X-Forwarded-For $remote_addr;`。
+- 代理运行在宿主机时，将 `compose.yaml` 中的原端口映射替换成 `127.0.0.1:${COMFYSHOP_PORT:-8688}:8688`（示例），限制宿主机入口为本机访问。
+
+若用 Caddy 管理 HTTPS，把 Caddy 的 `/data` 挂载到持久卷。重建容器时继续使用同一卷，以保留证书和 ACME 账号。用浏览器或 `openssl s_client` 查看实际证书的到期时间，并用 Caddy 日志检查续期。平台部署与续期分别验证，续期后再次检查公网入口实际送出的证书。
+
+设置 `COMFYSHOP_SMTP_HOST` 及相关变量可发送邮箱确认和密码重置邮件。发送邮件时必须用 `COMFYSHOP_PUBLIC_URL` 配置可信的平台地址。未设置邮件服务时，链接写入受限的服务日志，可用 `docker compose logs app` 查阅。此时若同时省略平台地址，日志会给出站内路径，按实际使用的站点地址打开。
+
+在 API 环境中设置 `COMFYSHOP_FAILED_ARTIFACT_TTL_SECONDS` 可配置部分成品从执行失败或取消到允许回收的保留时长。单位为秒，默认 `86400`，最小 `60`。
+
+工作机独立运行。跨机器部署时，用工作机能访问的平台地址打开网页并下载启动包，或配置 `COMFYSHOP_PUBLIC_URL` 指定包内地址。启动前核对 `worker.json` 中的 `serverUrl`。平台与工作机同机运行时，可用 `http://localhost:8688`。首次启动后在浏览器里确认接入，无桌面环境时可使用终端显示的地址或二维码。也可手动添加工作机并下载包含 API Key 的配置。清空平台后需要重新创建账号、工作机及密钥。GPU 计算与 ComfyUI 依赖由工作机承担。参见 [工作机接入](../integrations/comfyui/README.md)。
+
+## 更新与清空
+
+### 更新
+
+让活动任务完成，停止共用数据库或数据卷的所有应用实例，备份同一时间点的数据库和 `originals/` 下的原件。随后重新构建镜像并启动平台。
+
+```sh
+docker compose up -d --build --wait
+```
+
+平台和网页使用同一镜像，启动时应用数据库迁移。
+
+### 清空平台
+
+需要清空当前平台时，先停止工作机并备份，再删除数据卷重建：
+
+```sh
+docker compose down --volumes
+docker compose up -d --build --wait
+```
+
+此操作删除当前账号、工作流、作品、任务、工作机密钥及全部媒体。新数据卷从空库开始，只创建表结构。
+
+上传暂存在 `COMFYSHOP_DATA_DIR` 下的 `staging/`，容器默认使用 `/data/`。跨文件系统复制时，应用会在目标目录下的 `.comfyshop-publish/` 暂存文件，写完后再发布原件或缓存。数据卷须留出并发上传和视频处理所需的空间，并在重建容器时继续挂载。应用用文件锁识别正在使用的暂存目录，后台定期回收失去持有者的文件，并核对未确认的上传。
+
+应用卷的 `thumbnails/`、`video-previews/` 合用一份容量配额，S3 的 `derived/` 使用同样大小的独立配额。派生文件在写入后开始计时，失效后按需重新生成。后台每约 60 秒清掉过期文件，超过容量时从最早写入的文件开始回收。写入高峰时总量可以短暂超过配额。两个 Compose 配置均可通过环境文件调整以下值。
+
+| 环境变量                                 | 默认值                 | 用途                                                                                      |
+| ---------------------------------------- | ---------------------- | ----------------------------------------------------------------------------------------- |
+| `COMFYSHOP_DERIVATIVE_CACHE_MAX_BYTES`   | `536870912`（512 MiB） | 每层保留的派生文件总字节数。单个文件超过此值时直接返回当次生成结果。设为 `0` 时按需生成。 |
+| `COMFYSHOP_DERIVATIVE_CACHE_TTL_SECONDS` | `604800`（7 天）       | 派生文件自写入起的有效期，读取和从 S3 恢复到本地时沿用原有效期。                          |
+
+## 单独使用镜像
+
+```sh
+docker build -t comfyshop:local .
+docker run -d \
+  --name comfyshop \
+  --restart unless-stopped \
+  -p 8688:8688 \
+  --mount type=volume,source=comfyshop-data,target=/data \
+  comfyshop:local
+```
+
+## 构建与验证
+
+Node.js 阶段按 `pnpm-lock.yaml` 构建前端，并从唯一的 Token 源文件生成邮件调色板。Python 阶段复制该调色板，按 `uv.lock` 安装 API 生产依赖，以非 editable 方式安装应用，并生成工作机和 Skill 的下载文件。运行镜像包含 API 的 Python 环境、迁移、媒体工具与完整 Web 产物，邮件运行不依赖 Node.js 或仓库路径。`COMFYSHOP_STATIC_DIR` 指向自定义 Web 构建目录时，请一并部署其中的 `downloads/` 目录。工作机和 Skill 分别安装到用户自己的设备。
+
+验证 `/skill`、`/downloads/install-comfyshop-skill.py` 和 `/downloads/comfyshop-skill.zip` 均能从部署地址访问。安装命令使用访问页面的来源地址，客户端设备需要能访问该地址。HTTPS 部署使用与网页相同的 Origin 和 Cookie 配置。
+
+`.dockerignore` 排除密钥、数据库、运行状态、宿主机依赖和缓存。新库空数据约束由持久化测试覆盖；容器可在隔离数据卷验证注册登录、媒体上传、健康检查、停止与重建后的数据保留。
+
+```sh
+docker compose config --quiet
+curl --fail http://localhost:8688/api/v1/health
+pnpm check
+pnpm test
+pnpm build
+```
+
+官方参考见 [Compose 服务配置](https://docs.docker.com/reference/compose-file/services/)、[Compose 变量替换](https://docs.docker.com/compose/how-tos/environment-variables/variable-interpolation/)、[RustFS Docker 部署](https://docs.rustfs.com/en/installation/container/docker)、[uv Docker 集成](https://docs.astral.sh/uv/guides/integration/docker/)。

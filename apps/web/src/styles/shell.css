@@ -1,0 +1,182 @@
+/* 应用外壳：页头、搜索、账户菜单、页面容器、Skill 安装页和列表工具栏。 */
+/* 页面主体只在登录后由程序聚焦，用来承接焦点，不需要焦点框。 */
+main:focus-visible {
+  outline: none;
+}
+.muted,
+.eyebrow {
+  color: var(--color-muted);
+}
+.eyebrow {
+  font-size: var(--font-xs);
+}
+.app-header {
+  height: var(--size-header);
+  background: var(--color-header);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+}
+.header-inner {
+  height: 100%;
+  max-width: var(--size-page-max);
+  margin: auto;
+  padding: 0 var(--space-12);
+  display: flex;
+  align-items: center;
+  gap: var(--space-10);
+  position: relative;
+}
+.brand {
+  padding: 0;
+  background: var(--color-clear);
+  flex-shrink: 0;
+}
+.brand:hover {
+  background: var(--color-clear);
+}
+.brand:hover .ui-logo {
+  color: var(--color-accent-hover);
+}
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.main-nav .ui-button {
+  padding: var(--space-2) var(--space-3);
+}
+.main-nav .ui-button[aria-current='page'] {
+  color: var(--color-accent);
+}
+/* 选中项的底色由 ActiveMark 绘制，切换时在同组按钮之间滑动。 */
+.ui-button--ghost:has(> .active-mark) {
+  position: relative;
+  isolation: isolate;
+  background: var(--color-clear);
+}
+.active-mark {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-accent-soft);
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  min-width: 0;
+}
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 238px;
+  height: 36px;
+  margin-left: auto;
+  padding: 0 var(--space-3);
+  background: var(--color-raised);
+  color: var(--color-subtle);
+}
+.search-box > svg {
+  width: var(--size-icon);
+}
+.search-box .ui-input {
+  appearance: none;
+  padding: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: var(--color-clear);
+  --ui-input-font-size: var(--font-sm);
+}
+.search-box .ui-input::-webkit-search-cancel-button {
+  appearance: none;
+}
+.mobile-search-trigger {
+  display: none;
+}
+.search-box:focus-within {
+  outline: var(--line-thin) solid var(--color-focus);
+}
+.search-box kbd {
+  white-space: nowrap;
+  font-family: var(--font-sans);
+  font-size: var(--font-xs);
+}
+.search-box .ui-icon-button {
+  width: var(--space-5);
+  padding: 0;
+}
+.header-login {
+  min-width: 88px;
+}
+.account-button {
+  max-width: 180px;
+  padding: var(--space-2);
+  font-size: var(--font-sm);
+}
+.account-button[data-state='open'] > svg {
+  transform: rotate(180deg);
+}
+.account-button > span:nth-child(2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.avatar-small {
+  width: var(--space-5);
+  height: var(--space-5);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-hover);
+  font-size: var(--font-xs);
+  color: var(--color-text);
+  flex-shrink: 0;
+}
+.page {
+  max-width: var(--size-page-max);
+  margin: auto;
+  padding: var(--space-5) var(--space-12) var(--space-12);
+}
+.skill-install {
+  display: grid;
+  gap: var(--space-5);
+  max-width: var(--size-skill-install);
+}
+.skill-install h1 {
+  margin: 0;
+  font-size: var(--font-2xl);
+}
+.skill-install-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+.skill-install .form-hint {
+  margin: 0;
+}
+.skill-install-command {
+  font-family: var(--font-mono);
+  overflow-wrap: anywhere;
+  /* 只读命令，不需要拖拽改变大小。 */
+  resize: none;
+}
+.skill-install-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.page-toolbar {
+  display: flex;
+  min-height: var(--size-control-sm);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+.toolbar-slot {
+  display: flex;
+  margin-left: auto;
+}

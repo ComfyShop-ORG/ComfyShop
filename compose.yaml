@@ -1,0 +1,18 @@
+name: comfyshop
+
+services:
+  app:
+    build: .
+    image: comfyshop:local
+    restart: unless-stopped
+    ports:
+      - '0.0.0.0:${COMFYSHOP_PORT:-8688}:8688'
+    environment:
+      COMFYSHOP_DERIVATIVE_CACHE_MAX_BYTES: ${COMFYSHOP_DERIVATIVE_CACHE_MAX_BYTES:-536870912}
+      COMFYSHOP_DERIVATIVE_CACHE_TTL_SECONDS: ${COMFYSHOP_DERIVATIVE_CACHE_TTL_SECONDS:-604800}
+    volumes:
+      - data:/data
+
+volumes:
+  data:
+    name: comfyshop-data

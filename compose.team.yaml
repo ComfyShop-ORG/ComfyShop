@@ -1,0 +1,103 @@
+name: comfyshop-team
+
+x-app-image: &app-image
+  build: .
+  image: comfyshop:team
+
+x-storage-environment: &storage-environment
+  COMFYSHOP_STORAGE_BACKEND: ${COMFYSHOP_STORAGE_BACKEND:-local}
+  COMFYSHOP_S3_ENDPOINT_URL: ${COMFYSHOP_S3_ENDPOINT_URL:-}
+  COMFYSHOP_S3_BUCKET: ${COMFYSHOP_S3_BUCKET:-}
+  COMFYSHOP_S3_REGION: ${COMFYSHOP_S3_REGION:-us-east-1}
+  COMFYSHOP_S3_ADDRESSING_STYLE: ${COMFYSHOP_S3_ADDRESSING_STYLE:-auto}
+  COMFYSHOP_S3_ACCESS_KEY_ID: ${COMFYSHOP_S3_ACCESS_KEY_ID:-}
+  COMFYSHOP_S3_SECRET_ACCESS_KEY: ${COMFYSHOP_S3_SECRET_ACCESS_KEY:-}
+
+services:
+  app:
+    <<: *app-image
+    restart: unless-stopped
+    init: true
+    depends_on:
+      db:
+        condition: service_healthy
+      rustfs-init:
+        condition: service_completed_successfully
+    ports:
+      - '${COMFYSHOP_TEAM_BIND:-127.0.0.1}:${COMFYSHOP_TEAM_PORT:-9688}:8688'
+    environment:
+      <<: *storage-environment
+      COMFYSHOP_DATABASE_URL: 'postgresql+psycopg://comfyshop:${COMFYSHOP_POSTGRES_PASSWORD:?set COMFYSHOP_POSTGRES_PASSWORD in the team env file}@db:5432/comfyshop'
+      COMFYSHOP_DERIVATIVE_CACHE_MAX_BYTES: ${COMFYSHOP_DERIVATIVE_CACHE_MAX_BYTES:-536870912}
+      COMFYSHOP_DERIVATIVE_CACHE_TTL_SECONDS: ${COMFYSHOP_DERIVATIVE_CACHE_TTL_SECONDS:-604800}
+      COMFYSHOP_PUBLIC_URL: ${COMFYSHOP_PUBLIC_URL:-}
+      COMFYSHOP_COOKIE_SECURE: ${COMFYSHOP_COOKIE_SECURE:-false}
+      COMFYSHOP_ALLOWED_HOSTS: ${COMFYSHOP_ALLOWED_HOSTS:-}
+      COMFYSHOP_SMTP_HOST: ${COMFYSHOP_SMTP_HOST:-}
+      COMFYSHOP_SMTP_PORT: ${COMFYSHOP_SMTP_PORT:-587}
+      COMFYSHOP_SMTP_USERNAME: ${COMFYSHOP_SMTP_USERNAME:-}
+      COMFYSHOP_SMTP_PASSWORD: ${COMFYSHOP_SMTP_PASSWORD:-}
+      COMFYSHOP_SMTP_FROM: ${COMFYSHOP_SMTP_FROM:-}
+      COMFYSHOP_SMTP_SECURITY: ${COMFYSHOP_SMTP_SECURITY:-starttls}
+    volumes:
+      - data:/data
+
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: comfyshop
+      POSTGRES_DB: comfyshop
+      POSTGRES_PASSWORD: ${COMFYSHOP_POSTGRES_PASSWORD:?set COMFYSHOP_POSTGRES_PASSWORD in the team env file}
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-h', '127.0.0.1', '-U', 'comfyshop', '-d', 'comfyshop']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  rustfs:
+    image: ghcr.io/rustfs/rustfs:1.0.6
+    profiles: ['rustfs']
+    restart: unless-stopped
+    command: ['/data']
+    environment:
+      RUSTFS_ADDRESS: ':9000'
+      RUSTFS_CONSOLE_ENABLE: 'false'
+      RUSTFS_ACCESS_KEY: ${COMFYSHOP_S3_ACCESS_KEY_ID:-}
+      RUSTFS_SECRET_KEY: ${COMFYSHOP_S3_SECRET_ACCESS_KEY:-}
+    healthcheck:
+      test: ['CMD', 'curl', '-fsS', 'http://127.0.0.1:9000/health/ready']
+      interval: 5s
+      timeout: 3s
+      start_period: 10s
+      retries: 12
+    volumes:
+      - rustfs-data:/data
+
+  rustfs-init:
+    <<: *app-image
+    depends_on:
+      rustfs:
+        condition: service_healthy
+        required: false
+    entrypoint:
+      - python
+      - -c
+      - |
+        from urllib.parse import urlsplit
+        from comfyshop_api.core.config import get_settings
+        settings = get_settings()
+        if settings.storage_backend == 's3':
+            if urlsplit(settings.s3_endpoint_url or '').hostname == 'rustfs':
+                settings.media_storage.create_bucket()
+            else:
+                settings.media_storage.check_bucket()
+    command: []
+    environment: *storage-environment
+
+volumes:
+  data:
+  postgres-data:
+  rustfs-data:

@@ -1,0 +1,122 @@
+/* 任务列表和列表通用的加载、分区样式。 */
+.task-list {
+  display: grid;
+  gap: var(--space-2);
+}
+.task-item {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-3);
+  background: var(--color-surface);
+  text-align: left;
+  align-items: center;
+  min-width: 0;
+}
+.task-open {
+  display: flex;
+  flex: 1;
+  justify-content: flex-start;
+  min-width: 0;
+  gap: var(--space-4);
+  padding: var(--space-2);
+  text-align: left;
+  color: var(--color-text);
+}
+.task-open > span {
+  display: grid;
+  gap: var(--space-1);
+  font-size: var(--font-sm);
+  min-width: 0;
+}
+.task-open strong {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.task-open .muted {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.task-thumbnail {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: var(--space-12);
+  height: var(--space-12);
+  object-fit: cover;
+  background: var(--color-raised);
+  color: var(--color-subtle);
+}
+.task-item-actions,
+.current-task {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+.task-item strong {
+  font-weight: var(--font-medium);
+}
+.task-status {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-content: end;
+  column-gap: var(--space-2);
+  font-size: var(--font-sm);
+  min-width: 48px;
+  white-space: nowrap;
+  text-align: right;
+}
+.task-status > .ui-progress {
+  grid-column: 1 / -1;
+}
+.status-mark {
+  display: inline-block;
+  flex-shrink: 0;
+  width: var(--space-2);
+  height: var(--space-2);
+  background: var(--color-subtle);
+}
+.status-mark[data-tone='active'] {
+  background: var(--color-accent);
+  animation: status-pulse var(--motion-slow) ease-in-out alternate infinite;
+}
+.status-mark[data-tone='success'] {
+  background: var(--color-success);
+}
+.status-mark[data-tone='waiting'] {
+  background: var(--color-warning);
+}
+.status-mark[data-tone='danger'] {
+  background: var(--color-danger);
+}
+@keyframes status-pulse {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: var(--opacity-disabled);
+  }
+}
+.load-more {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-6);
+}
+.media-placeholder {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background: var(--color-raised);
+  color: var(--color-subtle);
+}
+.media-placeholder > svg {
+  width: var(--space-8);
+  height: var(--space-8);
+}

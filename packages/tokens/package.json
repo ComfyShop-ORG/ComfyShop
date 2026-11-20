@@ -1,0 +1,13 @@
+{
+  "name": "@comfyshop/tokens",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./dist/tokens.css",
+    "./brand/*.svg": "./src/brand/*.svg"
+  },
+  "scripts": {
+    "build": "node build.mjs"
+  }
+}

@@ -1,0 +1,64 @@
+# 与本地提交前的检查相同：pnpm check、format:check、test、build，另加契约和迁移的一致性检查。
+# 语法兼容 GitHub Actions 与 Gitea/Forgejo Actions，后两者需要已注册的 runner。
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure temporary data directory
+        run: echo "COMFYSHOP_DATA_DIR=$RUNNER_TEMP/comfyshop-data" >> "$GITHUB_ENV"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+
+      - name: Install pnpm, uv and media tools
+        run: |
+          corepack enable
+          python -m pip install --disable-pip-version-check uv==0.11.23
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ffmpeg
+
+      - name: Install dependencies
+        run: |
+          pnpm install --frozen-lockfile
+          uv sync --all-packages --locked
+
+      - name: Static checks
+        run: pnpm check
+
+      - name: Formatting
+        run: pnpm format:check
+
+      - name: Tests
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+
+      - name: Generated API contract is current
+        run: |
+          pnpm api:generate
+          git diff --exit-code -- packages/api-client
+
+      - name: Models match migrations
+        run: |
+          pnpm db:migrate
+          uv run --package comfyshop-api alembic -c apps/api/alembic.ini check

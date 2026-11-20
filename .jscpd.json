@@ -1,0 +1,10 @@
+{
+  "pattern": "{apps/web/src,apps/api/src,packages,integrations/comfyui,tooling}/**/*",
+  "format": ["javascript", "typescript", "tsx", "python", "css"],
+  "ignore": ["**/node_modules/**", "**/dist/**", "**/tests/**", "**/*.test.*", "**/*.d.ts"],
+  "mode": "weak",
+  "minLines": 8,
+  "minTokens": 60,
+  "failOnEmpty": true,
+  "reporters": ["console"]
+}

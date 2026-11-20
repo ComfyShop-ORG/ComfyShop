@@ -1,0 +1,299 @@
+/* 跨区域的断点覆盖。必须最后加载，才能覆盖前面各文件的基础规则。 */
+@media (min-width: 1440px) {
+  .dialog-navigation {
+    position: absolute;
+    inset: 0;
+    padding: 0;
+    border: 0;
+    pointer-events: none;
+  }
+  .dialog-navigation > .ui-icon-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: auto;
+  }
+  .dialog-previous {
+    right: calc(100% + var(--space-4));
+  }
+  .dialog-next {
+    left: calc(100% + var(--space-4));
+  }
+  .dialog-position {
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+@media (max-width: 1000px) {
+  .header-inner {
+    gap: var(--space-5);
+  }
+  .header-actions {
+    gap: var(--space-4);
+  }
+  .search-box {
+    width: 190px;
+  }
+  .workflow-dialog {
+    width: calc(100vw - 40px);
+  }
+  .workflow-dialog-body {
+    grid-template-columns: minmax(0, 1fr) 330px;
+  }
+  .run-form-scroll {
+    padding: var(--space-5);
+  }
+  .run-footer {
+    padding: var(--space-4) var(--space-5) var(--space-5);
+  }
+}
+@media (max-width: 760px) {
+  .header-inner {
+    padding: 0 var(--space-5);
+    gap: var(--space-4);
+  }
+  .page {
+    padding-left: var(--space-5);
+    padding-right: var(--space-5);
+  }
+  .main-nav .ui-button {
+    padding: var(--space-2);
+    font-size: var(--font-sm);
+  }
+  .search-box {
+    width: 160px;
+  }
+}
+@media (max-width: 700px) {
+  .collection-scroll {
+    padding: var(--space-3);
+  }
+  .dialog-tab-list {
+    padding-inline: var(--space-3);
+  }
+  .task-details-name {
+    padding-inline: var(--space-4);
+  }
+  .task-item {
+    display: grid;
+    gap: var(--space-2);
+  }
+  .task-item-actions .task-state {
+    margin-left: 0;
+    margin-right: auto;
+  }
+  .task-open .muted {
+    white-space: normal;
+  }
+  .recorded-input {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-1);
+  }
+  .collection-actions {
+    padding-inline: var(--space-3);
+  }
+  .machine-item {
+    gap: var(--space-3);
+    padding: var(--space-4);
+    flex-wrap: wrap;
+  }
+  .machine-identity {
+    flex-basis: calc(100% - var(--space-10));
+  }
+  .machine-nodes {
+    margin-right: auto;
+  }
+  .machine-item > .ui-button {
+    margin-left: auto;
+  }
+  .artifact-stage {
+    padding: var(--space-3);
+  }
+  .app-header {
+    height: auto;
+  }
+  .header-inner {
+    gap: var(--space-3);
+    padding: 0 var(--space-4);
+    flex-wrap: wrap;
+    min-height: var(--space-16);
+    align-content: center;
+  }
+  .header-actions {
+    margin-left: auto;
+    gap: var(--space-2);
+    flex-shrink: 0;
+  }
+  .mobile-search-trigger {
+    display: inline-flex;
+    width: var(--size-touch);
+    min-height: var(--size-touch);
+  }
+  .search-box {
+    display: none;
+    flex-basis: 100%;
+    order: 1;
+    margin: 0 0 var(--space-3);
+    height: var(--size-control);
+  }
+  .search-box-open,
+  .search-box:focus-within {
+    display: flex;
+  }
+  .search-box kbd {
+    display: none;
+  }
+  .header-login {
+    min-width: 64px;
+    padding: var(--space-2) var(--space-3);
+  }
+  .header-login > svg {
+    display: none;
+  }
+  .account-button {
+    max-width: 56px;
+    padding-inline: var(--space-1);
+  }
+  .account-button > span:nth-child(2) {
+    display: none;
+  }
+  .page {
+    padding: var(--space-4) var(--space-4) var(--space-8);
+  }
+  .page-toolbar {
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-4);
+  }
+  .filter-group {
+    gap: 0;
+  }
+  .filter-group .ui-button {
+    min-width: 45px;
+    padding: var(--space-2) var(--space-3);
+  }
+  .media-card-caption {
+    padding: var(--space-8) var(--space-3) var(--space-3);
+  }
+  .media-card-caption > strong {
+    font-size: var(--font-sm);
+  }
+  .media-card-author {
+    font-size: var(--font-xs);
+    gap: var(--space-1);
+  }
+  .media-card-author .avatar-small {
+    width: var(--space-4);
+    height: var(--space-4);
+    font-size: 9px;
+  }
+  .media-card-save {
+    opacity: 1;
+    right: var(--space-2);
+    top: var(--space-2);
+    width: var(--space-7);
+    min-height: var(--space-7);
+    padding: var(--space-1);
+  }
+  .workflow-dialog-heading {
+    height: 52px;
+    padding: 0 var(--space-4);
+  }
+  .dialog-heading-wrap {
+    grid-template-columns: minmax(0, 1fr) auto;
+    height: auto;
+    padding-block: var(--space-1);
+    row-gap: var(--space-1);
+  }
+  .dialog-heading-wrap > .ui-icon-button {
+    width: var(--size-touch);
+    min-height: var(--size-touch);
+  }
+  .dialog-heading-wrap > .dialog-heading-actions {
+    grid-column: 1 / -1;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    padding-bottom: var(--space-2);
+  }
+  .breadcrumb > span {
+    display: none;
+  }
+  .workflow-dialog-body {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .workflow-viewer {
+    flex-shrink: 0;
+  }
+  .viewer-tabs {
+    height: auto;
+    max-height: 52dvh;
+  }
+  /* 单件成品按剩余空间等比显示，需要确定的高度；列表仍随内容缩短。 */
+  .viewer-tabs:has(.single-artifact) {
+    height: 52dvh;
+  }
+  .viewer-scroll {
+    flex-basis: auto;
+    overscroll-behavior: auto;
+  }
+  .viewer-scroll .empty-state {
+    min-height: 0;
+  }
+  .viewer-tab-list {
+    padding: var(--space-2) var(--space-3);
+  }
+  .preview-image,
+  .video-preview video {
+    max-height: 30dvh;
+  }
+  .preview-caption {
+    padding: var(--space-2) var(--space-4);
+  }
+  .run-form {
+    flex: 1 0 auto;
+  }
+  .run-form-scroll {
+    overflow-y: visible;
+    padding: var(--space-5);
+  }
+  .workflow-meta h1 {
+    font-size: var(--font-xl);
+    margin-top: var(--space-2);
+  }
+  .run-footer {
+    position: sticky;
+    bottom: 0;
+    background: var(--color-surface);
+    z-index: 1;
+  }
+  .import-control {
+    font-size: var(--font-xs);
+    padding: var(--space-2);
+  }
+  .import-control > svg {
+    display: none;
+  }
+}
+@media (max-width: 360px) {
+  .account-tabs .ui-button {
+    flex: 1;
+    padding-inline: var(--space-2);
+  }
+  .header-inner {
+    gap: var(--space-2);
+    padding-inline: var(--space-3);
+  }
+  .header-actions {
+    gap: var(--space-1);
+  }
+  .main-nav {
+    gap: 0;
+  }
+  .header-login {
+    min-width: calc(var(--space-12) + var(--space-2));
+  }
+}

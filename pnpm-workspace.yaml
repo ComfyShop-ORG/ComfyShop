@@ -1,0 +1,11 @@
+packages:
+  - apps/web
+  - packages/*
+minimumReleaseAgeExclude:
+  - '@tanstack/query-core@5.108.0'
+  - '@tanstack/react-query@5.108.0'
+onlyBuiltDependencies:
+  - esbuild
+patchedDependencies:
+  picomatch@2.3.2: patches/picomatch@2.3.2.patch
+  picomatch@4.0.7: patches/picomatch@4.0.7.patch

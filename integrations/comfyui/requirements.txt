@@ -1,0 +1,4 @@
+httpx>=0.28,<1
+websockets>=15,<17
+filelock>=4.2.1,<5
+segno>=1.6,<2

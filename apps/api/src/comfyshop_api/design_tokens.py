@@ -1,0 +1,25 @@
+"""由 packages/tokens/src/tokens.json 生成。运行 pnpm tokens 更新，请勿手工修改。"""
+
+COLORS = {
+    "canvas": "#0b0b0b",
+    "header": "#090909",
+    "surface": "#111111",
+    "raised": "#1a1a1a",
+    "hover": "#242424",
+    "text": "#eeeeec",
+    "muted": "#969693",
+    "subtle": "#686865",
+    "border": "#2c2c2a",
+    "focus": "#bdbdb5",
+    "accent": "#ceff35",
+    "accent-hover": "#dcff70",
+    "accent-soft": "#1c2110",
+    "on-accent": "#111408",
+    "danger": "#f5a0a0",
+    "danger-hover": "#f8baba",
+    "warning": "#e6c97a",
+    "success": "#c4da9b",
+    "overlay": "#000000b8",
+    "scrim": "#000000d9",
+    "clear": "transparent",
+}

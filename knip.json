@@ -1,0 +1,22 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "includeEntryExports": true,
+  "ignoreBinaries": ["uv", "jscpd", "osv-scanner", "gitleaks"],
+  "ignoreIssues": {
+    "packages/api-client/src/schema.d.ts": ["types"]
+  },
+  "workspaces": {
+    ".": {
+      "entry": ["tooling/*.mjs"],
+      "project": ["tooling/**/*.mjs"]
+    },
+    "apps/web": {
+      "entry": ["src/main.tsx", "src/**/*.test.ts"],
+      "project": ["src/**/*.{ts,tsx}"]
+    },
+    "packages/*": {
+      "entry": ["src/index.{ts,tsx}", "src/**/*.test.ts"],
+      "project": ["src/**/*.{ts,tsx}", "build.mjs"]
+    }
+  }
+}

@@ -1,0 +1,157 @@
+/* 工作机页面与添加、连接设置弹框。 */
+.section-heading {
+  padding: var(--space-2) 0 var(--space-6);
+}
+.section-heading h1 {
+  margin: 0;
+  font-size: var(--font-xl);
+  font-weight: var(--font-medium);
+}
+.machine-list {
+  display: grid;
+  gap: var(--space-2);
+}
+.machine-item {
+  display: flex;
+  gap: var(--space-5);
+  align-items: center;
+  padding: var(--space-5);
+  background: var(--color-surface);
+  font-size: var(--font-sm);
+}
+.machine-icon {
+  width: var(--space-6);
+  height: var(--space-6);
+  color: var(--color-subtle);
+}
+.machine-identity {
+  display: grid;
+  gap: var(--space-1);
+  flex: 1;
+  min-width: 0;
+}
+.machine-identity strong {
+  font-weight: var(--font-medium);
+  font-size: var(--font-base);
+}
+.machine-identity > span {
+  overflow-wrap: anywhere;
+}
+.machine-online {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-success);
+}
+.machine-state {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+.compact-dialog-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.compact-dialog-heading h2 {
+  margin: 0;
+  font-size: var(--font-lg);
+  font-weight: var(--font-medium);
+}
+.machine-dialog {
+  max-height: calc(100dvh - var(--space-8));
+  overflow-y: auto;
+}
+.machine-setup-dialog {
+  width: min(var(--size-machine-setup-dialog), calc(100vw - var(--space-8)));
+}
+.machine-link-icon {
+  width: var(--size-dialog-icon);
+  height: var(--size-dialog-icon);
+  color: var(--color-accent);
+}
+/* 接入代码按字符逐个核对，使用等宽字体并加大字距。 */
+.machine-link-code.ui-input {
+  font-family: var(--font-mono);
+  --ui-input-font-size: var(--font-lg);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.machine-create-form {
+  display: grid;
+  gap: var(--space-5);
+}
+.machine-setup,
+.machine-setup-panel {
+  display: grid;
+  gap: var(--space-4);
+}
+.machine-setup-panel {
+  padding-top: var(--space-3);
+}
+.machine-setup p,
+.machine-launchers,
+.machine-launchers dd {
+  margin: 0;
+}
+.machine-launchers {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--space-1) var(--space-4);
+  font-size: var(--font-sm);
+}
+.machine-setup .form-hint a {
+  text-decoration: underline;
+}
+.machine-setup-footer,
+.machine-setup-actions,
+.machine-key {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.machine-setup-footer,
+.machine-setup-actions {
+  flex-wrap: wrap;
+}
+.machine-setup-footer {
+  justify-content: space-between;
+}
+.machine-key .ui-input {
+  font-family: var(--font-mono);
+}
+.confirm-content {
+  display: grid;
+  gap: var(--space-4);
+}
+.confirm-content > p {
+  margin: 0;
+}
+.compact-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+.machine-link-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: var(--space-4) 0;
+  padding: var(--space-4);
+  background: var(--color-raised);
+  font-size: var(--font-sm);
+  overflow-wrap: anywhere;
+}
+.machine-link-facts dt {
+  color: var(--color-muted);
+}
+.machine-link-facts dd {
+  margin: var(--space-1) 0 0;
+}
+.machine-link-warning {
+  margin: 0 0 var(--space-4);
+  color: var(--color-warning);
+  font-size: var(--font-sm);
+}

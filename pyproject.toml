@@ -1,0 +1,57 @@
+[project]
+name = "comfyshop-workspace"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = []
+
+[tool.uv.workspace]
+members = ["apps/api", "integrations/comfyui", "libs/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["apps/api/tests", "integrations/comfyui/tests", "libs"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+
+[tool.pyright]
+include = ["apps/api/src", "libs", "integrations/comfyui/comfyshop_worker", "integrations/comfyui/__init__.py", "integrations/skills/comfyshop/scripts", "tooling/export-openapi.py", "tooling/build-skill.py"]
+extraPaths = ["apps/api/src", "integrations/comfyui"]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.12"
+typeCheckingMode = "standard"
+# API 的函数参数必须标注类型，服务层内的数据库调用才会被检查。
+executionEnvironments = [
+    { root = "apps/api/src", reportMissingParameterType = "error" },
+    { root = "libs", reportMissingParameterType = "error" },
+    { root = ".", extraPaths = ["apps/api/src", "integrations/comfyui"] },
+]
+
+[tool.vulture]
+paths = ["apps/api", "libs", "integrations", "tooling/export-openapi.py", "tooling/build-skill.py", "tooling/vulture_whitelist.py"]
+exclude = ["*/apps/api/migrations/versions/*"]
+ignore_decorators = [
+    "@router.get",
+    "@router.post",
+    "@router.put",
+    "@router.patch",
+    "@router.delete",
+    "@app.api_route",
+    "@app.exception_handler",
+    "@app.middleware",
+    "@event.listens_for",
+    "@field_validator",
+    "@model_validator",
+]
+ignore_names = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS"]
+min_confidence = 60
+sort_by_size = true
+
+[dependency-groups]
+dev = [
+    "vulture>=2,<3",
+]
