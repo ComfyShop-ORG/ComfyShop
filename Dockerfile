@@ -63,6 +63,7 @@ COPY --from=web /app/apps/web/dist /app/dist
 COPY --from=api /app/dist/downloads /app/dist/downloads
 COPY apps/api/alembic.ini ./apps/api/alembic.ini
 COPY apps/api/migrations ./apps/api/migrations
+RUN chmod -R a+rX ./apps
 COPY --chmod=755 tooling/docker-entrypoint.sh /usr/local/bin/comfyshop-entrypoint
 
 USER comfyshop
