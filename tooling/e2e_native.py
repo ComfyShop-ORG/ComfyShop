@@ -168,6 +168,10 @@ def start_worker(root, command):
     values = json.loads(config.read_text(encoding="utf-8"))
     if values.get("serverUrl") != command["site"] or values.get("apiKey"):
         raise ValueError("Unexpected serverUrl or preconfigured key in worker package")
+    if (key := command.get("publicKey")) and (
+        config.with_name("worker-release.pub").read_text(encoding="ascii").strip() != key
+    ):
+        raise ValueError("The starter contains a different release verification key")
     values.update(comfyUrl=command["comfy"], stateDir=str(folder / "state"))
     config.write_text(json.dumps(values), encoding="utf-8")
     config.chmod(0o600)
@@ -209,6 +213,18 @@ def start_worker(root, command):
     if identity is not None:
         report["build"] = identity["build"]
     return process, job, log, report
+
+
+def installed_update(root, command):
+    directory = worker_folder(root, command) / "state" / "updates"
+    marker = directory / "current.json"
+    if not marker.is_file():
+        return {"current": None}
+    current = json.loads(marker.read_bytes())
+    if not re.fullmatch(r"[a-f0-9]{64}", current["sha256"]):
+        raise ValueError("Invalid installed release digest")
+    build = directory / "versions" / current["sha256"] / "comfyshop_worker/worker-build.json"
+    return {"current": current, "build": json.loads(build.read_bytes())}
 
 
 def pairing_code(process, log):
@@ -282,6 +298,8 @@ def run_agent(ticket, root):
                     process, job, log, report = start_worker(root, command)
                     workers.append((process, job))
                     report["pairingCode"] = pairing_code(process, log)
+                elif command["action"] == "installed-update":
+                    report = installed_update(root, command)
                 else:
                     raise ValueError("Unknown native test action")
             except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:

@@ -40,6 +40,8 @@ FastAPI 测试使用每个用例的临时 SQLite 和 Alembic 迁移。工作机�
 
 `tooling/e2e.py` 在独立 Compose 项目内运行 Team（PostgreSQL 和 RustFS）和 SQLite（本地数据卷）。每版下载站点的工作机启动包，核对 `serverUrl` 和 SHA-256，再运行系统对应的启动脚本并在浏览器配对。测试从另一个账号在桌面和窄屏打开作品直链，载入共享参考图并提交，核对 ComfyUI 的执行历史和成品原件哈希。
 
+加上 `--updates` 可同时验证签名更新。每版先在桌面请求更新到签名无效的测试版本，确认保留原版本并能继续执行任务。再在窄屏请求有效更新，核对工作机 ID、版本、构建标识和本机安装记录，然后执行另一次任务。两次任务都使用作品直链中的共享素材。测试使用当前源码和锁文件构建发布包，并为本次运行生成签名密钥。
+
 控制机需要 Docker Compose、Git、uv 和 Chromium 的运行依赖。以下为 Linux x64 的本机验证示例。`COMFY_TEST_ORIGIN` 指向可写入测试输入和成品的真实 ComfyUI 服务。
 
 ```sh
@@ -47,7 +49,7 @@ uv sync --all-packages --locked
 uv run playwright install --only-shell chromium
 uv run python -B tooling/e2e.py \
   --root "$HOME/.local/share/comfyshop-e2e" \
-  --target linux-x64 --comfy "$COMFY_TEST_ORIGIN"
+  --target linux-x64 --comfy "$COMFY_TEST_ORIGIN" --updates
 ```
 
 跨机器验证可指定 `--executor ssh --ssh-host SSH_ALIAS --native-root TEST_ROOT --bind TEST_INTERFACE_IP`。可用 `--ssh-config` 选择已配置公钥和主机校验的连接文件。Windows x64 提供 `python.exe`，macOS 和 Linux 提供 `python3`。实机须能访问测试站点及 ComfyUI。

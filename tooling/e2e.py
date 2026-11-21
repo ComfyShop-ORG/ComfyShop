@@ -14,6 +14,7 @@ from hashlib import sha256
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from ipaddress import IPv4Address
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from threading import Thread
 from urllib.parse import urlsplit
 
@@ -30,6 +31,7 @@ from e2e_scenario import (
     submit_publisher,
     wait_for,
 )
+from e2e_update import TestReleases, verify_update
 from playwright.sync_api import sync_playwright
 
 REPO = Path(__file__).resolve().parents[1]
@@ -69,7 +71,7 @@ def record_cleanup(evidence, session, *, preserve_failure):
             raise
 
 
-def compose_project(args, folder, edition, image, project, address, port):
+def compose_project(args, folder, edition, image, project, address, port, release_dir):
     env = {
         key: value
         for key, value in os.environ.items()
@@ -125,6 +127,16 @@ def compose_project(args, folder, edition, image, project, address, port):
             service["image"] = image
     app = spec["services"]["app"]
     app["environment"]["COMFYSHOP_PUBLIC_URL"] = address
+    if release_dir:
+        app["volumes"].append(
+            {
+                "type": "bind",
+                "source": str(release_dir),
+                "target": "/data/worker-releases",
+                "read_only": True,
+                "bind": {"create_host_path": False},
+            }
+        )
     app["ports"] = [
         {"target": 8688, "published": str(port), "host_ip": args.bind, "protocol": "tcp"}
     ]
@@ -309,14 +321,25 @@ def stop_containers(args, compose, folder, edition, evidence):
             result.check_returncode()
 
 
-def test_edition(args, edition, browser, comfy, session, image, run, evidence):
+def test_edition(args, edition, browser, comfy, session, image, run, evidence, releases):
     folder = run / edition
     folder.mkdir(mode=0o700)
     prefix = f"ComfyShop-e2e/{run.name}/{edition}/result"
     port = free_port(args.bind)
     site = f"http://{args.bind}:{port}"
     project = f"e2e-{run.name}-{edition}"
-    compose, volumes = compose_project(args, folder, edition, image, project, site, port)
+    release_dir = folder / "worker-releases" if releases else None
+    if releases:
+        assert release_dir
+        release_dir.mkdir(mode=0o755)
+        release_dir.chmod(0o755)
+        baseline = releases.publish(release_dir, "baseline")
+        evidence["updates"] = {
+            "baseline": {key: baseline[key] for key in ("version", "build", "sha256")}
+        }
+    compose, volumes = compose_project(
+        args, folder, edition, image, project, site, port, release_dir
+    )
     evidence.update(
         project=project,
         volumes=volumes,
@@ -361,6 +384,7 @@ def test_edition(args, edition, browser, comfy, session, image, run, evidence):
                     site=site,
                     comfy=args.comfy,
                     sha256=digest,
+                    publicKey=releases.public_key if releases else None,
                 )
                 code = record.pop("pairingCode")
                 evidence["downloads"][role] = record
@@ -368,6 +392,9 @@ def test_edition(args, edition, browser, comfy, session, image, run, evidence):
                 if "build" in record:
                     assert machine["runtime"]["version"] == record["version"]
                     assert machine["runtime"]["build"] == record["build"]
+                if releases:
+                    assert machine["runtime"]["canUpdate"]
+                    assert machine["runtime"]["build"] == baseline["build"]
                 record["nodes"] = machine["nodeCount"]
                 machines[role] = machine
             assert machines["publisher"]["id"] != machines["reader"]["id"]
@@ -379,6 +406,39 @@ def test_edition(args, edition, browser, comfy, session, image, run, evidence):
             work, shared = share(publisher, reader, workflow, asset, result)
             evidence["sharedAssetSha256"] = shared["sha256"]
             for width in ("desktop", "mobile"):
+                if releases:
+                    valid = width == "mobile"
+                    lane = "valid" if valid else "invalid"
+                    release = releases.publish(release_dir, lane)
+                    print(
+                        f"{args.target}/{edition}: verifying the {lane} signed update", flush=True
+                    )
+                    update = verify_update(
+                        browser,
+                        reader,
+                        accounts["reader"][1],
+                        machines["reader"],
+                        release,
+                        folder,
+                        valid=valid,
+                    )
+                    evidence["updates"][lane] = update
+
+                    def installed(digest=release["sha256"] if valid else None):
+                        record = session.issue(
+                            "installed-update", runId=run.name, edition=edition, role="reader"
+                        )
+                        return record if (record["current"] or {}).get("sha256") == digest else None
+
+                    marker = wait_for(installed, timeout=20)
+                    if valid:
+                        assert marker["current"]["publicKey"] == releases.public_key
+                        assert marker["build"] == {
+                            "version": release["version"],
+                            "build": release["build"],
+                        }
+                    update["installed"] = marker["current"] is not None
+
                 task_id = replay(
                     browser,
                     reader,
@@ -392,6 +452,8 @@ def test_edition(args, edition, browser, comfy, session, image, run, evidence):
                 )
                 evidence["tasks"][width] = {"task": task_id}
                 evidence["tasks"][width] = real_result(reader, comfy, task_id, folder, width)
+                if releases:
+                    evidence["updates"][lane]["verifiedWithTask"] = task_id
             assert len({item["promptId"] for item in evidence["tasks"].values()}) == 3
         evidence["status"] = "passed"
         print(f"{args.target}/{edition}: passed (publisher and two browser replays)", flush=True)
@@ -492,13 +554,23 @@ def main(args):
                 evidence["imageRevision"] = (image_data["Config"].get("Labels") or {}).get(
                     "org.opencontainers.image.revision"
                 )
+                releases = None
+                if args.updates:
+                    if evidence["imageRevision"] != revision:
+                        raise ValueError(
+                            "The update regression needs an app image built from this revision"
+                        )
+                    scratch = Path(stack.enter_context(TemporaryDirectory(dir=run)))
+                    releases = TestReleases(scratch)
                 pw = stack.enter_context(sync_playwright())
                 browser = pw.chromium.launch()
                 stack.callback(browser.close)
                 for edition in args.edition or ("team", "sqlite"):
                     row = evidence["editions"][edition] = {}
                     try:
-                        test_edition(args, edition, browser, comfy, session, image, run, row)
+                        test_edition(
+                            args, edition, browser, comfy, session, image, run, row, releases
+                        )
                     except Exception as error:
                         row.update(
                             status="failed", error=str(error).replace(session.key, "[session]")
@@ -555,6 +627,9 @@ if __name__ == "__main__":
     parser.add_argument("--docker-context")
     parser.add_argument("--image", help="Use a prebuilt app image instead of building the checkout")
     parser.add_argument("--edition", action="append", choices=["team", "sqlite"])
+    parser.add_argument(
+        "--updates", action="store_true", help="Exercise rejected and successful signed updates"
+    )
     parser.add_argument("--executor", choices=["local", "ssh", "manual"], default="local")
     parser.add_argument("--ssh-host")
     parser.add_argument("--ssh-config")
