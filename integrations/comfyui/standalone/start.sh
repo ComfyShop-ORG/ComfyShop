@@ -64,4 +64,4 @@ echo '正在检查 Python 3.12 和工作机依赖。'
 "$uv" --no-config venv --allow-existing --python 3.12 .venv
 "$uv" --no-config pip sync --python .venv --require-hashes --only-binary :all: requirements.txt
 export COMFYSHOP_WORKER_CONFIG="$PWD/worker.json"
-.venv/bin/python -m comfyshop_worker "$@"
+.venv/bin/python -m comfyshop_worker --launcher-uv "$uv" "$@"

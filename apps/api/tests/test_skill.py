@@ -94,7 +94,7 @@ def test_skill_covers_user_api_contract():
         assert set(operation.filters) == {
             item["name"] for item in endpoint.get("parameters", ()) if item["in"] == "query"
         }
-        assert operation.payload == ("requestBody" in endpoint)
+        assert operation.payload == endpoint.get("requestBody", {}).get("required", False)
         if operation.payload:
             content_type = "application/octet-stream" if operation.binary else "application/json"
             assert content_type in endpoint["requestBody"]["content"]

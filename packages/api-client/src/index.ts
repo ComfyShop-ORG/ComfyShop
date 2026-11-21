@@ -276,6 +276,10 @@ export function createApiClient(
     restoreTask: (id: string) =>
       call('post', '/api/v1/tasks/{task_id}/restore', { path: { task_id: id } }),
     machines: (signal?: AbortSignal) => call('get', '/api/v1/machines', { signal }),
+    updateMachine: (id: string) =>
+      call('put', '/api/v1/machines/{machine_id}/update', {
+        path: { machine_id: id },
+      }),
     createMachine: (name: string) => call('post', '/api/v1/machines', { body: { name } }),
     machineLink: (code: string, signal?: AbortSignal) =>
       call('get', '/api/v1/machines/links/{code}', { path: { code }, signal }),

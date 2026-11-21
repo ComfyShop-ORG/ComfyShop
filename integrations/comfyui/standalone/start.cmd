@@ -38,7 +38,7 @@ echo 正在检查 Python 3.12 和工作机依赖。
 "%UV%" --no-config pip sync --python .venv --require-hashes --only-binary :all: requirements.txt || goto :failed
 set "COMFYSHOP_WORKER_CONFIG=%CD%\worker.json"
 set "PYTHONUTF8=1"
-.venv\Scripts\python.exe -m comfyshop_worker %*
+.venv\Scripts\python.exe -m comfyshop_worker --launcher-uv "%UV%" %*
 if errorlevel 1 goto :failed
 popd
 pause

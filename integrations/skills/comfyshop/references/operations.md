@@ -60,6 +60,7 @@
 
 ## 工作机
 
+- `machines` 的 `runtime.version` 是工作机上报的运行版本。用户要求更新某台工作机时，确认该机的 `updateAvailable`，运行 `call machine.update <工作机ID>`。工作机在本次任务交付后获取当时的最新签名包。用 `machines` 查看等待、更新和失败状态。
 - `machines` 显示默认工作机、连接状态和密钥前缀。添加时使用 `machine-create <名称> --out <新的 worker.json 路径>`。重置密钥使用 `machine-rotate <工作机ID> --out <新的 worker.json 路径>`。`worker-bundle <目标ZIP>` 可下载工作机启动包，包内已写入平台地址，解压后运行即可申请接入。
 - 新配置写入仓库外的用户私有目录。配置默认使用当前平台地址以及 `http://127.0.0.1:8188` 的 ComfyUI 地址。工作机需要其他地址时使用 `--platform-url` 与 `--comfy-url`。把配置与启动包交给用户在工作机上运行。通过 `machines` 查看实际连接结果。
 - 账号管理：`call account.password`、`call account.email`、`call account.delete` 都要在 JSON 里带当前密码，由用户本人提供，不要代填或保存。`account.password` 修改密码后，其他登录和全部工作机密钥失效，工作机需重置密钥后重新连接。`account.delete` 注销账号且不可恢复，执行前必须得到用户明确确认。`account.password-reset` 和 `account.password-reset-confirm` 用于邮件找回。`account.email` 填写的新邮箱先显示为 `pendingEmail`，用户点击确认邮件里的链接（或用 `call account.email-confirm` 提交邮件里的 `token`）后才生效。

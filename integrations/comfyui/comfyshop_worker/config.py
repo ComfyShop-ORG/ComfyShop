@@ -129,6 +129,17 @@ class WorkerState(TypedDict):
     retry: NotRequired[RetryRecord]
 
 
+def write_json(path: Path, value: Any) -> None:
+    """刷写同目录临时文件，再原子替换正式记录。"""
+    temporary = path.with_suffix(".tmp")
+    with temporary.open("w", encoding="utf-8") as output:
+        os.chmod(temporary, 0o600)
+        json.dump(value, output, ensure_ascii=False)
+        output.flush()
+        os.fsync(output.fileno())
+    temporary.replace(path)
+
+
 class Journal:
     """单个状态目录的 `active.json`，保存领取凭据、执行位置与回传进度。"""
 
@@ -146,13 +157,7 @@ class Journal:
 
     def save(self, state: WorkerState) -> None:
         """先刷写同目录临时文件，再替换正式记录，使读取方只能看到完整记录。"""
-        temporary = self.path.with_suffix(".tmp")
-        with temporary.open("w", encoding="utf-8") as output:
-            os.chmod(temporary, 0o600)
-            json.dump(state, output, ensure_ascii=False)
-            output.flush()
-            os.fsync(output.fileno())
-        temporary.replace(self.path)
+        write_json(self.path, state)
 
     def clear(self) -> None:
         self.path.unlink(missing_ok=True)

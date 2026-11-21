@@ -343,6 +343,47 @@ class MachineReconnect(DTO):
     machine_id: str = Field(min_length=1, max_length=36)
 
 
+WorkerVersion = Annotated[str, Field(pattern=r"^(0|[1-9][0-9]{0,5})(\.(0|[1-9][0-9]{0,5})){2}$")]
+WorkerDigest = Annotated[str, Field(pattern=r"^[0-9a-f]{64}$")]
+
+
+class WorkerRuntime(DTO):
+    version: WorkerVersion
+    build: WorkerDigest | None = None
+    can_update: bool = False
+
+
+class WorkerRelease(DTO):
+    version: WorkerVersion
+    build: WorkerDigest
+    protocol_version: Literal[3]
+    sha256: WorkerDigest
+    size: int = Field(gt=0, le=16 * 1024 * 1024)
+    signature: str = Field(pattern=r"^[0-9a-f]{128}$")
+
+
+class MachineUpdateRequest(DTO):
+    # 兼容仍在请求中附带当前发布摘要的客户端。
+    release_sha256: WorkerDigest
+
+
+class MachineUpdate(DTO):
+    id: str
+    release: WorkerRelease | None = None
+    status: Literal["pending", "updating", "succeeded", "failed"]
+    error: str | None = None
+
+
+class MachineUpdateFailure(DTO):
+    id: str = Field(pattern=r"^[0-9a-f-]{36}$")
+    reason: str = Field(min_length=1, max_length=200)
+
+
+class WorkerRuntimeReport(WorkerRuntime):
+    failure: MachineUpdateFailure | None = None
+    checking: bool = False
+
+
 class MachineRead(DTO):
     id: str
     name: str
@@ -353,6 +394,9 @@ class MachineRead(DTO):
     revoked: bool
     last_seen: int | None
     node_count: int
+    runtime: WorkerRuntime | None = None
+    update: MachineUpdate | None = None
+    update_available: bool = False
 
 
 class MachineKey(DTO):
@@ -397,6 +441,7 @@ class MachineLinkRead(DTO):
 class MachinePage(DTO):
     items: list[MachineRead]
     default_machine_id: str | None
+    worker_release: WorkerRelease | None = None
 
 
 class MachineHeartbeat(DTO):

@@ -1,8 +1,8 @@
 [project]
 name = "comfyshop-worker"
-version = "0.1.0"
+version = "0.1.1"
 requires-python = ">=3.12"
-dependencies = ["httpx>=0.28,<1", "websockets>=15,<17", "filelock>=4.2.1,<5", "segno>=1.6,<2"]
+dependencies = ["httpx>=0.28,<1", "websockets>=15,<17", "filelock>=4.2.1,<5", "segno>=1.6,<2", "cryptography>=45,<51"]
 
 [project.scripts]
 comfyshop-worker = "comfyshop_worker.__main__:main"

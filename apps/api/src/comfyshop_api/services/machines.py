@@ -2,6 +2,7 @@
 
 import secrets
 from typing import Annotated, Literal, cast
+from uuid import uuid4
 
 from fastapi import Depends, Header, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -9,6 +10,8 @@ from sqlalchemy import case, delete, or_, select, update
 from sqlalchemy.engine import CursorResult
 from sqlalchemy.orm import Session
 
+from comfyshop_api.core.config import Settings
+from comfyshop_api.db import write_lock
 from comfyshop_api.models import (
     Status,
     Execution,
@@ -18,11 +21,20 @@ from comfyshop_api.models import (
     UserPreference,
     now_ms,
 )
-from comfyshop_api.schemas import MachineHeartbeat, MachineRead
+from comfyshop_api.schemas import (
+    MachineHeartbeat,
+    MachineRead,
+    MachineUpdate,
+    WorkerRelease,
+    WorkerRuntime,
+    WorkerRuntimeReport,
+)
 from comfyshop_api.security import DB, digest
 from comfyshop_api.services.executions import fail_unfinished_executions, task_executions_complete
+from comfyshop_api.services.worker_releases import published_worker, worker_archive_bytes
 
 bearer = HTTPBearer(auto_error=False, scheme_name="WorkMachineKey")
+UPDATE_IN_PROGRESS = {"pending", "updating"}
 
 
 def new_key() -> tuple[str, str, str]:
@@ -78,6 +90,7 @@ def rotate_key(db: Session, machine: Machine) -> str:
     stop_assignments(db, machine, revoking=False)
     raw, machine.key_hash, machine.key_prefix = new_key()
     machine.last_seen = None
+    machine.runtime_info = machine.update_info = None
     if machine.revoked_at:
         machine.revoked_at = None
         _default_if_unset(db, machine)
@@ -108,6 +121,7 @@ def revoke(db: Session, machine: Machine) -> None:
     _forget_links(db, machine)
     stop_assignments(db, machine, revoking=True)
     machine.revoked_at = now_ms()
+    machine.update_info = None
     pref = db.get(UserPreference, machine.owner_id)
     if pref and pref.default_machine_id == machine.id:
         pref.default_machine_id = None
@@ -125,8 +139,29 @@ def machine_is_online(last_seen: int | None, revoked_at: int | None, now: int) -
     return last_seen is not None and last_seen > now - 45_000 and revoked_at is None
 
 
-def machine_read(machine: Machine) -> MachineRead:
+def _active_update(machine: Machine) -> MachineUpdate | None:
+    if machine.update_info and machine.update_info.get("status") in UPDATE_IN_PROGRESS:
+        return MachineUpdate.model_validate(machine.update_info)
+    return None
+
+
+def _has_update(runtime: WorkerRuntime | None, release: WorkerRelease | None) -> bool:
+    return bool(
+        runtime
+        and runtime.can_update
+        and release
+        and tuple(map(int, release.version.split(".")))
+        > tuple(map(int, runtime.version.split(".")))
+    )
+
+
+def _queue_update(machine: Machine) -> None:
+    machine.update_info = MachineUpdate(id=str(uuid4()), status="pending").model_dump()
+
+
+def machine_read(machine: Machine, release: WorkerRelease | None = None) -> MachineRead:
     now = now_ms()
+    runtime = WorkerRuntime.model_validate(machine.runtime_info) if machine.runtime_info else None
     return MachineRead(
         id=machine.id,
         name=machine.name,
@@ -137,6 +172,11 @@ def machine_read(machine: Machine) -> MachineRead:
         revoked=bool(machine.revoked_at),
         last_seen=machine.last_seen,
         node_count=len(machine.capabilities.get("nodes", [])),
+        runtime=runtime,
+        update=MachineUpdate.model_validate(machine.update_info) if machine.update_info else None,
+        update_available=not machine.revoked_at
+        and not _active_update(machine)
+        and _has_update(runtime, release),
     )
 
 
@@ -144,8 +184,7 @@ def _invalid_key() -> HTTPException:
     return HTTPException(401, "工作机密钥无效", headers={"WWW-Authenticate": "Bearer"})
 
 
-def record_heartbeat(db: Session, machine: Machine, body: MachineHeartbeat) -> None:
-    """记录工作机心跳，写入时复核密钥，避免换发前已通过认证的心跳更新新连接。"""
+def _connection_update(db: Session, machine: Machine, **values: object) -> None:
     result = db.execute(
         update(Machine)
         .where(
@@ -153,10 +192,110 @@ def record_heartbeat(db: Session, machine: Machine, body: MachineHeartbeat) -> N
             Machine.key_hash == machine.key_hash,
             Machine.revoked_at.is_(None),
         )
-        .values(device=body.device, capabilities={"nodes": body.nodes}, last_seen=now_ms())
+        .values(**values)
     )
     if not cast(CursorResult, result).rowcount:
         raise _invalid_key()
+    db.refresh(machine)
+
+
+def record_heartbeat(
+    db: Session,
+    machine: Machine,
+    body: MachineHeartbeat,
+    runtime: WorkerRuntimeReport | None = None,
+) -> None:
+    """记录工作机心跳，写入时复核密钥，避免换发前已通过认证的心跳更新新连接。"""
+    _connection_update(
+        db,
+        machine,
+        device=body.device,
+        capabilities={"nodes": body.nodes},
+        last_seen=now_ms(),
+        runtime_info=runtime.model_dump(exclude={"failure", "checking"}) if runtime else None,
+    )
+    pending = _active_update(machine)
+    if not pending:
+        return
+    if (
+        runtime
+        and pending.release
+        and runtime.version == pending.release.version
+        and runtime.build == pending.release.build
+    ):
+        pending.status = "succeeded"
+    elif runtime and runtime.failure and runtime.failure.id == pending.id:
+        pending.status = "failed"
+        pending.error = runtime.failure.reason
+    elif not runtime or not runtime.can_update:
+        pending.status = "failed"
+        pending.error = "当前启动方式无法继续更新"
+    machine.update_info = pending.model_dump()
+
+
+def request_update(
+    db: Session, machine: Machine, release: WorkerRelease | None, sha256: str | None = None
+) -> None:
+    """请求工作机空闲后更新到最新版，重复请求沿用当前更新。"""
+    write_lock(db, Machine, machine.id)
+    db.refresh(machine)
+    if machine.revoked_at:
+        raise HTTPException(409, "工作机已撤销")
+    if _active_update(machine):
+        return
+    if sha256 is not None and (release is None or release.sha256 != sha256):
+        raise HTTPException(409, "可用版本已变更，请刷新后再更新")
+    runtime = WorkerRuntime.model_validate(machine.runtime_info) if machine.runtime_info else None
+    if not _has_update(runtime, release):
+        raise HTTPException(409, "这台工作机没有可用的更新")
+    _queue_update(machine)
+
+
+def start_update(
+    db: Session, machine: Machine, update_id: str, settings: Settings
+) -> WorkerRelease:
+    """工作机交还任务后，读取当时可用的最新签名发布包。"""
+    _connection_update(db, machine, last_seen=now_ms())
+    pending = _active_update(machine)
+    if not pending or pending.id != update_id:
+        raise HTTPException(409, "更新请求已失效")
+    if machine.busy_until > now_ms():
+        raise HTTPException(409, "请在当前任务结束后更新")
+    published = published_worker(settings)
+    runtime = WorkerRuntime.model_validate(machine.runtime_info) if machine.runtime_info else None
+    if published is None or not _has_update(runtime, published.release):
+        raise HTTPException(409, "这台工作机没有可用的更新")
+    pending.status = "updating"
+    pending.release = published.release
+    machine.update_info = pending.model_dump()
+    return published.release
+
+
+def download_update(db: Session, machine: Machine, sha256: str, settings: Settings) -> bytes | None:
+    """读取获准下载的签名包。返回 None 表示发布已切换，更新已重新排队。"""
+    _connection_update(db, machine, last_seen=now_ms())
+    pending = _active_update(machine)
+    if (
+        pending is None
+        or pending.status != "updating"
+        or pending.release is None
+        or pending.release.sha256 != sha256
+    ):
+        raise HTTPException(404, "更新包不存在")
+
+    published = published_worker(settings)
+    if published and published.release.sha256 == sha256:
+        try:
+            return worker_archive_bytes(settings, pending.release)
+        except FileNotFoundError:
+            published = published_worker(settings)
+        except (OSError, ValueError):
+            raise HTTPException(503, "工作机更新包校验或读取失败") from None
+    if published is None or published.release.sha256 == sha256:
+        raise HTTPException(503, "工作机更新包暂不可用")
+    # 启动器会恢复原版本。新请求 ID 让上次下载失败的回报不会结束这次更新。
+    _queue_update(machine)
+    return None
 
 
 def authenticate_machine(
@@ -269,6 +408,11 @@ def claim_task(
         .values(busy_until=until, last_seen=now)
     )
     if not cast(CursorResult, locked).rowcount:
+        db.rollback()
+        return None, False
+    # 同一次领取的恢复已在上面处理。用户请求更新后暂停新的领取。
+    db.refresh(machine, attribute_names=["update_info"])
+    if _active_update(machine):
         db.rollback()
         return None, False
     task_id = db.scalar(

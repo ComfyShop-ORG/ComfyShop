@@ -34,6 +34,8 @@ if TYPE_CHECKING:
     schemas.MachineRead.busy
     schemas.MachineRead.revoked
     schemas.MachineRead.node_count
+    schemas.MachineRead.update_available
+    schemas.MachinePage.worker_release
     schemas.MachineHeartbeat.protocol_version
     schemas.ExecutionRead.image_count
     schemas.ExecutionRead.video_count
