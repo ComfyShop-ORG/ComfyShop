@@ -36,6 +36,24 @@ FastAPI 测试使用每个用例的临时 SQLite 和 Alembic 迁移。工作机�
 
 如有视频输出，检查首帧、播放、Range 请求及原文件下载。暂停在另一帧，使用「用当前画面作组封面」，确认结果卡片更新，并在发布时核对沿用的作品封面。
 
+### 两版真实工作机回归
+
+`tooling/e2e.py` 在独立 Compose 项目内运行 Team（PostgreSQL 和 RustFS）和 SQLite（本地数据卷）。每版下载站点的工作机启动包，核对 `serverUrl` 和 SHA-256，再运行系统对应的启动脚本并在浏览器配对。测试从另一个账号在桌面和窄屏打开作品直链，载入共享参考图并提交，核对 ComfyUI 的执行历史和成品原件哈希。
+
+控制机需要 Docker Compose、Git、uv 和 Chromium 的运行依赖。以下为 Linux x64 的本机验证示例。`COMFY_TEST_ORIGIN` 指向可写入测试输入和成品的真实 ComfyUI 服务。
+
+```sh
+uv sync --all-packages --locked
+uv run playwright install --only-shell chromium
+uv run python -B tooling/e2e.py \
+  --root "$HOME/.local/share/comfyshop-e2e" \
+  --target linux-x64 --comfy "$COMFY_TEST_ORIGIN"
+```
+
+跨机器验证可指定 `--executor ssh --ssh-host SSH_ALIAS --native-root TEST_ROOT --bind TEST_INTERFACE_IP`。可用 `--ssh-config` 选择已配置公钥和主机校验的连接文件。Windows x64 提供 `python.exe`，macOS 和 Linux 提供 `python3`。实机须能访问测试站点及 ComfyUI。
+
+运行前选定控制机和实机的存储路径、Docker 构建缓存及 ComfyUI 输入输出范围。`report.json` 记录 Compose 项目、卷名、原件路径和工作机目录。退出时释放测试容器和网络，保存报告、截图、日志和命名卷。卷和运行目录可按报告中的路径逐项回收。原生工作机状态和 Compose 配置含测试凭据，存放于受限目录。
+
 ### Skill 验证
 
 运行 `uv run --all-packages pytest apps/api/tests/test_skill.py` 检查安装包、会话、提交重试和命令对应的 API 行为。手动验证在隔离平台打开 `/skill`，执行终端对应的安装命令并登录，从自己的客户端查询工作流、提交两组输入，在「我的 → 任务」和「我的 → 结果」核对记录。
