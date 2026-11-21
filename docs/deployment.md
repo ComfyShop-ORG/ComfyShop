@@ -140,6 +140,29 @@ docker compose -f compose.yaml -f /absolute/private/compose.settings.yaml up -d 
 
 工作机独立运行。跨机器部署时，用工作机能访问的平台地址打开网页并下载启动包，或配置 `COMFYSHOP_PUBLIC_URL` 指定包内地址。启动前核对 `worker.json` 中的 `serverUrl`。平台与工作机同机运行时，可用 `http://localhost:8688`。首次启动后在浏览器里确认接入，无桌面环境时可使用终端显示的地址或二维码。也可手动添加工作机并下载包含 API Key 的配置。清空平台后需要重新创建账号、工作机及密钥。GPU 计算与 ComfyUI 依赖由工作机承担。参见 [工作机接入](../integrations/comfyui/README.md)。
 
+### 发布工作机更新
+
+修改 `integrations/comfyui/pyproject.toml` 中的工作机版本，更新 `uv.lock` 后构建。每个正式版本对应一份固定的发布包。只更新网页或 API 时可继续分发已有工作机发布包。签名私钥存放在发布环境，平台数据目录接收发布包、签名清单和公钥。以下为通用示例，输出目录对应平台数据目录下的 `worker-releases`，容器内默认为 `/data/worker-releases`。
+
+```bash
+# 第一次发布时生成私钥。以下路径均为示例。
+openssl genpkey -algorithm Ed25519 -out /secure/comfyshop-worker-signing.pem
+pnpm build
+uv run --package comfyshop-worker python tooling/publish-worker-release.py \
+  --key /secure/comfyshop-worker-signing.pem /srv/comfyshop-data/worker-releases
+```
+
+发布命令先写入签名 ZIP，再原子替换 `release.json`，随后清理平台发布目录中的旧版 ZIP。工作机交付当前任务后获取最新版。如果下载时恰逢发布切换，平台会重新安排这次更新。部署时先升级平台，再用此流程发布和清理旧包。
+
+若构建机和平台分开，先签名到发布环境的暂存目录。将 `release.json` 和摘要命名的 ZIP 一起传到平台侧的暂存目录。运行以下命令，把验证、切换和旧包清理作为一次发布执行。以下路径均为示例。
+
+```bash
+uv run --package comfyshop-worker python tooling/publish-worker-release.py \
+  --install-from /absolute/staging/worker-release /srv/comfyshop-data/worker-releases
+```
+
+首次从可信渠道安装带公钥的工作机启动包，原工作机可在停止后迁移原 `worker.json` 并沿用状态目录。后续在工作机页选择「更新到最新版」。签名保护更新包内容，使用 HTTPS 可保护平台与工作机的连接和控制请求。
+
 ## 更新与清空
 
 ### 更新

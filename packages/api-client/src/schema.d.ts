@@ -675,6 +675,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/v1/machines/{machine_id}/update': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /** Update Machine */
+    put: operations['update_machine_api_v1_machines__machine_id__update_put'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/v1/machines/{machine_id}/rotate': {
     parameters: {
       query?: never;
@@ -788,6 +805,40 @@ export interface paths {
     put?: never;
     /** Heartbeat */
     post: operations['heartbeat_api_v1_worker_heartbeat_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/worker/updates/{update_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /** Begin Update */
+    put: operations['begin_update_api_v1_worker_updates__update_id__put'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/v1/worker/releases/{sha256}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Update Package */
+    get: operations['get_update_package_api_v1_worker_releases__sha256__get'];
+    put?: never;
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -1815,6 +1866,7 @@ export interface components {
       items: components['schemas']['MachineRead'][];
       /** Defaultmachineid */
       defaultMachineId: string | null;
+      workerRelease: components['schemas']['WorkerRelease'] | null;
     };
     /** MachineRead */
     MachineRead: {
@@ -1836,11 +1888,36 @@ export interface components {
       lastSeen: number | null;
       /** Nodecount */
       nodeCount: number;
+      runtime: components['schemas']['WorkerRuntime'] | null;
+      update: components['schemas']['MachineUpdate'] | null;
+      /**
+       * Updateavailable
+       * @default false
+       */
+      updateAvailable: boolean;
     };
     /** MachineReconnect */
     MachineReconnect: {
       /** Machineid */
       machineId: string;
+    };
+    /** MachineUpdate */
+    MachineUpdate: {
+      /** Id */
+      id: string;
+      release: components['schemas']['WorkerRelease'] | null;
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: 'pending' | 'updating' | 'succeeded' | 'failed';
+      /** Error */
+      error: string | null;
+    };
+    /** MachineUpdateRequest */
+    MachineUpdateRequest: {
+      /** Releasesha256 */
+      releaseSha256: string;
     };
     /** MediaRead */
     MediaRead: {
@@ -2232,6 +2309,36 @@ export interface components {
     WorkerFailure: {
       /** Error */
       error: string;
+    };
+    /** WorkerRelease */
+    WorkerRelease: {
+      /** Version */
+      version: string;
+      /** Build */
+      build: string;
+      /**
+       * Protocolversion
+       * @constant
+       */
+      protocolVersion: 3;
+      /** Sha256 */
+      sha256: string;
+      /** Size */
+      size: number;
+      /** Signature */
+      signature: string;
+    };
+    /** WorkerRuntime */
+    WorkerRuntime: {
+      /** Version */
+      version: string;
+      /** Build */
+      build: string | null;
+      /**
+       * Canupdate
+       * @default false
+       */
+      canUpdate: boolean;
     };
     /** WorkflowAutomaticSize */
     WorkflowAutomaticSize: {
@@ -6701,6 +6808,97 @@ export interface operations {
       };
     };
   };
+  update_machine_api_v1_machines__machine_id__update_put: {
+    parameters: {
+      query?: never;
+      header?: {
+        'X-CSRF-Token'?: string | null;
+      };
+      path: {
+        machine_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        'application/json': components['schemas']['MachineUpdateRequest'] | null;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['MachineRead'];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Request Entity Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+    };
+  };
   rotate_key_api_v1_machines__machine_id__rotate_post: {
     parameters: {
       query?: never;
@@ -7224,7 +7422,9 @@ export interface operations {
   heartbeat_api_v1_worker_heartbeat_post: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        'x-comfyshop-worker-runtime'?: string | null;
+      };
       path?: never;
       cookie?: never;
     };
@@ -7299,6 +7499,194 @@ export interface operations {
       };
       /** @description Too Many Requests */
       429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+    };
+  };
+  begin_update_api_v1_worker_updates__update_id__put: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        update_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['WorkerRelease'];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Request Entity Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+    };
+  };
+  get_update_package_api_v1_worker_releases__sha256__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        sha256: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/zip': string;
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description 发布包已替换，工作机将重新获取最新版 */
+      410: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Request Entity Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ErrorRead'];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
         headers: {
           [name: string]: unknown;
         };

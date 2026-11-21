@@ -44,8 +44,8 @@ else
         curl --proto '=https' --proto-redir '=https' --connect-timeout 20 \
             --speed-limit 1024 --speed-time 60 -fLsS -o "$scratch/uv.tar.gz" "$1"
     }
-    release="astral-sh/uv/releases/download/$version/uv-$target.tar.gz"
-    download_uv "https://releases.astral.sh/github/$release" || download_uv "https://github.com/$release"
+    release="uv/releases/download/$version/uv-$target.tar.gz"
+    download_uv "https://releases.astral.sh/github/$release" || download_uv "https://github.com/astral-sh/$release"
     printf '%s  %s\n' "$checksum" "$scratch/uv.tar.gz" > "$scratch/uv.sha256"
     if command -v sha256sum >/dev/null 2>&1; then
         sha256sum -c "$scratch/uv.sha256"
@@ -64,4 +64,4 @@ echo '正在检查 Python 3.12 和工作机依赖。'
 "$uv" --no-config venv --allow-existing --python 3.12 .venv
 "$uv" --no-config pip sync --python .venv --require-hashes --only-binary :all: requirements.txt
 export COMFYSHOP_WORKER_CONFIG="$PWD/worker.json"
-.venv/bin/python -m comfyshop_worker "$@"
+.venv/bin/python -m comfyshop_worker --launcher-uv "$uv" "$@"

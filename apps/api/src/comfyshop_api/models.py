@@ -234,6 +234,8 @@ class Machine(Base):
     key_prefix: Mapped[str] = mapped_column(String(16))
     device: Mapped[str] = mapped_column(String(200), default="")
     capabilities: Mapped[dict] = mapped_column(JSON, default=dict)
+    runtime_info: Mapped[dict | None] = mapped_column(JSON)
+    update_info: Mapped[dict | None] = mapped_column(JSON)
     catalog: Mapped[dict] = mapped_column(JSON, default=dict, server_default="{}")
     catalog_hash: Mapped[str | None] = mapped_column(String(64))
     last_seen: Mapped[int | None] = mapped_column(BigInteger)

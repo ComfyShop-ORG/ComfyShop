@@ -38,6 +38,7 @@ class Platform:
         file: Path | None = None,
         params: dict | None = None,
         method: str = "POST",
+        headers: dict[str, str] | None = None,
     ):
         """请求相对 `path` 并返回响应 JSON。传入 `file` 时用 PUT 流式发送原始字节。
 
@@ -46,10 +47,12 @@ class Platform:
         """
         for attempt in range(4):
             try:
-                headers = {"X-Task-Lease": lease} if lease else {}
+                request_headers = dict(headers or {})
+                if lease:
+                    request_headers["X-Task-Lease"] = lease
                 if file:
-                    headers["Content-Type"] = "application/octet-stream"
-                    headers["Content-Length"] = str(file.stat().st_size)
+                    request_headers["Content-Type"] = "application/octet-stream"
+                    request_headers["Content-Length"] = str(file.stat().st_size)
 
                     async def chunks():
                         with file.open("rb") as source:
@@ -57,10 +60,12 @@ class Platform:
                                 yield chunk
 
                     response = await self.client.put(
-                        path, content=chunks(), headers=headers, params=params
+                        path, content=chunks(), headers=request_headers, params=params
                     )
                 else:
-                    response = await self.client.request(method, path, json=body, headers=headers)
+                    response = await self.client.request(
+                        method, path, json=body, headers=request_headers
+                    )
                 if response.status_code >= 500 and attempt < 3:
                     await asyncio.sleep(2**attempt)
                     continue
@@ -82,19 +87,36 @@ class Platform:
 
     async def download_asset(self, task_id: str, asset: dict, path: Path, lease: str):
         """将任务绑定素材写到 `path`，核对长度和 SHA-256。校验失败为 `PlatformError(422)`。"""
+        await self.download_verified(
+            f"tasks/{task_id}/assets/{asset['id']}",
+            path,
+            asset["size"],
+            asset["sha256"],
+            headers={"X-Task-Lease": lease},
+            label="素材",
+        )
+
+    async def download_verified(
+        self,
+        endpoint: str,
+        path: Path,
+        expected_size: int,
+        sha256: str,
+        *,
+        headers: dict[str, str] | None = None,
+        label: str = "文件",
+    ) -> None:
         digest = hashlib.sha256()
         size = 0
-        async with self.client.stream(
-            "GET", f"tasks/{task_id}/assets/{asset['id']}", headers={"X-Task-Lease": lease}
-        ) as response:
+        async with self.client.stream("GET", endpoint, headers=headers) as response:
             if not response.is_success:
-                raise PlatformError(response.status_code, "素材下载失败")
+                raise PlatformError(response.status_code, f"{label}下载失败")
             with path.open("wb") as output:
                 async for chunk in response.aiter_bytes(1024 * 1024):
                     size += len(chunk)
-                    if size > asset["size"]:
-                        raise PlatformError(422, "素材大小不一致")
+                    if size > expected_size:
+                        raise PlatformError(422, f"{label}大小不一致")
                     digest.update(chunk)
                     await asyncio.to_thread(output.write, chunk)
-        if size != asset["size"] or digest.hexdigest() != asset["sha256"]:
-            raise PlatformError(422, "素材校验失败")
+        if size != expected_size or digest.hexdigest() != sha256:
+            raise PlatformError(422, f"{label}校验失败")

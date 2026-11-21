@@ -1,13 +1,15 @@
 """工作机协议入口，接收节点目录、心跳、任务领取和执行清单。"""
 
-from typing import Any, cast
+from typing import Annotated, Any, cast
 import hashlib
 import json
+from uuid import UUID
 
 from io import BytesIO
 from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 
-from fastapi import APIRouter, HTTPException, Request, Response
+from fastapi import APIRouter, Header, HTTPException, Request, Response
+from pydantic import ValidationError
 from sqlalchemy import case, select, update
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
@@ -23,6 +25,7 @@ from comfyshop_api.models import (
 )
 from comfyshop_api.schemas import (
     ClaimRequest,
+    ErrorRead,
     JobRead,
     MachineHeartbeat,
     MachineLinkRequest,
@@ -33,6 +36,9 @@ from comfyshop_api.schemas import (
     TaskRead,
     WorkerEvent,
     WorkerFailure,
+    WorkerDigest,
+    WorkerRelease,
+    WorkerRuntimeReport,
     MachineCatalog,
     JobAsset,
     ExecutionStart,
@@ -44,11 +50,13 @@ from comfyshop_api.services.machines import (
     CurrentMachine,
     Lease,
     claim_task,
+    download_update,
     fence,
     finish_task,
     lock_leased_task,
     machine_read,
     record_heartbeat,
+    start_update,
 )
 from comfyshop_api.services.machine_links import (
     LINK_TTL_MS,
@@ -65,6 +73,7 @@ from comfyshop_api.services.executions import (
     finish_execution,
     task_executions_complete,
 )
+from comfyshop_api.services.worker_releases import published_worker_package
 
 router = APIRouter(prefix="/worker", tags=["worker"])
 
@@ -72,10 +81,19 @@ router = APIRouter(prefix="/worker", tags=["worker"])
 # 下载工作机启动包。包内附带平台地址，解压后直接启动即可申请接入。
 @router.get("/package")
 def download_package(request: Request, settings: Config) -> Response:
-    source = settings.static_dir and settings.static_dir / "downloads" / "comfyshop-worker.zip"
-    if not source or not source.is_file():
-        raise HTTPException(404, "工作机启动包尚未生成")
-    package = BytesIO(source.read_bytes())
+    try:
+        signed = published_worker_package(settings)
+    except (OSError, ValueError):
+        raise HTTPException(503, "已发布的工作机启动包校验或读取失败") from None
+    if signed:
+        published, content = signed
+    else:
+        published = None
+        source = settings.static_dir and settings.static_dir / "downloads" / "comfyshop-worker.zip"
+        if not source or not source.is_file():
+            raise HTTPException(404, "工作机启动包尚未生成")
+        content = source.read_bytes()
+    package = BytesIO(content)
     with ZipFile(package, "a", compression=ZIP_DEFLATED) as bundle:
         root = bundle.namelist()[0].split("/", 1)[0]
         entry = ZipInfo(f"{root}/worker.json")
@@ -90,6 +108,10 @@ def download_package(request: Request, settings: Config) -> Response:
                 indent=2,
             ),
         )
+        if published:
+            public_key = ZipInfo(f"{root}/worker-release.pub")
+            public_key.external_attr = 0o100644 << 16
+            bundle.writestr(public_key, published.public_key + "\n")
     return Response(
         package.getvalue(),
         media_type="application/zip",
@@ -135,10 +157,53 @@ def update_catalog(body: MachineCatalog, db: DB, machine: CurrentMachine):
 
 
 @router.post("/heartbeat", response_model=MachineRead)
-def heartbeat(body: MachineHeartbeat, db: DB, machine: CurrentMachine) -> MachineRead:
-    record_heartbeat(db, machine, body)
+def heartbeat(
+    body: MachineHeartbeat,
+    db: DB,
+    machine: CurrentMachine,
+    x_comfyshop_worker_runtime: Annotated[str | None, Header(max_length=2048)] = None,
+) -> MachineRead:
+    try:
+        runtime = (
+            WorkerRuntimeReport.model_validate_json(x_comfyshop_worker_runtime)
+            if x_comfyshop_worker_runtime
+            else None
+        )
+    except ValidationError:
+        raise HTTPException(422, "工作机版本信息无效") from None
+    if runtime and runtime.checking:
+        return machine_read(machine)
+    record_heartbeat(db, machine, body, runtime)
     db.commit()
     return machine_read(machine)
+
+
+@router.put("/updates/{update_id}", response_model=WorkerRelease)
+def begin_update(
+    update_id: UUID, db: DB, machine: CurrentMachine, settings: Config
+) -> WorkerRelease:
+    release = start_update(db, machine, str(update_id), settings)
+    db.commit()
+    return release
+
+
+@router.get(
+    "/releases/{sha256}",
+    response_class=Response,
+    responses={
+        200: {"content": {"application/zip": {"schema": {"type": "string", "format": "binary"}}}},
+        410: {"model": ErrorRead, "description": "发布包已替换，工作机将重新获取最新版"},
+        503: {"model": ErrorRead},
+    },
+)
+def get_update_package(
+    sha256: WorkerDigest, settings: Config, db: DB, machine: CurrentMachine
+) -> Response:
+    content = download_update(db, machine, sha256, settings)
+    db.commit()
+    if content is None:
+        raise HTTPException(410, "工作机发布包已替换，将重新获取最新版")
+    return Response(content, media_type="application/zip")
 
 
 def job_read(db: Session, task: Task) -> JobRead:

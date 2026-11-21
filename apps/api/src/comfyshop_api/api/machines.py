@@ -9,11 +9,20 @@ from comfyshop_api.schemas import (
     MachinePage,
     MachineRead,
     MachineReconnect,
+    MachineUpdateRequest,
 )
-from comfyshop_api.security import CurrentUser, DB, LockedWriter, client_address, owned_record
+from comfyshop_api.security import (
+    Config,
+    CurrentUser,
+    DB,
+    LockedWriter,
+    client_address,
+    owned_record,
+)
 from comfyshop_api.services.machine_links import approve_link, read_link
 from comfyshop_api.services import machines
 from comfyshop_api.services.machines import machine_read
+from comfyshop_api.services.worker_releases import published_worker
 
 router = APIRouter(prefix="/machines", tags=["machines"])
 
@@ -23,14 +32,17 @@ def owned(db: DB, machine_id: str, owner_id: str) -> Machine:
 
 
 @router.get("", response_model=MachinePage)
-def list_machines(db: DB, user: CurrentUser) -> MachinePage:
-    machines = db.scalars(
+def list_machines(db: DB, user: CurrentUser, config: Config) -> MachinePage:
+    items = db.scalars(
         select(Machine).where(Machine.owner_id == user.id).order_by(Machine.created_at)
     ).all()
     pref = db.get(UserPreference, user.id)
+    published = published_worker(config)
+    release = published.release if published else None
     return MachinePage(
-        items=[machine_read(m) for m in machines],
+        items=[machine_read(m, release) for m in items],
         default_machine_id=pref.default_machine_id if pref else None,
+        worker_release=release,
     )
 
 
@@ -68,6 +80,22 @@ def default_machine(machine_id: str, db: DB, user: LockedWriter) -> Response:
         db.add(UserPreference(user_id=user.id, default_machine_id=machine.id))
     db.commit()
     return Response(status_code=204)
+
+
+@router.put("/{machine_id}/update", response_model=MachineRead)
+def update_machine(
+    machine_id: str,
+    db: DB,
+    user: LockedWriter,
+    config: Config,
+    body: MachineUpdateRequest | None = None,
+) -> MachineRead:
+    machine = owned(db, machine_id, user.id)
+    published = published_worker(config)
+    release = published.release if published else None
+    machines.request_update(db, machine, release, body.release_sha256 if body else None)
+    db.commit()
+    return machine_read(machine, release)
 
 
 @router.post("/{machine_id}/rotate", response_model=MachineKey)

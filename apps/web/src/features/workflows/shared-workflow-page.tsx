@@ -78,7 +78,8 @@ export default function SharedWorkflowPage({
       (prior) => {
         const next = new URLSearchParams(prior);
         next.delete('work');
-        if (nextVersionId && nextVersionId !== currentVersionId) next.set('version', nextVersionId);
+        // 关闭直链时保持同一个详情查询，让已载入的重跑草稿继续留在弹框中。
+        if (nextVersionId) next.set('version', nextVersionId);
         else next.delete('version');
         return next;
       },
@@ -146,7 +147,10 @@ export default function SharedWorkflowPage({
       onVersionChange={(nextVersionId, tab) => {
         setSignedInReplay(undefined);
         setVersionTab({ workflowId: detail.id, versionId: nextVersionId, tab });
-        showVersion(nextVersionId, overlay && { ...overlay, replaySource: undefined });
+        showVersion(
+          nextVersionId === currentVersionId ? undefined : nextVersionId,
+          overlay && { ...overlay, replaySource: undefined },
+        );
       }}
       initialTab={initialTab}
       initialReplay={initialReplay}

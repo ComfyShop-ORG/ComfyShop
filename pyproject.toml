@@ -53,5 +53,6 @@ sort_by_size = true
 
 [dependency-groups]
 dev = [
+    "playwright>=1.55,<2",
     "vulture>=2,<3",
 ]

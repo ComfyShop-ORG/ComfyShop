@@ -160,6 +160,7 @@ OPERATIONS = {
     "machine.link": Operation("GET", "/machines/links/{code}"),
     "machine.link-approve": Operation("POST", "/machines/links/{code}/approve", payload=True),
     "machine.set-default": Operation("PUT", "/machines/{machine_id}/default"),
+    "machine.update": Operation("PUT", "/machines/{machine_id}/update"),
     "machine.revoke": Operation("DELETE", "/machines/{machine_id}"),
 }
 

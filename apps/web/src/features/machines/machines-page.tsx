@@ -30,6 +30,17 @@ import { ListItem, ListPresence } from '../../motion';
 
 type MachineChange = { machine: Machine; kind: 'rotate' | 'revoke' };
 
+function updateStatus(machine: Machine) {
+  const update = machine.update;
+  if (!update) return null;
+  if (update.status === 'pending') return '等待更新到最新版';
+  if (update.status === 'updating') {
+    return update.release ? `正在更新到 ${update.release.version}` : '正在更新';
+  }
+  if (update.status === 'failed') return update.error || '更新失败';
+  return null;
+}
+
 export default function MachinesPage() {
   const { api, workspace } = useWorkspace();
   const machines = useMachines();
@@ -91,10 +102,14 @@ export default function MachinesPage() {
   }
   const rotating = confirmation?.kind === 'rotate';
   const setupMachine = result && machines.data?.items.find(({ id }) => id === result.machine.id);
+  const available = machines.data?.workerRelease;
   return (
     <main className="page machines-page">
       <div className="section-heading page-toolbar">
-        <h1>工作机</h1>
+        <div>
+          <h1>工作机</h1>
+          {available && <span className="form-hint">最新可用版本 {available.version}</span>}
+        </div>
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild>
             <Button ref={addButton} size="small">
@@ -133,6 +148,18 @@ export default function MachinesPage() {
               <div className="machine-identity">
                 <strong>{machine.name}</strong>
                 <span className="muted">{machine.device || `${machine.keyPrefix}…`}</span>
+                <span className="muted" title={machine.runtime?.build ?? undefined}>
+                  {machine.runtime ? `版本 ${machine.runtime.version}` : '版本未知'}
+                  {machine.updateAvailable && available && ` · 可更新至 ${available.version}`}
+                </span>
+                {updateStatus(machine) && (
+                  <span
+                    className={machine.update?.status === 'failed' ? 'form-error' : 'muted'}
+                    role="status"
+                  >
+                    {updateStatus(machine)}
+                  </span>
+                )}
               </div>
               <span className="machine-state">
                 <StatusMark
@@ -194,6 +221,14 @@ export default function MachinesPage() {
                       if (confirmation) event.preventDefault();
                     }}
                   >
+                    {machine.updateAvailable && (
+                      <DropdownMenu.Item
+                        className="ui-menu-item"
+                        onSelect={() => void action(() => api.updateMachine(machine.id))}
+                      >
+                        更新到最新版
+                      </DropdownMenu.Item>
+                    )}
                     <DropdownMenu.Item
                       className="ui-menu-item"
                       onSelect={() => requestChange(machine, 'rotate')}

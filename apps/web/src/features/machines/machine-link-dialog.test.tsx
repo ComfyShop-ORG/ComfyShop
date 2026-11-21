@@ -46,6 +46,9 @@ test.each(['first', 'new', 'reconnect'] as const)(
       revoked: false,
       lastSeen: null,
       nodeCount: 0,
+      runtime: null,
+      update: null,
+      updateAvailable: false,
     };
     const incoming = { ...original, id: 'new-machine', name: '新工作机' };
     const previous = mode === 'first' ? [] : [original];

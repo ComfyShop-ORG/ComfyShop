@@ -6,10 +6,11 @@ from enum import Enum, auto
 import hashlib
 import json
 import logging
+from pathlib import Path
 import secrets
 import time
 from typing import Any
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 import httpx
 from filelock import FileLock
@@ -19,9 +20,10 @@ from .catalog import make_catalog
 from .config import Config, Journal, RetryRecord, RunRecord, WorkerState
 from .graph import WorkflowError, preflight, prepare_bound_graph
 from .platform import Platform, PlatformError
+from .release import Build, PROTOCOL_VERSION
+from .update_control import UPDATE_EXIT, UpdateControl
 
 log = logging.getLogger("comfyshop")
-PROTOCOL_VERSION = 3
 # 平台对用户已停止的任务返回 409 和这段说明，与租约过期区分开。平台有同名常量。
 TASK_CANCELLED = "任务已取消"
 # 同一执行序号上持续出现暂时性故障的时限，超过后放弃这份任务。
@@ -46,8 +48,11 @@ class _Cycle(Enum):
 class Runner:
     """用同一份任务日志协调平台租约和本机 ComfyUI prompt。"""
 
-    def __init__(self, config: Config):
+    def __init__(self, config: Config, control: UpdateControl | None = None):
         self.config = config
+        self.control = control
+        self.build = Build.installed(Path(__file__).resolve().parent.parent)
+        self.update_id: str | None = None
         self.platform = Platform(config.server_url, config.api_key)
         self.comfy = Comfy(config.comfy_url)
         self.journal = Journal(config.state_dir)
@@ -71,7 +76,33 @@ class Runner:
         if digest != self.catalog_digest:
             await self.platform.request("catalog", catalog, method="PUT")
             self.catalog_digest = digest
-        await self.platform.request("heartbeat", self.capabilities)
+        await self._machine_heartbeat()
+
+    async def _machine_heartbeat(self) -> None:
+        control = self.control
+        headers = {}
+        failure = control.failed_update() if control and not control.trial else None
+        if self.build:
+            runtime = {
+                "version": self.build.version,
+                "build": self.build.build,
+                "canUpdate": control is not None,
+                "checking": bool(control and control.trial),
+                "failure": failure,
+            }
+            headers["X-ComfyShop-Worker-Runtime"] = json.dumps(runtime, separators=(",", ":"))
+        response = await self.platform.request("heartbeat", self.capabilities, headers=headers)
+        if not control or control.trial:
+            return
+        if failure:
+            control.failure.unlink(missing_ok=True)
+        pending = response.get("update") if isinstance(response, dict) else None
+        self.update_id = None
+        if isinstance(pending, dict) and pending.get("status") in {"pending", "updating"}:
+            update_id = pending.get("id")
+            if isinstance(update_id, str):
+                with suppress(ValueError):
+                    self.update_id = str(UUID(update_id))
 
     def _current(self) -> WorkerState:
         """返回正在处理的记录。只在已有领取凭据的步骤里调用。"""
@@ -166,7 +197,7 @@ class Runner:
         """
         while True:
             try:
-                await self.platform.request("heartbeat", self.capabilities)
+                await self._machine_heartbeat()
             except PlatformError as error:
                 if error.status == 401:
                     self._lose_authorization()
@@ -461,7 +492,7 @@ class Runner:
         except (httpx.TransportError, httpx.HTTPStatusError, ValueError):
             log.warning("无法停止 ComfyUI 中的任务，它会自行结束")
 
-    async def run(self, *, once: bool = False) -> None:
+    async def run(self, *, once: bool = False) -> int | None:
         """持有状态目录的独占锁并轮询平台。`once` 在一次领取及其处理结束后退出。
 
         目录已被另一个进程使用时抛出 `filelock.Timeout`。任务租约失效后清理本地跟踪，
@@ -473,9 +504,16 @@ class Runner:
         try:
             if not await self._connect():
                 return
+            if self.control and self.control.trial:
+                await self.control.wait_for_activation()
+                if not await self._connect():
+                    return
             log.info("工作机已连接：%s", self.capabilities.get("device", ""))
             heartbeat = asyncio.create_task(self.heartbeats())
             while not self.authorization_lost:
+                if not once and self.control and self.update_id and self.state is None:
+                    self.control.request_update(self.update_id)
+                    return UPDATE_EXIT
                 outcome = await self._cycle()
                 if outcome is _Cycle.STOP:
                     return

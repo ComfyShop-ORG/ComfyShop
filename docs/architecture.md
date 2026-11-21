@@ -112,6 +112,14 @@ HTTP 部署的 Secure Cookie 默认为关闭；部署 HTTPS 时通过 `COMFYSHOP
 
 任务详情通过 `/tasks/{task_id}/progress` 读取当前任务及各次执行的状态，只在打开的详情中轮询活动任务。`/tasks/{task_id}/inputs` 根据任务提交时的快照提供字段名称、版本和已绑定素材，用于展示提交输入及单次执行的实际输入。两个接口均只允许任务所有者读取。
 
+### 工作机版本与更新
+
+工作机程序版本来自其 `pyproject.toml`。启动包中的 `worker-build.json` 记录包内容对应的构建标识。`protocolVersion` 继续用于通信兼容性。版本信息通过心跳的 `X-ComfyShop-Worker-Runtime` 请求头上报，已有协议客户端仍可按原格式连接。自更新由含发布公钥的下载包启动器管理。
+
+`machines.runtime_info` 保存最后一次上报的版本。`machines.update_info` 记录更新状态，工作机交付当前任务后才绑定最新签名发布包。排队更新后允许恢复原来的领取，新的任务继续排队。更新开始时用工作机行锁复核密钥、任务占用和最新发布包。
+
+平台发布目录只保留最新签名包。下载前若发布已切换，平台在工作机行锁内重新排队并返回 410。启动器先恢复本机原版，原版通过心跳接收新的更新请求。启动器校验签名、大小与摘要，将新版与锁定的依赖装入独立目录，并用原连接配置完成就绪检查。就绪后原子写入版本指针。校验、安装或就绪失败时由原版心跳报告，排队任务重新可领取。
+
 ### 工作机执行
 
 `integrations/comfyui` 使用轻量 HTTPX/WebSocket 客户端，独立进程与 custom_nodes 入口共用实现，无需在 API 安装 Torch。运行前读取 `/object_info` 检查节点和模型；固定工作流的副本应用参数，原始版本不改动。先连接 WebSocket 再提交 `/prompt`，消息按 prompt ID 隔离。仅 `/history/{id}` 明确成功并包含成品，才进入回传。`executing: node=null` 不作为成功依据。
