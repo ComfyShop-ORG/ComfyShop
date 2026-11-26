@@ -1,0 +1,582 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "nano-banana-2-lite-text-developer",
+  "name": "Nano Banana 2 Lite Developer 文生图",
+  "description": "用提示词快速生成 1K 图片，支持方形以及超宽或超高比例。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "optional": true,
+      "default": "auto",
+      "choices": [
+        "auto",
+        "1:1",
+        "3:2",
+        "2:3",
+        "3:4",
+        "4:3",
+        "4:5",
+        "5:4",
+        "9:16",
+        "16:9",
+        "21:9",
+        "4:1",
+        "1:4",
+        "8:1",
+        "1:8"
+      ]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "optional": true,
+      "default": "1k",
+      "choices": ["1k"]
+    },
+    {
+      "name": "thinking_level",
+      "kind": "choice",
+      "optional": true,
+      "default": "default",
+      "choices": ["default", "high", "minimal"]
+    },
+    {
+      "name": "top_p",
+      "kind": "number",
+      "optional": true,
+      "default": 0.95,
+      "minimum": "0",
+      "maximum": "1"
+    },
+    {
+      "name": "temperature",
+      "kind": "number",
+      "optional": true,
+      "default": 1,
+      "minimum": "0",
+      "maximum": "1"
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true,
+      "default": -1
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "hidden"
+    },
+    {
+      "fieldId": "thinking_level",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "top_p",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "temperature",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "operation": "image",
+      "model": "google/nano-banana-2-lite/text-to-image-developer",
+      "parameters": {
+        "prompt": "prompt",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "thinking_level": "thinking_level",
+        "top_p": "top_p",
+        "temperature": "temperature",
+        "seed": "seed",
+        "enable_sync_mode": "enable_sync_mode",
+        "enable_base64_output": "enable_base64_output"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Nano Banana 2 Lite Developer 文生图",
+      "description": "用提示词快速生成 1K 图片，支持方形以及超宽或超高比例。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "auto": "自动",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9",
+            "4:1": "4:1",
+            "1:4": "1:4",
+            "8:1": "8:1",
+            "1:8": "1:8"
+          }
+        },
+        "resolution": {
+          "label": "成品分辨率",
+          "choiceLabels": {
+            "1k": "1K"
+          }
+        },
+        "thinking_level": {
+          "label": "思考档位",
+          "choiceLabels": {
+            "default": "模型默认",
+            "minimal": "最少",
+            "high": "高"
+          }
+        },
+        "top_p": {
+          "label": "Top-p"
+        },
+        "temperature": {
+          "label": "温度"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、场景、构图和风格。需要准确绘制的文字请放在引号里。"
+        },
+        "aspect_ratio": {
+          "help": "自动时生成方形图，也可选超宽或超高比例。"
+        },
+        "resolution": {
+          "help": "该接口的分辨率为 1K。"
+        },
+        "thinking_level": {
+          "help": "根据任务选择模型默认、高或最少思考。复杂构图可选高档。"
+        },
+        "top_p": {
+          "help": "采样的累计概率阈值，范围为 0 至 1。"
+        },
+        "temperature": {
+          "help": "创意采样强度，范围为 0 至 1。默认 1。"
+        },
+        "seed": {
+          "help": "填 -1 时随机，也可填整数帮助复现。"
+        },
+        "enable_sync_mode": {
+          "help": "等待 Atlas 完成后在提交响应中取结果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 返回图片。工作机解码后保存图片原件。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Nano Banana 2 Lite Developer 文生圖",
+      "description": "用提示詞快速產生 1K 圖片，支援方形及超寬或超高比例。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "auto": "自動",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9",
+            "4:1": "4:1",
+            "1:4": "1:4",
+            "8:1": "8:1",
+            "1:8": "1:8"
+          }
+        },
+        "resolution": {
+          "label": "成品解析度",
+          "choiceLabels": {
+            "1k": "1K"
+          }
+        },
+        "thinking_level": {
+          "label": "思考級別",
+          "choiceLabels": {
+            "default": "模型預設",
+            "minimal": "最少",
+            "high": "高"
+          }
+        },
+        "top_p": {
+          "label": "Top-p"
+        },
+        "temperature": {
+          "label": "溫度"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "enable_sync_mode": {
+          "label": "同步回傳"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、場景、構圖和風格。需要精確繪製的文字請放在引號內。"
+        },
+        "aspect_ratio": {
+          "help": "自動時產生方形圖，也可選擇超寬或超高比例。"
+        },
+        "resolution": {
+          "help": "此介面的解析度為 1K。"
+        },
+        "thinking_level": {
+          "help": "依任務選擇模型預設、高或最少思考。複雜構圖可選高級別。"
+        },
+        "top_p": {
+          "help": "取樣的累積機率門檻，範圍為 0 至 1。"
+        },
+        "temperature": {
+          "help": "創意取樣強度，範圍為 0 至 1。預設 1。"
+        },
+        "seed": {
+          "help": "輸入 -1 會使用隨機種子，也可輸入整數以便重現。"
+        },
+        "enable_sync_mode": {
+          "help": "等 Atlas 完成後，從提交回應取得結果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 回傳圖片。工作機解碼後儲存圖片原始檔案。"
+        }
+      }
+    },
+    "en": {
+      "name": "Nano Banana 2 Lite Developer Text to Image",
+      "description": "Quickly generate a 1K image from a prompt, with aspect ratios from ultra-wide to ultra-tall.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "auto": "Auto",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9",
+            "4:1": "4:1",
+            "1:4": "1:4",
+            "8:1": "8:1",
+            "1:8": "1:8"
+          }
+        },
+        "resolution": {
+          "label": "Output resolution",
+          "choiceLabels": {
+            "1k": "1K"
+          }
+        },
+        "thinking_level": {
+          "label": "Thinking level",
+          "choiceLabels": {
+            "default": "Model default",
+            "minimal": "Minimal",
+            "high": "High"
+          }
+        },
+        "top_p": {
+          "label": "Top-p"
+        },
+        "temperature": {
+          "label": "Temperature"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "enable_sync_mode": {
+          "label": "Wait for result"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, scene, composition, and style. Put any exact text to render in quotation marks."
+        },
+        "aspect_ratio": {
+          "help": "Auto generates a square image. Ultra-wide and ultra-tall ratios are also available."
+        },
+        "resolution": {
+          "help": "This endpoint uses 1K resolution."
+        },
+        "thinking_level": {
+          "help": "Choose the model default, high, or minimal thinking. High can help with complex composition."
+        },
+        "top_p": {
+          "help": "The cumulative sampling probability threshold, from 0 to 1."
+        },
+        "temperature": {
+          "help": "Controls sampling variation, from 0 to 1. The default is 1."
+        },
+        "seed": {
+          "help": "Use -1 for a random seed. Set an integer for more repeatable results."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for Atlas to return a finished result in the submit response."
+        },
+        "enable_base64_output": {
+          "help": "Request a Base64 response. The work machine decodes it and stores the original image."
+        }
+      }
+    },
+    "ja": {
+      "name": "Nano Banana 2 Lite Developer テキストから画像",
+      "description": "指示文から 1K 画像をすばやく生成します。正方形、極端な横長、縦長の比率を選べます。",
+      "fields": {
+        "prompt": {
+          "label": "指示文"
+        },
+        "aspect_ratio": {
+          "label": "縦横比",
+          "choiceLabels": {
+            "auto": "自動",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9",
+            "4:1": "4:1",
+            "1:4": "1:4",
+            "8:1": "8:1",
+            "1:8": "1:8"
+          }
+        },
+        "resolution": {
+          "label": "出力解像度",
+          "choiceLabels": {
+            "1k": "1K"
+          }
+        },
+        "thinking_level": {
+          "label": "思考レベル",
+          "choiceLabels": {
+            "default": "モデルの既定値",
+            "minimal": "最小",
+            "high": "高"
+          }
+        },
+        "top_p": {
+          "label": "Top-p"
+        },
+        "temperature": {
+          "label": "温度"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、構図、スタイルを記述します。正確に描画する文字は引用符で囲みます。"
+        },
+        "aspect_ratio": {
+          "help": "自動では正方形になります。極端な横長と縦長の比率も選べます。"
+        },
+        "resolution": {
+          "help": "このエンドポイントの解像度は 1K です。"
+        },
+        "thinking_level": {
+          "help": "モデルの既定値、高、最小から選びます。複雑な構図には高を使えます。"
+        },
+        "top_p": {
+          "help": "サンプリングの累積確率のしきい値です。0～1 を指定します。"
+        },
+        "temperature": {
+          "help": "サンプリングの変化を 0～1 の範囲で指定します。既定値は 1 です。"
+        },
+        "seed": {
+          "help": "-1 でランダムなシードを使います。再現性を高める場合は整数を指定します。"
+        },
+        "enable_sync_mode": {
+          "help": "Atlas の完了を待ち、送信時の応答で結果を取得します。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas に Base64 での返却を求めます。ワーカーが復号して元の画像を保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Nano Banana 2 Lite Developer 텍스트로 이미지 생성",
+      "description": "프롬프트로 1K 이미지를 빠르게 생성합니다. 정사각형과 매우 넓거나 긴 가로세로 비율을 지원합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "가로세로 비율",
+          "choiceLabels": {
+            "auto": "자동",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9",
+            "4:1": "4:1",
+            "1:4": "1:4",
+            "8:1": "8:1",
+            "1:8": "1:8"
+          }
+        },
+        "resolution": {
+          "label": "출력 해상도",
+          "choiceLabels": {
+            "1k": "1K"
+          }
+        },
+        "thinking_level": {
+          "label": "사고 수준",
+          "choiceLabels": {
+            "default": "모델 기본값",
+            "minimal": "최소",
+            "high": "높음"
+          }
+        },
+        "top_p": {
+          "label": "Top-p"
+        },
+        "temperature": {
+          "label": "온도"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "enable_sync_mode": {
+          "label": "결과 기다리기"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 장면, 구도와 스타일을 설명하세요. 정확하게 그릴 문구는 따옴표로 묶으세요."
+        },
+        "aspect_ratio": {
+          "help": "자동은 정사각형 이미지를 생성합니다. 매우 넓거나 긴 비율도 선택할 수 있습니다."
+        },
+        "resolution": {
+          "help": "이 엔드포인트의 해상도는 1K입니다."
+        },
+        "thinking_level": {
+          "help": "모델 기본값, 높음 또는 최소를 고르세요. 복잡한 구도에는 높음을 사용할 수 있습니다."
+        },
+        "top_p": {
+          "help": "샘플링 누적 확률의 임곗값이며 범위는 0~1입니다."
+        },
+        "temperature": {
+          "help": "샘플링의 변화 정도입니다. 0~1을 입력하며 기본값은 1입니다."
+        },
+        "seed": {
+          "help": "-1은 무작위 시드를 사용합니다. 재현성을 높이려면 정수를 입력하세요."
+        },
+        "enable_sync_mode": {
+          "help": "Atlas 생성이 완료되면 제출 응답에서 결과를 받습니다."
+        },
+        "enable_base64_output": {
+          "help": "Atlas에 Base64 결과를 요청합니다. 작업 머신에서 디코딩해 이미지 원본을 저장합니다."
+        }
+      }
+    }
+  }
+}

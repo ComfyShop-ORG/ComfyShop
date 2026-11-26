@@ -1,0 +1,470 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "seedream-v50-pro-text-to-image",
+  "name": "Seedream v5.0 Pro 文生图",
+  "description": "根据提示词生成单张图片，支持 1.5K 和 2K 尺寸档位，可调整提示词优化方式。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "size",
+      "kind": "choice",
+      "optional": true,
+      "choices": [
+        "2048*2048",
+        "2368*1776",
+        "1776*2368",
+        "2816*1584",
+        "1584*2816",
+        "2496*1664",
+        "1664*2496",
+        "3136*1344",
+        "1024*1024",
+        "1536*1536",
+        "1776*1328",
+        "1328*1776",
+        "2048*1152",
+        "1152*2048"
+      ],
+      "default": "2048*2048"
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["jpeg", "png"],
+      "default": "jpeg"
+    },
+    {
+      "name": "thinking",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["enabled", "disabled"],
+      "default": "enabled"
+    },
+    {
+      "name": "prompt_optimization_mode",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["standard", "fast"],
+      "default": "standard"
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "thinking",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "prompt_optimization_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "operation": "image",
+      "model": "bytedance/seedream-v5.0-pro/text-to-image",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "output_format": "output_format",
+        "thinking": "thinking",
+        "prompt_optimization_mode": "prompt_optimization_mode",
+        "enable_base64_output": "enable_base64_output"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seedream v5.0 Pro 文生图",
+      "description": "根据提示词生成单张图片，支持 1.5K 和 2K 尺寸档位，可调整提示词优化方式。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "图片尺寸",
+          "choiceLabels": {
+            "2048*2048": "2048 × 2048 · 2K",
+            "2368*1776": "2368 × 1776 · 2K",
+            "1776*2368": "1776 × 2368 · 2K",
+            "2816*1584": "2816 × 1584 · 2K",
+            "1584*2816": "1584 × 2816 · 2K",
+            "2496*1664": "2496 × 1664 · 2K",
+            "1664*2496": "1664 × 2496 · 2K",
+            "3136*1344": "3136 × 1344 · 2K",
+            "1024*1024": "1024 × 1024 · 1.5K",
+            "1536*1536": "1536 × 1536 · 1.5K",
+            "1776*1328": "1776 × 1328 · 1.5K",
+            "1328*1776": "1328 × 1776 · 1.5K",
+            "2048*1152": "2048 × 1152 · 1.5K",
+            "1152*2048": "1152 × 2048 · 1.5K"
+          }
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "thinking": {
+          "label": "深度思考",
+          "choiceLabels": {
+            "enabled": "开启",
+            "disabled": "关闭"
+          }
+        },
+        "prompt_optimization_mode": {
+          "label": "提示词优化",
+          "choiceLabels": {
+            "standard": "标准",
+            "fast": "快速"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、构图、光线和细节。Atlas 建议英文提示词少于 600 词。"
+        },
+        "size": {
+          "help": "选择 1.5K 或 2K 档位下的预设宽高，单位像素。"
+        },
+        "output_format": {
+          "help": "选择 JPEG 或 PNG。"
+        },
+        "thinking": {
+          "help": "开启深度思考可进行更细致的提示词优化，关闭后生成更快。"
+        },
+        "prompt_optimization_mode": {
+          "help": "标准以优化质量为主，快速缩短优化时间。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 返回图片。工作机解码后保存图片原件。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seedream v5.0 Pro 文字生圖",
+      "description": "依提示詞生成單張圖片，支援 1.5K 和 2K 尺寸等級，可調整提示詞最佳化方式。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "圖片尺寸",
+          "choiceLabels": {
+            "2048*2048": "2048 × 2048 · 2K",
+            "2368*1776": "2368 × 1776 · 2K",
+            "1776*2368": "1776 × 2368 · 2K",
+            "2816*1584": "2816 × 1584 · 2K",
+            "1584*2816": "1584 × 2816 · 2K",
+            "2496*1664": "2496 × 1664 · 2K",
+            "1664*2496": "1664 × 2496 · 2K",
+            "3136*1344": "3136 × 1344 · 2K",
+            "1024*1024": "1024 × 1024 · 1.5K",
+            "1536*1536": "1536 × 1536 · 1.5K",
+            "1776*1328": "1776 × 1328 · 1.5K",
+            "1328*1776": "1328 × 1776 · 1.5K",
+            "2048*1152": "2048 × 1152 · 1.5K",
+            "1152*2048": "1152 × 2048 · 1.5K"
+          }
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "thinking": {
+          "label": "深度思考",
+          "choiceLabels": {
+            "enabled": "啟用",
+            "disabled": "關閉"
+          }
+        },
+        "prompt_optimization_mode": {
+          "label": "提示詞最佳化",
+          "choiceLabels": {
+            "standard": "標準",
+            "fast": "快速"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、構圖、光線及細節。Atlas 建議英文提示詞少於 600 字。"
+        },
+        "size": {
+          "help": "選擇 1.5K 或 2K 等級的預設寬高，單位為像素。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG 或 PNG。"
+        },
+        "thinking": {
+          "help": "啟用深度思考可更細緻地最佳化提示詞，關閉後生成較快。"
+        },
+        "prompt_optimization_mode": {
+          "help": "標準著重最佳化品質，快速可縮短處理時間。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 回傳圖片。工作機解碼後儲存圖片原始檔案。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seedream v5.0 Pro Text to Image",
+      "description": "Generate a single image from a prompt with 1.5K and 2K presets and configurable prompt optimization.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Image size",
+          "choiceLabels": {
+            "2048*2048": "2048 × 2048 · 2K",
+            "2368*1776": "2368 × 1776 · 2K",
+            "1776*2368": "1776 × 2368 · 2K",
+            "2816*1584": "2816 × 1584 · 2K",
+            "1584*2816": "1584 × 2816 · 2K",
+            "2496*1664": "2496 × 1664 · 2K",
+            "1664*2496": "1664 × 2496 · 2K",
+            "3136*1344": "3136 × 1344 · 2K",
+            "1024*1024": "1024 × 1024 · 1.5K",
+            "1536*1536": "1536 × 1536 · 1.5K",
+            "1776*1328": "1776 × 1328 · 1.5K",
+            "1328*1776": "1328 × 1776 · 1.5K",
+            "2048*1152": "2048 × 1152 · 1.5K",
+            "1152*2048": "1152 × 2048 · 1.5K"
+          }
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "thinking": {
+          "label": "Deep thinking",
+          "choiceLabels": {
+            "enabled": "Enabled",
+            "disabled": "Disabled"
+          }
+        },
+        "prompt_optimization_mode": {
+          "label": "Prompt optimization",
+          "choiceLabels": {
+            "standard": "Standard",
+            "fast": "Fast"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, composition, lighting, and details. Atlas recommends fewer than 600 English words."
+        },
+        "size": {
+          "help": "Choose a preset width and height in pixels at the 1.5K or 2K tier."
+        },
+        "output_format": {
+          "help": "Choose JPEG or PNG."
+        },
+        "thinking": {
+          "help": "Enable deeper prompt optimization or turn it off for faster generation."
+        },
+        "prompt_optimization_mode": {
+          "help": "Standard prioritizes prompt optimization quality. Fast reduces optimization time."
+        },
+        "enable_base64_output": {
+          "help": "Request a Base64 response. The work machine decodes it and stores the original image."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seedream v5.0 Pro テキストから画像",
+      "description": "プロンプトから画像を 1 枚生成します。1.5K と 2K のサイズやプロンプトの最適化方式を選べます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "画像サイズ",
+          "choiceLabels": {
+            "2048*2048": "2048 × 2048 · 2K",
+            "2368*1776": "2368 × 1776 · 2K",
+            "1776*2368": "1776 × 2368 · 2K",
+            "2816*1584": "2816 × 1584 · 2K",
+            "1584*2816": "1584 × 2816 · 2K",
+            "2496*1664": "2496 × 1664 · 2K",
+            "1664*2496": "1664 × 2496 · 2K",
+            "3136*1344": "3136 × 1344 · 2K",
+            "1024*1024": "1024 × 1024 · 1.5K",
+            "1536*1536": "1536 × 1536 · 1.5K",
+            "1776*1328": "1776 × 1328 · 1.5K",
+            "1328*1776": "1328 × 1776 · 1.5K",
+            "2048*1152": "2048 × 1152 · 1.5K",
+            "1152*2048": "1152 × 2048 · 1.5K"
+          }
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "thinking": {
+          "label": "深く考える",
+          "choiceLabels": {
+            "enabled": "有効",
+            "disabled": "無効"
+          }
+        },
+        "prompt_optimization_mode": {
+          "label": "プロンプトの最適化",
+          "choiceLabels": {
+            "standard": "標準",
+            "fast": "高速"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、構図、光、細部を記述します。Atlas は英語で 600 語未満を推奨しています。"
+        },
+        "size": {
+          "help": "1.5K または 2K のプリセットからピクセル単位の幅と高さを選びます。"
+        },
+        "output_format": {
+          "help": "JPEG または PNG を選びます。"
+        },
+        "thinking": {
+          "help": "有効にするとプロンプトをより詳しく最適化します。無効にすると生成が速くなります。"
+        },
+        "prompt_optimization_mode": {
+          "help": "標準は最適化の品質を重視します。高速は処理時間を短縮します。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas に Base64 での返却を求めます。ワーカーが復号して元の画像を保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seedream v5.0 Pro 텍스트 이미지 생성",
+      "description": "프롬프트로 이미지 한 장을 생성합니다. 1.5K와 2K 크기 및 프롬프트 최적화 방식을 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "이미지 크기",
+          "choiceLabels": {
+            "2048*2048": "2048 × 2048 · 2K",
+            "2368*1776": "2368 × 1776 · 2K",
+            "1776*2368": "1776 × 2368 · 2K",
+            "2816*1584": "2816 × 1584 · 2K",
+            "1584*2816": "1584 × 2816 · 2K",
+            "2496*1664": "2496 × 1664 · 2K",
+            "1664*2496": "1664 × 2496 · 2K",
+            "3136*1344": "3136 × 1344 · 2K",
+            "1024*1024": "1024 × 1024 · 1.5K",
+            "1536*1536": "1536 × 1536 · 1.5K",
+            "1776*1328": "1776 × 1328 · 1.5K",
+            "1328*1776": "1328 × 1776 · 1.5K",
+            "2048*1152": "2048 × 1152 · 1.5K",
+            "1152*2048": "1152 × 2048 · 1.5K"
+          }
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "thinking": {
+          "label": "심층 추론",
+          "choiceLabels": {
+            "enabled": "켜기",
+            "disabled": "끄기"
+          }
+        },
+        "prompt_optimization_mode": {
+          "label": "프롬프트 최적화",
+          "choiceLabels": {
+            "standard": "표준",
+            "fast": "빠름"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 구도, 조명, 세부 묘사를 입력하세요. Atlas는 영어 600단어 미만을 권장합니다."
+        },
+        "size": {
+          "help": "1.5K 또는 2K의 픽셀 너비 및 높이 프리셋을 선택하세요."
+        },
+        "output_format": {
+          "help": "JPEG 또는 PNG를 선택하세요."
+        },
+        "thinking": {
+          "help": "켜면 프롬프트를 더 세밀하게 최적화합니다. 끄면 더 빠르게 생성합니다."
+        },
+        "prompt_optimization_mode": {
+          "help": "표준은 최적화 품질을 우선하고 빠른 모드는 처리 시간을 줄입니다."
+        },
+        "enable_base64_output": {
+          "help": "Atlas에 Base64 결과를 요청합니다. 작업 머신에서 디코딩해 이미지 원본을 저장합니다."
+        }
+      }
+    }
+  }
+}

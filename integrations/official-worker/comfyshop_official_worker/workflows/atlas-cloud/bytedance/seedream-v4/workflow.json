@@ -1,0 +1,195 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "seedream-v4-text",
+  "name": "Seedream v4 文生图",
+  "description": "根据提示词生成图片，可自定义宽和高，单边范围为 1024 至 4096 像素。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "size",
+      "kind": "string",
+      "default": "2048*2048",
+      "optional": true,
+      "maxLength": 9
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "operation": "image",
+      "model": "bytedance/seedream-v4",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "enable_base64_output": "enable_base64_output"
+      },
+      "required_text": ["prompt"],
+      "image_size_limits": {
+        "min_side": 1024,
+        "max_side": 4096,
+        "allow_auto": false
+      },
+      "omit_blank_parameters": ["size"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seedream v4 文生图",
+      "description": "根据提示词生成图片，可自定义宽和高，单边范围为 1024 至 4096 像素。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "图片尺寸"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述画面中的主体、环境与光线。"
+        },
+        "size": {
+          "help": "输入宽*高，单位像素。宽、高均为 1024 至 4096，例如 2048*1536。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 返回图片。工作机解码后保存图片原件。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seedream v4 文生圖",
+      "description": "根據提示詞產生圖片，可自訂寬和高，單邊範圍為 1024 至 4096 像素。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "圖片尺寸"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述畫面中的主體、環境與光線。"
+        },
+        "size": {
+          "help": "輸入寬*高，單位為像素。寬和高皆為 1024 至 4096，例如 2048*1536。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 回傳圖片。工作機解碼後儲存圖片原始檔案。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seedream v4 Text to Image",
+      "description": "Generate images from a prompt with custom dimensions from 1024 to 4096 pixels per side.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Image size"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, setting, and lighting."
+        },
+        "size": {
+          "help": "Enter width*height in pixels, with each side from 1024 to 4096. For example, use 2048*1536."
+        },
+        "enable_base64_output": {
+          "help": "Request a Base64 response. The work machine decodes it and stores the original image."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seedream v4 テキストから画像",
+      "description": "指示文から画像を生成します。幅と高さはそれぞれ 1024～4096 ピクセルで指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "画像サイズ"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、背景、光を記述します。"
+        },
+        "size": {
+          "help": "ピクセル単位で幅*高さを指定します。各辺は 1024～4096 です。入力例は 2048*1536 です。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas に Base64 での返却を求めます。ワーカーが復号して元の画像を保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seedream v4 텍스트로 이미지 생성",
+      "description": "프롬프트로 이미지를 생성합니다. 너비와 높이를 각각 1024~4096픽셀로 지정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "이미지 크기"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 환경과 조명을 설명하세요."
+        },
+        "size": {
+          "help": "픽셀 단위로 너비*높이를 입력하세요. 각 변은 1024~4096이며, 2048*1536처럼 입력합니다."
+        },
+        "enable_base64_output": {
+          "help": "Atlas에 Base64 결과를 요청합니다. 작업 머신에서 디코딩해 이미지 원본을 저장합니다."
+        }
+      }
+    }
+  }
+}

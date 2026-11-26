@@ -1,0 +1,279 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-luma-ray32-reframe",
+  "name": "Luma Ray 3.2 视频重构画幅",
+  "description": "把原视频重构为指定宽高比，可用提示词说明要保留的主体和位置。",
+  "category": "video_tool",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["540p", "720p", "1080p"],
+      "optional": true,
+      "default": "720p"
+    },
+    {
+      "name": "source_video",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "source_video_url",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9", "9:21"],
+      "optional": false,
+      "default": "9:16"
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "source_video",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "source_video_url",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "luma/ray-3.2/reframe",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution"
+      },
+      "media": {
+        "video": {
+          "kind": "video",
+          "fields": ["source_video"],
+          "external_sources_field": "source_video_url",
+          "external_urls_only": true,
+          "external_https_only": true,
+          "min_items": 1,
+          "content_types": ["video/mp4"]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Luma Ray 3.2 视频重构画幅",
+      "description": "把原视频重构为指定宽高比，可用提示词说明要保留的主体和位置。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "source_video": {
+          "label": "原视频"
+        },
+        "source_video_url": {
+          "label": "原视频 URL"
+        },
+        "aspect_ratio": {
+          "label": "目标宽高比"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上传一个 MP4 文件。"
+        },
+        "prompt": {
+          "help": "可描述重构后应保留的主体或位置，留空使用模型默认构图。"
+        },
+        "aspect_ratio": {
+          "help": "选择目标画幅，默认竖向 9:16。"
+        },
+        "resolution": {
+          "help": "选择 540p、720p 或 1080p。"
+        },
+        "source_video_url": {
+          "help": "填写公开可访问的 HTTPS MP4 地址，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Luma Ray 3.2 影片重構畫幅",
+      "description": "將原影片重構為指定長寬比，可用提示詞說明要保留的主體與位置。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "source_video": {
+          "label": "原影片"
+        },
+        "source_video_url": {
+          "label": "原影片 URL"
+        },
+        "aspect_ratio": {
+          "label": "目標長寬比"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上傳一個 MP4 檔案。"
+        },
+        "prompt": {
+          "help": "可描述重構後要保留的主體或位置，留空使用模型預設構圖。"
+        },
+        "aspect_ratio": {
+          "help": "選擇目標畫幅，預設直向 9:16。"
+        },
+        "resolution": {
+          "help": "選擇 540p、720p 或 1080p。"
+        },
+        "source_video_url": {
+          "help": "填寫公開可存取的 HTTPS MP4 網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Luma Ray 3.2 Video Reframe",
+      "description": "Reframe a source video to a target aspect ratio, with optional guidance about what to keep in frame.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "source_video": {
+          "label": "Source video"
+        },
+        "source_video_url": {
+          "label": "Source video URL"
+        },
+        "aspect_ratio": {
+          "label": "Target aspect ratio"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "Upload one MP4 file."
+        },
+        "prompt": {
+          "help": "Describe the subject or position to preserve, or leave blank for the model's framing."
+        },
+        "aspect_ratio": {
+          "help": "Choose the destination aspect ratio. The default is portrait 9:16."
+        },
+        "resolution": {
+          "help": "Choose 540p, 720p, or 1080p."
+        },
+        "source_video_url": {
+          "help": "Provide a publicly accessible HTTPS MP4 URL or upload the video."
+        }
+      }
+    },
+    "ja": {
+      "name": "Luma Ray 3.2 動画リフレーム",
+      "description": "元動画を指定した縦横比に再構成します。残したい被写体や位置も指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "source_video": {
+          "label": "元動画"
+        },
+        "source_video_url": {
+          "label": "元動画の URL"
+        },
+        "aspect_ratio": {
+          "label": "出力の縦横比"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "MP4 ファイルを 1 本アップロードします。"
+        },
+        "prompt": {
+          "help": "残したい被写体や位置を記述します。空欄の場合はモデル既定の構図になります。"
+        },
+        "aspect_ratio": {
+          "help": "再構成後の縦横比を選びます。既定値は縦向きの 9:16 です。"
+        },
+        "resolution": {
+          "help": "540p、720p、1080p から選びます。"
+        },
+        "source_video_url": {
+          "help": "公開 HTTPS MP4 の URL を入力するか、動画をアップロードします。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Luma Ray 3.2 동영상 리프레임",
+      "description": "원본 동영상을 지정한 비율로 재구성합니다. 화면에 남길 피사체나 위치를 설명할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "source_video": {
+          "label": "원본 동영상"
+        },
+        "source_video_url": {
+          "label": "원본 동영상 URL"
+        },
+        "aspect_ratio": {
+          "label": "대상 화면 비율"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "MP4 파일 하나를 업로드하세요."
+        },
+        "prompt": {
+          "help": "유지할 피사체나 위치를 설명하세요. 비워 두면 모델의 기본 구도를 사용합니다."
+        },
+        "aspect_ratio": {
+          "help": "변경할 화면 비율을 선택하세요. 기본값은 세로형 9:16입니다."
+        },
+        "resolution": {
+          "help": "540p, 720p, 1080p 중 선택하세요."
+        },
+        "source_video_url": {
+          "help": "공개 HTTPS MP4 URL을 입력하거나 동영상을 업로드하세요."
+        }
+      }
+    }
+  }
+}

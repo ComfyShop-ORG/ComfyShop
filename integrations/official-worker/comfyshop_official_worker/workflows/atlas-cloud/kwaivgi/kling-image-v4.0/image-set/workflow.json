@@ -1,0 +1,773 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kwaivgi-kling-image-v4-0-image-set",
+  "name": "可灵 Image 4.0 组图",
+  "description": "按提示词生成一组相互连贯的图片，可使用共同的参考图维持角色、商品和风格一致。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "reference_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_10",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "num_images",
+      "kind": "integer",
+      "optional": true,
+      "default": 4,
+      "minimum": "2",
+      "maximum": "10",
+      "step": "1"
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "2k",
+      "choices": ["2k", "4k", "8k"],
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "optional": true,
+      "default": "auto",
+      "choices": ["auto", "16:9", "9:16", "1:1", "4:3", "3:4", "3:2", "2:3", "21:9"]
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_10",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "num_images",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "kwaivgi/kling-image-v4.0/image-set",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "num_images": "num_images",
+        "aspect_ratio": "aspect_ratio"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "reference_images": {
+          "kind": "image",
+          "fields": [
+            "reference_1",
+            "reference_2",
+            "reference_3",
+            "reference_4",
+            "reference_5",
+            "reference_6",
+            "reference_7",
+            "reference_8",
+            "reference_9",
+            "reference_10"
+          ],
+          "external_sources_field": "reference_sources",
+          "array": true,
+          "allow_raw_base64": true,
+          "content_types": ["image/jpeg", "image/png"],
+          "max_bytes": 30000000,
+          "image_bounds": {
+            "min_side": 300,
+            "max_aspect_ratio": 2.5
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 Image 4.0 组图",
+      "description": "按提示词生成一组相互连贯的图片，可使用共同的参考图维持角色、商品和风格一致。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "reference_1": {
+          "label": "参考图 1"
+        },
+        "reference_2": {
+          "label": "参考图 2"
+        },
+        "reference_3": {
+          "label": "参考图 3"
+        },
+        "reference_4": {
+          "label": "参考图 4"
+        },
+        "reference_5": {
+          "label": "参考图 5"
+        },
+        "reference_6": {
+          "label": "参考图 6"
+        },
+        "reference_7": {
+          "label": "参考图 7"
+        },
+        "reference_8": {
+          "label": "参考图 8"
+        },
+        "reference_9": {
+          "label": "参考图 9"
+        },
+        "reference_10": {
+          "label": "参考图 10"
+        },
+        "reference_sources": {
+          "label": "参考图来源"
+        },
+        "num_images": {
+          "label": "出图张数"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "2k": "2K",
+            "4k": "4K",
+            "8k": "8K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "auto": "自动",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "21:9": "21:9"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述整组图片的内容、顺序和风格，可按素材顺序使用 @image_1、@image_2 等。"
+        },
+        "reference_1": {
+          "help": "上传 JPEG 或 PNG，每张最多 30 MB，每边至少 300 像素，宽高比为 2:5 至 5:2。"
+        },
+        "reference_2": {
+          "help": "上传 JPEG 或 PNG，每张最多 30 MB，每边至少 300 像素，宽高比为 2:5 至 5:2。"
+        },
+        "reference_3": {
+          "help": "上传 JPEG 或 PNG，每张最多 30 MB，每边至少 300 像素，宽高比为 2:5 至 5:2。"
+        },
+        "reference_4": {
+          "help": "上传 JPEG 或 PNG，每张最多 30 MB，每边至少 300 像素，宽高比为 2:5 至 5:2。"
+        },
+        "reference_5": {
+          "help": "上传 JPEG 或 PNG，每张最多 30 MB，每边至少 300 像素，宽高比为 2:5 至 5:2。"
+        },
+        "reference_6": {
+          "help": "上传 JPEG 或 PNG，每张最多 30 MB，每边至少 300 像素，宽高比为 2:5 至 5:2。"
+        },
+        "reference_7": {
+          "help": "上传 JPEG 或 PNG，每张最多 30 MB，每边至少 300 像素，宽高比为 2:5 至 5:2。"
+        },
+        "reference_8": {
+          "help": "上传 JPEG 或 PNG，每张最多 30 MB，每边至少 300 像素，宽高比为 2:5 至 5:2。"
+        },
+        "reference_9": {
+          "help": "上传 JPEG 或 PNG，每张最多 30 MB，每边至少 300 像素，宽高比为 2:5 至 5:2。"
+        },
+        "reference_10": {
+          "help": "上传 JPEG 或 PNG，每张最多 30 MB，每边至少 300 像素，宽高比为 2:5 至 5:2。"
+        },
+        "reference_sources": {
+          "help": "每行填写一个公开 URL、Base64 数据网址或纯 Base64 图片。与上传合计最多 10 张。"
+        },
+        "num_images": {
+          "help": "选择 2 至 10 张。默认 4 张。"
+        },
+        "resolution": {
+          "help": "选择 2K、4K 或 8K。默认 2K。"
+        },
+        "aspect_ratio": {
+          "help": "选择输出宽高比。默认由 Atlas 自动判断。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 Image 4.0 組圖",
+      "description": "依提示詞生成一組相互連貫的圖片，可使用共同的參考圖維持角色、商品和風格一致。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "reference_1": {
+          "label": "參考圖 1"
+        },
+        "reference_2": {
+          "label": "參考圖 2"
+        },
+        "reference_3": {
+          "label": "參考圖 3"
+        },
+        "reference_4": {
+          "label": "參考圖 4"
+        },
+        "reference_5": {
+          "label": "參考圖 5"
+        },
+        "reference_6": {
+          "label": "參考圖 6"
+        },
+        "reference_7": {
+          "label": "參考圖 7"
+        },
+        "reference_8": {
+          "label": "參考圖 8"
+        },
+        "reference_9": {
+          "label": "參考圖 9"
+        },
+        "reference_10": {
+          "label": "參考圖 10"
+        },
+        "reference_sources": {
+          "label": "參考圖來源"
+        },
+        "num_images": {
+          "label": "出圖張數"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "2k": "2K",
+            "4k": "4K",
+            "8k": "8K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "auto": "自動",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "21:9": "21:9"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述整組圖片的內容、順序和風格，可依素材順序使用 @image_1、@image_2 等。"
+        },
+        "reference_1": {
+          "help": "上傳 JPEG 或 PNG，每張最多 30 MB，每邊至少 300 像素，寬高比為 2:5 至 5:2。"
+        },
+        "reference_2": {
+          "help": "上傳 JPEG 或 PNG，每張最多 30 MB，每邊至少 300 像素，寬高比為 2:5 至 5:2。"
+        },
+        "reference_3": {
+          "help": "上傳 JPEG 或 PNG，每張最多 30 MB，每邊至少 300 像素，寬高比為 2:5 至 5:2。"
+        },
+        "reference_4": {
+          "help": "上傳 JPEG 或 PNG，每張最多 30 MB，每邊至少 300 像素，寬高比為 2:5 至 5:2。"
+        },
+        "reference_5": {
+          "help": "上傳 JPEG 或 PNG，每張最多 30 MB，每邊至少 300 像素，寬高比為 2:5 至 5:2。"
+        },
+        "reference_6": {
+          "help": "上傳 JPEG 或 PNG，每張最多 30 MB，每邊至少 300 像素，寬高比為 2:5 至 5:2。"
+        },
+        "reference_7": {
+          "help": "上傳 JPEG 或 PNG，每張最多 30 MB，每邊至少 300 像素，寬高比為 2:5 至 5:2。"
+        },
+        "reference_8": {
+          "help": "上傳 JPEG 或 PNG，每張最多 30 MB，每邊至少 300 像素，寬高比為 2:5 至 5:2。"
+        },
+        "reference_9": {
+          "help": "上傳 JPEG 或 PNG，每張最多 30 MB，每邊至少 300 像素，寬高比為 2:5 至 5:2。"
+        },
+        "reference_10": {
+          "help": "上傳 JPEG 或 PNG，每張最多 30 MB，每邊至少 300 像素，寬高比為 2:5 至 5:2。"
+        },
+        "reference_sources": {
+          "help": "每行填寫一個公開 URL、Base64 資料網址或純 Base64 圖片。與上傳合計最多 10 張。"
+        },
+        "num_images": {
+          "help": "選擇 2 至 10 張。預設 4 張。"
+        },
+        "resolution": {
+          "help": "選擇 2K、4K 或 8K。預設 2K。"
+        },
+        "aspect_ratio": {
+          "help": "選擇輸出寬高比。預設由 Atlas 自動判斷。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling Image 4.0 Image Set",
+      "description": "Generate a coherent image series from a prompt and optionally share references across the set to keep subjects and style consistent.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "reference_1": {
+          "label": "Reference image 1"
+        },
+        "reference_2": {
+          "label": "Reference image 2"
+        },
+        "reference_3": {
+          "label": "Reference image 3"
+        },
+        "reference_4": {
+          "label": "Reference image 4"
+        },
+        "reference_5": {
+          "label": "Reference image 5"
+        },
+        "reference_6": {
+          "label": "Reference image 6"
+        },
+        "reference_7": {
+          "label": "Reference image 7"
+        },
+        "reference_8": {
+          "label": "Reference image 8"
+        },
+        "reference_9": {
+          "label": "Reference image 9"
+        },
+        "reference_10": {
+          "label": "Reference image 10"
+        },
+        "reference_sources": {
+          "label": "Reference image sources"
+        },
+        "num_images": {
+          "label": "Image count"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "2k": "2K",
+            "4k": "4K",
+            "8k": "8K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "auto": "Automatic",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "21:9": "21:9"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the content, ordering, and style of the series. Reference images in order with @image_1 and @image_2."
+        },
+        "reference_1": {
+          "help": "Upload JPEG or PNG images. Each is limited to 30 MB, at least 300 pixels per side, with a ratio from 2:5 to 5:2."
+        },
+        "reference_2": {
+          "help": "Upload JPEG or PNG images. Each is limited to 30 MB, at least 300 pixels per side, with a ratio from 2:5 to 5:2."
+        },
+        "reference_3": {
+          "help": "Upload JPEG or PNG images. Each is limited to 30 MB, at least 300 pixels per side, with a ratio from 2:5 to 5:2."
+        },
+        "reference_4": {
+          "help": "Upload JPEG or PNG images. Each is limited to 30 MB, at least 300 pixels per side, with a ratio from 2:5 to 5:2."
+        },
+        "reference_5": {
+          "help": "Upload JPEG or PNG images. Each is limited to 30 MB, at least 300 pixels per side, with a ratio from 2:5 to 5:2."
+        },
+        "reference_6": {
+          "help": "Upload JPEG or PNG images. Each is limited to 30 MB, at least 300 pixels per side, with a ratio from 2:5 to 5:2."
+        },
+        "reference_7": {
+          "help": "Upload JPEG or PNG images. Each is limited to 30 MB, at least 300 pixels per side, with a ratio from 2:5 to 5:2."
+        },
+        "reference_8": {
+          "help": "Upload JPEG or PNG images. Each is limited to 30 MB, at least 300 pixels per side, with a ratio from 2:5 to 5:2."
+        },
+        "reference_9": {
+          "help": "Upload JPEG or PNG images. Each is limited to 30 MB, at least 300 pixels per side, with a ratio from 2:5 to 5:2."
+        },
+        "reference_10": {
+          "help": "Upload JPEG or PNG images. Each is limited to 30 MB, at least 300 pixels per side, with a ratio from 2:5 to 5:2."
+        },
+        "reference_sources": {
+          "help": "Enter one public URL, Base64 data URL, or raw Base64 image per line. Include up to ten images across uploads and sources."
+        },
+        "num_images": {
+          "help": "Choose two to ten images. The default is four."
+        },
+        "resolution": {
+          "help": "Choose 2K, 4K, or 8K. The default is 2K."
+        },
+        "aspect_ratio": {
+          "help": "Select an output ratio. Atlas chooses automatically by default."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling Image 4.0 画像セット",
+      "description": "プロンプトから一貫した画像シリーズを生成します。共通の参照画像で人物、商品、画風を統一できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "reference_1": {
+          "label": "参照画像 1"
+        },
+        "reference_2": {
+          "label": "参照画像 2"
+        },
+        "reference_3": {
+          "label": "参照画像 3"
+        },
+        "reference_4": {
+          "label": "参照画像 4"
+        },
+        "reference_5": {
+          "label": "参照画像 5"
+        },
+        "reference_6": {
+          "label": "参照画像 6"
+        },
+        "reference_7": {
+          "label": "参照画像 7"
+        },
+        "reference_8": {
+          "label": "参照画像 8"
+        },
+        "reference_9": {
+          "label": "参照画像 9"
+        },
+        "reference_10": {
+          "label": "参照画像 10"
+        },
+        "reference_sources": {
+          "label": "参照画像のソース"
+        },
+        "num_images": {
+          "label": "画像の枚数"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "2k": "2K",
+            "4k": "4K",
+            "8k": "8K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "auto": "自動",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "21:9": "21:9"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "画像シリーズの内容、順序、画風を記述します。素材の順に @image_1、@image_2 などで参照できます。"
+        },
+        "reference_1": {
+          "help": "各辺 300 ピクセル以上、比率 2:5〜5:2、最大 30 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_2": {
+          "help": "各辺 300 ピクセル以上、比率 2:5〜5:2、最大 30 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_3": {
+          "help": "各辺 300 ピクセル以上、比率 2:5〜5:2、最大 30 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_4": {
+          "help": "各辺 300 ピクセル以上、比率 2:5〜5:2、最大 30 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_5": {
+          "help": "各辺 300 ピクセル以上、比率 2:5〜5:2、最大 30 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_6": {
+          "help": "各辺 300 ピクセル以上、比率 2:5〜5:2、最大 30 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_7": {
+          "help": "各辺 300 ピクセル以上、比率 2:5〜5:2、最大 30 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_8": {
+          "help": "各辺 300 ピクセル以上、比率 2:5〜5:2、最大 30 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_9": {
+          "help": "各辺 300 ピクセル以上、比率 2:5〜5:2、最大 30 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_10": {
+          "help": "各辺 300 ピクセル以上、比率 2:5〜5:2、最大 30 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_sources": {
+          "help": "一行に公開 URL、Base64 データ URL、または Base64 画像を一つ入力します。アップロードを含めて最大 10 枚です。"
+        },
+        "num_images": {
+          "help": "2〜10 枚から選択します。既定は 4 枚です。"
+        },
+        "resolution": {
+          "help": "2K、4K、8K から選択します。既定は 2K です。"
+        },
+        "aspect_ratio": {
+          "help": "出力の縦横比を選択します。既定では Atlas が自動で選びます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling Image 4.0 이미지 세트",
+      "description": "프롬프트로 연결되는 이미지 시리즈를 만듭니다. 공통 참조 이미지로 피사체와 스타일을 일관되게 유지할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "reference_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_6": {
+          "label": "참조 이미지 6"
+        },
+        "reference_7": {
+          "label": "참조 이미지 7"
+        },
+        "reference_8": {
+          "label": "참조 이미지 8"
+        },
+        "reference_9": {
+          "label": "참조 이미지 9"
+        },
+        "reference_10": {
+          "label": "참조 이미지 10"
+        },
+        "reference_sources": {
+          "label": "참조 이미지 소스"
+        },
+        "num_images": {
+          "label": "이미지 수"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "2k": "2K",
+            "4k": "4K",
+            "8k": "8K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "auto": "자동",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "21:9": "21:9"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "이미지 시리즈의 내용, 순서, 스타일을 설명하세요. 소재 순서대로 @image_1, @image_2 등으로 참조합니다."
+        },
+        "reference_1": {
+          "help": "각 변이 300픽셀 이상이고 비율이 2:5~5:2인 최대 30MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_2": {
+          "help": "각 변이 300픽셀 이상이고 비율이 2:5~5:2인 최대 30MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_3": {
+          "help": "각 변이 300픽셀 이상이고 비율이 2:5~5:2인 최대 30MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_4": {
+          "help": "각 변이 300픽셀 이상이고 비율이 2:5~5:2인 최대 30MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_5": {
+          "help": "각 변이 300픽셀 이상이고 비율이 2:5~5:2인 최대 30MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_6": {
+          "help": "각 변이 300픽셀 이상이고 비율이 2:5~5:2인 최대 30MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_7": {
+          "help": "각 변이 300픽셀 이상이고 비율이 2:5~5:2인 최대 30MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_8": {
+          "help": "각 변이 300픽셀 이상이고 비율이 2:5~5:2인 최대 30MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_9": {
+          "help": "각 변이 300픽셀 이상이고 비율이 2:5~5:2인 최대 30MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_10": {
+          "help": "각 변이 300픽셀 이상이고 비율이 2:5~5:2인 최대 30MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_sources": {
+          "help": "한 줄에 공개 URL, Base64 데이터 URL 또는 Base64 이미지 하나를 입력하세요. 업로드를 포함해 최대 10장입니다."
+        },
+        "num_images": {
+          "help": "2~10장을 선택하세요. 기본값은 4장입니다."
+        },
+        "resolution": {
+          "help": "2K, 4K 또는 8K를 선택하세요. 기본값은 2K입니다."
+        },
+        "aspect_ratio": {
+          "help": "출력 화면 비율을 선택하세요. 기본값은 Atlas의 자동 선택입니다."
+        }
+      }
+    }
+  }
+}

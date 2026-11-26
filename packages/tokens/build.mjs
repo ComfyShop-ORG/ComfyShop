@@ -1,0 +1,115 @@
+import { readFile, mkdir, writeFile } from 'node:fs/promises';
+
+const { lightColor, ...source } = JSON.parse(
+  await readFile(new URL('./src/tokens.json', import.meta.url), 'utf8'),
+);
+for (const name of Object.keys(lightColor)) {
+  if (!Object.hasOwn(source.color, name)) throw new Error(`未知的浅色主题 token：${name}`);
+}
+const apiDirectory = new URL('../../apps/api/src/comfyshop_api/', import.meta.url);
+const paletteFile = new URL('design_tokens.py', apiDirectory);
+const palette = [
+  '"""由 packages/tokens/src/tokens.json 生成。运行 pnpm tokens 更新，请勿手工修改。"""',
+  '',
+  'COLORS = {',
+  ...Object.entries(source.color).map(
+    ([name, value]) => `    ${JSON.stringify(name)}: ${JSON.stringify(value)},`,
+  ),
+  '}',
+  '',
+].join('\n');
+
+const brandDirectory = new URL('./src/brand/', import.meta.url);
+const brandAssets = await Promise.all(
+  ['comfyshop-logo.svg', 'comfyshop-wordmark.svg'].map(async (name) => {
+    const file = new URL(name, brandDirectory);
+    const current = await readFile(file, 'utf8');
+    const themed = current.replace(
+      /data-color-token="([a-z-]+)" (color|fill)="[^"]*"/g,
+      (_, token, attribute) => {
+        if (!Object.hasOwn(source.color, token)) throw new Error(`未知的品牌颜色 token：${token}`);
+        return `data-color-token="${token}" ${attribute}="${source.color[token]}"`;
+      },
+    );
+    return { file, current, themed };
+  }),
+);
+const publicDirectory = new URL('../../apps/web/public/', import.meta.url);
+const faviconFile = new URL('favicon.svg', publicDirectory);
+const currentFavicon = await readFile(faviconFile, 'utf8').catch((error) => {
+  if (error.code === 'ENOENT') return null;
+  throw error;
+});
+const favicon = {
+  file: faviconFile,
+  current: currentFavicon,
+  themed: '<!-- Generated from the ComfyShop icon and design tokens. -->\n' + brandAssets[0].themed,
+};
+const manifestFile = new URL('manifest.webmanifest', publicDirectory);
+const manifest =
+  JSON.stringify(
+    {
+      id: '/',
+      name: 'ComfyShop',
+      short_name: 'ComfyShop',
+      start_url: '/',
+      scope: '/',
+      display: 'standalone',
+      background_color: source.color.canvas,
+      theme_color: source.color.canvas,
+      icons: [192, 512].map((size) => ({
+        src: `/app-icon-${size}.png`,
+        sizes: `${size}x${size}`,
+        type: 'image/png',
+        purpose: 'any maskable',
+      })),
+    },
+    null,
+    2,
+  ) + '\n';
+const outdatedBrands = [...brandAssets, favicon].filter(
+  ({ current, themed }) => current !== themed,
+);
+
+if (process.argv.includes('--check')) {
+  const current = await readFile(paletteFile, 'utf8').catch((error) => {
+    if (error.code === 'ENOENT') return null;
+    throw error;
+  });
+  if (current !== palette) {
+    console.error('邮件调色板与 tokens 不一致，请运行 pnpm tokens 并提交生成文件。');
+    process.exitCode = 1;
+  }
+  if (outdatedBrands.length) {
+    console.error('SVG 品牌颜色与 tokens 不一致，请运行 pnpm tokens。');
+    process.exitCode = 1;
+  }
+  if ((await readFile(manifestFile, 'utf8').catch(() => null)) !== manifest) {
+    console.error('应用清单与 tokens 不一致，请运行 pnpm tokens。');
+    process.exitCode = 1;
+  }
+} else {
+  const declarations = (group, values) =>
+    Object.entries(values).map(([name, value]) => `  --${group}-${name}: ${value};`);
+  const defaults = Object.entries(source).flatMap(([group, values]) => declarations(group, values));
+  const css = [
+    '/* Generated from src/tokens.json. */',
+    ':root {',
+    '  color-scheme: dark;',
+    ...defaults,
+    '}',
+    '',
+    ":root[data-theme='light'] {",
+    '  color-scheme: light;',
+    ...declarations('color', lightColor),
+    '}',
+    '',
+  ].join('\n');
+  await mkdir(new URL('./dist/', import.meta.url), { recursive: true });
+  await writeFile(new URL('./dist/tokens.css', import.meta.url), css);
+  await mkdir(apiDirectory, { recursive: true });
+  await writeFile(paletteFile, palette);
+  await mkdir(publicDirectory, { recursive: true });
+  await writeFile(manifestFile, manifest);
+  await Promise.all(outdatedBrands.map(({ file, themed }) => writeFile(file, themed)));
+}

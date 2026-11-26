@@ -1,0 +1,343 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "google-gemini-31-flash-tts",
+  "name": "Gemini 3.1 Flash 文生语音",
+  "description": "用 Google 预设音色合成语音，可在文本中指导语气、口音、节奏和情绪。",
+  "category": "audio",
+  "fields": [
+    {
+      "name": "text",
+      "kind": "string",
+      "default": "Welcome to Atlas Cloud — One API for All Media AI.",
+      "multiline": true,
+      "maxLength": 10000
+    },
+    {
+      "name": "voice",
+      "kind": "choice",
+      "optional": true,
+      "choices": [
+        "Zephyr",
+        "Puck",
+        "Charon",
+        "Kore",
+        "Fenrir",
+        "Leda",
+        "Orus",
+        "Aoede",
+        "Callirrhoe",
+        "Autonoe",
+        "Enceladus",
+        "Iapetus",
+        "Umbriel",
+        "Algieba",
+        "Despina",
+        "Erinome",
+        "Algenib",
+        "Rasalgethi",
+        "Laomedeia",
+        "Achernar",
+        "Alnilam",
+        "Schedar",
+        "Gacrux",
+        "Pulcherrima",
+        "Achird",
+        "Zubenelgenubi",
+        "Vindemiatrix",
+        "Sadachbia",
+        "Sadaltager",
+        "Sulafat"
+      ],
+      "default": "Kore"
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "text",
+      "section": "default"
+    },
+    {
+      "fieldId": "voice",
+      "section": "default"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "audio",
+    "config": {
+      "operation": "audio",
+      "model": "google/gemini-3.1-flash-tts",
+      "parameters": {
+        "text": "text",
+        "voice": "voice"
+      },
+      "required_text": ["text"],
+      "text_max_lengths": {
+        "text": 10000
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Gemini 3.1 Flash 文生语音",
+      "description": "用 Google 预设音色合成语音，可在文本中指导语气、口音、节奏和情绪。",
+      "fields": {
+        "text": {
+          "label": "朗读文本"
+        },
+        "voice": {
+          "label": "音色",
+          "choiceLabels": {
+            "Zephyr": "Zephyr · 明亮",
+            "Puck": "Puck · 轻快",
+            "Charon": "Charon · 说明式",
+            "Kore": "Kore · 坚定",
+            "Fenrir": "Fenrir · 有活力",
+            "Leda": "Leda · 年轻",
+            "Orus": "Orus · 坚定",
+            "Aoede": "Aoede · 轻盈",
+            "Callirrhoe": "Callirrhoe · 随和",
+            "Autonoe": "Autonoe · 明亮",
+            "Enceladus": "Enceladus · 带气声",
+            "Iapetus": "Iapetus · 清晰",
+            "Umbriel": "Umbriel · 随和",
+            "Algieba": "Algieba · 顺滑",
+            "Despina": "Despina · 顺滑",
+            "Erinome": "Erinome · 清晰",
+            "Algenib": "Algenib · 沙哑",
+            "Rasalgethi": "Rasalgethi · 说明式",
+            "Laomedeia": "Laomedeia · 轻快",
+            "Achernar": "Achernar · 柔和",
+            "Alnilam": "Alnilam · 坚定",
+            "Schedar": "Schedar · 平稳",
+            "Gacrux": "Gacrux · 成熟",
+            "Pulcherrima": "Pulcherrima · 直接",
+            "Achird": "Achird · 友善",
+            "Zubenelgenubi": "Zubenelgenubi · 随意",
+            "Vindemiatrix": "Vindemiatrix · 温柔",
+            "Sadachbia": "Sadachbia · 活泼",
+            "Sadaltager": "Sadaltager · 博学",
+            "Sulafat": "Sulafat · 温暖"
+          }
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "最多 10000 字符。可在文本中加入语气、口音或节奏指示。"
+        },
+        "voice": {
+          "help": "从 30 个预设音色中选择，默认为 Kore。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Gemini 3.1 Flash 文字轉語音",
+      "description": "以 Google 預設音色合成語音，可在文字中指示語氣、口音、節奏和情緒。",
+      "fields": {
+        "text": {
+          "label": "朗讀文字"
+        },
+        "voice": {
+          "label": "音色",
+          "choiceLabels": {
+            "Zephyr": "Zephyr · 明亮",
+            "Puck": "Puck · 輕快",
+            "Charon": "Charon · 解說式",
+            "Kore": "Kore · 堅定",
+            "Fenrir": "Fenrir · 有活力",
+            "Leda": "Leda · 年輕",
+            "Orus": "Orus · 堅定",
+            "Aoede": "Aoede · 輕盈",
+            "Callirrhoe": "Callirrhoe · 隨和",
+            "Autonoe": "Autonoe · 明亮",
+            "Enceladus": "Enceladus · 帶氣聲",
+            "Iapetus": "Iapetus · 清晰",
+            "Umbriel": "Umbriel · 隨和",
+            "Algieba": "Algieba · 流暢",
+            "Despina": "Despina · 流暢",
+            "Erinome": "Erinome · 清晰",
+            "Algenib": "Algenib · 沙啞",
+            "Rasalgethi": "Rasalgethi · 解說式",
+            "Laomedeia": "Laomedeia · 輕快",
+            "Achernar": "Achernar · 柔和",
+            "Alnilam": "Alnilam · 堅定",
+            "Schedar": "Schedar · 平穩",
+            "Gacrux": "Gacrux · 成熟",
+            "Pulcherrima": "Pulcherrima · 直接",
+            "Achird": "Achird · 友善",
+            "Zubenelgenubi": "Zubenelgenubi · 隨意",
+            "Vindemiatrix": "Vindemiatrix · 溫柔",
+            "Sadachbia": "Sadachbia · 活潑",
+            "Sadaltager": "Sadaltager · 博學",
+            "Sulafat": "Sulafat · 溫暖"
+          }
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "最多 10000 個字元。可在文字中加入語氣、口音或節奏指示。"
+        },
+        "voice": {
+          "help": "從 30 個預設音色中選擇，預設為 Kore。"
+        }
+      }
+    },
+    "en": {
+      "name": "Gemini 3.1 Flash Text to Speech",
+      "description": "Synthesize speech with Google voices and use natural-language cues for accent, pace, tone, and emotion.",
+      "fields": {
+        "text": {
+          "label": "Text to read"
+        },
+        "voice": {
+          "label": "Voice",
+          "choiceLabels": {
+            "Zephyr": "Zephyr · Bright",
+            "Puck": "Puck · Upbeat",
+            "Charon": "Charon · Informative",
+            "Kore": "Kore · Firm",
+            "Fenrir": "Fenrir · Energetic",
+            "Leda": "Leda · Youthful",
+            "Orus": "Orus · Firm",
+            "Aoede": "Aoede · Breezy",
+            "Callirrhoe": "Callirrhoe · Relaxed",
+            "Autonoe": "Autonoe · Bright",
+            "Enceladus": "Enceladus · Breathy",
+            "Iapetus": "Iapetus · Clear",
+            "Umbriel": "Umbriel · Relaxed",
+            "Algieba": "Algieba · Smooth",
+            "Despina": "Despina · Smooth",
+            "Erinome": "Erinome · Clear",
+            "Algenib": "Algenib · Gravelly",
+            "Rasalgethi": "Rasalgethi · Informative",
+            "Laomedeia": "Laomedeia · Upbeat",
+            "Achernar": "Achernar · Soft",
+            "Alnilam": "Alnilam · Firm",
+            "Schedar": "Schedar · Even",
+            "Gacrux": "Gacrux · Mature",
+            "Pulcherrima": "Pulcherrima · Direct",
+            "Achird": "Achird · Friendly",
+            "Zubenelgenubi": "Zubenelgenubi · Casual",
+            "Vindemiatrix": "Vindemiatrix · Gentle",
+            "Sadachbia": "Sadachbia · Lively",
+            "Sadaltager": "Sadaltager · Knowledgeable",
+            "Sulafat": "Sulafat · Warm"
+          }
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "Enter up to 10,000 characters. Include cues for accent, pace, or tone in the text."
+        },
+        "voice": {
+          "help": "Choose from 30 preset voices. Kore is the default."
+        }
+      }
+    },
+    "ja": {
+      "name": "Gemini 3.1 Flash テキスト読み上げ",
+      "description": "Google の音色で音声を合成します。口調、アクセント、読み上げの速さや感情を文章で指定できます。",
+      "fields": {
+        "text": {
+          "label": "読み上げテキスト"
+        },
+        "voice": {
+          "label": "音色",
+          "choiceLabels": {
+            "Zephyr": "Zephyr · 明るい",
+            "Puck": "Puck · 軽快",
+            "Charon": "Charon · 説明調",
+            "Kore": "Kore · きっぱり",
+            "Fenrir": "Fenrir · 元気",
+            "Leda": "Leda · 若々しい",
+            "Orus": "Orus · きっぱり",
+            "Aoede": "Aoede · 軽やか",
+            "Callirrhoe": "Callirrhoe · おおらか",
+            "Autonoe": "Autonoe · 明るい",
+            "Enceladus": "Enceladus · 息を含んだ声",
+            "Iapetus": "Iapetus · 明瞭",
+            "Umbriel": "Umbriel · おおらか",
+            "Algieba": "Algieba · なめらか",
+            "Despina": "Despina · なめらか",
+            "Erinome": "Erinome · 明瞭",
+            "Algenib": "Algenib · かすれ声",
+            "Rasalgethi": "Rasalgethi · 説明調",
+            "Laomedeia": "Laomedeia · 軽快",
+            "Achernar": "Achernar · 柔らかい",
+            "Alnilam": "Alnilam · きっぱり",
+            "Schedar": "Schedar · 平坦",
+            "Gacrux": "Gacrux · 成熟した声",
+            "Pulcherrima": "Pulcherrima · 率直",
+            "Achird": "Achird · 親しみやすい",
+            "Zubenelgenubi": "Zubenelgenubi · 気軽",
+            "Vindemiatrix": "Vindemiatrix · 穏やか",
+            "Sadachbia": "Sadachbia · 活発",
+            "Sadaltager": "Sadaltager · 物知り",
+            "Sulafat": "Sulafat · 温かい"
+          }
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "10000 文字まで入力できます。口調、アクセントや速さの指示も書けます。"
+        },
+        "voice": {
+          "help": "30 種類の音色から選びます。既定値は Kore です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Gemini 3.1 Flash 텍스트 음성 변환",
+      "description": "Google 기본 음색으로 음성을 합성하고 문장으로 말투, 발음, 속도, 감정을 지정할 수 있습니다.",
+      "fields": {
+        "text": {
+          "label": "읽을 텍스트"
+        },
+        "voice": {
+          "label": "음색",
+          "choiceLabels": {
+            "Zephyr": "Zephyr · 밝음",
+            "Puck": "Puck · 경쾌함",
+            "Charon": "Charon · 설명조",
+            "Kore": "Kore · 단호함",
+            "Fenrir": "Fenrir · 활기참",
+            "Leda": "Leda · 젊은 목소리",
+            "Orus": "Orus · 단호함",
+            "Aoede": "Aoede · 가벼움",
+            "Callirrhoe": "Callirrhoe · 느긋함",
+            "Autonoe": "Autonoe · 밝음",
+            "Enceladus": "Enceladus · 숨소리 섞임",
+            "Iapetus": "Iapetus · 명료함",
+            "Umbriel": "Umbriel · 느긋함",
+            "Algieba": "Algieba · 매끄러움",
+            "Despina": "Despina · 매끄러움",
+            "Erinome": "Erinome · 명료함",
+            "Algenib": "Algenib · 쉰 목소리",
+            "Rasalgethi": "Rasalgethi · 설명조",
+            "Laomedeia": "Laomedeia · 경쾌함",
+            "Achernar": "Achernar · 부드러움",
+            "Alnilam": "Alnilam · 단호함",
+            "Schedar": "Schedar · 고른 말투",
+            "Gacrux": "Gacrux · 성숙함",
+            "Pulcherrima": "Pulcherrima · 직설적",
+            "Achird": "Achird · 친근함",
+            "Zubenelgenubi": "Zubenelgenubi · 편안함",
+            "Vindemiatrix": "Vindemiatrix · 온화함",
+            "Sadachbia": "Sadachbia · 생동감",
+            "Sadaltager": "Sadaltager · 박식함",
+            "Sulafat": "Sulafat · 따뜻함"
+          }
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "최대 10000자를 입력하세요. 말투, 발음 또는 속도에 대한 지시도 넣을 수 있습니다."
+        },
+        "voice": {
+          "help": "기본 음색 30개 중에서 선택하세요. 기본값은 Kore입니다."
+        }
+      }
+    }
+  }
+}

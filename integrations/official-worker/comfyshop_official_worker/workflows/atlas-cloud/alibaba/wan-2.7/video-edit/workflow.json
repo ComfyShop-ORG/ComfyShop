@@ -1,0 +1,661 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-alibaba-wan-2-7-video-edit",
+  "name": "Wan 2.7 视频编辑",
+  "description": "按提示词编辑原视频，可用参考图引导画面，保留或调整时长与比例。",
+  "category": "video_tool",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 5000,
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1080P",
+      "optional": true,
+      "choices": ["720P", "1080P"]
+    },
+    {
+      "name": "ratio",
+      "kind": "choice",
+      "default": "",
+      "optional": true,
+      "choices": ["", "16:9", "9:16", "1:1", "4:3", "3:4"]
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 0,
+      "optional": true,
+      "choices": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true,
+      "minimum": "-1",
+      "maximum": "2147483647"
+    },
+    {
+      "name": "negative_prompt",
+      "optional": true,
+      "kind": "string",
+      "multiline": true,
+      "maxLength": 500,
+      "default": ""
+    },
+    {
+      "name": "prompt_extend",
+      "optional": true,
+      "kind": "boolean",
+      "default": true
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "video",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "video_source",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "video",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "negative_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "prompt_extend",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "alibaba/wan-2.7/video-edit",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "ratio": "ratio",
+        "duration": "duration",
+        "seed": "seed",
+        "negative_prompt": "negative_prompt",
+        "prompt_extend": "prompt_extend"
+      },
+      "omit_blank_parameters": ["prompt", "negative_prompt", "ratio"],
+      "media": {
+        "images": {
+          "kind": "image",
+          "fields": ["reference_image_1", "reference_image_2", "reference_image_3"],
+          "array": true,
+          "external_sources_field": "reference_image_sources",
+          "external_urls_only": true,
+          "content_types": ["image/jpeg", "image/png", "image/bmp", "image/webp"],
+          "max_bytes": 20000000,
+          "image_bounds": {
+            "min_side": 240,
+            "max_side": 8000,
+            "max_aspect_ratio": 8
+          },
+          "reject_png_alpha": true
+        },
+        "video": {
+          "kind": "video",
+          "fields": ["video"],
+          "external_sources_field": "video_source",
+          "external_urls_only": true,
+          "content_types": ["video/mp4", "video/quicktime"],
+          "min_items": 1,
+          "min_duration_ms": 2000,
+          "max_duration_ms": 10000,
+          "max_bytes": 100000000
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Wan 2.7 视频编辑",
+      "description": "按提示词编辑原视频，可用参考图引导画面，保留或调整时长与比例。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720P": "720P",
+            "1080P": "1080P"
+          }
+        },
+        "ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "": "沿用原视频的比例"
+          }
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "negative_prompt": {
+          "label": "负面提示词"
+        },
+        "prompt_extend": {
+          "label": "扩写提示词"
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_sources": {
+          "label": "参考图地址"
+        },
+        "video": {
+          "label": "原视频"
+        },
+        "video_source": {
+          "label": "原视频地址"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "上传 2 至 10 秒的 MP4 或 MOV，最多 100 MB。"
+        },
+        "prompt": {
+          "help": "可选。描述需要修改的画面、动作或风格，最多 5,000 字符。"
+        },
+        "reference_image_1": {
+          "help": "上传 JPEG、无透明通道的 PNG、BMP 或 WebP。宽高各 240 至 8000 像素，长短边比例最多 8:1，每张最多 20 MB。"
+        },
+        "resolution": {
+          "help": "选择原生 720P 或 1080P，默认 1080P。"
+        },
+        "ratio": {
+          "help": "沿用原视频的比例，或选择固定比例。"
+        },
+        "duration": {
+          "help": "选择 0 沿用原片时长，或选择 2 至 10 秒，从原片开头截取。"
+        },
+        "seed": {
+          "help": "输入 -1 使用随机种子，或指定 0 至 2147483647 的整数。"
+        },
+        "negative_prompt": {
+          "help": "描述希望避免的元素，最多 500 字符。"
+        },
+        "prompt_extend": {
+          "help": "让模型补充提示词细节。默认开启，生成时间可能增加。"
+        },
+        "reference_image_2": {
+          "help": "上传 JPEG、无透明通道的 PNG、BMP 或 WebP。宽高各 240 至 8000 像素，长短边比例最多 8:1，每张最多 20 MB。"
+        },
+        "reference_image_3": {
+          "help": "上传 JPEG、无透明通道的 PNG、BMP 或 WebP。宽高各 240 至 8000 像素，长短边比例最多 8:1，每张最多 20 MB。"
+        },
+        "reference_image_sources": {
+          "help": "每行填写一个公开图片 URL，上传与地址合计最多三张。"
+        },
+        "video_source": {
+          "help": "填写一个公开视频 URL，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Wan 2.7 影片編輯",
+      "description": "依提示詞編輯原始影片，可用參考圖引導畫面，保留或調整長度與比例。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720P": "720P",
+            "1080P": "1080P"
+          }
+        },
+        "ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "": "沿用原始影片的比例"
+          }
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "negative_prompt": {
+          "label": "負面提示詞"
+        },
+        "prompt_extend": {
+          "label": "擴寫提示詞"
+        },
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "reference_image_sources": {
+          "label": "參考圖網址"
+        },
+        "video": {
+          "label": "原始影片"
+        },
+        "video_source": {
+          "label": "原始影片網址"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "上傳 2 至 10 秒的 MP4 或 MOV，最多 100 MB。"
+        },
+        "prompt": {
+          "help": "選填。描述要修改的畫面、動作或風格，最多 5,000 字元。"
+        },
+        "reference_image_1": {
+          "help": "上傳 JPEG、無透明通道的 PNG、BMP 或 WebP。寬高各 240 至 8000 像素，長短邊比例最多 8:1，每張最多 20 MB。"
+        },
+        "resolution": {
+          "help": "選擇原生 720P 或 1080P，預設為 1080P。"
+        },
+        "ratio": {
+          "help": "沿用原始影片的比例，或選擇固定比例。"
+        },
+        "duration": {
+          "help": "選擇 0 沿用原片長度，或選擇 2 至 10 秒，從原片開頭擷取。"
+        },
+        "seed": {
+          "help": "輸入 -1 使用隨機種子，或指定 0 至 2147483647 的整數。"
+        },
+        "negative_prompt": {
+          "help": "描述想避免的元素，最多 500 字元。"
+        },
+        "prompt_extend": {
+          "help": "讓模型補充提示詞細節。預設為開啟，生成時間可能增加。"
+        },
+        "reference_image_2": {
+          "help": "上傳 JPEG、無透明通道的 PNG、BMP 或 WebP。寬高各 240 至 8000 像素，長短邊比例最多 8:1，每張最多 20 MB。"
+        },
+        "reference_image_3": {
+          "help": "上傳 JPEG、無透明通道的 PNG、BMP 或 WebP。寬高各 240 至 8000 像素，長短邊比例最多 8:1，每張最多 20 MB。"
+        },
+        "reference_image_sources": {
+          "help": "每行填寫一個公開圖片網址，上傳與網址合計最多三張。"
+        },
+        "video_source": {
+          "help": "填寫一個公開影片網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Wan 2.7 Video Editing",
+      "description": "Edit an existing video with optional reference images and adjust its duration or aspect ratio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720P": "720P",
+            "1080P": "1080P"
+          }
+        },
+        "ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "": "Match source video"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "negative_prompt": {
+          "label": "Negative prompt"
+        },
+        "prompt_extend": {
+          "label": "Extend prompt"
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_sources": {
+          "label": "Reference image URLs"
+        },
+        "video": {
+          "label": "Source video"
+        },
+        "video_source": {
+          "label": "Source video URL"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "Upload an MP4 or MOV from 2 to 10 seconds, up to 100 MB."
+        },
+        "prompt": {
+          "help": "Optionally describe the look, action, or style to change. Use up to 5,000 characters."
+        },
+        "reference_image_1": {
+          "help": "Upload JPEG, PNG without an alpha channel, BMP, or WebP. Each side must be 240–8,000 pixels, the longer side at most 8 times the shorter, and each image up to 20 MB."
+        },
+        "resolution": {
+          "help": "Choose native 720P or 1080P. The default is 1080P."
+        },
+        "ratio": {
+          "help": "Keep the source video's ratio or select a fixed ratio."
+        },
+        "duration": {
+          "help": "Choose 0 to keep the source duration, or select 2 to 10 seconds starting at the beginning of the source."
+        },
+        "seed": {
+          "help": "Enter -1 for a random seed or use an integer from 0 to 2147483647."
+        },
+        "negative_prompt": {
+          "help": "Describe elements to avoid. Use up to 500 characters."
+        },
+        "prompt_extend": {
+          "help": "Let the model add details to the prompt. On by default and may increase generation time."
+        },
+        "reference_image_2": {
+          "help": "Upload JPEG, PNG without an alpha channel, BMP, or WebP. Each side must be 240–8,000 pixels, the longer side at most 8 times the shorter, and each image up to 20 MB."
+        },
+        "reference_image_3": {
+          "help": "Upload JPEG, PNG without an alpha channel, BMP, or WebP. Each side must be 240–8,000 pixels, the longer side at most 8 times the shorter, and each image up to 20 MB."
+        },
+        "reference_image_sources": {
+          "help": "Enter one public image URL per line. Use up to three images across uploads and URLs."
+        },
+        "video_source": {
+          "help": "Enter any one public video URL in place of an upload."
+        }
+      }
+    },
+    "ja": {
+      "name": "Wan 2.7 動画編集",
+      "description": "元の動画を編集し、任意の参照画像を使います。比率と長さも調整できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720P": "720P",
+            "1080P": "1080P"
+          }
+        },
+        "ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "": "元の動画と同じ"
+          }
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "negative_prompt": {
+          "label": "ネガティブプロンプト"
+        },
+        "prompt_extend": {
+          "label": "プロンプトを拡張"
+        },
+        "reference_image_1": {
+          "label": "参照画像 1"
+        },
+        "reference_image_2": {
+          "label": "参照画像 2"
+        },
+        "reference_image_3": {
+          "label": "参照画像 3"
+        },
+        "reference_image_sources": {
+          "label": "参照画像のURL"
+        },
+        "video": {
+          "label": "元の動画"
+        },
+        "video_source": {
+          "label": "元の動画のURL"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "2〜10秒で100 MB以下のMP4またはMOVをアップロードします。"
+        },
+        "prompt": {
+          "help": "変更する場面、動き、スタイルを任意で記述します。最大5,000文字です。"
+        },
+        "reference_image_1": {
+          "help": "JPEG、アルファチャンネルなしのPNG、BMP、またはWebPをアップロードします。縦横240〜8,000ピクセル、長辺と短辺の比は最大8:1、各20 MBまでです。"
+        },
+        "resolution": {
+          "help": "ネイティブの720Pまたは1080Pを選択します。既定値は1080Pです。"
+        },
+        "ratio": {
+          "help": "元の動画の比率を使用するか、固定の比率を選択します。"
+        },
+        "duration": {
+          "help": "0で元の動画の長さを維持します。2〜10秒を選択すると冒頭から切り出します。"
+        },
+        "seed": {
+          "help": "ランダムなシードには-1を入力します。固定する場合は0〜2147483647の整数を指定します。"
+        },
+        "negative_prompt": {
+          "help": "避けたい要素を記述します。最大500文字です。"
+        },
+        "prompt_extend": {
+          "help": "モデルにプロンプトの詳細を補わせます。既定では有効で、生成時間が延びる場合があります。"
+        },
+        "reference_image_2": {
+          "help": "JPEG、アルファチャンネルなしのPNG、BMP、またはWebPをアップロードします。縦横240〜8,000ピクセル、長辺と短辺の比は最大8:1、各20 MBまでです。"
+        },
+        "reference_image_3": {
+          "help": "JPEG、アルファチャンネルなしのPNG、BMP、またはWebPをアップロードします。縦横240〜8,000ピクセル、長辺と短辺の比は最大8:1、各20 MBまでです。"
+        },
+        "reference_image_sources": {
+          "help": "公開画像のURLを1行に1件入力します。アップロード分と合わせて最大3枚です。"
+        },
+        "video_source": {
+          "help": "アップロードの代わりに公開動画のURLを1件入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Wan 2.7 동영상 편집",
+      "description": "선택적 참조 이미지와 프롬프트로 동영상을 편집하고 길이나 화면 비율을 조정합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720P": "720P",
+            "1080P": "1080P"
+          }
+        },
+        "ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "": "원본 동영상과 동일"
+          }
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "negative_prompt": {
+          "label": "부정 프롬프트"
+        },
+        "prompt_extend": {
+          "label": "프롬프트 확장"
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_sources": {
+          "label": "참조 이미지 URL"
+        },
+        "video": {
+          "label": "원본 동영상"
+        },
+        "video_source": {
+          "label": "원본 동영상 URL"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "2초에서 10초 길이의 100 MB 이하 MP4 또는 MOV를 업로드합니다."
+        },
+        "prompt": {
+          "help": "변경할 장면, 동작 또는 스타일을 선택적으로 설명합니다. 최대 5,000자입니다."
+        },
+        "reference_image_1": {
+          "help": "JPEG, 알파 채널이 없는 PNG, BMP 또는 WebP를 업로드합니다. 가로와 세로는 각각 240~8,000픽셀, 긴 변과 짧은 변의 비율은 최대 8:1, 이미지당 최대 20 MB입니다."
+        },
+        "resolution": {
+          "help": "기본 생성 해상도 720P 또는 1080P를 선택합니다. 기본값은 1080P입니다."
+        },
+        "ratio": {
+          "help": "원본 동영상의 비율을 유지하거나 고정 비율을 선택합니다."
+        },
+        "duration": {
+          "help": "0은 원본 길이를 유지합니다. 2초에서 10초를 선택하면 원본의 시작부터 자릅니다."
+        },
+        "seed": {
+          "help": "무작위 시드는 -1을 입력합니다. 고정하려면 0에서 2147483647 사이의 정수를 지정합니다."
+        },
+        "negative_prompt": {
+          "help": "피하고 싶은 요소를 설명합니다. 최대 500자입니다."
+        },
+        "prompt_extend": {
+          "help": "모델이 프롬프트의 세부 내용을 보완합니다. 기본값은 켜짐이며 생성 시간이 늘어날 수 있습니다."
+        },
+        "reference_image_2": {
+          "help": "JPEG, 알파 채널이 없는 PNG, BMP 또는 WebP를 업로드합니다. 가로와 세로는 각각 240~8,000픽셀, 긴 변과 짧은 변의 비율은 최대 8:1, 이미지당 최대 20 MB입니다."
+        },
+        "reference_image_3": {
+          "help": "JPEG, 알파 채널이 없는 PNG, BMP 또는 WebP를 업로드합니다. 가로와 세로는 각각 240~8,000픽셀, 긴 변과 짧은 변의 비율은 최대 8:1, 이미지당 최대 20 MB입니다."
+        },
+        "reference_image_sources": {
+          "help": "공개 이미지 URL을 한 줄에 하나씩 입력합니다. 업로드와 URL을 합쳐 최대 세 장입니다."
+        },
+        "video_source": {
+          "help": "업로드 대신 공개 동영상 URL을 하나 입력합니다."
+        }
+      }
+    }
+  }
+}

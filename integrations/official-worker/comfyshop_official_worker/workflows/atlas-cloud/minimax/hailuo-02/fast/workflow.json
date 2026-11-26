@@ -1,0 +1,331 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-hailuo02-fast",
+  "name": "Hailuo 02 Fast 图生视频",
+  "description": "从首帧图片生成 6 秒或 10 秒的视频，可补充动作描述。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "The girl in the image begins performing a graceful ballet solo on a grand theater stage, she twirls and lifts one leg into an arabesque, soft spotlight follows her every move, cinematic lighting, slow camera pan from left to right, elegant and fluid motion",
+      "maxLength": 2000,
+      "optional": true
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "choices": [6, 10],
+      "default": 6,
+      "optional": true
+    },
+    {
+      "name": "expand_prompt",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "go_fast",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "expand_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "go_fast",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "minimax/hailuo-02/fast",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "enable_prompt_expansion": "expand_prompt",
+        "go_fast": "go_fast"
+      },
+      "text_max_lengths": {
+        "prompt": 2000
+      },
+      "prediction_endpoint": "result",
+      "omit_blank_parameters": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "max_bytes": 20000000,
+          "content_types": ["image/jpeg", "image/png"],
+          "image_bounds": {
+            "min_side": 301,
+            "max_aspect_ratio_exclusive": 2.5
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Hailuo 02 Fast 图生视频",
+      "description": "从首帧图片生成 6 秒或 10 秒的视频，可补充动作描述。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "时长（秒）"
+        },
+        "expand_prompt": {
+          "label": "扩写提示词"
+        },
+        "first_frame": {
+          "label": "首帧图片"
+        },
+        "first_frame_source": {
+          "label": "首帧来源"
+        },
+        "go_fast": {
+          "label": "速度优先"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传 JPEG、PNG。宽高比须大于 2:5 且小于 5:2，短边大于 300 像素，文件不超过 20 MB。"
+        },
+        "prompt": {
+          "help": "可描述动作或场景，最多 2,000 字符。"
+        },
+        "duration_seconds": {
+          "help": "选择 6 秒或 10 秒，默认 6 秒。"
+        },
+        "expand_prompt": {
+          "help": "开启后由模型在生成前优化提示词。"
+        },
+        "first_frame_source": {
+          "help": "填写公开图片 URL 或 Base64 Data URI，与上传二选一。"
+        },
+        "go_fast": {
+          "help": "开启后优先缩短生成时间，画质可能略有降低。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Hailuo 02 Fast 圖生影片",
+      "description": "從首幀圖片生成 6 秒或 10 秒的影片，可補充動作描述。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "片長（秒）"
+        },
+        "expand_prompt": {
+          "label": "擴寫提示詞"
+        },
+        "first_frame": {
+          "label": "首幀圖片"
+        },
+        "first_frame_source": {
+          "label": "首幀來源"
+        },
+        "go_fast": {
+          "label": "速度優先"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳 JPEG、PNG。寬高比須大於 2:5 且小於 5:2，短邊大於 300 像素，檔案不超過 20 MB。"
+        },
+        "prompt": {
+          "help": "可描述動作或場景，最多 2,000 字元。"
+        },
+        "duration_seconds": {
+          "help": "選擇 6 秒或 10 秒，預設 6 秒。"
+        },
+        "expand_prompt": {
+          "help": "開啟後由模型在生成前最佳化提示詞。"
+        },
+        "first_frame_source": {
+          "help": "填寫公開圖片 URL 或 Base64 Data URI，與上傳擇一。"
+        },
+        "go_fast": {
+          "help": "開啟後優先縮短生成時間，畫質可能略有降低。"
+        }
+      }
+    },
+    "en": {
+      "name": "Hailuo 02 Fast Image-to-Video",
+      "description": "Animate a first frame for 6 or 10 seconds, with optional motion instructions.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "expand_prompt": {
+          "label": "Expand prompt"
+        },
+        "first_frame": {
+          "label": "First frame"
+        },
+        "first_frame_source": {
+          "label": "First frame source"
+        },
+        "go_fast": {
+          "label": "Prioritize speed"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload JPEG or PNG. Use an aspect ratio above 2:5 and below 5:2, a short edge above 300 pixels, and up to 20 MB."
+        },
+        "prompt": {
+          "help": "Optionally describe motion or setting in up to 2,000 characters."
+        },
+        "duration_seconds": {
+          "help": "Choose 6 or 10 seconds. The default is 6."
+        },
+        "expand_prompt": {
+          "help": "Let the model optimize the prompt before generation."
+        },
+        "first_frame_source": {
+          "help": "Enter a public image URL or Base64 data URI as an alternative to uploading."
+        },
+        "go_fast": {
+          "help": "Generate faster with a possible reduction in visual quality."
+        }
+      }
+    },
+    "ja": {
+      "name": "Hailuo 02 Fast 画像から動画",
+      "description": "先頭画像から 6 秒または 10 秒の動画を生成します。動きの指示を追加できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "長さ（秒）"
+        },
+        "expand_prompt": {
+          "label": "プロンプトを拡張"
+        },
+        "first_frame": {
+          "label": "先頭フレーム画像"
+        },
+        "first_frame_source": {
+          "label": "先頭フレームのソース"
+        },
+        "go_fast": {
+          "label": "速度を優先"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "JPEG または PNG をアップロードします。縦横比は 2:5 より大きく 5:2 未満、短辺は 300 ピクセル超、最大 20 MB です。"
+        },
+        "prompt": {
+          "help": "動きや場面を 2,000 文字以内で追加できます。"
+        },
+        "duration_seconds": {
+          "help": "6 秒または 10 秒から選びます。既定値は 6 秒です。"
+        },
+        "expand_prompt": {
+          "help": "有効にすると、生成前にモデルがプロンプトを最適化します。"
+        },
+        "first_frame_source": {
+          "help": "アップロードの代わりに公開画像 URL または Base64 データ URI を入力します。"
+        },
+        "go_fast": {
+          "help": "生成時間を短縮します。画質が多少低下する場合があります。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Hailuo 02 Fast 이미지로 동영상 생성",
+      "description": "첫 프레임에서 6초 또는 10초 동영상을 만들고 동작 지시를 추가할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "길이(초)"
+        },
+        "expand_prompt": {
+          "label": "프롬프트 확장"
+        },
+        "first_frame": {
+          "label": "첫 프레임 이미지"
+        },
+        "first_frame_source": {
+          "label": "첫 프레임 소스"
+        },
+        "go_fast": {
+          "label": "속도 우선"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "JPEG 또는 PNG를 업로드하세요. 화면 비율은 2:5 초과, 5:2 미만이며 짧은 변은 300픽셀 초과, 파일은 20 MB 이하입니다."
+        },
+        "prompt": {
+          "help": "동작이나 장면을 최대 2,000자로 설명할 수 있습니다."
+        },
+        "duration_seconds": {
+          "help": "6초 또는 10초를 선택하세요. 기본값은 6초입니다."
+        },
+        "expand_prompt": {
+          "help": "생성 전에 모델이 프롬프트를 최적화합니다."
+        },
+        "first_frame_source": {
+          "help": "업로드 대신 공개 이미지 URL이나 Base64 데이터 URI를 입력하세요."
+        },
+        "go_fast": {
+          "help": "생성 시간을 줄입니다. 화질이 다소 낮아질 수 있습니다."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,410 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kwaivgi-kling-v2-6-pro-motion-control",
+  "name": "可灵 2.6 专业版动作控制",
+  "description": "用人物参考图确定外观，用参考视频驱动动作。可选择朝向和是否保留参考视频声音。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "appearance",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "motion",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "character_orientation",
+      "kind": "choice",
+      "default": "image",
+      "choices": ["image", "video"]
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 2500
+    },
+    {
+      "name": "appearance_source",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "motion_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "keep_original_audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "appearance",
+      "section": "default"
+    },
+    {
+      "fieldId": "motion",
+      "section": "default"
+    },
+    {
+      "fieldId": "character_orientation",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "appearance_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "motion_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "keep_original_audio",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "kwaivgi/kling-v2.6-pro/motion-control",
+      "operation": "video",
+      "parameters": {
+        "character_orientation": "character_orientation",
+        "prompt": "prompt",
+        "keep_original_audio": "keep_original_audio"
+      },
+      "omit_blank_parameters": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 2500
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["appearance"],
+          "external_sources_field": "appearance_source",
+          "min_items": 1,
+          "allow_raw_base64": true,
+          "content_types": ["image/jpeg", "image/png"],
+          "max_bytes": 50000000,
+          "image_bounds": {
+            "min_side": 300,
+            "max_aspect_ratio": 2.5
+          }
+        },
+        "video": {
+          "kind": "video",
+          "fields": ["motion"],
+          "external_sources_field": "motion_source",
+          "external_urls_only": true,
+          "min_items": 1,
+          "content_types": ["video/mp4", "video/quicktime"],
+          "max_bytes": 100000000,
+          "min_duration_ms": 3000,
+          "max_duration_ms": 30000,
+          "image_bounds": {
+            "min_side": 340,
+            "max_side": 3850
+          },
+          "duration_choice": {
+            "parameter": "character_orientation",
+            "maximum_ms": {
+              "image": 10000,
+              "video": 30000
+            }
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 2.6 专业版动作控制",
+      "description": "用人物参考图确定外观，用参考视频驱动动作。可选择朝向和是否保留参考视频声音。",
+      "fields": {
+        "appearance": {
+          "label": "人物参考图"
+        },
+        "motion": {
+          "label": "动作参考视频"
+        },
+        "character_orientation": {
+          "label": "人物朝向",
+          "choiceLabels": {
+            "image": "跟随参考图",
+            "video": "跟随参考视频"
+          }
+        },
+        "prompt": {
+          "label": "提示词"
+        },
+        "appearance_source": {
+          "label": "人物图来源"
+        },
+        "motion_source": {
+          "label": "动作视频 URL"
+        },
+        "keep_original_audio": {
+          "label": "保留参考视频声音"
+        }
+      },
+      "parameterLayout": {
+        "appearance": {
+          "help": "上传 JPEG 或 PNG，每边至少 300 像素，宽高比 1:2.5 至 2.5:1，最多 50 MB。确保人物的头部与上半身清晰可见。"
+        },
+        "motion": {
+          "help": "上传 MP4 或 MOV，最多 100 MB，每边 340 至 3,850 像素。视频至少 3 秒，跟随图片时最长 10 秒，跟随视频时最长 30 秒。"
+        },
+        "character_orientation": {
+          "help": "跟随参考图保持图中的朝向。跟随参考视频使用其中的朝向变化。"
+        },
+        "prompt": {
+          "help": "可描述场景、元素和效果，也可说明需要避开的内容。最多 2,500 字符。"
+        },
+        "appearance_source": {
+          "help": "填写一个公开图片 URL、Base64 数据网址或纯 Base64 字符串。"
+        },
+        "motion_source": {
+          "help": "填写一个可公开访问的 MP4 或 MOV 直链。"
+        },
+        "keep_original_audio": {
+          "help": "默认保留参考视频音轨。关闭后生成静音视频。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 2.6 專業版動作控制",
+      "description": "用人物參考圖決定外觀，以參考影片驅動動作。可選擇朝向和是否保留參考影片聲音。",
+      "fields": {
+        "appearance": {
+          "label": "人物參考圖"
+        },
+        "motion": {
+          "label": "動作參考影片"
+        },
+        "character_orientation": {
+          "label": "人物朝向",
+          "choiceLabels": {
+            "image": "跟隨參考圖",
+            "video": "跟隨參考影片"
+          }
+        },
+        "prompt": {
+          "label": "提示詞"
+        },
+        "appearance_source": {
+          "label": "人物圖來源"
+        },
+        "motion_source": {
+          "label": "動作影片 URL"
+        },
+        "keep_original_audio": {
+          "label": "保留參考影片聲音"
+        }
+      },
+      "parameterLayout": {
+        "appearance": {
+          "help": "上傳 JPEG 或 PNG，每邊至少 300 像素，寬高比 1:2.5 至 2.5:1，最多 50 MB。請確保人物頭部及上半身清楚可見。"
+        },
+        "motion": {
+          "help": "上傳 MP4 或 MOV，最多 100 MB，每邊 340 至 3,850 像素。影片至少 3 秒，跟隨圖片時最長 10 秒，跟隨影片時最長 30 秒。"
+        },
+        "character_orientation": {
+          "help": "跟隨參考圖會保留圖中的朝向。跟隨參考影片會使用其中的朝向變化。"
+        },
+        "prompt": {
+          "help": "可描述場景、元素與效果，也可說明需避開的內容。最多 2,500 字元。"
+        },
+        "appearance_source": {
+          "help": "填寫一個公開圖片 URL、Base64 資料網址或純 Base64 字串。"
+        },
+        "motion_source": {
+          "help": "填寫一個可公開存取的 MP4 或 MOV 直接連結。"
+        },
+        "keep_original_audio": {
+          "help": "預設保留參考影片音軌。關閉後生成靜音影片。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling 2.6 Pro Motion Control",
+      "description": "Use an image for a character's appearance and a reference video for their movement. Choose the orientation and whether to keep the reference audio.",
+      "fields": {
+        "appearance": {
+          "label": "Appearance reference"
+        },
+        "motion": {
+          "label": "Motion reference video"
+        },
+        "character_orientation": {
+          "label": "Character orientation",
+          "choiceLabels": {
+            "image": "Follow image",
+            "video": "Follow video"
+          }
+        },
+        "prompt": {
+          "label": "Prompt"
+        },
+        "appearance_source": {
+          "label": "Appearance image source"
+        },
+        "motion_source": {
+          "label": "Motion video URL"
+        },
+        "keep_original_audio": {
+          "label": "Keep reference audio"
+        }
+      },
+      "parameterLayout": {
+        "appearance": {
+          "help": "Upload a JPEG or PNG up to 50 MB. Each side must be at least 300 pixels, with a ratio from 1:2.5 to 2.5:1. Keep the head and upper body clearly visible."
+        },
+        "motion": {
+          "help": "Upload an MP4 or MOV up to 100 MB, with each side from 340 to 3,850 pixels. Use at least 3 seconds. Follow image allows up to 10 seconds, and Follow video allows up to 30."
+        },
+        "character_orientation": {
+          "help": "Follow image preserves the orientation in the reference image. Follow video uses the orientation from the motion reference."
+        },
+        "prompt": {
+          "help": "Optionally describe the scene, extra elements, effects, or content to avoid in up to 2,500 characters."
+        },
+        "appearance_source": {
+          "help": "Enter one public image URL, Base64 data URL, or raw Base64 image."
+        },
+        "motion_source": {
+          "help": "Enter one public direct URL to an MP4 or MOV file."
+        },
+        "keep_original_audio": {
+          "help": "Keep the reference video's audio by default. Turn this off for silent video."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling 2.6 Pro モーション制御",
+      "description": "人物の見た目を画像で指定し、参照動画をもとに動かします。人物の向きと、参照動画の音声を残すかどうかを選択できます。",
+      "fields": {
+        "appearance": {
+          "label": "人物参照画像"
+        },
+        "motion": {
+          "label": "動きの参照動画"
+        },
+        "character_orientation": {
+          "label": "人物の向き",
+          "choiceLabels": {
+            "image": "画像に合わせる",
+            "video": "動画に合わせる"
+          }
+        },
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "appearance_source": {
+          "label": "人物画像のソース"
+        },
+        "motion_source": {
+          "label": "参照動画の URL"
+        },
+        "keep_original_audio": {
+          "label": "参照動画の音声を保持"
+        }
+      },
+      "parameterLayout": {
+        "appearance": {
+          "help": "各辺 300 ピクセル以上、比率 1:2.5〜2.5:1、最大 50 MB の JPEG または PNG をアップロードします。頭部と上半身がはっきり見える画像を使用します。"
+        },
+        "motion": {
+          "help": "各辺 340〜3,850 ピクセル、最大 100 MB の MP4 または MOV をアップロードします。最短 3 秒で、画像の向きは最長 10 秒、動画の向きは最長 30 秒です。"
+        },
+        "character_orientation": {
+          "help": "参照画像の向きを保つか、参照動画内の向きの変化に合わせます。"
+        },
+        "prompt": {
+          "help": "場面、要素、効果、避けたい内容を 2,500 文字以内で指定できます。"
+        },
+        "appearance_source": {
+          "help": "公開画像 URL、Base64 データ URL、または Base64 画像を入力します。"
+        },
+        "motion_source": {
+          "help": "公開された MP4 または MOV の直接 URL を一つ入力します。"
+        },
+        "keep_original_audio": {
+          "help": "既定では参照動画の音声を使います。オフにすると無音になります。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling 2.6 Pro 모션 제어",
+      "description": "인물 이미지는 외형을 정하고 참조 동영상은 움직임을 구동합니다. 인물 방향과 참조 소리 유지 여부를 선택할 수 있습니다.",
+      "fields": {
+        "appearance": {
+          "label": "인물 참조 이미지"
+        },
+        "motion": {
+          "label": "동작 참조 동영상"
+        },
+        "character_orientation": {
+          "label": "인물 방향",
+          "choiceLabels": {
+            "image": "이미지 따르기",
+            "video": "동영상 따르기"
+          }
+        },
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "appearance_source": {
+          "label": "인물 이미지 소스"
+        },
+        "motion_source": {
+          "label": "동작 동영상 URL"
+        },
+        "keep_original_audio": {
+          "label": "참조 동영상 소리 유지"
+        }
+      },
+      "parameterLayout": {
+        "appearance": {
+          "help": "각 변이 300픽셀 이상이고 비율이 1:2.5~2.5:1인 최대 50MB의 JPEG 또는 PNG를 업로드하세요. 머리와 상반신이 선명하게 보여야 합니다."
+        },
+        "motion": {
+          "help": "각 변이 340~3,850픽셀인 최대 100MB의 MP4 또는 MOV를 업로드하세요. 최소 3초이며 이미지를 따르면 최대 10초, 동영상을 따르면 최대 30초입니다."
+        },
+        "character_orientation": {
+          "help": "참조 이미지의 방향을 유지하거나 참조 동영상의 방향 변화를 따르세요."
+        },
+        "prompt": {
+          "help": "배경, 추가 요소, 효과 또는 피하고 싶은 내용을 최대 2,500자로 설명할 수 있습니다."
+        },
+        "appearance_source": {
+          "help": "공개 이미지 URL, Base64 데이터 URL 또는 Base64 이미지 문자열을 입력하세요."
+        },
+        "motion_source": {
+          "help": "공개 MP4 또는 MOV의 직접 URL을 하나 입력하세요."
+        },
+        "keep_original_audio": {
+          "help": "기본값은 참조 동영상의 소리 유지입니다. 끄면 소리 없는 동영상을 만듭니다."
+        }
+      }
+    }
+  }
+}

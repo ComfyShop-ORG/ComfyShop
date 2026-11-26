@@ -1,0 +1,481 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kwaivgi-kling-image-v4-0-long-image",
+  "name": "可灵 Image 4.0 长图",
+  "description": "将页面主视觉、商品展示和内容区生成一张完整长图，支持电商详情页与网页视觉设计。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "skill",
+      "kind": "choice",
+      "default": "ecommerce",
+      "choices": ["ecommerce", "webpage"]
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "reference_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "length",
+      "kind": "choice",
+      "default": "medium",
+      "choices": ["short", "medium", "long"],
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1k",
+      "choices": ["1k", "2k"],
+      "optional": true
+    },
+    {
+      "name": "reference_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "skill",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "length",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "kwaivgi/kling-image-v4.0/long-image",
+      "operation": "image",
+      "parameters": {
+        "skill": "skill",
+        "prompt": "prompt",
+        "length": "length",
+        "resolution": "resolution"
+      },
+      "required_text": ["prompt"],
+      "enabled_by": {
+        "length": {
+          "parameter": "skill",
+          "equals": ["ecommerce"]
+        }
+      },
+      "required_when": {
+        "reference_images": {
+          "skill": ["ecommerce"]
+        }
+      },
+      "media": {
+        "reference_images": {
+          "kind": "image",
+          "fields": ["reference_1", "reference_2", "reference_3"],
+          "external_sources_field": "reference_sources",
+          "array": true,
+          "allow_raw_base64": true,
+          "content_types": ["image/jpeg", "image/png"],
+          "max_bytes": 30000000,
+          "image_bounds": {
+            "min_side": 300,
+            "max_aspect_ratio": 2.5
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 Image 4.0 长图",
+      "description": "将页面主视觉、商品展示和内容区生成一张完整长图，支持电商详情页与网页视觉设计。",
+      "fields": {
+        "skill": {
+          "label": "页面类型",
+          "choiceLabels": {
+            "ecommerce": "电商详情页",
+            "webpage": "网页视觉"
+          }
+        },
+        "prompt": {
+          "label": "提示词"
+        },
+        "reference_1": {
+          "label": "参考图 1"
+        },
+        "reference_2": {
+          "label": "参考图 2"
+        },
+        "reference_3": {
+          "label": "参考图 3"
+        },
+        "length": {
+          "label": "内容长度",
+          "choiceLabels": {
+            "short": "短",
+            "medium": "中",
+            "long": "长"
+          }
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K"
+          }
+        },
+        "reference_sources": {
+          "label": "参考图来源"
+        }
+      },
+      "parameterLayout": {
+        "skill": {
+          "help": "电商详情页需要 1 至 3 张商品参考图，网页视觉可选填。"
+        },
+        "prompt": {
+          "help": "描述页面内容、结构和风格，可按素材顺序使用 @image_1、@image_2 等。"
+        },
+        "reference_1": {
+          "help": "上限 3 张。JPEG 或 PNG，每张最多 30 MB，每边至少 300 像素，宽高比为 2:5 至 5:2。"
+        },
+        "reference_2": {
+          "help": "上限 3 张。JPEG 或 PNG，每张最多 30 MB，每边至少 300 像素，宽高比为 2:5 至 5:2。"
+        },
+        "reference_3": {
+          "help": "上限 3 张。JPEG 或 PNG，每张最多 30 MB，每边至少 300 像素，宽高比为 2:5 至 5:2。"
+        },
+        "length": {
+          "help": "仅电商详情页生效。短约 2 至 5 区块，中约 6 至 10，长约 11 至 18。默认中。"
+        },
+        "resolution": {
+          "help": "选择 1K 或 2K。默认 1K。"
+        },
+        "reference_sources": {
+          "help": "每行填写一个公开 URL、Base64 数据网址或纯 Base64 图片。与上传合计最多 3 张。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 Image 4.0 長圖",
+      "description": "將頁面主視覺、商品展示和內容區生成一張完整長圖，支援電商詳情頁與網頁視覺設計。",
+      "fields": {
+        "skill": {
+          "label": "頁面類型",
+          "choiceLabels": {
+            "ecommerce": "電商詳情頁",
+            "webpage": "網頁視覺"
+          }
+        },
+        "prompt": {
+          "label": "提示詞"
+        },
+        "reference_1": {
+          "label": "參考圖 1"
+        },
+        "reference_2": {
+          "label": "參考圖 2"
+        },
+        "reference_3": {
+          "label": "參考圖 3"
+        },
+        "length": {
+          "label": "內容長度",
+          "choiceLabels": {
+            "short": "短",
+            "medium": "中",
+            "long": "長"
+          }
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K"
+          }
+        },
+        "reference_sources": {
+          "label": "參考圖來源"
+        }
+      },
+      "parameterLayout": {
+        "skill": {
+          "help": "電商詳情頁需要 1 至 3 張商品參考圖，網頁視覺可選填。"
+        },
+        "prompt": {
+          "help": "描述頁面內容、結構和風格，可依素材順序使用 @image_1、@image_2 等。"
+        },
+        "reference_1": {
+          "help": "上限 3 張。JPEG 或 PNG，每張最多 30 MB，每邊至少 300 像素，寬高比為 2:5 至 5:2。"
+        },
+        "reference_2": {
+          "help": "上限 3 張。JPEG 或 PNG，每張最多 30 MB，每邊至少 300 像素，寬高比為 2:5 至 5:2。"
+        },
+        "reference_3": {
+          "help": "上限 3 張。JPEG 或 PNG，每張最多 30 MB，每邊至少 300 像素，寬高比為 2:5 至 5:2。"
+        },
+        "length": {
+          "help": "僅電商詳情頁生效。短約 2 至 5 區塊，中約 6 至 10，長約 11 至 18。預設中。"
+        },
+        "resolution": {
+          "help": "選擇 1K 或 2K。預設 1K。"
+        },
+        "reference_sources": {
+          "help": "每行填寫一個公開 URL、Base64 資料網址或純 Base64 圖片。與上傳合計最多 3 張。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling Image 4.0 Long Image",
+      "description": "Generate a single tall image for an ecommerce product page or a webpage visual design, from the hero section to the footer.",
+      "fields": {
+        "skill": {
+          "label": "Page type",
+          "choiceLabels": {
+            "ecommerce": "Ecommerce product page",
+            "webpage": "Webpage design"
+          }
+        },
+        "prompt": {
+          "label": "Prompt"
+        },
+        "reference_1": {
+          "label": "Reference image 1"
+        },
+        "reference_2": {
+          "label": "Reference image 2"
+        },
+        "reference_3": {
+          "label": "Reference image 3"
+        },
+        "length": {
+          "label": "Content length",
+          "choiceLabels": {
+            "short": "Short",
+            "medium": "Medium",
+            "long": "Long"
+          }
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K"
+          }
+        },
+        "reference_sources": {
+          "label": "Reference image sources"
+        }
+      },
+      "parameterLayout": {
+        "skill": {
+          "help": "Ecommerce details need one to three product images. Webpage designs can use optional references."
+        },
+        "prompt": {
+          "help": "Describe the page content, structure, and style. Reference images in order with @image_1, @image_2, and so on."
+        },
+        "reference_1": {
+          "help": "Use up to three JPEG or PNG images, each up to 30 MB, at least 300 pixels per side, with an aspect ratio from 2:5 to 5:2."
+        },
+        "reference_2": {
+          "help": "Use up to three JPEG or PNG images, each up to 30 MB, at least 300 pixels per side, with an aspect ratio from 2:5 to 5:2."
+        },
+        "reference_3": {
+          "help": "Use up to three JPEG or PNG images, each up to 30 MB, at least 300 pixels per side, with an aspect ratio from 2:5 to 5:2."
+        },
+        "length": {
+          "help": "Applies to ecommerce pages. Short is about 2–5 sections, medium 6–10, and long 11–18. The default is medium."
+        },
+        "resolution": {
+          "help": "Choose 1K or 2K. The default is 1K."
+        },
+        "reference_sources": {
+          "help": "Enter one public URL, Base64 data URL, or raw Base64 image per line. Include up to three images across uploads and links."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling Image 4.0 ロング画像",
+      "description": "EC の商品詳細ページやウェブページのビジュアルを、メインビジュアルからフッターまで一枚の縦長画像として生成します。",
+      "fields": {
+        "skill": {
+          "label": "ページの種類",
+          "choiceLabels": {
+            "ecommerce": "EC 商品詳細ページ",
+            "webpage": "ウェブページデザイン"
+          }
+        },
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "reference_1": {
+          "label": "参照画像 1"
+        },
+        "reference_2": {
+          "label": "参照画像 2"
+        },
+        "reference_3": {
+          "label": "参照画像 3"
+        },
+        "length": {
+          "label": "コンテンツの長さ",
+          "choiceLabels": {
+            "short": "短い",
+            "medium": "中",
+            "long": "長い"
+          }
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K"
+          }
+        },
+        "reference_sources": {
+          "label": "参照画像のソース"
+        }
+      },
+      "parameterLayout": {
+        "skill": {
+          "help": "EC 商品ページには商品参考画像が 1〜3 枚必要です。ウェブページの参考画像は省略できます。"
+        },
+        "prompt": {
+          "help": "ページの内容、構成、画風を記述します。素材の順に @image_1、@image_2 などで参照できます。"
+        },
+        "reference_1": {
+          "help": "JPEG または PNG を最大 3 枚使用できます。各画像は最大 30 MB、各辺 300 ピクセル以上、比率 2:5〜5:2 です。"
+        },
+        "reference_2": {
+          "help": "JPEG または PNG を最大 3 枚使用できます。各画像は最大 30 MB、各辺 300 ピクセル以上、比率 2:5〜5:2 です。"
+        },
+        "reference_3": {
+          "help": "JPEG または PNG を最大 3 枚使用できます。各画像は最大 30 MB、各辺 300 ピクセル以上、比率 2:5〜5:2 です。"
+        },
+        "length": {
+          "help": "EC 商品ページで有効です。短い場合は約 2〜5 区画、中は約 6〜10、長は約 11〜18 です。既定は中です。"
+        },
+        "resolution": {
+          "help": "1K または 2K を選択します。既定は 1K です。"
+        },
+        "reference_sources": {
+          "help": "一行に公開 URL、Base64 データ URL、または Base64 画像を一つ入力します。アップロードを含めて最大 3 枚です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling Image 4.0 긴 이미지",
+      "description": "상품 상세 페이지나 웹페이지 디자인을 대표 이미지부터 바닥글까지 하나의 긴 이미지로 만듭니다.",
+      "fields": {
+        "skill": {
+          "label": "페이지 유형",
+          "choiceLabels": {
+            "ecommerce": "상품 상세 페이지",
+            "webpage": "웹페이지 디자인"
+          }
+        },
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "reference_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_3": {
+          "label": "참조 이미지 3"
+        },
+        "length": {
+          "label": "콘텐츠 길이",
+          "choiceLabels": {
+            "short": "짧게",
+            "medium": "보통",
+            "long": "길게"
+          }
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K"
+          }
+        },
+        "reference_sources": {
+          "label": "참조 이미지 소스"
+        }
+      },
+      "parameterLayout": {
+        "skill": {
+          "help": "상품 상세 페이지에는 상품 참조 이미지가 1~3장 필요합니다. 웹페이지의 참조 이미지는 선택 사항입니다."
+        },
+        "prompt": {
+          "help": "페이지 내용, 구조, 스타일을 설명하세요. 소재 순서대로 @image_1, @image_2 등으로 참조합니다."
+        },
+        "reference_1": {
+          "help": "JPEG 또는 PNG를 최대 3장 사용하세요. 각 이미지는 최대 30MB, 각 변은 300픽셀 이상, 가로세로 비율은 2:5~5:2입니다."
+        },
+        "reference_2": {
+          "help": "JPEG 또는 PNG를 최대 3장 사용하세요. 각 이미지는 최대 30MB, 각 변은 300픽셀 이상, 가로세로 비율은 2:5~5:2입니다."
+        },
+        "reference_3": {
+          "help": "JPEG 또는 PNG를 최대 3장 사용하세요. 각 이미지는 최대 30MB, 각 변은 300픽셀 이상, 가로세로 비율은 2:5~5:2입니다."
+        },
+        "length": {
+          "help": "상품 상세 페이지에 적용됩니다. 짧게는 약 2~5개, 보통은 6~10개, 길게는 11~18개 구역을 만듭니다. 기본값은 보통입니다."
+        },
+        "resolution": {
+          "help": "1K 또는 2K를 선택하세요. 기본값은 1K입니다."
+        },
+        "reference_sources": {
+          "help": "한 줄에 공개 URL, Base64 데이터 URL 또는 Base64 이미지 하나를 입력하세요. 업로드를 포함해 최대 3장입니다."
+        }
+      }
+    }
+  }
+}

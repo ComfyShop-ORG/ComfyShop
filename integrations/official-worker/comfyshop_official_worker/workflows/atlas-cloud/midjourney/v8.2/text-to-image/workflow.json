@@ -1,0 +1,535 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-mj82-t2i",
+  "name": "Midjourney V8.2 文生图",
+  "description": "根据文字描述生成 4 张图片，可提供风格参考。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "A serene mountain lake at sunrise, photorealistic"
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["1:1", "9:16", "16:9", "4:3", "3:4", "2:3", "3:2", "9:21", "21:9"],
+      "optional": true,
+      "default": "1:1"
+    },
+    {
+      "name": "hd",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "stylize",
+      "kind": "integer",
+      "optional": true,
+      "default": 0,
+      "minimum": "0",
+      "maximum": "1000"
+    },
+    {
+      "name": "chaos",
+      "kind": "integer",
+      "optional": true,
+      "default": 0,
+      "minimum": "0",
+      "maximum": "100"
+    },
+    {
+      "name": "weird",
+      "kind": "integer",
+      "optional": true,
+      "default": 0,
+      "minimum": "0",
+      "maximum": "3000"
+    },
+    {
+      "name": "quality",
+      "kind": "choice",
+      "choices": [1, 4],
+      "optional": true,
+      "default": 1
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true,
+      "default": -1
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "style_reference",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "style_reference_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "style_reference",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "hd",
+      "section": "default"
+    },
+    {
+      "fieldId": "stylize",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "chaos",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "weird",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "quality",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "style_reference_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "midjourney/v8.2/text-to-image",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "aspect_ratio": "aspect_ratio",
+        "hd": "hd",
+        "stylize": "stylize",
+        "chaos": "chaos",
+        "weird": "weird",
+        "quality": "quality",
+        "seed": "seed",
+        "enable_base64_output": "enable_base64_output"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 1024
+      },
+      "text_flag_suffix_parameters": ["prompt"],
+      "media": {
+        "sref": {
+          "kind": "image",
+          "fields": ["style_reference"],
+          "external_sources_field": "style_reference_source",
+          "external_urls_only": true,
+          "external_https_only": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Midjourney V8.2 文生图",
+      "description": "根据文字描述生成 4 张图片，可提供风格参考。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "宽高比"
+        },
+        "hd": {
+          "label": "原生 2K"
+        },
+        "stylize": {
+          "label": "风格化强度"
+        },
+        "chaos": {
+          "label": "变化幅度"
+        },
+        "weird": {
+          "label": "奇异度"
+        },
+        "quality": {
+          "label": "细节质量"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "style_reference": {
+          "label": "风格参考图"
+        },
+        "style_reference_source": {
+          "label": "风格参考图 URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "画面描述最多 1,024 个字符。可以在末尾追加 Midjourney 命令参数。"
+        },
+        "style_reference": {
+          "help": "可上传一张图片，用于参考配色、光线或视觉风格。"
+        },
+        "aspect_ratio": {
+          "help": "设定生成图片的宽高比。"
+        },
+        "hd": {
+          "help": "开启后生成原生 2K 图片，Atlas 按常规档位的 1.5 倍计费。"
+        },
+        "stylize": {
+          "help": "0 至 1,000。数值越高，越强调模型的美学风格。"
+        },
+        "chaos": {
+          "help": "0 至 100。调高后，同一任务的图片变化更多。"
+        },
+        "weird": {
+          "help": "0 至 3,000。调高后，画面更不寻常。"
+        },
+        "quality": {
+          "help": "4 提供更多细节，耗时更长。"
+        },
+        "seed": {
+          "help": "-1 为随机。复用种子和提示词有助于复现画面。"
+        },
+        "enable_base64_output": {
+          "help": "开启后，Atlas 以 Base64 返回图片，由工作机解码保存。"
+        },
+        "style_reference_source": {
+          "help": "填写公开可访问的 HTTPS 图片地址，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Midjourney V8.2 文生圖",
+      "description": "依文字描述生成 4 張圖片，可提供風格參考。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "長寬比"
+        },
+        "hd": {
+          "label": "原生 2K"
+        },
+        "stylize": {
+          "label": "風格化強度"
+        },
+        "chaos": {
+          "label": "變化幅度"
+        },
+        "weird": {
+          "label": "奇異度"
+        },
+        "quality": {
+          "label": "細節品質"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "style_reference": {
+          "label": "風格參考圖"
+        },
+        "style_reference_source": {
+          "label": "風格參考圖 URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "畫面描述最多 1,024 個字元。可在末尾附加 Midjourney 指令參數。"
+        },
+        "style_reference": {
+          "help": "可上傳一張圖片，用於參考配色、光線或視覺風格。"
+        },
+        "aspect_ratio": {
+          "help": "設定生成圖片的長寬比。"
+        },
+        "hd": {
+          "help": "開啟後生成原生 2K 圖片，Atlas 按一般方案的 1.5 倍計費。"
+        },
+        "stylize": {
+          "help": "0 至 1,000。數值越高，越強調模型的美學風格。"
+        },
+        "chaos": {
+          "help": "0 至 100。調高後，同一任務的圖片變化更多。"
+        },
+        "weird": {
+          "help": "0 至 3,000。調高後，畫面更不尋常。"
+        },
+        "quality": {
+          "help": "4 提供更多細節，耗時更長。"
+        },
+        "seed": {
+          "help": "-1 為隨機。沿用種子和提示詞有助重現畫面。"
+        },
+        "enable_base64_output": {
+          "help": "開啟後，Atlas 以 Base64 傳回圖片，由工作機解碼儲存。"
+        },
+        "style_reference_source": {
+          "help": "填寫公開可存取的 HTTPS 圖片網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Midjourney V8.2 Text-to-Image",
+      "description": "Generate four images from a text description with an optional style reference.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "hd": {
+          "label": "Native 2K"
+        },
+        "stylize": {
+          "label": "Stylization"
+        },
+        "chaos": {
+          "label": "Variation"
+        },
+        "weird": {
+          "label": "Weirdness"
+        },
+        "quality": {
+          "label": "Detail quality"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "style_reference": {
+          "label": "Style reference image"
+        },
+        "style_reference_source": {
+          "label": "Style reference URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the image in up to 1,024 characters. Midjourney flags can follow the description."
+        },
+        "style_reference": {
+          "help": "Upload one image to guide the palette, lighting, or visual style."
+        },
+        "aspect_ratio": {
+          "help": "Set the width-to-height ratio of the images."
+        },
+        "hd": {
+          "help": "Generate native 2K images. Atlas charges 1.5 times the standard rate."
+        },
+        "stylize": {
+          "help": "From 0 to 1,000. Higher values strengthen the model's aesthetic."
+        },
+        "chaos": {
+          "help": "From 0 to 100. Higher values increase variation across the four images."
+        },
+        "weird": {
+          "help": "From 0 to 3,000. Higher values create more unconventional images."
+        },
+        "quality": {
+          "help": "4 produces more detail and takes longer."
+        },
+        "seed": {
+          "help": "Use -1 for a random seed. Reuse the seed and prompt for similar results."
+        },
+        "enable_base64_output": {
+          "help": "Return images as Base64 for the worker to decode and save."
+        },
+        "style_reference_source": {
+          "help": "Provide a publicly accessible HTTPS image URL or upload an image."
+        }
+      }
+    },
+    "ja": {
+      "name": "Midjourney V8.2 テキストから画像",
+      "description": "テキストから画像を 4 枚生成します。スタイル参照は任意です。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "縦横比"
+        },
+        "hd": {
+          "label": "ネイティブ 2K"
+        },
+        "stylize": {
+          "label": "スタイルの強さ"
+        },
+        "chaos": {
+          "label": "変化の幅"
+        },
+        "weird": {
+          "label": "意外性"
+        },
+        "quality": {
+          "label": "細部の品質"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        },
+        "style_reference": {
+          "label": "スタイル参照画像"
+        },
+        "style_reference_source": {
+          "label": "スタイル参照画像の URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "1,024 文字以内で画面を記述します。末尾に Midjourney のコマンド引数を追加できます。"
+        },
+        "style_reference": {
+          "help": "配色、光、画風を指定する参考画像を 1 枚アップロードできます。"
+        },
+        "aspect_ratio": {
+          "help": "画像の横幅と高さの比率を設定します。"
+        },
+        "hd": {
+          "help": "ネイティブ 2K 画像を生成します。Atlas の料金は標準の 1.5 倍です。"
+        },
+        "stylize": {
+          "help": "0〜1,000。値が高いほどモデルの作風が強く反映されます。"
+        },
+        "chaos": {
+          "help": "0〜100。値を上げると、4 枚の画像の違いが大きくなります。"
+        },
+        "weird": {
+          "help": "0〜3,000。値を上げると、より個性的な画像になります。"
+        },
+        "quality": {
+          "help": "4 は細部がより豊かになり、生成に時間がかかります。"
+        },
+        "seed": {
+          "help": "-1 はランダムです。同じシードとプロンプトで近い結果を再現できます。"
+        },
+        "enable_base64_output": {
+          "help": "画像を Base64 で受け取り、ワーカーがデコードして保存します。"
+        },
+        "style_reference_source": {
+          "help": "公開 HTTPS 画像の URL を入力するか、画像をアップロードします。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Midjourney V8.2 텍스트로 이미지 생성",
+      "description": "텍스트 설명으로 이미지 4장을 생성합니다. 스타일 참조는 선택 사항입니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "hd": {
+          "label": "네이티브 2K"
+        },
+        "stylize": {
+          "label": "스타일 강도"
+        },
+        "chaos": {
+          "label": "변화 폭"
+        },
+        "weird": {
+          "label": "독특함"
+        },
+        "quality": {
+          "label": "세부 표현 품질"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        },
+        "style_reference": {
+          "label": "스타일 참조 이미지"
+        },
+        "style_reference_source": {
+          "label": "스타일 참조 이미지 URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "이미지를 최대 1,024자로 설명하세요. 끝에 Midjourney 명령 매개변수를 추가할 수 있습니다."
+        },
+        "style_reference": {
+          "help": "색상, 조명 또는 화풍을 참고할 이미지 한 장을 업로드할 수 있습니다."
+        },
+        "aspect_ratio": {
+          "help": "이미지의 가로세로 비율을 설정합니다."
+        },
+        "hd": {
+          "help": "네이티브 2K 이미지를 생성합니다. Atlas 요금은 일반 요금의 1.5배입니다."
+        },
+        "stylize": {
+          "help": "0~1,000. 값이 높을수록 모델의 화풍이 강하게 반영됩니다."
+        },
+        "chaos": {
+          "help": "0~100. 값이 높을수록 이미지 4장의 차이가 커집니다."
+        },
+        "weird": {
+          "help": "0~3,000. 값을 높이면 더 독특한 결과를 얻을 수 있습니다."
+        },
+        "quality": {
+          "help": "4는 세부 표현을 향상하며 생성 시간이 더 길어집니다."
+        },
+        "seed": {
+          "help": "-1은 무작위입니다. 시드와 프롬프트를 재사용하면 비슷한 결과를 얻을 수 있습니다."
+        },
+        "enable_base64_output": {
+          "help": "Base64 이미지 데이터를 받아 워커가 디코딩 후 저장합니다."
+        },
+        "style_reference_source": {
+          "help": "공개 HTTPS 이미지 URL을 입력하거나 이미지를 업로드하세요."
+        }
+      }
+    }
+  }
+}

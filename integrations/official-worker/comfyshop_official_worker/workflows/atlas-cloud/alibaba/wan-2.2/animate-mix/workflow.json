@@ -1,0 +1,315 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-alibaba-wan-2-2-animate-mix",
+  "name": "Wan 2.2 人物替换",
+  "description": "用图片中的人物替换原视频中的人物。",
+  "category": "video_tool",
+  "fields": [
+    {
+      "name": "character_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "motion_video",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "mode",
+      "kind": "choice",
+      "default": "wan-pro",
+      "choices": ["wan-std", "wan-pro"]
+    },
+    {
+      "name": "character_image_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "motion_video_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "character_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "motion_video",
+      "section": "default"
+    },
+    {
+      "fieldId": "mode",
+      "section": "default"
+    },
+    {
+      "fieldId": "character_image_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "motion_video_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "alibaba/wan-2.2/animate-mix",
+      "operation": "video",
+      "parameters": {
+        "mode": "mode"
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["character_image"],
+          "min_items": 1,
+          "external_sources_field": "character_image_source",
+          "external_urls_only": true,
+          "content_types": ["image/jpeg", "image/png", "image/bmp", "image/webp"],
+          "max_bytes": 5000000,
+          "image_bounds": {
+            "min_side": 200,
+            "max_side": 4096,
+            "max_aspect_ratio": 3
+          }
+        },
+        "video": {
+          "kind": "video",
+          "fields": ["motion_video"],
+          "min_items": 1,
+          "external_sources_field": "motion_video_source",
+          "external_urls_only": true,
+          "content_types": ["video/mp4", "video/quicktime"],
+          "max_bytes": 200000000,
+          "min_duration_ms": 2000,
+          "max_duration_ms": 30000,
+          "image_bounds": {
+            "min_side": 200,
+            "max_side": 2048,
+            "max_aspect_ratio": 3
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Wan 2.2 人物替换",
+      "description": "用图片中的人物替换原视频中的人物。",
+      "fields": {
+        "character_image": {
+          "label": "替换人物图"
+        },
+        "motion_video": {
+          "label": "原视频"
+        },
+        "mode": {
+          "label": "模式",
+          "choiceLabels": {
+            "wan-std": "标准",
+            "wan-pro": "专业"
+          }
+        },
+        "character_image_source": {
+          "label": "人物图地址"
+        },
+        "motion_video_source": {
+          "label": "原视频地址"
+        }
+      },
+      "parameterLayout": {
+        "character_image": {
+          "help": "上传 JPEG、PNG、BMP 或 WebP。宽高各 200 至 4096 像素，长短边比例最多 3:1，最多 5 MB。"
+        },
+        "motion_video": {
+          "help": "上传 MP4 或 MOV，或通过公开地址使用 AVI。视频须为 2 至 30 秒，宽高各 200 至 2048 像素，长短边比例最多 3:1，最多 200 MB。"
+        },
+        "mode": {
+          "help": "标准模式用于较快生成，专业模式生成更平滑的动画。默认专业模式。"
+        },
+        "character_image_source": {
+          "help": "填写一个公开图片 URL，与上传二选一。"
+        },
+        "motion_video_source": {
+          "help": "填写一个公开的 MP4、MOV 或 AVI URL，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Wan 2.2 人物替換",
+      "description": "用圖片中的人物替換原始影片中的人物。",
+      "fields": {
+        "character_image": {
+          "label": "替換人物圖"
+        },
+        "motion_video": {
+          "label": "原始影片"
+        },
+        "mode": {
+          "label": "模式",
+          "choiceLabels": {
+            "wan-std": "標準",
+            "wan-pro": "專業"
+          }
+        },
+        "character_image_source": {
+          "label": "人物圖網址"
+        },
+        "motion_video_source": {
+          "label": "原始影片網址"
+        }
+      },
+      "parameterLayout": {
+        "character_image": {
+          "help": "上傳 JPEG、PNG、BMP 或 WebP。寬高各 200 至 4096 像素，長短邊比例最多 3:1，最多 5 MB。"
+        },
+        "motion_video": {
+          "help": "上傳 MP4 或 MOV，或透過公開網址使用 AVI。影片長度為 2 至 30 秒，寬高各 200 至 2048 像素，長短邊比例最多 3:1，最多 200 MB。"
+        },
+        "mode": {
+          "help": "標準模式用於較快生成，專業模式產生較流暢的動畫。預設為專業模式。"
+        },
+        "character_image_source": {
+          "help": "填寫一個公開圖片網址，與上傳擇一。"
+        },
+        "motion_video_source": {
+          "help": "填寫一個公開的 MP4、MOV 或 AVI 網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Wan 2.2 Video Character Replacement",
+      "description": "Replace the character in a video with the person in an image.",
+      "fields": {
+        "character_image": {
+          "label": "Replacement image"
+        },
+        "motion_video": {
+          "label": "Source video"
+        },
+        "mode": {
+          "label": "Mode",
+          "choiceLabels": {
+            "wan-std": "Standard",
+            "wan-pro": "Professional"
+          }
+        },
+        "character_image_source": {
+          "label": "Character image URL"
+        },
+        "motion_video_source": {
+          "label": "Source video URL"
+        }
+      },
+      "parameterLayout": {
+        "character_image": {
+          "help": "Upload JPEG, PNG, BMP, or WebP. Each side must be 200–4,096 pixels, with a maximum long-to-short side ratio of 3:1 and a 5 MB limit."
+        },
+        "motion_video": {
+          "help": "Upload MP4 or MOV, or use a public URL for AVI. Use 2 to 30 seconds, 200–2,048 pixels per side, a maximum long-to-short side ratio of 3:1, and up to 200 MB."
+        },
+        "mode": {
+          "help": "Standard generates faster. Professional produces smoother animation and is selected by default."
+        },
+        "character_image_source": {
+          "help": "Enter one public image URL in place of an upload."
+        },
+        "motion_video_source": {
+          "help": "Enter a public MP4, MOV, or AVI URL in place of an upload."
+        }
+      }
+    },
+    "ja": {
+      "name": "Wan 2.2 動画の人物置き換え",
+      "description": "元の動画の人物を画像の人物に置き換えます。",
+      "fields": {
+        "character_image": {
+          "label": "置き換え用画像"
+        },
+        "motion_video": {
+          "label": "元の動画"
+        },
+        "mode": {
+          "label": "モード",
+          "choiceLabels": {
+            "wan-std": "標準",
+            "wan-pro": "プロ"
+          }
+        },
+        "character_image_source": {
+          "label": "人物画像のURL"
+        },
+        "motion_video_source": {
+          "label": "元の動画のURL"
+        }
+      },
+      "parameterLayout": {
+        "character_image": {
+          "help": "JPEG、PNG、BMP、またはWebPをアップロードします。縦横200〜4,096ピクセル、長辺と短辺の比は最大3:1、5 MBまでです。"
+        },
+        "motion_video": {
+          "help": "MP4またはMOVをアップロードします。AVIは公開URLで指定します。長さは2〜30秒、縦横200〜2,048ピクセル、長辺と短辺の比は最大3:1、200 MBまでです。"
+        },
+        "mode": {
+          "help": "標準は生成が速く、プロは滑らかな動きを生成します。既定値はプロです。"
+        },
+        "character_image_source": {
+          "help": "アップロードの代わりに公開画像のURLを1件入力します。"
+        },
+        "motion_video_source": {
+          "help": "アップロードの代わりに公開MP4、MOV、またはAVIのURLを1件入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Wan 2.2 동영상 인물 교체",
+      "description": "원본 동영상의 인물을 이미지 속 인물로 교체합니다.",
+      "fields": {
+        "character_image": {
+          "label": "교체할 인물 이미지"
+        },
+        "motion_video": {
+          "label": "원본 동영상"
+        },
+        "mode": {
+          "label": "모드",
+          "choiceLabels": {
+            "wan-std": "표준",
+            "wan-pro": "프로"
+          }
+        },
+        "character_image_source": {
+          "label": "인물 이미지 URL"
+        },
+        "motion_video_source": {
+          "label": "원본 동영상 URL"
+        }
+      },
+      "parameterLayout": {
+        "character_image": {
+          "help": "JPEG, PNG, BMP 또는 WebP를 업로드합니다. 가로와 세로는 각각 200~4,096픽셀이며 긴 변과 짧은 변의 비율은 최대 3:1, 크기는 최대 5 MB입니다."
+        },
+        "motion_video": {
+          "help": "MP4나 MOV를 업로드합니다. AVI는 공개 URL로 입력합니다. 길이는 2초에서 30초, 가로와 세로는 각각 200~2,048픽셀, 긴 변과 짧은 변의 비율은 최대 3:1, 크기는 최대 200 MB입니다."
+        },
+        "mode": {
+          "help": "표준 모드는 더 빠르고 프로 모드는 더 부드러운 움직임을 생성합니다. 기본값은 프로입니다."
+        },
+        "character_image_source": {
+          "help": "업로드 대신 공개 이미지 URL을 하나 입력합니다."
+        },
+        "motion_video_source": {
+          "help": "업로드 대신 공개 MP4, MOV 또는 AVI URL을 하나 입력합니다."
+        }
+      }
+    }
+  }
+}

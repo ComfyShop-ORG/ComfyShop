@@ -1,0 +1,699 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "seedream-v4-edit-sequential",
+  "name": "Seedream v4 连续图像编辑",
+  "description": "从提示词与可选参考图生成一组图片，支持自定义宽高，最多 14 张。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "size",
+      "kind": "string",
+      "default": "2048*2048",
+      "optional": true,
+      "maxLength": 9
+    },
+    {
+      "name": "max_images",
+      "kind": "integer",
+      "optional": true,
+      "default": 1,
+      "minimum": "1",
+      "maximum": "14"
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "reference_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_10",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "max_images",
+      "section": "default"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_10",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "operation": "image",
+      "model": "bytedance/seedream-v4/edit-sequential",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "enable_base64_output": "enable_base64_output",
+        "max_images": "max_images"
+      },
+      "required_text": ["prompt"],
+      "image_size_limits": {
+        "min_side": 1024,
+        "max_side": 4096,
+        "allow_auto": false
+      },
+      "omit_blank_parameters": ["size"],
+      "media": {
+        "images": {
+          "kind": "image",
+          "fields": [
+            "reference_1",
+            "reference_2",
+            "reference_3",
+            "reference_4",
+            "reference_5",
+            "reference_6",
+            "reference_7",
+            "reference_8",
+            "reference_9",
+            "reference_10"
+          ],
+          "array": true,
+          "content_types": [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/bmp",
+            "image/tiff",
+            "image/gif",
+            "image/heic",
+            "image/heif"
+          ],
+          "external_sources_field": "reference_sources"
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seedream v4 连续图像编辑",
+      "description": "从提示词与可选参考图生成一组图片，支持自定义宽高，最多 14 张。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "图片尺寸"
+        },
+        "max_images": {
+          "label": "最多生成张数"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "reference_1": {
+          "label": "参考图 1"
+        },
+        "reference_2": {
+          "label": "参考图 2"
+        },
+        "reference_3": {
+          "label": "参考图 3"
+        },
+        "reference_4": {
+          "label": "参考图 4"
+        },
+        "reference_5": {
+          "label": "参考图 5"
+        },
+        "reference_6": {
+          "label": "参考图 6"
+        },
+        "reference_7": {
+          "label": "参考图 7"
+        },
+        "reference_8": {
+          "label": "参考图 8"
+        },
+        "reference_9": {
+          "label": "参考图 9"
+        },
+        "reference_10": {
+          "label": "参考图 10"
+        },
+        "reference_sources": {
+          "label": "参考图地址或 Base64"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述需要修改的部分与要保留的细节。"
+        },
+        "reference_1": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "size": {
+          "help": "输入宽*高，单位像素。宽、高均为 1024 至 4096，例如 2048*1536。"
+        },
+        "max_images": {
+          "help": "可填 1 至 14。参考图数量会影响实际成品张数。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 返回图片。工作机解码后保存图片原件。"
+        },
+        "reference_2": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_3": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_4": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_5": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_6": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_7": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_8": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_9": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_10": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_sources": {
+          "help": "每行一个公开 HTTP(S) 图片地址或 Base64 data URL。连同上传文件最多 10 张。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seedream v4 連續圖像編輯",
+      "description": "從提示詞與選填參考圖產生一組圖片，支援自訂寬高，最多 14 張。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "圖片尺寸"
+        },
+        "max_images": {
+          "label": "最多產生張數"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "reference_1": {
+          "label": "參考圖 1"
+        },
+        "reference_2": {
+          "label": "參考圖 2"
+        },
+        "reference_3": {
+          "label": "參考圖 3"
+        },
+        "reference_4": {
+          "label": "參考圖 4"
+        },
+        "reference_5": {
+          "label": "參考圖 5"
+        },
+        "reference_6": {
+          "label": "參考圖 6"
+        },
+        "reference_7": {
+          "label": "參考圖 7"
+        },
+        "reference_8": {
+          "label": "參考圖 8"
+        },
+        "reference_9": {
+          "label": "參考圖 9"
+        },
+        "reference_10": {
+          "label": "參考圖 10"
+        },
+        "reference_sources": {
+          "label": "參考圖網址或 Base64"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要修改的部分與要保留的細節。"
+        },
+        "reference_1": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "size": {
+          "help": "輸入寬*高，單位為像素。寬和高皆為 1024 至 4096，例如 2048*1536。"
+        },
+        "max_images": {
+          "help": "可填寫 1 至 14。參考圖數量會影響實際成品張數。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 回傳圖片。工作機解碼後儲存圖片原始檔案。"
+        },
+        "reference_2": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_3": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_4": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_5": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_6": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_7": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_8": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_9": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_10": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_sources": {
+          "help": "每列一個公開 HTTP(S) 圖片網址或 Base64 data URL。連同上傳檔案最多 10 張。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seedream v4 Sequential Edit",
+      "description": "Generate a set of up to 14 images with custom dimensions from a prompt and optional references.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Image size"
+        },
+        "max_images": {
+          "label": "Maximum images"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "reference_1": {
+          "label": "Reference image 1"
+        },
+        "reference_2": {
+          "label": "Reference image 2"
+        },
+        "reference_3": {
+          "label": "Reference image 3"
+        },
+        "reference_4": {
+          "label": "Reference image 4"
+        },
+        "reference_5": {
+          "label": "Reference image 5"
+        },
+        "reference_6": {
+          "label": "Reference image 6"
+        },
+        "reference_7": {
+          "label": "Reference image 7"
+        },
+        "reference_8": {
+          "label": "Reference image 8"
+        },
+        "reference_9": {
+          "label": "Reference image 9"
+        },
+        "reference_10": {
+          "label": "Reference image 10"
+        },
+        "reference_sources": {
+          "label": "Reference URLs or Base64"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Specify what to change and what to keep in the source images."
+        },
+        "reference_1": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "size": {
+          "help": "Enter width*height in pixels, with each side from 1024 to 4096. For example, use 2048*1536."
+        },
+        "max_images": {
+          "help": "Enter 1 to 14. The number of references affects how many images are generated."
+        },
+        "enable_base64_output": {
+          "help": "Request a Base64 response. The work machine decodes it and stores the original image."
+        },
+        "reference_2": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_3": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_4": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_5": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_6": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_7": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_8": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_9": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_10": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_sources": {
+          "help": "Enter one public HTTP(S) image URL or Base64 data URL per line. Use up to 10 images including uploads."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seedream v4 連続画像編集",
+      "description": "指示文と任意の参考画像で一連の画像を最大 14 枚生成します。幅と高さは指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "画像サイズ"
+        },
+        "max_images": {
+          "label": "生成枚数の上限"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        },
+        "reference_1": {
+          "label": "参考画像 1"
+        },
+        "reference_2": {
+          "label": "参考画像 2"
+        },
+        "reference_3": {
+          "label": "参考画像 3"
+        },
+        "reference_4": {
+          "label": "参考画像 4"
+        },
+        "reference_5": {
+          "label": "参考画像 5"
+        },
+        "reference_6": {
+          "label": "参考画像 6"
+        },
+        "reference_7": {
+          "label": "参考画像 7"
+        },
+        "reference_8": {
+          "label": "参考画像 8"
+        },
+        "reference_9": {
+          "label": "参考画像 9"
+        },
+        "reference_10": {
+          "label": "参考画像 10"
+        },
+        "reference_sources": {
+          "label": "参考画像の URL または Base64"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "変更する部分と残す細部を記述します。"
+        },
+        "reference_1": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "size": {
+          "help": "ピクセル単位で幅*高さを指定します。各辺は 1024～4096 です。入力例は 2048*1536 です。"
+        },
+        "max_images": {
+          "help": "1～14 枚を指定します。実際の生成枚数は参考画像の枚数に応じて変わります。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas に Base64 での返却を求めます。ワーカーが復号して元の画像を保存します。"
+        },
+        "reference_2": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_3": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_4": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_5": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_6": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_7": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_8": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_9": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_10": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_sources": {
+          "help": "公開 HTTP(S) 画像 URL または Base64 データ URL を 1 行に 1 件入力します。アップロード画像と合わせて最大 10 枚です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seedream v4 연속 이미지 편집",
+      "description": "프롬프트와 선택한 참고 이미지로 최대 14장까지 생성합니다. 너비와 높이를 지정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "이미지 크기"
+        },
+        "max_images": {
+          "label": "최대 생성 장수"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        },
+        "reference_1": {
+          "label": "참고 이미지 1"
+        },
+        "reference_2": {
+          "label": "참고 이미지 2"
+        },
+        "reference_3": {
+          "label": "참고 이미지 3"
+        },
+        "reference_4": {
+          "label": "참고 이미지 4"
+        },
+        "reference_5": {
+          "label": "참고 이미지 5"
+        },
+        "reference_6": {
+          "label": "참고 이미지 6"
+        },
+        "reference_7": {
+          "label": "참고 이미지 7"
+        },
+        "reference_8": {
+          "label": "참고 이미지 8"
+        },
+        "reference_9": {
+          "label": "참고 이미지 9"
+        },
+        "reference_10": {
+          "label": "참고 이미지 10"
+        },
+        "reference_sources": {
+          "label": "참고 이미지 URL 또는 Base64"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "바꿀 부분과 유지할 세부 사항을 설명하세요."
+        },
+        "reference_1": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "size": {
+          "help": "픽셀 단위로 너비*높이를 입력하세요. 각 변은 1024~4096이며, 2048*1536처럼 입력합니다."
+        },
+        "max_images": {
+          "help": "1~14장을 입력하세요. 참고 이미지 장수는 실제 출력 수에 영향을 줍니다."
+        },
+        "enable_base64_output": {
+          "help": "Atlas에 Base64 결과를 요청합니다. 작업 머신에서 디코딩해 이미지 원본을 저장합니다."
+        },
+        "reference_2": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_3": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_4": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_5": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_6": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_7": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_8": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_9": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_10": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_sources": {
+          "help": "공개 HTTP(S) 이미지 URL이나 Base64 데이터 URL을 한 줄에 하나씩 입력하세요. 업로드를 포함해 최대 10장입니다."
+        }
+      }
+    }
+  }
+}

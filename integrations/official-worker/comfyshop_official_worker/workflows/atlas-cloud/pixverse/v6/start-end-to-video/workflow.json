@@ -1,0 +1,463 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-pix6-transition",
+  "name": "PixVerse V6 首尾帧生成视频",
+  "description": "根据首帧、尾帧和提示词生成 1 至 15 秒的过渡视频，可生成同步音频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "",
+      "maxLength": 5000
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "choices": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "optional": true,
+      "default": 5
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["360p", "540p", "720p", "1080p"],
+      "optional": true,
+      "default": "720p"
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "pixverse/v6/start-end-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "seed": "seed",
+        "quality": "resolution",
+        "sound": "generate_audio"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 5000
+      },
+      "prediction_endpoint": "result",
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "max_bytes": 10000000,
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "allow_raw_base64": true
+        },
+        "end_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "external_sources_field": "last_frame_source",
+          "min_items": 1,
+          "max_bytes": 10000000,
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "allow_raw_base64": true
+        }
+      },
+      "image_aspect_ratio_match": {
+        "parameters": ["image", "end_image"],
+        "ratio_range": [0.8, 1.25]
+      },
+      "request_max_bytes": 20000000
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "PixVerse V6 首尾帧生成视频",
+      "description": "根据首帧、尾帧和提示词生成 1 至 15 秒的过渡视频，可生成同步音频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "generate_audio": {
+          "label": "生成同步音频"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "first_frame": {
+          "label": "首帧图片"
+        },
+        "first_frame_source": {
+          "label": "首帧图片 URL 或 Base64"
+        },
+        "last_frame": {
+          "label": "尾帧图片"
+        },
+        "last_frame_source": {
+          "label": "尾帧图片 URL 或 Base64"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传 PNG、JPEG 或 WebP，每张不超过 10 MB。两张图片的宽高比之比须在 0.8 至 1.25 之间。"
+        },
+        "last_frame": {
+          "help": "上传 PNG、JPEG 或 WebP，每张不超过 10 MB。两张图片的宽高比之比须在 0.8 至 1.25 之间。"
+        },
+        "prompt": {
+          "help": "描述主体、动作和场景，最多 5,000 字符。"
+        },
+        "duration_seconds": {
+          "help": "选择 1 至 15 秒，默认 5 秒。"
+        },
+        "resolution": {
+          "help": "选择 360p、540p、720p 或 1080p。"
+        },
+        "generate_audio": {
+          "help": "跟随画面生成同步声音。"
+        },
+        "seed": {
+          "help": "填入整数以复用生成条件。留空时由 Atlas 选取。"
+        },
+        "first_frame_source": {
+          "help": "填写公开图片地址、Base64 Data URI 或原始 Base64，与上传二选一。"
+        },
+        "last_frame_source": {
+          "help": "填写公开图片地址、Base64 Data URI 或原始 Base64，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "PixVerse V6 首尾幀生成影片",
+      "description": "依首幀、尾幀和提示詞生成 1 至 15 秒的轉場影片，可生成同步音訊。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "時長（秒）"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "generate_audio": {
+          "label": "生成同步音訊"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "first_frame": {
+          "label": "首幀圖片"
+        },
+        "first_frame_source": {
+          "label": "首幀圖片 URL 或 Base64"
+        },
+        "last_frame": {
+          "label": "尾幀圖片"
+        },
+        "last_frame_source": {
+          "label": "尾幀圖片 URL 或 Base64"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張不超過 10 MB。兩張圖片的長寬比之比須介於 0.8 至 1.25。"
+        },
+        "last_frame": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張不超過 10 MB。兩張圖片的長寬比之比須介於 0.8 至 1.25。"
+        },
+        "prompt": {
+          "help": "描述主體、動作與場景，最多 5,000 個字元。"
+        },
+        "duration_seconds": {
+          "help": "選擇 1 至 15 秒，預設 5 秒。"
+        },
+        "resolution": {
+          "help": "選擇 360p、540p、720p 或 1080p。"
+        },
+        "generate_audio": {
+          "help": "跟隨畫面生成同步聲音。"
+        },
+        "seed": {
+          "help": "填入整數以重複使用生成條件。留空時由 Atlas 選取。"
+        },
+        "first_frame_source": {
+          "help": "填寫公開圖片網址、Base64 Data URI 或原始 Base64，與上傳擇一。"
+        },
+        "last_frame_source": {
+          "help": "填寫公開圖片網址、Base64 Data URI 或原始 Base64，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "PixVerse V6 Start-and-End-Frame Video",
+      "description": "Generate a one- to fifteen-second transition from a text prompt and two keyframes, with optional synchronized audio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "generate_audio": {
+          "label": "Generate synchronized audio"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "first_frame": {
+          "label": "First-frame image"
+        },
+        "first_frame_source": {
+          "label": "First-frame URL or Base64"
+        },
+        "last_frame": {
+          "label": "Last-frame image"
+        },
+        "last_frame_source": {
+          "label": "Last-frame URL or Base64"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload PNG, JPEG, or WebP, up to 10 MB per image. The ratio of the two aspect ratios must be 0.8 to 1.25."
+        },
+        "last_frame": {
+          "help": "Upload PNG, JPEG, or WebP, up to 10 MB per image. The ratio of the two aspect ratios must be 0.8 to 1.25."
+        },
+        "prompt": {
+          "help": "Describe the subject, motion, and scene in up to 5,000 characters."
+        },
+        "duration_seconds": {
+          "help": "Choose 1 to 15 seconds. The default is 5 seconds."
+        },
+        "resolution": {
+          "help": "Choose 360p, 540p, 720p, or 1080p."
+        },
+        "generate_audio": {
+          "help": "Generate sound that matches the video."
+        },
+        "seed": {
+          "help": "Provide an integer to reuse the seed across requests. Leave blank for Atlas to choose."
+        },
+        "first_frame_source": {
+          "help": "Provide a public image URL, a Base64 data URI, or raw Base64, or upload an image."
+        },
+        "last_frame_source": {
+          "help": "Provide a public image URL, a Base64 data URI, or raw Base64, or upload an image."
+        }
+      }
+    },
+    "ja": {
+      "name": "PixVerse V6 開始・終了フレームから動画",
+      "description": "開始画像、終了画像、プロンプトから 1〜15 秒の動画を生成します。同期音声も生成できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "generate_audio": {
+          "label": "同期音声を生成"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "first_frame": {
+          "label": "開始フレーム画像"
+        },
+        "first_frame_source": {
+          "label": "開始フレームの URL または Base64"
+        },
+        "last_frame": {
+          "label": "終了フレーム画像"
+        },
+        "last_frame_source": {
+          "label": "終了フレームの URL または Base64"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "PNG、JPEG、WebP をアップロードします。画像は各 10 MB 以下で、2 枚の縦横比の比率は 0.8〜1.25 です。"
+        },
+        "last_frame": {
+          "help": "PNG、JPEG、WebP をアップロードします。画像は各 10 MB 以下で、2 枚の縦横比の比率は 0.8〜1.25 です。"
+        },
+        "prompt": {
+          "help": "被写体、動き、場面を 5,000 文字以内で記述します。"
+        },
+        "duration_seconds": {
+          "help": "1〜15 秒から選びます。既定値は 5 秒です。"
+        },
+        "resolution": {
+          "help": "360p、540p、720p、1080p から選びます。"
+        },
+        "generate_audio": {
+          "help": "映像に合った音声を生成します。"
+        },
+        "seed": {
+          "help": "同じシードを使うには整数を指定します。空欄の場合は Atlas が選びます。"
+        },
+        "first_frame_source": {
+          "help": "公開画像 URL、Base64 Data URI、Base64 文字列の入力、または画像のアップロードを選びます。"
+        },
+        "last_frame_source": {
+          "help": "公開画像 URL、Base64 Data URI、Base64 文字列の入力、または画像のアップロードを選びます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "PixVerse V6 시작·끝 프레임 동영상 생성",
+      "description": "첫 프레임, 끝 프레임, 프롬프트로 1~15초 전환 동영상을 생성합니다. 동기화 오디오도 만들 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "길이(초)"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "generate_audio": {
+          "label": "동기화 오디오 생성"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "first_frame": {
+          "label": "첫 프레임 이미지"
+        },
+        "first_frame_source": {
+          "label": "첫 프레임 URL 또는 Base64"
+        },
+        "last_frame": {
+          "label": "끝 프레임 이미지"
+        },
+        "last_frame_source": {
+          "label": "끝 프레임 URL 또는 Base64"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "PNG, JPEG, WebP를 각각 10 MB 이하로 업로드하세요. 두 이미지의 가로세로 비율 간 비는 0.8~1.25여야 합니다."
+        },
+        "last_frame": {
+          "help": "PNG, JPEG, WebP를 각각 10 MB 이하로 업로드하세요. 두 이미지의 가로세로 비율 간 비는 0.8~1.25여야 합니다."
+        },
+        "prompt": {
+          "help": "피사체, 움직임, 장면을 최대 5,000자로 설명하세요."
+        },
+        "duration_seconds": {
+          "help": "1~15초를 선택하세요. 기본값은 5초입니다."
+        },
+        "resolution": {
+          "help": "360p, 540p, 720p, 1080p 중 선택하세요."
+        },
+        "generate_audio": {
+          "help": "영상에 어울리는 소리를 생성합니다."
+        },
+        "seed": {
+          "help": "같은 시드를 다시 사용하려면 정수를 입력하세요. 비워 두면 Atlas가 선택합니다."
+        },
+        "first_frame_source": {
+          "help": "공개 이미지 URL, Base64 Data URI, Base64 문자열을 입력하거나 이미지를 업로드하세요."
+        },
+        "last_frame_source": {
+          "help": "공개 이미지 URL, Base64 Data URI, Base64 문자열을 입력하거나 이미지를 업로드하세요."
+        }
+      }
+    }
+  }
+}

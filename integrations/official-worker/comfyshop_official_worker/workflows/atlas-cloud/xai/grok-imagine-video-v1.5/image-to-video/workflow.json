@@ -1,0 +1,376 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-grok-video15-image-to-video",
+  "name": "Grok Imagine Video v1.5 图生视频",
+  "description": "从一张起始图和动作提示词生成 1 至 15 秒的视频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "integer",
+      "default": 8,
+      "minimum": "1",
+      "maximum": "15",
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["480p", "720p", "1080p"],
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "choices": ["", "1:1", "16:9", "9:16", "4:3", "3:4", "3:2", "2:3"],
+      "optional": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "xai/grok-imagine-video-v1.5/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "resolution": "resolution",
+        "aspect_ratio": "aspect_ratio"
+      },
+      "required_text": ["prompt"],
+      "omit_blank_parameters": ["aspect_ratio"],
+      "media": {
+        "image_url": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "external_https_only": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Grok Imagine Video v1.5 图生视频",
+      "description": "从一张起始图和动作提示词生成 1 至 15 秒的视频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "成品时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "": "由接口决定",
+            "1:1": "1:1",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "3:2": "3:2",
+            "2:3": "2:3"
+          }
+        },
+        "first_frame": {
+          "label": "起始图"
+        },
+        "first_frame_source": {
+          "label": "起始图来源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传 JPEG、PNG 或 WebP，用作视频的第一帧。"
+        },
+        "prompt": {
+          "help": "描述起始图中的动作、镜头和画面变化。"
+        },
+        "duration_seconds": {
+          "help": "选择 1 至 15 秒，默认 8 秒。"
+        },
+        "resolution": {
+          "help": "选择 480p、720p 或 1080p。"
+        },
+        "aspect_ratio": {
+          "help": "让接口使用原图比例，或指定成品比例。指定其他比例可能拉伸画面。"
+        },
+        "first_frame_source": {
+          "help": "填写一个公开 HTTPS 图片地址或 Base64 Data URI，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Grok Imagine Video v1.5 圖生影片",
+      "description": "從一張起始圖和動作提示詞生成 1 至 15 秒的影片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "成品長度（秒）"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "": "由介面決定",
+            "1:1": "1:1",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "3:2": "3:2",
+            "2:3": "2:3"
+          }
+        },
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "first_frame_source": {
+          "label": "起始圖來源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳 JPEG、PNG 或 WebP，作為影片的第一幀。"
+        },
+        "prompt": {
+          "help": "描述起始圖中的動作、鏡頭和畫面變化。"
+        },
+        "duration_seconds": {
+          "help": "選擇 1 至 15 秒，預設 8 秒。"
+        },
+        "resolution": {
+          "help": "選擇 480p、720p 或 1080p。"
+        },
+        "aspect_ratio": {
+          "help": "讓介面使用原圖比例，或指定成品比例。指定其他比例可能拉伸畫面。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個公開 HTTPS 圖片網址或 Base64 Data URI，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Grok Imagine Video v1.5 Image-to-Video",
+      "description": "Generate a 1–15 second video from a starting image and a motion prompt.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "": "Provider default",
+            "1:1": "1:1",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "3:2": "3:2",
+            "2:3": "2:3"
+          }
+        },
+        "first_frame": {
+          "label": "Starting image"
+        },
+        "first_frame_source": {
+          "label": "Starting image source"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload a JPEG, PNG, or WebP as the first video frame."
+        },
+        "prompt": {
+          "help": "Describe the motion, camera, and changes from the starting image."
+        },
+        "duration_seconds": {
+          "help": "Choose 1 to 15 seconds. The default is 8 seconds."
+        },
+        "resolution": {
+          "help": "Choose 480p, 720p, or 1080p."
+        },
+        "aspect_ratio": {
+          "help": "Use the input image's aspect ratio or request an output ratio. A different ratio can stretch the image."
+        },
+        "first_frame_source": {
+          "help": "Enter a public HTTPS image URL or Base64 data URI instead of uploading."
+        }
+      }
+    },
+    "ja": {
+      "name": "Grok Imagine Video v1.5 画像から動画",
+      "description": "開始画像と動きのプロンプトから 1〜15 秒の動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "動画の長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "": "提供元の既定値",
+            "1:1": "1:1",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "3:2": "3:2",
+            "2:3": "2:3"
+          }
+        },
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "first_frame_source": {
+          "label": "開始画像のソース"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "動画の先頭フレームとして JPEG、PNG、または WebP をアップロードします。"
+        },
+        "prompt": {
+          "help": "開始画像からの動き、カメラ、画面の変化を記述します。"
+        },
+        "duration_seconds": {
+          "help": "1〜15 秒を選びます。既定値は 8 秒です。"
+        },
+        "resolution": {
+          "help": "480p、720p、または 1080p を選びます。"
+        },
+        "aspect_ratio": {
+          "help": "元画像の縦横比を使うか出力比を指定します。異なる比率を指定すると画像が引き伸ばされる場合があります。"
+        },
+        "first_frame_source": {
+          "help": "アップロードの代わりに公開 HTTPS 画像 URL または Base64 データ URI を入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Grok Imagine Video v1.5 이미지로 동영상 생성",
+      "description": "시작 이미지와 동작 프롬프트로 1~15초 동영상을 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "동영상 길이(초)"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "": "공급자 기본값",
+            "1:1": "1:1",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "3:2": "3:2",
+            "2:3": "2:3"
+          }
+        },
+        "first_frame": {
+          "label": "시작 이미지"
+        },
+        "first_frame_source": {
+          "label": "시작 이미지 소스"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "동영상의 첫 프레임으로 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "prompt": {
+          "help": "시작 이미지의 움직임, 카메라, 화면 변화를 설명하세요."
+        },
+        "duration_seconds": {
+          "help": "1~15초를 선택하세요. 기본값은 8초입니다."
+        },
+        "resolution": {
+          "help": "480p, 720p 또는 1080p를 선택하세요."
+        },
+        "aspect_ratio": {
+          "help": "원본 이미지의 비율을 따르거나 출력 비율을 지정하세요. 다른 비율을 지정하면 이미지가 늘어날 수 있습니다."
+        },
+        "first_frame_source": {
+          "help": "업로드 대신 공개 HTTPS 이미지 URL이나 Base64 데이터 URI를 입력하세요."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,874 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-google-nano-banana-pro-edit-ultra",
+  "name": "Nano Banana Pro Ultra 图像编辑",
+  "description": "用提示词编辑一至十张参考图，输出 4K 或 8K 图片。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "optional": true,
+      "default": "",
+      "choices": ["", "1:1", "3:2", "2:3", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "21:9"]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "optional": true,
+      "default": "4k",
+      "choices": ["4k", "8k"]
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "default": "jpeg",
+      "choices": ["png", "jpeg"]
+    },
+    {
+      "name": "reference_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_10",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_10",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "operation": "image",
+      "model": "google/nano-banana-pro/edit-ultra",
+      "parameters": {
+        "prompt": "prompt",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "enable_sync_mode": "enable_sync_mode",
+        "enable_base64_output": "enable_base64_output",
+        "output_format": "output_format"
+      },
+      "required_text": ["prompt"],
+      "omit_blank_parameters": ["aspect_ratio"],
+      "media": {
+        "images": {
+          "kind": "image",
+          "fields": [
+            "reference_1",
+            "reference_2",
+            "reference_3",
+            "reference_4",
+            "reference_5",
+            "reference_6",
+            "reference_7",
+            "reference_8",
+            "reference_9",
+            "reference_10"
+          ],
+          "array": true,
+          "min_items": 1,
+          "content_types": ["image/png", "image/jpeg", "image/webp"],
+          "external_sources_field": "reference_sources",
+          "external_urls_only": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Nano Banana Pro Ultra 图像编辑",
+      "description": "用提示词编辑一至十张参考图，输出 4K 或 8K 图片。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "": "模型默认",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9"
+          }
+        },
+        "resolution": {
+          "label": "成品分辨率",
+          "choiceLabels": {
+            "4k": "4K",
+            "8k": "8K"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "reference_1": {
+          "label": "参考图 1"
+        },
+        "reference_2": {
+          "label": "参考图 2"
+        },
+        "reference_3": {
+          "label": "参考图 3"
+        },
+        "reference_4": {
+          "label": "参考图 4"
+        },
+        "reference_5": {
+          "label": "参考图 5"
+        },
+        "reference_6": {
+          "label": "参考图 6"
+        },
+        "reference_7": {
+          "label": "参考图 7"
+        },
+        "reference_8": {
+          "label": "参考图 8"
+        },
+        "reference_9": {
+          "label": "参考图 9"
+        },
+        "reference_10": {
+          "label": "参考图 10"
+        },
+        "reference_sources": {
+          "label": "参考图地址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "说明图中要保留和修改的元素。"
+        },
+        "reference_1": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "aspect_ratio": {
+          "help": "选择预设比例，或留给模型决定。"
+        },
+        "resolution": {
+          "help": "选择 4K 或 8K。默认 4K。"
+        },
+        "output_format": {
+          "help": "选择 PNG 或 JPEG。默认 JPEG。"
+        },
+        "enable_sync_mode": {
+          "help": "等待 Atlas 完成后在提交响应中取结果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 返回图片。工作机解码后保存图片原件。"
+        },
+        "reference_2": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_3": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_4": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_5": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_6": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_7": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_8": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_9": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_10": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_sources": {
+          "help": "每行填写一个公开的图片 URL。工作机按顺序将网址追加到已上传的图片之后，总计一至十张。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Nano Banana Pro Ultra 影像編輯",
+      "description": "用提示詞編輯一至十張參考圖，輸出 4K 或 8K 圖片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "": "模型預設",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9"
+          }
+        },
+        "resolution": {
+          "label": "成品解析度",
+          "choiceLabels": {
+            "4k": "4K",
+            "8k": "8K"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步回傳"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "reference_1": {
+          "label": "參考圖 1"
+        },
+        "reference_2": {
+          "label": "參考圖 2"
+        },
+        "reference_3": {
+          "label": "參考圖 3"
+        },
+        "reference_4": {
+          "label": "參考圖 4"
+        },
+        "reference_5": {
+          "label": "參考圖 5"
+        },
+        "reference_6": {
+          "label": "參考圖 6"
+        },
+        "reference_7": {
+          "label": "參考圖 7"
+        },
+        "reference_8": {
+          "label": "參考圖 8"
+        },
+        "reference_9": {
+          "label": "參考圖 9"
+        },
+        "reference_10": {
+          "label": "參考圖 10"
+        },
+        "reference_sources": {
+          "label": "參考圖網址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "說明圖中要保留與修改的元素。"
+        },
+        "reference_1": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "aspect_ratio": {
+          "help": "選擇預設比例，或交由模型決定。"
+        },
+        "resolution": {
+          "help": "選擇 4K 或 8K。預設為 4K。"
+        },
+        "output_format": {
+          "help": "選擇 PNG 或 JPEG。預設為 JPEG。"
+        },
+        "enable_sync_mode": {
+          "help": "等 Atlas 完成後，從提交回應取得結果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 回傳圖片。工作機解碼後儲存圖片原始檔案。"
+        },
+        "reference_2": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_3": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_4": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_5": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_6": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_7": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_8": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_9": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_10": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_sources": {
+          "help": "每行填寫一個公開的圖片網址。工作機依序把網址加到已上傳的圖片後，共一至十張。"
+        }
+      }
+    },
+    "en": {
+      "name": "Nano Banana Pro Ultra Image Editing",
+      "description": "Edit one to ten reference images with a prompt and export at 4K or 8K.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "": "Model default",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9"
+          }
+        },
+        "resolution": {
+          "label": "Output resolution",
+          "choiceLabels": {
+            "4k": "4K",
+            "8k": "8K"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "Wait for result"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "reference_1": {
+          "label": "Reference image 1"
+        },
+        "reference_2": {
+          "label": "Reference image 2"
+        },
+        "reference_3": {
+          "label": "Reference image 3"
+        },
+        "reference_4": {
+          "label": "Reference image 4"
+        },
+        "reference_5": {
+          "label": "Reference image 5"
+        },
+        "reference_6": {
+          "label": "Reference image 6"
+        },
+        "reference_7": {
+          "label": "Reference image 7"
+        },
+        "reference_8": {
+          "label": "Reference image 8"
+        },
+        "reference_9": {
+          "label": "Reference image 9"
+        },
+        "reference_10": {
+          "label": "Reference image 10"
+        },
+        "reference_sources": {
+          "label": "Reference image URLs"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe what to preserve and what to change in the references."
+        },
+        "reference_1": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "aspect_ratio": {
+          "help": "Choose a preset ratio or let the model decide."
+        },
+        "resolution": {
+          "help": "Choose 4K or 8K. The default is 4K."
+        },
+        "output_format": {
+          "help": "Choose PNG or JPEG. The default is JPEG."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for Atlas to return a finished result in the submit response."
+        },
+        "enable_base64_output": {
+          "help": "Request a Base64 response. The work machine decodes it and stores the original image."
+        },
+        "reference_2": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_3": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_4": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_5": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_6": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_7": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_8": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_9": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_10": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_sources": {
+          "help": "Enter one public image URL per line. The worker appends these after any uploads, in order. Provide one to ten images total."
+        }
+      }
+    },
+    "ja": {
+      "name": "Nano Banana Pro Ultra 画像編集",
+      "description": "プロンプトで参照画像を1〜10枚編集し、4Kまたは8Kで出力します。",
+      "fields": {
+        "prompt": {
+          "label": "指示文"
+        },
+        "aspect_ratio": {
+          "label": "縦横比",
+          "choiceLabels": {
+            "": "モデルの既定値",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9"
+          }
+        },
+        "resolution": {
+          "label": "出力解像度",
+          "choiceLabels": {
+            "4k": "4K",
+            "8k": "8K"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "reference_1": {
+          "label": "参考画像 1"
+        },
+        "reference_2": {
+          "label": "参考画像 2"
+        },
+        "reference_3": {
+          "label": "参考画像 3"
+        },
+        "reference_4": {
+          "label": "参考画像 4"
+        },
+        "reference_5": {
+          "label": "参考画像 5"
+        },
+        "reference_6": {
+          "label": "参考画像 6"
+        },
+        "reference_7": {
+          "label": "参考画像 7"
+        },
+        "reference_8": {
+          "label": "参考画像 8"
+        },
+        "reference_9": {
+          "label": "参考画像 9"
+        },
+        "reference_10": {
+          "label": "参考画像 10"
+        },
+        "reference_sources": {
+          "label": "参考画像の URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "参照画像の残す部分と変更する部分を指示します。"
+        },
+        "reference_1": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "aspect_ratio": {
+          "help": "縦横比のプリセットを選ぶか、モデルに任せます。"
+        },
+        "resolution": {
+          "help": "4Kまたは8Kを選択します。既定値は4Kです。"
+        },
+        "output_format": {
+          "help": "PNGまたはJPEGを選択します。既定値はJPEGです。"
+        },
+        "enable_sync_mode": {
+          "help": "Atlas の完了を待ち、送信時の応答で結果を取得します。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas に Base64 での返却を求めます。ワーカーが復号して元の画像を保存します。"
+        },
+        "reference_2": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_3": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_4": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_5": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_6": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_7": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_8": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_9": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_10": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_sources": {
+          "help": "公開画像のURLを1行に1件入力します。ワーカーはアップロード済みの画像の後に入力順で追加します。合計1〜10枚です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Nano Banana Pro Ultra 이미지 편집",
+      "description": "프롬프트로 참조 이미지 한 장에서 열 장을 편집하고 4K 또는 8K로 출력합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "가로세로 비율",
+          "choiceLabels": {
+            "": "모델 기본값",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9"
+          }
+        },
+        "resolution": {
+          "label": "출력 해상도",
+          "choiceLabels": {
+            "4k": "4K",
+            "8k": "8K"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "결과 기다리기"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "reference_1": {
+          "label": "참고 이미지 1"
+        },
+        "reference_2": {
+          "label": "참고 이미지 2"
+        },
+        "reference_3": {
+          "label": "참고 이미지 3"
+        },
+        "reference_4": {
+          "label": "참고 이미지 4"
+        },
+        "reference_5": {
+          "label": "참고 이미지 5"
+        },
+        "reference_6": {
+          "label": "참고 이미지 6"
+        },
+        "reference_7": {
+          "label": "참고 이미지 7"
+        },
+        "reference_8": {
+          "label": "참고 이미지 8"
+        },
+        "reference_9": {
+          "label": "참고 이미지 9"
+        },
+        "reference_10": {
+          "label": "참고 이미지 10"
+        },
+        "reference_sources": {
+          "label": "참고 이미지 URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "참조 이미지에서 유지할 요소와 변경할 요소를 설명합니다."
+        },
+        "reference_1": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "aspect_ratio": {
+          "help": "가로세로 비율 프리셋을 고르거나 모델이 정하도록 하세요."
+        },
+        "resolution": {
+          "help": "4K 또는 8K를 선택합니다. 기본값은 4K입니다."
+        },
+        "output_format": {
+          "help": "PNG 또는 JPEG를 선택합니다. 기본값은 JPEG입니다."
+        },
+        "enable_sync_mode": {
+          "help": "Atlas 생성이 완료되면 제출 응답에서 결과를 받습니다."
+        },
+        "enable_base64_output": {
+          "help": "Atlas에 Base64 결과를 요청합니다. 작업 머신에서 디코딩해 이미지 원본을 저장합니다."
+        },
+        "reference_2": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_3": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_4": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_5": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_6": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_7": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_8": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_9": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_10": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_sources": {
+          "help": "공개 이미지 URL을 한 줄에 하나씩 입력합니다. 작업기는 업로드한 이미지 뒤에 입력 순서대로 추가합니다. 합계는 한 장에서 열 장입니다."
+        }
+      }
+    }
+  }
+}

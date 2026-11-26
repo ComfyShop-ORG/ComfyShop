@@ -1,0 +1,275 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-grok-video15-lite-text-to-video",
+  "name": "Grok Imagine Video v1.5 Lite 文生视频",
+  "description": "用文字生成 1 至 15 秒的视频，可选择是否生成同步音频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "A paper boat drifts down a rain-soaked street at dusk, neon reflections rippling on the water, soft rain ambience.",
+      "multiline": true
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "integer",
+      "default": 8,
+      "minimum": "1",
+      "maximum": "15",
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["480p", "720p", "1080p"],
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "choices": ["16:9", "9:16", "1:1", "4:3", "3:4", "3:2", "2:3", "21:9", "5:2"],
+      "optional": true
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "xai/grok-imagine-video-v1.5-lite/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "resolution": "resolution",
+        "aspect_ratio": "aspect_ratio",
+        "generate_audio": "generate_audio"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Grok Imagine Video v1.5 Lite 文生视频",
+      "description": "用文字生成 1 至 15 秒的视频，可选择是否生成同步音频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "成品时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "aspect_ratio": {
+          "label": "画面比例"
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、场景、动作、镜头及希望听到的声音。"
+        },
+        "duration_seconds": {
+          "help": "选择 1 至 15 秒，默认 8 秒。"
+        },
+        "resolution": {
+          "help": "选择 480p、720p 或由 720p 放大的 1080p。"
+        },
+        "aspect_ratio": {
+          "help": "选择输出视频的宽高比，默认 16:9。"
+        },
+        "generate_audio": {
+          "help": "开启后随视频生成同步语音、音效和环境声。关闭后生成静音视频。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Grok Imagine Video v1.5 Lite 文生影片",
+      "description": "用文字生成 1 至 15 秒的影片，可選擇是否生成同步音訊。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "成品長度（秒）"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例"
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、場景、動作、鏡頭與想聽到的聲音。"
+        },
+        "duration_seconds": {
+          "help": "選擇 1 至 15 秒，預設 8 秒。"
+        },
+        "resolution": {
+          "help": "選擇 480p、720p 或由 720p 放大的 1080p。"
+        },
+        "aspect_ratio": {
+          "help": "選擇輸出影片的寬高比，預設 16:9。"
+        },
+        "generate_audio": {
+          "help": "開啟後隨影片生成同步語音、音效和環境聲。關閉後生成靜音影片。"
+        }
+      }
+    },
+    "en": {
+      "name": "Grok Imagine Video v1.5 Lite Text-to-Video",
+      "description": "Generate a 1–15 second video with optional synchronized audio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, scene, motion, camera, and desired audio."
+        },
+        "duration_seconds": {
+          "help": "Choose 1 to 15 seconds. The default is 8 seconds."
+        },
+        "resolution": {
+          "help": "Choose 480p, 720p, or 1080p upscaled from 720p."
+        },
+        "aspect_ratio": {
+          "help": "Choose the output aspect ratio. The default is 16:9."
+        },
+        "generate_audio": {
+          "help": "Generate synchronized speech, sound effects, and ambience. Turn off for a silent clip."
+        }
+      }
+    },
+    "ja": {
+      "name": "Grok Imagine Video v1.5 Lite テキストから動画",
+      "description": "プロンプトから 1〜15 秒の動画を生成します。同期音声の有無を選べます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "動画の長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、動き、カメラ、希望する音声を記述します。"
+        },
+        "duration_seconds": {
+          "help": "1〜15 秒を選びます。既定値は 8 秒です。"
+        },
+        "resolution": {
+          "help": "480p、720p、または 720p をアップスケールした 1080p を選べます。"
+        },
+        "aspect_ratio": {
+          "help": "出力動画の縦横比を選びます。既定値は 16:9 です。"
+        },
+        "generate_audio": {
+          "help": "動画に同期する音声、効果音、環境音を生成します。オフにすると無音になります。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Grok Imagine Video v1.5 Lite 텍스트로 동영상 생성",
+      "description": "텍스트로 1~15초 동영상을 생성하고 동기화된 오디오를 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "동영상 길이(초)"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 장면, 동작, 카메라와 원하는 소리를 설명하세요."
+        },
+        "duration_seconds": {
+          "help": "1~15초를 선택하세요. 기본값은 8초입니다."
+        },
+        "resolution": {
+          "help": "480p, 720p 또는 720p에서 업스케일한 1080p를 선택하세요."
+        },
+        "aspect_ratio": {
+          "help": "출력 동영상의 화면 비율을 선택하세요. 기본값은 16:9입니다."
+        },
+        "generate_audio": {
+          "help": "동기화된 음성, 효과음, 주변 소리를 생성합니다. 끄면 소리 없는 동영상을 만듭니다."
+        }
+      }
+    }
+  }
+}

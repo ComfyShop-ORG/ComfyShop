@@ -1,0 +1,1864 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-heygen-twin",
+  "name": "HeyGen Avatar V 数字人视频",
+  "description": "选择预设数字人，用脚本或音频生成对口型的演示视频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "avatar",
+      "kind": "choice",
+      "choices": [
+        "Abigail Office Front",
+        "Abigail Office Side",
+        "Abigail Sofa Front",
+        "Abigail Sofa Side",
+        "Amelia Business Training Front 2",
+        "Amelia Business Training Front",
+        "Amelia Business Training Side 2",
+        "Amelia Business Training Side",
+        "Amelia Lounge Front 2",
+        "Amelia Lounge Front",
+        "Amelia Lounge Side 2",
+        "Amelia Lounge Side",
+        "Amelia Yoga Front 2",
+        "Amelia Yoga Front",
+        "Amelia Yoga Side 2",
+        "Amelia Yoga Side",
+        "Anja Office Front",
+        "Anja Office Side ",
+        "Anja Sofa Front",
+        "Anja Sofa Side ",
+        "Ann Doctor Sitting",
+        "Ann Doctor Standing",
+        "Ann Therapist",
+        "Annie Bar Sitting Front",
+        "Annie Bar Sitting Side",
+        "Annie Bar Standing Front 2",
+        "Annie Bar Standing Front 3",
+        "Annie Bar Standing Front",
+        "Annie Bar Standing Side 2",
+        "Annie Bar Standing Side 3",
+        "Annie Bar Standing Side",
+        "Annie Business Casual Standing Front 2",
+        "Annie Business Casual Standing Front",
+        "Annie Business Casual Standing Side 2",
+        "Annie Business Casual Standing Side",
+        "Annie Casual Sitting Front 2",
+        "Annie Casual Sitting Front",
+        "Annie Casual Sitting Side 2",
+        "Annie Casual Sitting Side",
+        "Annie Casual Standing Front 2",
+        "Annie Casual Standing Front",
+        "Annie Casual Standing Side 2",
+        "Annie Casual Standing Side",
+        "Annie Desk Sitting Front 2",
+        "Annie Desk Sitting Front",
+        "Annie Desk Sitting Side 2",
+        "Annie Desk Sitting Side",
+        "Annie Lounge Standing Front",
+        "Annie Lounge Standing Side",
+        "Annie Office Sitting Front 2",
+        "Annie Office Sitting Front",
+        "Annie Office Sitting Side 2",
+        "Annie Office Sitting Side",
+        "Annie Office Standing Front",
+        "Annie Office Standing Side",
+        "Annie Sofa Sitting Front 3",
+        "Annie Sofa Sitting Front",
+        "Annie Sofa Sitting Side 2",
+        "Annie Sofa Sitting Side 3",
+        "Annie Sofa Sitting Side",
+        "Annie Sofa Sitting Front 2",
+        "Annie Studio Pink Sitting Front",
+        "Annie Studio Pink Sitting Side",
+        "Annie Studio Pink Standing Front",
+        "Annie Studio Pink Standing Side",
+        "Artur Office Front 2",
+        "Artur Office Front",
+        "Artur Office Side 2",
+        "Artur Office Side",
+        "Artur Sofa Casual Front 2",
+        "Artur Sofa Casual Front",
+        "Artur Sofa Casual Side 2",
+        "Artur Sofa Causal Side",
+        "Aubrey Sofa Side",
+        "Aubrey Night Scene Front",
+        "Aubrey Outdoor Sport Front",
+        "Aubrey Outdoor Sport Side",
+        "Aubrey Sofa Front",
+        "Blanka Lounge Front",
+        "Blanka Lounge Side",
+        "Blanka Outdoor Business Front",
+        "Blanka Outdoor Business Side",
+        "Blanka Outdoor Reading Front",
+        "Blanka Outdoor Reading Side",
+        "Blanka Picnic Front",
+        "Blanka Picnic Side",
+        "Bojan Business Training Front 2",
+        "Bojan Business Training Front",
+        "Bojan Business Training Side 2",
+        "Bojan Business Training Side",
+        "Bojan Lounge Front 2",
+        "Bojan Lounge Front",
+        "Bojan Lounge Side 2",
+        "Bojan Lounge Side",
+        "Bojan Sport Front 2",
+        "Bojan Sport Front",
+        "Bojan Sport Side 2",
+        "Bojan Sport Side",
+        "Brandon Business Sitting Front",
+        "Brandon Business Sitting Side",
+        "Brandon Business Standing Front",
+        "Brandon Business Standing Side",
+        "Brandon Casual Sitting Front",
+        "Brandon Casual Sitting Side",
+        "Brandon Kitchen Standing Front",
+        "Brandon Kitchen Standing Side",
+        "Brandon Lobby Sitting Front",
+        "Brandon Lobby Sitting Side",
+        "Brandon Lobby Standing Front",
+        "Brandon Lobby Standing Side",
+        "Brandon Office Sitting Front",
+        "Brandon Office Sitting Side",
+        "Brandon Office Standing Front",
+        "Brandon Office Standing Side",
+        "Brandon Sofa Sitting Front",
+        "Brandon Sofa Sitting Side",
+        "Brent Office Front 2",
+        "Brent Office Front",
+        "Brent Office Side 2",
+        "Brent Office Side",
+        "Brent Sofa Front 2",
+        "Brent Sofa Front",
+        "Brent Sofa Side 2",
+        "Brent Sofa Side",
+        "Bryan Fitness Coach",
+        "Bryan Tech Expert",
+        "Caroline Business Sitting Front",
+        "Caroline Business Sitting Side",
+        "Caroline Business Standing Front",
+        "Caroline Business Standing Side",
+        "Caroline Casual Sitting Front",
+        "Caroline Casual Sitting Side",
+        "Caroline Kitchen Standing Front",
+        "Caroline Kitchen Standing Side",
+        "Caroline Lobby Sitting Front",
+        "Caroline Lobby Sitting Side",
+        "Caroline Lobby Standing Front",
+        "Caroline Lobby Standing Side",
+        "Caroline Office Sitting Front",
+        "Caroline Office Sitting Side",
+        "Caroline Office Standing Front",
+        "Caroline Office Standing Side",
+        "Caroline Sofa Sitting Front",
+        "Caroline Sofa Sitting Side",
+        "Chloe Lounge Front",
+        "Chloe Lounge Side",
+        "Chloe Outdoor Side",
+        "Conrad House Front",
+        "Conrad House Side",
+        "Conrad Sofa Front",
+        "Conrad Sofa Side",
+        "Derya Indoor Front 2",
+        "Derya Indoor Front",
+        "Derya Indoor Side 2",
+        "Derya Indoor Side",
+        "Derya Office Front 2",
+        "Derya Office Front",
+        "Derya Office Side 2",
+        "Derya Office Side",
+        "Dexter Doctor Sitting",
+        "Dexter Doctor Standing",
+        "Dexter Lawyer",
+        "Elenora Fitness Coach",
+        "Elenora Fitness Coach 2",
+        "Elenora Tech Expert",
+        "Emanuel Office Front",
+        "Emanuel Office Side",
+        "Emanuel Sofa Front",
+        "Emanuel Sofa Side",
+        "Emilia Outdoor Business Front",
+        "Emilia Outdoor Business Side",
+        "Emilia Outdoor Yoga Front 2",
+        "Emilia Outdoor Yoga Front",
+        "Emilia Outdoor Yoga Side",
+        "Emilia Picnic Front",
+        "Emilia Picnic Side",
+        "Fernando Business Indoor Front",
+        "Fernando Business Indoor Side",
+        "Fernando OutdoorChair Front 2",
+        "Fernando Outdoor Chair Front",
+        "Fernando Outdoor Chair Side",
+        "Fernando Outdoor Front",
+        "Fernando Outdoor Side",
+        "Fernando Outdoor Table Front",
+        "Fernando Outdoor Table Side",
+        "Gala Bedroom Front",
+        "Gala Business Sofa Front 2",
+        "Gala Business Sofa Front 3",
+        "Gala Business Sofa Front",
+        "Gala Business Sofa Side 2",
+        "Gala Business Sofa Side 3",
+        "Gala Business Sofa Side",
+        "Gala Casual Sofa with iPad Front",
+        "Gala Casual Sofa with iPad Side 2",
+        "Gala Casual Sofa with iPad Side",
+        "Gala Office Front",
+        "Gala Office Side",
+        "Gala Sofa Front 2",
+        "Gala Sofa Front 3",
+        "Gala Sofa Front",
+        "Gala Sofa Side 2",
+        "Gala Sofa Side 3",
+        "Gala Sofa Side",
+        "Georgia Casual Front",
+        "Georgia Casual Side",
+        "Georgia Office Front",
+        "Georgia Office Side",
+        "Gerardo Sofa Side",
+        "Gerardo Indoor Front",
+        "Gerardo Indoor Side",
+        "Gerardo Night Scene Front 2",
+        "Gerardo Night Scene Front",
+        "Gerardo Outdoor Sport Front",
+        "Gerardo Outdoor Sport Side",
+        "Gerardo Sofa Front",
+        "Giulia Office Front 2",
+        "Giulia Office Front",
+        "Giulia Office Side 2",
+        "Giulia Office Side",
+        "Giulia Sofa Front",
+        "Giulia Sofa Side",
+        "Giulia Sofa  Front 2",
+        "Giulia Sofa  Side 3",
+        "Ida Lounge Front 2",
+        "Ida Lounge Front",
+        "Ida Lounge Side 2",
+        "Ida Lounge Side",
+        "Ida Sofa Front 2",
+        "Ida Sofa Front",
+        "Ida Sofa Side 2",
+        "Ida Sofa Side",
+        "Jocelyn Office Front 2",
+        "Jocelyn Office Front",
+        "Jocelyn Office Side 2",
+        "Jocelyn Office Side",
+        "Jocelyn Sofa Front 2",
+        "Jocelyn Sofa Front",
+        "Jocelyn Sofa Side 2",
+        "Jocelyn Sofa Side",
+        "Joel Couch Front",
+        "Joel Couch Side",
+        "Joel Gym Front",
+        "Joel Gym Side",
+        "Joel Mountain Front",
+        "Joel Mountain Side",
+        "Jonas Gym Front 2",
+        "Jonas Gym Front",
+        "Jonas Gym Side 2",
+        "Jonas Gym Side ",
+        "June Office Front 2",
+        "Juan Office Front",
+        "Juan Office Side 2",
+        "Juan Office Side",
+        "Juan Sofa Front 2",
+        "Juan Sofa Front",
+        "Juan Sofa Side 2",
+        "Juan Sofa Side",
+        "Judita Yoga Front 2",
+        "Judita Yoga Front",
+        "Judita Yoga Side 2",
+        "Judita Yoga Side",
+        "Judy Doctor Sitting",
+        "Judy Doctor Standing",
+        "Judy Lawyer",
+        "Judy Teacher Sitting",
+        "Judy HR",
+        "Judy Teacher Standing",
+        "June HR",
+        "June Office Front",
+        "June Office Side 2",
+        "June Office Side",
+        "June Sofa Casual Front 2",
+        "June Sofa Casual Front",
+        "June Sofa Casual Side 2",
+        "June Sofa Casual Side",
+        "Kavya Indoor Front",
+        "Kavya Indoor Side",
+        "Kavya Outdoor Side",
+        "Kavya Outdoor Sport Front",
+        "Kavya Outdoor Sport Side",
+        "Kavya Sofa Front",
+        "Kavya Sofa Side",
+        "Leos Office Front 2",
+        "Leos Office Front",
+        "Leos Office Side 2",
+        "Leos Office Side",
+        "Leos Sofa Front 2",
+        "Leos Sofa Front",
+        "Leos Sofa Side 2",
+        "Leos Sofa Side",
+        "Leszek Lounge Front",
+        "Leszek Lounge Side",
+        "Leszek Outdoor Business Front",
+        "Leszek Outdoor Business Side",
+        "Leszek Outdoor Casual Front",
+        "Leszek Outdoor Casual Side",
+        "Leszek Sofa Front",
+        "Leszek Sofa Side",
+        "Martina Office Front 2",
+        "Martina Office Front",
+        "Martina Office Side 2",
+        "Martina Office Side",
+        "Martina Sofa Front 2",
+        "Martina Sofa Front",
+        "Martina Sofa Side 2",
+        "Martina Sofa Side",
+        "Masha Office Front 2",
+        "Masha Office Front",
+        "Masha Office Side 2",
+        "Masha Office Side",
+        "Masha Sofa Casual Front 2",
+        "Masha Sofa Casual Front",
+        "Masha Sofa Casual Side 2",
+        "Masha Sofa Casual Side",
+        "Matteo Office Front 2",
+        "Matteo Office Front",
+        "Matteo Office Side 2",
+        "Matteo Office Side",
+        "Matteo Sofa Front 2",
+        "Matteo Sofa Front",
+        "Matteo Sofa Side 2",
+        "Matteo Sofa Side",
+        "Max Indoor Front",
+        "Max Indoor Side",
+        "Max Outdoor Sport Front",
+        "Max Outdoor Sport Side",
+        "Milena Office Front 2",
+        "Milena Office Front",
+        "Milena Office Side 2",
+        "Milena Office Side",
+        "Milena Sofa Front 2",
+        "Milena Sofa Front",
+        "Milena Sofa Side 2",
+        "Milena Sofa Side",
+        "Miles Outdoor Front",
+        "Miles Outdoor Side",
+        "Miles Sofa Front 2",
+        "Miles Sofa Front",
+        "Miles Sofa Side 2",
+        "Miles Sofa Side",
+        "Mireia Business Indoor Front",
+        "Mireia Business Indoor Side",
+        "Mireia Outdoor Chair Front",
+        "Mireia Outdoor Front",
+        "Mireia Outdoor Side",
+        "Mireia Outdoor Table Front",
+        "Mireia Outdoor Table Side",
+        "Miyu Office Front 2",
+        "Miyu Office Front",
+        "Miyu Office Side 2",
+        "Miyu Office Side",
+        "Miyu Sofa Business Front",
+        "Miyu Sofa Business Side",
+        "Miyu Sofa Casual Front 2",
+        "Miyu Sofa Casual Front",
+        "Miyu Sofa Casual Side 2 ",
+        "Miyu Sofa Casual Side",
+        "Noah Lobby Front 2",
+        "Noah Lobby Front",
+        "Noah Lobby Side 2",
+        "Noah Lobby Side",
+        "Noah Office Front 2",
+        "Noah Office Front",
+        "Noah Office Side 2",
+        "Noah Office Side",
+        "Noah Sofa Front 2",
+        "Noah Sofa Front ",
+        "Noah Sofa Side 2",
+        "Noah Sofa Side",
+        "Oxana Gym Front 2",
+        "Oxana Gym Front",
+        "Oxana Gym Side 2",
+        "Oxana Gym Side",
+        "Oxana Office Front 2",
+        "Oxana Office Front",
+        "Oxana Office Side 2",
+        "Oxana Office Side",
+        "Oxana Sofa Front 2",
+        "Oxana Sofa Front",
+        "Oxana Sofa Side 2",
+        "Oxana Sofa Side",
+        "Oxana Yoga Front 2",
+        "Oxana Yoga Front",
+        "Oxana Yoga Side 2",
+        "Oxana Yoga Side",
+        "Patrizio Business Training Front",
+        "Patrizio Business Training Side",
+        "Patrizio Office Front",
+        "Patrizio Office Side 2",
+        "Patrizio Office Side",
+        "Patrizio Sofa Front",
+        "Patrizio Sofa Side",
+        "Piper Business Sofa Front",
+        "Piper Business Sofa Side",
+        "Piper Education Front",
+        "Piper Education Side",
+        "Rasmus Lounge Front 2",
+        "Rasmus Lounge Front",
+        "Rasmus Lounge Side 2",
+        "Rasmus Lounge Side",
+        "Rasmus Sofa Front 2",
+        "Rasmus Sofa Front",
+        "Rasmus Sofa Side 2",
+        "Rasmus Sofa Side",
+        "Raul Business Sofa Front 2",
+        "Raul Business Sofa Front",
+        "Raul Business Sofa Side 2",
+        "Raul Business Sofa Side",
+        "Raul Casual Sofa Front 2",
+        "Raul Casual Sofa Front",
+        "Raul Casual Sofa Side 2",
+        "Raul Casual Sofa Side",
+        "Raul Casual Sofa no iPad Front",
+        "Raul Casual Sofa no iPad Side",
+        "Raul Casual Sofa with iPad Front",
+        "Raul Casual Sofa with iPad Side",
+        "Raul Office Front 2",
+        "Raul Office Front",
+        "Raul Office Side",
+        "Raul Sofa Front 2",
+        "Raul Sofa Front",
+        "Raul Sofa Side 2",
+        "Raul Sofa Side",
+        "Ren Office Front 2",
+        "Ren Office Front",
+        "Ren Office Side 2",
+        "Ren Office Side",
+        "Ren Sofa Business Front",
+        "Ren Sofa Business Side",
+        "Ren Sofa Casual Front 2",
+        "Ren Sofa Casual Front",
+        "Ren Sofa Casual Side 2 ",
+        "Ren Sofa Casual Side",
+        "Riley Casual Front",
+        "Riley Casual Side",
+        "Riley Office Front",
+        "Riley Office Side",
+        "Roman Outdoor Sport Front",
+        "Roman Outdoor Sport Side",
+        "Sabine Office Front 2",
+        "Sabine Office Front",
+        "Sabine Office Side",
+        "Sabine Sofa Side",
+        "Santa Fireplace Front",
+        "Santa Fireplace Side",
+        "Scarlett Couch Front 2",
+        "Scarlett Couch Front",
+        "Scarlett Couch Side 2",
+        "Scarlett Couch Side",
+        "Scarlett Fireplace Front",
+        "Scarlett Fireplace Side",
+        "Scarlett Hall Front",
+        "Scarlett Hall Side",
+        "Scarlett Yoga Front",
+        "Scarlett Yoga Side",
+        "Shawn Therapist",
+        "Silas Customer Support",
+        "Silas HR",
+        "Silas Lounge Front",
+        "Silas Lounge Side",
+        "Silas Sofa Side 2",
+        "Silas Sofa Side",
+        "Teodor Office Front 2",
+        "Teodor Office Front",
+        "Teodor Office Side 2",
+        "Teodor Office Side",
+        "Teodor Sofa Front 2",
+        "Teodor Sofa Front",
+        "Teodor Sofa Side 2",
+        "Teodor Sofa Side",
+        "Timothy Casual Front",
+        "Timothy Casual Side",
+        "Timothy Office Front",
+        "Timothy Office Side",
+        "Veit Office Front",
+        "Veit Office Side",
+        "Veit Sofa Front",
+        "Veit Sofa Side",
+        "Vernon Office Front 2",
+        "Vernon Office Front",
+        "Vernon Office Side 2",
+        "Vernon Office Side",
+        "Verena Office Front",
+        "Verena Office Side",
+        "Verena Sofa Front",
+        "Verena Sofa Side",
+        "Vernon Lounge Front 2",
+        "Vernon Lounge Side 2",
+        "Vernon Lounge Side",
+        "Vince Business Sofa Front",
+        "Vince Business Training Front",
+        "Vince Business Training Side 2",
+        "Vince Business Training Side",
+        "Vince Sofa Casual Front 2",
+        "Vince Sofa Casual Front",
+        "Vince Sofa Casual Side 2",
+        "Vince Sofa Casual Side"
+      ],
+      "default": "Abigail Sofa Front",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "optional": true
+    },
+    {
+      "name": "voice",
+      "kind": "choice",
+      "choices": [
+        "Warm Pro Narrator",
+        "Chill Brian",
+        "Ivy",
+        "John Doe",
+        "Monika Sogam",
+        "Hope ",
+        "Archer ",
+        "Brittney",
+        "Patrick",
+        "David Castlemore",
+        "Michael C",
+        "Adam Stone ",
+        "Juniper",
+        "Cassidy ",
+        "Jessica Anne Bogart",
+        "Arabella",
+        "Andrew",
+        "Spuds Oxley ",
+        "Grace Elder",
+        "Helen",
+        "Canyon Rivers",
+        "Derya - Lifelike - Excited 🤩",
+        "Mellow Marcus",
+        "Jack Sterling - Broadcaster 🎙️",
+        "Brenda - UGC - 1.mp4",
+        "Reid",
+        "Reagan",
+        "Terry",
+        "Jenny",
+        "Radio Rick",
+        "Denise",
+        "Tim in car - Excited 🤩",
+        "Iskander",
+        "Thompson",
+        "Delicate Daisy - Excited 🤩",
+        "Kingston",
+        "George UGC 1",
+        "Bold Blake",
+        "Jane",
+        "Expressive Evan",
+        "Marianne - IA",
+        "Aaron",
+        "Modern Recipe Host - Voice 1",
+        "Willow",
+        "Cute Chloe - Friendly 😊",
+        "Rafael",
+        "June - Lifelike",
+        "Crisp Chloe",
+        "Slick Simon",
+        "Nassim - Informative",
+        "Baritone Ben",
+        "Maxwell",
+        "Ellie Faye - Excited 🤩",
+        "Milani",
+        "Feisty Fiona - Excited 🤩",
+        "Professor Dean",
+        "Rose - UGC - 1.mp4",
+        "Shona",
+        "Hudson Wilder",
+        "Ann - IA",
+        "Alastair Kensington",
+        "Oxley",
+        "Christina",
+        "Andrew Rizz ",
+        "Peyton",
+        "Gerardo - Outdoor",
+        "Chloe - Lifelike",
+        "Stephanie",
+        "Anthony - IA",
+        "Signal - Voice 1",
+        "Luca",
+        "Lisa - Voice 1",
+        "T.W.Tucker",
+        "Jack Sullivan - Serious 😐",
+        "Winter",
+        "Mireia - Lifelike",
+        "Georgia",
+        "Stella",
+        "Masha - Lifelike",
+        "Charming Charles - Friendly 😊",
+        "Serenity",
+        "Annie - Excited",
+        "Ralph",
+        "Bethany",
+        "Dominic",
+        "Mason Finn",
+        "Leena",
+        "Veteran Victor",
+        "Tamara",
+        "Nik Public",
+        "Calm Chloe",
+        "Sevik",
+        "Reilly",
+        "Raul",
+        "Imposing Ian",
+        "Relaxed Ray",
+        "Dexter - Professional",
+        "Relaxed Rick",
+        "Edwin",
+        "Rupert Blackwood",
+        "Ginny",
+        "Hope"
+      ],
+      "default": "Warm Pro Narrator",
+      "optional": true
+    },
+    {
+      "name": "voice_audio",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["720p", "1080p", "4k"],
+      "default": "720p",
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["16:9", "9:16", "4:5", "5:4", "1:1", "auto"],
+      "default": "16:9",
+      "optional": true
+    },
+    {
+      "name": "fit",
+      "kind": "choice",
+      "choices": ["cover", "contain"],
+      "default": "cover",
+      "optional": true
+    },
+    {
+      "name": "remove_background",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "choices": ["mp4", "webm"],
+      "default": "mp4",
+      "optional": true
+    },
+    {
+      "name": "background_color",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "background",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "audio_source",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304,
+      "optional": true
+    },
+    {
+      "name": "background_source",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "avatar",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "voice",
+      "section": "default"
+    },
+    {
+      "fieldId": "voice_audio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "fit",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "remove_background",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "background_color",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "background",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "background_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "heygen/avatar-5/digital-twin",
+      "operation": "video",
+      "parameters": {
+        "avatar": "avatar",
+        "prompt": "prompt",
+        "voice": "voice",
+        "resolution": "resolution",
+        "aspect_ratio": "aspect_ratio",
+        "fit": "fit",
+        "remove_background": "remove_background",
+        "output_format": "output_format",
+        "background_color": "background_color"
+      },
+      "required_any_of": [["prompt", "audio"]],
+      "omit_blank_parameters": ["prompt", "background_color"],
+      "enabled_by": {
+        "background_color": {
+          "parameter": "output_format",
+          "equals": "mp4"
+        },
+        "background_image": {
+          "parameter": "output_format",
+          "equals": "mp4"
+        }
+      },
+      "media": {
+        "audio": {
+          "kind": "audio",
+          "fields": ["voice_audio"],
+          "external_sources_field": "audio_source",
+          "allow_raw_base64": true,
+          "content_types": [
+            "audio/wav",
+            "audio/wave",
+            "audio/x-wav",
+            "audio/mpeg",
+            "audio/mp3",
+            "audio/mp4",
+            "audio/ogg"
+          ]
+        },
+        "background_image": {
+          "kind": "image",
+          "fields": ["background"],
+          "external_sources_field": "background_source",
+          "allow_raw_base64": true,
+          "content_types": ["image/jpeg", "image/png", "image/webp"]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "HeyGen Avatar V 数字人视频",
+      "description": "选择预设数字人，用脚本或音频生成对口型的演示视频。",
+      "fields": {
+        "avatar": {
+          "label": "数字人"
+        },
+        "prompt": {
+          "label": "朗读脚本"
+        },
+        "voice": {
+          "label": "朗读音色",
+          "choiceLabels": {
+            "Warm Pro Narrator": "Warm Pro Narrator",
+            "Chill Brian": "Chill Brian",
+            "Ivy": "Ivy",
+            "John Doe": "John Doe",
+            "Monika Sogam": "Monika Sogam",
+            "Hope ": "Hope（预设 1）",
+            "Archer ": "Archer",
+            "Brittney": "Brittney",
+            "Patrick": "Patrick",
+            "David Castlemore": "David Castlemore",
+            "Michael C": "Michael C",
+            "Adam Stone ": "Adam Stone",
+            "Juniper": "Juniper",
+            "Cassidy ": "Cassidy",
+            "Jessica Anne Bogart": "Jessica Anne Bogart",
+            "Arabella": "Arabella",
+            "Andrew": "Andrew",
+            "Spuds Oxley ": "Spuds Oxley",
+            "Grace Elder": "Grace Elder",
+            "Helen": "Helen",
+            "Canyon Rivers": "Canyon Rivers",
+            "Derya - Lifelike - Excited 🤩": "Derya - Lifelike - Excited 🤩",
+            "Mellow Marcus": "Mellow Marcus",
+            "Jack Sterling - Broadcaster 🎙️": "Jack Sterling - Broadcaster 🎙️",
+            "Brenda - UGC - 1.mp4": "Brenda - UGC - 1.mp4",
+            "Reid": "Reid",
+            "Reagan": "Reagan",
+            "Terry": "Terry",
+            "Jenny": "Jenny",
+            "Radio Rick": "Radio Rick",
+            "Denise": "Denise",
+            "Tim in car - Excited 🤩": "Tim in car - Excited 🤩",
+            "Iskander": "Iskander",
+            "Thompson": "Thompson",
+            "Delicate Daisy - Excited 🤩": "Delicate Daisy - Excited 🤩",
+            "Kingston": "Kingston",
+            "George UGC 1": "George UGC 1",
+            "Bold Blake": "Bold Blake",
+            "Jane": "Jane",
+            "Expressive Evan": "Expressive Evan",
+            "Marianne - IA": "Marianne - IA",
+            "Aaron": "Aaron",
+            "Modern Recipe Host - Voice 1": "Modern Recipe Host - Voice 1",
+            "Willow": "Willow",
+            "Cute Chloe - Friendly 😊": "Cute Chloe - Friendly 😊",
+            "Rafael": "Rafael",
+            "June - Lifelike": "June - Lifelike",
+            "Crisp Chloe": "Crisp Chloe",
+            "Slick Simon": "Slick Simon",
+            "Nassim - Informative": "Nassim - Informative",
+            "Baritone Ben": "Baritone Ben",
+            "Maxwell": "Maxwell",
+            "Ellie Faye - Excited 🤩": "Ellie Faye - Excited 🤩",
+            "Milani": "Milani",
+            "Feisty Fiona - Excited 🤩": "Feisty Fiona - Excited 🤩",
+            "Professor Dean": "Professor Dean",
+            "Rose - UGC - 1.mp4": "Rose - UGC - 1.mp4",
+            "Shona": "Shona",
+            "Hudson Wilder": "Hudson Wilder",
+            "Ann - IA": "Ann - IA",
+            "Alastair Kensington": "Alastair Kensington",
+            "Oxley": "Oxley",
+            "Christina": "Christina",
+            "Andrew Rizz ": "Andrew Rizz",
+            "Peyton": "Peyton",
+            "Gerardo - Outdoor": "Gerardo - Outdoor",
+            "Chloe - Lifelike": "Chloe - Lifelike",
+            "Stephanie": "Stephanie",
+            "Anthony - IA": "Anthony - IA",
+            "Signal - Voice 1": "Signal - Voice 1",
+            "Luca": "Luca",
+            "Lisa - Voice 1": "Lisa - Voice 1",
+            "T.W.Tucker": "T.W.Tucker",
+            "Jack Sullivan - Serious 😐": "Jack Sullivan - Serious 😐",
+            "Winter": "Winter",
+            "Mireia - Lifelike": "Mireia - Lifelike",
+            "Georgia": "Georgia",
+            "Stella": "Stella",
+            "Masha - Lifelike": "Masha - Lifelike",
+            "Charming Charles - Friendly 😊": "Charming Charles - Friendly 😊",
+            "Serenity": "Serenity",
+            "Annie - Excited": "Annie - Excited",
+            "Ralph": "Ralph",
+            "Bethany": "Bethany",
+            "Dominic": "Dominic",
+            "Mason Finn": "Mason Finn",
+            "Leena": "Leena",
+            "Veteran Victor": "Veteran Victor",
+            "Tamara": "Tamara",
+            "Nik Public": "Nik Public",
+            "Calm Chloe": "Calm Chloe",
+            "Sevik": "Sevik",
+            "Reilly": "Reilly",
+            "Raul": "Raul",
+            "Imposing Ian": "Imposing Ian",
+            "Relaxed Ray": "Relaxed Ray",
+            "Dexter - Professional": "Dexter - Professional",
+            "Relaxed Rick": "Relaxed Rick",
+            "Edwin": "Edwin",
+            "Rupert Blackwood": "Rupert Blackwood",
+            "Ginny": "Ginny",
+            "Hope": "Hope"
+          }
+        },
+        "voice_audio": {
+          "label": "驱动音频"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "宽高比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "1:1": "1:1",
+            "auto": "自动"
+          }
+        },
+        "fit": {
+          "label": "画面适配",
+          "choiceLabels": {
+            "cover": "铺满画面",
+            "contain": "完整显示"
+          }
+        },
+        "remove_background": {
+          "label": "移除原背景"
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "webm": "透明 WebM"
+          }
+        },
+        "background_color": {
+          "label": "背景颜色"
+        },
+        "background": {
+          "label": "背景图片"
+        },
+        "audio_source": {
+          "label": "驱动音频来源"
+        },
+        "background_source": {
+          "label": "背景图片来源"
+        }
+      },
+      "parameterLayout": {
+        "avatar": {
+          "help": "选择 HeyGen 提供的角色、场景与镜头角度。"
+        },
+        "prompt": {
+          "help": "输入数字人要朗读的文字。至少提供脚本或音频，两个都提供时优先使用音频。"
+        },
+        "voice": {
+          "help": "选择朗读脚本的音色。提供音频时由音频驱动。"
+        },
+        "voice_audio": {
+          "help": "可上传音频来驱动口型。视频长度跟随音频时长。"
+        },
+        "resolution": {
+          "help": "选择 720p、1080p 或 4K，默认 720p。"
+        },
+        "aspect_ratio": {
+          "help": "自动跟随角色原始比例。原始比例不可用时采用 16:9。"
+        },
+        "fit": {
+          "help": "铺满画面可能裁切，完整显示可能留边。"
+        },
+        "remove_background": {
+          "help": "适用于支持抠像的数字人。透明 WebM 会自动移除背景。"
+        },
+        "output_format": {
+          "help": "WebM 输出透明背景并忽略自定义背景。"
+        },
+        "background_color": {
+          "help": "填写十六进制颜色，例如 #FFFFFF。设置背景图片时以图片为准。"
+        },
+        "background": {
+          "help": "上传图片作为 MP4 视频背景。"
+        },
+        "audio_source": {
+          "help": "输入公开音频地址、Base64 数据 URI 或原始 Base64，或上传音频。"
+        },
+        "background_source": {
+          "help": "输入公开图片地址、Base64 数据 URI 或原始 Base64，或上传背景图。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "HeyGen Avatar V 數位人影片",
+      "description": "選擇預設數位人，依腳本或音訊生成對嘴的簡報影片。",
+      "fields": {
+        "avatar": {
+          "label": "數位人"
+        },
+        "prompt": {
+          "label": "朗讀腳本"
+        },
+        "voice": {
+          "label": "朗讀音色",
+          "choiceLabels": {
+            "Warm Pro Narrator": "Warm Pro Narrator",
+            "Chill Brian": "Chill Brian",
+            "Ivy": "Ivy",
+            "John Doe": "John Doe",
+            "Monika Sogam": "Monika Sogam",
+            "Hope ": "Hope（預設 1）",
+            "Archer ": "Archer",
+            "Brittney": "Brittney",
+            "Patrick": "Patrick",
+            "David Castlemore": "David Castlemore",
+            "Michael C": "Michael C",
+            "Adam Stone ": "Adam Stone",
+            "Juniper": "Juniper",
+            "Cassidy ": "Cassidy",
+            "Jessica Anne Bogart": "Jessica Anne Bogart",
+            "Arabella": "Arabella",
+            "Andrew": "Andrew",
+            "Spuds Oxley ": "Spuds Oxley",
+            "Grace Elder": "Grace Elder",
+            "Helen": "Helen",
+            "Canyon Rivers": "Canyon Rivers",
+            "Derya - Lifelike - Excited 🤩": "Derya - Lifelike - Excited 🤩",
+            "Mellow Marcus": "Mellow Marcus",
+            "Jack Sterling - Broadcaster 🎙️": "Jack Sterling - Broadcaster 🎙️",
+            "Brenda - UGC - 1.mp4": "Brenda - UGC - 1.mp4",
+            "Reid": "Reid",
+            "Reagan": "Reagan",
+            "Terry": "Terry",
+            "Jenny": "Jenny",
+            "Radio Rick": "Radio Rick",
+            "Denise": "Denise",
+            "Tim in car - Excited 🤩": "Tim in car - Excited 🤩",
+            "Iskander": "Iskander",
+            "Thompson": "Thompson",
+            "Delicate Daisy - Excited 🤩": "Delicate Daisy - Excited 🤩",
+            "Kingston": "Kingston",
+            "George UGC 1": "George UGC 1",
+            "Bold Blake": "Bold Blake",
+            "Jane": "Jane",
+            "Expressive Evan": "Expressive Evan",
+            "Marianne - IA": "Marianne - IA",
+            "Aaron": "Aaron",
+            "Modern Recipe Host - Voice 1": "Modern Recipe Host - Voice 1",
+            "Willow": "Willow",
+            "Cute Chloe - Friendly 😊": "Cute Chloe - Friendly 😊",
+            "Rafael": "Rafael",
+            "June - Lifelike": "June - Lifelike",
+            "Crisp Chloe": "Crisp Chloe",
+            "Slick Simon": "Slick Simon",
+            "Nassim - Informative": "Nassim - Informative",
+            "Baritone Ben": "Baritone Ben",
+            "Maxwell": "Maxwell",
+            "Ellie Faye - Excited 🤩": "Ellie Faye - Excited 🤩",
+            "Milani": "Milani",
+            "Feisty Fiona - Excited 🤩": "Feisty Fiona - Excited 🤩",
+            "Professor Dean": "Professor Dean",
+            "Rose - UGC - 1.mp4": "Rose - UGC - 1.mp4",
+            "Shona": "Shona",
+            "Hudson Wilder": "Hudson Wilder",
+            "Ann - IA": "Ann - IA",
+            "Alastair Kensington": "Alastair Kensington",
+            "Oxley": "Oxley",
+            "Christina": "Christina",
+            "Andrew Rizz ": "Andrew Rizz",
+            "Peyton": "Peyton",
+            "Gerardo - Outdoor": "Gerardo - Outdoor",
+            "Chloe - Lifelike": "Chloe - Lifelike",
+            "Stephanie": "Stephanie",
+            "Anthony - IA": "Anthony - IA",
+            "Signal - Voice 1": "Signal - Voice 1",
+            "Luca": "Luca",
+            "Lisa - Voice 1": "Lisa - Voice 1",
+            "T.W.Tucker": "T.W.Tucker",
+            "Jack Sullivan - Serious 😐": "Jack Sullivan - Serious 😐",
+            "Winter": "Winter",
+            "Mireia - Lifelike": "Mireia - Lifelike",
+            "Georgia": "Georgia",
+            "Stella": "Stella",
+            "Masha - Lifelike": "Masha - Lifelike",
+            "Charming Charles - Friendly 😊": "Charming Charles - Friendly 😊",
+            "Serenity": "Serenity",
+            "Annie - Excited": "Annie - Excited",
+            "Ralph": "Ralph",
+            "Bethany": "Bethany",
+            "Dominic": "Dominic",
+            "Mason Finn": "Mason Finn",
+            "Leena": "Leena",
+            "Veteran Victor": "Veteran Victor",
+            "Tamara": "Tamara",
+            "Nik Public": "Nik Public",
+            "Calm Chloe": "Calm Chloe",
+            "Sevik": "Sevik",
+            "Reilly": "Reilly",
+            "Raul": "Raul",
+            "Imposing Ian": "Imposing Ian",
+            "Relaxed Ray": "Relaxed Ray",
+            "Dexter - Professional": "Dexter - Professional",
+            "Relaxed Rick": "Relaxed Rick",
+            "Edwin": "Edwin",
+            "Rupert Blackwood": "Rupert Blackwood",
+            "Ginny": "Ginny",
+            "Hope": "Hope"
+          }
+        },
+        "voice_audio": {
+          "label": "驅動音訊"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "寬高比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "1:1": "1:1",
+            "auto": "自動"
+          }
+        },
+        "fit": {
+          "label": "畫面適配",
+          "choiceLabels": {
+            "cover": "填滿畫面",
+            "contain": "完整顯示"
+          }
+        },
+        "remove_background": {
+          "label": "移除原背景"
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "webm": "透明 WebM"
+          }
+        },
+        "background_color": {
+          "label": "背景顏色"
+        },
+        "background": {
+          "label": "背景圖片"
+        },
+        "audio_source": {
+          "label": "驅動音訊來源"
+        },
+        "background_source": {
+          "label": "背景圖片來源"
+        }
+      },
+      "parameterLayout": {
+        "avatar": {
+          "help": "選擇 HeyGen 提供的角色、場景與鏡頭角度。"
+        },
+        "prompt": {
+          "help": "輸入數位人要朗讀的文字。至少提供腳本或音訊，兩者皆提供時優先使用音訊。"
+        },
+        "voice": {
+          "help": "選擇朗讀腳本的音色。提供音訊時由音訊驅動。"
+        },
+        "voice_audio": {
+          "help": "可上傳音訊來驅動嘴型。影片長度依音訊而定。"
+        },
+        "resolution": {
+          "help": "選擇 720p、1080p 或 4K，預設 720p。"
+        },
+        "aspect_ratio": {
+          "help": "選擇自動時沿用角色原始比例。原始比例無法取得時採用 16:9。"
+        },
+        "fit": {
+          "help": "填滿畫面可能裁切，完整顯示可能留邊。"
+        },
+        "remove_background": {
+          "help": "適用於支援去背的數位人。透明 WebM 會自動移除背景。"
+        },
+        "output_format": {
+          "help": "WebM 輸出透明背景並忽略自訂背景。"
+        },
+        "background_color": {
+          "help": "填寫十六進位色碼，例如 #FFFFFF。設定背景圖片時以圖片為準。"
+        },
+        "background": {
+          "help": "上傳圖片作為 MP4 影片背景。"
+        },
+        "audio_source": {
+          "help": "輸入公開音訊網址、Base64 資料 URI 或原始 Base64，或上傳音訊。"
+        },
+        "background_source": {
+          "help": "輸入公開圖片網址、Base64 資料 URI 或原始 Base64，或上傳背景圖片。"
+        }
+      }
+    },
+    "en": {
+      "name": "HeyGen Avatar V Digital Twin",
+      "description": "Generate a lip-synced presenter video from a stock avatar and a script or audio track.",
+      "fields": {
+        "avatar": {
+          "label": "Avatar"
+        },
+        "prompt": {
+          "label": "Spoken script"
+        },
+        "voice": {
+          "label": "Speaking voice",
+          "choiceLabels": {
+            "Warm Pro Narrator": "Warm Pro Narrator",
+            "Chill Brian": "Chill Brian",
+            "Ivy": "Ivy",
+            "John Doe": "John Doe",
+            "Monika Sogam": "Monika Sogam",
+            "Hope ": "Hope (preset 1)",
+            "Archer ": "Archer",
+            "Brittney": "Brittney",
+            "Patrick": "Patrick",
+            "David Castlemore": "David Castlemore",
+            "Michael C": "Michael C",
+            "Adam Stone ": "Adam Stone",
+            "Juniper": "Juniper",
+            "Cassidy ": "Cassidy",
+            "Jessica Anne Bogart": "Jessica Anne Bogart",
+            "Arabella": "Arabella",
+            "Andrew": "Andrew",
+            "Spuds Oxley ": "Spuds Oxley",
+            "Grace Elder": "Grace Elder",
+            "Helen": "Helen",
+            "Canyon Rivers": "Canyon Rivers",
+            "Derya - Lifelike - Excited 🤩": "Derya - Lifelike - Excited 🤩",
+            "Mellow Marcus": "Mellow Marcus",
+            "Jack Sterling - Broadcaster 🎙️": "Jack Sterling - Broadcaster 🎙️",
+            "Brenda - UGC - 1.mp4": "Brenda - UGC - 1.mp4",
+            "Reid": "Reid",
+            "Reagan": "Reagan",
+            "Terry": "Terry",
+            "Jenny": "Jenny",
+            "Radio Rick": "Radio Rick",
+            "Denise": "Denise",
+            "Tim in car - Excited 🤩": "Tim in car - Excited 🤩",
+            "Iskander": "Iskander",
+            "Thompson": "Thompson",
+            "Delicate Daisy - Excited 🤩": "Delicate Daisy - Excited 🤩",
+            "Kingston": "Kingston",
+            "George UGC 1": "George UGC 1",
+            "Bold Blake": "Bold Blake",
+            "Jane": "Jane",
+            "Expressive Evan": "Expressive Evan",
+            "Marianne - IA": "Marianne - IA",
+            "Aaron": "Aaron",
+            "Modern Recipe Host - Voice 1": "Modern Recipe Host - Voice 1",
+            "Willow": "Willow",
+            "Cute Chloe - Friendly 😊": "Cute Chloe - Friendly 😊",
+            "Rafael": "Rafael",
+            "June - Lifelike": "June - Lifelike",
+            "Crisp Chloe": "Crisp Chloe",
+            "Slick Simon": "Slick Simon",
+            "Nassim - Informative": "Nassim - Informative",
+            "Baritone Ben": "Baritone Ben",
+            "Maxwell": "Maxwell",
+            "Ellie Faye - Excited 🤩": "Ellie Faye - Excited 🤩",
+            "Milani": "Milani",
+            "Feisty Fiona - Excited 🤩": "Feisty Fiona - Excited 🤩",
+            "Professor Dean": "Professor Dean",
+            "Rose - UGC - 1.mp4": "Rose - UGC - 1.mp4",
+            "Shona": "Shona",
+            "Hudson Wilder": "Hudson Wilder",
+            "Ann - IA": "Ann - IA",
+            "Alastair Kensington": "Alastair Kensington",
+            "Oxley": "Oxley",
+            "Christina": "Christina",
+            "Andrew Rizz ": "Andrew Rizz",
+            "Peyton": "Peyton",
+            "Gerardo - Outdoor": "Gerardo - Outdoor",
+            "Chloe - Lifelike": "Chloe - Lifelike",
+            "Stephanie": "Stephanie",
+            "Anthony - IA": "Anthony - IA",
+            "Signal - Voice 1": "Signal - Voice 1",
+            "Luca": "Luca",
+            "Lisa - Voice 1": "Lisa - Voice 1",
+            "T.W.Tucker": "T.W.Tucker",
+            "Jack Sullivan - Serious 😐": "Jack Sullivan - Serious 😐",
+            "Winter": "Winter",
+            "Mireia - Lifelike": "Mireia - Lifelike",
+            "Georgia": "Georgia",
+            "Stella": "Stella",
+            "Masha - Lifelike": "Masha - Lifelike",
+            "Charming Charles - Friendly 😊": "Charming Charles - Friendly 😊",
+            "Serenity": "Serenity",
+            "Annie - Excited": "Annie - Excited",
+            "Ralph": "Ralph",
+            "Bethany": "Bethany",
+            "Dominic": "Dominic",
+            "Mason Finn": "Mason Finn",
+            "Leena": "Leena",
+            "Veteran Victor": "Veteran Victor",
+            "Tamara": "Tamara",
+            "Nik Public": "Nik Public",
+            "Calm Chloe": "Calm Chloe",
+            "Sevik": "Sevik",
+            "Reilly": "Reilly",
+            "Raul": "Raul",
+            "Imposing Ian": "Imposing Ian",
+            "Relaxed Ray": "Relaxed Ray",
+            "Dexter - Professional": "Dexter - Professional",
+            "Relaxed Rick": "Relaxed Rick",
+            "Edwin": "Edwin",
+            "Rupert Blackwood": "Rupert Blackwood",
+            "Ginny": "Ginny",
+            "Hope": "Hope"
+          }
+        },
+        "voice_audio": {
+          "label": "Driving audio"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "1:1": "1:1",
+            "auto": "Auto"
+          }
+        },
+        "fit": {
+          "label": "Frame fit",
+          "choiceLabels": {
+            "cover": "Fill frame",
+            "contain": "Fit whole avatar"
+          }
+        },
+        "remove_background": {
+          "label": "Remove original background"
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "webm": "Transparent WebM"
+          }
+        },
+        "background_color": {
+          "label": "Background color"
+        },
+        "background": {
+          "label": "Background image"
+        },
+        "audio_source": {
+          "label": "Driving audio source"
+        },
+        "background_source": {
+          "label": "Background image source"
+        }
+      },
+      "parameterLayout": {
+        "avatar": {
+          "help": "Choose a stock presenter, scene, and camera angle from HeyGen."
+        },
+        "prompt": {
+          "help": "Enter the words for the avatar. Provide a script or audio. When both are set, the audio takes precedence."
+        },
+        "voice": {
+          "help": "Choose a voice for the script. Supplied audio takes precedence."
+        },
+        "voice_audio": {
+          "help": "Upload audio to drive lip sync. The video follows the duration of the audio."
+        },
+        "resolution": {
+          "help": "Choose 720p, 1080p, or 4K. The default is 720p."
+        },
+        "aspect_ratio": {
+          "help": "Auto uses the avatar's original ratio when available, with 16:9 as the fallback."
+        },
+        "fit": {
+          "help": "Filling the frame may crop. Fitting the whole avatar may add borders."
+        },
+        "remove_background": {
+          "help": "Use with avatars that support background removal. Transparent WebM removes the background automatically."
+        },
+        "output_format": {
+          "help": "WebM produces transparent video and ignores custom backgrounds."
+        },
+        "background_color": {
+          "help": "Enter a hex color such as #FFFFFF. A supplied background image takes precedence."
+        },
+        "background": {
+          "help": "Upload an image to use as the MP4 background."
+        },
+        "audio_source": {
+          "help": "Enter a public audio URL, Base64 data URI, or raw Base64, or upload audio."
+        },
+        "background_source": {
+          "help": "Enter a public image URL, Base64 data URI, or raw Base64, or upload an image."
+        }
+      }
+    },
+    "ja": {
+      "name": "HeyGen Avatar V デジタルツイン動画",
+      "description": "既成のアバターと台本または音声から、口の動きが合ったプレゼンター動画を生成します。",
+      "fields": {
+        "avatar": {
+          "label": "アバター"
+        },
+        "prompt": {
+          "label": "読み上げ台本"
+        },
+        "voice": {
+          "label": "読み上げ音声",
+          "choiceLabels": {
+            "Warm Pro Narrator": "Warm Pro Narrator",
+            "Chill Brian": "Chill Brian",
+            "Ivy": "Ivy",
+            "John Doe": "John Doe",
+            "Monika Sogam": "Monika Sogam",
+            "Hope ": "Hope（プリセット 1）",
+            "Archer ": "Archer",
+            "Brittney": "Brittney",
+            "Patrick": "Patrick",
+            "David Castlemore": "David Castlemore",
+            "Michael C": "Michael C",
+            "Adam Stone ": "Adam Stone",
+            "Juniper": "Juniper",
+            "Cassidy ": "Cassidy",
+            "Jessica Anne Bogart": "Jessica Anne Bogart",
+            "Arabella": "Arabella",
+            "Andrew": "Andrew",
+            "Spuds Oxley ": "Spuds Oxley",
+            "Grace Elder": "Grace Elder",
+            "Helen": "Helen",
+            "Canyon Rivers": "Canyon Rivers",
+            "Derya - Lifelike - Excited 🤩": "Derya - Lifelike - Excited 🤩",
+            "Mellow Marcus": "Mellow Marcus",
+            "Jack Sterling - Broadcaster 🎙️": "Jack Sterling - Broadcaster 🎙️",
+            "Brenda - UGC - 1.mp4": "Brenda - UGC - 1.mp4",
+            "Reid": "Reid",
+            "Reagan": "Reagan",
+            "Terry": "Terry",
+            "Jenny": "Jenny",
+            "Radio Rick": "Radio Rick",
+            "Denise": "Denise",
+            "Tim in car - Excited 🤩": "Tim in car - Excited 🤩",
+            "Iskander": "Iskander",
+            "Thompson": "Thompson",
+            "Delicate Daisy - Excited 🤩": "Delicate Daisy - Excited 🤩",
+            "Kingston": "Kingston",
+            "George UGC 1": "George UGC 1",
+            "Bold Blake": "Bold Blake",
+            "Jane": "Jane",
+            "Expressive Evan": "Expressive Evan",
+            "Marianne - IA": "Marianne - IA",
+            "Aaron": "Aaron",
+            "Modern Recipe Host - Voice 1": "Modern Recipe Host - Voice 1",
+            "Willow": "Willow",
+            "Cute Chloe - Friendly 😊": "Cute Chloe - Friendly 😊",
+            "Rafael": "Rafael",
+            "June - Lifelike": "June - Lifelike",
+            "Crisp Chloe": "Crisp Chloe",
+            "Slick Simon": "Slick Simon",
+            "Nassim - Informative": "Nassim - Informative",
+            "Baritone Ben": "Baritone Ben",
+            "Maxwell": "Maxwell",
+            "Ellie Faye - Excited 🤩": "Ellie Faye - Excited 🤩",
+            "Milani": "Milani",
+            "Feisty Fiona - Excited 🤩": "Feisty Fiona - Excited 🤩",
+            "Professor Dean": "Professor Dean",
+            "Rose - UGC - 1.mp4": "Rose - UGC - 1.mp4",
+            "Shona": "Shona",
+            "Hudson Wilder": "Hudson Wilder",
+            "Ann - IA": "Ann - IA",
+            "Alastair Kensington": "Alastair Kensington",
+            "Oxley": "Oxley",
+            "Christina": "Christina",
+            "Andrew Rizz ": "Andrew Rizz",
+            "Peyton": "Peyton",
+            "Gerardo - Outdoor": "Gerardo - Outdoor",
+            "Chloe - Lifelike": "Chloe - Lifelike",
+            "Stephanie": "Stephanie",
+            "Anthony - IA": "Anthony - IA",
+            "Signal - Voice 1": "Signal - Voice 1",
+            "Luca": "Luca",
+            "Lisa - Voice 1": "Lisa - Voice 1",
+            "T.W.Tucker": "T.W.Tucker",
+            "Jack Sullivan - Serious 😐": "Jack Sullivan - Serious 😐",
+            "Winter": "Winter",
+            "Mireia - Lifelike": "Mireia - Lifelike",
+            "Georgia": "Georgia",
+            "Stella": "Stella",
+            "Masha - Lifelike": "Masha - Lifelike",
+            "Charming Charles - Friendly 😊": "Charming Charles - Friendly 😊",
+            "Serenity": "Serenity",
+            "Annie - Excited": "Annie - Excited",
+            "Ralph": "Ralph",
+            "Bethany": "Bethany",
+            "Dominic": "Dominic",
+            "Mason Finn": "Mason Finn",
+            "Leena": "Leena",
+            "Veteran Victor": "Veteran Victor",
+            "Tamara": "Tamara",
+            "Nik Public": "Nik Public",
+            "Calm Chloe": "Calm Chloe",
+            "Sevik": "Sevik",
+            "Reilly": "Reilly",
+            "Raul": "Raul",
+            "Imposing Ian": "Imposing Ian",
+            "Relaxed Ray": "Relaxed Ray",
+            "Dexter - Professional": "Dexter - Professional",
+            "Relaxed Rick": "Relaxed Rick",
+            "Edwin": "Edwin",
+            "Rupert Blackwood": "Rupert Blackwood",
+            "Ginny": "Ginny",
+            "Hope": "Hope"
+          }
+        },
+        "voice_audio": {
+          "label": "口の動きに使う音声"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "1:1": "1:1",
+            "auto": "自動"
+          }
+        },
+        "fit": {
+          "label": "フレームへの配置",
+          "choiceLabels": {
+            "cover": "画面いっぱいに表示",
+            "contain": "アバター全体を表示"
+          }
+        },
+        "remove_background": {
+          "label": "元の背景を削除"
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "webm": "透過 WebM"
+          }
+        },
+        "background_color": {
+          "label": "背景色"
+        },
+        "background": {
+          "label": "背景画像"
+        },
+        "audio_source": {
+          "label": "音声の入力元"
+        },
+        "background_source": {
+          "label": "背景画像の入力元"
+        }
+      },
+      "parameterLayout": {
+        "avatar": {
+          "help": "HeyGen の既成アバターから、人物、シーン、カメラの向きを選びます。"
+        },
+        "prompt": {
+          "help": "アバターが話す内容を入力します。台本か音声が必要です。両方ある場合は音声を使います。"
+        },
+        "voice": {
+          "help": "台本を読む声を選びます。音声素材を指定した場合はそちらを使用します。"
+        },
+        "voice_audio": {
+          "help": "音声をアップロードして口の動きを合わせます。動画の長さは音声に従います。"
+        },
+        "resolution": {
+          "help": "720p、1080p、4K から選びます。既定値は 720p です。"
+        },
+        "aspect_ratio": {
+          "help": "自動を選ぶと利用可能な場合はアバターの元の比率を使用します。それ以外は 16:9 です。"
+        },
+        "fit": {
+          "help": "画面全体を埋めると一部が切れる場合があります。全体表示では余白が入る場合があります。"
+        },
+        "remove_background": {
+          "help": "背景の切り抜きに対応するアバターで使えます。透過 WebM では自動的に背景を除去します。"
+        },
+        "output_format": {
+          "help": "WebM は背景を透過し、カスタム背景は反映されません。"
+        },
+        "background_color": {
+          "help": "#FFFFFF のように 16 進数で指定します。背景画像がある場合は画像が優先されます。"
+        },
+        "background": {
+          "help": "MP4 の背景に使う画像をアップロードします。"
+        },
+        "audio_source": {
+          "help": "公開音声 URL、Base64 データ URI、Base64 文字列のいずれかを入力するか、音声をアップロードします。"
+        },
+        "background_source": {
+          "help": "公開画像 URL、Base64 データ URI、Base64 文字列のいずれかを入力するか、画像をアップロードします。"
+        }
+      }
+    },
+    "ko": {
+      "name": "HeyGen Avatar V 디지털 트윈 동영상",
+      "description": "기본 아바타와 대본 또는 오디오로 입 모양이 맞는 발표 동영상을 생성합니다.",
+      "fields": {
+        "avatar": {
+          "label": "아바타"
+        },
+        "prompt": {
+          "label": "낭독 대본"
+        },
+        "voice": {
+          "label": "낭독 음성",
+          "choiceLabels": {
+            "Warm Pro Narrator": "Warm Pro Narrator",
+            "Chill Brian": "Chill Brian",
+            "Ivy": "Ivy",
+            "John Doe": "John Doe",
+            "Monika Sogam": "Monika Sogam",
+            "Hope ": "Hope(사전 설정 1)",
+            "Archer ": "Archer",
+            "Brittney": "Brittney",
+            "Patrick": "Patrick",
+            "David Castlemore": "David Castlemore",
+            "Michael C": "Michael C",
+            "Adam Stone ": "Adam Stone",
+            "Juniper": "Juniper",
+            "Cassidy ": "Cassidy",
+            "Jessica Anne Bogart": "Jessica Anne Bogart",
+            "Arabella": "Arabella",
+            "Andrew": "Andrew",
+            "Spuds Oxley ": "Spuds Oxley",
+            "Grace Elder": "Grace Elder",
+            "Helen": "Helen",
+            "Canyon Rivers": "Canyon Rivers",
+            "Derya - Lifelike - Excited 🤩": "Derya - Lifelike - Excited 🤩",
+            "Mellow Marcus": "Mellow Marcus",
+            "Jack Sterling - Broadcaster 🎙️": "Jack Sterling - Broadcaster 🎙️",
+            "Brenda - UGC - 1.mp4": "Brenda - UGC - 1.mp4",
+            "Reid": "Reid",
+            "Reagan": "Reagan",
+            "Terry": "Terry",
+            "Jenny": "Jenny",
+            "Radio Rick": "Radio Rick",
+            "Denise": "Denise",
+            "Tim in car - Excited 🤩": "Tim in car - Excited 🤩",
+            "Iskander": "Iskander",
+            "Thompson": "Thompson",
+            "Delicate Daisy - Excited 🤩": "Delicate Daisy - Excited 🤩",
+            "Kingston": "Kingston",
+            "George UGC 1": "George UGC 1",
+            "Bold Blake": "Bold Blake",
+            "Jane": "Jane",
+            "Expressive Evan": "Expressive Evan",
+            "Marianne - IA": "Marianne - IA",
+            "Aaron": "Aaron",
+            "Modern Recipe Host - Voice 1": "Modern Recipe Host - Voice 1",
+            "Willow": "Willow",
+            "Cute Chloe - Friendly 😊": "Cute Chloe - Friendly 😊",
+            "Rafael": "Rafael",
+            "June - Lifelike": "June - Lifelike",
+            "Crisp Chloe": "Crisp Chloe",
+            "Slick Simon": "Slick Simon",
+            "Nassim - Informative": "Nassim - Informative",
+            "Baritone Ben": "Baritone Ben",
+            "Maxwell": "Maxwell",
+            "Ellie Faye - Excited 🤩": "Ellie Faye - Excited 🤩",
+            "Milani": "Milani",
+            "Feisty Fiona - Excited 🤩": "Feisty Fiona - Excited 🤩",
+            "Professor Dean": "Professor Dean",
+            "Rose - UGC - 1.mp4": "Rose - UGC - 1.mp4",
+            "Shona": "Shona",
+            "Hudson Wilder": "Hudson Wilder",
+            "Ann - IA": "Ann - IA",
+            "Alastair Kensington": "Alastair Kensington",
+            "Oxley": "Oxley",
+            "Christina": "Christina",
+            "Andrew Rizz ": "Andrew Rizz",
+            "Peyton": "Peyton",
+            "Gerardo - Outdoor": "Gerardo - Outdoor",
+            "Chloe - Lifelike": "Chloe - Lifelike",
+            "Stephanie": "Stephanie",
+            "Anthony - IA": "Anthony - IA",
+            "Signal - Voice 1": "Signal - Voice 1",
+            "Luca": "Luca",
+            "Lisa - Voice 1": "Lisa - Voice 1",
+            "T.W.Tucker": "T.W.Tucker",
+            "Jack Sullivan - Serious 😐": "Jack Sullivan - Serious 😐",
+            "Winter": "Winter",
+            "Mireia - Lifelike": "Mireia - Lifelike",
+            "Georgia": "Georgia",
+            "Stella": "Stella",
+            "Masha - Lifelike": "Masha - Lifelike",
+            "Charming Charles - Friendly 😊": "Charming Charles - Friendly 😊",
+            "Serenity": "Serenity",
+            "Annie - Excited": "Annie - Excited",
+            "Ralph": "Ralph",
+            "Bethany": "Bethany",
+            "Dominic": "Dominic",
+            "Mason Finn": "Mason Finn",
+            "Leena": "Leena",
+            "Veteran Victor": "Veteran Victor",
+            "Tamara": "Tamara",
+            "Nik Public": "Nik Public",
+            "Calm Chloe": "Calm Chloe",
+            "Sevik": "Sevik",
+            "Reilly": "Reilly",
+            "Raul": "Raul",
+            "Imposing Ian": "Imposing Ian",
+            "Relaxed Ray": "Relaxed Ray",
+            "Dexter - Professional": "Dexter - Professional",
+            "Relaxed Rick": "Relaxed Rick",
+            "Edwin": "Edwin",
+            "Rupert Blackwood": "Rupert Blackwood",
+            "Ginny": "Ginny",
+            "Hope": "Hope"
+          }
+        },
+        "voice_audio": {
+          "label": "입 모양을 맞출 오디오"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "가로세로 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "1:1": "1:1",
+            "auto": "자동"
+          }
+        },
+        "fit": {
+          "label": "화면 맞춤",
+          "choiceLabels": {
+            "cover": "화면 채우기",
+            "contain": "아바타 전체 맞추기"
+          }
+        },
+        "remove_background": {
+          "label": "원본 배경 제거"
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "webm": "투명 WebM"
+          }
+        },
+        "background_color": {
+          "label": "배경색"
+        },
+        "background": {
+          "label": "배경 이미지"
+        },
+        "audio_source": {
+          "label": "오디오 출처"
+        },
+        "background_source": {
+          "label": "배경 이미지 출처"
+        }
+      },
+      "parameterLayout": {
+        "avatar": {
+          "help": "HeyGen의 기본 발표자, 장면 및 카메라 각도를 선택하세요."
+        },
+        "prompt": {
+          "help": "아바타가 말할 대본을 입력하세요. 대본과 오디오 중 하나 이상이 필요하며, 둘 다 제공하면 오디오가 우선합니다."
+        },
+        "voice": {
+          "help": "대본에 사용할 음성을 선택하세요. 오디오를 제공하면 해당 오디오를 사용합니다."
+        },
+        "voice_audio": {
+          "help": "오디오를 업로드하여 입 모양을 맞추세요. 동영상의 길이는 오디오를 따릅니다."
+        },
+        "resolution": {
+          "help": "720p, 1080p, 4K 중에서 선택하세요. 기본값은 720p입니다."
+        },
+        "aspect_ratio": {
+          "help": "자동을 선택하면 아바타의 원본 비율을 사용합니다. 원본 비율을 알 수 없으면 16:9를 사용합니다."
+        },
+        "fit": {
+          "help": "화면을 채우면 잘릴 수 있습니다. 아바타 전체를 표시하면 여백이 생길 수 있습니다."
+        },
+        "remove_background": {
+          "help": "배경 제거를 지원하는 아바타에서 사용할 수 있습니다. 투명 WebM은 배경을 자동으로 제거합니다."
+        },
+        "output_format": {
+          "help": "WebM은 배경을 투명하게 출력하며 사용자 배경을 반영하지 않습니다."
+        },
+        "background_color": {
+          "help": "#FFFFFF처럼 16진수 색상을 입력하세요. 배경 이미지가 있으면 이미지가 우선합니다."
+        },
+        "background": {
+          "help": "MP4 배경으로 사용할 이미지를 업로드하세요."
+        },
+        "audio_source": {
+          "help": "공개 오디오 URL, Base64 데이터 URI, Base64 문자열을 입력하거나 오디오를 업로드하세요."
+        },
+        "background_source": {
+          "help": "공개 이미지 URL, Base64 데이터 URI, Base64 문자열을 입력하거나 이미지를 업로드하세요."
+        }
+      }
+    }
+  }
+}

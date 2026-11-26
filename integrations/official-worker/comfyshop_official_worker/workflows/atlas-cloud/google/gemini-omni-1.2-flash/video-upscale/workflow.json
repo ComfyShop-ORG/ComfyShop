@@ -1,0 +1,218 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "google-gemini-omni-12-flash-video-upscale",
+  "name": "Gemini Omni 1.2 Flash 视频超分",
+  "description": "把短片放大到更高分辨率，保留原来的运动、构图和时间节奏。",
+  "category": "video_tool",
+  "fields": [
+    {
+      "name": "video",
+      "kind": "video"
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1080p",
+      "choices": ["720p", "1080p", "4k"]
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true,
+      "default": -1
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "video",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "operation": "video",
+      "model": "google/gemini-omni-1.2-flash/video-upscale",
+      "parameters": {
+        "resolution": "resolution",
+        "seed": "seed"
+      },
+      "media": {
+        "video": {
+          "kind": "video",
+          "fields": ["video"],
+          "min_items": 1,
+          "content_types": ["video/mp4"],
+          "max_duration_ms": 15000
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Gemini Omni 1.2 Flash 视频超分",
+      "description": "把短片放大到更高分辨率，保留原来的运动、构图和时间节奏。",
+      "fields": {
+        "video": {
+          "label": "原视频"
+        },
+        "resolution": {
+          "label": "目标分辨率",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "随机种子"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "上传最多 15 秒的 MP4。支持 360p、720p 或 1080p，画幅为 16:9 或 9:16。"
+        },
+        "resolution": {
+          "help": "360p 可提升至 720p 或 1080p。720p 可提升至 1080p 或 4K。1080p 可提升至 4K。"
+        },
+        "seed": {
+          "help": "-1 使用随机种子，也可指定整数。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Gemini Omni 1.2 Flash 影片超解析",
+      "description": "把短片放大至更高解析度，保留原本的動作、構圖和時間節奏。",
+      "fields": {
+        "video": {
+          "label": "原始影片"
+        },
+        "resolution": {
+          "label": "目標解析度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "隨機種子"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "上傳最多 15 秒的 MP4。支援 360p、720p 或 1080p，畫面比例為 16:9 或 9:16。"
+        },
+        "resolution": {
+          "help": "360p 可提升至 720p 或 1080p。720p 可提升至 1080p 或 4K。1080p 可提升至 4K。"
+        },
+        "seed": {
+          "help": "-1 為隨機種子，也可指定整數。"
+        }
+      }
+    },
+    "en": {
+      "name": "Gemini Omni 1.2 Flash Video Upscale",
+      "description": "Upscale a short clip while preserving its original motion, framing, and timing.",
+      "fields": {
+        "video": {
+          "label": "Source video"
+        },
+        "resolution": {
+          "label": "Target resolution",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "Seed"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "Upload an MP4 up to 15 seconds long. Use 360p, 720p, or 1080p with a 16:9 or 9:16 aspect ratio."
+        },
+        "resolution": {
+          "help": "Use 720p or 1080p for a 360p source, 1080p or 4K for 720p, and 4K for 1080p."
+        },
+        "seed": {
+          "help": "Use -1 for a random seed or specify an integer."
+        }
+      }
+    },
+    "ja": {
+      "name": "Gemini Omni 1.2 Flash 動画の超解像",
+      "description": "元の動き、構図、タイミングを保ったまま、短い動画を高解像度化します。",
+      "fields": {
+        "video": {
+          "label": "元の動画"
+        },
+        "resolution": {
+          "label": "目標解像度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "シード"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "15 秒以内の MP4 をアップロードします。360p、720p、1080p に対応し、縦横比は 16:9 または 9:16 です。"
+        },
+        "resolution": {
+          "help": "360p の素材は 720p または 1080p、720p は 1080p または 4K、1080p は 4K にできます。"
+        },
+        "seed": {
+          "help": "-1 でランダムなシードを使用します。任意の整数も指定できます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Gemini Omni 1.2 Flash 동영상 초해상도",
+      "description": "짧은 영상의 동작, 구도, 타이밍을 유지하면서 해상도를 높입니다.",
+      "fields": {
+        "video": {
+          "label": "원본 동영상"
+        },
+        "resolution": {
+          "label": "목표 해상도",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "시드"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "15초 이하 MP4를 업로드하세요. 360p, 720p 또는 1080p를 지원하며 화면비는 16:9 또는 9:16입니다."
+        },
+        "resolution": {
+          "help": "360p는 720p 또는 1080p, 720p는 1080p 또는 4K, 1080p는 4K로 높일 수 있습니다."
+        },
+        "seed": {
+          "help": "-1은 무작위 시드입니다. 정수도 지정할 수 있습니다."
+        }
+      }
+    }
+  }
+}

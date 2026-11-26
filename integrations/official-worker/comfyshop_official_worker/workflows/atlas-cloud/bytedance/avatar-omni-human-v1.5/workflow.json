@@ -1,0 +1,371 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-omnihuman-15",
+  "name": "OmniHuman 1.5 音频驱动人像",
+  "description": "用一张人像和一段音频生成口型同步的视频，视频长度跟随音频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "portrait",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "driving_audio",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "output_resolution",
+      "kind": "choice",
+      "default": 1080,
+      "choices": [720, 1080],
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 2000,
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    },
+    {
+      "name": "portrait_url",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "audio_url",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "portrait",
+      "section": "default"
+    },
+    {
+      "fieldId": "driving_audio",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "portrait_url",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_url",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "bytedance/avatar-omni-human-v1.5",
+      "operation": "video",
+      "parameters": {
+        "output_resolution": "output_resolution",
+        "prompt": "prompt",
+        "seed": "seed"
+      },
+      "omit_blank_parameters": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 2000
+      },
+      "prediction_endpoint": "result",
+      "media": {
+        "image_url": {
+          "kind": "image",
+          "fields": ["portrait"],
+          "external_sources_field": "portrait_url",
+          "external_urls_only": true,
+          "min_items": 1
+        },
+        "audio_url": {
+          "kind": "audio",
+          "fields": ["driving_audio"],
+          "external_sources_field": "audio_url",
+          "external_urls_only": true,
+          "min_items": 1,
+          "content_types": ["audio/mpeg", "audio/mp3", "audio/wav", "audio/wave", "audio/x-wav"],
+          "max_duration_ms": 60000
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "OmniHuman 1.5 音频驱动人像",
+      "description": "用一张人像和一段音频生成口型同步的视频，视频长度跟随音频。",
+      "fields": {
+        "portrait": {
+          "label": "人像"
+        },
+        "driving_audio": {
+          "label": "驱动音频"
+        },
+        "output_resolution": {
+          "label": "分辨率"
+        },
+        "prompt": {
+          "label": "提示词"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "portrait_url": {
+          "label": "人像 URL"
+        },
+        "audio_url": {
+          "label": "音频 URL"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "上传清晰的正面人像，建议脸部完整可见。"
+        },
+        "driving_audio": {
+          "help": "上传 WAV 或 MP3，最长 60 秒，建议 15 秒以内。"
+        },
+        "output_resolution": {
+          "help": "选择 720p 或 1080p。"
+        },
+        "prompt": {
+          "help": "可描述动作、场景和表情，最多 2,000 字符。支持中文、英文、日文、韩文、西班牙文和印尼文。"
+        },
+        "seed": {
+          "help": "填入整数以指定种子。默认 -1，使用随机种子。"
+        },
+        "portrait_url": {
+          "help": "可填写公开 HTTP(S) 图片地址，与上传二选一。"
+        },
+        "audio_url": {
+          "help": "可填写公开 HTTP(S) WAV 或 MP3 地址，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "OmniHuman 1.5 音訊驅動人像",
+      "description": "用一張人像和一段音訊生成嘴型同步的影片，影片長度跟隨音訊。",
+      "fields": {
+        "portrait": {
+          "label": "人像"
+        },
+        "driving_audio": {
+          "label": "驅動音訊"
+        },
+        "output_resolution": {
+          "label": "解析度"
+        },
+        "prompt": {
+          "label": "提示詞"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "portrait_url": {
+          "label": "人像 URL"
+        },
+        "audio_url": {
+          "label": "音訊 URL"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "上傳清晰的正面人像，建議臉部完整可見。"
+        },
+        "driving_audio": {
+          "help": "上傳 WAV 或 MP3，最長 60 秒，建議 15 秒以內。"
+        },
+        "output_resolution": {
+          "help": "選擇 720p 或 1080p。"
+        },
+        "prompt": {
+          "help": "可描述動作、場景和表情，最多 2,000 字元。支援中文、英文、日文、韓文、西班牙文和印尼文。"
+        },
+        "seed": {
+          "help": "輸入整數以指定種子。預設 -1，使用隨機種子。"
+        },
+        "portrait_url": {
+          "help": "可填寫公開 HTTP(S) 圖片網址，與上傳擇一。"
+        },
+        "audio_url": {
+          "help": "可填寫公開 HTTP(S) WAV 或 MP3 網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "OmniHuman 1.5 Audio-Driven Portrait",
+      "description": "Animate a portrait in sync with an audio track. The video duration follows the audio.",
+      "fields": {
+        "portrait": {
+          "label": "Portrait"
+        },
+        "driving_audio": {
+          "label": "Driving audio"
+        },
+        "output_resolution": {
+          "label": "Resolution"
+        },
+        "prompt": {
+          "label": "Prompt"
+        },
+        "seed": {
+          "label": "Random seed"
+        },
+        "portrait_url": {
+          "label": "Portrait URL"
+        },
+        "audio_url": {
+          "label": "Audio URL"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "Upload a clear, front-facing portrait with the face fully visible."
+        },
+        "driving_audio": {
+          "help": "Upload WAV or MP3 up to 60 seconds. A clip of 15 seconds or less is recommended."
+        },
+        "output_resolution": {
+          "help": "Choose 720p or 1080p."
+        },
+        "prompt": {
+          "help": "Optionally describe the action, setting, or expression in up to 2,000 characters. Supports Chinese, English, Japanese, Korean, Spanish, and Indonesian."
+        },
+        "seed": {
+          "help": "Enter an integer to set the seed. The default of −1 uses a random seed."
+        },
+        "portrait_url": {
+          "help": "Enter a public HTTP(S) image URL as an alternative to uploading."
+        },
+        "audio_url": {
+          "help": "Enter a public HTTP(S) WAV or MP3 URL as an alternative to uploading."
+        }
+      }
+    },
+    "ja": {
+      "name": "OmniHuman 1.5 音声で人物をアニメーション化",
+      "description": "人物画像と音声からリップシンク動画を生成します。動画の長さは音声に合わせます。",
+      "fields": {
+        "portrait": {
+          "label": "人物画像"
+        },
+        "driving_audio": {
+          "label": "参照音声"
+        },
+        "output_resolution": {
+          "label": "解像度"
+        },
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "seed": {
+          "label": "シード値"
+        },
+        "portrait_url": {
+          "label": "人物画像 URL"
+        },
+        "audio_url": {
+          "label": "音声 URL"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "顔全体が見える、鮮明な正面の人物画像をアップロードします。"
+        },
+        "driving_audio": {
+          "help": "最長 60 秒の WAV または MP3 をアップロードします。15 秒以下を推奨します。"
+        },
+        "output_resolution": {
+          "help": "720p または 1080p を選びます。"
+        },
+        "prompt": {
+          "help": "動き、場面、表情を 2,000 文字以内で指定できます。中国語、英語、日本語、韓国語、スペイン語、インドネシア語に対応します。"
+        },
+        "seed": {
+          "help": "整数を入力します。既定の -1 はランダムです。"
+        },
+        "portrait_url": {
+          "help": "アップロードの代わりに公開 HTTP(S) 画像 URL を入力します。"
+        },
+        "audio_url": {
+          "help": "アップロードの代わりに公開 HTTP(S) の WAV または MP3 の URL を入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "OmniHuman 1.5 오디오로 인물 영상 생성",
+      "description": "인물 사진과 오디오를 사용해 입 모양이 동기화된 동영상을 생성합니다. 영상 길이는 오디오를 따릅니다.",
+      "fields": {
+        "portrait": {
+          "label": "인물 사진"
+        },
+        "driving_audio": {
+          "label": "구동 오디오"
+        },
+        "output_resolution": {
+          "label": "해상도"
+        },
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "seed": {
+          "label": "랜덤 시드"
+        },
+        "portrait_url": {
+          "label": "인물 사진 URL"
+        },
+        "audio_url": {
+          "label": "오디오 URL"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "얼굴 전체가 잘 보이는 선명한 정면 사진을 업로드하세요."
+        },
+        "driving_audio": {
+          "help": "최대 60초의 WAV 또는 MP3를 업로드하세요. 15초 이하를 권장합니다."
+        },
+        "output_resolution": {
+          "help": "720p 또는 1080p를 선택하세요."
+        },
+        "prompt": {
+          "help": "동작, 배경, 표정을 최대 2,000자로 설명할 수 있습니다. 중국어, 영어, 일본어, 한국어, 스페인어, 인도네시아어를 지원합니다."
+        },
+        "seed": {
+          "help": "시드를 지정하려면 정수를 입력하세요. 기본값 -1은 무작위입니다."
+        },
+        "portrait_url": {
+          "help": "업로드 대신 공개 HTTP(S) 이미지 URL을 입력하세요."
+        },
+        "audio_url": {
+          "help": "업로드 대신 공개 HTTP(S) WAV 또는 MP3 URL을 입력하세요."
+        }
+      }
+    }
+  }
+}

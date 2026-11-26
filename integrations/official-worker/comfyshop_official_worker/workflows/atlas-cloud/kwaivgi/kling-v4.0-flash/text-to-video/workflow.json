@@ -1,0 +1,285 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kwaivgi-kling-v4-0-flash-text-to-video",
+  "name": "可灵 4.0 Flash 文生视频",
+  "description": "用文字生成 3 至 20 秒的 720p 视频，可选横屏、竖屏、方形和宽银幕比例。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "A single drop of water falls from the tip of a leaf into a shallow dish, creating concentric ripples; warm window light, macro cinematography, photorealistic.",
+      "multiline": true,
+      "maxLength": 26000,
+      "optional": false
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "choices": ["16:9", "9:16", "1:1", "21:9"],
+      "optional": true
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 10,
+      "minimum": "3",
+      "maximum": "20",
+      "step": "1",
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["720p"],
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "hidden"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "kwaivgi/kling-v4.0-flash/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "resolution": "resolution",
+        "aspect_ratio": "aspect_ratio"
+      },
+      "text_max_lengths": {
+        "prompt": 26000
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 4.0 Flash 文生视频",
+      "description": "用文字生成 3 至 20 秒的 720p 视频，可选横屏、竖屏、方形和宽银幕比例。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "21:9": "21:9"
+          }
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720p": "720p"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、动作、环境和镜头。英文最多 26,000 字符，非英文最多 11,000。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9、9:16、1:1 或 21:9。默认 16:9。"
+        },
+        "duration": {
+          "help": "选择 3 至 20 秒。默认 10 秒。"
+        },
+        "resolution": {
+          "help": "Flash 文生视频固定输出 720p。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 4.0 Flash 文生影片",
+      "description": "用文字生成 3 至 20 秒的 720p 影片，可選橫式、直式、正方形和寬銀幕比例。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "21:9": "21:9"
+          }
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720p": "720p"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、動作、環境和運鏡。英文最多 26,000 字元，非英文最多 11,000。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9、9:16、1:1 或 21:9。預設 16:9。"
+        },
+        "duration": {
+          "help": "選擇 3 至 20 秒。預設 10 秒。"
+        },
+        "resolution": {
+          "help": "Flash 文生影片固定輸出 720p。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling 4.0 Flash Text to Video",
+      "description": "Generate 3- to 20-second videos at 720p from text. Choose landscape, portrait, square, or ultrawide framing.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "21:9": "21:9"
+          }
+        },
+        "duration": {
+          "label": "Output duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720p": "720p"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, movement, surroundings, and camera. Use up to 26,000 English characters or 11,000 non-English characters."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9, 9:16, 1:1, or 21:9. The default is 16:9."
+        },
+        "duration": {
+          "help": "Choose 3 to 20 seconds. The default is 10."
+        },
+        "resolution": {
+          "help": "Flash text-to-video outputs at 720p."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling 4.0 Flash テキストから動画生成",
+      "description": "テキストから 3〜20 秒の 720p 動画を生成します。横向き、縦向き、正方形、超横長の比率を選択できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "21:9": "21:9"
+          }
+        },
+        "duration": {
+          "label": "出力の長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720p": "720p"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、動き、場面、カメラワークを記述します。英語は 26,000 文字、その他の言語は 11,000 文字以内です。"
+        },
+        "aspect_ratio": {
+          "help": "16:9、9:16、1:1、21:9 から選択します。既定は 16:9 です。"
+        },
+        "duration": {
+          "help": "3〜20 秒を選択します。既定は 10 秒です。"
+        },
+        "resolution": {
+          "help": "Flash のテキストから動画生成は 720p 固定です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling 4.0 Flash 텍스트 동영상 생성",
+      "description": "텍스트로 3~20초의 720p 동영상을 만듭니다. 가로형, 세로형, 정사각형, 와이드 화면을 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "21:9": "21:9"
+          }
+        },
+        "duration": {
+          "label": "결과 길이(초)"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720p": "720p"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 움직임, 배경, 카메라 구도를 설명하세요. 영어는 최대 26,000자, 다른 언어는 최대 11,000자입니다."
+        },
+        "aspect_ratio": {
+          "help": "16:9, 9:16, 1:1 또는 21:9를 선택하세요. 기본값은 16:9입니다."
+        },
+        "duration": {
+          "help": "3~20초를 선택하세요. 기본값은 10초입니다."
+        },
+        "resolution": {
+          "help": "Flash 텍스트 동영상 생성은 720p로 출력합니다."
+        }
+      }
+    }
+  }
+}

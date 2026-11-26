@@ -1,0 +1,863 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kling-4-image-to-video",
+  "name": "可灵 4.0 图生视频",
+  "description": "上传起始图，可用最多八张中间关键帧和一张结束图生成连贯视频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "She looks into the camera with a confident smile, adjusts her hair and walks two steps toward the camera; the camera slowly pushes in.",
+      "multiline": true,
+      "maxLength": 26000,
+      "optional": true
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 10,
+      "minimum": "3",
+      "maximum": "30",
+      "step": "1",
+      "optional": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1080p",
+      "choices": ["720p", "1080p", "4k", "1080p-esr", "2k-esr", "4k-esr"],
+      "optional": true
+    },
+    {
+      "name": "dynamic_range",
+      "kind": "choice",
+      "default": "sdr",
+      "optional": true,
+      "choices": ["sdr", "hdr"]
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "middle_frame_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "middle_frame_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "middle_frame_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "middle_frame_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "middle_frame_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "middle_frame_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "middle_frame_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "middle_frame_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "middle_frame_8",
+      "kind": "image",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "dynamic_range",
+      "section": "default"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_8",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "kwaivgi/kling-v4.0/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "resolution": "resolution",
+        "dynamic_range": "dynamic_range"
+      },
+      "text_max_lengths": {
+        "prompt": 26000
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "allow_raw_base64": true,
+          "content_types": ["image/jpeg", "image/png"],
+          "min_items": 1,
+          "max_bytes": 30000000,
+          "image_bounds": {
+            "min_side": 300,
+            "max_aspect_ratio": 2.5
+          }
+        },
+        "middle_images": {
+          "kind": "image",
+          "fields": [
+            "middle_frame_1",
+            "middle_frame_2",
+            "middle_frame_3",
+            "middle_frame_4",
+            "middle_frame_5",
+            "middle_frame_6",
+            "middle_frame_7",
+            "middle_frame_8"
+          ],
+          "external_sources_field": "middle_frame_sources",
+          "allow_raw_base64": true,
+          "content_types": ["image/jpeg", "image/png", "image/gif", "image/webp", "image/bmp"],
+          "array": true
+        },
+        "last_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "external_sources_field": "last_frame_source",
+          "allow_raw_base64": true,
+          "content_types": ["image/jpeg", "image/png", "image/gif", "image/webp", "image/bmp"]
+        }
+      },
+      "choice_constraints": {
+        "resolution": {
+          "parameter": "dynamic_range",
+          "values": {
+            "hdr": ["1080p", "4k"]
+          }
+        }
+      },
+      "omit_blank_parameters": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 4.0 图生视频",
+      "description": "上传起始图，可用最多八张中间关键帧和一张结束图生成连贯视频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "first_frame": {
+          "label": "起始关键帧"
+        },
+        "first_frame_source": {
+          "label": "起始图来源"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K",
+            "1080p-esr": "1080p 超分",
+            "2k-esr": "2K 超分",
+            "4k-esr": "4K 超分"
+          }
+        },
+        "dynamic_range": {
+          "label": "动态范围",
+          "choiceLabels": {
+            "sdr": "SDR",
+            "hdr": "HDR"
+          }
+        },
+        "last_frame": {
+          "label": "结束关键帧"
+        },
+        "last_frame_source": {
+          "label": "结束图来源"
+        },
+        "middle_frame_sources": {
+          "label": "中间关键帧来源"
+        },
+        "middle_frame_1": {
+          "label": "中间关键帧 1"
+        },
+        "middle_frame_2": {
+          "label": "中间关键帧 2"
+        },
+        "middle_frame_3": {
+          "label": "中间关键帧 3"
+        },
+        "middle_frame_4": {
+          "label": "中间关键帧 4"
+        },
+        "middle_frame_5": {
+          "label": "中间关键帧 5"
+        },
+        "middle_frame_6": {
+          "label": "中间关键帧 6"
+        },
+        "middle_frame_7": {
+          "label": "中间关键帧 7"
+        },
+        "middle_frame_8": {
+          "label": "中间关键帧 8"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "填写帧与帧之间的动作、运镜或希望避免的内容。英文最多 26,000 字符，非英文最多 11,000。"
+        },
+        "first_frame": {
+          "help": "上传 JPEG 或 PNG，最多 30 MB，每边至少 300 像素，宽高比为 2:5 至 5:2。"
+        },
+        "last_frame": {
+          "help": "可选一张结束图，固定成品最后一帧。"
+        },
+        "duration": {
+          "help": "选择 3 至 30 秒。默认 10 秒。"
+        },
+        "resolution": {
+          "help": "选择原生分辨率或腾讯 ESR 超分。默认原生 1080p。"
+        },
+        "dynamic_range": {
+          "help": "默认 SDR。10 位 HDR 适用于原生 1080p 和 4K。"
+        },
+        "first_frame_source": {
+          "help": "填写一个公开图片 URL、Base64 数据网址或纯 Base64。"
+        },
+        "last_frame_source": {
+          "help": "填写一个公开图片 URL、Base64 数据网址或纯 Base64。"
+        },
+        "middle_frame_sources": {
+          "help": "每行填写一个图片 URL、Base64 数据网址或纯 Base64，按视频时间顺序排列。与已上传中间帧合计最多 8 张。"
+        },
+        "middle_frame_1": {
+          "help": "可按时间顺序上传中间关键帧。关键帧和参考图合计最多 10 张。"
+        },
+        "middle_frame_2": {
+          "help": "可按时间顺序上传中间关键帧。关键帧和参考图合计最多 10 张。"
+        },
+        "middle_frame_3": {
+          "help": "可按时间顺序上传中间关键帧。关键帧和参考图合计最多 10 张。"
+        },
+        "middle_frame_4": {
+          "help": "可按时间顺序上传中间关键帧。关键帧和参考图合计最多 10 张。"
+        },
+        "middle_frame_5": {
+          "help": "可按时间顺序上传中间关键帧。关键帧和参考图合计最多 10 张。"
+        },
+        "middle_frame_6": {
+          "help": "可按时间顺序上传中间关键帧。关键帧和参考图合计最多 10 张。"
+        },
+        "middle_frame_7": {
+          "help": "可按时间顺序上传中间关键帧。关键帧和参考图合计最多 10 张。"
+        },
+        "middle_frame_8": {
+          "help": "可按时间顺序上传中间关键帧。关键帧和参考图合计最多 10 张。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 4.0 圖生影片",
+      "description": "上傳起始圖，可用最多八張中間關鍵影格和一張結束圖生成連貫影片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "first_frame": {
+          "label": "起始關鍵影格"
+        },
+        "first_frame_source": {
+          "label": "起始圖來源"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K",
+            "1080p-esr": "1080p 超解析度",
+            "2k-esr": "2K 超解析度",
+            "4k-esr": "4K 超解析度"
+          }
+        },
+        "dynamic_range": {
+          "label": "動態範圍",
+          "choiceLabels": {
+            "sdr": "SDR",
+            "hdr": "HDR"
+          }
+        },
+        "last_frame": {
+          "label": "結束關鍵影格"
+        },
+        "last_frame_source": {
+          "label": "結束圖來源"
+        },
+        "middle_frame_sources": {
+          "label": "中間關鍵影格來源"
+        },
+        "middle_frame_1": {
+          "label": "中間關鍵影格 1"
+        },
+        "middle_frame_2": {
+          "label": "中間關鍵影格 2"
+        },
+        "middle_frame_3": {
+          "label": "中間關鍵影格 3"
+        },
+        "middle_frame_4": {
+          "label": "中間關鍵影格 4"
+        },
+        "middle_frame_5": {
+          "label": "中間關鍵影格 5"
+        },
+        "middle_frame_6": {
+          "label": "中間關鍵影格 6"
+        },
+        "middle_frame_7": {
+          "label": "中間關鍵影格 7"
+        },
+        "middle_frame_8": {
+          "label": "中間關鍵影格 8"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "填寫影格之間的動作、運鏡或希望避免的內容。英文最多 26,000 字元，非英文最多 11,000。"
+        },
+        "first_frame": {
+          "help": "上傳 JPEG 或 PNG，最多 30 MB，每邊至少 300 像素，寬高比為 2:5 至 5:2。"
+        },
+        "last_frame": {
+          "help": "可選一張結束圖，固定成品最後一幀。"
+        },
+        "duration": {
+          "help": "選擇 3 至 30 秒。預設 10 秒。"
+        },
+        "resolution": {
+          "help": "選擇原生解析度或騰訊 ESR 超解析度。預設原生 1080p。"
+        },
+        "dynamic_range": {
+          "help": "預設 SDR。10 位元 HDR 適用於原生 1080p 和 4K。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個公開圖片 URL、Base64 資料網址或純 Base64。"
+        },
+        "last_frame_source": {
+          "help": "填寫一個公開圖片 URL、Base64 資料網址或純 Base64。"
+        },
+        "middle_frame_sources": {
+          "help": "每行填寫一個圖片 URL、Base64 資料網址或純 Base64，依影片時間順序排列。與已上傳的中間影格合計最多 8 張。"
+        },
+        "middle_frame_1": {
+          "help": "可依時間順序上傳中間關鍵影格。關鍵影格與參考圖合計最多 10 張。"
+        },
+        "middle_frame_2": {
+          "help": "可依時間順序上傳中間關鍵影格。關鍵影格與參考圖合計最多 10 張。"
+        },
+        "middle_frame_3": {
+          "help": "可依時間順序上傳中間關鍵影格。關鍵影格與參考圖合計最多 10 張。"
+        },
+        "middle_frame_4": {
+          "help": "可依時間順序上傳中間關鍵影格。關鍵影格與參考圖合計最多 10 張。"
+        },
+        "middle_frame_5": {
+          "help": "可依時間順序上傳中間關鍵影格。關鍵影格與參考圖合計最多 10 張。"
+        },
+        "middle_frame_6": {
+          "help": "可依時間順序上傳中間關鍵影格。關鍵影格與參考圖合計最多 10 張。"
+        },
+        "middle_frame_7": {
+          "help": "可依時間順序上傳中間關鍵影格。關鍵影格與參考圖合計最多 10 張。"
+        },
+        "middle_frame_8": {
+          "help": "可依時間順序上傳中間關鍵影格。關鍵影格與參考圖合計最多 10 張。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling 4.0 Image to Video",
+      "description": "Animate a first frame into a continuous video with up to eight intermediate keyframes and an optional final frame.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Output duration (seconds)"
+        },
+        "first_frame": {
+          "label": "Opening keyframe"
+        },
+        "first_frame_source": {
+          "label": "Opening image source"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K",
+            "1080p-esr": "1080p upscaled",
+            "2k-esr": "2K upscaled",
+            "4k-esr": "4K upscaled"
+          }
+        },
+        "dynamic_range": {
+          "label": "Dynamic range",
+          "choiceLabels": {
+            "sdr": "SDR",
+            "hdr": "HDR"
+          }
+        },
+        "last_frame": {
+          "label": "Closing keyframe"
+        },
+        "last_frame_source": {
+          "label": "Closing image source"
+        },
+        "middle_frame_sources": {
+          "label": "Middle keyframe sources"
+        },
+        "middle_frame_1": {
+          "label": "Middle keyframe 1"
+        },
+        "middle_frame_2": {
+          "label": "Middle keyframe 2"
+        },
+        "middle_frame_3": {
+          "label": "Middle keyframe 3"
+        },
+        "middle_frame_4": {
+          "label": "Middle keyframe 4"
+        },
+        "middle_frame_5": {
+          "label": "Middle keyframe 5"
+        },
+        "middle_frame_6": {
+          "label": "Middle keyframe 6"
+        },
+        "middle_frame_7": {
+          "label": "Middle keyframe 7"
+        },
+        "middle_frame_8": {
+          "label": "Middle keyframe 8"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe movement, camera motion or details to avoid between keyframes. Up to 26,000 English characters or 11,000 non-English characters."
+        },
+        "first_frame": {
+          "help": "Upload a JPEG or PNG up to 30 MB, at least 300 pixels per side, with a ratio from 2:5 to 5:2."
+        },
+        "last_frame": {
+          "help": "Optionally supply a closing image to set the final frame."
+        },
+        "duration": {
+          "help": "Choose 3 to 30 seconds. The default is 10."
+        },
+        "resolution": {
+          "help": "Choose native resolution or Tencent ESR upscaling. The default is native 1080p."
+        },
+        "dynamic_range": {
+          "help": "SDR is the default. 10-bit HDR is available at native 1080p and 4K."
+        },
+        "first_frame_source": {
+          "help": "Enter one public image URL, Base64 data URL, or raw Base64 image."
+        },
+        "last_frame_source": {
+          "help": "Enter one public image URL, Base64 data URL, or raw Base64 image."
+        },
+        "middle_frame_sources": {
+          "help": "Enter one image URL, Base64 data URL, or raw Base64 image per line in timeline order. Use up to eight middle keyframes across uploads and URLs."
+        },
+        "middle_frame_1": {
+          "help": "Optionally upload middle keyframes in timeline order. Keyframes and reference images total up to ten."
+        },
+        "middle_frame_2": {
+          "help": "Optionally upload middle keyframes in timeline order. Keyframes and reference images total up to ten."
+        },
+        "middle_frame_3": {
+          "help": "Optionally upload middle keyframes in timeline order. Keyframes and reference images total up to ten."
+        },
+        "middle_frame_4": {
+          "help": "Optionally upload middle keyframes in timeline order. Keyframes and reference images total up to ten."
+        },
+        "middle_frame_5": {
+          "help": "Optionally upload middle keyframes in timeline order. Keyframes and reference images total up to ten."
+        },
+        "middle_frame_6": {
+          "help": "Optionally upload middle keyframes in timeline order. Keyframes and reference images total up to ten."
+        },
+        "middle_frame_7": {
+          "help": "Optionally upload middle keyframes in timeline order. Keyframes and reference images total up to ten."
+        },
+        "middle_frame_8": {
+          "help": "Optionally upload middle keyframes in timeline order. Keyframes and reference images total up to ten."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling 4.0 画像から動画",
+      "description": "開始画像に加え、中間キーフレーム最大 8 枚と終了画像を指定して、つながりのある動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "出力の長さ（秒）"
+        },
+        "first_frame": {
+          "label": "開始キーフレーム"
+        },
+        "first_frame_source": {
+          "label": "開始画像のソース"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K",
+            "1080p-esr": "1080p アップスケール",
+            "2k-esr": "2K アップスケール",
+            "4k-esr": "4K アップスケール"
+          }
+        },
+        "dynamic_range": {
+          "label": "ダイナミックレンジ",
+          "choiceLabels": {
+            "sdr": "SDR",
+            "hdr": "HDR"
+          }
+        },
+        "last_frame": {
+          "label": "終了キーフレーム"
+        },
+        "last_frame_source": {
+          "label": "終了画像のソース"
+        },
+        "middle_frame_sources": {
+          "label": "中間キーフレームのソース"
+        },
+        "middle_frame_1": {
+          "label": "中間キーフレーム 1"
+        },
+        "middle_frame_2": {
+          "label": "中間キーフレーム 2"
+        },
+        "middle_frame_3": {
+          "label": "中間キーフレーム 3"
+        },
+        "middle_frame_4": {
+          "label": "中間キーフレーム 4"
+        },
+        "middle_frame_5": {
+          "label": "中間キーフレーム 5"
+        },
+        "middle_frame_6": {
+          "label": "中間キーフレーム 6"
+        },
+        "middle_frame_7": {
+          "label": "中間キーフレーム 7"
+        },
+        "middle_frame_8": {
+          "label": "中間キーフレーム 8"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "キーフレーム間の動き、カメラワーク、避けたい要素を記述します。英語は最大 26,000 文字、英語以外は最大 11,000 文字です。"
+        },
+        "first_frame": {
+          "help": "各辺 300 ピクセル以上、比率 2:5〜5:2、最大 30 MB の JPEG または PNG をアップロードします。"
+        },
+        "last_frame": {
+          "help": "最後のフレームとなる画像を一枚指定できます。"
+        },
+        "duration": {
+          "help": "3〜30 秒を選択します。既定は 10 秒です。"
+        },
+        "resolution": {
+          "help": "ネイティブ解像度または Tencent ESR のアップスケールを選択します。既定はネイティブ 1080p です。"
+        },
+        "dynamic_range": {
+          "help": "既定は SDR です。10 ビット HDR はネイティブ 1080p と 4K で利用できます。"
+        },
+        "first_frame_source": {
+          "help": "公開画像 URL、Base64 データ URL、または Base64 画像を一つ入力します。"
+        },
+        "last_frame_source": {
+          "help": "公開画像 URL、Base64 データ URL、または Base64 画像を一つ入力します。"
+        },
+        "middle_frame_sources": {
+          "help": "画像 URL、Base64 データ URL、または Base64 画像を時系列順に一行に一つ入力します。アップロードを含めて中間キーフレームは最大 8 枚です。"
+        },
+        "middle_frame_1": {
+          "help": "中間キーフレームを時系列順にアップロードできます。キーフレームと参照画像の合計は最大 10 枚です。"
+        },
+        "middle_frame_2": {
+          "help": "中間キーフレームを時系列順にアップロードできます。キーフレームと参照画像の合計は最大 10 枚です。"
+        },
+        "middle_frame_3": {
+          "help": "中間キーフレームを時系列順にアップロードできます。キーフレームと参照画像の合計は最大 10 枚です。"
+        },
+        "middle_frame_4": {
+          "help": "中間キーフレームを時系列順にアップロードできます。キーフレームと参照画像の合計は最大 10 枚です。"
+        },
+        "middle_frame_5": {
+          "help": "中間キーフレームを時系列順にアップロードできます。キーフレームと参照画像の合計は最大 10 枚です。"
+        },
+        "middle_frame_6": {
+          "help": "中間キーフレームを時系列順にアップロードできます。キーフレームと参照画像の合計は最大 10 枚です。"
+        },
+        "middle_frame_7": {
+          "help": "中間キーフレームを時系列順にアップロードできます。キーフレームと参照画像の合計は最大 10 枚です。"
+        },
+        "middle_frame_8": {
+          "help": "中間キーフレームを時系列順にアップロードできます。キーフレームと参照画像の合計は最大 10 枚です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling 4.0 이미지에서 동영상",
+      "description": "첫 프레임에 최대 8개의 중간 키프레임과 선택적인 마지막 프레임을 추가해 이어지는 동영상을 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "결과 길이(초)"
+        },
+        "first_frame": {
+          "label": "시작 키프레임"
+        },
+        "first_frame_source": {
+          "label": "시작 이미지 소스"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K",
+            "1080p-esr": "1080p 업스케일",
+            "2k-esr": "2K 업스케일",
+            "4k-esr": "4K 업스케일"
+          }
+        },
+        "dynamic_range": {
+          "label": "다이내믹 레인지",
+          "choiceLabels": {
+            "sdr": "SDR",
+            "hdr": "HDR"
+          }
+        },
+        "last_frame": {
+          "label": "끝 키프레임"
+        },
+        "last_frame_source": {
+          "label": "끝 이미지 소스"
+        },
+        "middle_frame_sources": {
+          "label": "중간 키프레임 소스"
+        },
+        "middle_frame_1": {
+          "label": "중간 키프레임 1"
+        },
+        "middle_frame_2": {
+          "label": "중간 키프레임 2"
+        },
+        "middle_frame_3": {
+          "label": "중간 키프레임 3"
+        },
+        "middle_frame_4": {
+          "label": "중간 키프레임 4"
+        },
+        "middle_frame_5": {
+          "label": "중간 키프레임 5"
+        },
+        "middle_frame_6": {
+          "label": "중간 키프레임 6"
+        },
+        "middle_frame_7": {
+          "label": "중간 키프레임 7"
+        },
+        "middle_frame_8": {
+          "label": "중간 키프레임 8"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "키프레임 사이의 움직임, 카메라 동작 또는 피해야 할 요소를 설명하세요. 영어는 최대 26,000자, 영어 외 언어는 최대 11,000자입니다."
+        },
+        "first_frame": {
+          "help": "각 변이 300픽셀 이상이고 비율이 2:5~5:2인 최대 30MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "last_frame": {
+          "help": "마지막 장면을 고정할 이미지 한 장을 선택할 수 있습니다."
+        },
+        "duration": {
+          "help": "3~30초를 선택하세요. 기본값은 10초입니다."
+        },
+        "resolution": {
+          "help": "기본 해상도 또는 Tencent ESR 업스케일을 선택하세요. 기본값은 1080p입니다."
+        },
+        "dynamic_range": {
+          "help": "기본값은 SDR입니다. 10비트 HDR은 기본 1080p와 4K에서 사용할 수 있습니다."
+        },
+        "first_frame_source": {
+          "help": "공개 이미지 URL, Base64 데이터 URL 또는 Base64 이미지 하나를 입력하세요."
+        },
+        "last_frame_source": {
+          "help": "공개 이미지 URL, Base64 데이터 URL 또는 Base64 이미지 하나를 입력하세요."
+        },
+        "middle_frame_sources": {
+          "help": "이미지 URL, Base64 데이터 URL 또는 Base64 이미지를 시간 순서대로 한 줄에 하나씩 입력하세요. 업로드를 포함해 중간 프레임은 최대 8장입니다."
+        },
+        "middle_frame_1": {
+          "help": "시간 순서대로 중간 키프레임을 올릴 수 있습니다. 키프레임과 참조 이미지 합계는 최대 10장입니다."
+        },
+        "middle_frame_2": {
+          "help": "시간 순서대로 중간 키프레임을 올릴 수 있습니다. 키프레임과 참조 이미지 합계는 최대 10장입니다."
+        },
+        "middle_frame_3": {
+          "help": "시간 순서대로 중간 키프레임을 올릴 수 있습니다. 키프레임과 참조 이미지 합계는 최대 10장입니다."
+        },
+        "middle_frame_4": {
+          "help": "시간 순서대로 중간 키프레임을 올릴 수 있습니다. 키프레임과 참조 이미지 합계는 최대 10장입니다."
+        },
+        "middle_frame_5": {
+          "help": "시간 순서대로 중간 키프레임을 올릴 수 있습니다. 키프레임과 참조 이미지 합계는 최대 10장입니다."
+        },
+        "middle_frame_6": {
+          "help": "시간 순서대로 중간 키프레임을 올릴 수 있습니다. 키프레임과 참조 이미지 합계는 최대 10장입니다."
+        },
+        "middle_frame_7": {
+          "help": "시간 순서대로 중간 키프레임을 올릴 수 있습니다. 키프레임과 참조 이미지 합계는 최대 10장입니다."
+        },
+        "middle_frame_8": {
+          "help": "시간 순서대로 중간 키프레임을 올릴 수 있습니다. 키프레임과 참조 이미지 합계는 최대 10장입니다."
+        }
+      }
+    }
+  }
+}

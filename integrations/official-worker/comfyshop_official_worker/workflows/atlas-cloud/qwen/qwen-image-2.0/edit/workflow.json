@@ -1,0 +1,378 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-qwen2-alter",
+  "name": "Qwen Image 2.0 图片编辑",
+  "description": "根据提示词编辑一至三张参考图。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "",
+      "maxLength": 800
+    },
+    {
+      "name": "size",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "minimum": "-1",
+      "maximum": "2147483647",
+      "optional": true,
+      "default": -1
+    },
+    {
+      "name": "reference_image_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "qwen/qwen-image-2.0/edit",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "image_size_limits": {
+        "min_side": 512,
+        "max_side": 2048,
+        "allow_auto": false
+      },
+      "omit_blank_parameters": ["size"],
+      "prediction_endpoint": "result",
+      "text_max_lengths": {
+        "prompt": 800
+      },
+      "media": {
+        "images": {
+          "kind": "image",
+          "array": true,
+          "fields": ["reference_image_1", "reference_image_2", "reference_image_3"],
+          "min_items": 1,
+          "external_sources_field": "reference_image_sources",
+          "content_types": [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/bmp",
+            "image/tiff",
+            "image/gif"
+          ],
+          "max_bytes": 10000000
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Qwen Image 2.0 图片编辑",
+      "description": "根据提示词编辑一至三张参考图。",
+      "fields": {
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "输出尺寸"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "reference_image_sources": {
+          "label": "参考图来源"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "提供 1 至 3 张图片，每张最多 10 MB，建议每边 384 至 3,072 像素。"
+        },
+        "reference_image_2": {
+          "help": "提供 1 至 3 张图片，每张最多 10 MB，建议每边 384 至 3,072 像素。"
+        },
+        "reference_image_3": {
+          "help": "提供 1 至 3 张图片，每张最多 10 MB，建议每边 384 至 3,072 像素。"
+        },
+        "prompt": {
+          "help": "用中文或英文描述要改动和保留的内容，最多 800 字符。"
+        },
+        "size": {
+          "help": "输入宽*高，每边 512 至 2,048 像素。留空由模型决定。"
+        },
+        "seed": {
+          "help": "-1 为随机。填写 0 至 2,147,483,647 的整数可复用种子。"
+        },
+        "reference_image_sources": {
+          "help": "每行输入一个公开 HTTP(S) 图片地址或 Base64 数据 URI。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Qwen Image 2.0 圖片編輯",
+      "description": "依提示詞編輯一至三張參考圖片。",
+      "fields": {
+        "reference_image_1": {
+          "label": "參考圖片 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖片 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖片 3"
+        },
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "輸出尺寸"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "reference_image_sources": {
+          "label": "參考圖片來源"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "提供 1 至 3 張圖片，每張最多 10 MB，建議每邊 384 至 3,072 像素。"
+        },
+        "reference_image_2": {
+          "help": "提供 1 至 3 張圖片，每張最多 10 MB，建議每邊 384 至 3,072 像素。"
+        },
+        "reference_image_3": {
+          "help": "提供 1 至 3 張圖片，每張最多 10 MB，建議每邊 384 至 3,072 像素。"
+        },
+        "prompt": {
+          "help": "使用中文或英文描述要修改與保留的內容，最多 800 個字元。"
+        },
+        "size": {
+          "help": "輸入寬*高，每邊 512 至 2,048 像素。留空由模型決定。"
+        },
+        "seed": {
+          "help": "-1 為隨機。填寫 0 至 2,147,483,647 的整數可沿用種子。"
+        },
+        "reference_image_sources": {
+          "help": "每行輸入一個公開 HTTP(S) 圖片網址或 Base64 資料 URI。"
+        }
+      }
+    },
+    "en": {
+      "name": "Qwen Image 2.0 Image Edit",
+      "description": "Edit one to three reference images with a prompt.",
+      "fields": {
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Output size"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "reference_image_sources": {
+          "label": "Reference image sources"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "Provide one to three images, up to 10 MB each. Recommended dimensions are 384 to 3,072 pixels per side."
+        },
+        "reference_image_2": {
+          "help": "Provide one to three images, up to 10 MB each. Recommended dimensions are 384 to 3,072 pixels per side."
+        },
+        "reference_image_3": {
+          "help": "Provide one to three images, up to 10 MB each. Recommended dimensions are 384 to 3,072 pixels per side."
+        },
+        "prompt": {
+          "help": "Describe the changes and what to preserve in Chinese or English. Use up to 800 characters."
+        },
+        "size": {
+          "help": "Enter width*height, with each side between 512 and 2,048 pixels. Leave blank for the model to choose."
+        },
+        "seed": {
+          "help": "Use -1 for a random seed, or enter an integer from 0 to 2,147,483,647."
+        },
+        "reference_image_sources": {
+          "help": "Enter one public HTTP(S) image URL or Base64 data URI per line."
+        }
+      }
+    },
+    "ja": {
+      "name": "Qwen Image 2.0 画像編集",
+      "description": "プロンプトを使って 1〜3 枚の参照画像を編集します。",
+      "fields": {
+        "reference_image_1": {
+          "label": "参照画像 1"
+        },
+        "reference_image_2": {
+          "label": "参照画像 2"
+        },
+        "reference_image_3": {
+          "label": "参照画像 3"
+        },
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "出力サイズ"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "reference_image_sources": {
+          "label": "参照画像の入力元"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "画像を 1〜3 枚、各 10 MB 以下で指定します。推奨サイズは各辺 384〜3,072 ピクセルです。"
+        },
+        "reference_image_2": {
+          "help": "画像を 1〜3 枚、各 10 MB 以下で指定します。推奨サイズは各辺 384〜3,072 ピクセルです。"
+        },
+        "reference_image_3": {
+          "help": "画像を 1〜3 枚、各 10 MB 以下で指定します。推奨サイズは各辺 384〜3,072 ピクセルです。"
+        },
+        "prompt": {
+          "help": "変更する内容と残す内容を、中国語または英語で 800 文字以内で記述します。"
+        },
+        "size": {
+          "help": "幅*高さを各辺 512〜2,048 ピクセルで入力します。空欄の場合はモデルが決定します。"
+        },
+        "seed": {
+          "help": "-1 はランダムです。固定する場合は 0〜2,147,483,647 の整数を入力します。"
+        },
+        "reference_image_sources": {
+          "help": "公開 HTTP(S) 画像 URL または Base64 データ URI を 1 行に 1 件入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Qwen Image 2.0 이미지 편집",
+      "description": "프롬프트로 참조 이미지 1~3장을 편집합니다.",
+      "fields": {
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "출력 크기"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "reference_image_sources": {
+          "label": "참조 이미지 출처"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "이미지를 1~3장 제공하세요. 각 파일은 최대 10 MB이며, 각 변의 권장 크기는 384~3,072픽셀입니다."
+        },
+        "reference_image_2": {
+          "help": "이미지를 1~3장 제공하세요. 각 파일은 최대 10 MB이며, 각 변의 권장 크기는 384~3,072픽셀입니다."
+        },
+        "reference_image_3": {
+          "help": "이미지를 1~3장 제공하세요. 각 파일은 최대 10 MB이며, 각 변의 권장 크기는 384~3,072픽셀입니다."
+        },
+        "prompt": {
+          "help": "바꿀 부분과 유지할 부분을 중국어나 영어로 최대 800자까지 설명하세요."
+        },
+        "size": {
+          "help": "각 변이 512~2,048픽셀인 너비*높이를 입력하세요. 비워 두면 모델이 결정합니다."
+        },
+        "seed": {
+          "help": "-1은 무작위입니다. 고정하려면 0~2,147,483,647의 정수를 입력하세요."
+        },
+        "reference_image_sources": {
+          "help": "줄마다 공개 HTTP(S) 이미지 URL 또는 Base64 데이터 URI를 하나씩 입력하세요."
+        }
+      }
+    }
+  }
+}

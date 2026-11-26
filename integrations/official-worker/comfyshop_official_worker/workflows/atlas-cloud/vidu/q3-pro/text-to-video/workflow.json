@@ -1,0 +1,561 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-vidu-q3-pro-text-to-video",
+  "name": "Vidu Q3 Pro 文生视频",
+  "description": "根据文字生成 1 至 16 秒的视频，可选通用或动画风格、音频及 FlashVSR 超分。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "style",
+      "kind": "choice",
+      "default": "general",
+      "choices": ["general", "anime"],
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "4:3",
+      "choices": ["16:9", "9:16", "4:3", "3:4", "1:1"],
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["540p", "720p", "1080p", "1080p-sr", "1440p-sr"],
+      "optional": true
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 5,
+      "optional": true,
+      "minimum": "1",
+      "maximum": "16",
+      "step": "1"
+    },
+    {
+      "name": "movement_amplitude",
+      "kind": "choice",
+      "default": "auto",
+      "choices": ["auto", "small", "medium", "large"],
+      "optional": true
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "bgm",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "style",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "movement_amplitude",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "bgm",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "vidu/q3-pro/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "style": "style",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "duration": "duration",
+        "movement_amplitude": "movement_amplitude",
+        "generate_audio": "generate_audio",
+        "bgm": "bgm",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Vidu Q3 Pro 文生视频",
+      "description": "根据文字生成 1 至 16 秒的视频，可选通用或动画风格、音频及 FlashVSR 超分。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "style": {
+          "label": "风格",
+          "choiceLabels": {
+            "general": "通用",
+            "anime": "动画"
+          }
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4"
+          }
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "1080p-sr": "1080p 超分",
+            "1440p-sr": "1440p 超分"
+          }
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "movement_amplitude": {
+          "label": "动作幅度",
+          "choiceLabels": {
+            "auto": "自动",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "bgm": {
+          "label": "背景音乐"
+        },
+        "seed": {
+          "label": "随机种子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述画面的主体、场景、动作和镜头。"
+        },
+        "style": {
+          "help": "选择通用或动画风格，默认通用。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9、9:16、4:3、3:4 或 1:1，默认 4:3。"
+        },
+        "resolution": {
+          "help": "选择原生 540p、720p、1080p 或 FlashVSR 超分。默认 720p。"
+        },
+        "duration": {
+          "help": "选择 1 至 16 秒，默认 5 秒。"
+        },
+        "movement_amplitude": {
+          "help": "控制画面中主体的动作幅度，默认自动。"
+        },
+        "generate_audio": {
+          "help": "是否生成视频的音频，默认开启。"
+        },
+        "bgm": {
+          "help": "是否给视频添加背景音乐，默认开启。"
+        },
+        "seed": {
+          "help": "填写整数以指定种子，-1 表示随机。留空时省略。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Vidu Q3 Pro 文生影片",
+      "description": "根據文字生成 1 至 16 秒的影片，可選一般或動畫風格、音訊及 FlashVSR 超解析度。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "style": {
+          "label": "風格",
+          "choiceLabels": {
+            "general": "一般",
+            "anime": "動畫"
+          }
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4"
+          }
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "1080p-sr": "1080p 超解析度",
+            "1440p-sr": "1440p 超解析度"
+          }
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "movement_amplitude": {
+          "label": "動作幅度",
+          "choiceLabels": {
+            "auto": "自動",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "bgm": {
+          "label": "背景音樂"
+        },
+        "seed": {
+          "label": "隨機種子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述畫面的主體、場景、動作和鏡頭。"
+        },
+        "style": {
+          "help": "選擇一般或動畫風格，預設一般。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9、9:16、4:3、3:4 或 1:1，預設 4:3。"
+        },
+        "resolution": {
+          "help": "選擇原生 540p、720p、1080p 或 FlashVSR 超解析度。預設 720p。"
+        },
+        "duration": {
+          "help": "選擇 1 至 16 秒，預設 5 秒。"
+        },
+        "movement_amplitude": {
+          "help": "控制畫面中主體的動作幅度，預設自動。"
+        },
+        "generate_audio": {
+          "help": "是否生成影片的音訊，預設開啟。"
+        },
+        "bgm": {
+          "help": "是否為影片加入背景音樂，預設開啟。"
+        },
+        "seed": {
+          "help": "填寫整數以指定種子，-1 表示隨機。留空時省略。"
+        }
+      }
+    },
+    "en": {
+      "name": "Vidu Q3 Pro Text to Video",
+      "description": "Generate a one- to sixteen-second video from text with general or anime styling, optional audio, and FlashVSR upscaling.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "style": {
+          "label": "Style",
+          "choiceLabels": {
+            "general": "General",
+            "anime": "Anime"
+          }
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4"
+          }
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "1080p-sr": "1080p upscaled",
+            "1440p-sr": "1440p upscaled"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "movement_amplitude": {
+          "label": "Motion amplitude",
+          "choiceLabels": {
+            "auto": "Auto",
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large"
+          }
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "bgm": {
+          "label": "Background music"
+        },
+        "seed": {
+          "label": "Seed"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subjects, scene, action and camera movement."
+        },
+        "style": {
+          "help": "Choose general or anime. The default is general."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9, 9:16, 4:3, 3:4 or 1:1. The default is 4:3."
+        },
+        "resolution": {
+          "help": "Choose native 540p, 720p, 1080p or FlashVSR upscaling. The default is 720p."
+        },
+        "duration": {
+          "help": "Choose 1 to 16 seconds. The default is 5."
+        },
+        "movement_amplitude": {
+          "help": "Choose how much objects in the frame move. Auto is the default."
+        },
+        "generate_audio": {
+          "help": "Generate audio for the video. On by default."
+        },
+        "bgm": {
+          "help": "Add background music to the video. On by default."
+        },
+        "seed": {
+          "help": "Enter an integer to specify the seed. Use −1 for random, or leave blank to omit."
+        }
+      }
+    },
+    "ja": {
+      "name": "Vidu Q3 Pro テキストから動画",
+      "description": "テキストから 1〜16 秒の動画を生成します。一般またはアニメのスタイル、音声、FlashVSR のアップスケールを選択できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "style": {
+          "label": "スタイル",
+          "choiceLabels": {
+            "general": "一般",
+            "anime": "アニメ"
+          }
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4"
+          }
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "1080p-sr": "1080p アップスケール",
+            "1440p-sr": "1440p アップスケール"
+          }
+        },
+        "duration": {
+          "label": "動画の長さ（秒）"
+        },
+        "movement_amplitude": {
+          "label": "動きの大きさ",
+          "choiceLabels": {
+            "auto": "自動",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "bgm": {
+          "label": "BGM"
+        },
+        "seed": {
+          "label": "シード"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、動き、カメラワークを記述します。"
+        },
+        "style": {
+          "help": "一般またはアニメを選択します。既定は一般です。"
+        },
+        "aspect_ratio": {
+          "help": "16:9、9:16、4:3、3:4 または 1:1 を選択します。既定は 4:3 です。"
+        },
+        "resolution": {
+          "help": "ネイティブの 540p、720p、1080p または FlashVSR のアップスケールを選択します。既定は 720p です。"
+        },
+        "duration": {
+          "help": "1〜16 秒を選択します。既定は 5 秒です。"
+        },
+        "movement_amplitude": {
+          "help": "画面内の被写体の動きの大きさを選択します。既定は自動です。"
+        },
+        "generate_audio": {
+          "help": "動画の音声を生成します。既定はオンです。"
+        },
+        "bgm": {
+          "help": "動画に BGM を追加します。既定はオンです。"
+        },
+        "seed": {
+          "help": "整数を入力してシードを指定します。-1 はランダムです。空欄では省略します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Vidu Q3 Pro 텍스트에서 동영상",
+      "description": "텍스트로 1~16초 동영상을 생성합니다. 일반 또는 애니메이션 스타일, 오디오, FlashVSR 업스케일을 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "style": {
+          "label": "스타일",
+          "choiceLabels": {
+            "general": "일반",
+            "anime": "애니메이션"
+          }
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4"
+          }
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "1080p-sr": "1080p 업스케일",
+            "1440p-sr": "1440p 업스케일"
+          }
+        },
+        "duration": {
+          "label": "동영상 길이(초)"
+        },
+        "movement_amplitude": {
+          "label": "움직임 크기",
+          "choiceLabels": {
+            "auto": "자동",
+            "small": "작게",
+            "medium": "보통",
+            "large": "크게"
+          }
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "bgm": {
+          "label": "배경 음악"
+        },
+        "seed": {
+          "label": "시드"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 장면, 움직임과 카메라 동작을 설명하세요."
+        },
+        "style": {
+          "help": "일반 또는 애니메이션을 선택하세요. 기본값은 일반입니다."
+        },
+        "aspect_ratio": {
+          "help": "16:9, 9:16, 4:3, 3:4 또는 1:1을 선택하세요. 기본값은 4:3입니다."
+        },
+        "resolution": {
+          "help": "기본 540p, 720p, 1080p 또는 FlashVSR 업스케일을 선택하세요. 기본값은 720p입니다."
+        },
+        "duration": {
+          "help": "1~16초를 선택하세요. 기본값은 5초입니다."
+        },
+        "movement_amplitude": {
+          "help": "화면 속 피사체의 움직임 크기를 선택하세요. 기본값은 자동입니다."
+        },
+        "generate_audio": {
+          "help": "동영상의 오디오를 생성합니다. 기본값은 켜짐입니다."
+        },
+        "bgm": {
+          "help": "동영상에 배경 음악을 추가합니다. 기본값은 켜짐입니다."
+        },
+        "seed": {
+          "help": "정수를 입력해 시드를 정하세요. -1은 무작위이며 빈칸은 생략합니다."
+        }
+      }
+    }
+  }
+}

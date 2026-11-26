@@ -1,0 +1,548 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-mai26-edit",
+  "name": "MAI-Image 2.6 图片编辑",
+  "description": "根据提示词编辑图片，可用多张参考图指导内容、布局或风格。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "size",
+      "kind": "choice",
+      "default": "default",
+      "optional": true,
+      "choices": ["default", "auto"]
+    },
+    {
+      "name": "enable_web_search",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_5",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "enable_web_search",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "microsoft/mai-image-2.6/edit",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "enable_web_search": "enable_web_search",
+        "enable_base64_output": "enable_base64_output",
+        "enable_sync_mode": "enable_sync_mode"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "reference_images": {
+          "kind": "image",
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4",
+            "reference_image_5"
+          ],
+          "min_items": 1,
+          "array": true,
+          "external_sources_field": "reference_image_sources",
+          "content_types": ["image/jpeg", "image/png"],
+          "allow_raw_base64": true,
+          "image_bounds": {
+            "max_pixels": 1376255
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "MAI-Image 2.6 图片编辑",
+      "description": "根据提示词编辑图片，可用多张参考图指导内容、布局或风格。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "输出尺寸",
+          "choiceLabels": {
+            "default": "沿用原图宽高比",
+            "auto": "自动构图"
+          }
+        },
+        "enable_web_search": {
+          "label": "启用网络搜索"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        },
+        "reference_image_5": {
+          "label": "参考图 5"
+        },
+        "reference_image_sources": {
+          "label": "参考图来源"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "上传 JPEG 或 PNG。每张图的总像素小于 1,376,256。合计提供 1 至 5 张。"
+        },
+        "reference_image_2": {
+          "help": "上传 JPEG 或 PNG。每张图的总像素小于 1,376,256。合计提供 1 至 5 张。"
+        },
+        "reference_image_3": {
+          "help": "上传 JPEG 或 PNG。每张图的总像素小于 1,376,256。合计提供 1 至 5 张。"
+        },
+        "reference_image_4": {
+          "help": "上传 JPEG 或 PNG。每张图的总像素小于 1,376,256。合计提供 1 至 5 张。"
+        },
+        "reference_image_5": {
+          "help": "上传 JPEG 或 PNG。每张图的总像素小于 1,376,256。合计提供 1 至 5 张。"
+        },
+        "prompt": {
+          "help": "描述要进行的修改和需要保留的内容。Atlas 上下文上限为 32,000 个令牌。"
+        },
+        "size": {
+          "help": "选择沿用输入图的宽高比，或由模型结合提示词与图片重新构图。"
+        },
+        "enable_web_search": {
+          "help": "使用网络搜索了解提示词涉及的现实人物、地点或事件。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas 以 Base64 返回图片，由工作机解码保存。"
+        },
+        "enable_sync_mode": {
+          "help": "等待 Atlas 生成完成后从提交响应取成品。"
+        },
+        "reference_image_sources": {
+          "help": "每行填写一个公开图片 URL、Base64 Data URI 或原始 Base64。工作机先发送上传图片，再发送填入的来源。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "MAI-Image 2.6 圖片編輯",
+      "description": "依提示詞編輯圖片，可用多張參考圖引導內容、版面或風格。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "輸出尺寸",
+          "choiceLabels": {
+            "default": "沿用原圖長寬比",
+            "auto": "自動構圖"
+          }
+        },
+        "enable_web_search": {
+          "label": "啟用網路搜尋"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "enable_sync_mode": {
+          "label": "同步傳回"
+        },
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "reference_image_4": {
+          "label": "參考圖 4"
+        },
+        "reference_image_5": {
+          "label": "參考圖 5"
+        },
+        "reference_image_sources": {
+          "label": "參考圖來源"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "上傳 JPEG 或 PNG。每張圖的總像素小於 1,376,256。合計提供 1 至 5 張。"
+        },
+        "reference_image_2": {
+          "help": "上傳 JPEG 或 PNG。每張圖的總像素小於 1,376,256。合計提供 1 至 5 張。"
+        },
+        "reference_image_3": {
+          "help": "上傳 JPEG 或 PNG。每張圖的總像素小於 1,376,256。合計提供 1 至 5 張。"
+        },
+        "reference_image_4": {
+          "help": "上傳 JPEG 或 PNG。每張圖的總像素小於 1,376,256。合計提供 1 至 5 張。"
+        },
+        "reference_image_5": {
+          "help": "上傳 JPEG 或 PNG。每張圖的總像素小於 1,376,256。合計提供 1 至 5 張。"
+        },
+        "prompt": {
+          "help": "描述要進行的修改與需要保留的內容。Atlas 上下文上限為 32,000 個權杖。"
+        },
+        "size": {
+          "help": "選擇沿用輸入圖的長寬比，或由模型依提示詞與圖片重新構圖。"
+        },
+        "enable_web_search": {
+          "help": "透過網路搜尋了解提示詞涉及的真實人物、地點或事件。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas 以 Base64 傳回圖片，由工作機解碼儲存。"
+        },
+        "enable_sync_mode": {
+          "help": "等待 Atlas 生成完成，再從提交回應取得成品。"
+        },
+        "reference_image_sources": {
+          "help": "每行填入一個公開圖片網址、Base64 Data URI 或原始 Base64。工作機先傳送上傳圖片，再傳送填入的來源。"
+        }
+      }
+    },
+    "en": {
+      "name": "MAI-Image 2.6 Image Edit",
+      "description": "Edit an image with a text prompt and use multiple references to guide content, layout, or style.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Output size",
+          "choiceLabels": {
+            "default": "Keep input aspect ratio",
+            "auto": "Automatic framing"
+          }
+        },
+        "enable_web_search": {
+          "label": "Enable web search"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "enable_sync_mode": {
+          "label": "Synchronous output"
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        },
+        "reference_image_5": {
+          "label": "Reference image 5"
+        },
+        "reference_image_sources": {
+          "label": "Reference image sources"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "Upload JPEG or PNG. Each image must have fewer than 1,376,256 pixels. Provide one to five images total."
+        },
+        "reference_image_2": {
+          "help": "Upload JPEG or PNG. Each image must have fewer than 1,376,256 pixels. Provide one to five images total."
+        },
+        "reference_image_3": {
+          "help": "Upload JPEG or PNG. Each image must have fewer than 1,376,256 pixels. Provide one to five images total."
+        },
+        "reference_image_4": {
+          "help": "Upload JPEG or PNG. Each image must have fewer than 1,376,256 pixels. Provide one to five images total."
+        },
+        "reference_image_5": {
+          "help": "Upload JPEG or PNG. Each image must have fewer than 1,376,256 pixels. Provide one to five images total."
+        },
+        "prompt": {
+          "help": "Describe the changes and what to preserve. Atlas supports a context of up to 32,000 tokens."
+        },
+        "size": {
+          "help": "Preserve the input aspect ratio or let the model compose the result from the prompt and images."
+        },
+        "enable_web_search": {
+          "help": "Use web search to ground generation in real people, places, or events."
+        },
+        "enable_base64_output": {
+          "help": "Return images as Base64 for the worker to decode and save."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for Atlas to finish and obtain the image in the submission response."
+        },
+        "reference_image_sources": {
+          "help": "Enter one public image URL, Base64 data URI, or raw Base64 per line. The worker sends uploaded images before these sources."
+        }
+      }
+    },
+    "ja": {
+      "name": "MAI-Image 2.6 画像編集",
+      "description": "プロンプトで画像を編集します。参照画像を複数使って内容、構図、スタイルを指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "出力サイズ",
+          "choiceLabels": {
+            "default": "元画像の縦横比を維持",
+            "auto": "構図を自動選択"
+          }
+        },
+        "enable_web_search": {
+          "label": "ウェブ検索を有効化"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        },
+        "enable_sync_mode": {
+          "label": "同期出力"
+        },
+        "reference_image_1": {
+          "label": "参照画像 1"
+        },
+        "reference_image_2": {
+          "label": "参照画像 2"
+        },
+        "reference_image_3": {
+          "label": "参照画像 3"
+        },
+        "reference_image_4": {
+          "label": "参照画像 4"
+        },
+        "reference_image_5": {
+          "label": "参照画像 5"
+        },
+        "reference_image_sources": {
+          "label": "参照画像の入力元"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "JPEG または PNG をアップロードします。画像は各 1,376,256 ピクセル未満で、合計 1〜5 枚です。"
+        },
+        "reference_image_2": {
+          "help": "JPEG または PNG をアップロードします。画像は各 1,376,256 ピクセル未満で、合計 1〜5 枚です。"
+        },
+        "reference_image_3": {
+          "help": "JPEG または PNG をアップロードします。画像は各 1,376,256 ピクセル未満で、合計 1〜5 枚です。"
+        },
+        "reference_image_4": {
+          "help": "JPEG または PNG をアップロードします。画像は各 1,376,256 ピクセル未満で、合計 1〜5 枚です。"
+        },
+        "reference_image_5": {
+          "help": "JPEG または PNG をアップロードします。画像は各 1,376,256 ピクセル未満で、合計 1〜5 枚です。"
+        },
+        "prompt": {
+          "help": "変更内容と残したい要素を記述します。Atlas のコンテキスト上限は 32,000 トークンです。"
+        },
+        "size": {
+          "help": "元画像の縦横比を維持するか、プロンプトと画像から構図を自動選択します。"
+        },
+        "enable_web_search": {
+          "help": "プロンプトに含まれる実在の人物、場所、出来事をウェブ検索で参照します。"
+        },
+        "enable_base64_output": {
+          "help": "画像を Base64 で受け取り、ワーカーがデコードして保存します。"
+        },
+        "enable_sync_mode": {
+          "help": "Atlas の生成完了を待ち、送信への応答から画像を受け取ります。"
+        },
+        "reference_image_sources": {
+          "help": "公開画像 URL、Base64 Data URI、または Base64 文字列を 1 行に 1 件入力します。アップロード画像の後に、ここで指定した画像を送信します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "MAI-Image 2.6 이미지 편집",
+      "description": "프롬프트로 이미지를 편집합니다. 여러 참조 이미지로 내용, 배치 또는 화풍을 지정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "출력 크기",
+          "choiceLabels": {
+            "default": "원본 비율 유지",
+            "auto": "자동 구도"
+          }
+        },
+        "enable_web_search": {
+          "label": "웹 검색 사용"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        },
+        "enable_sync_mode": {
+          "label": "동기 응답"
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_image_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_image_sources": {
+          "label": "참조 이미지 소스"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "JPEG 또는 PNG를 업로드하세요. 이미지 한 장당 1,376,256픽셀 미만이며 총 1~5장을 제공하세요."
+        },
+        "reference_image_2": {
+          "help": "JPEG 또는 PNG를 업로드하세요. 이미지 한 장당 1,376,256픽셀 미만이며 총 1~5장을 제공하세요."
+        },
+        "reference_image_3": {
+          "help": "JPEG 또는 PNG를 업로드하세요. 이미지 한 장당 1,376,256픽셀 미만이며 총 1~5장을 제공하세요."
+        },
+        "reference_image_4": {
+          "help": "JPEG 또는 PNG를 업로드하세요. 이미지 한 장당 1,376,256픽셀 미만이며 총 1~5장을 제공하세요."
+        },
+        "reference_image_5": {
+          "help": "JPEG 또는 PNG를 업로드하세요. 이미지 한 장당 1,376,256픽셀 미만이며 총 1~5장을 제공하세요."
+        },
+        "prompt": {
+          "help": "수정할 부분과 유지할 내용을 설명하세요. Atlas의 컨텍스트 한도는 32,000토큰입니다."
+        },
+        "size": {
+          "help": "원본 이미지의 비율을 유지하거나 프롬프트와 이미지를 바탕으로 구도를 자동으로 선택합니다."
+        },
+        "enable_web_search": {
+          "help": "프롬프트에 포함된 실제 인물, 장소 또는 사건을 웹 검색으로 참고합니다."
+        },
+        "enable_base64_output": {
+          "help": "Base64 이미지 데이터를 받아 워커가 디코딩 후 저장합니다."
+        },
+        "enable_sync_mode": {
+          "help": "Atlas의 생성이 끝나면 제출 응답에서 이미지를 받습니다."
+        },
+        "reference_image_sources": {
+          "help": "공개 이미지 URL, Base64 Data URI 또는 Base64 문자열을 한 줄에 하나씩 입력하세요. 워커는 업로드한 이미지 뒤에 이 소스를 전송합니다."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1243 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-grok-video15-dev-reference-to-video",
+  "name": "Grok Imagine Video v1.5 Developer 参考生视频",
+  "description": "用 1 至 7 张参考图和文字生成最长 15 秒的视频，可指定预设对话音色。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "integer",
+      "default": 8,
+      "minimum": "1",
+      "maximum": "15",
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["480p", "720p"],
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "choices": ["1:1", "16:9", "9:16", "4:3", "3:4", "3:2", "2:3"],
+      "optional": true
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "voice_1",
+      "kind": "choice",
+      "optional": true,
+      "default": "",
+      "choices": [
+        "",
+        "altair",
+        "ara",
+        "atlas",
+        "carina",
+        "castor",
+        "celeste",
+        "cosmo",
+        "eve",
+        "helios",
+        "helix",
+        "iris",
+        "kepler",
+        "leo",
+        "lumen",
+        "luna",
+        "lux",
+        "naksh",
+        "orion",
+        "perseus",
+        "rex",
+        "rigel",
+        "sal",
+        "sirius",
+        "ursa",
+        "zagan",
+        "zenith"
+      ]
+    },
+    {
+      "name": "voice_2",
+      "kind": "choice",
+      "optional": true,
+      "default": "",
+      "choices": [
+        "",
+        "altair",
+        "ara",
+        "atlas",
+        "carina",
+        "castor",
+        "celeste",
+        "cosmo",
+        "eve",
+        "helios",
+        "helix",
+        "iris",
+        "kepler",
+        "leo",
+        "lumen",
+        "luna",
+        "lux",
+        "naksh",
+        "orion",
+        "perseus",
+        "rex",
+        "rigel",
+        "sal",
+        "sirius",
+        "ursa",
+        "zagan",
+        "zenith"
+      ]
+    },
+    {
+      "name": "voice_3",
+      "kind": "choice",
+      "optional": true,
+      "default": "",
+      "choices": [
+        "",
+        "altair",
+        "ara",
+        "atlas",
+        "carina",
+        "castor",
+        "celeste",
+        "cosmo",
+        "eve",
+        "helios",
+        "helix",
+        "iris",
+        "kepler",
+        "leo",
+        "lumen",
+        "luna",
+        "lux",
+        "naksh",
+        "orion",
+        "perseus",
+        "rex",
+        "rigel",
+        "sal",
+        "sirius",
+        "ursa",
+        "zagan",
+        "zenith"
+      ]
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "voice_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "voice_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "voice_3",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "xai/grok-imagine-video-v1.5-developer/reference-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "resolution": "resolution",
+        "aspect_ratio": "aspect_ratio"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "image_urls": {
+          "kind": "image",
+          "array": true,
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4",
+            "reference_image_5",
+            "reference_image_6",
+            "reference_image_7"
+          ],
+          "external_sources_field": "image_sources",
+          "min_items": 1,
+          "external_https_only": true,
+          "content_types": ["image/jpeg", "image/png", "image/webp"]
+        }
+      },
+      "choice_arrays": {
+        "voice_ids": {
+          "fields": ["voice_1", "voice_2", "voice_3"],
+          "values": [
+            "altair",
+            "ara",
+            "atlas",
+            "carina",
+            "castor",
+            "celeste",
+            "cosmo",
+            "eve",
+            "helios",
+            "helix",
+            "iris",
+            "kepler",
+            "leo",
+            "lumen",
+            "luna",
+            "lux",
+            "naksh",
+            "orion",
+            "perseus",
+            "rex",
+            "rigel",
+            "sal",
+            "sirius",
+            "ursa",
+            "zagan",
+            "zenith"
+          ]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Grok Imagine Video v1.5 Developer 参考生视频",
+      "description": "用 1 至 7 张参考图和文字生成最长 15 秒的视频，可指定预设对话音色。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "成品时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "aspect_ratio": {
+          "label": "画面比例"
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        },
+        "reference_image_5": {
+          "label": "参考图 5"
+        },
+        "reference_image_6": {
+          "label": "参考图 6"
+        },
+        "reference_image_7": {
+          "label": "参考图 7"
+        },
+        "image_sources": {
+          "label": "参考图来源"
+        },
+        "voice_1": {
+          "label": "对话音色 1",
+          "choiceLabels": {
+            "": "由模型决定",
+            "altair": "Altair · 优雅精致",
+            "ara": "Ara · 温暖亲切",
+            "atlas": "Atlas · 自信沉稳",
+            "carina": "Carina · 柔和体贴",
+            "castor": "Castor · 随和有魅力",
+            "celeste": "Celeste · 关怀笃定",
+            "cosmo": "Cosmo · 明快好懂",
+            "eve": "Eve · 活泼开朗",
+            "helios": "Helios · 活力多变",
+            "helix": "Helix · 大胆动感",
+            "iris": "Iris · 亲切俏皮",
+            "kepler": "Kepler · 新颖有感染力",
+            "leo": "Leo · 有力威严",
+            "lumen": "Lumen · 温暖清晰",
+            "luna": "Luna · 温柔耐心",
+            "lux": "Lux · 平静稳重",
+            "naksh": "Naksh · 温暖睿智",
+            "orion": "Orion · 浑厚有共鸣",
+            "perseus": "Perseus · 坚定可靠",
+            "rex": "Rex · 自信清楚",
+            "rigel": "Rigel · 精准专业",
+            "sal": "Sal · 平顺均衡",
+            "sirius": "Sirius · 机敏风趣",
+            "ursa": "Ursa · 温和坚定",
+            "zagan": "Zagan · 浑厚有戏剧感",
+            "zenith": "Zenith · 清晰专注"
+          }
+        },
+        "voice_2": {
+          "label": "对话音色 2",
+          "choiceLabels": {
+            "": "由模型决定",
+            "altair": "Altair · 优雅精致",
+            "ara": "Ara · 温暖亲切",
+            "atlas": "Atlas · 自信沉稳",
+            "carina": "Carina · 柔和体贴",
+            "castor": "Castor · 随和有魅力",
+            "celeste": "Celeste · 关怀笃定",
+            "cosmo": "Cosmo · 明快好懂",
+            "eve": "Eve · 活泼开朗",
+            "helios": "Helios · 活力多变",
+            "helix": "Helix · 大胆动感",
+            "iris": "Iris · 亲切俏皮",
+            "kepler": "Kepler · 新颖有感染力",
+            "leo": "Leo · 有力威严",
+            "lumen": "Lumen · 温暖清晰",
+            "luna": "Luna · 温柔耐心",
+            "lux": "Lux · 平静稳重",
+            "naksh": "Naksh · 温暖睿智",
+            "orion": "Orion · 浑厚有共鸣",
+            "perseus": "Perseus · 坚定可靠",
+            "rex": "Rex · 自信清楚",
+            "rigel": "Rigel · 精准专业",
+            "sal": "Sal · 平顺均衡",
+            "sirius": "Sirius · 机敏风趣",
+            "ursa": "Ursa · 温和坚定",
+            "zagan": "Zagan · 浑厚有戏剧感",
+            "zenith": "Zenith · 清晰专注"
+          }
+        },
+        "voice_3": {
+          "label": "对话音色 3",
+          "choiceLabels": {
+            "": "由模型决定",
+            "altair": "Altair · 优雅精致",
+            "ara": "Ara · 温暖亲切",
+            "atlas": "Atlas · 自信沉稳",
+            "carina": "Carina · 柔和体贴",
+            "castor": "Castor · 随和有魅力",
+            "celeste": "Celeste · 关怀笃定",
+            "cosmo": "Cosmo · 明快好懂",
+            "eve": "Eve · 活泼开朗",
+            "helios": "Helios · 活力多变",
+            "helix": "Helix · 大胆动感",
+            "iris": "Iris · 亲切俏皮",
+            "kepler": "Kepler · 新颖有感染力",
+            "leo": "Leo · 有力威严",
+            "lumen": "Lumen · 温暖清晰",
+            "luna": "Luna · 温柔耐心",
+            "lux": "Lux · 平静稳重",
+            "naksh": "Naksh · 温暖睿智",
+            "orion": "Orion · 浑厚有共鸣",
+            "perseus": "Perseus · 坚定可靠",
+            "rex": "Rex · 自信清楚",
+            "rigel": "Rigel · 精准专业",
+            "sal": "Sal · 平顺均衡",
+            "sirius": "Sirius · 机敏风趣",
+            "ursa": "Ursa · 温和坚定",
+            "zagan": "Zagan · 浑厚有戏剧感",
+            "zenith": "Zenith · 清晰专注"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "用 <IMAGE_0>、<IMAGE_1> 等按提交顺序引用图片。"
+        },
+        "reference_image_1": {
+          "help": "上传图片作为人物、物体或风格参考。"
+        },
+        "duration_seconds": {
+          "help": "选择 1 至 15 秒，默认 8 秒。"
+        },
+        "resolution": {
+          "help": "选择 480p 或 720p。"
+        },
+        "aspect_ratio": {
+          "help": "选择输出视频的宽高比，默认 16:9。"
+        },
+        "reference_image_2": {
+          "help": "上传槽位按编号提交，外部来源排在其后。"
+        },
+        "reference_image_3": {
+          "help": "上传槽位按编号提交，外部来源排在其后。"
+        },
+        "reference_image_4": {
+          "help": "上传槽位按编号提交，外部来源排在其后。"
+        },
+        "reference_image_5": {
+          "help": "上传槽位按编号提交，外部来源排在其后。"
+        },
+        "reference_image_6": {
+          "help": "上传槽位按编号提交，外部来源排在其后。"
+        },
+        "reference_image_7": {
+          "help": "上传槽位按编号提交，外部来源排在其后。"
+        },
+        "image_sources": {
+          "help": "每行一个公开 HTTPS URL 或 Base64 Data URI。与上传合计 1 至 7 张。"
+        },
+        "voice_1": {
+          "help": "选择多语言预设音色。音色按槽位顺序传入，可留空。"
+        },
+        "voice_2": {
+          "help": "选择多语言预设音色。音色按槽位顺序传入，可留空。"
+        },
+        "voice_3": {
+          "help": "选择多语言预设音色。音色按槽位顺序传入，可留空。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Grok Imagine Video v1.5 Developer 參考圖生影片",
+      "description": "用 1 至 7 張參考圖和文字生成最長 15 秒的影片，可指定預設對話音色。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "成品長度（秒）"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例"
+        },
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "reference_image_4": {
+          "label": "參考圖 4"
+        },
+        "reference_image_5": {
+          "label": "參考圖 5"
+        },
+        "reference_image_6": {
+          "label": "參考圖 6"
+        },
+        "reference_image_7": {
+          "label": "參考圖 7"
+        },
+        "image_sources": {
+          "label": "參考圖來源"
+        },
+        "voice_1": {
+          "label": "對話音色 1",
+          "choiceLabels": {
+            "": "由模型決定",
+            "altair": "Altair · 優雅精緻",
+            "ara": "Ara · 溫暖親切",
+            "atlas": "Atlas · 自信沉穩",
+            "carina": "Carina · 柔和體貼",
+            "castor": "Castor · 隨和有魅力",
+            "celeste": "Celeste · 關懷篤定",
+            "cosmo": "Cosmo · 明快好懂",
+            "eve": "Eve · 活潑開朗",
+            "helios": "Helios · 活力多變",
+            "helix": "Helix · 大膽動感",
+            "iris": "Iris · 親切俏皮",
+            "kepler": "Kepler · 新穎有感染力",
+            "leo": "Leo · 有力威嚴",
+            "lumen": "Lumen · 溫暖清晰",
+            "luna": "Luna · 溫柔耐心",
+            "lux": "Lux · 平靜穩重",
+            "naksh": "Naksh · 溫暖睿智",
+            "orion": "Orion · 渾厚有共鳴",
+            "perseus": "Perseus · 堅定可靠",
+            "rex": "Rex · 自信清楚",
+            "rigel": "Rigel · 精準專業",
+            "sal": "Sal · 平順均衡",
+            "sirius": "Sirius · 機敏風趣",
+            "ursa": "Ursa · 溫和堅定",
+            "zagan": "Zagan · 渾厚有戲劇感",
+            "zenith": "Zenith · 清晰專注"
+          }
+        },
+        "voice_2": {
+          "label": "對話音色 2",
+          "choiceLabels": {
+            "": "由模型決定",
+            "altair": "Altair · 優雅精緻",
+            "ara": "Ara · 溫暖親切",
+            "atlas": "Atlas · 自信沉穩",
+            "carina": "Carina · 柔和體貼",
+            "castor": "Castor · 隨和有魅力",
+            "celeste": "Celeste · 關懷篤定",
+            "cosmo": "Cosmo · 明快好懂",
+            "eve": "Eve · 活潑開朗",
+            "helios": "Helios · 活力多變",
+            "helix": "Helix · 大膽動感",
+            "iris": "Iris · 親切俏皮",
+            "kepler": "Kepler · 新穎有感染力",
+            "leo": "Leo · 有力威嚴",
+            "lumen": "Lumen · 溫暖清晰",
+            "luna": "Luna · 溫柔耐心",
+            "lux": "Lux · 平靜穩重",
+            "naksh": "Naksh · 溫暖睿智",
+            "orion": "Orion · 渾厚有共鳴",
+            "perseus": "Perseus · 堅定可靠",
+            "rex": "Rex · 自信清楚",
+            "rigel": "Rigel · 精準專業",
+            "sal": "Sal · 平順均衡",
+            "sirius": "Sirius · 機敏風趣",
+            "ursa": "Ursa · 溫和堅定",
+            "zagan": "Zagan · 渾厚有戲劇感",
+            "zenith": "Zenith · 清晰專注"
+          }
+        },
+        "voice_3": {
+          "label": "對話音色 3",
+          "choiceLabels": {
+            "": "由模型決定",
+            "altair": "Altair · 優雅精緻",
+            "ara": "Ara · 溫暖親切",
+            "atlas": "Atlas · 自信沉穩",
+            "carina": "Carina · 柔和體貼",
+            "castor": "Castor · 隨和有魅力",
+            "celeste": "Celeste · 關懷篤定",
+            "cosmo": "Cosmo · 明快好懂",
+            "eve": "Eve · 活潑開朗",
+            "helios": "Helios · 活力多變",
+            "helix": "Helix · 大膽動感",
+            "iris": "Iris · 親切俏皮",
+            "kepler": "Kepler · 新穎有感染力",
+            "leo": "Leo · 有力威嚴",
+            "lumen": "Lumen · 溫暖清晰",
+            "luna": "Luna · 溫柔耐心",
+            "lux": "Lux · 平靜穩重",
+            "naksh": "Naksh · 溫暖睿智",
+            "orion": "Orion · 渾厚有共鳴",
+            "perseus": "Perseus · 堅定可靠",
+            "rex": "Rex · 自信清楚",
+            "rigel": "Rigel · 精準專業",
+            "sal": "Sal · 平順均衡",
+            "sirius": "Sirius · 機敏風趣",
+            "ursa": "Ursa · 溫和堅定",
+            "zagan": "Zagan · 渾厚有戲劇感",
+            "zenith": "Zenith · 清晰專注"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "用 <IMAGE_0>、<IMAGE_1> 等按提交順序參照圖片。"
+        },
+        "reference_image_1": {
+          "help": "上傳圖片作為人物、物體或風格參考。"
+        },
+        "duration_seconds": {
+          "help": "選擇 1 至 15 秒，預設 8 秒。"
+        },
+        "resolution": {
+          "help": "選擇 480p 或 720p。"
+        },
+        "aspect_ratio": {
+          "help": "選擇輸出影片的寬高比，預設 16:9。"
+        },
+        "reference_image_2": {
+          "help": "上傳欄位按編號提交，外部來源排在其後。"
+        },
+        "reference_image_3": {
+          "help": "上傳欄位按編號提交，外部來源排在其後。"
+        },
+        "reference_image_4": {
+          "help": "上傳欄位按編號提交，外部來源排在其後。"
+        },
+        "reference_image_5": {
+          "help": "上傳欄位按編號提交，外部來源排在其後。"
+        },
+        "reference_image_6": {
+          "help": "上傳欄位按編號提交，外部來源排在其後。"
+        },
+        "reference_image_7": {
+          "help": "上傳欄位按編號提交，外部來源排在其後。"
+        },
+        "image_sources": {
+          "help": "每行一個公開 HTTPS URL 或 Base64 Data URI。與上傳合計 1 至 7 張。"
+        },
+        "voice_1": {
+          "help": "選擇多語言預設音色。音色按欄位順序傳入，可留空。"
+        },
+        "voice_2": {
+          "help": "選擇多語言預設音色。音色按欄位順序傳入，可留空。"
+        },
+        "voice_3": {
+          "help": "選擇多語言預設音色。音色按欄位順序傳入，可留空。"
+        }
+      }
+    },
+    "en": {
+      "name": "Grok Imagine Video v1.5 Developer Reference-to-Video",
+      "description": "Generate a video up to 15 seconds from one to seven reference images and a prompt. Choose preset voices for dialogue.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        },
+        "reference_image_5": {
+          "label": "Reference image 5"
+        },
+        "reference_image_6": {
+          "label": "Reference image 6"
+        },
+        "reference_image_7": {
+          "label": "Reference image 7"
+        },
+        "image_sources": {
+          "label": "Reference image sources"
+        },
+        "voice_1": {
+          "label": "Dialogue voice 1",
+          "choiceLabels": {
+            "": "Let the model choose",
+            "altair": "Altair · Elegant and refined",
+            "ara": "Ara · Warm and approachable",
+            "atlas": "Atlas · Confident and reassuring",
+            "carina": "Carina · Soft and soothing",
+            "castor": "Castor · Easygoing and engaging",
+            "celeste": "Celeste · Compassionate and assured",
+            "cosmo": "Cosmo · Bright and clear",
+            "eve": "Eve · Lively and upbeat",
+            "helios": "Helios · Energetic and versatile",
+            "helix": "Helix · Bold and dynamic",
+            "iris": "Iris · Friendly and charming",
+            "kepler": "Kepler · Inventive and engaging",
+            "leo": "Leo · Strong and authoritative",
+            "lumen": "Lumen · Warm and articulate",
+            "luna": "Luna · Gentle and patient",
+            "lux": "Lux · Calm and grounded",
+            "naksh": "Naksh · Thoughtful and warm",
+            "orion": "Orion · Resonant and cinematic",
+            "perseus": "Perseus · Strong and trustworthy",
+            "rex": "Rex · Clear and confident",
+            "rigel": "Rigel · Precise and professional",
+            "sal": "Sal · Smooth and balanced",
+            "sirius": "Sirius · Quick and playful",
+            "ursa": "Ursa · Warm and steady",
+            "zagan": "Zagan · Powerful and dramatic",
+            "zenith": "Zenith · Focused and sharp"
+          }
+        },
+        "voice_2": {
+          "label": "Dialogue voice 2",
+          "choiceLabels": {
+            "": "Let the model choose",
+            "altair": "Altair · Elegant and refined",
+            "ara": "Ara · Warm and approachable",
+            "atlas": "Atlas · Confident and reassuring",
+            "carina": "Carina · Soft and soothing",
+            "castor": "Castor · Easygoing and engaging",
+            "celeste": "Celeste · Compassionate and assured",
+            "cosmo": "Cosmo · Bright and clear",
+            "eve": "Eve · Lively and upbeat",
+            "helios": "Helios · Energetic and versatile",
+            "helix": "Helix · Bold and dynamic",
+            "iris": "Iris · Friendly and charming",
+            "kepler": "Kepler · Inventive and engaging",
+            "leo": "Leo · Strong and authoritative",
+            "lumen": "Lumen · Warm and articulate",
+            "luna": "Luna · Gentle and patient",
+            "lux": "Lux · Calm and grounded",
+            "naksh": "Naksh · Thoughtful and warm",
+            "orion": "Orion · Resonant and cinematic",
+            "perseus": "Perseus · Strong and trustworthy",
+            "rex": "Rex · Clear and confident",
+            "rigel": "Rigel · Precise and professional",
+            "sal": "Sal · Smooth and balanced",
+            "sirius": "Sirius · Quick and playful",
+            "ursa": "Ursa · Warm and steady",
+            "zagan": "Zagan · Powerful and dramatic",
+            "zenith": "Zenith · Focused and sharp"
+          }
+        },
+        "voice_3": {
+          "label": "Dialogue voice 3",
+          "choiceLabels": {
+            "": "Let the model choose",
+            "altair": "Altair · Elegant and refined",
+            "ara": "Ara · Warm and approachable",
+            "atlas": "Atlas · Confident and reassuring",
+            "carina": "Carina · Soft and soothing",
+            "castor": "Castor · Easygoing and engaging",
+            "celeste": "Celeste · Compassionate and assured",
+            "cosmo": "Cosmo · Bright and clear",
+            "eve": "Eve · Lively and upbeat",
+            "helios": "Helios · Energetic and versatile",
+            "helix": "Helix · Bold and dynamic",
+            "iris": "Iris · Friendly and charming",
+            "kepler": "Kepler · Inventive and engaging",
+            "leo": "Leo · Strong and authoritative",
+            "lumen": "Lumen · Warm and articulate",
+            "luna": "Luna · Gentle and patient",
+            "lux": "Lux · Calm and grounded",
+            "naksh": "Naksh · Thoughtful and warm",
+            "orion": "Orion · Resonant and cinematic",
+            "perseus": "Perseus · Strong and trustworthy",
+            "rex": "Rex · Clear and confident",
+            "rigel": "Rigel · Precise and professional",
+            "sal": "Sal · Smooth and balanced",
+            "sirius": "Sirius · Quick and playful",
+            "ursa": "Ursa · Warm and steady",
+            "zagan": "Zagan · Powerful and dramatic",
+            "zenith": "Zenith · Focused and sharp"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Use <IMAGE_0>, <IMAGE_1>, and similar tags to refer to the images in submission order."
+        },
+        "reference_image_1": {
+          "help": "Upload an image as a character, object, or style reference."
+        },
+        "duration_seconds": {
+          "help": "Choose 1 to 15 seconds. The default is 8 seconds."
+        },
+        "resolution": {
+          "help": "Choose 480p or 720p."
+        },
+        "aspect_ratio": {
+          "help": "Choose the output aspect ratio. The default is 16:9."
+        },
+        "reference_image_2": {
+          "help": "Uploaded slots are sent in order, followed by external sources."
+        },
+        "reference_image_3": {
+          "help": "Uploaded slots are sent in order, followed by external sources."
+        },
+        "reference_image_4": {
+          "help": "Uploaded slots are sent in order, followed by external sources."
+        },
+        "reference_image_5": {
+          "help": "Uploaded slots are sent in order, followed by external sources."
+        },
+        "reference_image_6": {
+          "help": "Uploaded slots are sent in order, followed by external sources."
+        },
+        "reference_image_7": {
+          "help": "Uploaded slots are sent in order, followed by external sources."
+        },
+        "image_sources": {
+          "help": "Enter one public HTTPS URL or Base64 data URI per line. Provide one to seven images total, including uploads."
+        },
+        "voice_1": {
+          "help": "Select a multilingual preset voice. Voices are sent in slot order. Leave unused slots empty."
+        },
+        "voice_2": {
+          "help": "Select a multilingual preset voice. Voices are sent in slot order. Leave unused slots empty."
+        },
+        "voice_3": {
+          "help": "Select a multilingual preset voice. Voices are sent in slot order. Leave unused slots empty."
+        }
+      }
+    },
+    "ja": {
+      "name": "Grok Imagine Video v1.5 Developer 参照画像から動画",
+      "description": "1〜7 枚の参照画像とプロンプトから最長 15 秒の動画を生成します。会話の音声も指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "動画の長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        },
+        "reference_image_1": {
+          "label": "参照画像1"
+        },
+        "reference_image_2": {
+          "label": "参照画像2"
+        },
+        "reference_image_3": {
+          "label": "参照画像3"
+        },
+        "reference_image_4": {
+          "label": "参照画像4"
+        },
+        "reference_image_5": {
+          "label": "参照画像5"
+        },
+        "reference_image_6": {
+          "label": "参照画像6"
+        },
+        "reference_image_7": {
+          "label": "参照画像7"
+        },
+        "image_sources": {
+          "label": "参照画像のソース"
+        },
+        "voice_1": {
+          "label": "会話の音声 1",
+          "choiceLabels": {
+            "": "モデルに任せる",
+            "altair": "Altair · 上品で洗練",
+            "ara": "Ara · 温かく親しみやすい",
+            "atlas": "Atlas · 自信があり穏やか",
+            "carina": "Carina · 柔らかく落ち着く",
+            "castor": "Castor · 気さくで魅力的",
+            "celeste": "Celeste · 思いやりがあり落ち着く",
+            "cosmo": "Cosmo · 明るく聞き取りやすい",
+            "eve": "Eve · 陽気で活発",
+            "helios": "Helios · 元気で多彩",
+            "helix": "Helix · 力強く躍動的",
+            "iris": "Iris · 親しみやすく愛嬌がある",
+            "kepler": "Kepler · 独創的で魅力的",
+            "leo": "Leo · 力強く威厳がある",
+            "lumen": "Lumen · 温かく明瞭",
+            "luna": "Luna · 優しく忍耐強い",
+            "lux": "Lux · 静かで落ち着いている",
+            "naksh": "Naksh · 温かく思慮深い",
+            "orion": "Orion · 深く響く映画調",
+            "perseus": "Perseus · 堂々として頼もしい",
+            "rex": "Rex · 明瞭で自信がある",
+            "rigel": "Rigel · 正確で落ち着いた",
+            "sal": "Sal · 滑らかで安定",
+            "sirius": "Sirius · 機転が利き遊び心がある",
+            "ursa": "Ursa · 温かく芯がある",
+            "zagan": "Zagan · 力強くドラマチック",
+            "zenith": "Zenith · 鋭く集中した"
+          }
+        },
+        "voice_2": {
+          "label": "会話の音声 2",
+          "choiceLabels": {
+            "": "モデルに任せる",
+            "altair": "Altair · 上品で洗練",
+            "ara": "Ara · 温かく親しみやすい",
+            "atlas": "Atlas · 自信があり穏やか",
+            "carina": "Carina · 柔らかく落ち着く",
+            "castor": "Castor · 気さくで魅力的",
+            "celeste": "Celeste · 思いやりがあり落ち着く",
+            "cosmo": "Cosmo · 明るく聞き取りやすい",
+            "eve": "Eve · 陽気で活発",
+            "helios": "Helios · 元気で多彩",
+            "helix": "Helix · 力強く躍動的",
+            "iris": "Iris · 親しみやすく愛嬌がある",
+            "kepler": "Kepler · 独創的で魅力的",
+            "leo": "Leo · 力強く威厳がある",
+            "lumen": "Lumen · 温かく明瞭",
+            "luna": "Luna · 優しく忍耐強い",
+            "lux": "Lux · 静かで落ち着いている",
+            "naksh": "Naksh · 温かく思慮深い",
+            "orion": "Orion · 深く響く映画調",
+            "perseus": "Perseus · 堂々として頼もしい",
+            "rex": "Rex · 明瞭で自信がある",
+            "rigel": "Rigel · 正確で落ち着いた",
+            "sal": "Sal · 滑らかで安定",
+            "sirius": "Sirius · 機転が利き遊び心がある",
+            "ursa": "Ursa · 温かく芯がある",
+            "zagan": "Zagan · 力強くドラマチック",
+            "zenith": "Zenith · 鋭く集中した"
+          }
+        },
+        "voice_3": {
+          "label": "会話の音声 3",
+          "choiceLabels": {
+            "": "モデルに任せる",
+            "altair": "Altair · 上品で洗練",
+            "ara": "Ara · 温かく親しみやすい",
+            "atlas": "Atlas · 自信があり穏やか",
+            "carina": "Carina · 柔らかく落ち着く",
+            "castor": "Castor · 気さくで魅力的",
+            "celeste": "Celeste · 思いやりがあり落ち着く",
+            "cosmo": "Cosmo · 明るく聞き取りやすい",
+            "eve": "Eve · 陽気で活発",
+            "helios": "Helios · 元気で多彩",
+            "helix": "Helix · 力強く躍動的",
+            "iris": "Iris · 親しみやすく愛嬌がある",
+            "kepler": "Kepler · 独創的で魅力的",
+            "leo": "Leo · 力強く威厳がある",
+            "lumen": "Lumen · 温かく明瞭",
+            "luna": "Luna · 優しく忍耐強い",
+            "lux": "Lux · 静かで落ち着いている",
+            "naksh": "Naksh · 温かく思慮深い",
+            "orion": "Orion · 深く響く映画調",
+            "perseus": "Perseus · 堂々として頼もしい",
+            "rex": "Rex · 明瞭で自信がある",
+            "rigel": "Rigel · 正確で落ち着いた",
+            "sal": "Sal · 滑らかで安定",
+            "sirius": "Sirius · 機転が利き遊び心がある",
+            "ursa": "Ursa · 温かく芯がある",
+            "zagan": "Zagan · 力強くドラマチック",
+            "zenith": "Zenith · 鋭く集中した"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "<IMAGE_0>、<IMAGE_1> などで送信順に画像を参照します。"
+        },
+        "reference_image_1": {
+          "help": "人物、物体、スタイルを参照する画像をアップロードします。"
+        },
+        "duration_seconds": {
+          "help": "1〜15 秒を選びます。既定値は 8 秒です。"
+        },
+        "resolution": {
+          "help": "480p または 720p を選びます。"
+        },
+        "aspect_ratio": {
+          "help": "出力動画の縦横比を選びます。既定値は 16:9 です。"
+        },
+        "reference_image_2": {
+          "help": "アップロードの番号順に送信し、その後に外部ソースが続きます。"
+        },
+        "reference_image_3": {
+          "help": "アップロードの番号順に送信し、その後に外部ソースが続きます。"
+        },
+        "reference_image_4": {
+          "help": "アップロードの番号順に送信し、その後に外部ソースが続きます。"
+        },
+        "reference_image_5": {
+          "help": "アップロードの番号順に送信し、その後に外部ソースが続きます。"
+        },
+        "reference_image_6": {
+          "help": "アップロードの番号順に送信し、その後に外部ソースが続きます。"
+        },
+        "reference_image_7": {
+          "help": "アップロードの番号順に送信し、その後に外部ソースが続きます。"
+        },
+        "image_sources": {
+          "help": "公開 HTTPS URL または Base64 データ URI を 1 行に 1 つ入力します。アップロードと合わせて 1〜7 枚を指定します。"
+        },
+        "voice_1": {
+          "help": "多言語プリセット音声を選びます。スロット順に送信され、空欄にもできます。"
+        },
+        "voice_2": {
+          "help": "多言語プリセット音声を選びます。スロット順に送信され、空欄にもできます。"
+        },
+        "voice_3": {
+          "help": "多言語プリセット音声を選びます。スロット順に送信され、空欄にもできます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Grok Imagine Video v1.5 Developer 참조 이미지로 동영상 생성",
+      "description": "참조 이미지 1~7장과 프롬프트로 최대 15초 동영상을 생성하고 대화 음성을 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "동영상 길이(초)"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_image_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_image_6": {
+          "label": "참조 이미지 6"
+        },
+        "reference_image_7": {
+          "label": "참조 이미지 7"
+        },
+        "image_sources": {
+          "label": "참조 이미지 소스"
+        },
+        "voice_1": {
+          "label": "대화 음성 1",
+          "choiceLabels": {
+            "": "모델이 선택",
+            "altair": "Altair · 우아하고 세련된",
+            "ara": "Ara · 따뜻하고 친근한",
+            "atlas": "Atlas · 자신감 있고 든든한",
+            "carina": "Carina · 부드럽고 편안한",
+            "castor": "Castor · 편안하고 매력적인",
+            "celeste": "Celeste · 다정하고 안정적인",
+            "cosmo": "Cosmo · 밝고 또렷한",
+            "eve": "Eve · 생기 있고 쾌활한",
+            "helios": "Helios · 활기차고 다채로운",
+            "helix": "Helix · 대담하고 역동적인",
+            "iris": "Iris · 친근하고 매력적인",
+            "kepler": "Kepler · 창의적이고 매력적인",
+            "leo": "Leo · 힘 있고 권위 있는",
+            "lumen": "Lumen · 따뜻하고 명료한",
+            "luna": "Luna · 부드럽고 인내심 있는",
+            "lux": "Lux · 차분하고 안정적인",
+            "naksh": "Naksh · 따뜻하고 사려 깊은",
+            "orion": "Orion · 깊이 울리는 영화풍",
+            "perseus": "Perseus · 강하고 신뢰감 있는",
+            "rex": "Rex · 자신감 있고 명확한",
+            "rigel": "Rigel · 정확하고 전문적인",
+            "sal": "Sal · 부드럽고 균형 잡힌",
+            "sirius": "Sirius · 재치 있고 장난기 있는",
+            "ursa": "Ursa · 따뜻하고 한결같은",
+            "zagan": "Zagan · 강렬하고 극적인",
+            "zenith": "Zenith · 날카롭고 집중된"
+          }
+        },
+        "voice_2": {
+          "label": "대화 음성 2",
+          "choiceLabels": {
+            "": "모델이 선택",
+            "altair": "Altair · 우아하고 세련된",
+            "ara": "Ara · 따뜻하고 친근한",
+            "atlas": "Atlas · 자신감 있고 든든한",
+            "carina": "Carina · 부드럽고 편안한",
+            "castor": "Castor · 편안하고 매력적인",
+            "celeste": "Celeste · 다정하고 안정적인",
+            "cosmo": "Cosmo · 밝고 또렷한",
+            "eve": "Eve · 생기 있고 쾌활한",
+            "helios": "Helios · 활기차고 다채로운",
+            "helix": "Helix · 대담하고 역동적인",
+            "iris": "Iris · 친근하고 매력적인",
+            "kepler": "Kepler · 창의적이고 매력적인",
+            "leo": "Leo · 힘 있고 권위 있는",
+            "lumen": "Lumen · 따뜻하고 명료한",
+            "luna": "Luna · 부드럽고 인내심 있는",
+            "lux": "Lux · 차분하고 안정적인",
+            "naksh": "Naksh · 따뜻하고 사려 깊은",
+            "orion": "Orion · 깊이 울리는 영화풍",
+            "perseus": "Perseus · 강하고 신뢰감 있는",
+            "rex": "Rex · 자신감 있고 명확한",
+            "rigel": "Rigel · 정확하고 전문적인",
+            "sal": "Sal · 부드럽고 균형 잡힌",
+            "sirius": "Sirius · 재치 있고 장난기 있는",
+            "ursa": "Ursa · 따뜻하고 한결같은",
+            "zagan": "Zagan · 강렬하고 극적인",
+            "zenith": "Zenith · 날카롭고 집중된"
+          }
+        },
+        "voice_3": {
+          "label": "대화 음성 3",
+          "choiceLabels": {
+            "": "모델이 선택",
+            "altair": "Altair · 우아하고 세련된",
+            "ara": "Ara · 따뜻하고 친근한",
+            "atlas": "Atlas · 자신감 있고 든든한",
+            "carina": "Carina · 부드럽고 편안한",
+            "castor": "Castor · 편안하고 매력적인",
+            "celeste": "Celeste · 다정하고 안정적인",
+            "cosmo": "Cosmo · 밝고 또렷한",
+            "eve": "Eve · 생기 있고 쾌활한",
+            "helios": "Helios · 활기차고 다채로운",
+            "helix": "Helix · 대담하고 역동적인",
+            "iris": "Iris · 친근하고 매력적인",
+            "kepler": "Kepler · 창의적이고 매력적인",
+            "leo": "Leo · 힘 있고 권위 있는",
+            "lumen": "Lumen · 따뜻하고 명료한",
+            "luna": "Luna · 부드럽고 인내심 있는",
+            "lux": "Lux · 차분하고 안정적인",
+            "naksh": "Naksh · 따뜻하고 사려 깊은",
+            "orion": "Orion · 깊이 울리는 영화풍",
+            "perseus": "Perseus · 강하고 신뢰감 있는",
+            "rex": "Rex · 자신감 있고 명확한",
+            "rigel": "Rigel · 정확하고 전문적인",
+            "sal": "Sal · 부드럽고 균형 잡힌",
+            "sirius": "Sirius · 재치 있고 장난기 있는",
+            "ursa": "Ursa · 따뜻하고 한결같은",
+            "zagan": "Zagan · 강렬하고 극적인",
+            "zenith": "Zenith · 날카롭고 집중된"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "<IMAGE_0>, <IMAGE_1> 등으로 제출 순서에 따라 이미지를 참조하세요."
+        },
+        "reference_image_1": {
+          "help": "인물, 사물 또는 스타일을 참조할 이미지를 업로드하세요."
+        },
+        "duration_seconds": {
+          "help": "1~15초를 선택하세요. 기본값은 8초입니다."
+        },
+        "resolution": {
+          "help": "480p 또는 720p를 선택하세요."
+        },
+        "aspect_ratio": {
+          "help": "출력 동영상의 화면 비율을 선택하세요. 기본값은 16:9입니다."
+        },
+        "reference_image_2": {
+          "help": "업로드 슬롯의 번호순으로 제출한 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_3": {
+          "help": "업로드 슬롯의 번호순으로 제출한 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_4": {
+          "help": "업로드 슬롯의 번호순으로 제출한 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_5": {
+          "help": "업로드 슬롯의 번호순으로 제출한 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_6": {
+          "help": "업로드 슬롯의 번호순으로 제출한 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_7": {
+          "help": "업로드 슬롯의 번호순으로 제출한 뒤 외부 소스를 추가합니다."
+        },
+        "image_sources": {
+          "help": "한 줄에 공개 HTTPS URL 또는 Base64 데이터 URI를 하나씩 입력하세요. 업로드와 합해 1~7장을 지정합니다."
+        },
+        "voice_1": {
+          "help": "다국어 프리셋 음성을 선택하세요. 슬롯 순서로 전송되며 비워 둘 수 있습니다."
+        },
+        "voice_2": {
+          "help": "다국어 프리셋 음성을 선택하세요. 슬롯 순서로 전송되며 비워 둘 수 있습니다."
+        },
+        "voice_3": {
+          "help": "다국어 프리셋 음성을 선택하세요. 슬롯 순서로 전송되며 비워 둘 수 있습니다."
+        }
+      }
+    }
+  }
+}

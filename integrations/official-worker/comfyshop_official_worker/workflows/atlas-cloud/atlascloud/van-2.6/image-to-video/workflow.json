@@ -1,0 +1,614 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-atlascloud-van-2-6-image-to-video",
+  "name": "Atlas Cloud Van 2.6 图生视频",
+  "description": "从一张起始图生成 1080p 视频，可编排单镜头或多镜头，并使用参考音频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1080p",
+      "optional": false,
+      "choices": ["1080p"]
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 5,
+      "optional": true,
+      "choices": [5, 10, 15]
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    },
+    {
+      "name": "negative_prompt",
+      "optional": true,
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "soundtrack",
+      "optional": true,
+      "kind": "audio"
+    },
+    {
+      "name": "soundtrack_source",
+      "optional": true,
+      "kind": "string",
+      "default": ""
+    },
+    {
+      "name": "enable_prompt_expansion",
+      "optional": true,
+      "kind": "boolean",
+      "default": true
+    },
+    {
+      "name": "shot_type",
+      "kind": "choice",
+      "optional": true,
+      "default": "multi",
+      "choices": ["multi", "single"]
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "shot_type",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "negative_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "soundtrack",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "soundtrack_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_prompt_expansion",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "hidden"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "atlascloud/van-2.6/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "seed": "seed",
+        "negative_prompt": "negative_prompt",
+        "enable_prompt_expansion": "enable_prompt_expansion",
+        "shot_type": "shot_type",
+        "generate_audio": "generate_audio",
+        "resolution": "resolution"
+      },
+      "required_text": ["prompt"],
+      "omit_blank_parameters": ["negative_prompt"],
+      "media": {
+        "audio": {
+          "kind": "audio",
+          "fields": ["soundtrack"],
+          "external_urls_only": true,
+          "external_sources_field": "soundtrack_source"
+        },
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "external_urls_only": true
+        }
+      },
+      "choice_constraints": {
+        "enable_prompt_expansion": {
+          "parameter": "shot_type",
+          "values": {
+            "multi": true
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Atlas Cloud Van 2.6 图生视频",
+      "description": "从一张起始图生成 1080p 视频，可编排单镜头或多镜头，并使用参考音频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "negative_prompt": {
+          "label": "负面提示词"
+        },
+        "soundtrack": {
+          "label": "参考音频"
+        },
+        "soundtrack_source": {
+          "label": "参考音频地址"
+        },
+        "enable_prompt_expansion": {
+          "label": "扩写提示词"
+        },
+        "shot_type": {
+          "label": "镜头模式",
+          "choiceLabels": {
+            "multi": "多镜头",
+            "single": "单镜头"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "first_frame": {
+          "label": "起始图"
+        },
+        "first_frame_source": {
+          "label": "起始图来源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传用于生成视频的图片。也可在高级区填入来源。"
+        },
+        "prompt": {
+          "help": "描述主体、场景、动作和镜头。"
+        },
+        "duration": {
+          "help": "选择 5、10 或 15 秒，默认 5 秒。"
+        },
+        "shot_type": {
+          "help": "选择单镜头或多镜头。默认多镜头。"
+        },
+        "seed": {
+          "help": "填写整数。-1 使用随机种子。"
+        },
+        "negative_prompt": {
+          "help": "描述画面中希望避开的元素。"
+        },
+        "soundtrack": {
+          "help": "上传参考音频，引导配音或音乐。"
+        },
+        "soundtrack_source": {
+          "help": "填写一个公开音频 URL，与上传二选一。"
+        },
+        "enable_prompt_expansion": {
+          "help": "优化提示词。默认开启，多镜头模式需要开启。"
+        },
+        "generate_audio": {
+          "help": "控制成品是否带音频。默认开启。"
+        },
+        "first_frame_source": {
+          "help": "填写一个可公开访问的起始图 URL，也可直接上传图片。"
+        },
+        "resolution": {
+          "help": "此接口固定输出 1080p。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Atlas Cloud Van 2.6 圖生影片",
+      "description": "從一張起始圖生成 1080p 影片，可編排單鏡頭或多鏡頭，並使用參考音訊。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "negative_prompt": {
+          "label": "負面提示詞"
+        },
+        "soundtrack": {
+          "label": "參考音訊"
+        },
+        "soundtrack_source": {
+          "label": "參考音訊網址"
+        },
+        "enable_prompt_expansion": {
+          "label": "擴寫提示詞"
+        },
+        "shot_type": {
+          "label": "鏡頭模式",
+          "choiceLabels": {
+            "multi": "多鏡頭",
+            "single": "單鏡頭"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "first_frame_source": {
+          "label": "起始圖來源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳用於產生影片的圖片。也可在進階區填入來源。"
+        },
+        "prompt": {
+          "help": "描述主體、場景、動作和運鏡。"
+        },
+        "duration": {
+          "help": "選擇 5、10 或 15 秒，預設為 5 秒。"
+        },
+        "shot_type": {
+          "help": "選擇單鏡頭或多鏡頭。預設為多鏡頭。"
+        },
+        "seed": {
+          "help": "填寫整數。-1 使用隨機種子。"
+        },
+        "negative_prompt": {
+          "help": "描述畫面中希望避開的元素。"
+        },
+        "soundtrack": {
+          "help": "上傳參考音訊，作為配音或音樂的依據。"
+        },
+        "soundtrack_source": {
+          "help": "填寫一個公開音訊網址，與上傳擇一。"
+        },
+        "enable_prompt_expansion": {
+          "help": "最佳化提示詞。預設為開啟，多鏡頭模式須開啟。"
+        },
+        "generate_audio": {
+          "help": "控制成片是否帶音訊。預設為開啟。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個可公開存取的起始圖 URL，也可直接上傳圖片。"
+        },
+        "resolution": {
+          "help": "此介面固定輸出 1080p。"
+        }
+      }
+    },
+    "en": {
+      "name": "Atlas Cloud Van 2.6 Image to Video",
+      "description": "Animate an opening image at 1080p with single-shot or multi-shot direction and optional reference audio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "negative_prompt": {
+          "label": "Negative prompt"
+        },
+        "soundtrack": {
+          "label": "Audio reference"
+        },
+        "soundtrack_source": {
+          "label": "Audio reference URL"
+        },
+        "enable_prompt_expansion": {
+          "label": "Expand prompt"
+        },
+        "shot_type": {
+          "label": "Shot mode",
+          "choiceLabels": {
+            "multi": "Multiple shots",
+            "single": "Single shot"
+          }
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "first_frame": {
+          "label": "Opening image"
+        },
+        "first_frame_source": {
+          "label": "Opening image source"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload the image to animate or enter its source under Advanced."
+        },
+        "prompt": {
+          "help": "Describe the subject, setting, motion, and camera direction."
+        },
+        "duration": {
+          "help": "Choose 5, 10, or 15 seconds. The default is 5 seconds."
+        },
+        "shot_type": {
+          "help": "Choose a single shot or multiple shots. Multiple shots is the default."
+        },
+        "seed": {
+          "help": "Enter a whole number. Use -1 for a random seed."
+        },
+        "negative_prompt": {
+          "help": "Describe elements to avoid."
+        },
+        "soundtrack": {
+          "help": "Upload reference audio to guide speech or music."
+        },
+        "soundtrack_source": {
+          "help": "Enter one public audio URL in place of an upload."
+        },
+        "enable_prompt_expansion": {
+          "help": "Optimize the prompt. On by default and required for multiple shots."
+        },
+        "generate_audio": {
+          "help": "Include audio in the resulting video. On by default."
+        },
+        "first_frame_source": {
+          "help": "Enter one public URL for the opening image or upload the image directly."
+        },
+        "resolution": {
+          "help": "This endpoint outputs 1080p."
+        }
+      }
+    },
+    "ja": {
+      "name": "Atlas Cloud Van 2.6 画像から動画生成",
+      "description": "開始画像から 1080p の動画を生成し、単一ショットや複数ショット、参照音声を指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "negative_prompt": {
+          "label": "ネガティブプロンプト"
+        },
+        "soundtrack": {
+          "label": "参照音声"
+        },
+        "soundtrack_source": {
+          "label": "参照音声のURL"
+        },
+        "enable_prompt_expansion": {
+          "label": "プロンプトを拡張"
+        },
+        "shot_type": {
+          "label": "ショットモード",
+          "choiceLabels": {
+            "multi": "複数ショット",
+            "single": "単一ショット"
+          }
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "first_frame_source": {
+          "label": "開始画像の参照先"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "動きを付ける画像をアップロードするか、詳細設定で参照先を指定します。"
+        },
+        "prompt": {
+          "help": "被写体、場面、動き、カメラワークを記述します。"
+        },
+        "duration": {
+          "help": "5秒、10秒、15秒から選択します。既定値は5秒です。"
+        },
+        "shot_type": {
+          "help": "単一または複数のショットを選択します。既定値は複数ショットです。"
+        },
+        "seed": {
+          "help": "整数を入力します。ランダムにする場合は -1 を指定します。"
+        },
+        "negative_prompt": {
+          "help": "映像に含めたくない要素を記述します。"
+        },
+        "soundtrack": {
+          "help": "セリフや音楽の参考音声をアップロードします。"
+        },
+        "soundtrack_source": {
+          "help": "アップロードの代わりに公開音声のURLを1件入力します。"
+        },
+        "enable_prompt_expansion": {
+          "help": "プロンプトを最適化します。既定では有効で、複数ショットの場合は有効にします。"
+        },
+        "generate_audio": {
+          "help": "動画に音声を付けるかを指定します。既定では有効です。"
+        },
+        "first_frame_source": {
+          "help": "公開されている開始画像の URL を一つ入力するか、画像をアップロードします。"
+        },
+        "resolution": {
+          "help": "出力は 1080p 固定です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Atlas Cloud Van 2.6 이미지 동영상 생성",
+      "description": "시작 이미지 한 장으로 1080p 동영상을 만들고 단일 또는 여러 숏과 참조 오디오를 지정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "negative_prompt": {
+          "label": "부정 프롬프트"
+        },
+        "soundtrack": {
+          "label": "참조 오디오"
+        },
+        "soundtrack_source": {
+          "label": "참조 오디오 URL"
+        },
+        "enable_prompt_expansion": {
+          "label": "프롬프트 확장"
+        },
+        "shot_type": {
+          "label": "쇼트 모드",
+          "choiceLabels": {
+            "multi": "다중 쇼트",
+            "single": "단일 쇼트"
+          }
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "first_frame": {
+          "label": "첫 이미지"
+        },
+        "first_frame_source": {
+          "label": "첫 이미지 소스"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "움직임을 넣을 이미지를 업로드하거나 고급 설정에서 소스를 입력합니다."
+        },
+        "prompt": {
+          "help": "피사체, 배경, 움직임, 카메라 구도를 설명하세요."
+        },
+        "duration": {
+          "help": "5초, 10초 또는 15초를 선택합니다. 기본값은 5초입니다."
+        },
+        "shot_type": {
+          "help": "단일 쇼트 또는 다중 쇼트를 선택합니다. 기본값은 다중 쇼트입니다."
+        },
+        "seed": {
+          "help": "정수를 입력하세요. -1은 무작위 시드를 사용합니다."
+        },
+        "negative_prompt": {
+          "help": "화면에서 피하고 싶은 요소를 설명하세요."
+        },
+        "soundtrack": {
+          "help": "음성 또는 음악의 기준으로 사용할 참조 오디오를 업로드하세요."
+        },
+        "soundtrack_source": {
+          "help": "업로드 대신 공개 오디오 URL을 하나 입력합니다."
+        },
+        "enable_prompt_expansion": {
+          "help": "프롬프트를 최적화합니다. 기본값은 켜짐이며 다중 쇼트에는 켜야 합니다."
+        },
+        "generate_audio": {
+          "help": "결과 동영상에 오디오를 포함합니다. 기본값은 켜짐입니다."
+        },
+        "first_frame_source": {
+          "help": "시작 이미지의 공개 URL 하나를 입력하거나 이미지를 직접 업로드하세요."
+        },
+        "resolution": {
+          "help": "이 인터페이스의 출력은 1080p로 고정됩니다."
+        }
+      }
+    }
+  }
+}

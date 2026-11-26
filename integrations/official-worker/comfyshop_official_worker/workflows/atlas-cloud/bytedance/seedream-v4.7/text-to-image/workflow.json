@@ -1,0 +1,254 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "seedream-v47-text-to-image",
+  "name": "Seedream v4.7 文生图",
+  "description": "根据提示词生成图片，可设置像素尺寸和提示词扩写模式。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "image_size",
+      "kind": "choice",
+      "choices": [
+        "2048*2048",
+        "2304*1728",
+        "1728*2304",
+        "2848*1600",
+        "1600*2848",
+        "2496*1664",
+        "1664*2496",
+        "3136*1344",
+        "4096*4096",
+        "4704*3520",
+        "3520*4704",
+        "5504*3040",
+        "3040*5504",
+        "4992*3328",
+        "3328*4992",
+        "6240*2656",
+        "1024*1024",
+        "1280*720",
+        "720*1280",
+        "1248*832",
+        "832*1248",
+        "1568*672"
+      ],
+      "default": "2048*2048",
+      "optional": true
+    },
+    {
+      "name": "prompt_expansion_mode",
+      "kind": "choice",
+      "choices": ["standard", "fast"],
+      "default": "standard",
+      "optional": true
+    },
+    {
+      "name": "base64_output",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "image_size",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt_expansion_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "operation": "image",
+      "model": "bytedance/seedream-v4.7/text-to-image",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "image_size",
+        "prompt_expansion_mode": "prompt_expansion_mode",
+        "enable_base64_output": "base64_output"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seedream v4.7 文生图",
+      "description": "根据提示词生成图片，可设置像素尺寸和提示词扩写模式。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "image_size": {
+          "label": "图片尺寸"
+        },
+        "prompt_expansion_mode": {
+          "label": "提示词扩写模式"
+        },
+        "base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述图片的主体、构图和风格。"
+        },
+        "image_size": {
+          "help": "选择像素宽度和高度。预设覆盖 1K、2K 和 4K。"
+        },
+        "prompt_expansion_mode": {
+          "help": "standard 优先质量，fast 优先速度。"
+        },
+        "base64_output": {
+          "help": "开启后供应商返回 Base64 图像，工作机解码后保存原图。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seedream v4.7 文字生成圖片",
+      "description": "根據提示詞產生圖片，可設定像素尺寸與提示詞擴寫模式。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "image_size": {
+          "label": "圖片尺寸"
+        },
+        "prompt_expansion_mode": {
+          "label": "提示詞擴寫模式"
+        },
+        "base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述圖片的主體、構圖和風格。"
+        },
+        "image_size": {
+          "help": "選擇像素寬度和高度。預設涵蓋 1K、2K 和 4K。"
+        },
+        "prompt_expansion_mode": {
+          "help": "standard 優先品質，fast 優先速度。"
+        },
+        "base64_output": {
+          "help": "啟用後供應商回傳 Base64 圖片，工作機解碼後儲存原圖。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seedream v4.7 Text-to-Image",
+      "description": "Generate an image from a prompt with controls for pixel dimensions and prompt expansion.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "image_size": {
+          "label": "Image size"
+        },
+        "prompt_expansion_mode": {
+          "label": "Prompt expansion mode"
+        },
+        "base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, composition, and style of the image."
+        },
+        "image_size": {
+          "help": "Choose the width and height in pixels. Presets cover 1K, 2K, and 4K."
+        },
+        "prompt_expansion_mode": {
+          "help": "Standard prioritizes quality. Fast prioritizes speed."
+        },
+        "base64_output": {
+          "help": "When enabled, the provider returns Base64 image data and the worker decodes it before saving the original."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seedream v4.7 テキストから画像を生成",
+      "description": "プロンプトから画像を生成します。ピクセル寸法とプロンプトの拡張モードを設定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "image_size": {
+          "label": "画像サイズ"
+        },
+        "prompt_expansion_mode": {
+          "label": "プロンプトの拡張モード"
+        },
+        "base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "画像の被写体、構図、スタイルを入力します。"
+        },
+        "image_size": {
+          "help": "ピクセル単位で幅と高さを選びます。1K、2K、4K のプリセットがあります。"
+        },
+        "prompt_expansion_mode": {
+          "help": "standard は品質を優先し、fast は速度を優先します。"
+        },
+        "base64_output": {
+          "help": "有効にすると Base64 画像が返されます。ワーカーがデコードして元画像を保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seedream v4.7 텍스트로 이미지 생성",
+      "description": "프롬프트로 이미지를 생성합니다. 픽셀 크기와 프롬프트 확장 모드를 설정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "image_size": {
+          "label": "이미지 크기"
+        },
+        "prompt_expansion_mode": {
+          "label": "프롬프트 확장 모드"
+        },
+        "base64_output": {
+          "label": "Base64 출력"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "이미지의 피사체, 구도, 스타일을 입력합니다."
+        },
+        "image_size": {
+          "help": "픽셀 단위로 가로와 세로를 선택합니다. 1K, 2K, 4K 프리셋을 제공합니다."
+        },
+        "prompt_expansion_mode": {
+          "help": "standard는 품질을, fast는 속도를 우선합니다."
+        },
+        "base64_output": {
+          "help": "활성화하면 제공업체가 Base64 이미지를 반환하고 작업 머신이 디코딩해 원본을 저장합니다."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,2809 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-seedance-25-reference-to-video",
+  "name": "Seedance 2.5 参考生视频",
+  "description": "使用图像、视频或音频作为参考，生成、编辑或延长视频，也可生成 480p 草稿。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "The character in image 1 dances gracefully to the music",
+      "multiline": true,
+      "optional": true
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "default": 5,
+      "choices": [
+        -1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+        27, 28, 29, 30
+      ],
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "adaptive",
+      "choices": ["16:9", "4:3", "1:1", "3:4", "9:16", "21:9", "adaptive"],
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": [
+        "480p",
+        "720p",
+        "720p-sr",
+        "720p-esr",
+        "1080p",
+        "1080p-sr",
+        "1080p-esr",
+        "1080p-esr & 60fps",
+        "1440p-sr",
+        "1440p-esr",
+        "4k-esr",
+        "4k"
+      ],
+      "optional": true
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "add_watermark",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "include_last_frame",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_10",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_11",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_12",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_13",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_14",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_15",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_16",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_17",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_18",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_19",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_20",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_21",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_22",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_23",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_24",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_25",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_26",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_27",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_28",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_29",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_30",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "reference_video_1",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_2",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_3",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_4",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_5",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_6",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_7",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_8",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_9",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_10",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "video_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "reference_audio_1",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "reference_audio_2",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "reference_audio_3",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "reference_audio_4",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "reference_audio_5",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "reference_audio_6",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "reference_audio_7",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "reference_audio_8",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "reference_audio_9",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "reference_audio_10",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "audio_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "video_format",
+      "kind": "choice",
+      "default": "mp4",
+      "choices": ["mp4", "mov"],
+      "optional": true
+    },
+    {
+      "name": "draft",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "omni_reference_task_type",
+      "kind": "choice",
+      "optional": true,
+      "default": "",
+      "choices": ["", "auto", "reference", "edit", "extend"]
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_video_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_audio_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "add_watermark",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "include_last_frame",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_10",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_11",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_12",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_13",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_14",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_15",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_16",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_17",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_18",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_19",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_20",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_21",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_22",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_23",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_24",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_25",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_26",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_27",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_28",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_29",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_30",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_10",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_10",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "draft",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "omni_reference_task_type",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "additionalOutputKinds": ["image", "text"],
+    "config": {
+      "model": "bytedance/seedance-2.5/reference-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "generate_audio": "generate_audio",
+        "watermark": "add_watermark",
+        "return_last_frame": "include_last_frame",
+        "output_format": "video_format",
+        "draft": "draft",
+        "omni_reference_task_type": "omni_reference_task_type"
+      },
+      "omit_blank_parameters": ["prompt", "omni_reference_task_type"],
+      "media": {
+        "reference_images": {
+          "kind": "image",
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4",
+            "reference_image_5",
+            "reference_image_6",
+            "reference_image_7",
+            "reference_image_8",
+            "reference_image_9",
+            "reference_image_10",
+            "reference_image_11",
+            "reference_image_12",
+            "reference_image_13",
+            "reference_image_14",
+            "reference_image_15",
+            "reference_image_16",
+            "reference_image_17",
+            "reference_image_18",
+            "reference_image_19",
+            "reference_image_20",
+            "reference_image_21",
+            "reference_image_22",
+            "reference_image_23",
+            "reference_image_24",
+            "reference_image_25",
+            "reference_image_26",
+            "reference_image_27",
+            "reference_image_28",
+            "reference_image_29",
+            "reference_image_30"
+          ],
+          "array": true,
+          "external_sources_field": "image_sources",
+          "allow_asset_references": true,
+          "allow_raw_base64": true,
+          "content_types": [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/bmp",
+            "image/tiff",
+            "image/gif",
+            "image/heic",
+            "image/heif"
+          ],
+          "max_bytes": 29999999,
+          "image_bounds": {
+            "min_side": 300,
+            "max_side": 6000,
+            "aspect_ratio_range": [0.4, 2.5]
+          }
+        },
+        "reference_videos": {
+          "kind": "video",
+          "fields": [
+            "reference_video_1",
+            "reference_video_2",
+            "reference_video_3",
+            "reference_video_4",
+            "reference_video_5",
+            "reference_video_6",
+            "reference_video_7",
+            "reference_video_8",
+            "reference_video_9",
+            "reference_video_10"
+          ],
+          "array": true,
+          "external_sources_field": "video_sources",
+          "allow_asset_references": true,
+          "external_urls_only": true,
+          "content_types": ["video/mp4", "video/quicktime"],
+          "max_bytes": 200000000,
+          "min_duration_ms": 2000,
+          "max_duration_ms": 30000,
+          "max_total_duration_ms": 30000,
+          "image_bounds": {
+            "min_side": 300,
+            "max_side": 6000,
+            "aspect_ratio_range": [0.4, 2.5],
+            "min_pixels": 409600,
+            "max_pixels": 8295044
+          }
+        },
+        "reference_audios": {
+          "kind": "audio",
+          "fields": [
+            "reference_audio_1",
+            "reference_audio_2",
+            "reference_audio_3",
+            "reference_audio_4",
+            "reference_audio_5",
+            "reference_audio_6",
+            "reference_audio_7",
+            "reference_audio_8",
+            "reference_audio_9",
+            "reference_audio_10"
+          ],
+          "array": true,
+          "external_sources_field": "audio_sources",
+          "allow_asset_references": true,
+          "allow_raw_base64": true,
+          "content_types": ["audio/wav", "audio/wave", "audio/x-wav", "audio/mpeg", "audio/mp3"],
+          "max_bytes": 15000000,
+          "min_duration_ms": 2000,
+          "max_duration_ms": 30000,
+          "max_total_duration_ms": 30000
+        }
+      },
+      "required_when": {
+        "reference_videos": {
+          "omni_reference_task_type": ["edit", "extend"]
+        }
+      },
+      "choice_constraints": {
+        "ratio": {
+          "parameter": "omni_reference_task_type",
+          "values": {
+            "edit": "adaptive",
+            "extend": "adaptive"
+          },
+          "default_value": "adaptive"
+        }
+      },
+      "choice_bounds": {
+        "duration": {
+          "parameter": "omni_reference_task_type",
+          "ranges": {
+            "edit": [-1, -1]
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seedance 2.5 参考生视频",
+      "description": "使用图像、视频或音频作为参考，生成、编辑或延长视频，也可生成 480p 草稿。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "成品时长（秒）"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "21:9": "21:9",
+            "adaptive": "自适应"
+          }
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "add_watermark": {
+          "label": "添加水印"
+        },
+        "include_last_frame": {
+          "label": "导出尾帧"
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        },
+        "reference_image_5": {
+          "label": "参考图 5"
+        },
+        "reference_image_6": {
+          "label": "参考图 6"
+        },
+        "reference_image_7": {
+          "label": "参考图 7"
+        },
+        "reference_image_8": {
+          "label": "参考图 8"
+        },
+        "reference_image_9": {
+          "label": "参考图 9"
+        },
+        "reference_image_10": {
+          "label": "参考图 10"
+        },
+        "reference_image_11": {
+          "label": "参考图 11"
+        },
+        "reference_image_12": {
+          "label": "参考图 12"
+        },
+        "reference_image_13": {
+          "label": "参考图 13"
+        },
+        "reference_image_14": {
+          "label": "参考图 14"
+        },
+        "reference_image_15": {
+          "label": "参考图 15"
+        },
+        "reference_image_16": {
+          "label": "参考图 16"
+        },
+        "reference_image_17": {
+          "label": "参考图 17"
+        },
+        "reference_image_18": {
+          "label": "参考图 18"
+        },
+        "reference_image_19": {
+          "label": "参考图 19"
+        },
+        "reference_image_20": {
+          "label": "参考图 20"
+        },
+        "reference_image_21": {
+          "label": "参考图 21"
+        },
+        "reference_image_22": {
+          "label": "参考图 22"
+        },
+        "reference_image_23": {
+          "label": "参考图 23"
+        },
+        "reference_image_24": {
+          "label": "参考图 24"
+        },
+        "reference_image_25": {
+          "label": "参考图 25"
+        },
+        "reference_image_26": {
+          "label": "参考图 26"
+        },
+        "reference_image_27": {
+          "label": "参考图 27"
+        },
+        "reference_image_28": {
+          "label": "参考图 28"
+        },
+        "reference_image_29": {
+          "label": "参考图 29"
+        },
+        "reference_image_30": {
+          "label": "参考图 30"
+        },
+        "image_sources": {
+          "label": "参考图来源"
+        },
+        "reference_video_1": {
+          "label": "参考视频 1"
+        },
+        "reference_video_2": {
+          "label": "参考视频 2"
+        },
+        "reference_video_3": {
+          "label": "参考视频 3"
+        },
+        "reference_video_4": {
+          "label": "参考视频 4"
+        },
+        "reference_video_5": {
+          "label": "参考视频 5"
+        },
+        "reference_video_6": {
+          "label": "参考视频 6"
+        },
+        "reference_video_7": {
+          "label": "参考视频 7"
+        },
+        "reference_video_8": {
+          "label": "参考视频 8"
+        },
+        "reference_video_9": {
+          "label": "参考视频 9"
+        },
+        "reference_video_10": {
+          "label": "参考视频 10"
+        },
+        "video_sources": {
+          "label": "参考视频来源"
+        },
+        "reference_audio_1": {
+          "label": "参考音频 1"
+        },
+        "reference_audio_2": {
+          "label": "参考音频 2"
+        },
+        "reference_audio_3": {
+          "label": "参考音频 3"
+        },
+        "reference_audio_4": {
+          "label": "参考音频 4"
+        },
+        "reference_audio_5": {
+          "label": "参考音频 5"
+        },
+        "reference_audio_6": {
+          "label": "参考音频 6"
+        },
+        "reference_audio_7": {
+          "label": "参考音频 7"
+        },
+        "reference_audio_8": {
+          "label": "参考音频 8"
+        },
+        "reference_audio_9": {
+          "label": "参考音频 9"
+        },
+        "reference_audio_10": {
+          "label": "参考音频 10"
+        },
+        "audio_sources": {
+          "label": "参考音频来源"
+        },
+        "video_format": {
+          "label": "视频容器",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "mov": "MOV"
+          }
+        },
+        "draft": {
+          "label": "生成草稿"
+        },
+        "omni_reference_task_type": {
+          "label": "任务类型提示",
+          "choiceLabels": {
+            "": "未指定（自动）",
+            "auto": "自动（显式）",
+            "reference": "参考生成",
+            "edit": "编辑视频",
+            "extend": "延长视频"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "在提示词中用 @Image1、@Video1、@Audio1 等按提交顺序引用素材。"
+        },
+        "reference_image_1": {
+          "help": "最多 30 张，每张小于 30 MB。"
+        },
+        "reference_video_1": {
+          "help": "最多 10 段 MP4 或 MOV，每段 2 至 30 秒，总时长最多 30 秒。"
+        },
+        "reference_audio_1": {
+          "help": "最多 10 段 WAV 或 MP3，每段 2 至 30 秒，总时长最多 30 秒。可单独使用音频参考。"
+        },
+        "duration_seconds": {
+          "help": "编辑已有视频时须选 -1，按原视频的时长生成。生成新视频时可选 4 至 30 秒或 -1。"
+        },
+        "aspect_ratio": {
+          "help": "新视频可选画面比例。编辑或延长视频时须选择自适应。"
+        },
+        "resolution": {
+          "help": "选择原生分辨率、SR 超分辨率或 ESR 增强。开启草稿时生成 480p。"
+        },
+        "generate_audio": {
+          "help": "生成与画面同步的语音、音效或音乐。"
+        },
+        "add_watermark": {
+          "help": "为输出视频添加水印。"
+        },
+        "include_last_frame": {
+          "help": "将输出视频的最后一帧另存为图片。"
+        },
+        "reference_image_2": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_3": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_4": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_5": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_6": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_7": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_8": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_9": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_10": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_11": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_12": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_13": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_14": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_15": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_16": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_17": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_18": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_19": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_20": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_21": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_22": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_23": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_24": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_25": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_26": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_27": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_28": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_29": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_30": {
+          "help": "素材按提交顺序编号。"
+        },
+        "image_sources": {
+          "help": "每行填写一个公开 URL 或 asset:// 引用。链接排在上传素材之后。 也可逐行填写 Base64。"
+        },
+        "reference_video_2": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_video_3": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_video_4": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_video_5": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_video_6": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_video_7": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_video_8": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_video_9": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_video_10": {
+          "help": "素材按提交顺序编号。"
+        },
+        "video_sources": {
+          "help": "每行填写一个公开 URL 或 asset:// 引用。链接排在上传素材之后。"
+        },
+        "reference_audio_2": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_audio_3": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_audio_4": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_audio_5": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_audio_6": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_audio_7": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_audio_8": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_audio_9": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_audio_10": {
+          "help": "素材按提交顺序编号。"
+        },
+        "audio_sources": {
+          "help": "每行填写一个公开 URL 或 asset:// 引用。链接排在上传素材之后。 也可逐行填写 Base64。"
+        },
+        "video_format": {
+          "help": "选择 MP4 或 MOV。MOV 使用 YUV 4:4:4 以保留色彩细节。"
+        },
+        "draft": {
+          "help": "生成 480p 预览和草稿 ID。可在七天内用草稿 ID 渲染正式版。"
+        },
+        "omni_reference_task_type": {
+          "help": "可留空让模型推断。有参考素材时可指定。编辑需一段 4 至 30 秒的视频、自动时长及自适应比例。延长需一段视频及自适应比例。提示词应与选择一致。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seedance 2.5 參考素材生影片",
+      "description": "使用圖片、影片或音訊作為參考，生成、編輯或延長影片，也可生成 480p 草稿。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "成品長度（秒）"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "21:9": "21:9",
+            "adaptive": "自適應"
+          }
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "add_watermark": {
+          "label": "加入浮水印"
+        },
+        "include_last_frame": {
+          "label": "匯出尾幀"
+        },
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "reference_image_4": {
+          "label": "參考圖 4"
+        },
+        "reference_image_5": {
+          "label": "參考圖 5"
+        },
+        "reference_image_6": {
+          "label": "參考圖 6"
+        },
+        "reference_image_7": {
+          "label": "參考圖 7"
+        },
+        "reference_image_8": {
+          "label": "參考圖 8"
+        },
+        "reference_image_9": {
+          "label": "參考圖 9"
+        },
+        "reference_image_10": {
+          "label": "參考圖 10"
+        },
+        "reference_image_11": {
+          "label": "參考圖 11"
+        },
+        "reference_image_12": {
+          "label": "參考圖 12"
+        },
+        "reference_image_13": {
+          "label": "參考圖 13"
+        },
+        "reference_image_14": {
+          "label": "參考圖 14"
+        },
+        "reference_image_15": {
+          "label": "參考圖 15"
+        },
+        "reference_image_16": {
+          "label": "參考圖 16"
+        },
+        "reference_image_17": {
+          "label": "參考圖 17"
+        },
+        "reference_image_18": {
+          "label": "參考圖 18"
+        },
+        "reference_image_19": {
+          "label": "參考圖 19"
+        },
+        "reference_image_20": {
+          "label": "參考圖 20"
+        },
+        "reference_image_21": {
+          "label": "參考圖 21"
+        },
+        "reference_image_22": {
+          "label": "參考圖 22"
+        },
+        "reference_image_23": {
+          "label": "參考圖 23"
+        },
+        "reference_image_24": {
+          "label": "參考圖 24"
+        },
+        "reference_image_25": {
+          "label": "參考圖 25"
+        },
+        "reference_image_26": {
+          "label": "參考圖 26"
+        },
+        "reference_image_27": {
+          "label": "參考圖 27"
+        },
+        "reference_image_28": {
+          "label": "參考圖 28"
+        },
+        "reference_image_29": {
+          "label": "參考圖 29"
+        },
+        "reference_image_30": {
+          "label": "參考圖 30"
+        },
+        "image_sources": {
+          "label": "參考圖來源"
+        },
+        "reference_video_1": {
+          "label": "參考影片 1"
+        },
+        "reference_video_2": {
+          "label": "參考影片 2"
+        },
+        "reference_video_3": {
+          "label": "參考影片 3"
+        },
+        "reference_video_4": {
+          "label": "參考影片 4"
+        },
+        "reference_video_5": {
+          "label": "參考影片 5"
+        },
+        "reference_video_6": {
+          "label": "參考影片 6"
+        },
+        "reference_video_7": {
+          "label": "參考影片 7"
+        },
+        "reference_video_8": {
+          "label": "參考影片 8"
+        },
+        "reference_video_9": {
+          "label": "參考影片 9"
+        },
+        "reference_video_10": {
+          "label": "參考影片 10"
+        },
+        "video_sources": {
+          "label": "參考影片來源"
+        },
+        "reference_audio_1": {
+          "label": "參考音訊 1"
+        },
+        "reference_audio_2": {
+          "label": "參考音訊 2"
+        },
+        "reference_audio_3": {
+          "label": "參考音訊 3"
+        },
+        "reference_audio_4": {
+          "label": "參考音訊 4"
+        },
+        "reference_audio_5": {
+          "label": "參考音訊 5"
+        },
+        "reference_audio_6": {
+          "label": "參考音訊 6"
+        },
+        "reference_audio_7": {
+          "label": "參考音訊 7"
+        },
+        "reference_audio_8": {
+          "label": "參考音訊 8"
+        },
+        "reference_audio_9": {
+          "label": "參考音訊 9"
+        },
+        "reference_audio_10": {
+          "label": "參考音訊 10"
+        },
+        "audio_sources": {
+          "label": "參考音訊來源"
+        },
+        "video_format": {
+          "label": "影片容器",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "mov": "MOV"
+          }
+        },
+        "draft": {
+          "label": "生成草稿"
+        },
+        "omni_reference_task_type": {
+          "label": "任務類型提示",
+          "choiceLabels": {
+            "": "未指定（自動）",
+            "auto": "自動（明確指定）",
+            "reference": "參考生成",
+            "edit": "編輯影片",
+            "extend": "延長影片"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "在提示詞中用 @Image1、@Video1、@Audio1 等按提交順序參照素材。"
+        },
+        "reference_image_1": {
+          "help": "最多 30 張，每張小於 30 MB。"
+        },
+        "reference_video_1": {
+          "help": "最多 10 段 MP4 或 MOV，每段 2 至 30 秒，總長最多 30 秒。"
+        },
+        "reference_audio_1": {
+          "help": "最多 10 段 WAV 或 MP3，每段 2 至 30 秒，總長最多 30 秒。支援單獨使用音訊參考。"
+        },
+        "duration_seconds": {
+          "help": "編輯既有影片時須選 -1，依原影片時長生成。生成新影片時可選 4 至 30 秒或 -1。"
+        },
+        "aspect_ratio": {
+          "help": "新影片可選畫面比例。編輯或延長影片時須選擇自適應。"
+        },
+        "resolution": {
+          "help": "選擇原生解析度、SR 超解析度或 ESR 增強。開啟草稿時生成 480p。"
+        },
+        "generate_audio": {
+          "help": "生成與畫面同步的語音、音效或音樂。"
+        },
+        "add_watermark": {
+          "help": "為輸出影片加入浮水印。"
+        },
+        "include_last_frame": {
+          "help": "將輸出影片的最後一幀另存為圖片。"
+        },
+        "reference_image_2": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_3": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_4": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_5": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_6": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_7": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_8": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_9": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_10": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_11": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_12": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_13": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_14": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_15": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_16": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_17": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_18": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_19": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_20": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_21": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_22": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_23": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_24": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_25": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_26": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_27": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_28": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_29": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_30": {
+          "help": "素材按提交順序編號。"
+        },
+        "image_sources": {
+          "help": "每行填寫一個公開 URL 或 asset:// 參照。連結排在上傳素材之後。 也可逐行填寫 Base64。"
+        },
+        "reference_video_2": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_video_3": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_video_4": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_video_5": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_video_6": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_video_7": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_video_8": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_video_9": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_video_10": {
+          "help": "素材按提交順序編號。"
+        },
+        "video_sources": {
+          "help": "每行填寫一個公開 URL 或 asset:// 參照。連結排在上傳素材之後。"
+        },
+        "reference_audio_2": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_audio_3": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_audio_4": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_audio_5": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_audio_6": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_audio_7": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_audio_8": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_audio_9": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_audio_10": {
+          "help": "素材按提交順序編號。"
+        },
+        "audio_sources": {
+          "help": "每行填寫一個公開 URL 或 asset:// 參照。連結排在上傳素材之後。 也可逐行填寫 Base64。"
+        },
+        "video_format": {
+          "help": "選擇 MP4 或 MOV。MOV 使用 YUV 4:4:4 以保留色彩細節。"
+        },
+        "draft": {
+          "help": "生成 480p 預覽和草稿 ID。可在七天內用草稿 ID 渲染正式版。"
+        },
+        "omni_reference_task_type": {
+          "help": "可留空讓模型推斷。有參考素材時可指定。編輯需一段 4 至 30 秒的影片、自動長度及自適應比例。延長需一段影片及自適應比例。提示詞應與選擇一致。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seedance 2.5 Reference-to-Video",
+      "description": "Generate, edit, or extend a video using image, video, or audio references, with optional 480p drafting.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "21:9": "21:9",
+            "adaptive": "Adaptive"
+          }
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "add_watermark": {
+          "label": "Add watermark"
+        },
+        "include_last_frame": {
+          "label": "Export last frame"
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        },
+        "reference_image_5": {
+          "label": "Reference image 5"
+        },
+        "reference_image_6": {
+          "label": "Reference image 6"
+        },
+        "reference_image_7": {
+          "label": "Reference image 7"
+        },
+        "reference_image_8": {
+          "label": "Reference image 8"
+        },
+        "reference_image_9": {
+          "label": "Reference image 9"
+        },
+        "reference_image_10": {
+          "label": "Reference image 10"
+        },
+        "reference_image_11": {
+          "label": "Reference image 11"
+        },
+        "reference_image_12": {
+          "label": "Reference image 12"
+        },
+        "reference_image_13": {
+          "label": "Reference image 13"
+        },
+        "reference_image_14": {
+          "label": "Reference image 14"
+        },
+        "reference_image_15": {
+          "label": "Reference image 15"
+        },
+        "reference_image_16": {
+          "label": "Reference image 16"
+        },
+        "reference_image_17": {
+          "label": "Reference image 17"
+        },
+        "reference_image_18": {
+          "label": "Reference image 18"
+        },
+        "reference_image_19": {
+          "label": "Reference image 19"
+        },
+        "reference_image_20": {
+          "label": "Reference image 20"
+        },
+        "reference_image_21": {
+          "label": "Reference image 21"
+        },
+        "reference_image_22": {
+          "label": "Reference image 22"
+        },
+        "reference_image_23": {
+          "label": "Reference image 23"
+        },
+        "reference_image_24": {
+          "label": "Reference image 24"
+        },
+        "reference_image_25": {
+          "label": "Reference image 25"
+        },
+        "reference_image_26": {
+          "label": "Reference image 26"
+        },
+        "reference_image_27": {
+          "label": "Reference image 27"
+        },
+        "reference_image_28": {
+          "label": "Reference image 28"
+        },
+        "reference_image_29": {
+          "label": "Reference image 29"
+        },
+        "reference_image_30": {
+          "label": "Reference image 30"
+        },
+        "image_sources": {
+          "label": "Reference image sources"
+        },
+        "reference_video_1": {
+          "label": "Reference video 1"
+        },
+        "reference_video_2": {
+          "label": "Reference video 2"
+        },
+        "reference_video_3": {
+          "label": "Reference video 3"
+        },
+        "reference_video_4": {
+          "label": "Reference video 4"
+        },
+        "reference_video_5": {
+          "label": "Reference video 5"
+        },
+        "reference_video_6": {
+          "label": "Reference video 6"
+        },
+        "reference_video_7": {
+          "label": "Reference video 7"
+        },
+        "reference_video_8": {
+          "label": "Reference video 8"
+        },
+        "reference_video_9": {
+          "label": "Reference video 9"
+        },
+        "reference_video_10": {
+          "label": "Reference video 10"
+        },
+        "video_sources": {
+          "label": "Reference video sources"
+        },
+        "reference_audio_1": {
+          "label": "Reference audio 1"
+        },
+        "reference_audio_2": {
+          "label": "Reference audio 2"
+        },
+        "reference_audio_3": {
+          "label": "Reference audio 3"
+        },
+        "reference_audio_4": {
+          "label": "Reference audio 4"
+        },
+        "reference_audio_5": {
+          "label": "Reference audio 5"
+        },
+        "reference_audio_6": {
+          "label": "Reference audio 6"
+        },
+        "reference_audio_7": {
+          "label": "Reference audio 7"
+        },
+        "reference_audio_8": {
+          "label": "Reference audio 8"
+        },
+        "reference_audio_9": {
+          "label": "Reference audio 9"
+        },
+        "reference_audio_10": {
+          "label": "Reference audio 10"
+        },
+        "audio_sources": {
+          "label": "Reference audio sources"
+        },
+        "video_format": {
+          "label": "Video container",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "mov": "MOV"
+          }
+        },
+        "draft": {
+          "label": "Generate draft"
+        },
+        "omni_reference_task_type": {
+          "label": "Task type hint",
+          "choiceLabels": {
+            "": "Unset (automatic)",
+            "auto": "Automatic (explicit)",
+            "reference": "Generate from references",
+            "edit": "Edit video",
+            "extend": "Extend video"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Use @Image1, @Video1, @Audio1, and similar mentions to refer to inputs in submission order."
+        },
+        "reference_image_1": {
+          "help": "Add up to 30 images. Each must be smaller than 30 MB."
+        },
+        "reference_video_1": {
+          "help": "Add up to ten MP4 or MOV clips. Each must be 2–30 seconds, with at most 30 seconds in total."
+        },
+        "reference_audio_1": {
+          "help": "Add up to ten WAV or MP3 clips. Each must be 2–30 seconds, with at most 30 seconds in total. Audio can be the only reference type."
+        },
+        "duration_seconds": {
+          "help": "For editing, use −1 to follow the original video's length. For new video, choose 4–30 seconds or −1."
+        },
+        "aspect_ratio": {
+          "help": "Choose a ratio for new video. Editing and extending video require adaptive."
+        },
+        "resolution": {
+          "help": "Choose a native resolution, SR upscale, or ESR enhancement. Draft mode outputs 480p."
+        },
+        "generate_audio": {
+          "help": "Generate speech, sound effects, or music synchronized with the video."
+        },
+        "add_watermark": {
+          "help": "Add a watermark to the output video."
+        },
+        "include_last_frame": {
+          "help": "Save the final video frame as a separate image."
+        },
+        "reference_image_2": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_3": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_4": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_5": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_6": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_7": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_8": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_9": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_10": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_11": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_12": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_13": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_14": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_15": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_16": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_17": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_18": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_19": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_20": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_21": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_22": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_23": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_24": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_25": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_26": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_27": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_28": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_29": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_30": {
+          "help": "References are numbered in submission order."
+        },
+        "image_sources": {
+          "help": "Enter one public URL or asset:// reference per line. These follow uploaded materials. You can enter Base64 on a line as well."
+        },
+        "reference_video_2": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_video_3": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_video_4": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_video_5": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_video_6": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_video_7": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_video_8": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_video_9": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_video_10": {
+          "help": "References are numbered in submission order."
+        },
+        "video_sources": {
+          "help": "Enter one public URL or asset:// reference per line. These follow uploaded materials."
+        },
+        "reference_audio_2": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_audio_3": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_audio_4": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_audio_5": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_audio_6": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_audio_7": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_audio_8": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_audio_9": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_audio_10": {
+          "help": "References are numbered in submission order."
+        },
+        "audio_sources": {
+          "help": "Enter one public URL or asset:// reference per line. These follow uploaded materials. You can enter Base64 on a line as well."
+        },
+        "video_format": {
+          "help": "Choose MP4 or MOV. MOV uses YUV 4:4:4 to preserve color detail."
+        },
+        "draft": {
+          "help": "Render a 480p preview and get a draft ID. Use that ID to render the final within seven days."
+        },
+        "omni_reference_task_type": {
+          "help": "Leave unset for inference or specify a type with references. Editing requires one 4–30 second video, automatic duration, and adaptive ratio. Extending requires one video and adaptive ratio. Write a prompt that agrees with your choice."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seedance 2.5 参照素材から動画",
+      "description": "参照画像、動画、音声から動画を生成、編集、延長し、480p の下書きも作成できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "動画の長さ（秒）"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "21:9": "21:9",
+            "adaptive": "自動"
+          }
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "add_watermark": {
+          "label": "透かしを追加"
+        },
+        "include_last_frame": {
+          "label": "最終フレームを書き出す"
+        },
+        "reference_image_1": {
+          "label": "参照画像1"
+        },
+        "reference_image_2": {
+          "label": "参照画像2"
+        },
+        "reference_image_3": {
+          "label": "参照画像3"
+        },
+        "reference_image_4": {
+          "label": "参照画像4"
+        },
+        "reference_image_5": {
+          "label": "参照画像5"
+        },
+        "reference_image_6": {
+          "label": "参照画像6"
+        },
+        "reference_image_7": {
+          "label": "参照画像7"
+        },
+        "reference_image_8": {
+          "label": "参照画像8"
+        },
+        "reference_image_9": {
+          "label": "参照画像9"
+        },
+        "reference_image_10": {
+          "label": "参照画像10"
+        },
+        "reference_image_11": {
+          "label": "参照画像11"
+        },
+        "reference_image_12": {
+          "label": "参照画像12"
+        },
+        "reference_image_13": {
+          "label": "参照画像13"
+        },
+        "reference_image_14": {
+          "label": "参照画像14"
+        },
+        "reference_image_15": {
+          "label": "参照画像15"
+        },
+        "reference_image_16": {
+          "label": "参照画像16"
+        },
+        "reference_image_17": {
+          "label": "参照画像17"
+        },
+        "reference_image_18": {
+          "label": "参照画像18"
+        },
+        "reference_image_19": {
+          "label": "参照画像19"
+        },
+        "reference_image_20": {
+          "label": "参照画像20"
+        },
+        "reference_image_21": {
+          "label": "参照画像21"
+        },
+        "reference_image_22": {
+          "label": "参照画像22"
+        },
+        "reference_image_23": {
+          "label": "参照画像23"
+        },
+        "reference_image_24": {
+          "label": "参照画像24"
+        },
+        "reference_image_25": {
+          "label": "参照画像25"
+        },
+        "reference_image_26": {
+          "label": "参照画像26"
+        },
+        "reference_image_27": {
+          "label": "参照画像27"
+        },
+        "reference_image_28": {
+          "label": "参照画像28"
+        },
+        "reference_image_29": {
+          "label": "参照画像29"
+        },
+        "reference_image_30": {
+          "label": "参照画像30"
+        },
+        "image_sources": {
+          "label": "参照画像のソース"
+        },
+        "reference_video_1": {
+          "label": "参照動画1"
+        },
+        "reference_video_2": {
+          "label": "参照動画2"
+        },
+        "reference_video_3": {
+          "label": "参照動画3"
+        },
+        "reference_video_4": {
+          "label": "参照動画4"
+        },
+        "reference_video_5": {
+          "label": "参照動画5"
+        },
+        "reference_video_6": {
+          "label": "参照動画6"
+        },
+        "reference_video_7": {
+          "label": "参照動画7"
+        },
+        "reference_video_8": {
+          "label": "参照動画8"
+        },
+        "reference_video_9": {
+          "label": "参照動画9"
+        },
+        "reference_video_10": {
+          "label": "参照動画10"
+        },
+        "video_sources": {
+          "label": "参照動画のソース"
+        },
+        "reference_audio_1": {
+          "label": "参照音声1"
+        },
+        "reference_audio_2": {
+          "label": "参照音声2"
+        },
+        "reference_audio_3": {
+          "label": "参照音声3"
+        },
+        "reference_audio_4": {
+          "label": "参照音声4"
+        },
+        "reference_audio_5": {
+          "label": "参照音声5"
+        },
+        "reference_audio_6": {
+          "label": "参照音声6"
+        },
+        "reference_audio_7": {
+          "label": "参照音声7"
+        },
+        "reference_audio_8": {
+          "label": "参照音声8"
+        },
+        "reference_audio_9": {
+          "label": "参照音声9"
+        },
+        "reference_audio_10": {
+          "label": "参照音声10"
+        },
+        "audio_sources": {
+          "label": "参照音声のソース"
+        },
+        "video_format": {
+          "label": "動画コンテナ",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "mov": "MOV"
+          }
+        },
+        "draft": {
+          "label": "下書きを生成"
+        },
+        "omni_reference_task_type": {
+          "label": "タスク種別のヒント",
+          "choiceLabels": {
+            "": "未指定（自動）",
+            "auto": "自動（明示）",
+            "reference": "参照素材から生成",
+            "edit": "動画を編集",
+            "extend": "動画を延長"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "@Image1、@Video1、@Audio1 などで、送信順に素材を参照できます。"
+        },
+        "reference_image_1": {
+          "help": "1 枚 30 MB 未満で、最大 30 枚まで使用できます。"
+        },
+        "reference_video_1": {
+          "help": "2〜30 秒の MP4 または MOV を最大 10 本、合計 30 秒まで使用できます。"
+        },
+        "reference_audio_1": {
+          "help": "2〜30 秒の WAV または MP3 を最大 10 本、合計 30 秒まで使用できます。音声のみでも指定できます。"
+        },
+        "duration_seconds": {
+          "help": "編集では -1 を選ぶと元の動画の長さに合わせます。新規生成では 4〜30 秒または -1 を選べます。"
+        },
+        "aspect_ratio": {
+          "help": "新規生成では縦横比を指定できます。編集や延長では自動を選びます。"
+        },
+        "resolution": {
+          "help": "ネイティブ解像度、超解像（SR）、画質強化（ESR）を選べます。下書きは 480p で出力されます。"
+        },
+        "generate_audio": {
+          "help": "映像に同期する音声、効果音、音楽を生成します。"
+        },
+        "add_watermark": {
+          "help": "出力動画に透かしを追加します。"
+        },
+        "include_last_frame": {
+          "help": "動画の最後のフレームを別の画像として保存します。"
+        },
+        "reference_image_2": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_3": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_4": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_5": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_6": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_7": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_8": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_9": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_10": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_11": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_12": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_13": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_14": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_15": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_16": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_17": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_18": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_19": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_20": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_21": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_22": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_23": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_24": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_25": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_26": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_27": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_28": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_29": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_30": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "image_sources": {
+          "help": "公開 URL または asset:// 参照を 1 行に 1 つ入力します。アップロード済みの素材の後に追加します。 各行に Base64 を指定することもできます。"
+        },
+        "reference_video_2": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_video_3": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_video_4": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_video_5": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_video_6": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_video_7": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_video_8": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_video_9": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_video_10": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "video_sources": {
+          "help": "公開 URL または asset:// 参照を 1 行に 1 つ入力します。アップロード済みの素材の後に追加します。"
+        },
+        "reference_audio_2": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_audio_3": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_audio_4": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_audio_5": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_audio_6": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_audio_7": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_audio_8": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_audio_9": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_audio_10": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "audio_sources": {
+          "help": "公開 URL または asset:// 参照を 1 行に 1 つ入力します。アップロード済みの素材の後に追加します。 各行に Base64 を指定することもできます。"
+        },
+        "video_format": {
+          "help": "MP4 または MOV を選びます。MOV は YUV 4:4:4 で色のディテールを保ちます。"
+        },
+        "draft": {
+          "help": "480p のプレビューと下書き ID を出力します。下書き ID を使って 7 日以内に完成版を生成できます。"
+        },
+        "omni_reference_task_type": {
+          "help": "未指定の場合はモデルが推定します。参照素材がある場合は指定できます。編集では 4〜30 秒の動画 1 本、長さの自動設定、縦横比の自動設定が必要です。延長では動画 1 本と縦横比の自動設定が必要です。プロンプトを選択に合わせてください。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seedance 2.5 참조 자료로 동영상 생성",
+      "description": "이미지, 동영상 또는 오디오를 참조해 동영상을 생성, 편집, 연장하고 480p 초안을 만들 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "동영상 길이(초)"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "21:9": "21:9",
+            "adaptive": "자동"
+          }
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "add_watermark": {
+          "label": "워터마크 추가"
+        },
+        "include_last_frame": {
+          "label": "마지막 프레임 내보내기"
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_image_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_image_6": {
+          "label": "참조 이미지 6"
+        },
+        "reference_image_7": {
+          "label": "참조 이미지 7"
+        },
+        "reference_image_8": {
+          "label": "참조 이미지 8"
+        },
+        "reference_image_9": {
+          "label": "참조 이미지 9"
+        },
+        "reference_image_10": {
+          "label": "참조 이미지 10"
+        },
+        "reference_image_11": {
+          "label": "참조 이미지 11"
+        },
+        "reference_image_12": {
+          "label": "참조 이미지 12"
+        },
+        "reference_image_13": {
+          "label": "참조 이미지 13"
+        },
+        "reference_image_14": {
+          "label": "참조 이미지 14"
+        },
+        "reference_image_15": {
+          "label": "참조 이미지 15"
+        },
+        "reference_image_16": {
+          "label": "참조 이미지 16"
+        },
+        "reference_image_17": {
+          "label": "참조 이미지 17"
+        },
+        "reference_image_18": {
+          "label": "참조 이미지 18"
+        },
+        "reference_image_19": {
+          "label": "참조 이미지 19"
+        },
+        "reference_image_20": {
+          "label": "참조 이미지 20"
+        },
+        "reference_image_21": {
+          "label": "참조 이미지 21"
+        },
+        "reference_image_22": {
+          "label": "참조 이미지 22"
+        },
+        "reference_image_23": {
+          "label": "참조 이미지 23"
+        },
+        "reference_image_24": {
+          "label": "참조 이미지 24"
+        },
+        "reference_image_25": {
+          "label": "참조 이미지 25"
+        },
+        "reference_image_26": {
+          "label": "참조 이미지 26"
+        },
+        "reference_image_27": {
+          "label": "참조 이미지 27"
+        },
+        "reference_image_28": {
+          "label": "참조 이미지 28"
+        },
+        "reference_image_29": {
+          "label": "참조 이미지 29"
+        },
+        "reference_image_30": {
+          "label": "참조 이미지 30"
+        },
+        "image_sources": {
+          "label": "참조 이미지 소스"
+        },
+        "reference_video_1": {
+          "label": "참조 동영상 1"
+        },
+        "reference_video_2": {
+          "label": "참조 동영상 2"
+        },
+        "reference_video_3": {
+          "label": "참조 동영상 3"
+        },
+        "reference_video_4": {
+          "label": "참조 동영상 4"
+        },
+        "reference_video_5": {
+          "label": "참조 동영상 5"
+        },
+        "reference_video_6": {
+          "label": "참조 동영상 6"
+        },
+        "reference_video_7": {
+          "label": "참조 동영상 7"
+        },
+        "reference_video_8": {
+          "label": "참조 동영상 8"
+        },
+        "reference_video_9": {
+          "label": "참조 동영상 9"
+        },
+        "reference_video_10": {
+          "label": "참조 동영상 10"
+        },
+        "video_sources": {
+          "label": "참조 동영상 소스"
+        },
+        "reference_audio_1": {
+          "label": "참조 오디오 1"
+        },
+        "reference_audio_2": {
+          "label": "참조 오디오 2"
+        },
+        "reference_audio_3": {
+          "label": "참조 오디오 3"
+        },
+        "reference_audio_4": {
+          "label": "참조 오디오 4"
+        },
+        "reference_audio_5": {
+          "label": "참조 오디오 5"
+        },
+        "reference_audio_6": {
+          "label": "참조 오디오 6"
+        },
+        "reference_audio_7": {
+          "label": "참조 오디오 7"
+        },
+        "reference_audio_8": {
+          "label": "참조 오디오 8"
+        },
+        "reference_audio_9": {
+          "label": "참조 오디오 9"
+        },
+        "reference_audio_10": {
+          "label": "참조 오디오 10"
+        },
+        "audio_sources": {
+          "label": "참조 오디오 소스"
+        },
+        "video_format": {
+          "label": "동영상 컨테이너",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "mov": "MOV"
+          }
+        },
+        "draft": {
+          "label": "초안 생성"
+        },
+        "omni_reference_task_type": {
+          "label": "작업 유형 힌트",
+          "choiceLabels": {
+            "": "미지정(자동)",
+            "auto": "자동(명시)",
+            "reference": "참조 자료로 생성",
+            "edit": "동영상 편집",
+            "extend": "동영상 연장"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "@Image1, @Video1, @Audio1 등으로 제출 순서에 따라 자료를 참조하세요."
+        },
+        "reference_image_1": {
+          "help": "이미지는 최대 30장, 각 30 MB 미만입니다."
+        },
+        "reference_video_1": {
+          "help": "2~30초 분량의 MP4 또는 MOV를 최대 10개, 총 30초까지 사용할 수 있습니다."
+        },
+        "reference_audio_1": {
+          "help": "2~30초 분량의 WAV 또는 MP3를 최대 10개, 총 30초까지 사용할 수 있습니다. 오디오만 참조할 수도 있습니다."
+        },
+        "duration_seconds": {
+          "help": "편집하려면 -1로 설정해 원본 길이를 따르세요. 새 동영상은 4~30초 또는 -1을 선택하세요."
+        },
+        "aspect_ratio": {
+          "help": "새 동영상의 화면 비율을 선택합니다. 편집이나 연장에서는 자동을 선택하세요."
+        },
+        "resolution": {
+          "help": "기본 해상도, 초해상도(SR), 화질 향상(ESR) 중 선택하세요. 초안 모드에서는 480p로 출력됩니다."
+        },
+        "generate_audio": {
+          "help": "영상과 동기화된 음성, 효과음, 음악을 생성합니다."
+        },
+        "add_watermark": {
+          "help": "출력 동영상에 워터마크를 추가합니다."
+        },
+        "include_last_frame": {
+          "help": "동영상의 마지막 프레임을 별도의 이미지로 저장합니다."
+        },
+        "reference_image_2": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_3": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_4": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_5": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_6": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_7": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_8": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_9": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_10": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_11": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_12": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_13": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_14": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_15": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_16": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_17": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_18": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_19": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_20": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_21": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_22": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_23": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_24": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_25": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_26": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_27": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_28": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_29": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_30": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "image_sources": {
+          "help": "한 줄에 공개 URL 또는 asset:// 참조를 하나씩 입력하세요. 업로드한 자료 다음에 추가됩니다. 줄마다 Base64를 입력할 수도 있습니다."
+        },
+        "reference_video_2": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_video_3": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_video_4": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_video_5": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_video_6": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_video_7": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_video_8": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_video_9": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_video_10": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "video_sources": {
+          "help": "한 줄에 공개 URL 또는 asset:// 참조를 하나씩 입력하세요. 업로드한 자료 다음에 추가됩니다."
+        },
+        "reference_audio_2": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_audio_3": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_audio_4": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_audio_5": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_audio_6": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_audio_7": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_audio_8": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_audio_9": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_audio_10": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "audio_sources": {
+          "help": "한 줄에 공개 URL 또는 asset:// 참조를 하나씩 입력하세요. 업로드한 자료 다음에 추가됩니다. 줄마다 Base64를 입력할 수도 있습니다."
+        },
+        "video_format": {
+          "help": "MP4 또는 MOV를 선택하세요. MOV는 YUV 4:4:4를 사용해 색상 디테일을 보존합니다."
+        },
+        "draft": {
+          "help": "480p 미리 보기와 초안 ID를 출력합니다. 7일 이내에 초안 ID로 최종본을 렌더링할 수 있습니다."
+        },
+        "omni_reference_task_type": {
+          "help": "비워 두면 모델이 추론합니다. 참조 자료가 있으면 지정할 수 있습니다. 편집에는 4~30초 동영상 1개, 자동 길이, 자동 비율이 필요합니다. 연장에는 동영상 1개와 자동 비율이 필요합니다. 프롬프트는 선택과 일치해야 합니다."
+        }
+      }
+    }
+  }
+}

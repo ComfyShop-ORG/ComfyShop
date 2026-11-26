@@ -1,0 +1,472 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-luma-ray32-img",
+  "name": "Luma Ray 3.2 图生视频",
+  "description": "用首帧和可选尾帧生成 5 秒或 10 秒视频，画面比例随首帧。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "The scene comes alive with gentle, natural motion and cinematic lighting.",
+      "optional": true
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "choices": [5, 10],
+      "optional": true,
+      "default": 5
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["540p", "720p", "1080p"],
+      "optional": true,
+      "default": "720p"
+    },
+    {
+      "name": "loop",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "hdr",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "loop",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "hdr",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "luma/ray-3.2/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "resolution": "resolution",
+        "loop": "loop",
+        "hdr": "hdr"
+      },
+      "forbidden_combinations": [
+        {
+          "loop": true,
+          "duration": [10]
+        },
+        {
+          "loop": true,
+          "hdr": true
+        },
+        {
+          "hdr": true,
+          "duration": [10]
+        },
+        {
+          "hdr": true,
+          "resolution": ["540p"]
+        }
+      ],
+      "omit_blank_parameters": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "content_types": ["image/jpeg", "image/png", "image/webp", "image/gif"],
+          "allow_raw_base64": true,
+          "allow_asset_references": true
+        },
+        "last_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "external_sources_field": "last_frame_source",
+          "content_types": ["image/jpeg", "image/png", "image/webp", "image/gif"],
+          "allow_raw_base64": true,
+          "allow_asset_references": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Luma Ray 3.2 图生视频",
+      "description": "用首帧和可选尾帧生成 5 秒或 10 秒视频，画面比例随首帧。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "loop": {
+          "label": "无缝循环"
+        },
+        "hdr": {
+          "label": "HDR"
+        },
+        "first_frame": {
+          "label": "首帧图片"
+        },
+        "first_frame_source": {
+          "label": "首帧图片来源"
+        },
+        "last_frame": {
+          "label": "尾帧图片"
+        },
+        "last_frame_source": {
+          "label": "尾帧图片来源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传 JPEG、PNG、WebP 或静态 GIF 作为首帧。"
+        },
+        "last_frame": {
+          "help": "可上传 JPEG、PNG、WebP 或静态 GIF 作为结尾。"
+        },
+        "prompt": {
+          "help": "可描述动作、镜头运动和氛围。"
+        },
+        "duration_seconds": {
+          "help": "选择 5 或 10 秒，默认 5 秒。"
+        },
+        "resolution": {
+          "help": "选择 540p、720p 或 1080p。"
+        },
+        "loop": {
+          "help": "用于 5 秒标准动态范围视频。"
+        },
+        "hdr": {
+          "help": "使用 5 秒及 720p 或 1080p，需要 Atlas 上游账户具备 HDR 权限。"
+        },
+        "first_frame_source": {
+          "help": "填写公开图片 URL、Base64 Data URI、原始 Base64 或 Atlas 的 asset:// 引用，与上传二选一。"
+        },
+        "last_frame_source": {
+          "help": "填写公开图片 URL、Base64 Data URI、原始 Base64 或 Atlas 的 asset:// 引用，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Luma Ray 3.2 圖生影片",
+      "description": "使用首幀與可選尾幀生成 5 秒或 10 秒影片，畫面比例沿用首幀。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "時長（秒）"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "loop": {
+          "label": "無縫循環"
+        },
+        "hdr": {
+          "label": "HDR"
+        },
+        "first_frame": {
+          "label": "首幀圖片"
+        },
+        "first_frame_source": {
+          "label": "首幀圖片來源"
+        },
+        "last_frame": {
+          "label": "尾幀圖片"
+        },
+        "last_frame_source": {
+          "label": "尾幀圖片來源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳 JPEG、PNG、WebP 或靜態 GIF 作為首幀。"
+        },
+        "last_frame": {
+          "help": "可上傳 JPEG、PNG、WebP 或靜態 GIF 作為結尾。"
+        },
+        "prompt": {
+          "help": "可描述動作、鏡頭運動與氣氛。"
+        },
+        "duration_seconds": {
+          "help": "選擇 5 或 10 秒，預設 5 秒。"
+        },
+        "resolution": {
+          "help": "選擇 540p、720p 或 1080p。"
+        },
+        "loop": {
+          "help": "用於 5 秒標準動態範圍影片。"
+        },
+        "hdr": {
+          "help": "使用 5 秒及 720p 或 1080p，需要 Atlas 上游帳戶具備 HDR 權限。"
+        },
+        "first_frame_source": {
+          "help": "填寫公開圖片網址、Base64 Data URI、原始 Base64 或 Atlas 的 asset:// 引用，與上傳擇一。"
+        },
+        "last_frame_source": {
+          "help": "填寫公開圖片網址、Base64 Data URI、原始 Base64 或 Atlas 的 asset:// 引用，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Luma Ray 3.2 Image-to-Video",
+      "description": "Generate a 5- or 10-second video from a first frame and an optional last frame. The first frame sets the aspect ratio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "loop": {
+          "label": "Seamless loop"
+        },
+        "hdr": {
+          "label": "HDR"
+        },
+        "first_frame": {
+          "label": "First-frame image"
+        },
+        "first_frame_source": {
+          "label": "First-frame source"
+        },
+        "last_frame": {
+          "label": "Last-frame image"
+        },
+        "last_frame_source": {
+          "label": "Last-frame source"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload JPEG, PNG, WebP, or a still GIF as the first frame."
+        },
+        "last_frame": {
+          "help": "Upload an optional JPEG, PNG, WebP, or still GIF as the ending frame."
+        },
+        "prompt": {
+          "help": "Describe motion, camera movement, and atmosphere if needed."
+        },
+        "duration_seconds": {
+          "help": "Choose 5 or 10 seconds. The default is 5."
+        },
+        "resolution": {
+          "help": "Choose 540p, 720p, or 1080p."
+        },
+        "loop": {
+          "help": "Use with five-second standard dynamic range clips."
+        },
+        "hdr": {
+          "help": "Use with five-second 720p or 1080p clips. The upstream Atlas account requires HDR access."
+        },
+        "first_frame_source": {
+          "help": "Provide a public image URL, Base64 data URI, raw Base64, or Atlas asset:// reference, or upload an image."
+        },
+        "last_frame_source": {
+          "help": "Provide a public image URL, Base64 data URI, raw Base64, or Atlas asset:// reference, or upload an image."
+        }
+      }
+    },
+    "ja": {
+      "name": "Luma Ray 3.2 画像から動画",
+      "description": "開始画像と任意の終了画像から 5 秒または 10 秒の動画を生成します。縦横比は開始画像に合わせます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "loop": {
+          "label": "シームレスループ"
+        },
+        "hdr": {
+          "label": "HDR"
+        },
+        "first_frame": {
+          "label": "開始フレーム画像"
+        },
+        "first_frame_source": {
+          "label": "開始フレームの入力元"
+        },
+        "last_frame": {
+          "label": "終了フレーム画像"
+        },
+        "last_frame_source": {
+          "label": "終了フレームの入力元"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "JPEG、PNG、WebP、静止 GIF を開始画像としてアップロードします。"
+        },
+        "last_frame": {
+          "help": "JPEG、PNG、WebP、静止 GIF を終了画像としてアップロードできます。"
+        },
+        "prompt": {
+          "help": "必要に応じて動き、カメラワーク、雰囲気を記述します。"
+        },
+        "duration_seconds": {
+          "help": "5 秒または 10 秒から選びます。既定値は 5 秒です。"
+        },
+        "resolution": {
+          "help": "540p、720p、1080p から選びます。"
+        },
+        "loop": {
+          "help": "5 秒の標準ダイナミックレンジ動画に使用します。"
+        },
+        "hdr": {
+          "help": "5 秒、720p または 1080p で使います。Atlas の上流アカウントに HDR 権限が必要です。"
+        },
+        "first_frame_source": {
+          "help": "公開画像 URL、Base64 Data URI、Base64 文字列、Atlas の asset:// 参照の入力、または画像のアップロードを選びます。"
+        },
+        "last_frame_source": {
+          "help": "公開画像 URL、Base64 Data URI、Base64 文字列、Atlas の asset:// 参照の入力、または画像のアップロードを選びます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Luma Ray 3.2 이미지로 동영상 생성",
+      "description": "첫 프레임과 선택적인 끝 프레임으로 5초 또는 10초 동영상을 생성합니다. 화면 비율은 첫 프레임을 따릅니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "길이(초)"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "loop": {
+          "label": "자연스러운 반복"
+        },
+        "hdr": {
+          "label": "HDR"
+        },
+        "first_frame": {
+          "label": "첫 프레임 이미지"
+        },
+        "first_frame_source": {
+          "label": "첫 프레임 소스"
+        },
+        "last_frame": {
+          "label": "끝 프레임 이미지"
+        },
+        "last_frame_source": {
+          "label": "끝 프레임 소스"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "JPEG, PNG, WebP 또는 정적 GIF를 첫 프레임으로 업로드하세요."
+        },
+        "last_frame": {
+          "help": "JPEG, PNG, WebP 또는 정적 GIF를 끝 프레임으로 업로드할 수 있습니다."
+        },
+        "prompt": {
+          "help": "필요하면 움직임, 카메라 변화와 분위기를 설명하세요."
+        },
+        "duration_seconds": {
+          "help": "5초 또는 10초를 선택하세요. 기본값은 5초입니다."
+        },
+        "resolution": {
+          "help": "540p, 720p, 1080p 중 선택하세요."
+        },
+        "loop": {
+          "help": "표준 동적 범위의 5초 동영상에 사용합니다."
+        },
+        "hdr": {
+          "help": "720p 또는 1080p의 5초 동영상에 사용합니다. Atlas 상위 계정에 HDR 권한이 필요합니다."
+        },
+        "first_frame_source": {
+          "help": "공개 이미지 URL, Base64 Data URI, Base64 문자열, Atlas asset:// 참조를 입력하거나 이미지를 업로드하세요."
+        },
+        "last_frame_source": {
+          "help": "공개 이미지 URL, Base64 Data URI, Base64 문자열, Atlas asset:// 참조를 입력하거나 이미지를 업로드하세요."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,863 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-atlascloud-studio-a-plus-content",
+  "name": "Atlas Cloud Studio A+ 商品展示图",
+  "description": "用商品页或商品图生成 A+ 内容模块图片，每种所选模块生成一张。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "link",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "product_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "model_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "user_prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "optional": true
+    },
+    {
+      "name": "hero",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "feature",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "scene",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "detail",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "spec",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "comparison",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "brand_story",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "ratio",
+      "kind": "choice",
+      "default": "3:4",
+      "choices": ["1:1", "2:3", "3:2", "3:4", "4:3", "16:9", "9:16"],
+      "optional": true
+    },
+    {
+      "name": "product_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "model_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "2k",
+      "choices": ["1k", "2k", "4k"],
+      "optional": true
+    },
+    {
+      "name": "format",
+      "kind": "choice",
+      "default": "png",
+      "choices": ["png", "jpeg"],
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "link",
+      "section": "default"
+    },
+    {
+      "fieldId": "product_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "model_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "user_prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "hero",
+      "section": "default",
+      "control": "checkbox"
+    },
+    {
+      "fieldId": "feature",
+      "section": "default",
+      "control": "checkbox"
+    },
+    {
+      "fieldId": "scene",
+      "section": "default",
+      "control": "checkbox"
+    },
+    {
+      "fieldId": "detail",
+      "section": "default",
+      "control": "checkbox"
+    },
+    {
+      "fieldId": "spec",
+      "section": "default",
+      "control": "checkbox"
+    },
+    {
+      "fieldId": "comparison",
+      "section": "default",
+      "control": "checkbox"
+    },
+    {
+      "fieldId": "brand_story",
+      "section": "default",
+      "control": "checkbox"
+    },
+    {
+      "fieldId": "ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "product_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "model_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "format",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "atlascloud/studio/a-plus-content",
+      "operation": "image",
+      "parameters": {
+        "user_prompt": "user_prompt",
+        "ratio": "ratio",
+        "resolution": "resolution",
+        "format": "format",
+        "link": "link"
+      },
+      "media": {
+        "product_image": {
+          "kind": "image",
+          "fields": ["product_image"],
+          "external_sources_field": "product_source",
+          "external_urls_only": true,
+          "max_bytes": 10000000
+        },
+        "model_image": {
+          "kind": "image",
+          "fields": ["model_image"],
+          "external_sources_field": "model_source",
+          "external_urls_only": true,
+          "max_bytes": 10000000
+        }
+      },
+      "omit_blank_parameters": ["user_prompt", "link"],
+      "public_url_parameters": ["link"],
+      "required_any_of": [["link", "product_image"]],
+      "choice_arrays": {
+        "visual_type": {
+          "encoding": "comma_separated",
+          "min_items": 1,
+          "options": [
+            {
+              "field": "hero",
+              "value": "hero"
+            },
+            {
+              "field": "feature",
+              "value": "feature"
+            },
+            {
+              "field": "scene",
+              "value": "scene"
+            },
+            {
+              "field": "detail",
+              "value": "detail"
+            },
+            {
+              "field": "spec",
+              "value": "spec"
+            },
+            {
+              "field": "comparison",
+              "value": "comparison"
+            },
+            {
+              "field": "brand_story",
+              "value": "brand_story"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Atlas Cloud Studio A+ 商品展示图",
+      "description": "用商品页或商品图生成 A+ 内容模块图片，每种所选模块生成一张。",
+      "fields": {
+        "link": {
+          "label": "商品链接"
+        },
+        "product_image": {
+          "label": "商品图"
+        },
+        "model_image": {
+          "label": "模特图"
+        },
+        "user_prompt": {
+          "label": "创作指令"
+        },
+        "hero": {
+          "label": "首屏主视觉"
+        },
+        "feature": {
+          "label": "卖点介绍"
+        },
+        "scene": {
+          "label": "场景展示"
+        },
+        "detail": {
+          "label": "细节特写"
+        },
+        "spec": {
+          "label": "参数说明"
+        },
+        "comparison": {
+          "label": "产品对比"
+        },
+        "brand_story": {
+          "label": "品牌故事"
+        },
+        "ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "1:1": "1:1",
+            "2:3": "2:3",
+            "3:2": "3:2",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "16:9": "16:9",
+            "9:16": "9:16"
+          }
+        },
+        "product_source": {
+          "label": "商品图 URL"
+        },
+        "model_source": {
+          "label": "模特图 URL"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "format": {
+          "label": "成品格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "link": {
+          "help": "填写公开商品页 URL，或上传商品图。提供链接后 Atlas 会提取商品信息和主图。"
+        },
+        "product_image": {
+          "help": "用商品照片保留真实外观。上传最多 10 MB，也可填写公开图片 URL。"
+        },
+        "model_image": {
+          "help": "可上传一张模特图保持人物一致，最多 10 MB。"
+        },
+        "user_prompt": {
+          "help": "可描述品牌、卖点、受众和期望的风格。"
+        },
+        "hero": {
+          "help": "生成首屏展示商品的横幅或主视觉。"
+        },
+        "feature": {
+          "help": "呈现商品的主要卖点。"
+        },
+        "scene": {
+          "help": "展示商品的实际使用场景。"
+        },
+        "detail": {
+          "help": "放大商品的材质、工艺或细节。"
+        },
+        "spec": {
+          "help": "呈现已提供的尺寸、规格及其他参数。"
+        },
+        "comparison": {
+          "help": "展示所提供的产品或型号的差异。"
+        },
+        "brand_story": {
+          "help": "呈现品牌背景、特色或理念。"
+        },
+        "ratio": {
+          "help": "选择输出宽高比。默认 3:4。"
+        },
+        "product_source": {
+          "help": "填写一个可公开访问的商品图 URL。"
+        },
+        "model_source": {
+          "help": "填写一个可公开访问的模特图片 URL。"
+        },
+        "resolution": {
+          "help": "选择 1K、2K 或 4K。默认 2K。"
+        },
+        "format": {
+          "help": "选择 PNG 或 JPEG。默认 PNG。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Atlas Cloud Studio A+ 商品展示圖",
+      "description": "用商品頁或商品圖生成 A+ 內容模組圖片，每種所選模組生成一張。",
+      "fields": {
+        "link": {
+          "label": "商品連結"
+        },
+        "product_image": {
+          "label": "商品圖"
+        },
+        "model_image": {
+          "label": "模特兒圖"
+        },
+        "user_prompt": {
+          "label": "創作指令"
+        },
+        "hero": {
+          "label": "首屏主視覺"
+        },
+        "feature": {
+          "label": "賣點介紹"
+        },
+        "scene": {
+          "label": "情境展示"
+        },
+        "detail": {
+          "label": "細節特寫"
+        },
+        "spec": {
+          "label": "參數說明"
+        },
+        "comparison": {
+          "label": "產品比較"
+        },
+        "brand_story": {
+          "label": "品牌故事"
+        },
+        "ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "1:1": "1:1",
+            "2:3": "2:3",
+            "3:2": "3:2",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "16:9": "16:9",
+            "9:16": "9:16"
+          }
+        },
+        "product_source": {
+          "label": "商品圖 URL"
+        },
+        "model_source": {
+          "label": "模特兒圖 URL"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "format": {
+          "label": "成品格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "link": {
+          "help": "填寫公開商品頁 URL 或上傳商品圖。提供連結後 Atlas 會擷取商品資訊和主圖。"
+        },
+        "product_image": {
+          "help": "以商品照片保留真實外觀。上傳最多 10 MB，也可填寫公開圖片 URL。"
+        },
+        "model_image": {
+          "help": "可上傳一張模特兒圖保持人物一致，最多 10 MB。"
+        },
+        "user_prompt": {
+          "help": "可描述品牌、賣點、受眾和期望風格。"
+        },
+        "hero": {
+          "help": "生成首屏展示商品的橫幅或主視覺。"
+        },
+        "feature": {
+          "help": "呈現商品的主要賣點。"
+        },
+        "scene": {
+          "help": "展示商品的實際使用情境。"
+        },
+        "detail": {
+          "help": "放大商品的材質、工藝或細節。"
+        },
+        "spec": {
+          "help": "呈現已提供的尺寸、規格及其他參數。"
+        },
+        "comparison": {
+          "help": "展示所提供的產品或型號之間的差異。"
+        },
+        "brand_story": {
+          "help": "呈現品牌背景、特色或理念。"
+        },
+        "ratio": {
+          "help": "選擇輸出寬高比。預設 3:4。"
+        },
+        "product_source": {
+          "help": "填寫一個可公開存取的商品圖 URL。"
+        },
+        "model_source": {
+          "help": "填寫一個可公開存取的模特兒圖片 URL。"
+        },
+        "resolution": {
+          "help": "選擇 1K、2K 或 4K。預設 2K。"
+        },
+        "format": {
+          "help": "選擇 PNG 或 JPEG。預設 PNG。"
+        }
+      }
+    },
+    "en": {
+      "name": "Atlas Cloud Studio A+ Content Maker",
+      "description": "Create A+ module images from a product page or photo. Each selected module returns one image.",
+      "fields": {
+        "link": {
+          "label": "Product page URL"
+        },
+        "product_image": {
+          "label": "Product image"
+        },
+        "model_image": {
+          "label": "Model image"
+        },
+        "user_prompt": {
+          "label": "Creative instructions"
+        },
+        "hero": {
+          "label": "Hero image"
+        },
+        "feature": {
+          "label": "Product features"
+        },
+        "scene": {
+          "label": "Usage scene"
+        },
+        "detail": {
+          "label": "Detail close-up"
+        },
+        "spec": {
+          "label": "Specifications"
+        },
+        "comparison": {
+          "label": "Product comparison"
+        },
+        "brand_story": {
+          "label": "Brand story"
+        },
+        "ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "1:1": "1:1",
+            "2:3": "2:3",
+            "3:2": "3:2",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "16:9": "16:9",
+            "9:16": "9:16"
+          }
+        },
+        "product_source": {
+          "label": "Product image URL"
+        },
+        "model_source": {
+          "label": "Model image URL"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "link": {
+          "help": "Enter a public product page URL or upload a product image. Atlas uses the page to extract product details and a lead image."
+        },
+        "product_image": {
+          "help": "Upload a product photo up to 10 MB, or enter its public image URL, to preserve the product's appearance."
+        },
+        "model_image": {
+          "help": "Optionally upload a model photo up to 10 MB to keep the person consistent."
+        },
+        "user_prompt": {
+          "help": "Optionally describe the brand, selling points, audience, and preferred style."
+        },
+        "hero": {
+          "help": "Create a lead visual or banner featuring the product."
+        },
+        "feature": {
+          "help": "Present the main selling points."
+        },
+        "scene": {
+          "help": "Show the product in use."
+        },
+        "detail": {
+          "help": "Highlight materials, workmanship, or details."
+        },
+        "spec": {
+          "help": "Present the supplied dimensions and specifications."
+        },
+        "comparison": {
+          "help": "Show differences between the supplied products or models."
+        },
+        "brand_story": {
+          "help": "Present the brand's background, identity, or values."
+        },
+        "ratio": {
+          "help": "Choose the width-to-height ratio. The default is 3:4."
+        },
+        "product_source": {
+          "help": "Enter one public product image URL."
+        },
+        "model_source": {
+          "help": "Enter one public model image URL."
+        },
+        "resolution": {
+          "help": "Choose 1K, 2K, or 4K. The default is 2K."
+        },
+        "format": {
+          "help": "Choose PNG or JPEG. The default is PNG."
+        }
+      }
+    },
+    "ja": {
+      "name": "Atlas Cloud Studio A+ 商品紹介画像",
+      "description": "商品ページまたは商品画像から、選択した A+ コンテンツのモジュールごとに画像を 1 枚生成します。",
+      "fields": {
+        "link": {
+          "label": "商品ページの URL"
+        },
+        "product_image": {
+          "label": "商品画像"
+        },
+        "model_image": {
+          "label": "モデル画像"
+        },
+        "user_prompt": {
+          "label": "制作指示"
+        },
+        "hero": {
+          "label": "メインビジュアル"
+        },
+        "feature": {
+          "label": "特徴紹介"
+        },
+        "scene": {
+          "label": "使用シーン"
+        },
+        "detail": {
+          "label": "ディテールの接写"
+        },
+        "spec": {
+          "label": "仕様説明"
+        },
+        "comparison": {
+          "label": "製品比較"
+        },
+        "brand_story": {
+          "label": "ブランドストーリー"
+        },
+        "ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "1:1": "1:1",
+            "2:3": "2:3",
+            "3:2": "3:2",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "16:9": "16:9",
+            "9:16": "9:16"
+          }
+        },
+        "product_source": {
+          "label": "商品画像の URL"
+        },
+        "model_source": {
+          "label": "モデル画像の URL"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "link": {
+          "help": "公開の商品ページの URL を入力するか、商品画像をアップロードします。Atlas はページから商品情報とメイン画像を抽出します。"
+        },
+        "product_image": {
+          "help": "実物の外観を保つには、最大 10 MB の商品写真をアップロードするか、公開画像の URL を入力します。"
+        },
+        "model_image": {
+          "help": "人物を統一する場合、最大 10 MB のモデル画像を指定できます。"
+        },
+        "user_prompt": {
+          "help": "ブランド、特徴、対象顧客、希望するスタイルを指定できます。"
+        },
+        "hero": {
+          "help": "ページの冒頭に表示する商品ビジュアルやバナーを作ります。"
+        },
+        "feature": {
+          "help": "商品の主な特徴を紹介します。"
+        },
+        "scene": {
+          "help": "商品を使用している場面を見せます。"
+        },
+        "detail": {
+          "help": "素材、仕上げ、商品詳細を拡大して見せます。"
+        },
+        "spec": {
+          "help": "入力した寸法や仕様を表示します。"
+        },
+        "comparison": {
+          "help": "指定した商品やモデルの違いを見せます。"
+        },
+        "brand_story": {
+          "help": "ブランドの成り立ち、特徴、理念を紹介します。"
+        },
+        "ratio": {
+          "help": "幅と高さの比率を選択します。既定は 3:4 です。"
+        },
+        "product_source": {
+          "help": "公開されている商品画像の URL を一つ入力します。"
+        },
+        "model_source": {
+          "help": "公開されているモデル画像の URL を一つ入力します。"
+        },
+        "resolution": {
+          "help": "1K、2K、4K から選択します。既定は 2K です。"
+        },
+        "format": {
+          "help": "PNG または JPEG を選択します。既定は PNG です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Atlas Cloud Studio A+ 상품 콘텐츠",
+      "description": "상품 페이지나 사진으로 A+ 모듈 이미지를 만듭니다. 선택한 모듈마다 한 장이 생성됩니다.",
+      "fields": {
+        "link": {
+          "label": "상품 페이지 URL"
+        },
+        "product_image": {
+          "label": "상품 이미지"
+        },
+        "model_image": {
+          "label": "모델 이미지"
+        },
+        "user_prompt": {
+          "label": "제작 지시"
+        },
+        "hero": {
+          "label": "대표 이미지"
+        },
+        "feature": {
+          "label": "상품 특징"
+        },
+        "scene": {
+          "label": "사용 장면"
+        },
+        "detail": {
+          "label": "디테일 클로즈업"
+        },
+        "spec": {
+          "label": "사양 안내"
+        },
+        "comparison": {
+          "label": "상품 비교"
+        },
+        "brand_story": {
+          "label": "브랜드 이야기"
+        },
+        "ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "1:1": "1:1",
+            "2:3": "2:3",
+            "3:2": "3:2",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "16:9": "16:9",
+            "9:16": "9:16"
+          }
+        },
+        "product_source": {
+          "label": "상품 이미지 URL"
+        },
+        "model_source": {
+          "label": "모델 이미지 URL"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "link": {
+          "help": "공개 상품 페이지 URL을 입력하거나 상품 사진을 업로드하세요. Atlas가 페이지에서 상품 정보와 대표 이미지를 추출합니다."
+        },
+        "product_image": {
+          "help": "상품의 실제 외관을 살리려면 최대 10MB의 사진을 업로드하거나 공개 이미지 URL을 입력하세요."
+        },
+        "model_image": {
+          "help": "인물을 일관되게 유지하려면 최대 10MB의 모델 사진을 업로드하세요."
+        },
+        "user_prompt": {
+          "help": "브랜드, 상품 특징, 고객층, 원하는 스타일을 설명할 수 있습니다."
+        },
+        "hero": {
+          "help": "첫 화면에 보여 줄 상품 이미지나 배너를 만듭니다."
+        },
+        "feature": {
+          "help": "상품의 주요 판매 포인트를 소개합니다."
+        },
+        "scene": {
+          "help": "상품을 실제 사용하는 장면을 보여 줍니다."
+        },
+        "detail": {
+          "help": "소재, 마감 또는 세부 요소를 확대해 보여 줍니다."
+        },
+        "spec": {
+          "help": "제공된 크기와 사양을 표시합니다."
+        },
+        "comparison": {
+          "help": "제공된 상품이나 모델의 차이를 보여 줍니다."
+        },
+        "brand_story": {
+          "help": "브랜드의 배경, 특징 또는 가치를 소개합니다."
+        },
+        "ratio": {
+          "help": "너비와 높이의 비율을 선택하세요. 기본값은 3:4입니다."
+        },
+        "product_source": {
+          "help": "공개 상품 이미지 URL을 하나 입력하세요."
+        },
+        "model_source": {
+          "help": "공개 모델 이미지 URL을 하나 입력하세요."
+        },
+        "resolution": {
+          "help": "1K, 2K 또는 4K를 선택하세요. 기본값은 2K입니다."
+        },
+        "format": {
+          "help": "PNG 또는 JPEG를 선택하세요. 기본값은 PNG입니다."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,411 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "minimax-h3-image-text-to-image",
+  "name": "MiniMax H3-Image 文生图",
+  "description": "根据提示词生成 1 至 10 张图片，可设置宽高、文件格式和压缩质量。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "image_size",
+      "kind": "string",
+      "default": "auto",
+      "optional": true
+    },
+    {
+      "name": "image_count",
+      "kind": "integer",
+      "minimum": "1",
+      "maximum": "10",
+      "step": "1",
+      "default": 1,
+      "optional": true
+    },
+    {
+      "name": "expand_prompt",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "choices": ["jpeg", "png", "webp"],
+      "default": "jpeg",
+      "optional": true
+    },
+    {
+      "name": "compression_quality",
+      "kind": "integer",
+      "minimum": "0",
+      "maximum": "100",
+      "step": "1",
+      "default": 95,
+      "optional": true
+    },
+    {
+      "name": "synchronous_response",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "base64_output",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "image_size",
+      "section": "default"
+    },
+    {
+      "fieldId": "image_count",
+      "section": "default"
+    },
+    {
+      "fieldId": "expand_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "compression_quality",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "synchronous_response",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "minimax/h3-image/text-to-image",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "image_size",
+        "num_images": "image_count",
+        "enable_prompt_expansion": "expand_prompt",
+        "output_format": "output_format",
+        "output_compression": "compression_quality",
+        "enable_sync_mode": "synchronous_response",
+        "enable_base64_output": "base64_output"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 32000
+      },
+      "image_size_limits": {
+        "min_side": 468,
+        "max_side": 7745,
+        "min_pixels": 655360,
+        "max_pixels": 20000000,
+        "max_aspect_ratio": 3,
+        "auto_requires": "enable_prompt_expansion"
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "MiniMax H3-Image 文生图",
+      "description": "根据提示词生成 1 至 10 张图片，可设置宽高、文件格式和压缩质量。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "image_size": {
+          "label": "图片尺寸"
+        },
+        "image_count": {
+          "label": "生成张数"
+        },
+        "expand_prompt": {
+          "label": "扩写提示词"
+        },
+        "output_format": {
+          "label": "输出格式"
+        },
+        "compression_quality": {
+          "label": "压缩质量"
+        },
+        "synchronous_response": {
+          "label": "同步返回成品"
+        },
+        "base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、构图和风格。需要准确呈现的文字可以用引号标出，最多 32,000 个字符。"
+        },
+        "image_size": {
+          "help": "输入 auto 或宽*高，例如 2048*2048。每边 468 至 7745 像素，面积 655,360 至 20,000,000 像素，宽高比 1:3 至 3:1。auto 需要开启提示词扩写。"
+        },
+        "image_count": {
+          "help": "同一提示词生成 1 至 10 张图片。"
+        },
+        "expand_prompt": {
+          "help": "开启后会优化提示词。关闭时需填写明确的图片尺寸，提示词约前 4,096 个词元生效。"
+        },
+        "output_format": {
+          "help": "选择 JPEG、PNG 或 WebP。成品背景为不透明。"
+        },
+        "compression_quality": {
+          "help": "JPEG 和 WebP 的画质为 0 至 100，数值越大画质越高。PNG 使用自身的无损压缩。"
+        },
+        "synchronous_response": {
+          "help": "开启后，供应商会等待图片生成并上传完成，再在提交响应中返回结果。"
+        },
+        "base64_output": {
+          "help": "开启后，工作机解码供应商返回的 Base64 图像并保存原图。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "MiniMax H3-Image 文字生成圖片",
+      "description": "根據提示詞產生 1 至 10 張圖片，可設定寬高、檔案格式與壓縮品質。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "image_size": {
+          "label": "圖片尺寸"
+        },
+        "image_count": {
+          "label": "生成張數"
+        },
+        "expand_prompt": {
+          "label": "擴寫提示詞"
+        },
+        "output_format": {
+          "label": "輸出格式"
+        },
+        "compression_quality": {
+          "label": "壓縮品質"
+        },
+        "synchronous_response": {
+          "label": "同步回傳成品"
+        },
+        "base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、構圖和風格。需要精確呈現的文字可以用引號標示，最多 32,000 個字元。"
+        },
+        "image_size": {
+          "help": "輸入 auto 或寬*高，例如 2048*2048。每邊 468 至 7745 像素，面積 655,360 至 20,000,000 像素，寬高比 1:3 至 3:1。auto 需要啟用提示詞擴寫。"
+        },
+        "image_count": {
+          "help": "以同一份提示詞產生 1 至 10 張圖片。"
+        },
+        "expand_prompt": {
+          "help": "啟用後會最佳化提示詞。關閉時須填寫明確的圖片尺寸，提示詞約前 4,096 個詞元會生效。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG、PNG 或 WebP。成品背景為不透明。"
+        },
+        "compression_quality": {
+          "help": "JPEG 與 WebP 的品質為 0 至 100，數值越大畫質越高。PNG 使用自身的無損壓縮。"
+        },
+        "synchronous_response": {
+          "help": "啟用後，供應商會等候圖片產生並上傳完成，再於提交回應中回傳結果。"
+        },
+        "base64_output": {
+          "help": "啟用後，工作機會解碼供應商回傳的 Base64 圖片並儲存原圖。"
+        }
+      }
+    },
+    "en": {
+      "name": "MiniMax H3-Image Text-to-Image",
+      "description": "Generate one to ten images from a prompt with controls for dimensions, format, and compression quality.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "image_size": {
+          "label": "Image size"
+        },
+        "image_count": {
+          "label": "Image count"
+        },
+        "expand_prompt": {
+          "label": "Expand prompt"
+        },
+        "output_format": {
+          "label": "Output format"
+        },
+        "compression_quality": {
+          "label": "Compression quality"
+        },
+        "synchronous_response": {
+          "label": "Synchronous response"
+        },
+        "base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, composition, and style. Put exact text in quotes. Enter up to 32,000 characters."
+        },
+        "image_size": {
+          "help": "Enter auto or width*height, such as 2048*2048. Each side must be 468–7745 pixels, area 655,360–20,000,000 pixels, and aspect ratio 1:3–3:1. Auto requires prompt expansion."
+        },
+        "image_count": {
+          "help": "Generate 1 to 10 variations from the same prompt."
+        },
+        "expand_prompt": {
+          "help": "Enable prompt optimization. When disabled, enter an explicit size. Roughly the first 4,096 prompt tokens take effect."
+        },
+        "output_format": {
+          "help": "Choose JPEG, PNG, or WebP. Outputs have opaque backgrounds."
+        },
+        "compression_quality": {
+          "help": "Set JPEG or WebP quality from 0 to 100. Higher values retain more detail. PNG uses lossless compression."
+        },
+        "synchronous_response": {
+          "help": "Wait for the provider to generate and upload the images before it returns the submission response."
+        },
+        "base64_output": {
+          "help": "The worker decodes Base64 image data from the provider and saves the original."
+        }
+      }
+    },
+    "ja": {
+      "name": "MiniMax H3-Image テキストから画像を生成",
+      "description": "プロンプトから画像を 1〜10 枚生成します。幅と高さ、ファイル形式、圧縮品質を設定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "image_size": {
+          "label": "画像サイズ"
+        },
+        "image_count": {
+          "label": "生成枚数"
+        },
+        "expand_prompt": {
+          "label": "プロンプトを拡張"
+        },
+        "output_format": {
+          "label": "出力形式"
+        },
+        "compression_quality": {
+          "label": "圧縮品質"
+        },
+        "synchronous_response": {
+          "label": "同期レスポンス"
+        },
+        "base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、構図、スタイルを記述します。正確に描画する文字列は引用符で囲みます。最大 32,000 文字です。"
+        },
+        "image_size": {
+          "help": "auto または 2048*2048 のように幅*高さを入力します。各辺 468〜7745 ピクセル、総画素数 655,360〜20,000,000、アスペクト比 1:3〜3:1 です。auto にはプロンプトの拡張が必要です。"
+        },
+        "image_count": {
+          "help": "同じプロンプトから最大 10 枚の画像を生成します。"
+        },
+        "expand_prompt": {
+          "help": "有効にするとプロンプトを最適化します。無効にした場合は画像サイズを指定します。プロンプトの先頭約 4,096 トークンが使われます。"
+        },
+        "output_format": {
+          "help": "JPEG、PNG、WebP から選びます。背景は不透明です。"
+        },
+        "compression_quality": {
+          "help": "JPEG または WebP の品質を 0〜100 で指定します。値が高いほど画質が上がります。PNG は可逆圧縮です。"
+        },
+        "synchronous_response": {
+          "help": "プロバイダーが画像を生成してアップロードした後、送信結果に画像が返ります。"
+        },
+        "base64_output": {
+          "help": "プロバイダーが返す Base64 画像をワーカーがデコードし、元画像を保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "MiniMax H3-Image 텍스트로 이미지 생성",
+      "description": "프롬프트로 이미지를 1장부터 10장까지 생성합니다. 크기, 파일 형식, 압축 품질을 설정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "image_size": {
+          "label": "이미지 크기"
+        },
+        "image_count": {
+          "label": "생성 장수"
+        },
+        "expand_prompt": {
+          "label": "프롬프트 확장"
+        },
+        "output_format": {
+          "label": "출력 형식"
+        },
+        "compression_quality": {
+          "label": "압축 품질"
+        },
+        "synchronous_response": {
+          "label": "동기 응답"
+        },
+        "base64_output": {
+          "label": "Base64 출력"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 구도, 스타일을 설명합니다. 정확히 표시할 텍스트는 따옴표로 묶습니다. 최대 32,000자입니다."
+        },
+        "image_size": {
+          "help": "auto 또는 2048*2048과 같이 가로*세로를 입력합니다. 각 변은 468~7745픽셀, 면적은 655,360~20,000,000픽셀, 가로세로비는 1:3~3:1입니다. auto를 사용하려면 프롬프트 확장이 필요합니다."
+        },
+        "image_count": {
+          "help": "같은 프롬프트로 이미지 변형을 1장부터 10장까지 생성합니다."
+        },
+        "expand_prompt": {
+          "help": "활성화하면 프롬프트를 최적화합니다. 끄면 크기를 직접 입력해야 하며 첫 약 4,096개 토큰이 적용됩니다."
+        },
+        "output_format": {
+          "help": "JPEG, PNG 또는 WebP를 선택합니다. 결과 배경은 불투명합니다."
+        },
+        "compression_quality": {
+          "help": "JPEG와 WebP의 품질을 0부터 100까지 설정합니다. 값이 클수록 품질이 높습니다. PNG는 무손실 압축을 사용합니다."
+        },
+        "synchronous_response": {
+          "help": "제공업체에서 생성 및 업로드가 완료된 뒤 제출 응답에 결과가 포함됩니다."
+        },
+        "base64_output": {
+          "help": "작업 머신이 제공업체의 Base64 이미지를 디코딩해 원본을 저장합니다."
+        }
+      }
+    }
+  }
+}

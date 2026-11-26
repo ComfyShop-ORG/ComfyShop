@@ -1,0 +1,1420 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "gpt-image-25-flare-edit",
+  "name": "GPT Image 2.5 Flare 图像编辑",
+  "description": "快速用提示词编辑最多 16 张参考图，可用蒙版定位首张图中的区域。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "maxLength": 32000,
+      "default": "Replace the background with a sunlit meadow, keep the subject unchanged."
+    },
+    {
+      "name": "quality",
+      "kind": "choice",
+      "optional": true,
+      "default": "medium",
+      "choices": ["auto", "low", "medium", "high", "xhigh", "max"]
+    },
+    {
+      "name": "size",
+      "kind": "choice",
+      "optional": true,
+      "default": "",
+      "choices": [
+        "",
+        "auto",
+        "1024x768",
+        "768x1024",
+        "1024x1536",
+        "1536x1024",
+        "2048x2048",
+        "2048x1152",
+        "1152x2048",
+        "2560x1088",
+        "1088x2560",
+        "2880x2160",
+        "2160x2880",
+        "3840x2160",
+        "2160x3840"
+      ]
+    },
+    {
+      "name": "custom_size",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "maxLength": 9
+    },
+    {
+      "name": "background",
+      "kind": "choice",
+      "optional": true,
+      "default": "auto",
+      "choices": ["auto", "opaque", "transparent"]
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "default": "png",
+      "choices": ["png", "jpeg", "webp"]
+    },
+    {
+      "name": "moderation",
+      "kind": "choice",
+      "optional": true,
+      "default": "auto",
+      "choices": ["auto", "low"]
+    },
+    {
+      "name": "n",
+      "kind": "integer",
+      "optional": true,
+      "default": 1,
+      "minimum": "1",
+      "maximum": "10"
+    },
+    {
+      "name": "reference_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_10",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_11",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_12",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_13",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_14",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_15",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_16",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "maxLength": 4194304,
+      "multiline": true
+    },
+    {
+      "name": "mask",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "mask_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "maxLength": 4194304,
+      "multiline": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "quality",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "custom_size",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "background",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "moderation",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "n",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_10",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_11",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_12",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_13",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_14",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_15",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_16",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "mask",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "mask_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "openai/gpt-image-2.5-flare/edit",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "quality": "quality",
+        "size": "size",
+        "background": "background",
+        "output_format": "output_format",
+        "moderation": "moderation",
+        "n": "n"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 32000
+      },
+      "parameter_overrides": {
+        "size": "custom_size"
+      },
+      "image_size_limits": {
+        "min_side": 256,
+        "max_side": 3840,
+        "min_pixels": 65536,
+        "max_pixels": 8294400,
+        "max_aspect_ratio": 3,
+        "separator": "x",
+        "side_multiple": 16
+      },
+      "choice_constraints": {
+        "output_format": {
+          "parameter": "background",
+          "values": {
+            "transparent": ["png", "webp"]
+          }
+        }
+      },
+      "media": {
+        "images": {
+          "kind": "image",
+          "array": true,
+          "fields": [
+            "reference_1",
+            "reference_2",
+            "reference_3",
+            "reference_4",
+            "reference_5",
+            "reference_6",
+            "reference_7",
+            "reference_8",
+            "reference_9",
+            "reference_10",
+            "reference_11",
+            "reference_12",
+            "reference_13",
+            "reference_14",
+            "reference_15",
+            "reference_16"
+          ],
+          "min_items": 1,
+          "external_sources_field": "reference_sources",
+          "allow_asset_references": true,
+          "content_types": ["image/jpeg", "image/png", "image/webp"]
+        },
+        "mask": {
+          "kind": "image",
+          "fields": ["mask"],
+          "external_sources_field": "mask_source",
+          "allow_asset_references": true,
+          "content_types": ["image/png"],
+          "require_png_alpha": true,
+          "max_bytes": 3999999
+        }
+      },
+      "omit_blank_parameters": ["size"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "GPT Image 2.5 Flare 图像编辑",
+      "description": "快速用提示词编辑最多 16 张参考图，可用蒙版定位首张图中的区域。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "quality": {
+          "label": "渲染质量",
+          "choiceLabels": {
+            "auto": "自动",
+            "low": "低",
+            "medium": "中",
+            "high": "高",
+            "xhigh": "极高",
+            "max": "最高"
+          }
+        },
+        "size": {
+          "label": "图片尺寸",
+          "choiceLabels": {
+            "": "使用接口默认值（1024 × 1024）",
+            "auto": "自动",
+            "1024x768": "1024 × 768",
+            "768x1024": "768 × 1024",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024",
+            "2048x2048": "2048 × 2048",
+            "2048x1152": "2048 × 1152",
+            "1152x2048": "1152 × 2048",
+            "2560x1088": "2560 × 1088",
+            "1088x2560": "1088 × 2560",
+            "2880x2160": "2880 × 2160",
+            "2160x2880": "2160 × 2880",
+            "3840x2160": "3840 × 2160",
+            "2160x3840": "2160 × 3840"
+          }
+        },
+        "custom_size": {
+          "label": "自定义宽高"
+        },
+        "background": {
+          "label": "背景",
+          "choiceLabels": {
+            "auto": "自动",
+            "opaque": "不透明",
+            "transparent": "透明"
+          }
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP"
+          }
+        },
+        "moderation": {
+          "label": "内容审核",
+          "choiceLabels": {
+            "auto": "自动",
+            "low": "低"
+          }
+        },
+        "n": {
+          "label": "生成数量"
+        },
+        "reference_1": {
+          "label": "参考图 1"
+        },
+        "reference_2": {
+          "label": "参考图 2"
+        },
+        "reference_3": {
+          "label": "参考图 3"
+        },
+        "reference_4": {
+          "label": "参考图 4"
+        },
+        "reference_5": {
+          "label": "参考图 5"
+        },
+        "reference_6": {
+          "label": "参考图 6"
+        },
+        "reference_7": {
+          "label": "参考图 7"
+        },
+        "reference_8": {
+          "label": "参考图 8"
+        },
+        "reference_9": {
+          "label": "参考图 9"
+        },
+        "reference_10": {
+          "label": "参考图 10"
+        },
+        "reference_11": {
+          "label": "参考图 11"
+        },
+        "reference_12": {
+          "label": "参考图 12"
+        },
+        "reference_13": {
+          "label": "参考图 13"
+        },
+        "reference_14": {
+          "label": "参考图 14"
+        },
+        "reference_15": {
+          "label": "参考图 15"
+        },
+        "reference_16": {
+          "label": "参考图 16"
+        },
+        "reference_sources": {
+          "label": "参考素材地址"
+        },
+        "mask": {
+          "label": "蒙版"
+        },
+        "mask_source": {
+          "label": "蒙版地址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "说明需要修改和保留的内容，最多 32000 字符。"
+        },
+        "reference_1": {
+          "help": "上传 JPEG、PNG 或 WebP。先按槽位发送上传图，再追加文本区的素材。蒙版作用于第一张图。"
+        },
+        "quality": {
+          "help": "选择渲染质量。各档位的耗时和计费可能不同。"
+        },
+        "size": {
+          "help": "选择预设宽高或交给模型决定。"
+        },
+        "custom_size": {
+          "help": "用 宽x高 格式覆盖预设，例如 512x512。每边为 256 至 3840 且为 16 的倍数，总像素最多 8294400，宽高比为 1:3 至 3:1。"
+        },
+        "background": {
+          "help": "透明背景可用 PNG 或 WebP。"
+        },
+        "output_format": {
+          "help": "选择 PNG、JPEG 或 WebP。"
+        },
+        "moderation": {
+          "help": "选择 Atlas 的自动或低强度内容审核。"
+        },
+        "n": {
+          "help": "填 1 至 10。"
+        },
+        "reference_2": {
+          "help": "上传 JPEG、PNG 或 WebP。先按槽位发送上传图，再追加文本区的素材。蒙版作用于第一张图。"
+        },
+        "reference_3": {
+          "help": "上传 JPEG、PNG 或 WebP。先按槽位发送上传图，再追加文本区的素材。蒙版作用于第一张图。"
+        },
+        "reference_4": {
+          "help": "上传 JPEG、PNG 或 WebP。先按槽位发送上传图，再追加文本区的素材。蒙版作用于第一张图。"
+        },
+        "reference_5": {
+          "help": "上传 JPEG、PNG 或 WebP。先按槽位发送上传图，再追加文本区的素材。蒙版作用于第一张图。"
+        },
+        "reference_6": {
+          "help": "上传 JPEG、PNG 或 WebP。先按槽位发送上传图，再追加文本区的素材。蒙版作用于第一张图。"
+        },
+        "reference_7": {
+          "help": "上传 JPEG、PNG 或 WebP。先按槽位发送上传图，再追加文本区的素材。蒙版作用于第一张图。"
+        },
+        "reference_8": {
+          "help": "上传 JPEG、PNG 或 WebP。先按槽位发送上传图，再追加文本区的素材。蒙版作用于第一张图。"
+        },
+        "reference_9": {
+          "help": "上传 JPEG、PNG 或 WebP。先按槽位发送上传图，再追加文本区的素材。蒙版作用于第一张图。"
+        },
+        "reference_10": {
+          "help": "上传 JPEG、PNG 或 WebP。先按槽位发送上传图，再追加文本区的素材。蒙版作用于第一张图。"
+        },
+        "reference_11": {
+          "help": "上传 JPEG、PNG 或 WebP。先按槽位发送上传图，再追加文本区的素材。蒙版作用于第一张图。"
+        },
+        "reference_12": {
+          "help": "上传 JPEG、PNG 或 WebP。先按槽位发送上传图，再追加文本区的素材。蒙版作用于第一张图。"
+        },
+        "reference_13": {
+          "help": "上传 JPEG、PNG 或 WebP。先按槽位发送上传图，再追加文本区的素材。蒙版作用于第一张图。"
+        },
+        "reference_14": {
+          "help": "上传 JPEG、PNG 或 WebP。先按槽位发送上传图，再追加文本区的素材。蒙版作用于第一张图。"
+        },
+        "reference_15": {
+          "help": "上传 JPEG、PNG 或 WebP。先按槽位发送上传图，再追加文本区的素材。蒙版作用于第一张图。"
+        },
+        "reference_16": {
+          "help": "上传 JPEG、PNG 或 WebP。先按槽位发送上传图，再追加文本区的素材。蒙版作用于第一张图。"
+        },
+        "reference_sources": {
+          "help": "每行填写一个公开图片 URL、Base64 data URL 或 Atlas 素材引用 asset://ID。与上传槽位合计 1 至 16 张。"
+        },
+        "mask": {
+          "help": "使用与首图同尺寸的透明 PNG。透明像素标记编辑区域，上传蒙版小于 4 MB。"
+        },
+        "mask_source": {
+          "help": "提供公开图片 URL、Base64 data URL 或 Atlas 素材引用 asset://ID。用地址时留空对应的上传槽位。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "GPT Image 2.5 Flare 圖像編輯",
+      "description": "快速用提示詞編輯最多 16 張參考圖，可用遮罩定位第一張圖的區域。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "quality": {
+          "label": "渲染品質",
+          "choiceLabels": {
+            "auto": "自動",
+            "low": "低",
+            "medium": "中",
+            "high": "高",
+            "xhigh": "極高",
+            "max": "最高"
+          }
+        },
+        "size": {
+          "label": "圖片尺寸",
+          "choiceLabels": {
+            "": "使用介面預設值（1024 × 1024）",
+            "auto": "自動",
+            "1024x768": "1024 × 768",
+            "768x1024": "768 × 1024",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024",
+            "2048x2048": "2048 × 2048",
+            "2048x1152": "2048 × 1152",
+            "1152x2048": "1152 × 2048",
+            "2560x1088": "2560 × 1088",
+            "1088x2560": "1088 × 2560",
+            "2880x2160": "2880 × 2160",
+            "2160x2880": "2160 × 2880",
+            "3840x2160": "3840 × 2160",
+            "2160x3840": "2160 × 3840"
+          }
+        },
+        "custom_size": {
+          "label": "自訂寬高"
+        },
+        "background": {
+          "label": "背景",
+          "choiceLabels": {
+            "auto": "自動",
+            "opaque": "不透明",
+            "transparent": "透明"
+          }
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP"
+          }
+        },
+        "moderation": {
+          "label": "內容審查",
+          "choiceLabels": {
+            "auto": "自動",
+            "low": "低"
+          }
+        },
+        "n": {
+          "label": "產生數量"
+        },
+        "reference_1": {
+          "label": "參考圖 1"
+        },
+        "reference_2": {
+          "label": "參考圖 2"
+        },
+        "reference_3": {
+          "label": "參考圖 3"
+        },
+        "reference_4": {
+          "label": "參考圖 4"
+        },
+        "reference_5": {
+          "label": "參考圖 5"
+        },
+        "reference_6": {
+          "label": "參考圖 6"
+        },
+        "reference_7": {
+          "label": "參考圖 7"
+        },
+        "reference_8": {
+          "label": "參考圖 8"
+        },
+        "reference_9": {
+          "label": "參考圖 9"
+        },
+        "reference_10": {
+          "label": "參考圖 10"
+        },
+        "reference_11": {
+          "label": "參考圖 11"
+        },
+        "reference_12": {
+          "label": "參考圖 12"
+        },
+        "reference_13": {
+          "label": "參考圖 13"
+        },
+        "reference_14": {
+          "label": "參考圖 14"
+        },
+        "reference_15": {
+          "label": "參考圖 15"
+        },
+        "reference_16": {
+          "label": "參考圖 16"
+        },
+        "reference_sources": {
+          "label": "參考素材網址"
+        },
+        "mask": {
+          "label": "遮罩"
+        },
+        "mask_source": {
+          "label": "遮罩網址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "說明需要修改和保留的內容，最多 32000 個字元。"
+        },
+        "reference_1": {
+          "help": "上傳 JPEG、PNG 或 WebP。先依欄位送出上傳圖片，再附上文字欄位的素材。遮罩套用在第一張圖。"
+        },
+        "quality": {
+          "help": "選擇渲染品質。各級的耗時和費用可能不同。"
+        },
+        "size": {
+          "help": "選擇預設寬高或交由模型決定。"
+        },
+        "custom_size": {
+          "help": "以 寬x高 格式覆寫預設，例如 512x512。每邊為 256 至 3840 且為 16 的倍數，總像素最多 8294400，寬高比為 1:3 至 3:1。"
+        },
+        "background": {
+          "help": "透明背景可用 PNG 或 WebP。"
+        },
+        "output_format": {
+          "help": "選擇 PNG、JPEG 或 WebP。"
+        },
+        "moderation": {
+          "help": "選擇 Atlas 的自動或低強度內容審查。"
+        },
+        "n": {
+          "help": "填寫 1 至 10。"
+        },
+        "reference_2": {
+          "help": "上傳 JPEG、PNG 或 WebP。先依欄位送出上傳圖片，再附上文字欄位的素材。遮罩套用在第一張圖。"
+        },
+        "reference_3": {
+          "help": "上傳 JPEG、PNG 或 WebP。先依欄位送出上傳圖片，再附上文字欄位的素材。遮罩套用在第一張圖。"
+        },
+        "reference_4": {
+          "help": "上傳 JPEG、PNG 或 WebP。先依欄位送出上傳圖片，再附上文字欄位的素材。遮罩套用在第一張圖。"
+        },
+        "reference_5": {
+          "help": "上傳 JPEG、PNG 或 WebP。先依欄位送出上傳圖片，再附上文字欄位的素材。遮罩套用在第一張圖。"
+        },
+        "reference_6": {
+          "help": "上傳 JPEG、PNG 或 WebP。先依欄位送出上傳圖片，再附上文字欄位的素材。遮罩套用在第一張圖。"
+        },
+        "reference_7": {
+          "help": "上傳 JPEG、PNG 或 WebP。先依欄位送出上傳圖片，再附上文字欄位的素材。遮罩套用在第一張圖。"
+        },
+        "reference_8": {
+          "help": "上傳 JPEG、PNG 或 WebP。先依欄位送出上傳圖片，再附上文字欄位的素材。遮罩套用在第一張圖。"
+        },
+        "reference_9": {
+          "help": "上傳 JPEG、PNG 或 WebP。先依欄位送出上傳圖片，再附上文字欄位的素材。遮罩套用在第一張圖。"
+        },
+        "reference_10": {
+          "help": "上傳 JPEG、PNG 或 WebP。先依欄位送出上傳圖片，再附上文字欄位的素材。遮罩套用在第一張圖。"
+        },
+        "reference_11": {
+          "help": "上傳 JPEG、PNG 或 WebP。先依欄位送出上傳圖片，再附上文字欄位的素材。遮罩套用在第一張圖。"
+        },
+        "reference_12": {
+          "help": "上傳 JPEG、PNG 或 WebP。先依欄位送出上傳圖片，再附上文字欄位的素材。遮罩套用在第一張圖。"
+        },
+        "reference_13": {
+          "help": "上傳 JPEG、PNG 或 WebP。先依欄位送出上傳圖片，再附上文字欄位的素材。遮罩套用在第一張圖。"
+        },
+        "reference_14": {
+          "help": "上傳 JPEG、PNG 或 WebP。先依欄位送出上傳圖片，再附上文字欄位的素材。遮罩套用在第一張圖。"
+        },
+        "reference_15": {
+          "help": "上傳 JPEG、PNG 或 WebP。先依欄位送出上傳圖片，再附上文字欄位的素材。遮罩套用在第一張圖。"
+        },
+        "reference_16": {
+          "help": "上傳 JPEG、PNG 或 WebP。先依欄位送出上傳圖片，再附上文字欄位的素材。遮罩套用在第一張圖。"
+        },
+        "reference_sources": {
+          "help": "每列填寫一個公開圖片網址、Base64 data URL 或 Atlas 素材引用 asset://ID。連同上傳圖片共 1 至 16 張。"
+        },
+        "mask": {
+          "help": "使用與首圖同尺寸的透明 PNG。透明像素標記編輯區域，上傳遮罩小於 4 MB。"
+        },
+        "mask_source": {
+          "help": "提供公開圖片網址、Base64 data URL 或 Atlas 素材引用 asset://ID。使用網址時留空對應的上傳欄位。"
+        }
+      }
+    },
+    "en": {
+      "name": "GPT Image 2.5 Flare Image Edit",
+      "description": "Quickly edit up to 16 reference images, with an optional mask targeting the first image.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "quality": {
+          "label": "Rendering quality",
+          "choiceLabels": {
+            "auto": "Auto",
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High",
+            "xhigh": "Extra high",
+            "max": "Maximum"
+          }
+        },
+        "size": {
+          "label": "Image size",
+          "choiceLabels": {
+            "": "API default (1024 × 1024)",
+            "auto": "Auto",
+            "1024x768": "1024 × 768",
+            "768x1024": "768 × 1024",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024",
+            "2048x2048": "2048 × 2048",
+            "2048x1152": "2048 × 1152",
+            "1152x2048": "1152 × 2048",
+            "2560x1088": "2560 × 1088",
+            "1088x2560": "1088 × 2560",
+            "2880x2160": "2880 × 2160",
+            "2160x2880": "2160 × 2880",
+            "3840x2160": "3840 × 2160",
+            "2160x3840": "2160 × 3840"
+          }
+        },
+        "custom_size": {
+          "label": "Custom dimensions"
+        },
+        "background": {
+          "label": "Background",
+          "choiceLabels": {
+            "auto": "Auto",
+            "opaque": "Opaque",
+            "transparent": "Transparent"
+          }
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP"
+          }
+        },
+        "moderation": {
+          "label": "Moderation",
+          "choiceLabels": {
+            "auto": "Auto",
+            "low": "Low"
+          }
+        },
+        "n": {
+          "label": "Output count"
+        },
+        "reference_1": {
+          "label": "Reference image 1"
+        },
+        "reference_2": {
+          "label": "Reference image 2"
+        },
+        "reference_3": {
+          "label": "Reference image 3"
+        },
+        "reference_4": {
+          "label": "Reference image 4"
+        },
+        "reference_5": {
+          "label": "Reference image 5"
+        },
+        "reference_6": {
+          "label": "Reference image 6"
+        },
+        "reference_7": {
+          "label": "Reference image 7"
+        },
+        "reference_8": {
+          "label": "Reference image 8"
+        },
+        "reference_9": {
+          "label": "Reference image 9"
+        },
+        "reference_10": {
+          "label": "Reference image 10"
+        },
+        "reference_11": {
+          "label": "Reference image 11"
+        },
+        "reference_12": {
+          "label": "Reference image 12"
+        },
+        "reference_13": {
+          "label": "Reference image 13"
+        },
+        "reference_14": {
+          "label": "Reference image 14"
+        },
+        "reference_15": {
+          "label": "Reference image 15"
+        },
+        "reference_16": {
+          "label": "Reference image 16"
+        },
+        "reference_sources": {
+          "label": "Reference source URLs"
+        },
+        "mask": {
+          "label": "Mask"
+        },
+        "mask_source": {
+          "label": "Mask URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe what to change and what to keep. Up to 32,000 characters."
+        },
+        "reference_1": {
+          "help": "Upload JPEG, PNG, or WebP. Uploads are sent by slot number before the sources in the text field. The mask applies to the first image."
+        },
+        "quality": {
+          "help": "Choose the rendering quality. Time and cost can vary by tier."
+        },
+        "size": {
+          "help": "Choose a size preset or let the model choose a size."
+        },
+        "custom_size": {
+          "help": "Override the preset with widthxheight, such as 512x512. Each side must be 256 to 3840 and divisible by 16. Maximum area is 8,294,400 pixels, with a 1:3 to 3:1 aspect ratio."
+        },
+        "background": {
+          "help": "Use PNG or WebP for transparent backgrounds."
+        },
+        "output_format": {
+          "help": "Choose PNG, JPEG, or WebP."
+        },
+        "moderation": {
+          "help": "Choose automatic or low content moderation on Atlas."
+        },
+        "n": {
+          "help": "Enter 1 to 10."
+        },
+        "reference_2": {
+          "help": "Upload JPEG, PNG, or WebP. Uploads are sent by slot number before the sources in the text field. The mask applies to the first image."
+        },
+        "reference_3": {
+          "help": "Upload JPEG, PNG, or WebP. Uploads are sent by slot number before the sources in the text field. The mask applies to the first image."
+        },
+        "reference_4": {
+          "help": "Upload JPEG, PNG, or WebP. Uploads are sent by slot number before the sources in the text field. The mask applies to the first image."
+        },
+        "reference_5": {
+          "help": "Upload JPEG, PNG, or WebP. Uploads are sent by slot number before the sources in the text field. The mask applies to the first image."
+        },
+        "reference_6": {
+          "help": "Upload JPEG, PNG, or WebP. Uploads are sent by slot number before the sources in the text field. The mask applies to the first image."
+        },
+        "reference_7": {
+          "help": "Upload JPEG, PNG, or WebP. Uploads are sent by slot number before the sources in the text field. The mask applies to the first image."
+        },
+        "reference_8": {
+          "help": "Upload JPEG, PNG, or WebP. Uploads are sent by slot number before the sources in the text field. The mask applies to the first image."
+        },
+        "reference_9": {
+          "help": "Upload JPEG, PNG, or WebP. Uploads are sent by slot number before the sources in the text field. The mask applies to the first image."
+        },
+        "reference_10": {
+          "help": "Upload JPEG, PNG, or WebP. Uploads are sent by slot number before the sources in the text field. The mask applies to the first image."
+        },
+        "reference_11": {
+          "help": "Upload JPEG, PNG, or WebP. Uploads are sent by slot number before the sources in the text field. The mask applies to the first image."
+        },
+        "reference_12": {
+          "help": "Upload JPEG, PNG, or WebP. Uploads are sent by slot number before the sources in the text field. The mask applies to the first image."
+        },
+        "reference_13": {
+          "help": "Upload JPEG, PNG, or WebP. Uploads are sent by slot number before the sources in the text field. The mask applies to the first image."
+        },
+        "reference_14": {
+          "help": "Upload JPEG, PNG, or WebP. Uploads are sent by slot number before the sources in the text field. The mask applies to the first image."
+        },
+        "reference_15": {
+          "help": "Upload JPEG, PNG, or WebP. Uploads are sent by slot number before the sources in the text field. The mask applies to the first image."
+        },
+        "reference_16": {
+          "help": "Upload JPEG, PNG, or WebP. Uploads are sent by slot number before the sources in the text field. The mask applies to the first image."
+        },
+        "reference_sources": {
+          "help": "Enter one public image URL, Base64 data URL, or Atlas asset reference asset://ID per line. Use 1 to 16 sources including uploads."
+        },
+        "mask": {
+          "help": "Use a transparent PNG matching the first image. Transparent pixels mark the edit area. Mask uploads must be smaller than 4 MB."
+        },
+        "mask_source": {
+          "help": "Enter a public image URL, Base64 data URL, or Atlas asset reference asset://ID. Leave the matching upload field empty."
+        }
+      }
+    },
+    "ja": {
+      "name": "GPT Image 2.5 Flare 画像編集",
+      "description": "指示文で最大 16 枚の参考画像をすばやく編集します。マスクで最初の画像の領域を指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "指示文"
+        },
+        "quality": {
+          "label": "描画品質",
+          "choiceLabels": {
+            "auto": "自動",
+            "low": "低",
+            "medium": "中",
+            "high": "高",
+            "xhigh": "非常に高い",
+            "max": "最大"
+          }
+        },
+        "size": {
+          "label": "画像サイズ",
+          "choiceLabels": {
+            "": "API の既定値（1024 × 1024）",
+            "auto": "自動",
+            "1024x768": "1024 × 768",
+            "768x1024": "768 × 1024",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024",
+            "2048x2048": "2048 × 2048",
+            "2048x1152": "2048 × 1152",
+            "1152x2048": "1152 × 2048",
+            "2560x1088": "2560 × 1088",
+            "1088x2560": "1088 × 2560",
+            "2880x2160": "2880 × 2160",
+            "2160x2880": "2160 × 2880",
+            "3840x2160": "3840 × 2160",
+            "2160x3840": "2160 × 3840"
+          }
+        },
+        "custom_size": {
+          "label": "幅と高さの指定"
+        },
+        "background": {
+          "label": "背景",
+          "choiceLabels": {
+            "auto": "自動",
+            "opaque": "不透明",
+            "transparent": "透過"
+          }
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP"
+          }
+        },
+        "moderation": {
+          "label": "コンテンツ審査",
+          "choiceLabels": {
+            "auto": "自動",
+            "low": "低"
+          }
+        },
+        "n": {
+          "label": "生成数"
+        },
+        "reference_1": {
+          "label": "参考画像 1"
+        },
+        "reference_2": {
+          "label": "参考画像 2"
+        },
+        "reference_3": {
+          "label": "参考画像 3"
+        },
+        "reference_4": {
+          "label": "参考画像 4"
+        },
+        "reference_5": {
+          "label": "参考画像 5"
+        },
+        "reference_6": {
+          "label": "参考画像 6"
+        },
+        "reference_7": {
+          "label": "参考画像 7"
+        },
+        "reference_8": {
+          "label": "参考画像 8"
+        },
+        "reference_9": {
+          "label": "参考画像 9"
+        },
+        "reference_10": {
+          "label": "参考画像 10"
+        },
+        "reference_11": {
+          "label": "参考画像 11"
+        },
+        "reference_12": {
+          "label": "参考画像 12"
+        },
+        "reference_13": {
+          "label": "参考画像 13"
+        },
+        "reference_14": {
+          "label": "参考画像 14"
+        },
+        "reference_15": {
+          "label": "参考画像 15"
+        },
+        "reference_16": {
+          "label": "参考画像 16"
+        },
+        "reference_sources": {
+          "label": "参考素材の URL"
+        },
+        "mask": {
+          "label": "マスク"
+        },
+        "mask_source": {
+          "label": "マスクの URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "変更する内容と保持する内容を記述します。最大 32000 文字です。"
+        },
+        "reference_1": {
+          "help": "JPEG、PNG、WebP をアップロードします。欄の番号順に送ってから、テキスト欄の素材を送ります。マスクは最初の画像に適用されます。"
+        },
+        "quality": {
+          "help": "描画品質を選びます。処理時間と料金は段階によって変わります。"
+        },
+        "size": {
+          "help": "幅と高さのプリセットを選ぶか、モデルに任せます。"
+        },
+        "custom_size": {
+          "help": "512x512 など、幅x高さを入力するとプリセットを上書きします。各辺は 256～3840 で 16 の倍数、総画素数は 8294400 以下、縦横比は 1:3～3:1 です。"
+        },
+        "background": {
+          "help": "透過背景には PNG または WebP を使用します。"
+        },
+        "output_format": {
+          "help": "PNG、JPEG、WebP から選びます。"
+        },
+        "moderation": {
+          "help": "Atlas のコンテンツ審査を自動または低から選びます。"
+        },
+        "n": {
+          "help": "1～10 を指定します。"
+        },
+        "reference_2": {
+          "help": "JPEG、PNG、WebP をアップロードします。欄の番号順に送ってから、テキスト欄の素材を送ります。マスクは最初の画像に適用されます。"
+        },
+        "reference_3": {
+          "help": "JPEG、PNG、WebP をアップロードします。欄の番号順に送ってから、テキスト欄の素材を送ります。マスクは最初の画像に適用されます。"
+        },
+        "reference_4": {
+          "help": "JPEG、PNG、WebP をアップロードします。欄の番号順に送ってから、テキスト欄の素材を送ります。マスクは最初の画像に適用されます。"
+        },
+        "reference_5": {
+          "help": "JPEG、PNG、WebP をアップロードします。欄の番号順に送ってから、テキスト欄の素材を送ります。マスクは最初の画像に適用されます。"
+        },
+        "reference_6": {
+          "help": "JPEG、PNG、WebP をアップロードします。欄の番号順に送ってから、テキスト欄の素材を送ります。マスクは最初の画像に適用されます。"
+        },
+        "reference_7": {
+          "help": "JPEG、PNG、WebP をアップロードします。欄の番号順に送ってから、テキスト欄の素材を送ります。マスクは最初の画像に適用されます。"
+        },
+        "reference_8": {
+          "help": "JPEG、PNG、WebP をアップロードします。欄の番号順に送ってから、テキスト欄の素材を送ります。マスクは最初の画像に適用されます。"
+        },
+        "reference_9": {
+          "help": "JPEG、PNG、WebP をアップロードします。欄の番号順に送ってから、テキスト欄の素材を送ります。マスクは最初の画像に適用されます。"
+        },
+        "reference_10": {
+          "help": "JPEG、PNG、WebP をアップロードします。欄の番号順に送ってから、テキスト欄の素材を送ります。マスクは最初の画像に適用されます。"
+        },
+        "reference_11": {
+          "help": "JPEG、PNG、WebP をアップロードします。欄の番号順に送ってから、テキスト欄の素材を送ります。マスクは最初の画像に適用されます。"
+        },
+        "reference_12": {
+          "help": "JPEG、PNG、WebP をアップロードします。欄の番号順に送ってから、テキスト欄の素材を送ります。マスクは最初の画像に適用されます。"
+        },
+        "reference_13": {
+          "help": "JPEG、PNG、WebP をアップロードします。欄の番号順に送ってから、テキスト欄の素材を送ります。マスクは最初の画像に適用されます。"
+        },
+        "reference_14": {
+          "help": "JPEG、PNG、WebP をアップロードします。欄の番号順に送ってから、テキスト欄の素材を送ります。マスクは最初の画像に適用されます。"
+        },
+        "reference_15": {
+          "help": "JPEG、PNG、WebP をアップロードします。欄の番号順に送ってから、テキスト欄の素材を送ります。マスクは最初の画像に適用されます。"
+        },
+        "reference_16": {
+          "help": "JPEG、PNG、WebP をアップロードします。欄の番号順に送ってから、テキスト欄の素材を送ります。マスクは最初の画像に適用されます。"
+        },
+        "reference_sources": {
+          "help": "公開画像 URL、Base64 データ URL、または Atlas の素材参照 asset://ID を 1 行に 1 件入力します。アップロード画像と合わせて 1～16 枚です。"
+        },
+        "mask": {
+          "help": "最初の画像と同じサイズの透過 PNG を使用します。透過画素が編集範囲です。アップロードは 4 MB 未満です。"
+        },
+        "mask_source": {
+          "help": "公開画像 URL、Base64 データ URL、または Atlas の素材参照 asset://ID を指定します。対応するアップロード欄は空にします。"
+        }
+      }
+    },
+    "ko": {
+      "name": "GPT Image 2.5 Flare 이미지 편집",
+      "description": "프롬프트로 참고 이미지 최대 16장을 빠르게 편집합니다. 마스크로 첫 이미지의 영역을 지정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "quality": {
+          "label": "렌더링 품질",
+          "choiceLabels": {
+            "auto": "자동",
+            "low": "낮음",
+            "medium": "중간",
+            "high": "높음",
+            "xhigh": "매우 높음",
+            "max": "최대"
+          }
+        },
+        "size": {
+          "label": "이미지 크기",
+          "choiceLabels": {
+            "": "API 기본값 (1024 × 1024)",
+            "auto": "자동",
+            "1024x768": "1024 × 768",
+            "768x1024": "768 × 1024",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024",
+            "2048x2048": "2048 × 2048",
+            "2048x1152": "2048 × 1152",
+            "1152x2048": "1152 × 2048",
+            "2560x1088": "2560 × 1088",
+            "1088x2560": "1088 × 2560",
+            "2880x2160": "2880 × 2160",
+            "2160x2880": "2160 × 2880",
+            "3840x2160": "3840 × 2160",
+            "2160x3840": "2160 × 3840"
+          }
+        },
+        "custom_size": {
+          "label": "사용자 지정 크기"
+        },
+        "background": {
+          "label": "배경",
+          "choiceLabels": {
+            "auto": "자동",
+            "opaque": "불투명",
+            "transparent": "투명"
+          }
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP"
+          }
+        },
+        "moderation": {
+          "label": "콘텐츠 검토",
+          "choiceLabels": {
+            "auto": "자동",
+            "low": "낮음"
+          }
+        },
+        "n": {
+          "label": "생성 수"
+        },
+        "reference_1": {
+          "label": "참고 이미지 1"
+        },
+        "reference_2": {
+          "label": "참고 이미지 2"
+        },
+        "reference_3": {
+          "label": "참고 이미지 3"
+        },
+        "reference_4": {
+          "label": "참고 이미지 4"
+        },
+        "reference_5": {
+          "label": "참고 이미지 5"
+        },
+        "reference_6": {
+          "label": "참고 이미지 6"
+        },
+        "reference_7": {
+          "label": "참고 이미지 7"
+        },
+        "reference_8": {
+          "label": "참고 이미지 8"
+        },
+        "reference_9": {
+          "label": "참고 이미지 9"
+        },
+        "reference_10": {
+          "label": "참고 이미지 10"
+        },
+        "reference_11": {
+          "label": "참고 이미지 11"
+        },
+        "reference_12": {
+          "label": "참고 이미지 12"
+        },
+        "reference_13": {
+          "label": "참고 이미지 13"
+        },
+        "reference_14": {
+          "label": "참고 이미지 14"
+        },
+        "reference_15": {
+          "label": "참고 이미지 15"
+        },
+        "reference_16": {
+          "label": "참고 이미지 16"
+        },
+        "reference_sources": {
+          "label": "참고 소재 주소"
+        },
+        "mask": {
+          "label": "마스크"
+        },
+        "mask_source": {
+          "label": "마스크 주소"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "바꿀 내용과 유지할 내용을 설명하세요. 최대 32000자입니다."
+        },
+        "reference_1": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 번호 순으로 업로드한 뒤 텍스트 필드의 소재를 보냅니다. 마스크는 첫 이미지에 적용됩니다."
+        },
+        "quality": {
+          "help": "렌더링 품질을 고르세요. 처리 시간과 요금은 등급별로 달라질 수 있습니다."
+        },
+        "size": {
+          "help": "너비와 높이 프리셋을 고르거나 모델이 결정하도록 하세요."
+        },
+        "custom_size": {
+          "help": "512x512처럼 너비x높이를 입력해 프리셋을 덮어씁니다. 각 변은 256~3840의 16배수, 총 8294400픽셀 이하, 가로세로 비율은 1:3~3:1입니다."
+        },
+        "background": {
+          "help": "투명 배경은 PNG 또는 WebP를 사용하세요."
+        },
+        "output_format": {
+          "help": "PNG, JPEG 또는 WebP를 선택하세요."
+        },
+        "moderation": {
+          "help": "Atlas의 콘텐츠 검토 강도를 자동 또는 낮음으로 선택합니다."
+        },
+        "n": {
+          "help": "1~10을 입력하세요."
+        },
+        "reference_2": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 번호 순으로 업로드한 뒤 텍스트 필드의 소재를 보냅니다. 마스크는 첫 이미지에 적용됩니다."
+        },
+        "reference_3": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 번호 순으로 업로드한 뒤 텍스트 필드의 소재를 보냅니다. 마스크는 첫 이미지에 적용됩니다."
+        },
+        "reference_4": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 번호 순으로 업로드한 뒤 텍스트 필드의 소재를 보냅니다. 마스크는 첫 이미지에 적용됩니다."
+        },
+        "reference_5": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 번호 순으로 업로드한 뒤 텍스트 필드의 소재를 보냅니다. 마스크는 첫 이미지에 적용됩니다."
+        },
+        "reference_6": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 번호 순으로 업로드한 뒤 텍스트 필드의 소재를 보냅니다. 마스크는 첫 이미지에 적용됩니다."
+        },
+        "reference_7": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 번호 순으로 업로드한 뒤 텍스트 필드의 소재를 보냅니다. 마스크는 첫 이미지에 적용됩니다."
+        },
+        "reference_8": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 번호 순으로 업로드한 뒤 텍스트 필드의 소재를 보냅니다. 마스크는 첫 이미지에 적용됩니다."
+        },
+        "reference_9": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 번호 순으로 업로드한 뒤 텍스트 필드의 소재를 보냅니다. 마스크는 첫 이미지에 적용됩니다."
+        },
+        "reference_10": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 번호 순으로 업로드한 뒤 텍스트 필드의 소재를 보냅니다. 마스크는 첫 이미지에 적용됩니다."
+        },
+        "reference_11": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 번호 순으로 업로드한 뒤 텍스트 필드의 소재를 보냅니다. 마스크는 첫 이미지에 적용됩니다."
+        },
+        "reference_12": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 번호 순으로 업로드한 뒤 텍스트 필드의 소재를 보냅니다. 마스크는 첫 이미지에 적용됩니다."
+        },
+        "reference_13": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 번호 순으로 업로드한 뒤 텍스트 필드의 소재를 보냅니다. 마스크는 첫 이미지에 적용됩니다."
+        },
+        "reference_14": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 번호 순으로 업로드한 뒤 텍스트 필드의 소재를 보냅니다. 마스크는 첫 이미지에 적용됩니다."
+        },
+        "reference_15": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 번호 순으로 업로드한 뒤 텍스트 필드의 소재를 보냅니다. 마스크는 첫 이미지에 적용됩니다."
+        },
+        "reference_16": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 번호 순으로 업로드한 뒤 텍스트 필드의 소재를 보냅니다. 마스크는 첫 이미지에 적용됩니다."
+        },
+        "reference_sources": {
+          "help": "공개 이미지 URL, Base64 데이터 URL 또는 Atlas 소재 참조 asset://ID를 줄마다 하나씩 입력하세요. 업로드를 포함해 1~16장입니다."
+        },
+        "mask": {
+          "help": "첫 이미지와 같은 크기의 투명 PNG를 사용하세요. 투명 픽셀이 편집 영역입니다. 업로드하는 마스크는 4 MB 미만이어야 합니다."
+        },
+        "mask_source": {
+          "help": "공개 이미지 URL, Base64 데이터 URL 또는 Atlas 소재 참조 asset://ID를 입력하세요. 해당 업로드 슬롯은 비워 두세요."
+        }
+      }
+    }
+  }
+}

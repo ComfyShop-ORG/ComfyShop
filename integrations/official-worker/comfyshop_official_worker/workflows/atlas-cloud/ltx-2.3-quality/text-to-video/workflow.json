@@ -1,0 +1,326 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-ltx23q-text",
+  "name": "LTX 2.3 Quality 文生视频",
+  "description": "根据提示词生成视频，可指定帧数、画面尺寸并生成配套音频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "",
+      "maxLength": 2000
+    },
+    {
+      "name": "num_frames",
+      "kind": "integer",
+      "minimum": "25",
+      "maximum": "257",
+      "step": "8",
+      "optional": true,
+      "default": 121
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": [
+        "square_hd",
+        "square",
+        "portrait_3_4",
+        "portrait_9_16",
+        "landscape_4_3",
+        "landscape_16_9"
+      ],
+      "optional": true,
+      "default": "landscape_16_9"
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "minimum": "0",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "num_frames",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "ltx-2.3-quality/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "num_frames": "num_frames",
+        "resolution": "resolution",
+        "generate_audio": "generate_audio",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 2000
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "LTX 2.3 Quality 文生视频",
+      "description": "根据提示词生成视频，可指定帧数、画面尺寸并生成配套音频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "num_frames": {
+          "label": "帧数"
+        },
+        "resolution": {
+          "label": "画面尺寸",
+          "choiceLabels": {
+            "square_hd": "高清方形（1024×1024）",
+            "square": "方形（512×512）",
+            "portrait_3_4": "竖向 3:4",
+            "portrait_9_16": "竖向 9:16",
+            "landscape_4_3": "横向 4:3",
+            "landscape_16_9": "横向 16:9"
+          }
+        },
+        "generate_audio": {
+          "label": "生成同步音频"
+        },
+        "seed": {
+          "label": "随机种子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、动作、场景和镜头运动，最多 2,000 字符。"
+        },
+        "num_frames": {
+          "help": "25 至 257 帧，每次增加 8 帧，默认 121 帧。"
+        },
+        "resolution": {
+          "help": "选择方形、竖向或横向预设。"
+        },
+        "generate_audio": {
+          "help": "为视频生成配套音频。"
+        },
+        "seed": {
+          "help": "填写非负整数以复用生成条件，留空时由 Atlas 选取。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "LTX 2.3 Quality 文生影片",
+      "description": "依提示詞生成影片，可指定影格數、畫面尺寸並生成配套音訊。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "num_frames": {
+          "label": "影格數"
+        },
+        "resolution": {
+          "label": "畫面尺寸",
+          "choiceLabels": {
+            "square_hd": "高畫質方形（1024×1024）",
+            "square": "方形（512×512）",
+            "portrait_3_4": "直向 3:4",
+            "portrait_9_16": "直向 9:16",
+            "landscape_4_3": "橫向 4:3",
+            "landscape_16_9": "橫向 16:9"
+          }
+        },
+        "generate_audio": {
+          "label": "生成同步音訊"
+        },
+        "seed": {
+          "label": "隨機種子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、動作、場景與鏡頭運動，最多 2,000 個字元。"
+        },
+        "num_frames": {
+          "help": "25 至 257 個影格，每次增加 8 個，預設 121。"
+        },
+        "resolution": {
+          "help": "選擇方形、直向或橫向預設。"
+        },
+        "generate_audio": {
+          "help": "為影片生成配套音訊。"
+        },
+        "seed": {
+          "help": "填寫非負整數以重複使用生成條件，留空時由 Atlas 選取。"
+        }
+      }
+    },
+    "en": {
+      "name": "LTX 2.3 Quality Text-to-Video",
+      "description": "Generate video from a text prompt with frame count and size presets and optional synchronized audio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "num_frames": {
+          "label": "Frame count"
+        },
+        "resolution": {
+          "label": "Frame size",
+          "choiceLabels": {
+            "square_hd": "HD square (1024×1024)",
+            "square": "Square (512×512)",
+            "portrait_3_4": "Portrait 3:4",
+            "portrait_9_16": "Portrait 9:16",
+            "landscape_4_3": "Landscape 4:3",
+            "landscape_16_9": "Landscape 16:9"
+          }
+        },
+        "generate_audio": {
+          "label": "Generate synchronized audio"
+        },
+        "seed": {
+          "label": "Seed"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, action, scene, and camera movement in up to 2,000 characters."
+        },
+        "num_frames": {
+          "help": "Choose 25 to 257 frames in steps of 8. The default is 121."
+        },
+        "resolution": {
+          "help": "Choose a square, portrait, or landscape preset."
+        },
+        "generate_audio": {
+          "help": "Create audio to accompany the video."
+        },
+        "seed": {
+          "help": "Provide a nonnegative integer to reuse the seed. Leave blank for Atlas to choose."
+        }
+      }
+    },
+    "ja": {
+      "name": "LTX 2.3 Quality テキストから動画",
+      "description": "プロンプトから動画を生成します。フレーム数、画面サイズ、同期音声を指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "num_frames": {
+          "label": "フレーム数"
+        },
+        "resolution": {
+          "label": "画面サイズ",
+          "choiceLabels": {
+            "square_hd": "HD 正方形（1024×1024）",
+            "square": "正方形（512×512）",
+            "portrait_3_4": "縦向き 3:4",
+            "portrait_9_16": "縦向き 9:16",
+            "landscape_4_3": "横向き 4:3",
+            "landscape_16_9": "横向き 16:9"
+          }
+        },
+        "generate_audio": {
+          "label": "同期音声を生成"
+        },
+        "seed": {
+          "label": "シード"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、動き、場面、カメラワークを 2,000 文字以内で記述します。"
+        },
+        "num_frames": {
+          "help": "25〜257 フレームを 8 刻みで選びます。既定値は 121 です。"
+        },
+        "resolution": {
+          "help": "正方形、縦向き、横向きのプリセットを選びます。"
+        },
+        "generate_audio": {
+          "help": "動画に合った音声を生成します。"
+        },
+        "seed": {
+          "help": "同じシードを使うには 0 以上の整数を指定します。空欄の場合は Atlas が選びます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "LTX 2.3 Quality 텍스트로 동영상 생성",
+      "description": "프롬프트로 동영상을 생성합니다. 프레임 수와 화면 크기를 정하고 동기화 오디오를 추가할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "num_frames": {
+          "label": "프레임 수"
+        },
+        "resolution": {
+          "label": "화면 크기",
+          "choiceLabels": {
+            "square_hd": "HD 정사각형(1024×1024)",
+            "square": "정사각형(512×512)",
+            "portrait_3_4": "세로형 3:4",
+            "portrait_9_16": "세로형 9:16",
+            "landscape_4_3": "가로형 4:3",
+            "landscape_16_9": "가로형 16:9"
+          }
+        },
+        "generate_audio": {
+          "label": "동기화 오디오 생성"
+        },
+        "seed": {
+          "label": "시드"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 움직임, 장면과 카메라 움직임을 최대 2,000자로 설명하세요."
+        },
+        "num_frames": {
+          "help": "25~257 사이에서 8씩 조절합니다. 기본값은 121입니다."
+        },
+        "resolution": {
+          "help": "정사각형, 세로형 또는 가로형 프리셋을 선택하세요."
+        },
+        "generate_audio": {
+          "help": "동영상에 어울리는 오디오를 생성합니다."
+        },
+        "seed": {
+          "help": "같은 시드를 재사용하려면 0 이상의 정수를 입력하세요. 비워 두면 Atlas가 선택합니다."
+        }
+      }
+    }
+  }
+}

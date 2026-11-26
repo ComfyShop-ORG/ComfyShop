@@ -1,0 +1,43 @@
+.asset-input-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.asset-library-tools {
+  display: grid;
+  grid-template-columns: minmax(0, var(--size-search-field));
+  justify-content: start;
+  align-items: stretch;
+}
+.asset-library-tools:has(> .ui-select-trigger) {
+  grid-template-columns: minmax(0, var(--size-search-field)) auto;
+}
+.asset-library-tools:has(> .ui-file) {
+  grid-template-columns: minmax(0, var(--size-search-field)) auto minmax(max-content, 1fr);
+}
+.asset-library-tools > .ui-file {
+  justify-self: end;
+}
+@media (max-width: 700px) {
+  .asset-library-tools:has(> .ui-file) {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+}
+@media (max-width: 420px) {
+  .asset-library-tools:has(> .ui-file) {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .asset-library-tools:has(> .ui-file) > .ui-search-field {
+    grid-column: 1 / -1;
+  }
+  .asset-library-tools > .ui-select-trigger {
+    justify-self: start;
+  }
+}
+.asset-library-preview {
+  display: grid;
+  justify-items: center;
+  align-content: safe center;
+  background: var(--color-canvas);
+}

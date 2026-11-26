@@ -1,0 +1,562 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-google-nano-banana-text-to-image",
+  "name": "Nano Banana 文生图",
+  "description": "从文字生成图片，可选择宽高比和输出格式。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "optional": true,
+      "default": "",
+      "choices": ["", "1:1", "3:2", "2:3", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "21:9"]
+    },
+    {
+      "name": "top_p",
+      "kind": "number",
+      "optional": true,
+      "default": 0.95,
+      "minimum": "0",
+      "maximum": "1"
+    },
+    {
+      "name": "temperature",
+      "kind": "number",
+      "optional": true,
+      "default": 1,
+      "minimum": "0",
+      "maximum": "1"
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true,
+      "default": -1
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "media_resolution",
+      "kind": "choice",
+      "optional": true,
+      "default": "default",
+      "choices": ["default", "low", "medium", "high"]
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "default": "default",
+      "choices": ["default", "png", "jpeg"]
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "top_p",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "temperature",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "media_resolution",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "operation": "image",
+      "model": "google/nano-banana/text-to-image",
+      "parameters": {
+        "prompt": "prompt",
+        "aspect_ratio": "aspect_ratio",
+        "top_p": "top_p",
+        "temperature": "temperature",
+        "seed": "seed",
+        "enable_sync_mode": "enable_sync_mode",
+        "enable_base64_output": "enable_base64_output",
+        "media_resolution": "media_resolution",
+        "output_format": "output_format"
+      },
+      "required_text": ["prompt"],
+      "omit_blank_parameters": ["aspect_ratio"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Nano Banana 文生图",
+      "description": "从文字生成图片，可选择宽高比和输出格式。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "": "模型默认",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9"
+          }
+        },
+        "top_p": {
+          "label": "Top-p"
+        },
+        "temperature": {
+          "label": "温度"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "media_resolution": {
+          "label": "素材处理分辨率",
+          "choiceLabels": {
+            "default": "模型默认",
+            "low": "低",
+            "medium": "中等",
+            "high": "高"
+          }
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "default": "模型默认",
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、场景、构图和风格。需要准确绘制的文字请放在引号里。"
+        },
+        "aspect_ratio": {
+          "help": "选择预设比例，或留给模型决定。"
+        },
+        "output_format": {
+          "help": "选择模型默认、PNG 或 JPEG。"
+        },
+        "top_p": {
+          "help": "采样的累计概率阈值，范围为 0 至 1。"
+        },
+        "temperature": {
+          "help": "创意采样强度，范围为 0 至 1。默认 1。"
+        },
+        "seed": {
+          "help": "填 -1 时随机，也可填整数帮助复现。"
+        },
+        "enable_sync_mode": {
+          "help": "等待 Atlas 完成后在提交响应中取结果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 返回图片。工作机解码后保存图片原件。"
+        },
+        "media_resolution": {
+          "help": "控制模型处理素材时保留的细节。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Nano Banana 文生圖",
+      "description": "從文字產生圖片，可選擇長寬比與輸出格式。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "": "模型預設",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9"
+          }
+        },
+        "top_p": {
+          "label": "Top-p"
+        },
+        "temperature": {
+          "label": "溫度"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "enable_sync_mode": {
+          "label": "同步回傳"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "media_resolution": {
+          "label": "素材處理解析度",
+          "choiceLabels": {
+            "default": "模型預設",
+            "low": "低",
+            "medium": "中等",
+            "high": "高"
+          }
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "default": "模型預設",
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、場景、構圖和風格。需要精確繪製的文字請放在引號內。"
+        },
+        "aspect_ratio": {
+          "help": "選擇預設比例，或交由模型決定。"
+        },
+        "output_format": {
+          "help": "選擇模型預設、PNG 或 JPEG。"
+        },
+        "top_p": {
+          "help": "取樣的累積機率門檻，範圍為 0 至 1。"
+        },
+        "temperature": {
+          "help": "創意取樣強度，範圍為 0 至 1。預設 1。"
+        },
+        "seed": {
+          "help": "輸入 -1 會使用隨機種子，也可輸入整數以便重現。"
+        },
+        "enable_sync_mode": {
+          "help": "等 Atlas 完成後，從提交回應取得結果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 回傳圖片。工作機解碼後儲存圖片原始檔案。"
+        },
+        "media_resolution": {
+          "help": "控制模型處理素材時保留的細節。"
+        }
+      }
+    },
+    "en": {
+      "name": "Nano Banana Text to Image",
+      "description": "Generate images from a text prompt and choose the aspect ratio and format.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "": "Model default",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9"
+          }
+        },
+        "top_p": {
+          "label": "Top-p"
+        },
+        "temperature": {
+          "label": "Temperature"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "enable_sync_mode": {
+          "label": "Wait for result"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "media_resolution": {
+          "label": "Input media resolution",
+          "choiceLabels": {
+            "default": "Model default",
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High"
+          }
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "default": "Model default",
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, scene, composition, and style. Put any exact text to render in quotation marks."
+        },
+        "aspect_ratio": {
+          "help": "Choose a preset ratio or let the model decide."
+        },
+        "output_format": {
+          "help": "Choose the model default, PNG, or JPEG."
+        },
+        "top_p": {
+          "help": "The cumulative sampling probability threshold, from 0 to 1."
+        },
+        "temperature": {
+          "help": "Controls sampling variation, from 0 to 1. The default is 1."
+        },
+        "seed": {
+          "help": "Use -1 for a random seed. Set an integer for more repeatable results."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for Atlas to return a finished result in the submit response."
+        },
+        "enable_base64_output": {
+          "help": "Request a Base64 response. The work machine decodes it and stores the original image."
+        },
+        "media_resolution": {
+          "help": "Controls how much detail the model keeps when processing media."
+        }
+      }
+    },
+    "ja": {
+      "name": "Nano Banana テキストから画像",
+      "description": "テキストから画像を生成し、比率と出力形式を選べます。",
+      "fields": {
+        "prompt": {
+          "label": "指示文"
+        },
+        "aspect_ratio": {
+          "label": "縦横比",
+          "choiceLabels": {
+            "": "モデルの既定値",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9"
+          }
+        },
+        "top_p": {
+          "label": "Top-p"
+        },
+        "temperature": {
+          "label": "温度"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        },
+        "media_resolution": {
+          "label": "素材の処理解像度",
+          "choiceLabels": {
+            "default": "モデルの既定値",
+            "low": "低",
+            "medium": "中",
+            "high": "高"
+          }
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "default": "モデルの既定値",
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、構図、スタイルを記述します。正確に描画する文字は引用符で囲みます。"
+        },
+        "aspect_ratio": {
+          "help": "縦横比のプリセットを選ぶか、モデルに任せます。"
+        },
+        "output_format": {
+          "help": "モデルの既定値、PNG、JPEG から選びます。"
+        },
+        "top_p": {
+          "help": "サンプリングの累積確率のしきい値です。0～1 を指定します。"
+        },
+        "temperature": {
+          "help": "サンプリングの変化を 0～1 の範囲で指定します。既定値は 1 です。"
+        },
+        "seed": {
+          "help": "-1 でランダムなシードを使います。再現性を高める場合は整数を指定します。"
+        },
+        "enable_sync_mode": {
+          "help": "Atlas の完了を待ち、送信時の応答で結果を取得します。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas に Base64 での返却を求めます。ワーカーが復号して元の画像を保存します。"
+        },
+        "media_resolution": {
+          "help": "モデルが素材を処理する際に保持する細部の量を調整します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Nano Banana 텍스트로 이미지 생성",
+      "description": "텍스트로 이미지를 생성하고 화면 비율과 출력 형식을 선택합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "가로세로 비율",
+          "choiceLabels": {
+            "": "모델 기본값",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9"
+          }
+        },
+        "top_p": {
+          "label": "Top-p"
+        },
+        "temperature": {
+          "label": "온도"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "enable_sync_mode": {
+          "label": "결과 기다리기"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        },
+        "media_resolution": {
+          "label": "소재 처리 해상도",
+          "choiceLabels": {
+            "default": "모델 기본값",
+            "low": "낮음",
+            "medium": "중간",
+            "high": "높음"
+          }
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "default": "모델 기본값",
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 장면, 구도와 스타일을 설명하세요. 정확하게 그릴 문구는 따옴표로 묶으세요."
+        },
+        "aspect_ratio": {
+          "help": "가로세로 비율 프리셋을 고르거나 모델이 정하도록 하세요."
+        },
+        "output_format": {
+          "help": "모델 기본값, PNG 또는 JPEG를 선택하세요."
+        },
+        "top_p": {
+          "help": "샘플링 누적 확률의 임곗값이며 범위는 0~1입니다."
+        },
+        "temperature": {
+          "help": "샘플링의 변화 정도입니다. 0~1을 입력하며 기본값은 1입니다."
+        },
+        "seed": {
+          "help": "-1은 무작위 시드를 사용합니다. 재현성을 높이려면 정수를 입력하세요."
+        },
+        "enable_sync_mode": {
+          "help": "Atlas 생성이 완료되면 제출 응답에서 결과를 받습니다."
+        },
+        "enable_base64_output": {
+          "help": "Atlas에 Base64 결과를 요청합니다. 작업 머신에서 디코딩해 이미지 원본을 저장합니다."
+        },
+        "media_resolution": {
+          "help": "모델이 소재를 처리할 때 보존하는 세부 사항의 양을 조정합니다."
+        }
+      }
+    }
+  }
+}

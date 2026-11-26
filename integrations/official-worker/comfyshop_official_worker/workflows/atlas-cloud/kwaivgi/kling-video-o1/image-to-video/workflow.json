@@ -1,0 +1,322 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kwaivgi-kling-video-o1-image-to-video",
+  "name": "可灵 O1 图生视频",
+  "description": "用起始图生成 5 或 10 秒的 1080p 视频，可指定结束帧。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "optional": false
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 5,
+      "optional": true,
+      "choices": [5, 10]
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "kwaivgi/kling-video-o1/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration"
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "external_urls_only": true,
+          "min_items": 1
+        },
+        "last_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "external_sources_field": "last_frame_source",
+          "external_urls_only": true
+        }
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 O1 图生视频",
+      "description": "用起始图生成 5 或 10 秒的 1080p 视频，可指定结束帧。",
+      "fields": {
+        "first_frame": {
+          "label": "起始图"
+        },
+        "last_frame": {
+          "label": "结束图"
+        },
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "first_frame_source": {
+          "label": "起始图 URL"
+        },
+        "last_frame_source": {
+          "label": "结束图 URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传用来起始视频的图片，也可填写公开图片 URL。"
+        },
+        "last_frame": {
+          "help": "可添加视频最后一帧的图片，引导画面过渡。"
+        },
+        "prompt": {
+          "help": "描述主体动作、场景变化和镜头。"
+        },
+        "duration": {
+          "help": "选择 5 或 10 秒。默认 5 秒。"
+        },
+        "first_frame_source": {
+          "help": "填写一个可公开访问的起始图 URL，替代上传。"
+        },
+        "last_frame_source": {
+          "help": "填写一个可公开访问的结束图 URL，替代上传。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 O1 圖生影片",
+      "description": "用起始圖生成 5 或 10 秒的 1080p 影片，可指定結束影格。",
+      "fields": {
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "last_frame": {
+          "label": "結束圖"
+        },
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "first_frame_source": {
+          "label": "起始圖 URL"
+        },
+        "last_frame_source": {
+          "label": "結束圖 URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳影片的起始圖片，或填寫公開圖片 URL。"
+        },
+        "last_frame": {
+          "help": "可加入影片最後一幀的圖片，引導畫面轉場。"
+        },
+        "prompt": {
+          "help": "描述主體動作、場景變化和運鏡。"
+        },
+        "duration": {
+          "help": "選擇 5 或 10 秒。預設 5 秒。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個可公開存取的起始圖 URL，替代上傳。"
+        },
+        "last_frame_source": {
+          "help": "填寫一個可公開存取的結束圖 URL，替代上傳。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling O1 Image to Video",
+      "description": "Animate an opening image in a 5- or 10-second 1080p video with an optional closing frame.",
+      "fields": {
+        "first_frame": {
+          "label": "Opening image"
+        },
+        "last_frame": {
+          "label": "Closing image"
+        },
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "first_frame_source": {
+          "label": "Opening image URL"
+        },
+        "last_frame_source": {
+          "label": "Closing image URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload the opening image or enter its public URL."
+        },
+        "last_frame": {
+          "help": "Optionally upload a closing image to guide the transition."
+        },
+        "prompt": {
+          "help": "Describe the subject's movement, scene changes, and camera direction."
+        },
+        "duration": {
+          "help": "Choose 5 or 10 seconds. The default is 5."
+        },
+        "first_frame_source": {
+          "help": "Enter one public opening image URL in place of an upload."
+        },
+        "last_frame_source": {
+          "help": "Enter one public closing image URL in place of an upload."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling O1 画像から動画生成",
+      "description": "開始画像から 5 秒または 10 秒の 1080p 動画を生成します。終了フレームも指定できます。",
+      "fields": {
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "last_frame": {
+          "label": "終了画像"
+        },
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "first_frame_source": {
+          "label": "開始画像の URL"
+        },
+        "last_frame_source": {
+          "label": "終了画像の URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "開始画像をアップロードするか、公開 URL を入力します。"
+        },
+        "last_frame": {
+          "help": "遷移を指定する終了画像をアップロードできます。"
+        },
+        "prompt": {
+          "help": "被写体の動き、場面の変化、カメラワークを記述します。"
+        },
+        "duration": {
+          "help": "5 秒または 10 秒を選択します。既定は 5 秒です。"
+        },
+        "first_frame_source": {
+          "help": "アップロードの代わりに、公開された開始画像の URL を一つ入力します。"
+        },
+        "last_frame_source": {
+          "help": "アップロードの代わりに、公開された終了画像の URL を一つ入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling O1 이미지 동영상 생성",
+      "description": "시작 이미지에서 5초 또는 10초의 1080p 동영상을 만듭니다. 끝 이미지를 지정할 수 있습니다.",
+      "fields": {
+        "first_frame": {
+          "label": "시작 이미지"
+        },
+        "last_frame": {
+          "label": "끝 이미지"
+        },
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "first_frame_source": {
+          "label": "시작 이미지 URL"
+        },
+        "last_frame_source": {
+          "label": "끝 이미지 URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "시작 이미지를 업로드하거나 공개 URL을 입력하세요."
+        },
+        "last_frame": {
+          "help": "장면 전환을 위한 끝 이미지를 선택할 수 있습니다."
+        },
+        "prompt": {
+          "help": "피사체의 움직임, 장면 변화, 카메라 구도를 설명하세요."
+        },
+        "duration": {
+          "help": "5초 또는 10초를 선택하세요. 기본값은 5초입니다."
+        },
+        "first_frame_source": {
+          "help": "업로드 대신 공개된 시작 이미지 URL을 하나 입력하세요."
+        },
+        "last_frame_source": {
+          "help": "업로드 대신 공개된 끝 이미지 URL을 하나 입력하세요."
+        }
+      }
+    }
+  }
+}

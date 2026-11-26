@@ -1,0 +1,286 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-veed-fast",
+  "name": "VEED Fabric 1.0 Fast 图生视频",
+  "description": "用一张图片和一段音频生成视频，支持 480p 和 720p。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "driving_audio",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["480p", "720p"],
+      "default": "720p"
+    },
+    {
+      "name": "image_source",
+      "kind": "string",
+      "multiline": true,
+      "maxLength": 4194304,
+      "optional": true,
+      "default": ""
+    },
+    {
+      "name": "audio_source",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "driving_audio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "image_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "veed/fabric-1.0/fast/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "resolution": "resolution"
+      },
+      "prediction_endpoint": "result",
+      "request_max_bytes": 20000000,
+      "media": {
+        "image_url": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "min_items": 1,
+          "external_sources_field": "image_source",
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "allow_raw_base64": true
+        },
+        "audio_url": {
+          "kind": "audio",
+          "fields": ["driving_audio"],
+          "min_items": 1,
+          "external_sources_field": "audio_source",
+          "external_urls_only": true,
+          "min_duration_ms": 1000,
+          "max_duration_ms": 300000
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "VEED Fabric 1.0 Fast 图生视频",
+      "description": "用一张图片和一段音频生成视频，支持 480p 和 720p。",
+      "fields": {
+        "first_frame": {
+          "label": "首帧图片"
+        },
+        "driving_audio": {
+          "label": "驱动音频"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "image_source": {
+          "label": "首帧图片来源"
+        },
+        "audio_source": {
+          "label": "驱动音频来源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传作为起始画面的 JPEG、PNG 或 WebP 图片。"
+        },
+        "driving_audio": {
+          "help": "提供 1 至 300 秒的音频，以驱动口型和动作。"
+        },
+        "resolution": {
+          "help": "选择 480p 或 720p，默认 720p。"
+        },
+        "image_source": {
+          "help": "填写公开图片地址、Base64 数据 URI 或原始 Base64，或上传首帧图片。"
+        },
+        "audio_source": {
+          "help": "填写可公开访问的 HTTP(S) 音频地址，或上传音频。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "VEED Fabric 1.0 Fast 圖生影片",
+      "description": "使用一張圖片和一段音訊生成影片，支援 480p 和 720p。",
+      "fields": {
+        "first_frame": {
+          "label": "首幀圖片"
+        },
+        "driving_audio": {
+          "label": "驅動音訊"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "image_source": {
+          "label": "首幀圖片來源"
+        },
+        "audio_source": {
+          "label": "驅動音訊來源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳 JPEG、PNG 或 WebP 圖片作為開頭畫面。"
+        },
+        "driving_audio": {
+          "help": "提供 1 至 300 秒的音訊以驅動嘴型和動作。"
+        },
+        "resolution": {
+          "help": "選擇 480p 或 720p，預設 720p。"
+        },
+        "image_source": {
+          "help": "填寫公開圖片網址、Base64 資料 URI 或原始 Base64，或上傳首幀圖片。"
+        },
+        "audio_source": {
+          "help": "填寫可公開存取的 HTTP(S) 音訊網址，或上傳音訊。"
+        }
+      }
+    },
+    "en": {
+      "name": "VEED Fabric 1.0 Fast Image-to-Video",
+      "description": "Animate one image with an audio track at 480p or 720p.",
+      "fields": {
+        "first_frame": {
+          "label": "First-frame image"
+        },
+        "driving_audio": {
+          "label": "Driving audio"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "image_source": {
+          "label": "First-frame image source"
+        },
+        "audio_source": {
+          "label": "Driving audio source"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload a JPEG, PNG, or WebP image for the opening frame."
+        },
+        "driving_audio": {
+          "help": "Provide 1 to 300 seconds of audio to drive lip sync and motion."
+        },
+        "resolution": {
+          "help": "Choose 480p or 720p. The default is 720p."
+        },
+        "image_source": {
+          "help": "Enter a public image URL, Base64 data URI, or raw Base64, or upload the opening frame."
+        },
+        "audio_source": {
+          "help": "Enter a public HTTP(S) audio URL or upload audio."
+        }
+      }
+    },
+    "ja": {
+      "name": "VEED Fabric 1.0 Fast 画像から動画",
+      "description": "画像 1 枚と音声を使い、480p または 720p の動画を生成します。",
+      "fields": {
+        "first_frame": {
+          "label": "開始フレーム画像"
+        },
+        "driving_audio": {
+          "label": "動きに使う音声"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "image_source": {
+          "label": "開始フレームの入力元"
+        },
+        "audio_source": {
+          "label": "音声の入力元"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "開始画像として JPEG、PNG、WebP をアップロードします。"
+        },
+        "driving_audio": {
+          "help": "口の動きや動作に合わせる 1〜300 秒の音声を指定します。"
+        },
+        "resolution": {
+          "help": "480p または 720p を選びます。既定値は 720p です。"
+        },
+        "image_source": {
+          "help": "公開画像 URL、Base64 データ URI、Base64 文字列のいずれかを入力するか、開始画像をアップロードします。"
+        },
+        "audio_source": {
+          "help": "公開 HTTP(S) 音声 URL を入力するか、音声をアップロードします。"
+        }
+      }
+    },
+    "ko": {
+      "name": "VEED Fabric 1.0 Fast 이미지로 동영상 생성",
+      "description": "이미지 한 장과 오디오로 480p 또는 720p 동영상을 만듭니다.",
+      "fields": {
+        "first_frame": {
+          "label": "첫 프레임 이미지"
+        },
+        "driving_audio": {
+          "label": "동작을 맞출 오디오"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "image_source": {
+          "label": "첫 프레임 이미지 출처"
+        },
+        "audio_source": {
+          "label": "오디오 출처"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "시작 장면에 사용할 JPEG, PNG 또는 WebP 이미지를 업로드하세요."
+        },
+        "driving_audio": {
+          "help": "입 모양과 움직임을 맞출 1~300초의 오디오를 제공하세요."
+        },
+        "resolution": {
+          "help": "480p 또는 720p를 선택하세요. 기본값은 720p입니다."
+        },
+        "image_source": {
+          "help": "공개 이미지 URL, Base64 데이터 URI, Base64 문자열 중 하나를 입력하거나 첫 프레임을 업로드하세요."
+        },
+        "audio_source": {
+          "help": "공개 HTTP(S) 오디오 URL을 입력하거나 오디오를 업로드하세요."
+        }
+      }
+    }
+  }
+}

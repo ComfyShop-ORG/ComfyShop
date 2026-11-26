@@ -1,0 +1,251 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-veed-lips",
+  "name": "VEED Lipsync 视频对口型",
+  "description": "用新音频驱动原视频人物的口型，适合单人演讲和旁白视频。",
+  "category": "video_tool",
+  "fields": [
+    {
+      "name": "source_video",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "driving_audio",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "video_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "audio_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "source_video",
+      "section": "default"
+    },
+    {
+      "fieldId": "driving_audio",
+      "section": "default"
+    },
+    {
+      "fieldId": "video_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "veed/lipsync",
+      "operation": "video",
+      "parameters": {},
+      "prediction_endpoint": "result",
+      "media": {
+        "video_url": {
+          "kind": "video",
+          "fields": ["source_video"],
+          "min_items": 1,
+          "external_sources_field": "video_source",
+          "allow_raw_base64": true,
+          "content_types": ["video/mp4", "video/quicktime", "video/webm"]
+        },
+        "audio_url": {
+          "kind": "audio",
+          "fields": ["driving_audio"],
+          "min_items": 1,
+          "external_sources_field": "audio_source",
+          "allow_raw_base64": true,
+          "content_types": [
+            "audio/wav",
+            "audio/wave",
+            "audio/x-wav",
+            "audio/mpeg",
+            "audio/mp3",
+            "audio/mp4"
+          ]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "VEED Lipsync 视频对口型",
+      "description": "用新音频驱动原视频人物的口型，适合单人演讲和旁白视频。",
+      "fields": {
+        "source_video": {
+          "label": "原视频"
+        },
+        "driving_audio": {
+          "label": "驱动音频"
+        },
+        "video_source": {
+          "label": "原视频来源"
+        },
+        "audio_source": {
+          "label": "驱动音频来源"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上传需要重新对口型的 MP4、MOV 或 WebM 视频。"
+        },
+        "driving_audio": {
+          "help": "上传驱动口型的 WAV、MP3 或 M4A 音频。"
+        },
+        "video_source": {
+          "help": "填写公开视频地址、Base64 数据 URI 或原始 Base64，或上传视频。"
+        },
+        "audio_source": {
+          "help": "填写公开音频地址、Base64 数据 URI 或原始 Base64，或上传音频。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "VEED Lipsync 影片對嘴",
+      "description": "使用新音訊配對原影片中人物的嘴型，適合單人講解和旁白影片。",
+      "fields": {
+        "source_video": {
+          "label": "原影片"
+        },
+        "driving_audio": {
+          "label": "驅動音訊"
+        },
+        "video_source": {
+          "label": "原影片來源"
+        },
+        "audio_source": {
+          "label": "驅動音訊來源"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上傳需要重新對嘴的 MP4、MOV 或 WebM 影片。"
+        },
+        "driving_audio": {
+          "help": "上傳驅動嘴型的 WAV、MP3 或 M4A 音訊。"
+        },
+        "video_source": {
+          "help": "填寫公開影片網址、Base64 資料 URI 或原始 Base64，或上傳影片。"
+        },
+        "audio_source": {
+          "help": "填寫公開音訊網址、Base64 資料 URI 或原始 Base64，或上傳音訊。"
+        }
+      }
+    },
+    "en": {
+      "name": "VEED Lipsync Video Lip Sync",
+      "description": "Match an existing single-presenter video's lip movements to a new audio track.",
+      "fields": {
+        "source_video": {
+          "label": "Source video"
+        },
+        "driving_audio": {
+          "label": "Driving audio"
+        },
+        "video_source": {
+          "label": "Source video input"
+        },
+        "audio_source": {
+          "label": "Driving audio input"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "Upload an MP4, MOV, or WebM video to lip-sync."
+        },
+        "driving_audio": {
+          "help": "Upload WAV, MP3, or M4A audio for the new speech."
+        },
+        "video_source": {
+          "help": "Enter a public video URL, Base64 data URI, or raw Base64, or upload a video."
+        },
+        "audio_source": {
+          "help": "Enter a public audio URL, Base64 data URI, or raw Base64, or upload audio."
+        }
+      }
+    },
+    "ja": {
+      "name": "VEED Lipsync 動画のリップシンク",
+      "description": "出演者が 1 人の既存動画で、口の動きを新しい音声に合わせます。",
+      "fields": {
+        "source_video": {
+          "label": "元の動画"
+        },
+        "driving_audio": {
+          "label": "使用する音声"
+        },
+        "video_source": {
+          "label": "元の動画の入力元"
+        },
+        "audio_source": {
+          "label": "音声の入力元"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "リップシンクする MP4、MOV、WebM の動画をアップロードします。"
+        },
+        "driving_audio": {
+          "help": "新しい音声として WAV、MP3、M4A をアップロードします。"
+        },
+        "video_source": {
+          "help": "公開動画 URL、Base64 データ URI、Base64 文字列のいずれかを入力するか、動画をアップロードします。"
+        },
+        "audio_source": {
+          "help": "公開音声 URL、Base64 データ URI、Base64 文字列のいずれかを入力するか、音声をアップロードします。"
+        }
+      }
+    },
+    "ko": {
+      "name": "VEED Lipsync 동영상 입 모양 동기화",
+      "description": "한 사람이 말하는 기존 영상의 입 모양을 새 오디오에 맞춥니다.",
+      "fields": {
+        "source_video": {
+          "label": "원본 동영상"
+        },
+        "driving_audio": {
+          "label": "입 모양을 맞출 오디오"
+        },
+        "video_source": {
+          "label": "원본 동영상 출처"
+        },
+        "audio_source": {
+          "label": "오디오 출처"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "입 모양을 맞출 MP4, MOV 또는 WebM 영상을 업로드하세요."
+        },
+        "driving_audio": {
+          "help": "새 음성으로 WAV, MP3 또는 M4A 파일을 업로드하세요."
+        },
+        "video_source": {
+          "help": "공개 동영상 URL, Base64 데이터 URI, Base64 문자열 중 하나를 입력하거나 영상을 업로드하세요."
+        },
+        "audio_source": {
+          "help": "공개 오디오 URL, Base64 데이터 URI, Base64 문자열 중 하나를 입력하거나 오디오를 업로드하세요."
+        }
+      }
+    }
+  }
+}

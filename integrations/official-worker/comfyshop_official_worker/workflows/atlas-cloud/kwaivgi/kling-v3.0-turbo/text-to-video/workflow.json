@@ -1,0 +1,279 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kwaivgi-kling-v3-0-turbo-text-to-video",
+  "name": "可灵 3.0 Turbo 文生视频",
+  "description": "从文字生成 3 至 15 秒的视频，可选择横屏、竖屏或方形画面。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "optional": false,
+      "maxLength": 2500
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "optional": true,
+      "choices": ["16:9", "9:16", "1:1"]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1080p",
+      "optional": true,
+      "choices": ["720p", "1080p"]
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 5,
+      "optional": true,
+      "choices": [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "kwaivgi/kling-v3.0-turbo/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "duration": "duration",
+        "aspect_ratio": "aspect_ratio"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 3.0 Turbo 文生视频",
+      "description": "从文字生成 3 至 15 秒的视频，可选择横屏、竖屏或方形画面。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "时长（秒）"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、场景、动作和运镜，最多 2,500 字符。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9、9:16 或 1:1。默认 16:9。"
+        },
+        "resolution": {
+          "help": "选择 720p 或 1080p。默认 1080p。"
+        },
+        "duration": {
+          "help": "选择 3 至 15 秒的整数时长。默认 5 秒。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 3.0 Turbo 文生影片",
+      "description": "從文字生成 3 至 15 秒的影片，可選擇橫式、直式或正方形畫面。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "長度（秒）"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、場景、動作和運鏡，最多 2,500 字元。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9、9:16 或 1:1。預設 16:9。"
+        },
+        "resolution": {
+          "help": "選擇 720p 或 1080p。預設 1080p。"
+        },
+        "duration": {
+          "help": "選擇 3 至 15 秒的整數長度。預設 5 秒。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling 3.0 Turbo Text to Video",
+      "description": "Generate a 3- to 15-second video in landscape, portrait, or square format from a text prompt.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, setting, movement, and camera direction in up to 2,500 characters."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9, 9:16, or 1:1. The default is 16:9."
+        },
+        "resolution": {
+          "help": "Choose 720p or 1080p. The default is 1080p."
+        },
+        "duration": {
+          "help": "Choose a whole number from 3 to 15 seconds. The default is 5."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling 3.0 Turbo テキストから動画生成",
+      "description": "テキストから横向き、縦向き、正方形の 3〜15 秒動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、動き、カメラワークを 2,500 文字以内で記述します。"
+        },
+        "aspect_ratio": {
+          "help": "16:9、9:16、1:1 から選択します。既定は 16:9 です。"
+        },
+        "resolution": {
+          "help": "720p または 1080p を選択します。既定は 1080p です。"
+        },
+        "duration": {
+          "help": "3〜15 秒の整数から選択します。既定は 5 秒です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling 3.0 Turbo 텍스트 동영상 생성",
+      "description": "텍스트에서 가로형, 세로형 또는 정사각형 3~15초 동영상을 만듭니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "길이(초)"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 배경, 움직임, 카메라 구도를 최대 2,500자로 설명하세요."
+        },
+        "aspect_ratio": {
+          "help": "16:9, 9:16 또는 1:1 중에서 선택하세요. 기본값은 16:9입니다."
+        },
+        "resolution": {
+          "help": "720p 또는 1080p를 선택하세요. 기본값은 1080p입니다."
+        },
+        "duration": {
+          "help": "3~15초 사이의 정수를 선택하세요. 기본값은 5초입니다."
+        }
+      }
+    }
+  }
+}

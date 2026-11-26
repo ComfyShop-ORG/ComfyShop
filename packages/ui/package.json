@@ -1,0 +1,20 @@
+{
+  "name": "@comfyshop/ui",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.tsx",
+    "./date-picker": "./src/date-picker.tsx",
+    "./styles.css": "./src/styles.css"
+  },
+  "dependencies": {
+    "@comfyshop/tokens": "workspace:*",
+    "@daypicker/react": "10.0.2",
+    "@radix-ui/react-icons": "1.3.2",
+    "radix-ui": "1.8.1"
+  },
+  "peerDependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  }
+}

@@ -1,0 +1,556 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "byteplus-video-upscaler",
+  "name": "BytePlus 视频超分",
+  "description": "将已有视频增强到最高 8K，可按场景处理，调整码率、帧率或专业引擎的色深。",
+  "category": "video_tool",
+  "fields": [
+    {
+      "name": "video",
+      "kind": "video"
+    },
+    {
+      "name": "tool_version",
+      "kind": "choice",
+      "optional": true,
+      "default": "standard",
+      "choices": ["standard", "professional"]
+    },
+    {
+      "name": "scene",
+      "kind": "choice",
+      "optional": true,
+      "default": "common",
+      "choices": ["common", "ugc", "short_series", "aigc", "old_film"]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "optional": true,
+      "default": "1080p",
+      "choices": ["240p", "360p", "480p", "540p", "720p", "1080p", "2k", "4k", "8k", ""]
+    },
+    {
+      "name": "resolution_limit",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "128",
+      "maximum": "4320"
+    },
+    {
+      "name": "bitrate_level",
+      "kind": "choice",
+      "optional": true,
+      "default": "medium",
+      "choices": ["low", "medium", "high"]
+    },
+    {
+      "name": "fps",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "15",
+      "maximum": "120"
+    },
+    {
+      "name": "bit_depth",
+      "kind": "choice",
+      "optional": true,
+      "default": 8,
+      "choices": [8, 10, 12]
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "video",
+      "section": "default"
+    },
+    {
+      "fieldId": "tool_version",
+      "section": "default"
+    },
+    {
+      "fieldId": "scene",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution_limit",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "bitrate_level",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "fps",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "bit_depth",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "operation": "video",
+      "model": "byteplus/video/upscaler",
+      "prediction_endpoint": "result",
+      "parameters": {
+        "tool_version": "tool_version",
+        "scene": "scene",
+        "resolution": "resolution",
+        "resolution_limit": "resolution_limit",
+        "bitrate_level": "bitrate_level",
+        "fps": "fps",
+        "bit_depth": "bit_depth"
+      },
+      "media": {
+        "video_url": {
+          "kind": "video",
+          "fields": ["video"],
+          "min_items": 1
+        }
+      },
+      "omit_blank_parameters": ["resolution"],
+      "enabled_by": {
+        "scene": {
+          "parameter": "tool_version",
+          "equals": "standard"
+        },
+        "bit_depth": {
+          "parameter": "tool_version",
+          "equals": "professional"
+        }
+      },
+      "mutually_exclusive": [["resolution", "resolution_limit"]]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "BytePlus 视频超分",
+      "description": "将已有视频增强到最高 8K，可按场景处理，调整码率、帧率或专业引擎的色深。",
+      "fields": {
+        "video": {
+          "label": "原视频"
+        },
+        "tool_version": {
+          "label": "增强引擎",
+          "choiceLabels": {
+            "standard": "标准",
+            "professional": "专业"
+          }
+        },
+        "scene": {
+          "label": "场景模板",
+          "choiceLabels": {
+            "common": "通用",
+            "ugc": "用户创作视频",
+            "short_series": "短剧",
+            "aigc": "生成式视频",
+            "old_film": "老片修复"
+          }
+        },
+        "resolution": {
+          "label": "目标分辨率",
+          "choiceLabels": {
+            "240p": "240p",
+            "360p": "360p",
+            "480p": "480p",
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "2k": "2K",
+            "4k": "4K",
+            "8k": "8K",
+            "": "不指定档位"
+          }
+        },
+        "resolution_limit": {
+          "label": "短边像素限制"
+        },
+        "bitrate_level": {
+          "label": "码率档位",
+          "choiceLabels": {
+            "low": "低",
+            "medium": "中",
+            "high": "高"
+          }
+        },
+        "fps": {
+          "label": "目标帧率"
+        },
+        "bit_depth": {
+          "label": "色彩位深"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "上传一段要增强的视频。"
+        },
+        "tool_version": {
+          "help": "标准引擎使用场景模板，专业引擎使用更强的增强处理。"
+        },
+        "scene": {
+          "help": "仅标准引擎使用。"
+        },
+        "resolution": {
+          "help": "可选分辨率档位。设置短边限制时请选择「不指定档位」。"
+        },
+        "resolution_limit": {
+          "help": "不指定分辨率档位时可填写 128 至 4320 像素，视频按比例缩放。"
+        },
+        "bitrate_level": {
+          "help": "选择低、中或高码率，默认中。"
+        },
+        "fps": {
+          "help": "15 至 120 fps。留空保留原帧率，建议不超过原视频帧率的 4 倍。"
+        },
+        "bit_depth": {
+          "help": "仅专业引擎使用。可选 8、10 或 12 位。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "BytePlus 影片超解析",
+      "description": "將現有影片強化至最高 8K，可按場景處理，調整位元率、影格率或專業引擎的色彩深度。",
+      "fields": {
+        "video": {
+          "label": "原始影片"
+        },
+        "tool_version": {
+          "label": "強化引擎",
+          "choiceLabels": {
+            "standard": "標準",
+            "professional": "專業"
+          }
+        },
+        "scene": {
+          "label": "場景範本",
+          "choiceLabels": {
+            "common": "通用",
+            "ugc": "使用者創作影片",
+            "short_series": "短劇",
+            "aigc": "生成式影片",
+            "old_film": "老片修復"
+          }
+        },
+        "resolution": {
+          "label": "目標解析度",
+          "choiceLabels": {
+            "240p": "240p",
+            "360p": "360p",
+            "480p": "480p",
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "2k": "2K",
+            "4k": "4K",
+            "8k": "8K",
+            "": "不指定等級"
+          }
+        },
+        "resolution_limit": {
+          "label": "短邊像素限制"
+        },
+        "bitrate_level": {
+          "label": "位元率等級",
+          "choiceLabels": {
+            "low": "低",
+            "medium": "中",
+            "high": "高"
+          }
+        },
+        "fps": {
+          "label": "目標影格率"
+        },
+        "bit_depth": {
+          "label": "色彩深度"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "上傳一段要強化的影片。"
+        },
+        "tool_version": {
+          "help": "標準引擎使用場景範本，專業引擎使用更強的強化處理。"
+        },
+        "scene": {
+          "help": "僅標準引擎使用。"
+        },
+        "resolution": {
+          "help": "可選解析度等級。設定短邊限制時請選「不指定等級」。"
+        },
+        "resolution_limit": {
+          "help": "不指定解析度等級時可填入 128 至 4320 像素，影片會等比縮放。"
+        },
+        "bitrate_level": {
+          "help": "選擇低、中或高位元率，預設為中。"
+        },
+        "fps": {
+          "help": "15 至 120 fps。留空保留原始影格率，建議不超過原影片影格率的 4 倍。"
+        },
+        "bit_depth": {
+          "help": "僅專業引擎使用。可選 8、10 或 12 位元。"
+        }
+      }
+    },
+    "en": {
+      "name": "BytePlus Video Upscaler",
+      "description": "Enhance existing videos up to 8K with scene templates, bitrate and frame-rate controls, and professional color depth settings.",
+      "fields": {
+        "video": {
+          "label": "Source video"
+        },
+        "tool_version": {
+          "label": "Enhancement engine",
+          "choiceLabels": {
+            "standard": "Standard",
+            "professional": "Professional"
+          }
+        },
+        "scene": {
+          "label": "Scene template",
+          "choiceLabels": {
+            "common": "General",
+            "ugc": "User-generated",
+            "short_series": "Short series",
+            "aigc": "AI-generated",
+            "old_film": "Old film restoration"
+          }
+        },
+        "resolution": {
+          "label": "Target resolution",
+          "choiceLabels": {
+            "240p": "240p",
+            "360p": "360p",
+            "480p": "480p",
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "2k": "2K",
+            "4k": "4K",
+            "8k": "8K",
+            "": "No preset"
+          }
+        },
+        "resolution_limit": {
+          "label": "Short-edge pixel limit"
+        },
+        "bitrate_level": {
+          "label": "Bitrate tier",
+          "choiceLabels": {
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High"
+          }
+        },
+        "fps": {
+          "label": "Target frame rate"
+        },
+        "bit_depth": {
+          "label": "Color depth"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "Upload one video to enhance."
+        },
+        "tool_version": {
+          "help": "Standard uses scene templates. Professional applies more enhancement algorithms."
+        },
+        "scene": {
+          "help": "Available with the Standard engine."
+        },
+        "resolution": {
+          "help": "Choose a resolution tier. Select No preset to set a short-edge limit."
+        },
+        "resolution_limit": {
+          "help": "With No preset selected, enter 128 to 4,320 pixels for proportional scaling."
+        },
+        "bitrate_level": {
+          "help": "Choose low, medium, or high bitrate. Medium is the default."
+        },
+        "fps": {
+          "help": "Enter 15 to 120 fps or leave blank to keep the original. A target at most four times the source fps is recommended."
+        },
+        "bit_depth": {
+          "help": "Available with the Professional engine. Choose 8, 10, or 12 bits."
+        }
+      }
+    },
+    "ja": {
+      "name": "BytePlus 動画の超解像",
+      "description": "既存の動画を最大 8K に強調します。場面別の設定やビットレート、フレームレート、色深度を調整できます。",
+      "fields": {
+        "video": {
+          "label": "元の動画"
+        },
+        "tool_version": {
+          "label": "強調エンジン",
+          "choiceLabels": {
+            "standard": "標準",
+            "professional": "プロ"
+          }
+        },
+        "scene": {
+          "label": "シーンテンプレート",
+          "choiceLabels": {
+            "common": "汎用",
+            "ugc": "ユーザー制作動画",
+            "short_series": "短編シリーズ",
+            "aigc": "生成動画",
+            "old_film": "古い映像の修復"
+          }
+        },
+        "resolution": {
+          "label": "目標解像度",
+          "choiceLabels": {
+            "240p": "240p",
+            "360p": "360p",
+            "480p": "480p",
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "2k": "2K",
+            "4k": "4K",
+            "8k": "8K",
+            "": "プリセットなし"
+          }
+        },
+        "resolution_limit": {
+          "label": "短辺のピクセル上限"
+        },
+        "bitrate_level": {
+          "label": "ビットレート",
+          "choiceLabels": {
+            "low": "低",
+            "medium": "中",
+            "high": "高"
+          }
+        },
+        "fps": {
+          "label": "目標フレームレート"
+        },
+        "bit_depth": {
+          "label": "色深度"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "強調する動画を 1 本アップロードします。"
+        },
+        "tool_version": {
+          "help": "標準は場面別テンプレートを使います。プロはより多くの強調処理を適用します。"
+        },
+        "scene": {
+          "help": "標準エンジンで使います。"
+        },
+        "resolution": {
+          "help": "解像度を選びます。短辺を指定する場合は「プリセットなし」を選んでください。"
+        },
+        "resolution_limit": {
+          "help": "プリセットなしの場合は、128〜4320 ピクセルの短辺を指定すると比率を保って拡大します。"
+        },
+        "bitrate_level": {
+          "help": "低、中、高から選びます。既定値は中です。"
+        },
+        "fps": {
+          "help": "15〜120 fps を指定します。空欄なら元の値を維持します。元の 4 倍以内を推奨します。"
+        },
+        "bit_depth": {
+          "help": "プロエンジンで使います。8、10、12 ビットから選びます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "BytePlus 동영상 초해상도",
+      "description": "기존 영상의 해상도를 최대 8K로 높이고 장면, 비트레이트, 프레임 레이트, 색 심도를 조절합니다.",
+      "fields": {
+        "video": {
+          "label": "원본 동영상"
+        },
+        "tool_version": {
+          "label": "향상 엔진",
+          "choiceLabels": {
+            "standard": "표준",
+            "professional": "전문"
+          }
+        },
+        "scene": {
+          "label": "장면 템플릿",
+          "choiceLabels": {
+            "common": "일반",
+            "ugc": "사용자 제작 영상",
+            "short_series": "숏폼 시리즈",
+            "aigc": "생성된 영상",
+            "old_film": "오래된 영상 복원"
+          }
+        },
+        "resolution": {
+          "label": "목표 해상도",
+          "choiceLabels": {
+            "240p": "240p",
+            "360p": "360p",
+            "480p": "480p",
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "2k": "2K",
+            "4k": "4K",
+            "8k": "8K",
+            "": "프리셋 없음"
+          }
+        },
+        "resolution_limit": {
+          "label": "짧은 변 픽셀 제한"
+        },
+        "bitrate_level": {
+          "label": "비트레이트 단계",
+          "choiceLabels": {
+            "low": "낮음",
+            "medium": "중간",
+            "high": "높음"
+          }
+        },
+        "fps": {
+          "label": "목표 프레임 레이트"
+        },
+        "bit_depth": {
+          "label": "색 심도"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "향상할 동영상 한 개를 업로드하세요."
+        },
+        "tool_version": {
+          "help": "표준은 장면 템플릿을 사용합니다. 전문은 더 많은 향상 처리를 적용합니다."
+        },
+        "scene": {
+          "help": "표준 엔진에서 사용됩니다."
+        },
+        "resolution": {
+          "help": "해상도 단계를 선택하세요. 짧은 변을 제한하려면 프리셋 없음을 선택하세요."
+        },
+        "resolution_limit": {
+          "help": "프리셋 없이 128~4320픽셀을 입력하면 원본 비율을 유지해 크기를 조정합니다."
+        },
+        "bitrate_level": {
+          "help": "낮음, 중간, 높음 중에서 선택하세요. 기본값은 중간입니다."
+        },
+        "fps": {
+          "help": "15~120 fps를 입력하세요. 비워 두면 원본 값을 유지합니다. 원본 프레임 레이트의 4배 이하를 권장합니다."
+        },
+        "bit_depth": {
+          "help": "전문 엔진에서 사용됩니다. 8, 10 또는 12비트 중에서 선택하세요."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-qwen2-text",
+  "name": "Qwen Image 2.0 文生图",
+  "description": "根据中文或英文提示词生成图片，可指定尺寸和随机种子。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "",
+      "maxLength": 800
+    },
+    {
+      "name": "size",
+      "kind": "string",
+      "default": "1024*1024",
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "minimum": "-1",
+      "maximum": "2147483647",
+      "optional": true,
+      "default": -1
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "qwen/qwen-image-2.0/text-to-image",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "image_size_limits": {
+        "min_side": 512,
+        "max_side": 2048,
+        "allow_auto": false
+      },
+      "prediction_endpoint": "result",
+      "text_max_lengths": {
+        "prompt": 800
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Qwen Image 2.0 文生图",
+      "description": "根据中文或英文提示词生成图片，可指定尺寸和随机种子。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "输出尺寸"
+        },
+        "seed": {
+          "label": "随机种子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "用中文或英文描述画面，最多 800 字符。"
+        },
+        "size": {
+          "help": "输入宽*高，宽、高均为 512 至 2,048 像素，默认 1024*1024。"
+        },
+        "seed": {
+          "help": "-1 为随机。可填写 0 至 2,147,483,647 的整数以复用种子。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Qwen Image 2.0 文生圖",
+      "description": "依中文或英文提示詞生成圖片，可指定尺寸與隨機種子。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "輸出尺寸"
+        },
+        "seed": {
+          "label": "隨機種子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "使用中文或英文描述畫面，最多 800 個字元。"
+        },
+        "size": {
+          "help": "輸入寬*高，寬、高均為 512 至 2,048 像素，預設 1024*1024。"
+        },
+        "seed": {
+          "help": "-1 為隨機。可填寫 0 至 2,147,483,647 的整數以沿用種子。"
+        }
+      }
+    },
+    "en": {
+      "name": "Qwen Image 2.0 Text-to-Image",
+      "description": "Generate an image from a Chinese or English prompt, with configurable dimensions and seed.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Output size"
+        },
+        "seed": {
+          "label": "Seed"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the image in Chinese or English in up to 800 characters."
+        },
+        "size": {
+          "help": "Enter width*height. Each side must be 512 to 2,048 pixels. The default is 1024*1024."
+        },
+        "seed": {
+          "help": "Use -1 for a random seed, or enter an integer between 0 and 2,147,483,647."
+        }
+      }
+    },
+    "ja": {
+      "name": "Qwen Image 2.0 テキストから画像",
+      "description": "中国語または英語のプロンプトから画像を生成します。サイズとシードを指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "出力サイズ"
+        },
+        "seed": {
+          "label": "シード"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "中国語または英語で、画像を 800 文字以内で記述します。"
+        },
+        "size": {
+          "help": "幅*高さで入力します。各辺は 512〜2,048 ピクセルです。既定値は 1024*1024 です。"
+        },
+        "seed": {
+          "help": "-1 はランダムです。シードを指定する場合は 0〜2,147,483,647 の整数を入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Qwen Image 2.0 텍스트로 이미지 생성",
+      "description": "중국어나 영어 프롬프트로 이미지를 생성하고 크기와 시드를 지정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "출력 크기"
+        },
+        "seed": {
+          "label": "시드"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "이미지를 중국어나 영어로 최대 800자까지 설명하세요."
+        },
+        "size": {
+          "help": "너비*높이를 입력하세요. 각 변은 512~2,048픽셀이며 기본값은 1024*1024입니다."
+        },
+        "seed": {
+          "help": "-1은 무작위입니다. 시드를 지정하려면 0~2,147,483,647의 정수를 입력하세요."
+        }
+      }
+    }
+  }
+}

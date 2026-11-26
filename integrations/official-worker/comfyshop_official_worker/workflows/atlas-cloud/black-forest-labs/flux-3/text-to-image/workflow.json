@@ -1,0 +1,468 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-flux3-text-to-image",
+  "name": "FLUX 3 文生图",
+  "description": "按提示词生成图片，可选择自动画面比例和最高 4K 的分辨率。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "optional": true,
+      "default": "auto",
+      "choices": [
+        "auto",
+        "21:9",
+        "2:1",
+        "16:9",
+        "3:2",
+        "7:5",
+        "4:3",
+        "5:4",
+        "1:1",
+        "4:5",
+        "3:4",
+        "5:7",
+        "2:3",
+        "9:16",
+        "1:2"
+      ]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "optional": true,
+      "default": "1k",
+      "choices": ["768sq", "1k", "2k", "4k"]
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "default": "jpeg",
+      "choices": ["jpeg", "png"]
+    },
+    {
+      "name": "safety_tolerance",
+      "kind": "integer",
+      "default": 2,
+      "minimum": "0",
+      "maximum": "4",
+      "optional": true
+    },
+    {
+      "name": "enable_prompt_expansion",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "safety_tolerance",
+      "section": "advanced",
+      "control": "slider"
+    },
+    {
+      "fieldId": "enable_prompt_expansion",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "black-forest-labs/flux-3/text-to-image",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "output_format": "output_format",
+        "safety_tolerance": "safety_tolerance",
+        "enable_prompt_expansion": "enable_prompt_expansion"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "FLUX 3 文生图",
+      "description": "按提示词生成图片，可选择自动画面比例和最高 4K 的分辨率。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "auto": "自动",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "3:2": "3:2",
+            "7:5": "7:5",
+            "4:3": "4:3",
+            "5:4": "5:4",
+            "1:1": "1:1",
+            "4:5": "4:5",
+            "3:4": "3:4",
+            "5:7": "5:7",
+            "2:3": "2:3",
+            "9:16": "9:16",
+            "1:2": "1:2"
+          }
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "768sq": "768sq",
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "output_format": {
+          "label": "图片格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "safety_tolerance": {
+          "label": "内容审核容忍度"
+        },
+        "enable_prompt_expansion": {
+          "label": "提示词扩写"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "先描述主体，再描述动作、场景、构图和风格。需要写入画面的文字可加引号。"
+        },
+        "aspect_ratio": {
+          "help": "选择图片的宽高比，或让模型自动选择。"
+        },
+        "resolution": {
+          "help": "选择 768sq、1K、2K 或 4K。较高档位需要更长时间。"
+        },
+        "output_format": {
+          "help": "选择 JPEG 或 PNG。"
+        },
+        "safety_tolerance": {
+          "help": "选择 0 至 4，0 最严格，默认 2。"
+        },
+        "enable_prompt_expansion": {
+          "help": "将简短提示词扩写成更完整的描述。默认关闭。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "FLUX 3 文生圖",
+      "description": "按提示詞生成圖片，可選擇自動畫面比例及最高 4K 的解析度。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "auto": "自動",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "3:2": "3:2",
+            "7:5": "7:5",
+            "4:3": "4:3",
+            "5:4": "5:4",
+            "1:1": "1:1",
+            "4:5": "4:5",
+            "3:4": "3:4",
+            "5:7": "5:7",
+            "2:3": "2:3",
+            "9:16": "9:16",
+            "1:2": "1:2"
+          }
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "768sq": "768sq",
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "output_format": {
+          "label": "圖片格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "safety_tolerance": {
+          "label": "內容審查容忍度"
+        },
+        "enable_prompt_expansion": {
+          "label": "提示詞擴寫"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "先描述主體，再描述動作、場景、構圖和風格。要出現在畫面中的文字可加引號。"
+        },
+        "aspect_ratio": {
+          "help": "選擇圖片的寬高比，或讓模型自動選擇。"
+        },
+        "resolution": {
+          "help": "選擇 768sq、1K、2K 或 4K。較高級別需要更長時間。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG 或 PNG。"
+        },
+        "safety_tolerance": {
+          "help": "選擇 0 至 4，0 最嚴格，預設 2。"
+        },
+        "enable_prompt_expansion": {
+          "help": "將簡短提示詞擴寫成更完整的描述。預設關閉。"
+        }
+      }
+    },
+    "en": {
+      "name": "FLUX 3 Text-to-Image",
+      "description": "Generate images from text, with automatic aspect ratio and resolutions up to 4K.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "auto": "Automatic",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "3:2": "3:2",
+            "7:5": "7:5",
+            "4:3": "4:3",
+            "5:4": "5:4",
+            "1:1": "1:1",
+            "4:5": "4:5",
+            "3:4": "3:4",
+            "5:7": "5:7",
+            "2:3": "2:3",
+            "9:16": "9:16",
+            "1:2": "1:2"
+          }
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "768sq": "768sq",
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "output_format": {
+          "label": "Image format",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "safety_tolerance": {
+          "label": "Moderation tolerance"
+        },
+        "enable_prompt_expansion": {
+          "label": "Expand prompt"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject first, then the action, setting, composition, and style. Put exact text to render in quotes."
+        },
+        "aspect_ratio": {
+          "help": "Choose the width-to-height ratio or let the model decide."
+        },
+        "resolution": {
+          "help": "Choose 768sq, 1K, 2K, or 4K. Higher tiers take longer."
+        },
+        "output_format": {
+          "help": "Choose JPEG or PNG."
+        },
+        "safety_tolerance": {
+          "help": "Choose 0 to 4. Zero is strictest, and 2 is the default."
+        },
+        "enable_prompt_expansion": {
+          "help": "Expand a short prompt into a fuller description. Off by default."
+        }
+      }
+    },
+    "ja": {
+      "name": "FLUX 3 テキストから画像",
+      "description": "テキストから画像を生成します。縦横比を自動で選択でき、最大 4K に対応します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "auto": "自動",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "3:2": "3:2",
+            "7:5": "7:5",
+            "4:3": "4:3",
+            "5:4": "5:4",
+            "1:1": "1:1",
+            "4:5": "4:5",
+            "3:4": "3:4",
+            "5:7": "5:7",
+            "2:3": "2:3",
+            "9:16": "9:16",
+            "1:2": "1:2"
+          }
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "768sq": "768sq",
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "output_format": {
+          "label": "画像形式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "safety_tolerance": {
+          "label": "コンテンツ審査の許容度"
+        },
+        "enable_prompt_expansion": {
+          "label": "プロンプトを拡張"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "最初に被写体、その後に動き、場面、構図、スタイルを記述します。画像内に描画する文字列は引用符で囲みます。"
+        },
+        "aspect_ratio": {
+          "help": "画像の縦横比を指定するか、自動選択にします。"
+        },
+        "resolution": {
+          "help": "768sq、1K、2K、4K から選びます。高い解像度では処理時間が長くなります。"
+        },
+        "output_format": {
+          "help": "JPEG または PNG を選びます。"
+        },
+        "safety_tolerance": {
+          "help": "0〜4 を選びます。最も厳しい値は 0 で、既定値は 2 です。"
+        },
+        "enable_prompt_expansion": {
+          "help": "短いプロンプトをより詳しい説明に拡張します。既定ではオフです。"
+        }
+      }
+    },
+    "ko": {
+      "name": "FLUX 3 텍스트로 이미지 생성",
+      "description": "텍스트에서 이미지를 생성하고 자동 비율과 최대 4K 해상도를 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "auto": "자동",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "3:2": "3:2",
+            "7:5": "7:5",
+            "4:3": "4:3",
+            "5:4": "5:4",
+            "1:1": "1:1",
+            "4:5": "4:5",
+            "3:4": "3:4",
+            "5:7": "5:7",
+            "2:3": "2:3",
+            "9:16": "9:16",
+            "1:2": "1:2"
+          }
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "768sq": "768sq",
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "output_format": {
+          "label": "이미지 형식",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "safety_tolerance": {
+          "label": "콘텐츠 검토 허용 수준"
+        },
+        "enable_prompt_expansion": {
+          "label": "프롬프트 확장"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체를 먼저 설명한 뒤 동작, 배경, 구도, 스타일을 적으세요. 이미지에 들어갈 문구는 따옴표로 묶으세요."
+        },
+        "aspect_ratio": {
+          "help": "이미지의 가로세로 비율을 지정하거나 모델이 선택하게 합니다."
+        },
+        "resolution": {
+          "help": "768sq, 1K, 2K, 4K 중 선택하세요. 해상도가 높으면 시간이 더 걸립니다."
+        },
+        "output_format": {
+          "help": "JPEG 또는 PNG를 선택하세요."
+        },
+        "safety_tolerance": {
+          "help": "0~4를 선택하세요. 0이 가장 엄격하며 기본값은 2입니다."
+        },
+        "enable_prompt_expansion": {
+          "help": "짧은 프롬프트를 더 자세한 설명으로 확장합니다. 기본값은 꺼짐입니다."
+        }
+      }
+    }
+  }
+}

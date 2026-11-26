@@ -1,0 +1,384 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "gpt-image-15-text",
+  "name": "GPT Image 1.5 文生图",
+  "description": "根据提示词生成图片，提供方形、横向或纵向尺寸，可选画质和输出格式。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "quality",
+      "kind": "choice",
+      "optional": true,
+      "default": "medium",
+      "choices": ["low", "medium", "high"]
+    },
+    {
+      "name": "size",
+      "kind": "choice",
+      "optional": true,
+      "default": "1024x1024",
+      "choices": ["1024x1024", "1024x1536", "1536x1024"]
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "default": "jpeg",
+      "choices": ["jpeg", "png"]
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "quality",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "openai/gpt-image-1.5/text-to-image",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "quality": "quality",
+        "size": "size",
+        "output_format": "output_format",
+        "enable_sync_mode": "enable_sync_mode",
+        "enable_base64_output": "enable_base64_output"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "GPT Image 1.5 文生图",
+      "description": "根据提示词生成图片，提供方形、横向或纵向尺寸，可选画质和输出格式。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "quality": {
+          "label": "渲染质量",
+          "choiceLabels": {
+            "low": "低",
+            "medium": "中",
+            "high": "高"
+          }
+        },
+        "size": {
+          "label": "图片尺寸",
+          "choiceLabels": {
+            "1024x1024": "1024 × 1024",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024"
+          }
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、画面构图和文字内容。"
+        },
+        "quality": {
+          "help": "选择渲染质量。各档位的耗时和计费可能不同。"
+        },
+        "size": {
+          "help": "选择方形 1024×1024、竖向 1024×1536 或横向 1536×1024。"
+        },
+        "output_format": {
+          "help": "选择 JPEG 或 PNG。"
+        },
+        "enable_sync_mode": {
+          "help": "等待 Atlas 完成后在提交响应中取结果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 返回图片。工作机解码后保存图片原件。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "GPT Image 1.5 文生圖",
+      "description": "根據提示詞產生圖片，提供方形、橫向或直向尺寸，可選擇畫質及輸出格式。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "quality": {
+          "label": "渲染品質",
+          "choiceLabels": {
+            "low": "低",
+            "medium": "中",
+            "high": "高"
+          }
+        },
+        "size": {
+          "label": "圖片尺寸",
+          "choiceLabels": {
+            "1024x1024": "1024 × 1024",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024"
+          }
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步回傳"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、畫面構圖和文字內容。"
+        },
+        "quality": {
+          "help": "選擇渲染品質。各級的耗時和費用可能不同。"
+        },
+        "size": {
+          "help": "選擇方形 1024×1024、直向 1024×1536 或橫向 1536×1024。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG 或 PNG。"
+        },
+        "enable_sync_mode": {
+          "help": "等 Atlas 完成後，從提交回應取得結果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 回傳圖片。工作機解碼後儲存圖片原始檔案。"
+        }
+      }
+    },
+    "en": {
+      "name": "GPT Image 1.5 Text to Image",
+      "description": "Generate images from a prompt in square, landscape, or portrait sizes, with configurable quality and output format.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "quality": {
+          "label": "Rendering quality",
+          "choiceLabels": {
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High"
+          }
+        },
+        "size": {
+          "label": "Image size",
+          "choiceLabels": {
+            "1024x1024": "1024 × 1024",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024"
+          }
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "Wait for result"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, composition, and any text to include."
+        },
+        "quality": {
+          "help": "Choose the rendering quality. Time and cost can vary by tier."
+        },
+        "size": {
+          "help": "Select square 1024 × 1024, portrait 1024 × 1536, or landscape 1536 × 1024."
+        },
+        "output_format": {
+          "help": "Choose JPEG or PNG."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for Atlas to return a finished result in the submit response."
+        },
+        "enable_base64_output": {
+          "help": "Request a Base64 response. The work machine decodes it and stores the original image."
+        }
+      }
+    },
+    "ja": {
+      "name": "GPT Image 1.5 テキストから画像",
+      "description": "指示文から正方形、横長、縦長の画像を生成します。画質と出力形式を選べます。",
+      "fields": {
+        "prompt": {
+          "label": "指示文"
+        },
+        "quality": {
+          "label": "描画品質",
+          "choiceLabels": {
+            "low": "低",
+            "medium": "中",
+            "high": "高"
+          }
+        },
+        "size": {
+          "label": "画像サイズ",
+          "choiceLabels": {
+            "1024x1024": "1024 × 1024",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024"
+          }
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、構図、入れたい文字を記述します。"
+        },
+        "quality": {
+          "help": "描画品質を選びます。処理時間と料金は段階によって変わります。"
+        },
+        "size": {
+          "help": "正方形 1024×1024、縦長 1024×1536、横長 1536×1024 から選びます。"
+        },
+        "output_format": {
+          "help": "JPEG または PNG から選びます。"
+        },
+        "enable_sync_mode": {
+          "help": "Atlas の完了を待ち、送信時の応答で結果を取得します。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas に Base64 での返却を求めます。ワーカーが復号して元の画像を保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "GPT Image 1.5 텍스트로 이미지 생성",
+      "description": "프롬프트로 정사각형, 가로형 또는 세로형 이미지를 생성합니다. 화질과 형식을 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "quality": {
+          "label": "렌더링 품질",
+          "choiceLabels": {
+            "low": "낮음",
+            "medium": "중간",
+            "high": "높음"
+          }
+        },
+        "size": {
+          "label": "이미지 크기",
+          "choiceLabels": {
+            "1024x1024": "1024 × 1024",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024"
+          }
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "결과 기다리기"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 구도와 포함할 문구를 설명하세요."
+        },
+        "quality": {
+          "help": "렌더링 품질을 고르세요. 처리 시간과 요금은 등급별로 달라질 수 있습니다."
+        },
+        "size": {
+          "help": "정사각형 1024×1024, 세로형 1024×1536 또는 가로형 1536×1024를 선택하세요."
+        },
+        "output_format": {
+          "help": "JPEG 또는 PNG를 선택하세요."
+        },
+        "enable_sync_mode": {
+          "help": "Atlas 생성이 완료되면 제출 응답에서 결과를 받습니다."
+        },
+        "enable_base64_output": {
+          "help": "Atlas에 Base64 결과를 요청합니다. 작업 머신에서 디코딩해 이미지 원본을 저장합니다."
+        }
+      }
+    }
+  }
+}

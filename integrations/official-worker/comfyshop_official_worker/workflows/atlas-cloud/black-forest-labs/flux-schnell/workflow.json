@@ -1,0 +1,576 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-flux-schnell",
+  "name": "FLUX.1 Schnell 图像生成",
+  "description": "根据提示词生成图片，也可使用源图和蒙版修改局部。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "Cute boy with a hat, exploring nature, holding a telescope, backpack, surrounded by flowers, cartoon style, vibrant colors.",
+      "multiline": true
+    },
+    {
+      "name": "size",
+      "kind": "string",
+      "default": "1024*1024",
+      "optional": true
+    },
+    {
+      "name": "num_images",
+      "kind": "integer",
+      "default": 1,
+      "minimum": "1",
+      "maximum": "4",
+      "optional": true
+    },
+    {
+      "optional": true,
+      "name": "source_image",
+      "kind": "image"
+    },
+    {
+      "optional": true,
+      "name": "mask",
+      "kind": "image"
+    },
+    {
+      "optional": true,
+      "name": "strength",
+      "kind": "number",
+      "default": 0.8,
+      "minimum": "0",
+      "maximum": "1",
+      "step": "0.01"
+    },
+    {
+      "optional": true,
+      "name": "seed",
+      "kind": "integer",
+      "default": -1
+    },
+    {
+      "optional": true,
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "default": false
+    },
+    {
+      "name": "enable_safety_checker",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "optional": true,
+      "name": "source_image_url",
+      "kind": "string",
+      "default": ""
+    },
+    {
+      "optional": true,
+      "name": "mask_url",
+      "kind": "string",
+      "default": ""
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "num_images",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "source_image",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "mask",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "strength",
+      "section": "advanced",
+      "control": "slider"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_safety_checker",
+      "section": "hidden"
+    },
+    {
+      "fieldId": "source_image_url",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "mask_url",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "black-forest-labs/flux-schnell",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "num_images": "num_images",
+        "strength": "strength",
+        "seed": "seed",
+        "enable_base64_output": "enable_base64_output",
+        "enable_safety_checker": "enable_safety_checker",
+        "enable_sync_mode": "enable_sync_mode"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["source_image"],
+          "external_sources_field": "source_image_url",
+          "external_urls_only": true
+        },
+        "mask_image": {
+          "kind": "image",
+          "fields": ["mask"],
+          "external_sources_field": "mask_url",
+          "external_urls_only": true
+        }
+      },
+      "prediction_endpoint": "result",
+      "media_requires_any_of": {
+        "mask_image": ["image"]
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "FLUX.1 Schnell 图像生成",
+      "description": "根据提示词生成图片，也可使用源图和蒙版修改局部。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "图片尺寸"
+        },
+        "num_images": {
+          "label": "出图数量"
+        },
+        "source_image": {
+          "label": "源图"
+        },
+        "mask": {
+          "label": "蒙版"
+        },
+        "strength": {
+          "label": "重绘强度"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "enable_base64_output": {
+          "label": "Base64 输出"
+        },
+        "enable_safety_checker": {
+          "label": "安全检查"
+        },
+        "source_image_url": {
+          "label": "源图 URL"
+        },
+        "mask_url": {
+          "label": "蒙版 URL"
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、场景、构图和风格。"
+        },
+        "size": {
+          "help": "按宽*高填写像素，例如 1024*1024。"
+        },
+        "num_images": {
+          "help": "选择 1 至 4 张。"
+        },
+        "source_image": {
+          "help": "可上传源图，将它用作图生图或蒙版编辑的起点。"
+        },
+        "mask": {
+          "help": "在源图上用白色标出需要生成的区域，用黑色保留其他区域。"
+        },
+        "strength": {
+          "help": "选择 0 至 1，数值越高，对源图改变越大。"
+        },
+        "seed": {
+          "help": "输入整数以重用种子，默认 -1 表示随机。"
+        },
+        "enable_base64_output": {
+          "help": "返回 Base64 图像数据，工作机解码后保存成品。"
+        },
+        "enable_safety_checker": {
+          "help": "默认开启 Atlas 安全检查。"
+        },
+        "source_image_url": {
+          "help": "填写一个公开图片地址，与上传二选一。"
+        },
+        "mask_url": {
+          "help": "填写一个公开蒙版图片地址，与上传二选一。"
+        },
+        "enable_sync_mode": {
+          "help": "让 Atlas 等待图片生成后在提交响应中直接返回成品。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "FLUX.1 Schnell 圖片生成",
+      "description": "根據提示詞生成圖片，也可使用來源圖和遮罩修改局部。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "圖片尺寸"
+        },
+        "num_images": {
+          "label": "出圖數量"
+        },
+        "source_image": {
+          "label": "來源圖"
+        },
+        "mask": {
+          "label": "遮罩"
+        },
+        "strength": {
+          "label": "重繪強度"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "enable_base64_output": {
+          "label": "Base64 輸出"
+        },
+        "enable_safety_checker": {
+          "label": "安全檢查"
+        },
+        "source_image_url": {
+          "label": "來源圖 URL"
+        },
+        "mask_url": {
+          "label": "遮罩 URL"
+        },
+        "enable_sync_mode": {
+          "label": "同步回傳"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、場景、構圖和風格。"
+        },
+        "size": {
+          "help": "按寬*高填寫像素，例如 1024*1024。"
+        },
+        "num_images": {
+          "help": "選擇 1 至 4 張。"
+        },
+        "source_image": {
+          "help": "可上傳來源圖，作為圖生圖或遮罩編輯的起點。"
+        },
+        "mask": {
+          "help": "在來源圖上用白色標示要生成的區域，用黑色保留其他區域。"
+        },
+        "strength": {
+          "help": "選擇 0 至 1，數值越高，對來源圖的變化越大。"
+        },
+        "seed": {
+          "help": "輸入整數以重用種子，預設 -1 代表隨機。"
+        },
+        "enable_base64_output": {
+          "help": "回傳 Base64 圖片資料，工作機解碼後儲存成品。"
+        },
+        "enable_safety_checker": {
+          "help": "預設開啟 Atlas 安全檢查。"
+        },
+        "source_image_url": {
+          "help": "填寫一個公開圖片網址，與上傳擇一。"
+        },
+        "mask_url": {
+          "help": "填寫一個公開遮罩圖片網址，與上傳擇一。"
+        },
+        "enable_sync_mode": {
+          "help": "讓 Atlas 等待圖片生成後，在提交回應中直接回傳成品。"
+        }
+      }
+    },
+    "en": {
+      "name": "FLUX.1 Schnell Image Generation",
+      "description": "Generate an image from a text prompt or edit part of a source image with a mask.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Image size"
+        },
+        "num_images": {
+          "label": "Image count"
+        },
+        "source_image": {
+          "label": "Source image"
+        },
+        "mask": {
+          "label": "Mask"
+        },
+        "strength": {
+          "label": "Strength"
+        },
+        "seed": {
+          "label": "Random seed"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "enable_safety_checker": {
+          "label": "Safety check"
+        },
+        "source_image_url": {
+          "label": "Source image URL"
+        },
+        "mask_url": {
+          "label": "Mask URL"
+        },
+        "enable_sync_mode": {
+          "label": "Synchronous response"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, scene, composition, and style."
+        },
+        "size": {
+          "help": "Enter width*height in pixels, such as 1024*1024."
+        },
+        "num_images": {
+          "help": "Choose one to four images."
+        },
+        "source_image": {
+          "help": "Optionally upload an image for image-to-image generation or masked editing."
+        },
+        "mask": {
+          "help": "Mark areas to regenerate in white and areas to preserve in black. Supply a source image with the mask."
+        },
+        "strength": {
+          "help": "Choose 0 to 1. Higher values change the source image more."
+        },
+        "seed": {
+          "help": "Enter an integer to reuse a seed. The default of −1 selects a random seed."
+        },
+        "enable_base64_output": {
+          "help": "Return Base64 image data for the worker to decode and save."
+        },
+        "enable_safety_checker": {
+          "help": "Atlas safety checks are enabled by default."
+        },
+        "source_image_url": {
+          "help": "Enter a public image URL as an alternative to uploading."
+        },
+        "mask_url": {
+          "help": "Enter a public mask image URL as an alternative to uploading."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for Atlas to include the finished images in the submit response."
+        }
+      }
+    },
+    "ja": {
+      "name": "FLUX.1 Schnell 画像生成",
+      "description": "プロンプトから画像を生成します。元画像とマスクで一部を編集することもできます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "画像サイズ"
+        },
+        "num_images": {
+          "label": "生成枚数"
+        },
+        "source_image": {
+          "label": "元画像"
+        },
+        "mask": {
+          "label": "マスク"
+        },
+        "strength": {
+          "label": "描き直しの強さ"
+        },
+        "seed": {
+          "label": "シード値"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        },
+        "enable_safety_checker": {
+          "label": "安全性チェック"
+        },
+        "source_image_url": {
+          "label": "元画像 URL"
+        },
+        "mask_url": {
+          "label": "マスク URL"
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、構図、スタイルを記述します。"
+        },
+        "size": {
+          "help": "1024*1024 のように幅*高さをピクセル単位で入力します。"
+        },
+        "num_images": {
+          "help": "1〜4 枚を選びます。"
+        },
+        "source_image": {
+          "help": "画像生成やマスク編集の元になる画像をアップロードできます。"
+        },
+        "mask": {
+          "help": "生成する領域を白、元のまま残す領域を黒で示します。元画像と一緒に指定します。"
+        },
+        "strength": {
+          "help": "0〜1 を選びます。値が高いほど元画像から大きく変化します。"
+        },
+        "seed": {
+          "help": "シードを再利用するには整数を入力します。既定の -1 はランダムです。"
+        },
+        "enable_base64_output": {
+          "help": "Base64 画像データを受け取り、ワーカーがデコードして保存します。"
+        },
+        "enable_safety_checker": {
+          "help": "Atlas の安全性チェックは既定で有効です。"
+        },
+        "source_image_url": {
+          "help": "アップロードの代わりに公開画像 URL を入力します。"
+        },
+        "mask_url": {
+          "help": "アップロードの代わりに公開マスク画像 URL を入力します。"
+        },
+        "enable_sync_mode": {
+          "help": "画像の生成を待ち、Atlas から送信応答で完成画像を受け取ります。"
+        }
+      }
+    },
+    "ko": {
+      "name": "FLUX.1 Schnell 이미지 생성",
+      "description": "프롬프트에서 이미지를 만들거나 원본 이미지와 마스크를 사용해 일부를 편집합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "이미지 크기"
+        },
+        "num_images": {
+          "label": "이미지 수"
+        },
+        "source_image": {
+          "label": "원본 이미지"
+        },
+        "mask": {
+          "label": "마스크"
+        },
+        "strength": {
+          "label": "변경 강도"
+        },
+        "seed": {
+          "label": "랜덤 시드"
+        },
+        "enable_base64_output": {
+          "label": "Base64 출력"
+        },
+        "enable_safety_checker": {
+          "label": "안전 검사"
+        },
+        "source_image_url": {
+          "label": "원본 이미지 URL"
+        },
+        "mask_url": {
+          "label": "마스크 URL"
+        },
+        "enable_sync_mode": {
+          "label": "동기 응답"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 장면, 구도, 스타일을 설명하세요."
+        },
+        "size": {
+          "help": "1024*1024처럼 가로*세로를 픽셀 단위로 입력하세요."
+        },
+        "num_images": {
+          "help": "1~4장을 선택하세요."
+        },
+        "source_image": {
+          "help": "이미지 생성이나 마스크 편집의 기반이 되는 이미지를 업로드할 수 있습니다."
+        },
+        "mask": {
+          "help": "다시 생성할 영역은 흰색, 유지할 영역은 검은색으로 표시합니다. 원본 이미지와 함께 사용하세요."
+        },
+        "strength": {
+          "help": "0~1을 선택하세요. 값이 높을수록 원본 이미지가 더 많이 바뀝니다."
+        },
+        "seed": {
+          "help": "시드를 재사용하려면 정수를 입력하세요. 기본값 -1은 무작위입니다."
+        },
+        "enable_base64_output": {
+          "help": "Base64 이미지 데이터를 받아 작업기가 디코딩하고 저장합니다."
+        },
+        "enable_safety_checker": {
+          "help": "Atlas 안전 검사가 기본으로 켜져 있습니다."
+        },
+        "source_image_url": {
+          "help": "업로드 대신 공개 이미지 URL을 입력하세요."
+        },
+        "mask_url": {
+          "help": "업로드 대신 공개 마스크 이미지 URL을 입력하세요."
+        },
+        "enable_sync_mode": {
+          "help": "생성이 끝날 때까지 기다린 뒤 Atlas 제출 응답에 완성 이미지를 포함합니다."
+        }
+      }
+    }
+  }
+}

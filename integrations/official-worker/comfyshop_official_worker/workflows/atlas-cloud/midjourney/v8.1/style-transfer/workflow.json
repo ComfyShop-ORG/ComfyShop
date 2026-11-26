@@ -1,0 +1,237 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-mj81-style",
+  "name": "Midjourney V8.1 风格迁移",
+  "description": "按文字描述重绘一张图片，保留原图构图并产出 4 种变体。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "input_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "input_image_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "input_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "input_image_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "midjourney/v8.1/style-transfer",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "enable_base64_output": "enable_base64_output"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["input_image"],
+          "external_sources_field": "input_image_source",
+          "min_items": 1,
+          "external_urls_only": true,
+          "external_https_only": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Midjourney V8.1 风格迁移",
+      "description": "按文字描述重绘一张图片，保留原图构图并产出 4 种变体。",
+      "fields": {
+        "prompt": {
+          "label": "目标风格"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "input_image": {
+          "label": "原图"
+        },
+        "input_image_source": {
+          "label": "原图 URL"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "上传一张要重绘的图片。"
+        },
+        "prompt": {
+          "help": "描述希望采用的画风、材质或光线。"
+        },
+        "enable_base64_output": {
+          "help": "开启后，Atlas 以 Base64 返回图片，由工作机解码保存。"
+        },
+        "input_image_source": {
+          "help": "填写公开可访问的 HTTPS 图片地址，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Midjourney V8.1 風格轉換",
+      "description": "依文字描述重繪一張圖片，保留原圖構圖並產出 4 種變體。",
+      "fields": {
+        "prompt": {
+          "label": "目標風格"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "input_image": {
+          "label": "原圖"
+        },
+        "input_image_source": {
+          "label": "原圖 URL"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "上傳一張要重繪的圖片。"
+        },
+        "prompt": {
+          "help": "描述想要的畫風、材質或光線。"
+        },
+        "enable_base64_output": {
+          "help": "開啟後，Atlas 以 Base64 傳回圖片，由工作機解碼儲存。"
+        },
+        "input_image_source": {
+          "help": "填寫公開可存取的 HTTPS 圖片網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Midjourney V8.1 Style Transfer",
+      "description": "Restyle an image with a text prompt and get four variations that preserve the original composition.",
+      "fields": {
+        "prompt": {
+          "label": "Target style"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "input_image": {
+          "label": "Original image"
+        },
+        "input_image_source": {
+          "label": "Original image URL"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "Upload an image to restyle."
+        },
+        "prompt": {
+          "help": "Describe the desired visual style, materials, or lighting."
+        },
+        "enable_base64_output": {
+          "help": "Return images as Base64 for the worker to decode and save."
+        },
+        "input_image_source": {
+          "help": "Provide a publicly accessible HTTPS image URL or upload an image."
+        }
+      }
+    },
+    "ja": {
+      "name": "Midjourney V8.1 スタイル変換",
+      "description": "元の構図を保ちながら指定したスタイルで描き直し、4 種類の画像を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "変換後のスタイル"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        },
+        "input_image": {
+          "label": "元画像"
+        },
+        "input_image_source": {
+          "label": "元画像の URL"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "スタイルを変えたい画像を 1 枚アップロードします。"
+        },
+        "prompt": {
+          "help": "希望する画風、素材、光の当たり方を記述します。"
+        },
+        "enable_base64_output": {
+          "help": "画像を Base64 で受け取り、ワーカーがデコードして保存します。"
+        },
+        "input_image_source": {
+          "help": "公開 HTTPS 画像の URL を入力するか、画像をアップロードします。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Midjourney V8.1 스타일 변환",
+      "description": "원래 구도를 유지하며 텍스트로 지정한 스타일로 다시 그려 이미지 4장을 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "대상 스타일"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        },
+        "input_image": {
+          "label": "원본 이미지"
+        },
+        "input_image_source": {
+          "label": "원본 이미지 URL"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "스타일을 바꿀 이미지 한 장을 업로드하세요."
+        },
+        "prompt": {
+          "help": "원하는 화풍, 재질 또는 조명을 설명하세요."
+        },
+        "enable_base64_output": {
+          "help": "Base64 이미지 데이터를 받아 워커가 디코딩 후 저장합니다."
+        },
+        "input_image_source": {
+          "help": "공개 HTTPS 이미지 URL을 입력하거나 이미지를 업로드하세요."
+        }
+      }
+    }
+  }
+}

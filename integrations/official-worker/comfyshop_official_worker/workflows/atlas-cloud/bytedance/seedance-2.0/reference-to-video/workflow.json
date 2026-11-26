@@ -1,0 +1,1290 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-seedance-2-reference-to-video",
+  "name": "Seedance 2.0 参考生视频",
+  "description": "使用参考图片、视频和音频生成、编辑或续写视频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "The character in image 1 dances gracefully to the music",
+      "multiline": true,
+      "optional": true
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "default": 5,
+      "choices": [-1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "adaptive",
+      "choices": ["16:9", "4:3", "1:1", "3:4", "9:16", "21:9", "adaptive"],
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["480p", "720p", "720p-SR", "1080p", "1080p-SR", "1440p-SR", "4k"],
+      "optional": true
+    },
+    {
+      "name": "bitrate_mode",
+      "kind": "choice",
+      "default": "standard",
+      "choices": ["standard", "high"],
+      "optional": true
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "minimum": "-1",
+      "maximum": "4294967295",
+      "optional": true
+    },
+    {
+      "name": "add_watermark",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "include_last_frame",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "reference_video_1",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_2",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_3",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "video_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "reference_audio_1",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "reference_audio_2",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "reference_audio_3",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "audio_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_video_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_audio_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "bitrate_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "add_watermark",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "include_last_frame",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "additionalOutputKinds": ["image"],
+    "config": {
+      "model": "bytedance/seedance-2.0/reference-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "bitrate_mode": "bitrate_mode",
+        "generate_audio": "generate_audio",
+        "seed": "seed",
+        "watermark": "add_watermark",
+        "return_last_frame": "include_last_frame"
+      },
+      "omit_blank_parameters": ["prompt"],
+      "media": {
+        "reference_images": {
+          "kind": "image",
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4",
+            "reference_image_5",
+            "reference_image_6",
+            "reference_image_7",
+            "reference_image_8",
+            "reference_image_9"
+          ],
+          "array": true,
+          "external_sources_field": "image_sources",
+          "allow_asset_references": true,
+          "allow_raw_base64": true,
+          "content_types": [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/bmp",
+            "image/tiff",
+            "image/gif",
+            "image/heic",
+            "image/heif"
+          ],
+          "max_bytes": 29999999,
+          "image_bounds": {
+            "min_side": 300,
+            "max_side": 6000,
+            "aspect_ratio_range": [0.4, 2.5]
+          }
+        },
+        "reference_videos": {
+          "kind": "video",
+          "fields": ["reference_video_1", "reference_video_2", "reference_video_3"],
+          "array": true,
+          "external_sources_field": "video_sources",
+          "allow_asset_references": true,
+          "external_urls_only": true,
+          "content_types": ["video/mp4", "video/quicktime"],
+          "max_bytes": 50000000,
+          "min_duration_ms": 2000,
+          "max_duration_ms": 15000,
+          "max_total_duration_ms": 15000,
+          "image_bounds": {
+            "min_side": 300,
+            "max_side": 6000,
+            "aspect_ratio_range": [0.4, 2.5],
+            "min_pixels": 409600,
+            "max_pixels": 2086876
+          }
+        },
+        "reference_audios": {
+          "kind": "audio",
+          "fields": ["reference_audio_1", "reference_audio_2", "reference_audio_3"],
+          "array": true,
+          "external_sources_field": "audio_sources",
+          "allow_asset_references": true,
+          "allow_raw_base64": true,
+          "content_types": ["audio/wav", "audio/wave", "audio/x-wav", "audio/mpeg", "audio/mp3"],
+          "max_bytes": 15000000,
+          "min_duration_ms": 2000,
+          "max_duration_ms": 15000,
+          "max_total_duration_ms": 15000
+        }
+      },
+      "media_requires_any_of": {
+        "reference_audios": ["reference_images", "reference_videos"]
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seedance 2.0 参考生视频",
+      "description": "使用参考图片、视频和音频生成、编辑或续写视频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "成品时长（秒）"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "21:9": "21:9",
+            "adaptive": "自适应"
+          }
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "bitrate_mode": {
+          "label": "码率模式",
+          "choiceLabels": {
+            "standard": "标准",
+            "high": "高"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "add_watermark": {
+          "label": "添加水印"
+        },
+        "include_last_frame": {
+          "label": "导出尾帧"
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        },
+        "reference_image_5": {
+          "label": "参考图 5"
+        },
+        "reference_image_6": {
+          "label": "参考图 6"
+        },
+        "reference_image_7": {
+          "label": "参考图 7"
+        },
+        "reference_image_8": {
+          "label": "参考图 8"
+        },
+        "reference_image_9": {
+          "label": "参考图 9"
+        },
+        "image_sources": {
+          "label": "参考图来源"
+        },
+        "reference_video_1": {
+          "label": "参考视频 1"
+        },
+        "reference_video_2": {
+          "label": "参考视频 2"
+        },
+        "reference_video_3": {
+          "label": "参考视频 3"
+        },
+        "video_sources": {
+          "label": "参考视频来源"
+        },
+        "reference_audio_1": {
+          "label": "参考音频 1"
+        },
+        "reference_audio_2": {
+          "label": "参考音频 2"
+        },
+        "reference_audio_3": {
+          "label": "参考音频 3"
+        },
+        "audio_sources": {
+          "label": "参考音频来源"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "填写画面和动作，可按素材顺序用 @image1、@video1 等引用。"
+        },
+        "reference_image_1": {
+          "help": "最多 9 张，每张小于 30 MB。"
+        },
+        "reference_video_1": {
+          "help": "最多 3 段 MP4 或 MOV，每段 2 至 15 秒，总时长最多 15 秒。"
+        },
+        "reference_audio_1": {
+          "help": "最多 3 段 WAV 或 MP3，每段 2 至 15 秒，总时长最多 15 秒。使用音频时需要参考图或视频。"
+        },
+        "duration_seconds": {
+          "help": "选择 4 至 15 秒，选 -1 由模型决定时长。"
+        },
+        "aspect_ratio": {
+          "help": "使用自适应时采用主要素材的宽高比。"
+        },
+        "resolution": {
+          "help": "可选原生分辨率或 SR 超分辨率。4K 使用 10 位 HEVC 编码。"
+        },
+        "bitrate_mode": {
+          "help": "高码率可以保留更多细节，同时增大文件体积。"
+        },
+        "generate_audio": {
+          "help": "生成与画面同步的语音、音效或音乐。"
+        },
+        "seed": {
+          "help": "填写 -1 至 4,294,967,295 的整数。-1 表示随机。"
+        },
+        "add_watermark": {
+          "help": "为输出视频添加水印。"
+        },
+        "include_last_frame": {
+          "help": "将输出视频的最后一帧另存为图片。"
+        },
+        "reference_image_2": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_3": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_4": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_5": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_6": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_7": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_8": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_image_9": {
+          "help": "素材按提交顺序编号。"
+        },
+        "image_sources": {
+          "help": "每行填写一个公开 URL 或 asset:// 引用。链接排在上传素材之后。 也可逐行填写 Base64。"
+        },
+        "reference_video_2": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_video_3": {
+          "help": "素材按提交顺序编号。"
+        },
+        "video_sources": {
+          "help": "每行填写一个公开 URL 或 asset:// 引用。链接排在上传素材之后。"
+        },
+        "reference_audio_2": {
+          "help": "素材按提交顺序编号。"
+        },
+        "reference_audio_3": {
+          "help": "素材按提交顺序编号。"
+        },
+        "audio_sources": {
+          "help": "每行填写一个公开 URL 或 asset:// 引用。链接排在上传素材之后。 也可逐行填写 Base64。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seedance 2.0 參考素材生影片",
+      "description": "使用參考圖片、影片和音訊生成、編輯或延長影片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "成品長度（秒）"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "21:9": "21:9",
+            "adaptive": "自適應"
+          }
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "bitrate_mode": {
+          "label": "位元率模式",
+          "choiceLabels": {
+            "standard": "標準",
+            "high": "高"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "add_watermark": {
+          "label": "加入浮水印"
+        },
+        "include_last_frame": {
+          "label": "匯出尾幀"
+        },
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "reference_image_4": {
+          "label": "參考圖 4"
+        },
+        "reference_image_5": {
+          "label": "參考圖 5"
+        },
+        "reference_image_6": {
+          "label": "參考圖 6"
+        },
+        "reference_image_7": {
+          "label": "參考圖 7"
+        },
+        "reference_image_8": {
+          "label": "參考圖 8"
+        },
+        "reference_image_9": {
+          "label": "參考圖 9"
+        },
+        "image_sources": {
+          "label": "參考圖來源"
+        },
+        "reference_video_1": {
+          "label": "參考影片 1"
+        },
+        "reference_video_2": {
+          "label": "參考影片 2"
+        },
+        "reference_video_3": {
+          "label": "參考影片 3"
+        },
+        "video_sources": {
+          "label": "參考影片來源"
+        },
+        "reference_audio_1": {
+          "label": "參考音訊 1"
+        },
+        "reference_audio_2": {
+          "label": "參考音訊 2"
+        },
+        "reference_audio_3": {
+          "label": "參考音訊 3"
+        },
+        "audio_sources": {
+          "label": "參考音訊來源"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "填寫畫面和動作，可按素材順序用 @image1、@video1 等參照。"
+        },
+        "reference_image_1": {
+          "help": "最多 9 張，每張小於 30 MB。"
+        },
+        "reference_video_1": {
+          "help": "最多 3 段 MP4 或 MOV，每段 2 至 15 秒，總長最多 15 秒。"
+        },
+        "reference_audio_1": {
+          "help": "最多 3 段 WAV 或 MP3，每段 2 至 15 秒，總長最多 15 秒。使用音訊時需搭配參考圖或影片。"
+        },
+        "duration_seconds": {
+          "help": "選擇 4 至 15 秒，選 -1 由模型決定長度。"
+        },
+        "aspect_ratio": {
+          "help": "使用自適應時採用主要素材的寬高比。"
+        },
+        "resolution": {
+          "help": "可選原生解析度或 SR 超解析度。4K 採用 10 位元 HEVC 編碼。"
+        },
+        "bitrate_mode": {
+          "help": "高位元率可保留更多細節，並增加檔案大小。"
+        },
+        "generate_audio": {
+          "help": "生成與畫面同步的語音、音效或音樂。"
+        },
+        "seed": {
+          "help": "輸入 -1 至 4,294,967,295 的整數。-1 代表隨機。"
+        },
+        "add_watermark": {
+          "help": "為輸出影片加入浮水印。"
+        },
+        "include_last_frame": {
+          "help": "將輸出影片的最後一幀另存為圖片。"
+        },
+        "reference_image_2": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_3": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_4": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_5": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_6": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_7": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_8": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_image_9": {
+          "help": "素材按提交順序編號。"
+        },
+        "image_sources": {
+          "help": "每行填寫一個公開 URL 或 asset:// 參照。連結排在上傳素材之後。 也可逐行填寫 Base64。"
+        },
+        "reference_video_2": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_video_3": {
+          "help": "素材按提交順序編號。"
+        },
+        "video_sources": {
+          "help": "每行填寫一個公開 URL 或 asset:// 參照。連結排在上傳素材之後。"
+        },
+        "reference_audio_2": {
+          "help": "素材按提交順序編號。"
+        },
+        "reference_audio_3": {
+          "help": "素材按提交順序編號。"
+        },
+        "audio_sources": {
+          "help": "每行填寫一個公開 URL 或 asset:// 參照。連結排在上傳素材之後。 也可逐行填寫 Base64。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seedance 2.0 Reference-to-Video",
+      "description": "Generate, edit, or extend video using reference images, videos, and audio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "21:9": "21:9",
+            "adaptive": "Adaptive"
+          }
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "bitrate_mode": {
+          "label": "Bitrate mode",
+          "choiceLabels": {
+            "standard": "Standard",
+            "high": "High"
+          }
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "seed": {
+          "label": "Random seed"
+        },
+        "add_watermark": {
+          "label": "Add watermark"
+        },
+        "include_last_frame": {
+          "label": "Export last frame"
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        },
+        "reference_image_5": {
+          "label": "Reference image 5"
+        },
+        "reference_image_6": {
+          "label": "Reference image 6"
+        },
+        "reference_image_7": {
+          "label": "Reference image 7"
+        },
+        "reference_image_8": {
+          "label": "Reference image 8"
+        },
+        "reference_image_9": {
+          "label": "Reference image 9"
+        },
+        "image_sources": {
+          "label": "Reference image sources"
+        },
+        "reference_video_1": {
+          "label": "Reference video 1"
+        },
+        "reference_video_2": {
+          "label": "Reference video 2"
+        },
+        "reference_video_3": {
+          "label": "Reference video 3"
+        },
+        "video_sources": {
+          "label": "Reference video sources"
+        },
+        "reference_audio_1": {
+          "label": "Reference audio 1"
+        },
+        "reference_audio_2": {
+          "label": "Reference audio 2"
+        },
+        "reference_audio_3": {
+          "label": "Reference audio 3"
+        },
+        "audio_sources": {
+          "label": "Reference audio sources"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the visuals and actions. Refer to inputs in order with @image1, @video1, and similar mentions."
+        },
+        "reference_image_1": {
+          "help": "Add up to nine images. Each must be smaller than 30 MB."
+        },
+        "reference_video_1": {
+          "help": "Add up to three MP4 or MOV clips. Each must be 2–15 seconds, with at most 15 seconds in total."
+        },
+        "reference_audio_1": {
+          "help": "Add up to three WAV or MP3 clips. Each must be 2–15 seconds, with at most 15 seconds in total. Include a reference image or video when using audio."
+        },
+        "duration_seconds": {
+          "help": "Choose 4 to 15 seconds or −1 for automatic duration."
+        },
+        "aspect_ratio": {
+          "help": "Use adaptive to match the aspect ratio of the primary reference."
+        },
+        "resolution": {
+          "help": "Choose native or SR (super-resolution) output. 4K uses 10-bit HEVC."
+        },
+        "bitrate_mode": {
+          "help": "Higher bitrate preserves more detail and produces a larger file."
+        },
+        "generate_audio": {
+          "help": "Generate speech, sound effects, or music synchronized with the video."
+        },
+        "seed": {
+          "help": "Enter an integer from −1 to 4,294,967,295. Use −1 for a random seed."
+        },
+        "add_watermark": {
+          "help": "Add a watermark to the output video."
+        },
+        "include_last_frame": {
+          "help": "Save the final video frame as a separate image."
+        },
+        "reference_image_2": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_3": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_4": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_5": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_6": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_7": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_8": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_image_9": {
+          "help": "References are numbered in submission order."
+        },
+        "image_sources": {
+          "help": "Enter one public URL or asset:// reference per line. These follow uploaded materials. You can enter Base64 on a line as well."
+        },
+        "reference_video_2": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_video_3": {
+          "help": "References are numbered in submission order."
+        },
+        "video_sources": {
+          "help": "Enter one public URL or asset:// reference per line. These follow uploaded materials."
+        },
+        "reference_audio_2": {
+          "help": "References are numbered in submission order."
+        },
+        "reference_audio_3": {
+          "help": "References are numbered in submission order."
+        },
+        "audio_sources": {
+          "help": "Enter one public URL or asset:// reference per line. These follow uploaded materials. You can enter Base64 on a line as well."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seedance 2.0 参照素材から動画",
+      "description": "参照画像、動画、音声を使用して、動画の生成、編集、延長を行います。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "動画の長さ（秒）"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "21:9": "21:9",
+            "adaptive": "自動"
+          }
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "bitrate_mode": {
+          "label": "ビットレートモード",
+          "choiceLabels": {
+            "standard": "標準",
+            "high": "高"
+          }
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "seed": {
+          "label": "シード値"
+        },
+        "add_watermark": {
+          "label": "透かしを追加"
+        },
+        "include_last_frame": {
+          "label": "最終フレームを書き出す"
+        },
+        "reference_image_1": {
+          "label": "参照画像1"
+        },
+        "reference_image_2": {
+          "label": "参照画像2"
+        },
+        "reference_image_3": {
+          "label": "参照画像3"
+        },
+        "reference_image_4": {
+          "label": "参照画像4"
+        },
+        "reference_image_5": {
+          "label": "参照画像5"
+        },
+        "reference_image_6": {
+          "label": "参照画像6"
+        },
+        "reference_image_7": {
+          "label": "参照画像7"
+        },
+        "reference_image_8": {
+          "label": "参照画像8"
+        },
+        "reference_image_9": {
+          "label": "参照画像9"
+        },
+        "image_sources": {
+          "label": "参照画像のソース"
+        },
+        "reference_video_1": {
+          "label": "参照動画1"
+        },
+        "reference_video_2": {
+          "label": "参照動画2"
+        },
+        "reference_video_3": {
+          "label": "参照動画3"
+        },
+        "video_sources": {
+          "label": "参照動画のソース"
+        },
+        "reference_audio_1": {
+          "label": "参照音声1"
+        },
+        "reference_audio_2": {
+          "label": "参照音声2"
+        },
+        "reference_audio_3": {
+          "label": "参照音声3"
+        },
+        "audio_sources": {
+          "label": "参照音声のソース"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "画面と動作を記述します。@image1 や @video1 などで素材を入力順に参照できます。"
+        },
+        "reference_image_1": {
+          "help": "1 枚 30 MB 未満で、最大 9 枚まで使用できます。"
+        },
+        "reference_video_1": {
+          "help": "2〜15 秒の MP4 または MOV を最大 3 本、合計 15 秒まで使用できます。"
+        },
+        "reference_audio_1": {
+          "help": "2〜15 秒の WAV または MP3 を最大 3 本、合計 15 秒まで使用できます。音声には参照画像か動画を添えてください。"
+        },
+        "duration_seconds": {
+          "help": "4〜15 秒を選びます。-1 で長さを自動決定します。"
+        },
+        "aspect_ratio": {
+          "help": "自動を選ぶと主な参照素材の縦横比を使います。"
+        },
+        "resolution": {
+          "help": "ネイティブ解像度または超解像（SR）を選べます。4K は 10 ビット HEVC です。"
+        },
+        "bitrate_mode": {
+          "help": "高ビットレートでは細部を保てますが、ファイルが大きくなります。"
+        },
+        "generate_audio": {
+          "help": "映像に同期する音声、効果音、音楽を生成します。"
+        },
+        "seed": {
+          "help": "-1〜4,294,967,295 の整数を入力します。-1 はランダムです。"
+        },
+        "add_watermark": {
+          "help": "出力動画に透かしを追加します。"
+        },
+        "include_last_frame": {
+          "help": "動画の最後のフレームを別の画像として保存します。"
+        },
+        "reference_image_2": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_3": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_4": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_5": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_6": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_7": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_8": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_image_9": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "image_sources": {
+          "help": "公開 URL または asset:// 参照を 1 行に 1 つ入力します。アップロード済みの素材の後に追加します。 各行に Base64 を指定することもできます。"
+        },
+        "reference_video_2": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_video_3": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "video_sources": {
+          "help": "公開 URL または asset:// 参照を 1 行に 1 つ入力します。アップロード済みの素材の後に追加します。"
+        },
+        "reference_audio_2": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "reference_audio_3": {
+          "help": "素材には送信順に番号が付きます。"
+        },
+        "audio_sources": {
+          "help": "公開 URL または asset:// 参照を 1 行に 1 つ入力します。アップロード済みの素材の後に追加します。 各行に Base64 を指定することもできます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seedance 2.0 참조 자료로 동영상 생성",
+      "description": "참조 이미지, 동영상, 오디오를 사용해 동영상을 생성하거나 편집하고 연장합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "동영상 길이(초)"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "21:9": "21:9",
+            "adaptive": "자동"
+          }
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "bitrate_mode": {
+          "label": "비트레이트 모드",
+          "choiceLabels": {
+            "standard": "표준",
+            "high": "높음"
+          }
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "seed": {
+          "label": "랜덤 시드"
+        },
+        "add_watermark": {
+          "label": "워터마크 추가"
+        },
+        "include_last_frame": {
+          "label": "마지막 프레임 내보내기"
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_image_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_image_6": {
+          "label": "참조 이미지 6"
+        },
+        "reference_image_7": {
+          "label": "참조 이미지 7"
+        },
+        "reference_image_8": {
+          "label": "참조 이미지 8"
+        },
+        "reference_image_9": {
+          "label": "참조 이미지 9"
+        },
+        "image_sources": {
+          "label": "참조 이미지 소스"
+        },
+        "reference_video_1": {
+          "label": "참조 동영상 1"
+        },
+        "reference_video_2": {
+          "label": "참조 동영상 2"
+        },
+        "reference_video_3": {
+          "label": "참조 동영상 3"
+        },
+        "video_sources": {
+          "label": "참조 동영상 소스"
+        },
+        "reference_audio_1": {
+          "label": "참조 오디오 1"
+        },
+        "reference_audio_2": {
+          "label": "참조 오디오 2"
+        },
+        "reference_audio_3": {
+          "label": "참조 오디오 3"
+        },
+        "audio_sources": {
+          "label": "참조 오디오 소스"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "화면과 동작을 설명하세요. @image1, @video1 등으로 입력 순서에 따라 자료를 참조할 수 있습니다."
+        },
+        "reference_image_1": {
+          "help": "이미지는 최대 9장, 각 30 MB 미만입니다."
+        },
+        "reference_video_1": {
+          "help": "2~15초 분량의 MP4 또는 MOV를 최대 3개, 총 15초까지 사용할 수 있습니다."
+        },
+        "reference_audio_1": {
+          "help": "2~15초 분량의 WAV 또는 MP3를 최대 3개, 총 15초까지 사용할 수 있습니다. 오디오와 함께 참조 이미지 또는 동영상을 추가하세요."
+        },
+        "duration_seconds": {
+          "help": "4~15초를 선택하세요. -1이면 길이가 자동으로 결정됩니다."
+        },
+        "aspect_ratio": {
+          "help": "자동을 선택하면 주요 참조 자료의 화면 비율을 따릅니다."
+        },
+        "resolution": {
+          "help": "기본 해상도나 초해상도(SR)를 선택합니다. 4K는 10비트 HEVC를 사용합니다."
+        },
+        "bitrate_mode": {
+          "help": "높은 비트레이트는 더 많은 디테일을 보존하며 파일 크기가 커집니다."
+        },
+        "generate_audio": {
+          "help": "영상과 동기화된 음성, 효과음, 음악을 생성합니다."
+        },
+        "seed": {
+          "help": "-1~4,294,967,295의 정수를 입력하세요. -1은 무작위입니다."
+        },
+        "add_watermark": {
+          "help": "출력 동영상에 워터마크를 추가합니다."
+        },
+        "include_last_frame": {
+          "help": "동영상의 마지막 프레임을 별도의 이미지로 저장합니다."
+        },
+        "reference_image_2": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_3": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_4": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_5": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_6": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_7": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_8": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_image_9": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "image_sources": {
+          "help": "한 줄에 공개 URL 또는 asset:// 참조를 하나씩 입력하세요. 업로드한 자료 다음에 추가됩니다. 줄마다 Base64를 입력할 수도 있습니다."
+        },
+        "reference_video_2": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_video_3": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "video_sources": {
+          "help": "한 줄에 공개 URL 또는 asset:// 참조를 하나씩 입력하세요. 업로드한 자료 다음에 추가됩니다."
+        },
+        "reference_audio_2": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "reference_audio_3": {
+          "help": "자료에는 제출 순서로 번호를 붙입니다."
+        },
+        "audio_sources": {
+          "help": "한 줄에 공개 URL 또는 asset:// 참조를 하나씩 입력하세요. 업로드한 자료 다음에 추가됩니다. 줄마다 Base64를 입력할 수도 있습니다."
+        }
+      }
+    }
+  }
+}

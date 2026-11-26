@@ -1,0 +1,441 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-tencent-vega-image-1-5-pro-text-to-image",
+  "name": "腾讯 Vega 1.5 Pro 文生图",
+  "description": "从文字生成 1K、2K 或 4K 图像，可选画面比例、反向提示词和提示词增强。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "An astronaut corgi posing on the surface of the moon, cinematic, photorealistic.",
+      "multiline": true
+    },
+    {
+      "name": "size",
+      "kind": "choice",
+      "default": "1K",
+      "choices": ["1K", "2K", "4K"],
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "1:1",
+      "choices": ["16:9", "9:16", "1:1", "3:4", "4:3"],
+      "optional": true
+    },
+    {
+      "name": "negative_prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "optional": true
+    },
+    {
+      "name": "enhance_prompt",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true
+    },
+    {
+      "name": "input_region",
+      "kind": "choice",
+      "default": "Oversea",
+      "choices": ["Mainland", "Oversea", "OverseaUSWest"],
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "negative_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enhance_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "input_region",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "tencent/vega-image-1.5-pro/text-to-image",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "aspect_ratio": "aspect_ratio",
+        "negative_prompt": "negative_prompt",
+        "enhance_prompt": "enhance_prompt",
+        "seed": "seed",
+        "input_region": "input_region"
+      },
+      "required_text": ["prompt"],
+      "omit_blank_parameters": ["negative_prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "腾讯 Vega 1.5 Pro 文生图",
+      "description": "从文字生成 1K、2K 或 4K 图像，可选画面比例、反向提示词和提示词增强。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "1K": "1K",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3"
+          }
+        },
+        "negative_prompt": {
+          "label": "反向提示词"
+        },
+        "enhance_prompt": {
+          "label": "提示词增强"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "input_region": {
+          "label": "输入地区",
+          "choiceLabels": {
+            "Mainland": "中国大陆",
+            "Oversea": "海外",
+            "OverseaUSWest": "海外（美国西部）"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要生成的主体、场景、风格和构图。"
+        },
+        "size": {
+          "help": "选择 1K、2K 或 4K。默认 1K。"
+        },
+        "aspect_ratio": {
+          "help": "选择画面宽高比。默认 1:1。"
+        },
+        "negative_prompt": {
+          "help": "填写希望画面避开的内容。"
+        },
+        "enhance_prompt": {
+          "help": "让模型在生成前增强提示词。默认关闭。"
+        },
+        "seed": {
+          "help": "填写整数以复用种子，留空时省略。"
+        },
+        "input_region": {
+          "help": "选择内容审核所用的地区。默认海外。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "騰訊 Vega 1.5 Pro 文生圖",
+      "description": "從文字生成 1K、2K 或 4K 圖像，可選畫面比例、反向提示詞和提示詞增強。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "解析度",
+          "choiceLabels": {
+            "1K": "1K",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3"
+          }
+        },
+        "negative_prompt": {
+          "label": "反向提示詞"
+        },
+        "enhance_prompt": {
+          "label": "提示詞增強"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "input_region": {
+          "label": "輸入地區",
+          "choiceLabels": {
+            "Mainland": "中國大陸",
+            "Oversea": "海外",
+            "OverseaUSWest": "海外（美國西部）"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要生成的主體、場景、風格和構圖。"
+        },
+        "size": {
+          "help": "選擇 1K、2K 或 4K。預設 1K。"
+        },
+        "aspect_ratio": {
+          "help": "選擇畫面寬高比。預設 1:1。"
+        },
+        "negative_prompt": {
+          "help": "填寫希望畫面避開的內容。"
+        },
+        "enhance_prompt": {
+          "help": "讓模型在生成前增強提示詞。預設關閉。"
+        },
+        "seed": {
+          "help": "填寫整數以重用種子，留空時省略。"
+        },
+        "input_region": {
+          "help": "選擇內容審核所用的地區。預設海外。"
+        }
+      }
+    },
+    "en": {
+      "name": "Tencent Vega 1.5 Pro Text to Image",
+      "description": "Generate 1K, 2K or 4K images from text with aspect ratio, negative prompt and prompt enhancement options.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "1K": "1K",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3"
+          }
+        },
+        "negative_prompt": {
+          "label": "Negative prompt"
+        },
+        "enhance_prompt": {
+          "label": "Enhance prompt"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "input_region": {
+          "label": "Input region",
+          "choiceLabels": {
+            "Mainland": "Mainland China",
+            "Oversea": "Overseas",
+            "OverseaUSWest": "Overseas (US West)"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, scene, style and composition."
+        },
+        "size": {
+          "help": "Choose 1K, 2K or 4K. The default is 1K."
+        },
+        "aspect_ratio": {
+          "help": "Choose the width-to-height ratio. The default is 1:1."
+        },
+        "negative_prompt": {
+          "help": "Describe content to avoid in the image."
+        },
+        "enhance_prompt": {
+          "help": "Let the model enhance the prompt before generation. Off by default."
+        },
+        "seed": {
+          "help": "Enter an integer to reuse a seed, or leave blank to omit."
+        },
+        "input_region": {
+          "help": "Choose the region used for content moderation. Overseas is the default."
+        }
+      }
+    },
+    "ja": {
+      "name": "Tencent Vega 1.5 Pro テキストから画像",
+      "description": "テキストから 1K、2K、4K の画像を生成し、縦横比、ネガティブプロンプト、プロンプト強化を設定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "解像度",
+          "choiceLabels": {
+            "1K": "1K",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3"
+          }
+        },
+        "negative_prompt": {
+          "label": "ネガティブプロンプト"
+        },
+        "enhance_prompt": {
+          "label": "プロンプト強化"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "input_region": {
+          "label": "入力地域",
+          "choiceLabels": {
+            "Mainland": "中国本土",
+            "Oversea": "中国本土外",
+            "OverseaUSWest": "中国本土外（米国西部）"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、シーン、スタイル、構図を記述します。"
+        },
+        "size": {
+          "help": "1K、2K または 4K を選択します。既定は 1K です。"
+        },
+        "aspect_ratio": {
+          "help": "画像の縦横比を選択します。既定は 1:1 です。"
+        },
+        "negative_prompt": {
+          "help": "画像で避けたい内容を記述します。"
+        },
+        "enhance_prompt": {
+          "help": "生成前にモデルがプロンプトを補強します。既定はオフです。"
+        },
+        "seed": {
+          "help": "再利用するシードを整数で入力します。空欄では省略します。"
+        },
+        "input_region": {
+          "help": "コンテンツ審査に使う地域を選択します。既定は中国本土外です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Tencent Vega 1.5 Pro 텍스트에서 이미지",
+      "description": "텍스트로 1K, 2K 또는 4K 이미지를 생성하며, 화면 비율과 네거티브 프롬프트 및 프롬프트 강화를 설정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "해상도",
+          "choiceLabels": {
+            "1K": "1K",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3"
+          }
+        },
+        "negative_prompt": {
+          "label": "네거티브 프롬프트"
+        },
+        "enhance_prompt": {
+          "label": "프롬프트 강화"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "input_region": {
+          "label": "입력 지역",
+          "choiceLabels": {
+            "Mainland": "중국 본토",
+            "Oversea": "해외",
+            "OverseaUSWest": "해외 (미국 서부)"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 장면, 스타일, 구도를 설명하세요."
+        },
+        "size": {
+          "help": "1K, 2K 또는 4K를 선택하세요. 기본값은 1K입니다."
+        },
+        "aspect_ratio": {
+          "help": "가로세로 비율을 선택하세요. 기본값은 1:1입니다."
+        },
+        "negative_prompt": {
+          "help": "이미지에서 피하고 싶은 내용을 설명하세요."
+        },
+        "enhance_prompt": {
+          "help": "생성하기 전에 모델이 프롬프트를 보강합니다. 기본값은 꺼짐입니다."
+        },
+        "seed": {
+          "help": "재사용할 시드를 정수로 입력하세요. 빈칸은 생략합니다."
+        },
+        "input_region": {
+          "help": "콘텐츠 검토에 적용되는 지역을 선택하세요. 기본값은 해외입니다."
+        }
+      }
+    }
+  }
+}

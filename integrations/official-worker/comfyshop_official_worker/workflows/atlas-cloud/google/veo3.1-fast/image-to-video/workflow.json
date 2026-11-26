@@ -1,0 +1,569 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-google-veo3-1-fast-image-to-video",
+  "name": "Veo 3.1 Fast 图生视频",
+  "description": "让起始图动起来，可选结束图、音频与最高 4K 分辨率。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 8,
+      "optional": true,
+      "choices": [8, 4, 6]
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "optional": true,
+      "choices": ["16:9", "9:16"]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "optional": true,
+      "choices": ["720p", "1080p", "4k"]
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true
+    },
+    {
+      "name": "generate_audio",
+      "optional": true,
+      "kind": "boolean",
+      "default": false
+    },
+    {
+      "name": "negative_prompt",
+      "optional": true,
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "negative_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "google/veo3.1-fast/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "seed": "seed",
+        "generate_audio": "generate_audio",
+        "negative_prompt": "negative_prompt"
+      },
+      "required_text": ["prompt"],
+      "choice_bounds": {
+        "duration": {
+          "parameter": "resolution",
+          "ranges": {
+            "1080p": [8, 8],
+            "4k": [8, 8]
+          }
+        }
+      },
+      "omit_blank_parameters": ["negative_prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "content_types": ["image/png", "image/jpeg"],
+          "external_urls_only": true
+        },
+        "last_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "external_sources_field": "last_frame_source",
+          "content_types": ["image/png", "image/jpeg"],
+          "external_urls_only": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Veo 3.1 Fast 图生视频",
+      "description": "让起始图动起来，可选结束图、音频与最高 4K 分辨率。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "aspect_ratio": {
+          "label": "画面比例"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "negative_prompt": {
+          "label": "负面提示词"
+        },
+        "first_frame": {
+          "label": "起始图"
+        },
+        "first_frame_source": {
+          "label": "起始图地址"
+        },
+        "last_frame": {
+          "label": "结束图"
+        },
+        "last_frame_source": {
+          "label": "结束图地址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述需要的动作、镜头及首尾图之间的过渡。"
+        },
+        "first_frame": {
+          "help": "上传要加入运动的图片，或在高级区填写公开地址。"
+        },
+        "last_frame": {
+          "help": "可选。上传指定最后一帧的图片。"
+        },
+        "duration": {
+          "help": "720p 可选 4、6 或 8 秒。1080p 和 4K 使用 8 秒。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9 横屏或 9:16 竖屏。"
+        },
+        "resolution": {
+          "help": "选择 720p、1080p 或 4K。默认 720p。"
+        },
+        "seed": {
+          "help": "可填写一个整数。留空由 Atlas 选择。"
+        },
+        "generate_audio": {
+          "help": "同时生成与视频匹配的音频，默认关闭。"
+        },
+        "negative_prompt": {
+          "help": "描述画面中要避开的物体、风格或元素。"
+        },
+        "first_frame_source": {
+          "help": "填写一个公开图片 URL，与上传二选一。"
+        },
+        "last_frame_source": {
+          "help": "填写一个公开图片 URL，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Veo 3.1 Fast 圖生影片",
+      "description": "讓起始圖動起來，可選填結尾圖、音訊與最高 4K 解析度。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "negative_prompt": {
+          "label": "負面提示詞"
+        },
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "first_frame_source": {
+          "label": "起始圖網址"
+        },
+        "last_frame": {
+          "label": "結尾圖"
+        },
+        "last_frame_source": {
+          "label": "結尾圖網址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述所需動作、運鏡與首尾圖之間的過渡。"
+        },
+        "first_frame": {
+          "help": "上傳要加入動作的圖片，或在進階區填寫公開網址。"
+        },
+        "last_frame": {
+          "help": "選填，上傳指定最後一個影格的圖片。"
+        },
+        "duration": {
+          "help": "720p 可選 4、6 或 8 秒。1080p 和 4K 使用 8 秒。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9 橫向或 9:16 直向。"
+        },
+        "resolution": {
+          "help": "選擇 720p、1080p 或 4K。預設為 720p。"
+        },
+        "seed": {
+          "help": "可填寫一個整數。留空由 Atlas 選擇。"
+        },
+        "generate_audio": {
+          "help": "同時產生與影片搭配的音訊，預設為關閉。"
+        },
+        "negative_prompt": {
+          "help": "描述畫面中想避免的物件、風格或元素。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個公開圖片網址，與上傳擇一。"
+        },
+        "last_frame_source": {
+          "help": "填寫一個公開圖片網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Veo 3.1 Fast Image to Video",
+      "description": "Animate an opening image with an optional closing frame, audio, and resolution up to 4K.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "negative_prompt": {
+          "label": "Negative prompt"
+        },
+        "first_frame": {
+          "label": "Opening image"
+        },
+        "first_frame_source": {
+          "label": "Opening image URL"
+        },
+        "last_frame": {
+          "label": "Closing image"
+        },
+        "last_frame_source": {
+          "label": "Closing image URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the intended movement, camera direction, and transition between the frames."
+        },
+        "first_frame": {
+          "help": "Upload the image to animate, or enter a public URL under Advanced."
+        },
+        "last_frame": {
+          "help": "Optionally upload the image to use as the final frame."
+        },
+        "duration": {
+          "help": "Choose 4, 6, or 8 seconds at 720p. Use 8 seconds at 1080p or 4K."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9 landscape or 9:16 portrait."
+        },
+        "resolution": {
+          "help": "Choose 720p, 1080p, or 4K. The default is 720p."
+        },
+        "seed": {
+          "help": "Enter an optional integer. Leave it blank to let Atlas choose."
+        },
+        "generate_audio": {
+          "help": "Generate audio that matches the video. Off by default."
+        },
+        "negative_prompt": {
+          "help": "Describe objects, looks, or elements to avoid."
+        },
+        "first_frame_source": {
+          "help": "Enter one public image URL in place of an upload."
+        },
+        "last_frame_source": {
+          "help": "Enter one public image URL in place of an upload."
+        }
+      }
+    },
+    "ja": {
+      "name": "Veo 3.1 Fast 画像から動画",
+      "description": "開始画像を動かして動画を作成します。終了画像、音声、最大4Kの解像度を選べます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "negative_prompt": {
+          "label": "ネガティブプロンプト"
+        },
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "first_frame_source": {
+          "label": "開始画像のURL"
+        },
+        "last_frame": {
+          "label": "終了画像"
+        },
+        "last_frame_source": {
+          "label": "終了画像のURL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "動き、カメラワーク、開始と終了の画像をつなぐ場面を記述します。"
+        },
+        "first_frame": {
+          "help": "動きを付ける画像をアップロードするか、詳細設定で公開URLを指定します。"
+        },
+        "last_frame": {
+          "help": "任意で最後のフレームをアップロードします。"
+        },
+        "duration": {
+          "help": "720pは4秒、6秒、8秒から選択します。1080pと4Kは8秒です。"
+        },
+        "aspect_ratio": {
+          "help": "横長の16:9または縦長の9:16を選択します。"
+        },
+        "resolution": {
+          "help": "720p、1080p、または4Kを選択します。既定値は720pです。"
+        },
+        "seed": {
+          "help": "任意の整数を入力できます。空欄の場合はAtlasが選択します。"
+        },
+        "generate_audio": {
+          "help": "動画に合わせた音声を生成します。既定では無効です。"
+        },
+        "negative_prompt": {
+          "help": "避けたい物体、画風、要素などを記述します。"
+        },
+        "first_frame_source": {
+          "help": "アップロードの代わりに公開画像のURLを1件入力します。"
+        },
+        "last_frame_source": {
+          "help": "アップロードの代わりに公開画像のURLを1件入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Veo 3.1 Fast 이미지로 동영상 생성",
+      "description": "첫 이미지에 움직임을 넣고 마지막 이미지, 오디오와 최대 4K 해상도를 선택합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "negative_prompt": {
+          "label": "부정 프롬프트"
+        },
+        "first_frame": {
+          "label": "첫 이미지"
+        },
+        "first_frame_source": {
+          "label": "첫 이미지 URL"
+        },
+        "last_frame": {
+          "label": "마지막 이미지"
+        },
+        "last_frame_source": {
+          "label": "마지막 이미지 URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "원하는 동작, 카메라 움직임, 첫 이미지와 마지막 이미지 사이의 전환을 설명합니다."
+        },
+        "first_frame": {
+          "help": "움직임을 넣을 이미지를 업로드하거나 고급 설정에서 공개 URL을 입력합니다."
+        },
+        "last_frame": {
+          "help": "선택적으로 마지막 프레임에 사용할 이미지를 업로드합니다."
+        },
+        "duration": {
+          "help": "720p에서는 4초, 6초, 8초 중에 선택합니다. 1080p와 4K에서는 8초를 사용합니다."
+        },
+        "aspect_ratio": {
+          "help": "가로 16:9 또는 세로 9:16을 선택합니다."
+        },
+        "resolution": {
+          "help": "720p, 1080p 또는 4K를 선택합니다. 기본값은 720p입니다."
+        },
+        "seed": {
+          "help": "정수를 입력할 수 있습니다. 비워 두면 Atlas가 선택합니다."
+        },
+        "generate_audio": {
+          "help": "동영상에 맞는 오디오를 생성합니다. 기본값은 꺼짐입니다."
+        },
+        "negative_prompt": {
+          "help": "피하고 싶은 사물, 스타일 또는 요소를 설명합니다."
+        },
+        "first_frame_source": {
+          "help": "업로드 대신 공개 이미지 URL을 하나 입력합니다."
+        },
+        "last_frame_source": {
+          "help": "업로드 대신 공개 이미지 URL을 하나 입력합니다."
+        }
+      }
+    }
+  }
+}

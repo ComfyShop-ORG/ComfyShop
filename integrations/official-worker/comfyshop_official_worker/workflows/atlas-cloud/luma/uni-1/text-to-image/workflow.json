@@ -1,0 +1,210 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-luma-uni1-text",
+  "name": "Luma Uni 1 文生图",
+  "description": "根据提示词生成图片，可选择宽高比和 JPEG 或 PNG 格式。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "A glass of iced coffee on a marble countertop, morning light streaming through a window."
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["1:1", "3:4", "4:3", "9:16", "16:9", "9:21", "21:9"],
+      "optional": true,
+      "default": "16:9"
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "choices": ["jpeg", "png"],
+      "optional": true,
+      "default": "jpeg"
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "luma/uni-1/text-to-image",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "aspect_ratio": "aspect_ratio",
+        "output_format": "output_format"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Luma Uni 1 文生图",
+      "description": "根据提示词生成图片，可选择宽高比和 JPEG 或 PNG 格式。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "宽高比"
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述画面的主体、构图、光线和风格。"
+        },
+        "aspect_ratio": {
+          "help": "选择成品宽高比，默认横向 16:9。"
+        },
+        "output_format": {
+          "help": "选择 JPEG 或 PNG。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Luma Uni 1 文生圖",
+      "description": "依提示詞生成圖片，可選擇長寬比和 JPEG 或 PNG 格式。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "長寬比"
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述畫面的主體、構圖、光線與風格。"
+        },
+        "aspect_ratio": {
+          "help": "選擇成品長寬比，預設橫向 16:9。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG 或 PNG。"
+        }
+      }
+    },
+    "en": {
+      "name": "Luma Uni 1 Text-to-Image",
+      "description": "Generate an image from a text prompt with selectable aspect ratio and JPEG or PNG output.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, composition, lighting, and style."
+        },
+        "aspect_ratio": {
+          "help": "Choose the image width-to-height ratio. The default is landscape 16:9."
+        },
+        "output_format": {
+          "help": "Choose JPEG or PNG."
+        }
+      }
+    },
+    "ja": {
+      "name": "Luma Uni 1 テキストから画像",
+      "description": "プロンプトから画像を生成します。縦横比と JPEG または PNG を選べます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "縦横比"
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "画像の被写体、構図、光、画風を記述します。"
+        },
+        "aspect_ratio": {
+          "help": "画像の横幅と高さの比率を選びます。既定値は横向きの 16:9 です。"
+        },
+        "output_format": {
+          "help": "JPEG または PNG を選びます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Luma Uni 1 텍스트로 이미지 생성",
+      "description": "프롬프트로 이미지를 생성합니다. 화면 비율과 JPEG 또는 PNG 형식을 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "이미지의 피사체, 구도, 조명과 화풍을 설명하세요."
+        },
+        "aspect_ratio": {
+          "help": "이미지의 가로세로 비율을 선택하세요. 기본값은 가로형 16:9입니다."
+        },
+        "output_format": {
+          "help": "JPEG 또는 PNG를 선택하세요."
+        }
+      }
+    }
+  }
+}

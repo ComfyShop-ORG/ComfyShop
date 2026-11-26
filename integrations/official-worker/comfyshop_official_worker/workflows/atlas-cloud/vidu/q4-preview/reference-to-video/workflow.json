@@ -1,0 +1,1215 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-vidu-q4-preview-reference",
+  "name": "Vidu Q4 Preview 参考生视频",
+  "description": "结合参考图和可选的音频片段生成 3 至 16 秒的视频，支持最高 4K。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "The woman from the first image and the man from the second image hug by the lakeside at sunset.",
+      "optional": false,
+      "maxLength": 20000
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["540p", "720p", "1080p", "2k", "4k"],
+      "optional": true
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 5,
+      "optional": true,
+      "minimum": "3",
+      "maximum": "16",
+      "step": "1"
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true,
+      "default": -1
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "choices": ["16:9", "9:16", "1:1", "4:3", "3:4"],
+      "optional": true
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_10",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_11",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_12",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_13",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_14",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_15",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_sources",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304,
+      "optional": true
+    },
+    {
+      "name": "reference_audio_1",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "reference_audio_2",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "reference_audio_3",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "audio_sources",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_10",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_11",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_12",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_13",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_14",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_15",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "vidu/q4-preview/reference-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "duration": "duration",
+        "generate_audio": "generate_audio",
+        "seed": "seed",
+        "aspect_ratio": "aspect_ratio"
+      },
+      "media": {
+        "reference_images": {
+          "kind": "image",
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4",
+            "reference_image_5",
+            "reference_image_6",
+            "reference_image_7",
+            "reference_image_8",
+            "reference_image_9",
+            "reference_image_10",
+            "reference_image_11",
+            "reference_image_12",
+            "reference_image_13",
+            "reference_image_14",
+            "reference_image_15"
+          ],
+          "external_sources_field": "image_sources",
+          "min_items": 1,
+          "max_bytes": 50000000,
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "array": true
+        },
+        "reference_audios": {
+          "kind": "audio",
+          "fields": ["reference_audio_1", "reference_audio_2", "reference_audio_3"],
+          "array": true,
+          "external_sources_field": "audio_sources",
+          "external_urls_only": true,
+          "content_types": ["audio/mpeg", "audio/mp3"],
+          "max_bytes": 50000000,
+          "min_duration_ms": 3000,
+          "max_duration_ms": 12000
+        }
+      },
+      "text_max_lengths": {
+        "prompt": 20000
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Vidu Q4 Preview 参考生视频",
+      "description": "结合参考图和可选的音频片段生成 3 至 16 秒的视频，支持最高 4K。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4"
+          }
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        },
+        "reference_image_5": {
+          "label": "参考图 5"
+        },
+        "reference_image_6": {
+          "label": "参考图 6"
+        },
+        "reference_image_7": {
+          "label": "参考图 7"
+        },
+        "reference_image_8": {
+          "label": "参考图 8"
+        },
+        "reference_image_9": {
+          "label": "参考图 9"
+        },
+        "reference_image_10": {
+          "label": "参考图 10"
+        },
+        "reference_image_11": {
+          "label": "参考图 11"
+        },
+        "reference_image_12": {
+          "label": "参考图 12"
+        },
+        "reference_image_13": {
+          "label": "参考图 13"
+        },
+        "reference_image_14": {
+          "label": "参考图 14"
+        },
+        "reference_image_15": {
+          "label": "参考图 15"
+        },
+        "image_sources": {
+          "label": "参考图来源"
+        },
+        "reference_audio_1": {
+          "label": "参考音频 1"
+        },
+        "reference_audio_2": {
+          "label": "参考音频 2"
+        },
+        "reference_audio_3": {
+          "label": "参考音频 3"
+        },
+        "audio_sources": {
+          "label": "参考音频 URL"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 50 MB。"
+        },
+        "prompt": {
+          "help": "描述视频中的动作、场景和镜头。用 @1、@2 等引用对应次序的图片，最多 20,000 字符。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9、9:16、1:1、4:3 或 3:4，默认 16:9。"
+        },
+        "resolution": {
+          "help": "选择 540p、720p、1080p、2K 或 4K，默认 720p。"
+        },
+        "duration": {
+          "help": "选择 3 至 16 秒，默认 5 秒。"
+        },
+        "generate_audio": {
+          "help": "生成与视频同步的对白、音效和环境声，默认开启。"
+        },
+        "seed": {
+          "help": "填写整数以指定种子。默认 -1，使用随机种子。"
+        },
+        "reference_image_2": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 50 MB。"
+        },
+        "reference_image_3": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 50 MB。"
+        },
+        "reference_image_4": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 50 MB。"
+        },
+        "reference_image_5": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 50 MB。"
+        },
+        "reference_image_6": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 50 MB。"
+        },
+        "reference_image_7": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 50 MB。"
+        },
+        "reference_image_8": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 50 MB。"
+        },
+        "reference_image_9": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 50 MB。"
+        },
+        "reference_image_10": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 50 MB。"
+        },
+        "reference_image_11": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 50 MB。"
+        },
+        "reference_image_12": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 50 MB。"
+        },
+        "reference_image_13": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 50 MB。"
+        },
+        "reference_image_14": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 50 MB。"
+        },
+        "reference_image_15": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 50 MB。"
+        },
+        "image_sources": {
+          "help": "每行填写一个公开图片 URL 或带媒体类型的 Base64 数据网址。含上传图片共 1 至 15 张。"
+        },
+        "reference_audio_1": {
+          "help": "上传 3 至 12 秒的 MP3，每条最多 50 MB。"
+        },
+        "reference_audio_2": {
+          "help": "上传 3 至 12 秒的 MP3，每条最多 50 MB。"
+        },
+        "reference_audio_3": {
+          "help": "上传 3 至 12 秒的 MP3，每条最多 50 MB。"
+        },
+        "audio_sources": {
+          "help": "每行填写一个公开 MP3 URL。含上传音频最多 3 条。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Vidu Q4 Preview 參考生影片",
+      "description": "結合參考圖和可選的音訊片段生成 3 至 16 秒的影片，支援最高 4K。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4"
+          }
+        },
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "reference_image_4": {
+          "label": "參考圖 4"
+        },
+        "reference_image_5": {
+          "label": "參考圖 5"
+        },
+        "reference_image_6": {
+          "label": "參考圖 6"
+        },
+        "reference_image_7": {
+          "label": "參考圖 7"
+        },
+        "reference_image_8": {
+          "label": "參考圖 8"
+        },
+        "reference_image_9": {
+          "label": "參考圖 9"
+        },
+        "reference_image_10": {
+          "label": "參考圖 10"
+        },
+        "reference_image_11": {
+          "label": "參考圖 11"
+        },
+        "reference_image_12": {
+          "label": "參考圖 12"
+        },
+        "reference_image_13": {
+          "label": "參考圖 13"
+        },
+        "reference_image_14": {
+          "label": "參考圖 14"
+        },
+        "reference_image_15": {
+          "label": "參考圖 15"
+        },
+        "image_sources": {
+          "label": "參考圖來源"
+        },
+        "reference_audio_1": {
+          "label": "參考音訊 1"
+        },
+        "reference_audio_2": {
+          "label": "參考音訊 2"
+        },
+        "reference_audio_3": {
+          "label": "參考音訊 3"
+        },
+        "audio_sources": {
+          "label": "參考音訊網址"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 50 MB。"
+        },
+        "prompt": {
+          "help": "描述影片中的動作、場景和鏡頭。用 @1、@2 等引用對應順序的圖片，最多 20,000 字元。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9、9:16、1:1、4:3 或 3:4，預設 16:9。"
+        },
+        "resolution": {
+          "help": "選擇 540p、720p、1080p、2K 或 4K，預設 720p。"
+        },
+        "duration": {
+          "help": "選擇 3 至 16 秒，預設 5 秒。"
+        },
+        "generate_audio": {
+          "help": "生成與影片同步的對白、音效和環境音，預設開啟。"
+        },
+        "seed": {
+          "help": "填寫整數可指定種子。預設 -1，使用隨機種子。"
+        },
+        "reference_image_2": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 50 MB。"
+        },
+        "reference_image_3": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 50 MB。"
+        },
+        "reference_image_4": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 50 MB。"
+        },
+        "reference_image_5": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 50 MB。"
+        },
+        "reference_image_6": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 50 MB。"
+        },
+        "reference_image_7": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 50 MB。"
+        },
+        "reference_image_8": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 50 MB。"
+        },
+        "reference_image_9": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 50 MB。"
+        },
+        "reference_image_10": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 50 MB。"
+        },
+        "reference_image_11": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 50 MB。"
+        },
+        "reference_image_12": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 50 MB。"
+        },
+        "reference_image_13": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 50 MB。"
+        },
+        "reference_image_14": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 50 MB。"
+        },
+        "reference_image_15": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 50 MB。"
+        },
+        "image_sources": {
+          "help": "每行填寫一個公開圖片網址或帶媒體類型的 Base64 資料網址。含上傳圖片共 1 至 15 張。"
+        },
+        "reference_audio_1": {
+          "help": "上傳 3 至 12 秒的 MP3，每段最多 50 MB。"
+        },
+        "reference_audio_2": {
+          "help": "上傳 3 至 12 秒的 MP3，每段最多 50 MB。"
+        },
+        "reference_audio_3": {
+          "help": "上傳 3 至 12 秒的 MP3，每段最多 50 MB。"
+        },
+        "audio_sources": {
+          "help": "每行填寫一個公開 MP3 網址。含上傳音訊最多 3 段。"
+        }
+      }
+    },
+    "en": {
+      "name": "Vidu Q4 Preview Reference to Video",
+      "description": "Create a three- to sixteen-second video from reference images and optional audio clips at up to 4K.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4"
+          }
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        },
+        "reference_image_5": {
+          "label": "Reference image 5"
+        },
+        "reference_image_6": {
+          "label": "Reference image 6"
+        },
+        "reference_image_7": {
+          "label": "Reference image 7"
+        },
+        "reference_image_8": {
+          "label": "Reference image 8"
+        },
+        "reference_image_9": {
+          "label": "Reference image 9"
+        },
+        "reference_image_10": {
+          "label": "Reference image 10"
+        },
+        "reference_image_11": {
+          "label": "Reference image 11"
+        },
+        "reference_image_12": {
+          "label": "Reference image 12"
+        },
+        "reference_image_13": {
+          "label": "Reference image 13"
+        },
+        "reference_image_14": {
+          "label": "Reference image 14"
+        },
+        "reference_image_15": {
+          "label": "Reference image 15"
+        },
+        "image_sources": {
+          "label": "Reference image sources"
+        },
+        "reference_audio_1": {
+          "label": "Reference audio 1"
+        },
+        "reference_audio_2": {
+          "label": "Reference audio 2"
+        },
+        "reference_audio_3": {
+          "label": "Reference audio 3"
+        },
+        "audio_sources": {
+          "label": "Reference audio URLs"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB."
+        },
+        "prompt": {
+          "help": "Describe motion, scene and camera in up to 20,000 characters. Use @1, @2 and so on to refer to images by position."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9, 9:16, 1:1, 4:3 or 3:4. The default is 16:9."
+        },
+        "resolution": {
+          "help": "Choose 540p, 720p, 1080p, 2K or 4K. The default is 720p."
+        },
+        "duration": {
+          "help": "Choose 3 to 16 seconds. The default is 5."
+        },
+        "generate_audio": {
+          "help": "Generate synchronized dialogue, sound effects and ambient sound. On by default."
+        },
+        "seed": {
+          "help": "Enter an integer to specify a seed. The default of −1 uses a random seed."
+        },
+        "reference_image_2": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB."
+        },
+        "reference_image_3": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB."
+        },
+        "reference_image_4": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB."
+        },
+        "reference_image_5": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB."
+        },
+        "reference_image_6": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB."
+        },
+        "reference_image_7": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB."
+        },
+        "reference_image_8": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB."
+        },
+        "reference_image_9": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB."
+        },
+        "reference_image_10": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB."
+        },
+        "reference_image_11": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB."
+        },
+        "reference_image_12": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB."
+        },
+        "reference_image_13": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB."
+        },
+        "reference_image_14": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB."
+        },
+        "reference_image_15": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB."
+        },
+        "image_sources": {
+          "help": "Enter one public image URL or Base64 data URL with its image type per line. Use one to fifteen images in total, including uploads."
+        },
+        "reference_audio_1": {
+          "help": "Upload a three- to twelve-second MP3 up to 50 MB."
+        },
+        "reference_audio_2": {
+          "help": "Upload a three- to twelve-second MP3 up to 50 MB."
+        },
+        "reference_audio_3": {
+          "help": "Upload a three- to twelve-second MP3 up to 50 MB."
+        },
+        "audio_sources": {
+          "help": "Enter one public MP3 URL per line. Use up to three clips in total, including uploads."
+        }
+      }
+    },
+    "ja": {
+      "name": "Vidu Q4 Preview 参照画像から動画",
+      "description": "参照画像と任意の音声クリップから、3〜16 秒、最大 4K の動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "duration": {
+          "label": "動画の長さ（秒）"
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4"
+          }
+        },
+        "reference_image_1": {
+          "label": "参照画像 1"
+        },
+        "reference_image_2": {
+          "label": "参照画像 2"
+        },
+        "reference_image_3": {
+          "label": "参照画像 3"
+        },
+        "reference_image_4": {
+          "label": "参照画像 4"
+        },
+        "reference_image_5": {
+          "label": "参照画像 5"
+        },
+        "reference_image_6": {
+          "label": "参照画像 6"
+        },
+        "reference_image_7": {
+          "label": "参照画像 7"
+        },
+        "reference_image_8": {
+          "label": "参照画像 8"
+        },
+        "reference_image_9": {
+          "label": "参照画像 9"
+        },
+        "reference_image_10": {
+          "label": "参照画像 10"
+        },
+        "reference_image_11": {
+          "label": "参照画像 11"
+        },
+        "reference_image_12": {
+          "label": "参照画像 12"
+        },
+        "reference_image_13": {
+          "label": "参照画像 13"
+        },
+        "reference_image_14": {
+          "label": "参照画像 14"
+        },
+        "reference_image_15": {
+          "label": "参照画像 15"
+        },
+        "image_sources": {
+          "label": "参照画像のソース"
+        },
+        "reference_audio_1": {
+          "label": "参照音声 1"
+        },
+        "reference_audio_2": {
+          "label": "参照音声 2"
+        },
+        "reference_audio_3": {
+          "label": "参照音声 3"
+        },
+        "audio_sources": {
+          "label": "参照音声の URL"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。"
+        },
+        "prompt": {
+          "help": "動き、シーン、カメラワークを記述します。@1、@2 のように順番で画像を参照します。最大 20,000 文字です。"
+        },
+        "aspect_ratio": {
+          "help": "16:9、9:16、1:1、4:3 または 3:4 を選択します。既定は 16:9 です。"
+        },
+        "resolution": {
+          "help": "540p、720p、1080p、2K または 4K を選択します。既定は 720p です。"
+        },
+        "duration": {
+          "help": "3〜16 秒を選択します。既定は 5 秒です。"
+        },
+        "generate_audio": {
+          "help": "動画に同期した会話、効果音、環境音を生成します。既定はオンです。"
+        },
+        "seed": {
+          "help": "整数を入力してシードを指定します。既定値の -1 はランダムです。"
+        },
+        "reference_image_2": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。"
+        },
+        "reference_image_3": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。"
+        },
+        "reference_image_4": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。"
+        },
+        "reference_image_5": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。"
+        },
+        "reference_image_6": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。"
+        },
+        "reference_image_7": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。"
+        },
+        "reference_image_8": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。"
+        },
+        "reference_image_9": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。"
+        },
+        "reference_image_10": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。"
+        },
+        "reference_image_11": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。"
+        },
+        "reference_image_12": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。"
+        },
+        "reference_image_13": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。"
+        },
+        "reference_image_14": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。"
+        },
+        "reference_image_15": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。"
+        },
+        "image_sources": {
+          "help": "公開画像 URL または画像のメディアタイプを指定した Base64 データ URL を 1 行に 1 つ入力します。アップロード分を含めて 1〜15 枚です。"
+        },
+        "reference_audio_1": {
+          "help": "最大 50 MB、3〜12 秒の MP3 をアップロードします。"
+        },
+        "reference_audio_2": {
+          "help": "最大 50 MB、3〜12 秒の MP3 をアップロードします。"
+        },
+        "reference_audio_3": {
+          "help": "最大 50 MB、3〜12 秒の MP3 をアップロードします。"
+        },
+        "audio_sources": {
+          "help": "公開 MP3 URL を 1 行に 1 つ入力します。アップロード分を含めて最大 3 本です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Vidu Q4 Preview 참조 이미지에서 동영상",
+      "description": "참조 이미지와 선택적인 오디오 클립을 사용해 3~16초 동영상을 최대 4K로 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "duration": {
+          "label": "동영상 길이(초)"
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4"
+          }
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_image_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_image_6": {
+          "label": "참조 이미지 6"
+        },
+        "reference_image_7": {
+          "label": "참조 이미지 7"
+        },
+        "reference_image_8": {
+          "label": "참조 이미지 8"
+        },
+        "reference_image_9": {
+          "label": "참조 이미지 9"
+        },
+        "reference_image_10": {
+          "label": "참조 이미지 10"
+        },
+        "reference_image_11": {
+          "label": "참조 이미지 11"
+        },
+        "reference_image_12": {
+          "label": "참조 이미지 12"
+        },
+        "reference_image_13": {
+          "label": "참조 이미지 13"
+        },
+        "reference_image_14": {
+          "label": "참조 이미지 14"
+        },
+        "reference_image_15": {
+          "label": "참조 이미지 15"
+        },
+        "image_sources": {
+          "label": "참조 이미지 소스"
+        },
+        "reference_audio_1": {
+          "label": "참조 오디오 1"
+        },
+        "reference_audio_2": {
+          "label": "참조 오디오 2"
+        },
+        "reference_audio_3": {
+          "label": "참조 오디오 3"
+        },
+        "audio_sources": {
+          "label": "참조 오디오 URL"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "prompt": {
+          "help": "동영상의 움직임, 장면과 카메라 동작을 최대 20,000자로 설명하세요. @1, @2 등으로 해당 순서의 이미지를 참조할 수 있습니다."
+        },
+        "aspect_ratio": {
+          "help": "16:9, 9:16, 1:1, 4:3 또는 3:4를 선택하세요. 기본값은 16:9입니다."
+        },
+        "resolution": {
+          "help": "540p, 720p, 1080p, 2K 또는 4K를 선택하세요. 기본값은 720p입니다."
+        },
+        "duration": {
+          "help": "3~16초를 선택하세요. 기본값은 5초입니다."
+        },
+        "generate_audio": {
+          "help": "동영상에 맞춰 대사, 효과음, 환경음을 생성합니다. 기본값은 켜짐입니다."
+        },
+        "seed": {
+          "help": "정수를 입력하여 시드를 정하세요. 기본값 -1은 무작위입니다."
+        },
+        "reference_image_2": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "reference_image_3": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "reference_image_4": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "reference_image_5": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "reference_image_6": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "reference_image_7": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "reference_image_8": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "reference_image_9": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "reference_image_10": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "reference_image_11": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "reference_image_12": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "reference_image_13": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "reference_image_14": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "reference_image_15": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "image_sources": {
+          "help": "한 줄에 공개 이미지 URL 또는 이미지 미디어 유형이 포함된 Base64 데이터 URL 하나를 입력하세요. 업로드한 이미지를 포함해 총 1~15장입니다."
+        },
+        "reference_audio_1": {
+          "help": "최대 50 MB의 3~12초 MP3를 업로드하세요."
+        },
+        "reference_audio_2": {
+          "help": "최대 50 MB의 3~12초 MP3를 업로드하세요."
+        },
+        "reference_audio_3": {
+          "help": "최대 50 MB의 3~12초 MP3를 업로드하세요."
+        },
+        "audio_sources": {
+          "help": "한 줄에 공개 MP3 URL 하나를 입력하세요. 업로드한 오디오를 포함해 최대 3개입니다."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,340 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-bach-text",
+  "name": "Bach 1.0 Pro 文生视频",
+  "description": "根据提示词生成 5 至 16 秒的视频，可保留自动生成的音轨。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "A cinematic daytime street scene.",
+      "maxLength": 6500
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "minimum": "5",
+      "maximum": "16",
+      "optional": true,
+      "default": 5
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["1080p", "4k"],
+      "optional": true,
+      "default": "1080p"
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["16:9", "9:16", "4:3", "3:4", "21:9", "1:1"],
+      "optional": true,
+      "default": "16:9"
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "minimum": "1",
+      "maximum": "100000",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "video-rebirth/bach-1.0-pro/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "resolution": "resolution",
+        "aspect_ratio": "aspect_ratio",
+        "generate_audio": "generate_audio",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 6500
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Bach 1.0 Pro 文生视频",
+      "description": "根据提示词生成 5 至 16 秒的视频，可保留自动生成的音轨。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "时长"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "宽高比"
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "seed": {
+          "label": "随机种子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述场景、主体、动作及声音，最多 6,500 字符。"
+        },
+        "duration": {
+          "help": "输入 5 至 16 的整数秒数，默认 5 秒。"
+        },
+        "resolution": {
+          "help": "选择 1080p 或 4K，默认 1080p。"
+        },
+        "aspect_ratio": {
+          "help": "按宽:高选择输出比例，默认 16:9。"
+        },
+        "generate_audio": {
+          "help": "保留模型生成的音轨。关闭后输出静音视频。"
+        },
+        "seed": {
+          "help": "输入 1 至 100,000 的整数可重用种子。留空时随机选择。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Bach 1.0 Pro 文生影片",
+      "description": "依提示詞生成 5 至 16 秒的影片，可保留模型生成的音軌。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "長度"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "寬高比"
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "seed": {
+          "label": "隨機種子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述場景、主體、動作及聲音，最多 6,500 個字元。"
+        },
+        "duration": {
+          "help": "輸入 5 至 16 的整數秒數，預設 5 秒。"
+        },
+        "resolution": {
+          "help": "選擇 1080p 或 4K，預設 1080p。"
+        },
+        "aspect_ratio": {
+          "help": "依寬:高選擇輸出比例，預設 16:9。"
+        },
+        "generate_audio": {
+          "help": "保留模型生成的音軌。關閉後輸出無聲影片。"
+        },
+        "seed": {
+          "help": "輸入 1 至 100,000 的整數可沿用種子。留空時隨機選擇。"
+        }
+      }
+    },
+    "en": {
+      "name": "Bach 1.0 Pro Text-to-Video",
+      "description": "Generate a 5- to 16-second video from a text prompt, with optional audio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Duration"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "seed": {
+          "label": "Seed"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the scene, subject, motion, and sound in up to 6,500 characters."
+        },
+        "duration": {
+          "help": "Enter a whole number of seconds from 5 to 16. The default is 5."
+        },
+        "resolution": {
+          "help": "Choose 1080p or 4K. The default is 1080p."
+        },
+        "aspect_ratio": {
+          "help": "Select the output width-to-height ratio. The default is 16:9."
+        },
+        "generate_audio": {
+          "help": "Keep the generated soundtrack. Turn off for a silent video."
+        },
+        "seed": {
+          "help": "Enter an integer from 1 to 100,000 to reuse a seed, or leave blank for a random one."
+        }
+      }
+    },
+    "ja": {
+      "name": "Bach 1.0 Pro テキストから動画",
+      "description": "プロンプトから 5〜16 秒の動画を生成し、必要に応じて音声を付けます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "長さ"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "seed": {
+          "label": "シード"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "場面、被写体、動き、音を 6,500 文字以内で記述します。"
+        },
+        "duration": {
+          "help": "5〜16 秒の整数を入力します。既定値は 5 秒です。"
+        },
+        "resolution": {
+          "help": "1080p または 4K を選びます。既定値は 1080p です。"
+        },
+        "aspect_ratio": {
+          "help": "出力の幅と高さの比率を選びます。既定値は 16:9 です。"
+        },
+        "generate_audio": {
+          "help": "生成された音声を保持します。オフにすると無音になります。"
+        },
+        "seed": {
+          "help": "固定する場合は 1〜100,000 の整数を入力します。空欄の場合はランダムです。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Bach 1.0 Pro 텍스트로 동영상 생성",
+      "description": "프롬프트로 5~16초 동영상을 생성하고 오디오 포함 여부를 선택합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "길이"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "가로세로 비율"
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "seed": {
+          "label": "시드"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "장면, 피사체, 움직임, 소리를 최대 6,500자까지 설명하세요."
+        },
+        "duration": {
+          "help": "5~16 사이의 정수 초를 입력하세요. 기본값은 5초입니다."
+        },
+        "resolution": {
+          "help": "1080p 또는 4K를 선택하세요. 기본값은 1080p입니다."
+        },
+        "aspect_ratio": {
+          "help": "출력의 가로세로 비율을 선택하세요. 기본값은 16:9입니다."
+        },
+        "generate_audio": {
+          "help": "생성된 오디오를 유지합니다. 끄면 소리 없는 동영상이 만들어집니다."
+        },
+        "seed": {
+          "help": "시드를 고정하려면 1~100,000 사이의 정수를 입력하세요. 비워 두면 무작위로 선택됩니다."
+        }
+      }
+    }
+  }
+}

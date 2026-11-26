@@ -1,0 +1,302 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-uni1max-edit",
+  "name": "Luma Uni 1 Max 图片编辑",
+  "description": "根据提示词修改一张图片，并设置成品宽高比和格式。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "Make the lighting warm and cinematic, add soft morning haze."
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["1:1", "3:4", "4:3", "9:16", "16:9", "9:21", "21:9"],
+      "optional": true,
+      "default": "16:9"
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "choices": ["jpeg", "png"],
+      "optional": true,
+      "default": "jpeg"
+    },
+    {
+      "name": "input_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "input_image_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "input_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "input_image_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "luma/uni-1-max/edit",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "aspect_ratio": "aspect_ratio",
+        "output_format": "output_format"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["input_image"],
+          "external_sources_field": "input_image_source",
+          "min_items": 1,
+          "content_types": ["image/jpeg", "image/png", "image/webp", "image/gif"],
+          "allow_raw_base64": true,
+          "allow_asset_references": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Luma Uni 1 Max 图片编辑",
+      "description": "根据提示词修改一张图片，并设置成品宽高比和格式。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "宽高比"
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "input_image": {
+          "label": "原图"
+        },
+        "input_image_source": {
+          "label": "原图来源"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "上传 JPEG、PNG、WebP 或静态 GIF。"
+        },
+        "prompt": {
+          "help": "描述要修改的内容及需要保留的部分。"
+        },
+        "aspect_ratio": {
+          "help": "选择成品宽高比，默认横向 16:9。"
+        },
+        "output_format": {
+          "help": "选择 JPEG 或 PNG。"
+        },
+        "input_image_source": {
+          "help": "填写公开图片 URL、Base64 Data URI、原始 Base64 或 Atlas 的 asset:// 引用，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Luma Uni 1 Max 圖片編輯",
+      "description": "依提示詞修改一張圖片，並設定成品長寬比和格式。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "長寬比"
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "input_image": {
+          "label": "原圖"
+        },
+        "input_image_source": {
+          "label": "原圖來源"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "上傳 JPEG、PNG、WebP 或靜態 GIF。"
+        },
+        "prompt": {
+          "help": "描述要修改的內容與需要保留的部分。"
+        },
+        "aspect_ratio": {
+          "help": "選擇成品長寬比，預設橫向 16:9。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG 或 PNG。"
+        },
+        "input_image_source": {
+          "help": "填寫公開圖片網址、Base64 Data URI、原始 Base64 或 Atlas 的 asset:// 引用，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Luma Uni 1 Max Image Edit",
+      "description": "Edit one image with a text prompt and choose the aspect ratio and output format.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "input_image": {
+          "label": "Original image"
+        },
+        "input_image_source": {
+          "label": "Original image source"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "Upload JPEG, PNG, WebP, or a still GIF."
+        },
+        "prompt": {
+          "help": "Describe what to change and what to preserve."
+        },
+        "aspect_ratio": {
+          "help": "Choose the image width-to-height ratio. The default is landscape 16:9."
+        },
+        "output_format": {
+          "help": "Choose JPEG or PNG."
+        },
+        "input_image_source": {
+          "help": "Provide a public image URL, Base64 data URI, raw Base64, or Atlas asset:// reference, or upload an image."
+        }
+      }
+    },
+    "ja": {
+      "name": "Luma Uni 1 Max 画像編集",
+      "description": "プロンプトで画像を 1 枚編集し、縦横比と出力形式を指定します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "縦横比"
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "input_image": {
+          "label": "元画像"
+        },
+        "input_image_source": {
+          "label": "元画像の入力元"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "JPEG、PNG、WebP、静止 GIF をアップロードします。"
+        },
+        "prompt": {
+          "help": "変更する内容と残したい部分を記述します。"
+        },
+        "aspect_ratio": {
+          "help": "画像の横幅と高さの比率を選びます。既定値は横向きの 16:9 です。"
+        },
+        "output_format": {
+          "help": "JPEG または PNG を選びます。"
+        },
+        "input_image_source": {
+          "help": "公開画像 URL、Base64 Data URI、Base64 文字列、Atlas の asset:// 参照の入力、または画像のアップロードを選びます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Luma Uni 1 Max 이미지 편집",
+      "description": "프롬프트로 이미지 한 장을 수정하고 화면 비율과 출력 형식을 선택합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "input_image": {
+          "label": "원본 이미지"
+        },
+        "input_image_source": {
+          "label": "원본 이미지 소스"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "JPEG, PNG, WebP 또는 정적 GIF를 업로드하세요."
+        },
+        "prompt": {
+          "help": "바꿀 부분과 유지할 내용을 설명하세요."
+        },
+        "aspect_ratio": {
+          "help": "이미지의 가로세로 비율을 선택하세요. 기본값은 가로형 16:9입니다."
+        },
+        "output_format": {
+          "help": "JPEG 또는 PNG를 선택하세요."
+        },
+        "input_image_source": {
+          "help": "공개 이미지 URL, Base64 Data URI, Base64 문자열, Atlas asset:// 참조를 입력하거나 이미지를 업로드하세요."
+        }
+      }
+    }
+  }
+}

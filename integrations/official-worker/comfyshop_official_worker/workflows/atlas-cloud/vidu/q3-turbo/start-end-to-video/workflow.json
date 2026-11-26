@@ -1,0 +1,605 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-vidu-q3-turbo-start-end-to-video",
+  "name": "Vidu Q3 Turbo 首尾帧生视频",
+  "description": "用起始图和结束图生成 1 至 16 秒的过渡视频，可选 FlashVSR 超分。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["540p", "720p", "1080p", "1080p-sr", "1440p-sr"],
+      "optional": true
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 5,
+      "optional": true,
+      "minimum": "1",
+      "maximum": "16",
+      "step": "1"
+    },
+    {
+      "name": "movement_amplitude",
+      "kind": "choice",
+      "default": "auto",
+      "choices": ["auto", "small", "medium", "large"],
+      "optional": true
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "bgm",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "movement_amplitude",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "bgm",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "vidu/q3-turbo/start-end-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "duration": "duration",
+        "movement_amplitude": "movement_amplitude",
+        "generate_audio": "generate_audio",
+        "bgm": "bgm",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "min_items": 1,
+          "external_sources_field": "first_frame_source",
+          "content_types": ["image/jpeg", "image/png", "image/webp"]
+        },
+        "end_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "min_items": 1,
+          "external_sources_field": "last_frame_source",
+          "content_types": ["image/jpeg", "image/png", "image/webp"]
+        }
+      },
+      "image_aspect_ratio_match": {
+        "parameters": ["image", "end_image"],
+        "ratio_range": [0.8, 1.25]
+      },
+      "request_max_bytes": 20000000
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Vidu Q3 Turbo 首尾帧生视频",
+      "description": "用起始图和结束图生成 1 至 16 秒的过渡视频，可选 FlashVSR 超分。",
+      "fields": {
+        "first_frame": {
+          "label": "起始图"
+        },
+        "last_frame": {
+          "label": "结束图"
+        },
+        "prompt": {
+          "label": "提示词"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "1080p-sr": "1080p 超分",
+            "1440p-sr": "1440p 超分"
+          }
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "movement_amplitude": {
+          "label": "动作幅度",
+          "choiceLabels": {
+            "auto": "自动",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "bgm": {
+          "label": "背景音乐"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "first_frame_source": {
+          "label": "起始图来源"
+        },
+        "last_frame_source": {
+          "label": "结束图来源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传 JPEG、PNG 或 WebP。也可以在高级区填写图片来源。"
+        },
+        "last_frame": {
+          "help": "上传 JPEG、PNG 或 WebP。也可以在高级区填写图片来源。 起始图的宽高比除以结束图的宽高比须在 0.8 至 1.25 之间。"
+        },
+        "prompt": {
+          "help": "描述两帧之间的动作、运镜及场景变化。"
+        },
+        "resolution": {
+          "help": "选择原生 540p、720p、1080p 或 FlashVSR 超分。默认 720p。"
+        },
+        "duration": {
+          "help": "选择 1 至 16 秒，默认 5 秒。"
+        },
+        "movement_amplitude": {
+          "help": "控制画面中主体的动作幅度，默认自动。"
+        },
+        "generate_audio": {
+          "help": "是否生成视频的音频，默认开启。"
+        },
+        "bgm": {
+          "help": "是否给视频添加背景音乐，默认开启。"
+        },
+        "seed": {
+          "help": "填写整数以指定种子，-1 表示随机。留空时省略。"
+        },
+        "first_frame_source": {
+          "help": "填写一个公开图片 URL 或带媒体类型的 Base64 数据网址。"
+        },
+        "last_frame_source": {
+          "help": "填写一个公开图片 URL 或带媒体类型的 Base64 数据网址。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Vidu Q3 Turbo 首尾影格生影片",
+      "description": "使用起始圖和結束圖生成 1 至 16 秒的過渡影片，可選 FlashVSR 超解析度。",
+      "fields": {
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "last_frame": {
+          "label": "結束圖"
+        },
+        "prompt": {
+          "label": "提示詞"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "1080p-sr": "1080p 超解析度",
+            "1440p-sr": "1440p 超解析度"
+          }
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "movement_amplitude": {
+          "label": "動作幅度",
+          "choiceLabels": {
+            "auto": "自動",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "bgm": {
+          "label": "背景音樂"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "first_frame_source": {
+          "label": "起始圖來源"
+        },
+        "last_frame_source": {
+          "label": "結束圖來源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳 JPEG、PNG 或 WebP。也可在進階區填寫圖片來源。"
+        },
+        "last_frame": {
+          "help": "上傳 JPEG、PNG 或 WebP。也可在進階區填寫圖片來源。 起始圖的寬高比除以結束圖的寬高比須在 0.8 至 1.25 之間。"
+        },
+        "prompt": {
+          "help": "描述兩個影格之間的動作、運鏡及場景變化。"
+        },
+        "resolution": {
+          "help": "選擇原生 540p、720p、1080p 或 FlashVSR 超解析度。預設 720p。"
+        },
+        "duration": {
+          "help": "選擇 1 至 16 秒，預設 5 秒。"
+        },
+        "movement_amplitude": {
+          "help": "控制畫面中主體的動作幅度，預設自動。"
+        },
+        "generate_audio": {
+          "help": "是否生成影片的音訊，預設開啟。"
+        },
+        "bgm": {
+          "help": "是否為影片加入背景音樂，預設開啟。"
+        },
+        "seed": {
+          "help": "填寫整數以指定種子，-1 表示隨機。留空時省略。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個公開圖片網址或帶媒體類型的 Base64 資料網址。"
+        },
+        "last_frame_source": {
+          "help": "填寫一個公開圖片網址或帶媒體類型的 Base64 資料網址。"
+        }
+      }
+    },
+    "en": {
+      "name": "Vidu Q3 Turbo First and Last Frames to Video",
+      "description": "Create a one- to sixteen-second transition between two images, with FlashVSR upscaling options.",
+      "fields": {
+        "first_frame": {
+          "label": "Starting image"
+        },
+        "last_frame": {
+          "label": "Ending image"
+        },
+        "prompt": {
+          "label": "Prompt"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "1080p-sr": "1080p upscaled",
+            "1440p-sr": "1440p upscaled"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "movement_amplitude": {
+          "label": "Motion amplitude",
+          "choiceLabels": {
+            "auto": "Auto",
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large"
+          }
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "bgm": {
+          "label": "Background music"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "first_frame_source": {
+          "label": "Starting image source"
+        },
+        "last_frame_source": {
+          "label": "Ending image source"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload a JPEG, PNG or WebP, or enter its source in advanced settings."
+        },
+        "last_frame": {
+          "help": "Upload a JPEG, PNG or WebP, or enter its source in advanced settings. Divide the starting aspect ratio by the ending aspect ratio. The result must be between 0.8 and 1.25."
+        },
+        "prompt": {
+          "help": "Describe the action, camera movement and scene changes between the two frames."
+        },
+        "resolution": {
+          "help": "Choose native 540p, 720p, 1080p or FlashVSR upscaling. The default is 720p."
+        },
+        "duration": {
+          "help": "Choose 1 to 16 seconds. The default is 5."
+        },
+        "movement_amplitude": {
+          "help": "Choose how much objects in the frame move. Auto is the default."
+        },
+        "generate_audio": {
+          "help": "Generate audio for the video. On by default."
+        },
+        "bgm": {
+          "help": "Add background music to the video. On by default."
+        },
+        "seed": {
+          "help": "Enter an integer to specify the seed. Use −1 for random, or leave blank to omit."
+        },
+        "first_frame_source": {
+          "help": "Enter one public image URL or a Base64 data URL with its image type."
+        },
+        "last_frame_source": {
+          "help": "Enter one public image URL or a Base64 data URL with its image type."
+        }
+      }
+    },
+    "ja": {
+      "name": "Vidu Q3 Turbo 開始・終了画像から動画",
+      "description": "開始画像と終了画像をつないで 1〜16 秒の動画を生成します。FlashVSR でアップスケールできます。",
+      "fields": {
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "last_frame": {
+          "label": "終了画像"
+        },
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "1080p-sr": "1080p アップスケール",
+            "1440p-sr": "1440p アップスケール"
+          }
+        },
+        "duration": {
+          "label": "動画の長さ（秒）"
+        },
+        "movement_amplitude": {
+          "label": "動きの大きさ",
+          "choiceLabels": {
+            "auto": "自動",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "bgm": {
+          "label": "BGM"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "first_frame_source": {
+          "label": "開始画像のソース"
+        },
+        "last_frame_source": {
+          "label": "終了画像のソース"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "JPEG、PNG または WebP をアップロードするか、詳細設定でソースを指定します。"
+        },
+        "last_frame": {
+          "help": "JPEG、PNG または WebP をアップロードするか、詳細設定でソースを指定します。 開始画像と終了画像の縦横比の比率は 0.8〜1.25 にしてください。"
+        },
+        "prompt": {
+          "help": "キーフレーム間の動き、カメラワーク、場面の変化を記述します。"
+        },
+        "resolution": {
+          "help": "ネイティブの 540p、720p、1080p または FlashVSR のアップスケールを選択します。既定は 720p です。"
+        },
+        "duration": {
+          "help": "1〜16 秒を選択します。既定は 5 秒です。"
+        },
+        "movement_amplitude": {
+          "help": "画面内の被写体の動きの大きさを選択します。既定は自動です。"
+        },
+        "generate_audio": {
+          "help": "動画の音声を生成します。既定はオンです。"
+        },
+        "bgm": {
+          "help": "動画に BGM を追加します。既定はオンです。"
+        },
+        "seed": {
+          "help": "整数を入力してシードを指定します。-1 はランダムです。空欄では省略します。"
+        },
+        "first_frame_source": {
+          "help": "公開画像 URL または画像のメディアタイプを指定した Base64 データ URL を 1 つ入力します。"
+        },
+        "last_frame_source": {
+          "help": "公開画像 URL または画像のメディアタイプを指定した Base64 データ URL を 1 つ入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Vidu Q3 Turbo 시작·끝 이미지에서 동영상",
+      "description": "시작 이미지와 마지막 이미지를 연결하는 1~16초 동영상을 생성합니다. FlashVSR 업스케일을 선택할 수 있습니다.",
+      "fields": {
+        "first_frame": {
+          "label": "시작 이미지"
+        },
+        "last_frame": {
+          "label": "마지막 이미지"
+        },
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "1080p-sr": "1080p 업스케일",
+            "1440p-sr": "1440p 업스케일"
+          }
+        },
+        "duration": {
+          "label": "동영상 길이(초)"
+        },
+        "movement_amplitude": {
+          "label": "움직임 크기",
+          "choiceLabels": {
+            "auto": "자동",
+            "small": "작게",
+            "medium": "보통",
+            "large": "크게"
+          }
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "bgm": {
+          "label": "배경 음악"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "first_frame_source": {
+          "label": "시작 이미지 소스"
+        },
+        "last_frame_source": {
+          "label": "마지막 이미지 소스"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하거나 고급 설정에 소스를 입력하세요."
+        },
+        "last_frame": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하거나 고급 설정에 소스를 입력하세요. 시작 이미지의 화면 비율을 마지막 이미지의 화면 비율로 나눈 값은 0.8~1.25여야 합니다."
+        },
+        "prompt": {
+          "help": "두 프레임 사이의 움직임, 카메라 동작, 장면 변화를 설명하세요."
+        },
+        "resolution": {
+          "help": "기본 540p, 720p, 1080p 또는 FlashVSR 업스케일을 선택하세요. 기본값은 720p입니다."
+        },
+        "duration": {
+          "help": "1~16초를 선택하세요. 기본값은 5초입니다."
+        },
+        "movement_amplitude": {
+          "help": "화면 속 피사체의 움직임 크기를 선택하세요. 기본값은 자동입니다."
+        },
+        "generate_audio": {
+          "help": "동영상의 오디오를 생성합니다. 기본값은 켜짐입니다."
+        },
+        "bgm": {
+          "help": "동영상에 배경 음악을 추가합니다. 기본값은 켜짐입니다."
+        },
+        "seed": {
+          "help": "정수를 입력해 시드를 정하세요. -1은 무작위이며 빈칸은 생략합니다."
+        },
+        "first_frame_source": {
+          "help": "공개 이미지 URL 또는 이미지 미디어 유형이 포함된 Base64 데이터 URL 하나를 입력하세요."
+        },
+        "last_frame_source": {
+          "help": "공개 이미지 URL 또는 이미지 미디어 유형이 포함된 Base64 데이터 URL 하나를 입력하세요."
+        }
+      }
+    }
+  }
+}

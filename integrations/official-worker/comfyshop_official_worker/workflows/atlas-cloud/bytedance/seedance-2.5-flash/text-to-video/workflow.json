@@ -1,0 +1,401 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "seedance-25-flash-text-to-video",
+  "name": "Seedance 2.5 Flash 文生视频",
+  "description": "根据提示词生成视频，可选择时长、画面比例和是否生成声音。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "default": 5,
+      "optional": true,
+      "choices": [
+        -1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+        27, 28, 29, 30
+      ]
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["16:9", "4:3", "1:1", "3:4", "9:16", "21:9", "adaptive"],
+      "default": "16:9",
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["480p", "720p"],
+      "default": "720p",
+      "optional": true
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "kind": "boolean",
+      "name": "add_watermark",
+      "optional": true,
+      "default": false
+    },
+    {
+      "kind": "boolean",
+      "name": "include_last_frame",
+      "optional": true,
+      "default": false
+    },
+    {
+      "kind": "choice",
+      "name": "video_format",
+      "optional": true,
+      "default": "mp4",
+      "choices": ["mp4", "mov"]
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "add_watermark",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "include_last_frame",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_format",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "operation": "video",
+      "model": "bytedance/seedance-2.5-flash/text-to-video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "generate_audio": "generate_audio",
+        "watermark": "add_watermark",
+        "return_last_frame": "include_last_frame",
+        "output_format": "video_format"
+      },
+      "required_text": ["prompt"]
+    },
+    "additionalOutputKinds": ["image"]
+  },
+  "translations": {
+    "zh": {
+      "name": "Seedance 2.5 Flash 文生视频",
+      "description": "根据提示词生成视频，可选择时长、画面比例和是否生成声音。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "时长（秒）"
+        },
+        "aspect_ratio": {
+          "label": "画面比例"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "generate_audio": {
+          "label": "生成声音"
+        },
+        "add_watermark": {
+          "label": "添加水印"
+        },
+        "include_last_frame": {
+          "label": "导出尾帧"
+        },
+        "video_format": {
+          "label": "视频格式"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述视频的主体、场景和镜头运动。"
+        },
+        "duration_seconds": {
+          "help": "选择 4 至 30 秒。−1 由模型决定时长。"
+        },
+        "aspect_ratio": {
+          "help": "选择横屏、竖屏、方形或自适应。"
+        },
+        "resolution": {
+          "help": "原生支持 480p 和 720p。"
+        },
+        "generate_audio": {
+          "help": "同时生成与画面同步的声音。"
+        },
+        "add_watermark": {
+          "help": "在成品视频中加入水印。"
+        },
+        "include_last_frame": {
+          "help": "将视频最后一帧作为单独的图片交付。"
+        },
+        "video_format": {
+          "help": "选择 MP4 或 MOV 视频容器。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seedance 2.5 Flash 文字生成影片",
+      "description": "依提示詞生成影片，可選擇片長、畫面比例與是否產生音訊。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "片長（秒）"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "generate_audio": {
+          "label": "產生音訊"
+        },
+        "add_watermark": {
+          "label": "加入浮水印"
+        },
+        "include_last_frame": {
+          "label": "匯出結尾影格"
+        },
+        "video_format": {
+          "label": "影片格式"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述影片的主體、場景和運鏡。"
+        },
+        "duration_seconds": {
+          "help": "選擇 4 至 30 秒。−1 由模型決定片長。"
+        },
+        "aspect_ratio": {
+          "help": "選擇橫式、直式、方形或自適應。"
+        },
+        "resolution": {
+          "help": "原生支援 480p 和 720p。"
+        },
+        "generate_audio": {
+          "help": "同時產生與畫面同步的音訊。"
+        },
+        "add_watermark": {
+          "help": "在成品影片中加入浮水印。"
+        },
+        "include_last_frame": {
+          "help": "將影片最後一個影格以獨立圖片交付。"
+        },
+        "video_format": {
+          "help": "選擇 MP4 或 MOV 影片容器。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seedance 2.5 Flash Text-to-Video",
+      "description": "Generate a video from a text prompt. Choose the duration, aspect ratio, and whether to include audio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "add_watermark": {
+          "label": "Add watermark"
+        },
+        "include_last_frame": {
+          "label": "Export last frame"
+        },
+        "video_format": {
+          "label": "Video format"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, setting, and camera movement."
+        },
+        "duration_seconds": {
+          "help": "Choose 4 to 30 seconds. Use −1 for automatic duration."
+        },
+        "aspect_ratio": {
+          "help": "Choose the frame proportions or let the model choose with adaptive."
+        },
+        "resolution": {
+          "help": "Choose a native resolution of 480p or 720p."
+        },
+        "generate_audio": {
+          "help": "Generate audio synchronized with the video."
+        },
+        "add_watermark": {
+          "help": "Add a watermark to the video."
+        },
+        "include_last_frame": {
+          "help": "Include the final video frame as a separate image."
+        },
+        "video_format": {
+          "help": "Choose MP4 or MOV as the video container."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seedance 2.5 Flash テキストから動画を生成",
+      "description": "テキストから動画を生成します。長さ、アスペクト比、音声の有無を選べます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "長さ（秒）"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "add_watermark": {
+          "label": "透かしを追加"
+        },
+        "include_last_frame": {
+          "label": "最終フレームを出力"
+        },
+        "video_format": {
+          "label": "動画形式"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "動画の被写体、シーン、カメラの動きを指定します。"
+        },
+        "duration_seconds": {
+          "help": "4～30 秒から選びます。−1 ではモデルが長さを決めます。"
+        },
+        "aspect_ratio": {
+          "help": "画面の縦横比を選びます。adaptive ではモデルが決めます。"
+        },
+        "resolution": {
+          "help": "ネイティブ解像度の 480p または 720p を選びます。"
+        },
+        "generate_audio": {
+          "help": "動画に同期する音声も生成します。"
+        },
+        "add_watermark": {
+          "help": "出力動画に透かしを追加します。"
+        },
+        "include_last_frame": {
+          "help": "動画の最終フレームを画像として出力します。"
+        },
+        "video_format": {
+          "help": "動画のコンテナ形式を MP4 または MOV から選びます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seedance 2.5 Flash 텍스트로 동영상 생성",
+      "description": "프롬프트로 동영상을 생성합니다. 길이, 화면 비율, 오디오 생성 여부를 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "길이(초)"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "add_watermark": {
+          "label": "워터마크 추가"
+        },
+        "include_last_frame": {
+          "label": "마지막 프레임 내보내기"
+        },
+        "video_format": {
+          "label": "동영상 형식"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "동영상의 피사체, 장면, 카메라 움직임을 입력합니다."
+        },
+        "duration_seconds": {
+          "help": "4~30초를 선택합니다. −1이면 모델이 길이를 결정합니다."
+        },
+        "aspect_ratio": {
+          "help": "화면 비율을 선택합니다. adaptive에서는 모델이 비율을 결정합니다."
+        },
+        "resolution": {
+          "help": "기본 해상도인 480p 또는 720p를 선택합니다."
+        },
+        "generate_audio": {
+          "help": "동영상과 동기화된 오디오를 함께 생성합니다."
+        },
+        "add_watermark": {
+          "help": "결과 동영상에 워터마크를 넣습니다."
+        },
+        "include_last_frame": {
+          "help": "동영상의 마지막 프레임을 별도 이미지로 출력합니다."
+        },
+        "video_format": {
+          "help": "동영상 컨테이너를 MP4 또는 MOV로 선택합니다."
+        }
+      }
+    }
+  }
+}

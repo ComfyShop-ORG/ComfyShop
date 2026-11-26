@@ -1,0 +1,479 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-bach-image",
+  "name": "Bach 1.0 Pro 图生视频",
+  "description": "提供首帧、尾帧或两张图片，生成 5 至 16 秒的视频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "Continue naturally between the endpoint frames.",
+      "maxLength": 6500
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "minimum": "5",
+      "maximum": "16",
+      "optional": true,
+      "default": 5
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["1080p", "4k"],
+      "optional": true,
+      "default": "1080p"
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "minimum": "1",
+      "maximum": "100000",
+      "optional": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "video-rebirth/bach-1.0-pro/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "resolution": "resolution",
+        "generate_audio": "generate_audio",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 6500
+      },
+      "required_any_of": [["image", "last_image"]],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "allow_raw_base64": true,
+          "max_bytes": 10000000
+        },
+        "last_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "external_sources_field": "last_frame_source",
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "allow_raw_base64": true,
+          "max_bytes": 10000000
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Bach 1.0 Pro 图生视频",
+      "description": "提供首帧、尾帧或两张图片，生成 5 至 16 秒的视频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "时长"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "first_frame": {
+          "label": "首帧图片"
+        },
+        "first_frame_source": {
+          "label": "首帧图片来源"
+        },
+        "last_frame": {
+          "label": "尾帧图片"
+        },
+        "last_frame_source": {
+          "label": "尾帧图片来源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "首尾帧至少提供一项。支持 JPEG、PNG 或 WebP，每张最多 10 MB。"
+        },
+        "last_frame": {
+          "help": "首尾帧至少提供一项。支持 JPEG、PNG 或 WebP，每张最多 10 MB。"
+        },
+        "prompt": {
+          "help": "描述场景、主体、动作及声音，最多 6,500 字符。"
+        },
+        "duration": {
+          "help": "输入 5 至 16 的整数秒数，默认 5 秒。"
+        },
+        "resolution": {
+          "help": "选择 1080p 或 4K，默认 1080p。"
+        },
+        "generate_audio": {
+          "help": "保留模型生成的音轨。关闭后输出静音视频。"
+        },
+        "seed": {
+          "help": "输入 1 至 100,000 的整数可重用种子。留空时随机选择。"
+        },
+        "first_frame_source": {
+          "help": "填写公开图片 URL、Base64 数据 URI 或原始 Base64，或上传图片。"
+        },
+        "last_frame_source": {
+          "help": "填写公开图片 URL、Base64 数据 URI 或原始 Base64，或上传图片。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Bach 1.0 Pro 圖生影片",
+      "description": "提供首幀、尾幀或兩張圖片，生成 5 至 16 秒的影片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "長度"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "first_frame": {
+          "label": "首幀圖片"
+        },
+        "first_frame_source": {
+          "label": "首幀圖片來源"
+        },
+        "last_frame": {
+          "label": "尾幀圖片"
+        },
+        "last_frame_source": {
+          "label": "尾幀圖片來源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "首尾幀至少提供一項。支援 JPEG、PNG 或 WebP，每張最多 10 MB。"
+        },
+        "last_frame": {
+          "help": "首尾幀至少提供一項。支援 JPEG、PNG 或 WebP，每張最多 10 MB。"
+        },
+        "prompt": {
+          "help": "描述場景、主體、動作及聲音，最多 6,500 個字元。"
+        },
+        "duration": {
+          "help": "輸入 5 至 16 的整數秒數，預設 5 秒。"
+        },
+        "resolution": {
+          "help": "選擇 1080p 或 4K，預設 1080p。"
+        },
+        "generate_audio": {
+          "help": "保留模型生成的音軌。關閉後輸出無聲影片。"
+        },
+        "seed": {
+          "help": "輸入 1 至 100,000 的整數可沿用種子。留空時隨機選擇。"
+        },
+        "first_frame_source": {
+          "help": "填寫公開圖片網址、Base64 資料 URI 或原始 Base64，或上傳圖片。"
+        },
+        "last_frame_source": {
+          "help": "填寫公開圖片網址、Base64 資料 URI 或原始 Base64，或上傳圖片。"
+        }
+      }
+    },
+    "en": {
+      "name": "Bach 1.0 Pro Image-to-Video",
+      "description": "Generate a 5- to 16-second video from a first frame, a last frame, or both.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Duration"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "first_frame": {
+          "label": "First-frame image"
+        },
+        "first_frame_source": {
+          "label": "First-frame source"
+        },
+        "last_frame": {
+          "label": "Last-frame image"
+        },
+        "last_frame_source": {
+          "label": "Last-frame source"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Provide at least one frame. JPEG, PNG, or WebP, up to 10 MB per image."
+        },
+        "last_frame": {
+          "help": "Provide at least one frame. JPEG, PNG, or WebP, up to 10 MB per image."
+        },
+        "prompt": {
+          "help": "Describe the scene, subject, motion, and sound in up to 6,500 characters."
+        },
+        "duration": {
+          "help": "Enter a whole number of seconds from 5 to 16. The default is 5."
+        },
+        "resolution": {
+          "help": "Choose 1080p or 4K. The default is 1080p."
+        },
+        "generate_audio": {
+          "help": "Keep the generated soundtrack. Turn off for a silent video."
+        },
+        "seed": {
+          "help": "Enter an integer from 1 to 100,000 to reuse a seed, or leave blank for a random one."
+        },
+        "first_frame_source": {
+          "help": "Enter a public image URL, Base64 data URI, or raw Base64, or upload an image."
+        },
+        "last_frame_source": {
+          "help": "Enter a public image URL, Base64 data URI, or raw Base64, or upload an image."
+        }
+      }
+    },
+    "ja": {
+      "name": "Bach 1.0 Pro 画像から動画",
+      "description": "開始フレーム、終了フレーム、または両方を使い、5〜16 秒の動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "長さ"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "first_frame": {
+          "label": "開始フレーム画像"
+        },
+        "first_frame_source": {
+          "label": "開始フレームの入力元"
+        },
+        "last_frame": {
+          "label": "終了フレーム画像"
+        },
+        "last_frame_source": {
+          "label": "終了フレームの入力元"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "開始または終了フレームが 1 枚以上必要です。各画像は JPEG、PNG、WebP のいずれかで 10 MB 以下です。"
+        },
+        "last_frame": {
+          "help": "開始または終了フレームが 1 枚以上必要です。各画像は JPEG、PNG、WebP のいずれかで 10 MB 以下です。"
+        },
+        "prompt": {
+          "help": "場面、被写体、動き、音を 6,500 文字以内で記述します。"
+        },
+        "duration": {
+          "help": "5〜16 秒の整数を入力します。既定値は 5 秒です。"
+        },
+        "resolution": {
+          "help": "1080p または 4K を選びます。既定値は 1080p です。"
+        },
+        "generate_audio": {
+          "help": "生成された音声を保持します。オフにすると無音になります。"
+        },
+        "seed": {
+          "help": "固定する場合は 1〜100,000 の整数を入力します。空欄の場合はランダムです。"
+        },
+        "first_frame_source": {
+          "help": "公開画像 URL、Base64 データ URI、Base64 文字列のいずれかを入力するか、画像をアップロードします。"
+        },
+        "last_frame_source": {
+          "help": "公開画像 URL、Base64 データ URI、Base64 文字列のいずれかを入力するか、画像をアップロードします。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Bach 1.0 Pro 이미지로 동영상 생성",
+      "description": "첫 프레임이나 끝 프레임, 또는 둘 다 사용하여 5~16초 동영상을 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "길이"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "first_frame": {
+          "label": "첫 프레임 이미지"
+        },
+        "first_frame_source": {
+          "label": "첫 프레임 소스"
+        },
+        "last_frame": {
+          "label": "끝 프레임 이미지"
+        },
+        "last_frame_source": {
+          "label": "끝 프레임 소스"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "프레임을 하나 이상 제공하세요. 각 이미지는 최대 10 MB의 JPEG, PNG 또는 WebP여야 합니다."
+        },
+        "last_frame": {
+          "help": "프레임을 하나 이상 제공하세요. 각 이미지는 최대 10 MB의 JPEG, PNG 또는 WebP여야 합니다."
+        },
+        "prompt": {
+          "help": "장면, 피사체, 움직임, 소리를 최대 6,500자까지 설명하세요."
+        },
+        "duration": {
+          "help": "5~16 사이의 정수 초를 입력하세요. 기본값은 5초입니다."
+        },
+        "resolution": {
+          "help": "1080p 또는 4K를 선택하세요. 기본값은 1080p입니다."
+        },
+        "generate_audio": {
+          "help": "생성된 오디오를 유지합니다. 끄면 소리 없는 동영상이 만들어집니다."
+        },
+        "seed": {
+          "help": "시드를 고정하려면 1~100,000 사이의 정수를 입력하세요. 비워 두면 무작위로 선택됩니다."
+        },
+        "first_frame_source": {
+          "help": "공개 이미지 URL, Base64 데이터 URI, Base64 문자열을 입력하거나 이미지를 업로드하세요."
+        },
+        "last_frame_source": {
+          "help": "공개 이미지 URL, Base64 데이터 URI, Base64 문자열을 입력하거나 이미지를 업로드하세요."
+        }
+      }
+    }
+  }
+}

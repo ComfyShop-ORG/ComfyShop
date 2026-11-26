@@ -1,0 +1,568 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-grok-video-reference-to-video",
+  "name": "Grok Imagine Video 参考生视频",
+  "description": "用 1 至 7 张参考图和文字生成最长 10 秒的视频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "integer",
+      "default": 8,
+      "minimum": "1",
+      "maximum": "10",
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["480p", "720p"],
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "choices": ["1:1", "16:9", "9:16", "4:3", "3:4", "3:2", "2:3"],
+      "optional": true
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "xai/grok-imagine-video/reference-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "resolution": "resolution",
+        "aspect_ratio": "aspect_ratio"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "image_urls": {
+          "kind": "image",
+          "array": true,
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4",
+            "reference_image_5",
+            "reference_image_6",
+            "reference_image_7"
+          ],
+          "external_sources_field": "image_sources",
+          "min_items": 1,
+          "external_https_only": true,
+          "content_types": ["image/jpeg", "image/png", "image/webp"]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Grok Imagine Video 参考生视频",
+      "description": "用 1 至 7 张参考图和文字生成最长 10 秒的视频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "成品时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "aspect_ratio": {
+          "label": "画面比例"
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        },
+        "reference_image_5": {
+          "label": "参考图 5"
+        },
+        "reference_image_6": {
+          "label": "参考图 6"
+        },
+        "reference_image_7": {
+          "label": "参考图 7"
+        },
+        "image_sources": {
+          "label": "参考图来源"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "在提示词中用 <IMAGE_N> 为画面元素指定参考图。"
+        },
+        "reference_image_1": {
+          "help": "上传图片作为人物、物体或风格参考。"
+        },
+        "duration_seconds": {
+          "help": "选择 1 至 10 秒，默认 8 秒。"
+        },
+        "resolution": {
+          "help": "选择 480p 或 720p。"
+        },
+        "aspect_ratio": {
+          "help": "选择输出视频的宽高比，默认 16:9。"
+        },
+        "reference_image_2": {
+          "help": "上传槽位按编号提交，外部来源排在其后。"
+        },
+        "reference_image_3": {
+          "help": "上传槽位按编号提交，外部来源排在其后。"
+        },
+        "reference_image_4": {
+          "help": "上传槽位按编号提交，外部来源排在其后。"
+        },
+        "reference_image_5": {
+          "help": "上传槽位按编号提交，外部来源排在其后。"
+        },
+        "reference_image_6": {
+          "help": "上传槽位按编号提交，外部来源排在其后。"
+        },
+        "reference_image_7": {
+          "help": "上传槽位按编号提交，外部来源排在其后。"
+        },
+        "image_sources": {
+          "help": "每行一个公开 HTTPS URL 或 Base64 Data URI。与上传合计 1 至 7 张。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Grok Imagine Video 參考圖生影片",
+      "description": "用 1 至 7 張參考圖和文字生成最長 10 秒的影片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "成品長度（秒）"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例"
+        },
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "reference_image_4": {
+          "label": "參考圖 4"
+        },
+        "reference_image_5": {
+          "label": "參考圖 5"
+        },
+        "reference_image_6": {
+          "label": "參考圖 6"
+        },
+        "reference_image_7": {
+          "label": "參考圖 7"
+        },
+        "image_sources": {
+          "label": "參考圖來源"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "在提示詞中用 <IMAGE_N> 為畫面元素指定參考圖。"
+        },
+        "reference_image_1": {
+          "help": "上傳圖片作為人物、物體或風格參考。"
+        },
+        "duration_seconds": {
+          "help": "選擇 1 至 10 秒，預設 8 秒。"
+        },
+        "resolution": {
+          "help": "選擇 480p 或 720p。"
+        },
+        "aspect_ratio": {
+          "help": "選擇輸出影片的寬高比，預設 16:9。"
+        },
+        "reference_image_2": {
+          "help": "上傳欄位按編號提交，外部來源排在其後。"
+        },
+        "reference_image_3": {
+          "help": "上傳欄位按編號提交，外部來源排在其後。"
+        },
+        "reference_image_4": {
+          "help": "上傳欄位按編號提交，外部來源排在其後。"
+        },
+        "reference_image_5": {
+          "help": "上傳欄位按編號提交，外部來源排在其後。"
+        },
+        "reference_image_6": {
+          "help": "上傳欄位按編號提交，外部來源排在其後。"
+        },
+        "reference_image_7": {
+          "help": "上傳欄位按編號提交，外部來源排在其後。"
+        },
+        "image_sources": {
+          "help": "每行一個公開 HTTPS URL 或 Base64 Data URI。與上傳合計 1 至 7 張。"
+        }
+      }
+    },
+    "en": {
+      "name": "Grok Imagine Video Reference-to-Video",
+      "description": "Generate a video up to 10 seconds from one to seven reference images and a prompt.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        },
+        "reference_image_5": {
+          "label": "Reference image 5"
+        },
+        "reference_image_6": {
+          "label": "Reference image 6"
+        },
+        "reference_image_7": {
+          "label": "Reference image 7"
+        },
+        "image_sources": {
+          "label": "Reference image sources"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Use <IMAGE_N> in the prompt to attach a reference image to a scene element."
+        },
+        "reference_image_1": {
+          "help": "Upload an image as a character, object, or style reference."
+        },
+        "duration_seconds": {
+          "help": "Choose 1 to 10 seconds. The default is 8 seconds."
+        },
+        "resolution": {
+          "help": "Choose 480p or 720p."
+        },
+        "aspect_ratio": {
+          "help": "Choose the output aspect ratio. The default is 16:9."
+        },
+        "reference_image_2": {
+          "help": "Uploaded slots are sent in order, followed by external sources."
+        },
+        "reference_image_3": {
+          "help": "Uploaded slots are sent in order, followed by external sources."
+        },
+        "reference_image_4": {
+          "help": "Uploaded slots are sent in order, followed by external sources."
+        },
+        "reference_image_5": {
+          "help": "Uploaded slots are sent in order, followed by external sources."
+        },
+        "reference_image_6": {
+          "help": "Uploaded slots are sent in order, followed by external sources."
+        },
+        "reference_image_7": {
+          "help": "Uploaded slots are sent in order, followed by external sources."
+        },
+        "image_sources": {
+          "help": "Enter one public HTTPS URL or Base64 data URI per line. Provide one to seven images total, including uploads."
+        }
+      }
+    },
+    "ja": {
+      "name": "Grok Imagine Video 参照画像から動画",
+      "description": "1〜7 枚の参照画像とプロンプトから、最長 10 秒の動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "動画の長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        },
+        "reference_image_1": {
+          "label": "参照画像1"
+        },
+        "reference_image_2": {
+          "label": "参照画像2"
+        },
+        "reference_image_3": {
+          "label": "参照画像3"
+        },
+        "reference_image_4": {
+          "label": "参照画像4"
+        },
+        "reference_image_5": {
+          "label": "参照画像5"
+        },
+        "reference_image_6": {
+          "label": "参照画像6"
+        },
+        "reference_image_7": {
+          "label": "参照画像7"
+        },
+        "image_sources": {
+          "label": "参照画像のソース"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "プロンプト内の <IMAGE_N> で、画面の要素に参照画像を割り当てます。"
+        },
+        "reference_image_1": {
+          "help": "人物、物体、スタイルを参照する画像をアップロードします。"
+        },
+        "duration_seconds": {
+          "help": "1〜10 秒を選びます。既定値は 8 秒です。"
+        },
+        "resolution": {
+          "help": "480p または 720p を選びます。"
+        },
+        "aspect_ratio": {
+          "help": "出力動画の縦横比を選びます。既定値は 16:9 です。"
+        },
+        "reference_image_2": {
+          "help": "アップロードの番号順に送信し、その後に外部ソースが続きます。"
+        },
+        "reference_image_3": {
+          "help": "アップロードの番号順に送信し、その後に外部ソースが続きます。"
+        },
+        "reference_image_4": {
+          "help": "アップロードの番号順に送信し、その後に外部ソースが続きます。"
+        },
+        "reference_image_5": {
+          "help": "アップロードの番号順に送信し、その後に外部ソースが続きます。"
+        },
+        "reference_image_6": {
+          "help": "アップロードの番号順に送信し、その後に外部ソースが続きます。"
+        },
+        "reference_image_7": {
+          "help": "アップロードの番号順に送信し、その後に外部ソースが続きます。"
+        },
+        "image_sources": {
+          "help": "公開 HTTPS URL または Base64 データ URI を 1 行に 1 つ入力します。アップロードと合わせて 1〜7 枚を指定します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Grok Imagine Video 참조 이미지로 동영상 생성",
+      "description": "참조 이미지 1~7장과 프롬프트로 최대 10초 동영상을 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "동영상 길이(초)"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_image_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_image_6": {
+          "label": "참조 이미지 6"
+        },
+        "reference_image_7": {
+          "label": "참조 이미지 7"
+        },
+        "image_sources": {
+          "label": "참조 이미지 소스"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "프롬프트에 <IMAGE_N>을 써서 장면 요소에 참조 이미지를 지정하세요."
+        },
+        "reference_image_1": {
+          "help": "인물, 사물 또는 스타일을 참조할 이미지를 업로드하세요."
+        },
+        "duration_seconds": {
+          "help": "1~10초를 선택하세요. 기본값은 8초입니다."
+        },
+        "resolution": {
+          "help": "480p 또는 720p를 선택하세요."
+        },
+        "aspect_ratio": {
+          "help": "출력 동영상의 화면 비율을 선택하세요. 기본값은 16:9입니다."
+        },
+        "reference_image_2": {
+          "help": "업로드 슬롯의 번호순으로 제출한 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_3": {
+          "help": "업로드 슬롯의 번호순으로 제출한 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_4": {
+          "help": "업로드 슬롯의 번호순으로 제출한 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_5": {
+          "help": "업로드 슬롯의 번호순으로 제출한 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_6": {
+          "help": "업로드 슬롯의 번호순으로 제출한 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_7": {
+          "help": "업로드 슬롯의 번호순으로 제출한 뒤 외부 소스를 추가합니다."
+        },
+        "image_sources": {
+          "help": "한 줄에 공개 HTTPS URL 또는 Base64 데이터 URI를 하나씩 입력하세요. 업로드와 합해 1~7장을 지정합니다."
+        }
+      }
+    }
+  }
+}

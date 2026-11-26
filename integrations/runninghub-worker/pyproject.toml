@@ -1,0 +1,15 @@
+[project]
+name = "comfyshop-runninghub-worker"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = ["comfyshop-worker-protocol", "httpx>=0.28,<1"]
+
+[project.scripts]
+comfyshop-runninghub-worker = "comfyshop_runninghub_worker.worker:main"
+
+[tool.uv.sources]
+comfyshop-worker-protocol = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

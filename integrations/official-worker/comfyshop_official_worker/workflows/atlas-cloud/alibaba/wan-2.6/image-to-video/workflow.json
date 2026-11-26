@@ -1,0 +1,635 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-alibaba-wan-2-6-image-to-video",
+  "name": "Wan 2.6 图生视频",
+  "description": "用起始图和提示词生成视频，可选择单镜头、多镜头与音频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 1500
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "optional": false,
+      "choices": ["720p", "1080p"]
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 5,
+      "optional": true,
+      "choices": [5, 10, 15]
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true,
+      "minimum": "-1",
+      "maximum": "2147483647"
+    },
+    {
+      "name": "negative_prompt",
+      "optional": true,
+      "kind": "string",
+      "multiline": true,
+      "maxLength": 500,
+      "default": ""
+    },
+    {
+      "name": "soundtrack",
+      "optional": true,
+      "kind": "audio"
+    },
+    {
+      "name": "soundtrack_source",
+      "optional": true,
+      "kind": "string",
+      "default": ""
+    },
+    {
+      "name": "enable_prompt_expansion",
+      "optional": true,
+      "kind": "boolean",
+      "default": true
+    },
+    {
+      "name": "shot_type",
+      "kind": "choice",
+      "optional": true,
+      "default": "multi",
+      "choices": ["multi", "single"]
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "shot_type",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "negative_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "soundtrack",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "soundtrack_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_prompt_expansion",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "alibaba/wan-2.6/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "duration": "duration",
+        "seed": "seed",
+        "negative_prompt": "negative_prompt",
+        "enable_prompt_expansion": "enable_prompt_expansion",
+        "shot_type": "shot_type",
+        "generate_audio": "generate_audio"
+      },
+      "required_text": ["prompt"],
+      "omit_blank_parameters": ["negative_prompt"],
+      "media": {
+        "audio": {
+          "kind": "audio",
+          "fields": ["soundtrack"],
+          "content_types": ["audio/wav", "audio/mpeg"],
+          "max_bytes": 15000000,
+          "min_duration_ms": 3000,
+          "max_duration_ms": 30000,
+          "external_urls_only": true,
+          "external_sources_field": "soundtrack_source"
+        },
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "max_bytes": 20000000,
+          "content_types": ["image/jpeg", "image/png", "image/bmp", "image/webp"],
+          "image_bounds": {
+            "min_side": 240,
+            "max_side": 8000
+          },
+          "reject_png_alpha": true
+        }
+      },
+      "choice_constraints": {
+        "enable_prompt_expansion": {
+          "parameter": "shot_type",
+          "values": {
+            "multi": true
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Wan 2.6 图生视频",
+      "description": "用起始图和提示词生成视频，可选择单镜头、多镜头与音频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "negative_prompt": {
+          "label": "负面提示词"
+        },
+        "soundtrack": {
+          "label": "参考音频"
+        },
+        "soundtrack_source": {
+          "label": "参考音频地址"
+        },
+        "enable_prompt_expansion": {
+          "label": "扩写提示词"
+        },
+        "shot_type": {
+          "label": "镜头模式",
+          "choiceLabels": {
+            "multi": "多镜头",
+            "single": "单镜头"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "first_frame": {
+          "label": "起始图"
+        },
+        "first_frame_source": {
+          "label": "起始图来源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传 JPEG、无透明通道的 PNG、BMP 或 WebP，宽高各 240 至 8000 像素，最大 20 MB。"
+        },
+        "prompt": {
+          "help": "描述起始图中的主体如何运动，以及场景和镜头如何变化。最多 1,500 字符。"
+        },
+        "resolution": {
+          "help": "选择 720p 或 1080p。默认 720p。"
+        },
+        "duration": {
+          "help": "选择 5、10 或 15 秒，默认 5 秒。"
+        },
+        "shot_type": {
+          "help": "选择单镜头或多镜头。默认多镜头。"
+        },
+        "seed": {
+          "help": "输入 -1 使用随机种子，或指定 0 至 2147483647 的整数。"
+        },
+        "negative_prompt": {
+          "help": "描述希望避免的元素，最多 500 字符。"
+        },
+        "soundtrack": {
+          "help": "上传 3 至 30 秒的 WAV 或 MP3，最多 15 MB。"
+        },
+        "soundtrack_source": {
+          "help": "填写一个公开音频 URL，与上传二选一。"
+        },
+        "enable_prompt_expansion": {
+          "help": "优化提示词。默认开启，多镜头模式需要开启。"
+        },
+        "generate_audio": {
+          "help": "控制成品是否带音频。默认开启。"
+        },
+        "first_frame_source": {
+          "help": "填写一个公开图片 URL 或 Base64 数据网址，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Wan 2.6 圖生影片",
+      "description": "用起始圖與提示詞產生影片，可選擇單鏡頭、多鏡頭與音訊。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "negative_prompt": {
+          "label": "負面提示詞"
+        },
+        "soundtrack": {
+          "label": "參考音訊"
+        },
+        "soundtrack_source": {
+          "label": "參考音訊網址"
+        },
+        "enable_prompt_expansion": {
+          "label": "擴寫提示詞"
+        },
+        "shot_type": {
+          "label": "鏡頭模式",
+          "choiceLabels": {
+            "multi": "多鏡頭",
+            "single": "單鏡頭"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "first_frame_source": {
+          "label": "起始圖來源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳 JPEG、無透明通道的 PNG、BMP 或 WebP，寬高各 240 至 8000 像素，最大 20 MB。"
+        },
+        "prompt": {
+          "help": "描述起始圖中的主體如何運動，以及場景與運鏡如何變化。最多 1,500 字元。"
+        },
+        "resolution": {
+          "help": "選擇 720p 或 1080p。預設為 720p。"
+        },
+        "duration": {
+          "help": "選擇 5、10 或 15 秒，預設為 5 秒。"
+        },
+        "shot_type": {
+          "help": "選擇單鏡頭或多鏡頭。預設為多鏡頭。"
+        },
+        "seed": {
+          "help": "輸入 -1 使用隨機種子，或指定 0 至 2147483647 的整數。"
+        },
+        "negative_prompt": {
+          "help": "描述想避免的元素，最多 500 字元。"
+        },
+        "soundtrack": {
+          "help": "上傳 3 至 30 秒的 WAV 或 MP3，最多 15 MB。"
+        },
+        "soundtrack_source": {
+          "help": "填寫一個公開音訊網址，與上傳擇一。"
+        },
+        "enable_prompt_expansion": {
+          "help": "最佳化提示詞。預設為開啟，多鏡頭模式須開啟。"
+        },
+        "generate_audio": {
+          "help": "控制成片是否帶音訊。預設為開啟。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個公開圖片網址或 Base64 資料網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Wan 2.6 Image to Video",
+      "description": "Animate an opening image with a prompt and choose single or multiple shots and audio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "negative_prompt": {
+          "label": "Negative prompt"
+        },
+        "soundtrack": {
+          "label": "Audio reference"
+        },
+        "soundtrack_source": {
+          "label": "Audio reference URL"
+        },
+        "enable_prompt_expansion": {
+          "label": "Expand prompt"
+        },
+        "shot_type": {
+          "label": "Shot mode",
+          "choiceLabels": {
+            "multi": "Multiple shots",
+            "single": "Single shot"
+          }
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "first_frame": {
+          "label": "Opening image"
+        },
+        "first_frame_source": {
+          "label": "Opening image source"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload JPEG, PNG without an alpha channel, BMP, or WebP. Each side must be 240–8,000 pixels and the image up to 20 MB."
+        },
+        "prompt": {
+          "help": "Describe how the subject moves and how the scene and camera change. Use up to 1,500 characters."
+        },
+        "resolution": {
+          "help": "Choose 720p or 1080p. The default is 720p."
+        },
+        "duration": {
+          "help": "Choose 5, 10, or 15 seconds. The default is 5 seconds."
+        },
+        "shot_type": {
+          "help": "Choose a single shot or multiple shots. Multiple shots is the default."
+        },
+        "seed": {
+          "help": "Enter -1 for a random seed or use an integer from 0 to 2147483647."
+        },
+        "negative_prompt": {
+          "help": "Describe elements to avoid. Use up to 500 characters."
+        },
+        "soundtrack": {
+          "help": "Upload a WAV or MP3 from 3 to 30 seconds, up to 15 MB."
+        },
+        "soundtrack_source": {
+          "help": "Enter one public audio URL in place of an upload."
+        },
+        "enable_prompt_expansion": {
+          "help": "Optimize the prompt. On by default and required for multiple shots."
+        },
+        "generate_audio": {
+          "help": "Include audio in the resulting video. On by default."
+        },
+        "first_frame_source": {
+          "help": "Enter one public image URL or Base64 data URL in place of an upload."
+        }
+      }
+    },
+    "ja": {
+      "name": "Wan 2.6 画像から動画",
+      "description": "開始画像とプロンプトから動画を生成し、単一または複数のショットと音声を選べます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "negative_prompt": {
+          "label": "ネガティブプロンプト"
+        },
+        "soundtrack": {
+          "label": "参照音声"
+        },
+        "soundtrack_source": {
+          "label": "参照音声のURL"
+        },
+        "enable_prompt_expansion": {
+          "label": "プロンプトを拡張"
+        },
+        "shot_type": {
+          "label": "ショットモード",
+          "choiceLabels": {
+            "multi": "複数ショット",
+            "single": "単一ショット"
+          }
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "first_frame_source": {
+          "label": "開始画像の参照先"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "JPEG、アルファチャンネルなしのPNG、BMP、またはWebPをアップロードします。縦横240〜8,000ピクセル、20 MBまでです。"
+        },
+        "prompt": {
+          "help": "被写体の動き、場面の変化、カメラワークを記述します。最大1,500文字です。"
+        },
+        "resolution": {
+          "help": "720pまたは1080pを選択します。既定値は720pです。"
+        },
+        "duration": {
+          "help": "5秒、10秒、15秒から選択します。既定値は5秒です。"
+        },
+        "shot_type": {
+          "help": "単一または複数のショットを選択します。既定値は複数ショットです。"
+        },
+        "seed": {
+          "help": "ランダムなシードには-1を入力します。固定する場合は0〜2147483647の整数を指定します。"
+        },
+        "negative_prompt": {
+          "help": "避けたい要素を記述します。最大500文字です。"
+        },
+        "soundtrack": {
+          "help": "3〜30秒で15 MB以下のWAVまたはMP3をアップロードします。"
+        },
+        "soundtrack_source": {
+          "help": "アップロードの代わりに公開音声のURLを1件入力します。"
+        },
+        "enable_prompt_expansion": {
+          "help": "プロンプトを最適化します。既定では有効で、複数ショットの場合は有効にします。"
+        },
+        "generate_audio": {
+          "help": "動画に音声を付けるかを指定します。既定では有効です。"
+        },
+        "first_frame_source": {
+          "help": "アップロードの代わりに公開画像のURLまたはBase64データURLを1件入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Wan 2.6 이미지로 동영상 생성",
+      "description": "첫 이미지와 프롬프트로 동영상을 만들고 단일 또는 다중 쇼트와 오디오를 선택합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "negative_prompt": {
+          "label": "부정 프롬프트"
+        },
+        "soundtrack": {
+          "label": "참조 오디오"
+        },
+        "soundtrack_source": {
+          "label": "참조 오디오 URL"
+        },
+        "enable_prompt_expansion": {
+          "label": "프롬프트 확장"
+        },
+        "shot_type": {
+          "label": "쇼트 모드",
+          "choiceLabels": {
+            "multi": "다중 쇼트",
+            "single": "단일 쇼트"
+          }
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "first_frame": {
+          "label": "첫 이미지"
+        },
+        "first_frame_source": {
+          "label": "첫 이미지 소스"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "JPEG, 알파 채널이 없는 PNG, BMP 또는 WebP를 업로드합니다. 가로와 세로는 각각 240~8,000픽셀이고 최대 20 MB입니다."
+        },
+        "prompt": {
+          "help": "피사체의 움직임, 장면과 카메라의 변화를 설명합니다. 최대 1,500자입니다."
+        },
+        "resolution": {
+          "help": "720p 또는 1080p를 선택합니다. 기본값은 720p입니다."
+        },
+        "duration": {
+          "help": "5초, 10초 또는 15초를 선택합니다. 기본값은 5초입니다."
+        },
+        "shot_type": {
+          "help": "단일 쇼트 또는 다중 쇼트를 선택합니다. 기본값은 다중 쇼트입니다."
+        },
+        "seed": {
+          "help": "무작위 시드는 -1을 입력합니다. 고정하려면 0에서 2147483647 사이의 정수를 지정합니다."
+        },
+        "negative_prompt": {
+          "help": "피하고 싶은 요소를 설명합니다. 최대 500자입니다."
+        },
+        "soundtrack": {
+          "help": "3초에서 30초 길이의 15 MB 이하 WAV 또는 MP3를 업로드합니다."
+        },
+        "soundtrack_source": {
+          "help": "업로드 대신 공개 오디오 URL을 하나 입력합니다."
+        },
+        "enable_prompt_expansion": {
+          "help": "프롬프트를 최적화합니다. 기본값은 켜짐이며 다중 쇼트에는 켜야 합니다."
+        },
+        "generate_audio": {
+          "help": "결과 동영상에 오디오를 포함합니다. 기본값은 켜짐입니다."
+        },
+        "first_frame_source": {
+          "help": "업로드 대신 공개 이미지 URL 또는 Base64 데이터 URL을 하나 입력합니다."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+services:
+  comfyui-worker:
+    profiles: [comfyui]
+    image: comfyshop-comfyui-worker:local
+    build:
+      context: ../..
+      dockerfile: integrations/comfyui/Dockerfile
+    init: true
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    user: '${COMFYSHOP_COMFYUI_WORKER_UID:-10001}:${COMFYSHOP_COMFYUI_WORKER_GID:-10001}'
+    environment:
+      COMFYSHOP_SERVER_URL: http://app:8688
+      COMFYSHOP_WORKER_LOG_LEVEL: ${COMFYSHOP_WORKER_LOG_LEVEL:-INFO}
+      COMFYSHOP_WORKER_CONFIG: /state/worker.json
+      COMFYSHOP_WORKER_STATE_DIR: /state/runtime
+      HOME: /state
+    volumes:
+      - type: bind
+        source: ${COMFYSHOP_COMFYUI_WORKER_DIR:-/srv/comfyshop/comfyui-worker}
+        target: /state
+        bind:
+          create_host_path: false

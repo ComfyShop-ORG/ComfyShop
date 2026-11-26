@@ -1,0 +1,299 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-google-gemini-omni-flash-text-to-video-developer",
+  "name": "Gemini Omni Flash Developer 文生视频",
+  "description": "从文字生成带音频的视频，可选时长、宽高比和最高 4K 分辨率。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 20000
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 8,
+      "optional": true,
+      "choices": [4, 6, 8, 10]
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "optional": true,
+      "choices": ["16:9", "9:16"]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "optional": true,
+      "choices": ["720p", "1080p", "4k"]
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "google/gemini-omni-flash/text-to-video-developer",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Gemini Omni Flash Developer 文生视频",
+      "description": "从文字生成带音频的视频，可选时长、宽高比和最高 4K 分辨率。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "aspect_ratio": {
+          "label": "画面比例"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "随机种子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述场景、画面风格、镜头或人物动作。最多 20,000 字符。"
+        },
+        "duration": {
+          "help": "选择 4、6、8 或 10 秒。默认 8 秒。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9 横屏或 9:16 竖屏。"
+        },
+        "resolution": {
+          "help": "选择 720p、1080p 或 4K。默认 720p。"
+        },
+        "seed": {
+          "help": "输入整数。-1 由模型随机选取种子。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Gemini Omni Flash Developer 文生影片",
+      "description": "從文字產生有聲影片，可選擇長度、長寬比與最高 4K 解析度。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "隨機種子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述場景、畫面風格、運鏡或人物動作。最多 20,000 字元。"
+        },
+        "duration": {
+          "help": "選擇 4、6、8 或 10 秒。預設為 8 秒。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9 橫向或 9:16 直向。"
+        },
+        "resolution": {
+          "help": "選擇 720p、1080p 或 4K。預設為 720p。"
+        },
+        "seed": {
+          "help": "輸入整數。-1 由模型隨機選取種子。"
+        }
+      }
+    },
+    "en": {
+      "name": "Gemini Omni Flash Developer Text to Video",
+      "description": "Generate a video with audio from text and select its duration, aspect ratio, and resolution up to 4K.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "Seed"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the scene, style, camera direction, or character actions. Use up to 20,000 characters."
+        },
+        "duration": {
+          "help": "Choose 4, 6, 8, or 10 seconds. The default is 8 seconds."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9 landscape or 9:16 portrait."
+        },
+        "resolution": {
+          "help": "Choose 720p, 1080p, or 4K. The default is 720p."
+        },
+        "seed": {
+          "help": "Enter an integer. Use -1 for a random seed."
+        }
+      }
+    },
+    "ja": {
+      "name": "Gemini Omni Flash Developer テキストから動画",
+      "description": "テキストから音声付き動画を生成し、長さ、比率、最大4Kの解像度を選べます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "シード"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "場面、画風、カメラワーク、人物の動作を記述します。最大20,000文字です。"
+        },
+        "duration": {
+          "help": "4秒、6秒、8秒、10秒から選択します。既定値は8秒です。"
+        },
+        "aspect_ratio": {
+          "help": "横長の16:9または縦長の9:16を選択します。"
+        },
+        "resolution": {
+          "help": "720p、1080p、4Kから選択します。既定値は720pです。"
+        },
+        "seed": {
+          "help": "整数を入力します。-1はランダムなシードを使います。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Gemini Omni Flash Developer 텍스트로 동영상 생성",
+      "description": "텍스트로 오디오가 포함된 동영상을 만들고 길이, 화면 비율, 최대 4K 해상도를 선택합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "시드"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "장면, 시각적 스타일, 카메라 움직임 또는 인물 동작을 설명합니다. 최대 20,000자입니다."
+        },
+        "duration": {
+          "help": "4초, 6초, 8초, 10초 중에 선택합니다. 기본값은 8초입니다."
+        },
+        "aspect_ratio": {
+          "help": "가로 16:9 또는 세로 9:16을 선택합니다."
+        },
+        "resolution": {
+          "help": "720p, 1080p, 4K 중에 선택합니다. 기본값은 720p입니다."
+        },
+        "seed": {
+          "help": "정수를 입력합니다. -1은 무작위 시드를 사용합니다."
+        }
+      }
+    }
+  }
+}

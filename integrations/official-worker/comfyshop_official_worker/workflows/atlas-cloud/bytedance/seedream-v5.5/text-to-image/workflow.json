@@ -1,0 +1,528 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "seedream-v55-text",
+  "name": "Seedream v5.5 文生图",
+  "description": "按提示词生成一张图片，可选择 1K、1.5K 或 2K 尺寸，并支持原生透明 PNG。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "size",
+      "kind": "choice",
+      "optional": true,
+      "choices": [
+        "2048*2048",
+        "2368*1776",
+        "1776*2368",
+        "2816*1584",
+        "1584*2816",
+        "2496*1664",
+        "1664*2496",
+        "3136*1344",
+        "1536*1536",
+        "1792*1344",
+        "1344*1792",
+        "2048*1152",
+        "1152*2048",
+        "1872*1248",
+        "1248*1872",
+        "2352*1008",
+        "1024*1024",
+        "1152*864",
+        "864*1152",
+        "1424*800",
+        "800*1424",
+        "1248*832",
+        "832*1248",
+        "1568*672"
+      ],
+      "default": "2048*2048"
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["png", "jpeg"],
+      "default": "png"
+    },
+    {
+      "name": "background",
+      "kind": "choice",
+      "optional": true,
+      "default": "auto",
+      "choices": ["auto", "transparent", "opaque"]
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "background",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "operation": "image",
+      "model": "bytedance/seedream-v5.5/text-to-image",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "output_format": "output_format",
+        "enable_base64_output": "enable_base64_output",
+        "background": "background",
+        "enable_sync_mode": "enable_sync_mode"
+      },
+      "required_text": ["prompt"],
+      "choice_constraints": {
+        "output_format": {
+          "parameter": "background",
+          "values": {
+            "transparent": "png"
+          }
+        }
+      },
+      "required_when": {
+        "output_format": {
+          "background": ["transparent"]
+        }
+      }
+    },
+    "additionalOutputKinds": ["text"]
+  },
+  "translations": {
+    "zh": {
+      "name": "Seedream v5.5 文生图",
+      "description": "按提示词生成一张图片，可选择 1K、1.5K 或 2K 尺寸，并支持原生透明 PNG。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "图片尺寸",
+          "choiceLabels": {
+            "2048*2048": "2048 × 2048 · 2K",
+            "2368*1776": "2368 × 1776 · 2K",
+            "1776*2368": "1776 × 2368 · 2K",
+            "2816*1584": "2816 × 1584 · 2K",
+            "1584*2816": "1584 × 2816 · 2K",
+            "2496*1664": "2496 × 1664 · 2K",
+            "1664*2496": "1664 × 2496 · 2K",
+            "3136*1344": "3136 × 1344 · 2K",
+            "1536*1536": "1536 × 1536 · 1.5K",
+            "1792*1344": "1792 × 1344 · 1.5K",
+            "1344*1792": "1344 × 1792 · 1.5K",
+            "2048*1152": "2048 × 1152 · 1.5K",
+            "1152*2048": "1152 × 2048 · 1.5K",
+            "1872*1248": "1872 × 1248 · 1.5K",
+            "1248*1872": "1248 × 1872 · 1.5K",
+            "2352*1008": "2352 × 1008 · 1.5K",
+            "1024*1024": "1024 × 1024 · 1K",
+            "1152*864": "1152 × 864 · 1K",
+            "864*1152": "864 × 1152 · 1K",
+            "1424*800": "1424 × 800 · 1K",
+            "800*1424": "800 × 1424 · 1K",
+            "1248*832": "1248 × 832 · 1K",
+            "832*1248": "832 × 1248 · 1K",
+            "1568*672": "1568 × 672 · 1K"
+          }
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "background": {
+          "label": "背景",
+          "choiceLabels": {
+            "auto": "自动",
+            "transparent": "透明",
+            "opaque": "不透明"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、文字、构图或背景。Atlas 建议不超过 300 个中文字符或 600 个英文单词。"
+        },
+        "size": {
+          "help": "选择 1K、1.5K 或 2K 预设，宽高单位为像素。"
+        },
+        "output_format": {
+          "help": "输出 PNG 或 JPEG。JPEG 始终为不透明背景。"
+        },
+        "background": {
+          "help": "自动模式按照提示词和输出格式决定背景。透明需要 PNG。"
+        },
+        "enable_sync_mode": {
+          "help": "等待 Atlas 完成后在提交响应中取结果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 返回图片。工作机解码后保存图片原件。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seedream v5.5 文生圖",
+      "description": "按提示詞產生一張圖片，可選擇 1K、1.5K 或 2K 尺寸，並支援原生透明 PNG。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "圖片尺寸",
+          "choiceLabels": {
+            "2048*2048": "2048 × 2048 · 2K",
+            "2368*1776": "2368 × 1776 · 2K",
+            "1776*2368": "1776 × 2368 · 2K",
+            "2816*1584": "2816 × 1584 · 2K",
+            "1584*2816": "1584 × 2816 · 2K",
+            "2496*1664": "2496 × 1664 · 2K",
+            "1664*2496": "1664 × 2496 · 2K",
+            "3136*1344": "3136 × 1344 · 2K",
+            "1536*1536": "1536 × 1536 · 1.5K",
+            "1792*1344": "1792 × 1344 · 1.5K",
+            "1344*1792": "1344 × 1792 · 1.5K",
+            "2048*1152": "2048 × 1152 · 1.5K",
+            "1152*2048": "1152 × 2048 · 1.5K",
+            "1872*1248": "1872 × 1248 · 1.5K",
+            "1248*1872": "1248 × 1872 · 1.5K",
+            "2352*1008": "2352 × 1008 · 1.5K",
+            "1024*1024": "1024 × 1024 · 1K",
+            "1152*864": "1152 × 864 · 1K",
+            "864*1152": "864 × 1152 · 1K",
+            "1424*800": "1424 × 800 · 1K",
+            "800*1424": "800 × 1424 · 1K",
+            "1248*832": "1248 × 832 · 1K",
+            "832*1248": "832 × 1248 · 1K",
+            "1568*672": "1568 × 672 · 1K"
+          }
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "background": {
+          "label": "背景",
+          "choiceLabels": {
+            "auto": "自動",
+            "transparent": "透明",
+            "opaque": "不透明"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步回傳"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、文字、構圖或背景。Atlas 建議不超過 300 個中文字元或 600 個英文單字。"
+        },
+        "size": {
+          "help": "選擇 1K、1.5K 或 2K 預設，寬高單位為像素。"
+        },
+        "output_format": {
+          "help": "輸出 PNG 或 JPEG。JPEG 一律為不透明背景。"
+        },
+        "background": {
+          "help": "自動模式按提示詞和輸出格式決定背景。透明背景需要 PNG。"
+        },
+        "enable_sync_mode": {
+          "help": "等 Atlas 完成後，從提交回應取得結果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 回傳圖片。工作機解碼後儲存圖片原始檔案。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seedream v5.5 Text to Image",
+      "description": "Generate one image from a prompt with 1K, 1.5K, or 2K presets and native transparent PNG output.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Image size",
+          "choiceLabels": {
+            "2048*2048": "2048 × 2048 · 2K",
+            "2368*1776": "2368 × 1776 · 2K",
+            "1776*2368": "1776 × 2368 · 2K",
+            "2816*1584": "2816 × 1584 · 2K",
+            "1584*2816": "1584 × 2816 · 2K",
+            "2496*1664": "2496 × 1664 · 2K",
+            "1664*2496": "1664 × 2496 · 2K",
+            "3136*1344": "3136 × 1344 · 2K",
+            "1536*1536": "1536 × 1536 · 1.5K",
+            "1792*1344": "1792 × 1344 · 1.5K",
+            "1344*1792": "1344 × 1792 · 1.5K",
+            "2048*1152": "2048 × 1152 · 1.5K",
+            "1152*2048": "1152 × 2048 · 1.5K",
+            "1872*1248": "1872 × 1248 · 1.5K",
+            "1248*1872": "1248 × 1872 · 1.5K",
+            "2352*1008": "2352 × 1008 · 1.5K",
+            "1024*1024": "1024 × 1024 · 1K",
+            "1152*864": "1152 × 864 · 1K",
+            "864*1152": "864 × 1152 · 1K",
+            "1424*800": "1424 × 800 · 1K",
+            "800*1424": "800 × 1424 · 1K",
+            "1248*832": "1248 × 832 · 1K",
+            "832*1248": "832 × 1248 · 1K",
+            "1568*672": "1568 × 672 · 1K"
+          }
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "background": {
+          "label": "Background",
+          "choiceLabels": {
+            "auto": "Auto",
+            "transparent": "Transparent",
+            "opaque": "Opaque"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "Wait for result"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, text, composition, or background. Atlas recommends up to 300 Chinese characters or 600 English words."
+        },
+        "size": {
+          "help": "Choose a 1K, 1.5K, or 2K width and height preset in pixels."
+        },
+        "output_format": {
+          "help": "Choose PNG or JPEG. JPEG results are always opaque."
+        },
+        "background": {
+          "help": "Auto chooses the background from the prompt and output format. Transparency requires PNG."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for Atlas to return a finished result in the submit response."
+        },
+        "enable_base64_output": {
+          "help": "Request a Base64 response. The work machine decodes it and stores the original image."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seedream v5.5 テキストから画像",
+      "description": "指示文から 1 枚の画像を生成します。1K、1.5K、2K のプリセットと透過 PNG に対応します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "画像サイズ",
+          "choiceLabels": {
+            "2048*2048": "2048 × 2048 · 2K",
+            "2368*1776": "2368 × 1776 · 2K",
+            "1776*2368": "1776 × 2368 · 2K",
+            "2816*1584": "2816 × 1584 · 2K",
+            "1584*2816": "1584 × 2816 · 2K",
+            "2496*1664": "2496 × 1664 · 2K",
+            "1664*2496": "1664 × 2496 · 2K",
+            "3136*1344": "3136 × 1344 · 2K",
+            "1536*1536": "1536 × 1536 · 1.5K",
+            "1792*1344": "1792 × 1344 · 1.5K",
+            "1344*1792": "1344 × 1792 · 1.5K",
+            "2048*1152": "2048 × 1152 · 1.5K",
+            "1152*2048": "1152 × 2048 · 1.5K",
+            "1872*1248": "1872 × 1248 · 1.5K",
+            "1248*1872": "1248 × 1872 · 1.5K",
+            "2352*1008": "2352 × 1008 · 1.5K",
+            "1024*1024": "1024 × 1024 · 1K",
+            "1152*864": "1152 × 864 · 1K",
+            "864*1152": "864 × 1152 · 1K",
+            "1424*800": "1424 × 800 · 1K",
+            "800*1424": "800 × 1424 · 1K",
+            "1248*832": "1248 × 832 · 1K",
+            "832*1248": "832 × 1248 · 1K",
+            "1568*672": "1568 × 672 · 1K"
+          }
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "background": {
+          "label": "背景",
+          "choiceLabels": {
+            "auto": "自動",
+            "transparent": "透過",
+            "opaque": "不透明"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、文字、構図、背景を記述します。Atlas は中国語 300 文字または英語 600 語以内を推奨しています。"
+        },
+        "size": {
+          "help": "1K、1.5K、2K の幅と高さのプリセットをピクセル単位で選びます。"
+        },
+        "output_format": {
+          "help": "PNG または JPEG を選びます。JPEG の背景は不透明です。"
+        },
+        "background": {
+          "help": "自動は指示文と出力形式から背景を決めます。透過には PNG が必要です。"
+        },
+        "enable_sync_mode": {
+          "help": "Atlas の完了を待ち、送信時の応答で結果を取得します。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas に Base64 での返却を求めます。ワーカーが復号して元の画像を保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seedream v5.5 텍스트로 이미지 생성",
+      "description": "프롬프트로 이미지 한 장을 생성합니다. 1K, 1.5K, 2K 프리셋과 투명 PNG를 지원합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "이미지 크기",
+          "choiceLabels": {
+            "2048*2048": "2048 × 2048 · 2K",
+            "2368*1776": "2368 × 1776 · 2K",
+            "1776*2368": "1776 × 2368 · 2K",
+            "2816*1584": "2816 × 1584 · 2K",
+            "1584*2816": "1584 × 2816 · 2K",
+            "2496*1664": "2496 × 1664 · 2K",
+            "1664*2496": "1664 × 2496 · 2K",
+            "3136*1344": "3136 × 1344 · 2K",
+            "1536*1536": "1536 × 1536 · 1.5K",
+            "1792*1344": "1792 × 1344 · 1.5K",
+            "1344*1792": "1344 × 1792 · 1.5K",
+            "2048*1152": "2048 × 1152 · 1.5K",
+            "1152*2048": "1152 × 2048 · 1.5K",
+            "1872*1248": "1872 × 1248 · 1.5K",
+            "1248*1872": "1248 × 1872 · 1.5K",
+            "2352*1008": "2352 × 1008 · 1.5K",
+            "1024*1024": "1024 × 1024 · 1K",
+            "1152*864": "1152 × 864 · 1K",
+            "864*1152": "864 × 1152 · 1K",
+            "1424*800": "1424 × 800 · 1K",
+            "800*1424": "800 × 1424 · 1K",
+            "1248*832": "1248 × 832 · 1K",
+            "832*1248": "832 × 1248 · 1K",
+            "1568*672": "1568 × 672 · 1K"
+          }
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "background": {
+          "label": "배경",
+          "choiceLabels": {
+            "auto": "자동",
+            "transparent": "투명",
+            "opaque": "불투명"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "결과 기다리기"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 문구, 구도 또는 배경을 설명하세요. Atlas는 중국어 300자 또는 영어 600단어 이하를 권장합니다."
+        },
+        "size": {
+          "help": "1K, 1.5K, 2K의 너비와 높이 프리셋을 픽셀 단위로 선택하세요."
+        },
+        "output_format": {
+          "help": "PNG 또는 JPEG를 선택하세요. JPEG의 배경은 항상 불투명합니다."
+        },
+        "background": {
+          "help": "자동은 프롬프트와 출력 형식으로 배경을 정합니다. 투명 배경에는 PNG가 필요합니다."
+        },
+        "enable_sync_mode": {
+          "help": "Atlas 생성이 완료되면 제출 응답에서 결과를 받습니다."
+        },
+        "enable_base64_output": {
+          "help": "Atlas에 Base64 결과를 요청합니다. 작업 머신에서 디코딩해 이미지 원본을 저장합니다."
+        }
+      }
+    }
+  }
+}

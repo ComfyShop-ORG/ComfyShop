@@ -1,0 +1,241 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-flux3-edit-video",
+  "name": "FLUX 3 视频编辑",
+  "description": "按文字指示重新渲染 MP4，保留原视频的动作、长度和分辨率。",
+  "category": "video_tool",
+  "fields": [
+    {
+      "name": "source_video",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "video_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "safety_tolerance",
+      "kind": "integer",
+      "default": 2,
+      "minimum": "0",
+      "maximum": "4",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "source_video",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "video_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "safety_tolerance",
+      "section": "advanced",
+      "control": "slider"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "black-forest-labs/flux-3/edit-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "safety_tolerance": "safety_tolerance"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "video_url": {
+          "kind": "video",
+          "fields": ["source_video"],
+          "external_sources_field": "video_source",
+          "external_urls_only": true,
+          "content_types": ["video/mp4"],
+          "max_duration_ms": 14999,
+          "min_items": 1,
+          "max_bytes": 49999999
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "FLUX 3 视频编辑",
+      "description": "按文字指示重新渲染 MP4，保留原视频的动作、长度和分辨率。",
+      "fields": {
+        "source_video": {
+          "label": "源视频"
+        },
+        "prompt": {
+          "label": "编辑指令"
+        },
+        "video_source": {
+          "label": "源视频 URL"
+        },
+        "safety_tolerance": {
+          "label": "内容审核容忍度"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上传短于 15 秒、小于 50 MB 的 MP4。"
+        },
+        "prompt": {
+          "help": "描述需要修改的场景、物体、光线或色调。"
+        },
+        "video_source": {
+          "help": "填写一个公开 MP4 地址，与上传二选一。"
+        },
+        "safety_tolerance": {
+          "help": "选择 0 至 4，0 最严格，默认 2。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "FLUX 3 影片編輯",
+      "description": "按文字指示重新渲染 MP4，保留原影片的動作、長度和解析度。",
+      "fields": {
+        "source_video": {
+          "label": "來源影片"
+        },
+        "prompt": {
+          "label": "編輯指令"
+        },
+        "video_source": {
+          "label": "來源影片 URL"
+        },
+        "safety_tolerance": {
+          "label": "內容審查容忍度"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上傳短於 15 秒、小於 50 MB 的 MP4。"
+        },
+        "prompt": {
+          "help": "描述要修改的場景、物體、光線或色調。"
+        },
+        "video_source": {
+          "help": "填寫一個公開 MP4 網址，與上傳擇一。"
+        },
+        "safety_tolerance": {
+          "help": "選擇 0 至 4，0 最嚴格，預設 2。"
+        }
+      }
+    },
+    "en": {
+      "name": "FLUX 3 Video Editing",
+      "description": "Re-render an MP4 from written instructions while preserving its motion, duration, and resolution.",
+      "fields": {
+        "source_video": {
+          "label": "Source video"
+        },
+        "prompt": {
+          "label": "Editing instruction"
+        },
+        "video_source": {
+          "label": "Source video URL"
+        },
+        "safety_tolerance": {
+          "label": "Moderation tolerance"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "Upload an MP4 shorter than 15 seconds and smaller than 50 MB."
+        },
+        "prompt": {
+          "help": "Describe the changes to the scene, objects, lighting, or color grade."
+        },
+        "video_source": {
+          "help": "Enter one public MP4 URL as an alternative to uploading."
+        },
+        "safety_tolerance": {
+          "help": "Choose 0 to 4. Zero is strictest, and 2 is the default."
+        }
+      }
+    },
+    "ja": {
+      "name": "FLUX 3 動画編集",
+      "description": "テキスト指示で MP4 を再生成し、元動画の動き、長さ、解像度を維持します。",
+      "fields": {
+        "source_video": {
+          "label": "元動画"
+        },
+        "prompt": {
+          "label": "編集指示"
+        },
+        "video_source": {
+          "label": "元動画 URL"
+        },
+        "safety_tolerance": {
+          "label": "コンテンツ審査の許容度"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "15 秒未満かつ 50 MB 未満の MP4 をアップロードします。"
+        },
+        "prompt": {
+          "help": "変更する場面、物体、照明、色調を記述します。"
+        },
+        "video_source": {
+          "help": "アップロードの代わりに公開 MP4 URL を 1 つ入力します。"
+        },
+        "safety_tolerance": {
+          "help": "0〜4 を選びます。最も厳しい値は 0 で、既定値は 2 です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "FLUX 3 동영상 편집",
+      "description": "텍스트 지시로 MP4를 다시 렌더링하며 원본의 동작, 길이, 해상도를 유지합니다.",
+      "fields": {
+        "source_video": {
+          "label": "원본 동영상"
+        },
+        "prompt": {
+          "label": "편집 지시"
+        },
+        "video_source": {
+          "label": "원본 동영상 URL"
+        },
+        "safety_tolerance": {
+          "label": "콘텐츠 검토 허용 수준"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "15초 미만이고 50 MB 미만인 MP4를 업로드하세요."
+        },
+        "prompt": {
+          "help": "변경할 장면, 사물, 조명 또는 색감을 설명하세요."
+        },
+        "video_source": {
+          "help": "업로드 대신 공개 MP4 URL을 하나 입력하세요."
+        },
+        "safety_tolerance": {
+          "help": "0~4를 선택하세요. 0이 가장 엄격하며 기본값은 2입니다."
+        }
+      }
+    }
+  }
+}

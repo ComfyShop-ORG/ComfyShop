@@ -1,0 +1,510 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-flux2-flex-text-to-image",
+  "name": "FLUX.2 Flex 文生图",
+  "description": "根据提示词生成 JPEG 或 PNG 图片。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "default": "jpeg",
+      "choices": ["jpeg", "png"]
+    },
+    {
+      "optional": true,
+      "name": "seed",
+      "kind": "integer",
+      "default": -1
+    },
+    {
+      "optional": true,
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "default": false
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "size",
+      "kind": "string",
+      "default": "1024*1024",
+      "optional": true
+    },
+    {
+      "name": "safety_tolerance",
+      "kind": "integer",
+      "default": 2,
+      "minimum": "0",
+      "maximum": "5",
+      "optional": true
+    },
+    {
+      "name": "enable_prompt_expansion",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "optional": true,
+      "name": "guidance_scale",
+      "kind": "number",
+      "default": 5,
+      "minimum": "1.5",
+      "maximum": "10"
+    },
+    {
+      "optional": true,
+      "name": "num_inference_steps",
+      "kind": "integer",
+      "default": 50,
+      "minimum": "1",
+      "maximum": "50"
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "enable_prompt_expansion",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "guidance_scale",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "num_inference_steps",
+      "section": "advanced",
+      "control": "slider"
+    },
+    {
+      "fieldId": "safety_tolerance",
+      "section": "advanced",
+      "control": "slider"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "size",
+      "section": "hidden"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "black-forest-labs/flux-2-flex/text-to-image",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "output_format": "output_format",
+        "seed": "seed",
+        "enable_base64_output": "enable_base64_output",
+        "enable_sync_mode": "enable_sync_mode",
+        "size": "size",
+        "safety_tolerance": "safety_tolerance",
+        "enable_prompt_expansion": "enable_prompt_expansion",
+        "guidance_scale": "guidance_scale",
+        "num_inference_steps": "num_inference_steps"
+      },
+      "required_text": ["prompt"],
+      "omit_blank_parameters": ["size"],
+      "image_size_limits": {
+        "allow_auto": false,
+        "min_side": 256,
+        "max_side": 2048
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "FLUX.2 Flex 文生图",
+      "description": "根据提示词生成 JPEG 或 PNG 图片。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "output_format": {
+          "label": "图片格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "enable_base64_output": {
+          "label": "Base64 输出"
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        },
+        "size": {
+          "label": "图片尺寸"
+        },
+        "safety_tolerance": {
+          "label": "内容审核容忍度"
+        },
+        "enable_prompt_expansion": {
+          "label": "提示词扩写"
+        },
+        "guidance_scale": {
+          "label": "引导强度"
+        },
+        "num_inference_steps": {
+          "label": "推理步数"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、场景、构图和风格。"
+        },
+        "output_format": {
+          "help": "选择 JPEG 或 PNG。"
+        },
+        "enable_prompt_expansion": {
+          "help": "开启后，Atlas 在生成前扩写提示词。"
+        },
+        "guidance_scale": {
+          "help": "可填写 1.5 至 10。较高的值会更贴近提示词，画面可能更不写实。"
+        },
+        "num_inference_steps": {
+          "help": "选择 1 至 50 步，默认 50 步。"
+        },
+        "safety_tolerance": {
+          "help": "选择 0 至 5，0 最严格，默认 2。"
+        },
+        "seed": {
+          "help": "输入整数以重用种子，默认 -1 表示随机。"
+        },
+        "enable_base64_output": {
+          "help": "返回 Base64 图像数据，工作机解码后保存成品。"
+        },
+        "enable_sync_mode": {
+          "help": "让 Atlas 等待图片生成后在提交响应中直接返回成品。"
+        },
+        "size": {
+          "help": "按宽*高填写像素，宽高均为 256 至 2,048。留空时由模型选择。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "FLUX.2 Flex 文生圖",
+      "description": "根據提示詞生成 JPEG 或 PNG 圖片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "output_format": {
+          "label": "圖片格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "enable_base64_output": {
+          "label": "Base64 輸出"
+        },
+        "enable_sync_mode": {
+          "label": "同步回傳"
+        },
+        "size": {
+          "label": "圖片尺寸"
+        },
+        "safety_tolerance": {
+          "label": "內容審查容忍度"
+        },
+        "enable_prompt_expansion": {
+          "label": "提示詞擴寫"
+        },
+        "guidance_scale": {
+          "label": "引導強度"
+        },
+        "num_inference_steps": {
+          "label": "推論步數"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、場景、構圖和風格。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG 或 PNG。"
+        },
+        "enable_prompt_expansion": {
+          "help": "開啟後，Atlas 在生成前擴寫提示詞。"
+        },
+        "guidance_scale": {
+          "help": "可填寫 1.5 至 10。較高的值會更符合提示詞，畫面可能較不寫實。"
+        },
+        "num_inference_steps": {
+          "help": "選擇 1 至 50 步，預設 50 步。"
+        },
+        "safety_tolerance": {
+          "help": "選擇 0 至 5，0 最嚴格，預設 2。"
+        },
+        "seed": {
+          "help": "輸入整數以重用種子，預設 -1 代表隨機。"
+        },
+        "enable_base64_output": {
+          "help": "回傳 Base64 圖片資料，工作機解碼後儲存成品。"
+        },
+        "enable_sync_mode": {
+          "help": "讓 Atlas 等待圖片生成後，在提交回應中直接回傳成品。"
+        },
+        "size": {
+          "help": "按寬*高填寫像素，寬高均為 256 至 2,048。留空時由模型選擇。"
+        }
+      }
+    },
+    "en": {
+      "name": "FLUX.2 Flex Text-to-Image",
+      "description": "Generate JPEG or PNG images from a text prompt.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "output_format": {
+          "label": "Image format",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "seed": {
+          "label": "Random seed"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "enable_sync_mode": {
+          "label": "Synchronous response"
+        },
+        "size": {
+          "label": "Image size"
+        },
+        "safety_tolerance": {
+          "label": "Moderation tolerance"
+        },
+        "enable_prompt_expansion": {
+          "label": "Expand prompt"
+        },
+        "guidance_scale": {
+          "label": "Guidance scale"
+        },
+        "num_inference_steps": {
+          "label": "Inference steps"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, scene, composition, and style."
+        },
+        "output_format": {
+          "help": "Choose JPEG or PNG."
+        },
+        "enable_prompt_expansion": {
+          "help": "Let Atlas expand the prompt before generating."
+        },
+        "guidance_scale": {
+          "help": "Enter a value from 1.5 to 10. Higher values follow the prompt more closely and may reduce realism."
+        },
+        "num_inference_steps": {
+          "help": "Choose 1 to 50 steps. The default is 50."
+        },
+        "safety_tolerance": {
+          "help": "Choose 0 to 5. Zero is the strictest setting, and 2 is the default."
+        },
+        "seed": {
+          "help": "Enter an integer to reuse a seed. The default of −1 selects a random seed."
+        },
+        "enable_base64_output": {
+          "help": "Return Base64 image data for the worker to decode and save."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for Atlas to include the finished images in the submit response."
+        },
+        "size": {
+          "help": "Enter width*height in pixels, with each side between 256 and 2,048. Leave blank to let the model choose."
+        }
+      }
+    },
+    "ja": {
+      "name": "FLUX.2 Flex テキストから画像",
+      "description": "プロンプトから JPEG または PNG の画像を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "output_format": {
+          "label": "画像形式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "seed": {
+          "label": "シード値"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        },
+        "size": {
+          "label": "画像サイズ"
+        },
+        "safety_tolerance": {
+          "label": "コンテンツ審査の許容度"
+        },
+        "enable_prompt_expansion": {
+          "label": "プロンプトを拡張"
+        },
+        "guidance_scale": {
+          "label": "ガイダンスの強さ"
+        },
+        "num_inference_steps": {
+          "label": "推論ステップ数"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、構図、スタイルを記述します。"
+        },
+        "output_format": {
+          "help": "JPEG または PNG を選びます。"
+        },
+        "enable_prompt_expansion": {
+          "help": "生成前に Atlas がプロンプトを拡張します。"
+        },
+        "guidance_scale": {
+          "help": "1.5〜10 を入力します。値が高いほどプロンプトに忠実になりますが、写実性が弱まる場合があります。"
+        },
+        "num_inference_steps": {
+          "help": "1〜50 ステップを選びます。既定値は 50 です。"
+        },
+        "safety_tolerance": {
+          "help": "0〜5 を選びます。最も厳しい値は 0、既定値は 2 です。"
+        },
+        "seed": {
+          "help": "シードを再利用するには整数を入力します。既定の -1 はランダムです。"
+        },
+        "enable_base64_output": {
+          "help": "Base64 画像データを受け取り、ワーカーがデコードして保存します。"
+        },
+        "enable_sync_mode": {
+          "help": "画像の生成を待ち、Atlas から送信応答で完成画像を受け取ります。"
+        },
+        "size": {
+          "help": "幅*高さをピクセル単位で入力します。各辺は 256〜2,048 ピクセルです。空欄ではモデルが決定します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "FLUX.2 Flex 텍스트로 이미지 생성",
+      "description": "프롬프트에서 JPEG 또는 PNG 이미지를 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "output_format": {
+          "label": "이미지 형식",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "seed": {
+          "label": "랜덤 시드"
+        },
+        "enable_base64_output": {
+          "label": "Base64 출력"
+        },
+        "enable_sync_mode": {
+          "label": "동기 응답"
+        },
+        "size": {
+          "label": "이미지 크기"
+        },
+        "safety_tolerance": {
+          "label": "콘텐츠 검토 허용 수준"
+        },
+        "enable_prompt_expansion": {
+          "label": "프롬프트 확장"
+        },
+        "guidance_scale": {
+          "label": "가이던스 강도"
+        },
+        "num_inference_steps": {
+          "label": "추론 단계"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 장면, 구도, 스타일을 설명하세요."
+        },
+        "output_format": {
+          "help": "JPEG 또는 PNG를 선택하세요."
+        },
+        "enable_prompt_expansion": {
+          "help": "생성 전에 Atlas가 프롬프트를 확장합니다."
+        },
+        "guidance_scale": {
+          "help": "1.5~10을 입력하세요. 값이 높을수록 프롬프트를 더 충실히 따르며 사실감이 줄어들 수 있습니다."
+        },
+        "num_inference_steps": {
+          "help": "1~50단계를 선택하세요. 기본값은 50입니다."
+        },
+        "safety_tolerance": {
+          "help": "0~5를 선택하세요. 0이 가장 엄격하며 기본값은 2입니다."
+        },
+        "seed": {
+          "help": "시드를 재사용하려면 정수를 입력하세요. 기본값 -1은 무작위입니다."
+        },
+        "enable_base64_output": {
+          "help": "Base64 이미지 데이터를 받아 작업기가 디코딩하고 저장합니다."
+        },
+        "enable_sync_mode": {
+          "help": "생성이 끝날 때까지 기다린 뒤 Atlas 제출 응답에 완성 이미지를 포함합니다."
+        },
+        "size": {
+          "help": "가로*세로를 픽셀 단위로 입력하세요. 각 변은 256~2,048픽셀입니다. 비워 두면 모델이 선택합니다."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,634 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-google-gemini-omni-flash-image-to-video-developer",
+  "name": "Gemini Omni Flash Developer 图生视频",
+  "description": "用提示词与一至七张参考图生成视频，可选 720p 至 4K。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 20000
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 8,
+      "optional": true,
+      "choices": [4, 6, 8, 10]
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "optional": true,
+      "choices": ["16:9", "9:16"]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "optional": true,
+      "choices": ["720p", "1080p", "4k"]
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "google/gemini-omni-flash/image-to-video-developer",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "images": {
+          "kind": "image",
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4",
+            "reference_image_5",
+            "reference_image_6",
+            "reference_image_7"
+          ],
+          "array": true,
+          "content_types": ["image/png", "image/jpeg", "image/webp"],
+          "max_bytes": 20000000,
+          "external_sources_field": "reference_image_sources",
+          "min_items": 1,
+          "external_urls_only": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Gemini Omni Flash Developer 图生视频",
+      "description": "用提示词与一至七张参考图生成视频，可选 720p 至 4K。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "aspect_ratio": {
+          "label": "画面比例"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        },
+        "reference_image_5": {
+          "label": "参考图 5"
+        },
+        "reference_image_6": {
+          "label": "参考图 6"
+        },
+        "reference_image_7": {
+          "label": "参考图 7"
+        },
+        "reference_image_sources": {
+          "label": "参考图地址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述目标画面中的人物、场景、风格、镜头与动作。至少提供一张参考图。最多 20,000 字符。"
+        },
+        "reference_image_1": {
+          "help": "上传 PNG、JPEG 或 WebP，每张最多 20 MB。可通过高级区添加来源。"
+        },
+        "duration": {
+          "help": "选择 4、6、8 或 10 秒。默认 8 秒。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9 横屏或 9:16 竖屏。"
+        },
+        "resolution": {
+          "help": "选择 720p、1080p 或 4K。默认 720p。"
+        },
+        "seed": {
+          "help": "输入整数。-1 由模型随机选取种子。"
+        },
+        "reference_image_2": {
+          "help": "上传 PNG、JPEG 或 WebP，每张最多 20 MB。可通过高级区添加来源。"
+        },
+        "reference_image_3": {
+          "help": "上传 PNG、JPEG 或 WebP，每张最多 20 MB。可通过高级区添加来源。"
+        },
+        "reference_image_4": {
+          "help": "上传 PNG、JPEG 或 WebP，每张最多 20 MB。可通过高级区添加来源。"
+        },
+        "reference_image_5": {
+          "help": "上传 PNG、JPEG 或 WebP，每张最多 20 MB。可通过高级区添加来源。"
+        },
+        "reference_image_6": {
+          "help": "上传 PNG、JPEG 或 WebP，每张最多 20 MB。可通过高级区添加来源。"
+        },
+        "reference_image_7": {
+          "help": "上传 PNG、JPEG 或 WebP，每张最多 20 MB。可通过高级区添加来源。"
+        },
+        "reference_image_sources": {
+          "help": "每行填写一个公开图片 URL。这些地址追加到已上传的图片之后，合计一至七张。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Gemini Omni Flash Developer 圖生影片",
+      "description": "以提示詞與一至七張參考圖產生影片，可選擇 720p 至 4K。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "reference_image_4": {
+          "label": "參考圖 4"
+        },
+        "reference_image_5": {
+          "label": "參考圖 5"
+        },
+        "reference_image_6": {
+          "label": "參考圖 6"
+        },
+        "reference_image_7": {
+          "label": "參考圖 7"
+        },
+        "reference_image_sources": {
+          "label": "參考圖網址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述目標畫面的人物、場景、風格、運鏡與動作。至少提供一張參考圖。最多 20,000 字元。"
+        },
+        "reference_image_1": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張最多 20 MB。可在進階區添加來源。"
+        },
+        "duration": {
+          "help": "選擇 4、6、8 或 10 秒。預設為 8 秒。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9 橫向或 9:16 直向。"
+        },
+        "resolution": {
+          "help": "選擇 720p、1080p 或 4K。預設為 720p。"
+        },
+        "seed": {
+          "help": "輸入整數。-1 由模型隨機選取種子。"
+        },
+        "reference_image_2": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張最多 20 MB。可在進階區添加來源。"
+        },
+        "reference_image_3": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張最多 20 MB。可在進階區添加來源。"
+        },
+        "reference_image_4": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張最多 20 MB。可在進階區添加來源。"
+        },
+        "reference_image_5": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張最多 20 MB。可在進階區添加來源。"
+        },
+        "reference_image_6": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張最多 20 MB。可在進階區添加來源。"
+        },
+        "reference_image_7": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張最多 20 MB。可在進階區添加來源。"
+        },
+        "reference_image_sources": {
+          "help": "每行填寫一個公開圖片網址。依序加到上傳檔案後，合計一至七張。"
+        }
+      }
+    },
+    "en": {
+      "name": "Gemini Omni Flash Developer Image to Video",
+      "description": "Generate a video from a prompt and one to seven reference images at 720p to 4K.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        },
+        "reference_image_5": {
+          "label": "Reference image 5"
+        },
+        "reference_image_6": {
+          "label": "Reference image 6"
+        },
+        "reference_image_7": {
+          "label": "Reference image 7"
+        },
+        "reference_image_sources": {
+          "label": "Reference image URLs"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the characters, scene, look, camera direction, and action. Provide at least one reference image. Use up to 20,000 characters."
+        },
+        "reference_image_1": {
+          "help": "Upload a PNG, JPEG, or WebP up to 20 MB. Additional sources can be entered under Advanced."
+        },
+        "duration": {
+          "help": "Choose 4, 6, 8, or 10 seconds. The default is 8 seconds."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9 landscape or 9:16 portrait."
+        },
+        "resolution": {
+          "help": "Choose 720p, 1080p, or 4K. The default is 720p."
+        },
+        "seed": {
+          "help": "Enter an integer. Use -1 for a random seed."
+        },
+        "reference_image_2": {
+          "help": "Upload a PNG, JPEG, or WebP up to 20 MB. Additional sources can be entered under Advanced."
+        },
+        "reference_image_3": {
+          "help": "Upload a PNG, JPEG, or WebP up to 20 MB. Additional sources can be entered under Advanced."
+        },
+        "reference_image_4": {
+          "help": "Upload a PNG, JPEG, or WebP up to 20 MB. Additional sources can be entered under Advanced."
+        },
+        "reference_image_5": {
+          "help": "Upload a PNG, JPEG, or WebP up to 20 MB. Additional sources can be entered under Advanced."
+        },
+        "reference_image_6": {
+          "help": "Upload a PNG, JPEG, or WebP up to 20 MB. Additional sources can be entered under Advanced."
+        },
+        "reference_image_7": {
+          "help": "Upload a PNG, JPEG, or WebP up to 20 MB. Additional sources can be entered under Advanced."
+        },
+        "reference_image_sources": {
+          "help": "Enter one public image URL per line. They follow uploads, with a total of one to seven images."
+        }
+      }
+    },
+    "ja": {
+      "name": "Gemini Omni Flash Developer 画像から動画",
+      "description": "プロンプトと1〜7枚の参照画像を使い、720pから4Kまでの動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "reference_image_1": {
+          "label": "参照画像 1"
+        },
+        "reference_image_2": {
+          "label": "参照画像 2"
+        },
+        "reference_image_3": {
+          "label": "参照画像 3"
+        },
+        "reference_image_4": {
+          "label": "参照画像 4"
+        },
+        "reference_image_5": {
+          "label": "参照画像 5"
+        },
+        "reference_image_6": {
+          "label": "参照画像 6"
+        },
+        "reference_image_7": {
+          "label": "参照画像 7"
+        },
+        "reference_image_sources": {
+          "label": "参照画像のURL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "人物、場面、スタイル、カメラワーク、動作を記述します。参照画像を少なくとも1枚指定します。最大20,000文字です。"
+        },
+        "reference_image_1": {
+          "help": "20 MB以下のPNG、JPEG、またはWebPをアップロードします。詳細設定でも参照先を指定できます。"
+        },
+        "duration": {
+          "help": "4秒、6秒、8秒、10秒から選択します。既定値は8秒です。"
+        },
+        "aspect_ratio": {
+          "help": "横長の16:9または縦長の9:16を選択します。"
+        },
+        "resolution": {
+          "help": "720p、1080p、4Kから選択します。既定値は720pです。"
+        },
+        "seed": {
+          "help": "整数を入力します。-1はランダムなシードを使います。"
+        },
+        "reference_image_2": {
+          "help": "20 MB以下のPNG、JPEG、またはWebPをアップロードします。詳細設定でも参照先を指定できます。"
+        },
+        "reference_image_3": {
+          "help": "20 MB以下のPNG、JPEG、またはWebPをアップロードします。詳細設定でも参照先を指定できます。"
+        },
+        "reference_image_4": {
+          "help": "20 MB以下のPNG、JPEG、またはWebPをアップロードします。詳細設定でも参照先を指定できます。"
+        },
+        "reference_image_5": {
+          "help": "20 MB以下のPNG、JPEG、またはWebPをアップロードします。詳細設定でも参照先を指定できます。"
+        },
+        "reference_image_6": {
+          "help": "20 MB以下のPNG、JPEG、またはWebPをアップロードします。詳細設定でも参照先を指定できます。"
+        },
+        "reference_image_7": {
+          "help": "20 MB以下のPNG、JPEG、またはWebPをアップロードします。詳細設定でも参照先を指定できます。"
+        },
+        "reference_image_sources": {
+          "help": "公開画像のURLを1行に1件入力します。アップロード済みの画像の後に追加され、合計1〜7枚です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Gemini Omni Flash Developer 이미지로 동영상 생성",
+      "description": "프롬프트와 참조 이미지 한 장에서 일곱 장으로 720p에서 4K까지의 동영상을 만듭니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_image_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_image_6": {
+          "label": "참조 이미지 6"
+        },
+        "reference_image_7": {
+          "label": "참조 이미지 7"
+        },
+        "reference_image_sources": {
+          "label": "참조 이미지 URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "인물, 장면, 스타일, 카메라 움직임과 동작을 설명합니다. 참조 이미지를 한 장 이상 제공합니다. 최대 20,000자입니다."
+        },
+        "reference_image_1": {
+          "help": "20 MB 이하의 PNG, JPEG 또는 WebP를 업로드합니다. 고급 설정에서 소스를 추가할 수도 있습니다."
+        },
+        "duration": {
+          "help": "4초, 6초, 8초, 10초 중에 선택합니다. 기본값은 8초입니다."
+        },
+        "aspect_ratio": {
+          "help": "가로 16:9 또는 세로 9:16을 선택합니다."
+        },
+        "resolution": {
+          "help": "720p, 1080p, 4K 중에 선택합니다. 기본값은 720p입니다."
+        },
+        "seed": {
+          "help": "정수를 입력합니다. -1은 무작위 시드를 사용합니다."
+        },
+        "reference_image_2": {
+          "help": "20 MB 이하의 PNG, JPEG 또는 WebP를 업로드합니다. 고급 설정에서 소스를 추가할 수도 있습니다."
+        },
+        "reference_image_3": {
+          "help": "20 MB 이하의 PNG, JPEG 또는 WebP를 업로드합니다. 고급 설정에서 소스를 추가할 수도 있습니다."
+        },
+        "reference_image_4": {
+          "help": "20 MB 이하의 PNG, JPEG 또는 WebP를 업로드합니다. 고급 설정에서 소스를 추가할 수도 있습니다."
+        },
+        "reference_image_5": {
+          "help": "20 MB 이하의 PNG, JPEG 또는 WebP를 업로드합니다. 고급 설정에서 소스를 추가할 수도 있습니다."
+        },
+        "reference_image_6": {
+          "help": "20 MB 이하의 PNG, JPEG 또는 WebP를 업로드합니다. 고급 설정에서 소스를 추가할 수도 있습니다."
+        },
+        "reference_image_7": {
+          "help": "20 MB 이하의 PNG, JPEG 또는 WebP를 업로드합니다. 고급 설정에서 소스를 추가할 수도 있습니다."
+        },
+        "reference_image_sources": {
+          "help": "공개 이미지 URL을 한 줄에 하나씩 입력합니다. 업로드한 이미지 뒤에 추가되며 합계는 한 장에서 일곱 장입니다."
+        }
+      }
+    }
+  }
+}

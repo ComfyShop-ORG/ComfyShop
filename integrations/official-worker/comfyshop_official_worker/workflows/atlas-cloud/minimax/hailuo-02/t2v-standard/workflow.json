@@ -1,0 +1,194 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-hailuo02-standard-text",
+  "name": "Hailuo 02 Standard 文生视频",
+  "description": "根据提示词生成 6 秒或 10 秒的视频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "A seductive woman in a wet white shirt, dancing barefoot on a marble floor under soft golden light, water dripping slowly from her hair, close-up on glistening skin, slow sensual motion, dramatic shadows",
+      "maxLength": 2000
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "choices": [6, 10],
+      "default": 6,
+      "optional": true
+    },
+    {
+      "name": "expand_prompt",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "expand_prompt",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "minimax/hailuo-02/t2v-standard",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "enable_prompt_expansion": "expand_prompt"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 2000
+      },
+      "prediction_endpoint": "result"
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Hailuo 02 Standard 文生视频",
+      "description": "根据提示词生成 6 秒或 10 秒的视频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "时长（秒）"
+        },
+        "expand_prompt": {
+          "label": "扩写提示词"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、动作和场景，最多 2,000 字符。"
+        },
+        "duration_seconds": {
+          "help": "选择 6 秒或 10 秒，默认 6 秒。"
+        },
+        "expand_prompt": {
+          "help": "开启后由模型在生成前优化提示词。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Hailuo 02 Standard 文生影片",
+      "description": "根據提示詞生成 6 秒或 10 秒的影片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "片長（秒）"
+        },
+        "expand_prompt": {
+          "label": "擴寫提示詞"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、動作和場景，最多 2,000 字元。"
+        },
+        "duration_seconds": {
+          "help": "選擇 6 秒或 10 秒，預設 6 秒。"
+        },
+        "expand_prompt": {
+          "help": "開啟後由模型在生成前最佳化提示詞。"
+        }
+      }
+    },
+    "en": {
+      "name": "Hailuo 02 Standard Text-to-Video",
+      "description": "Generate a 6- or 10-second video from a text prompt.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "expand_prompt": {
+          "label": "Expand prompt"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, action, and setting in up to 2,000 characters."
+        },
+        "duration_seconds": {
+          "help": "Choose 6 or 10 seconds. The default is 6."
+        },
+        "expand_prompt": {
+          "help": "Let the model optimize the prompt before generation."
+        }
+      }
+    },
+    "ja": {
+      "name": "Hailuo 02 Standard テキストから動画",
+      "description": "プロンプトから 6 秒または 10 秒の動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "長さ（秒）"
+        },
+        "expand_prompt": {
+          "label": "プロンプトを拡張"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、動き、場面を 2,000 文字以内で記述します。"
+        },
+        "duration_seconds": {
+          "help": "6 秒または 10 秒から選びます。既定値は 6 秒です。"
+        },
+        "expand_prompt": {
+          "help": "有効にすると、生成前にモデルがプロンプトを最適化します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Hailuo 02 Standard 텍스트로 동영상 생성",
+      "description": "프롬프트에서 6초 또는 10초 동영상을 만듭니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "길이(초)"
+        },
+        "expand_prompt": {
+          "label": "프롬프트 확장"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 동작, 장면을 최대 2,000자로 설명하세요."
+        },
+        "duration_seconds": {
+          "help": "6초 또는 10초를 선택하세요. 기본값은 6초입니다."
+        },
+        "expand_prompt": {
+          "help": "생성 전에 모델이 프롬프트를 최적화합니다."
+        }
+      }
+    }
+  }
+}

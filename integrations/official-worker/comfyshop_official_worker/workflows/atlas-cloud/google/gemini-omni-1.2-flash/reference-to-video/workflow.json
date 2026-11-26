@@ -1,0 +1,1002 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-google-gemini-omni-1-2-flash-reference-to-video",
+  "name": "Gemini Omni 1.2 Flash 参考生视频",
+  "description": "用参考图或短片引导生成带音频的新视频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 20000
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 10,
+      "optional": true,
+      "minimum": "3",
+      "maximum": "15"
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "optional": true,
+      "choices": ["16:9", "9:16"]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "optional": true,
+      "choices": ["360p", "720p", "1080p", "4k"]
+    },
+    {
+      "name": "thinking_level",
+      "kind": "choice",
+      "default": "default",
+      "optional": true,
+      "choices": ["default", "high", "low"]
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_10",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_video_1",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_2",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_3",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_image_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "reference_video_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_video_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "thinking_level",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_10",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "google/gemini-omni-1.2-flash/reference-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "thinking_level": "thinking_level",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "reference_images": {
+          "kind": "image",
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4",
+            "reference_image_5",
+            "reference_image_6",
+            "reference_image_7",
+            "reference_image_8",
+            "reference_image_9",
+            "reference_image_10"
+          ],
+          "array": true,
+          "content_types": ["image/png", "image/jpeg", "image/webp"],
+          "max_bytes": 20000000,
+          "external_sources_field": "reference_image_sources"
+        },
+        "reference_videos": {
+          "kind": "video",
+          "fields": ["reference_video_1", "reference_video_2", "reference_video_3"],
+          "array": true,
+          "content_types": ["video/mp4"],
+          "max_duration_ms": 3000,
+          "external_urls_only": true,
+          "external_sources_field": "reference_video_sources"
+        }
+      },
+      "required_any_of": [["reference_images", "reference_videos"]],
+      "maximum_with_media": {
+        "reference_videos": {
+          "duration": {
+            "maximum": 10,
+            "min_items": 2
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Gemini Omni 1.2 Flash 参考生视频",
+      "description": "用参考图或短片引导生成带音频的新视频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "aspect_ratio": {
+          "label": "画面比例"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "360p": "360p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "推理程度",
+          "choiceLabels": {
+            "default": "模型默认",
+            "high": "高",
+            "low": "低"
+          }
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        },
+        "reference_image_5": {
+          "label": "参考图 5"
+        },
+        "reference_image_6": {
+          "label": "参考图 6"
+        },
+        "reference_image_7": {
+          "label": "参考图 7"
+        },
+        "reference_image_8": {
+          "label": "参考图 8"
+        },
+        "reference_image_9": {
+          "label": "参考图 9"
+        },
+        "reference_image_10": {
+          "label": "参考图 10"
+        },
+        "reference_video_1": {
+          "label": "参考视频 1"
+        },
+        "reference_video_2": {
+          "label": "参考视频 2"
+        },
+        "reference_video_3": {
+          "label": "参考视频 3"
+        },
+        "reference_image_sources": {
+          "label": "参考图来源"
+        },
+        "reference_video_sources": {
+          "label": "参考视频地址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "至少提供一种参考素材。用自然语言说明如何使用各素材，例如「第一张参考图的人物模仿参考视频的步态」。最多 20,000 字符。"
+        },
+        "reference_image_1": {
+          "help": "上传 PNG、JPEG 或 WebP，每张最多 20 MB。可通过高级区添加来源。"
+        },
+        "reference_video_1": {
+          "help": "上传 MP4，每段最多 3 秒。选 11 至 15 秒时最多用一段参考视频。模型忽略参考视频的音轨。"
+        },
+        "duration": {
+          "help": "输入 3 至 15 的整数，默认 10 秒。选择 11 秒或更长时，最多用一段参考视频。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9 横屏或 9:16 竖屏。"
+        },
+        "resolution": {
+          "help": "360p 用于预览，720p 为默认，1080p 和 4K 由模型放大。"
+        },
+        "thinking_level": {
+          "help": "较高的推理程度可能改善复杂任务的效果，生成耗时也可能增加。"
+        },
+        "seed": {
+          "help": "输入整数。-1 由模型随机选取种子。"
+        },
+        "reference_image_2": {
+          "help": "上传 PNG、JPEG 或 WebP，每张最多 20 MB。可通过高级区添加来源。"
+        },
+        "reference_image_3": {
+          "help": "上传 PNG、JPEG 或 WebP，每张最多 20 MB。可通过高级区添加来源。"
+        },
+        "reference_image_4": {
+          "help": "上传 PNG、JPEG 或 WebP，每张最多 20 MB。可通过高级区添加来源。"
+        },
+        "reference_image_5": {
+          "help": "上传 PNG、JPEG 或 WebP，每张最多 20 MB。可通过高级区添加来源。"
+        },
+        "reference_image_6": {
+          "help": "上传 PNG、JPEG 或 WebP，每张最多 20 MB。可通过高级区添加来源。"
+        },
+        "reference_image_7": {
+          "help": "上传 PNG、JPEG 或 WebP，每张最多 20 MB。可通过高级区添加来源。"
+        },
+        "reference_image_8": {
+          "help": "上传 PNG、JPEG 或 WebP，每张最多 20 MB。可通过高级区添加来源。"
+        },
+        "reference_image_9": {
+          "help": "上传 PNG、JPEG 或 WebP，每张最多 20 MB。可通过高级区添加来源。"
+        },
+        "reference_image_10": {
+          "help": "上传 PNG、JPEG 或 WebP，每张最多 20 MB。可通过高级区添加来源。"
+        },
+        "reference_video_2": {
+          "help": "上传 MP4，每段最多 3 秒。选 11 至 15 秒时最多用一段参考视频。模型忽略参考视频的音轨。"
+        },
+        "reference_video_3": {
+          "help": "上传 MP4，每段最多 3 秒。选 11 至 15 秒时最多用一段参考视频。模型忽略参考视频的音轨。"
+        },
+        "reference_image_sources": {
+          "help": "每行填写一个公开图片 URL 或 Base64 数据网址，按顺序追加到上传之后，共最多十张。"
+        },
+        "reference_video_sources": {
+          "help": "每行填写一个公开的 MP4 URL，按顺序追加到上传之后。最多三段，成片长 11 秒或更长时最多一段。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Gemini Omni 1.2 Flash 參考生成影片",
+      "description": "以參考圖或短片引導生成有聲的新影片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "360p": "360p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "推理程度",
+          "choiceLabels": {
+            "default": "模型預設",
+            "high": "高",
+            "low": "低"
+          }
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "reference_image_4": {
+          "label": "參考圖 4"
+        },
+        "reference_image_5": {
+          "label": "參考圖 5"
+        },
+        "reference_image_6": {
+          "label": "參考圖 6"
+        },
+        "reference_image_7": {
+          "label": "參考圖 7"
+        },
+        "reference_image_8": {
+          "label": "參考圖 8"
+        },
+        "reference_image_9": {
+          "label": "參考圖 9"
+        },
+        "reference_image_10": {
+          "label": "參考圖 10"
+        },
+        "reference_video_1": {
+          "label": "參考影片 1"
+        },
+        "reference_video_2": {
+          "label": "參考影片 2"
+        },
+        "reference_video_3": {
+          "label": "參考影片 3"
+        },
+        "reference_image_sources": {
+          "label": "參考圖來源"
+        },
+        "reference_video_sources": {
+          "label": "參考影片網址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "至少提供一種參考素材。以自然語言說明各素材的用途，例如「第一張參考圖的人物模仿參考影片的步態」。最多 20,000 字元。"
+        },
+        "reference_image_1": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張最多 20 MB。可在進階區添加來源。"
+        },
+        "reference_video_1": {
+          "help": "上傳 MP4，每段最多 3 秒。選擇 11 至 15 秒時最多用一段參考影片。模型忽略參考影片的音軌。"
+        },
+        "duration": {
+          "help": "輸入 3 至 15 的整數，預設為 10 秒。選擇 11 秒以上時，最多用一段參考影片。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9 橫向或 9:16 直向。"
+        },
+        "resolution": {
+          "help": "360p 用於預覽，720p 為預設，1080p 和 4K 由模型放大。"
+        },
+        "thinking_level": {
+          "help": "較高的推理程度可改善複雜任務的效果，也可能增加生成時間。"
+        },
+        "seed": {
+          "help": "輸入整數。-1 由模型隨機選取種子。"
+        },
+        "reference_image_2": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張最多 20 MB。可在進階區添加來源。"
+        },
+        "reference_image_3": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張最多 20 MB。可在進階區添加來源。"
+        },
+        "reference_image_4": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張最多 20 MB。可在進階區添加來源。"
+        },
+        "reference_image_5": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張最多 20 MB。可在進階區添加來源。"
+        },
+        "reference_image_6": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張最多 20 MB。可在進階區添加來源。"
+        },
+        "reference_image_7": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張最多 20 MB。可在進階區添加來源。"
+        },
+        "reference_image_8": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張最多 20 MB。可在進階區添加來源。"
+        },
+        "reference_image_9": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張最多 20 MB。可在進階區添加來源。"
+        },
+        "reference_image_10": {
+          "help": "上傳 PNG、JPEG 或 WebP，每張最多 20 MB。可在進階區添加來源。"
+        },
+        "reference_video_2": {
+          "help": "上傳 MP4，每段最多 3 秒。選擇 11 至 15 秒時最多用一段參考影片。模型忽略參考影片的音軌。"
+        },
+        "reference_video_3": {
+          "help": "上傳 MP4，每段最多 3 秒。選擇 11 至 15 秒時最多用一段參考影片。模型忽略參考影片的音軌。"
+        },
+        "reference_image_sources": {
+          "help": "每行填寫一個公開圖片網址或 Base64 資料網址，依序加到上傳檔案後，共最多十張。"
+        },
+        "reference_video_sources": {
+          "help": "每行填寫一個公開的 MP4 網址，依序加到上傳檔案後。最多三段，成片長 11 秒以上時最多一段。"
+        }
+      }
+    },
+    "en": {
+      "name": "Gemini Omni 1.2 Flash Reference to Video",
+      "description": "Use reference images or short clips to guide a new video with audio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "360p": "360p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "Thinking level",
+          "choiceLabels": {
+            "default": "Model default",
+            "high": "High",
+            "low": "Low"
+          }
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        },
+        "reference_image_5": {
+          "label": "Reference image 5"
+        },
+        "reference_image_6": {
+          "label": "Reference image 6"
+        },
+        "reference_image_7": {
+          "label": "Reference image 7"
+        },
+        "reference_image_8": {
+          "label": "Reference image 8"
+        },
+        "reference_image_9": {
+          "label": "Reference image 9"
+        },
+        "reference_image_10": {
+          "label": "Reference image 10"
+        },
+        "reference_video_1": {
+          "label": "Reference video 1"
+        },
+        "reference_video_2": {
+          "label": "Reference video 2"
+        },
+        "reference_video_3": {
+          "label": "Reference video 3"
+        },
+        "reference_image_sources": {
+          "label": "Reference image sources"
+        },
+        "reference_video_sources": {
+          "label": "Reference video URLs"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Provide at least one reference image or video. Explain how to use each reference in ordinary language, such as asking the person in the first image to move like the person in the clip. Use up to 20,000 characters."
+        },
+        "reference_image_1": {
+          "help": "Upload a PNG, JPEG, or WebP up to 20 MB. Additional sources can be entered under Advanced."
+        },
+        "reference_video_1": {
+          "help": "Upload MP4 clips up to 3 seconds each. Outputs of 11 to 15 seconds accept one clip. The model ignores the reference audio track."
+        },
+        "duration": {
+          "help": "Enter a whole number from 3 to 15. The default is 10 seconds. At 11 seconds or longer, use at most one reference video."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9 landscape or 9:16 portrait."
+        },
+        "resolution": {
+          "help": "Use 360p for previews or the default 720p. The model upscales 1080p and 4K."
+        },
+        "thinking_level": {
+          "help": "A higher level may improve the result for complex prompts and increase generation time."
+        },
+        "seed": {
+          "help": "Enter an integer. Use -1 for a random seed."
+        },
+        "reference_image_2": {
+          "help": "Upload a PNG, JPEG, or WebP up to 20 MB. Additional sources can be entered under Advanced."
+        },
+        "reference_image_3": {
+          "help": "Upload a PNG, JPEG, or WebP up to 20 MB. Additional sources can be entered under Advanced."
+        },
+        "reference_image_4": {
+          "help": "Upload a PNG, JPEG, or WebP up to 20 MB. Additional sources can be entered under Advanced."
+        },
+        "reference_image_5": {
+          "help": "Upload a PNG, JPEG, or WebP up to 20 MB. Additional sources can be entered under Advanced."
+        },
+        "reference_image_6": {
+          "help": "Upload a PNG, JPEG, or WebP up to 20 MB. Additional sources can be entered under Advanced."
+        },
+        "reference_image_7": {
+          "help": "Upload a PNG, JPEG, or WebP up to 20 MB. Additional sources can be entered under Advanced."
+        },
+        "reference_image_8": {
+          "help": "Upload a PNG, JPEG, or WebP up to 20 MB. Additional sources can be entered under Advanced."
+        },
+        "reference_image_9": {
+          "help": "Upload a PNG, JPEG, or WebP up to 20 MB. Additional sources can be entered under Advanced."
+        },
+        "reference_image_10": {
+          "help": "Upload a PNG, JPEG, or WebP up to 20 MB. Additional sources can be entered under Advanced."
+        },
+        "reference_video_2": {
+          "help": "Upload MP4 clips up to 3 seconds each. Outputs of 11 to 15 seconds accept one clip. The model ignores the reference audio track."
+        },
+        "reference_video_3": {
+          "help": "Upload MP4 clips up to 3 seconds each. Outputs of 11 to 15 seconds accept one clip. The model ignores the reference audio track."
+        },
+        "reference_image_sources": {
+          "help": "Enter one public image URL or Base64 data URL per line. These follow uploads, with a total limit of ten images."
+        },
+        "reference_video_sources": {
+          "help": "Enter one public MP4 URL per line. These follow uploads. Use at most three clips, or one for outputs of 11 seconds or longer."
+        }
+      }
+    },
+    "ja": {
+      "name": "Gemini Omni 1.2 Flash 参照素材から動画",
+      "description": "参照画像や短いクリップを使って、音声付きの新しい動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "360p": "360p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "推論レベル",
+          "choiceLabels": {
+            "default": "モデルの既定値",
+            "high": "高",
+            "low": "低"
+          }
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "reference_image_1": {
+          "label": "参照画像 1"
+        },
+        "reference_image_2": {
+          "label": "参照画像 2"
+        },
+        "reference_image_3": {
+          "label": "参照画像 3"
+        },
+        "reference_image_4": {
+          "label": "参照画像 4"
+        },
+        "reference_image_5": {
+          "label": "参照画像 5"
+        },
+        "reference_image_6": {
+          "label": "参照画像 6"
+        },
+        "reference_image_7": {
+          "label": "参照画像 7"
+        },
+        "reference_image_8": {
+          "label": "参照画像 8"
+        },
+        "reference_image_9": {
+          "label": "参照画像 9"
+        },
+        "reference_image_10": {
+          "label": "参照画像 10"
+        },
+        "reference_video_1": {
+          "label": "参照動画 1"
+        },
+        "reference_video_2": {
+          "label": "参照動画 2"
+        },
+        "reference_video_3": {
+          "label": "参照動画 3"
+        },
+        "reference_image_sources": {
+          "label": "参照画像の参照先"
+        },
+        "reference_video_sources": {
+          "label": "参照動画のURL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "参照画像または動画を少なくとも1件指定します。「最初の参照画像の人物が参照動画の人物と同じ歩き方をする」など、素材の使い方を自然文で指定します。最大20,000文字です。"
+        },
+        "reference_image_1": {
+          "help": "20 MB以下のPNG、JPEG、またはWebPをアップロードします。詳細設定でも参照先を指定できます。"
+        },
+        "reference_video_1": {
+          "help": "各3秒以内のMP4をアップロードします。出力が11〜15秒の場合、参照動画は1件までです。参照動画の音声は使用されません。"
+        },
+        "duration": {
+          "help": "3〜15の整数を入力します。既定値は10秒です。11秒以上の場合、参照動画は1件までです。"
+        },
+        "aspect_ratio": {
+          "help": "横長の16:9または縦長の9:16を選択します。"
+        },
+        "resolution": {
+          "help": "プレビューは360p、既定値は720pです。1080pと4Kはモデルがアップスケールします。"
+        },
+        "thinking_level": {
+          "help": "高い設定は複雑な指示への応答を改善する場合があり、生成時間も増えることがあります。"
+        },
+        "seed": {
+          "help": "整数を入力します。-1はランダムなシードを使います。"
+        },
+        "reference_image_2": {
+          "help": "20 MB以下のPNG、JPEG、またはWebPをアップロードします。詳細設定でも参照先を指定できます。"
+        },
+        "reference_image_3": {
+          "help": "20 MB以下のPNG、JPEG、またはWebPをアップロードします。詳細設定でも参照先を指定できます。"
+        },
+        "reference_image_4": {
+          "help": "20 MB以下のPNG、JPEG、またはWebPをアップロードします。詳細設定でも参照先を指定できます。"
+        },
+        "reference_image_5": {
+          "help": "20 MB以下のPNG、JPEG、またはWebPをアップロードします。詳細設定でも参照先を指定できます。"
+        },
+        "reference_image_6": {
+          "help": "20 MB以下のPNG、JPEG、またはWebPをアップロードします。詳細設定でも参照先を指定できます。"
+        },
+        "reference_image_7": {
+          "help": "20 MB以下のPNG、JPEG、またはWebPをアップロードします。詳細設定でも参照先を指定できます。"
+        },
+        "reference_image_8": {
+          "help": "20 MB以下のPNG、JPEG、またはWebPをアップロードします。詳細設定でも参照先を指定できます。"
+        },
+        "reference_image_9": {
+          "help": "20 MB以下のPNG、JPEG、またはWebPをアップロードします。詳細設定でも参照先を指定できます。"
+        },
+        "reference_image_10": {
+          "help": "20 MB以下のPNG、JPEG、またはWebPをアップロードします。詳細設定でも参照先を指定できます。"
+        },
+        "reference_video_2": {
+          "help": "各3秒以内のMP4をアップロードします。出力が11〜15秒の場合、参照動画は1件までです。参照動画の音声は使用されません。"
+        },
+        "reference_video_3": {
+          "help": "各3秒以内のMP4をアップロードします。出力が11〜15秒の場合、参照動画は1件までです。参照動画の音声は使用されません。"
+        },
+        "reference_image_sources": {
+          "help": "公開画像のURLまたはBase64データURLを1行に1件入力します。アップロード済みの画像の後に追加され、合計10枚までです。"
+        },
+        "reference_video_sources": {
+          "help": "公開MP4のURLを1行に1件入力します。アップロードした素材の後に追加されます。合計3件までで、出力が11秒以上の場合は1件までです。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Gemini Omni 1.2 Flash 참조 자료로 동영상 생성",
+      "description": "참조 이미지나 짧은 클립을 바탕으로 오디오가 포함된 새 동영상을 만듭니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "360p": "360p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "추론 수준",
+          "choiceLabels": {
+            "default": "모델 기본값",
+            "high": "높음",
+            "low": "낮음"
+          }
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_image_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_image_6": {
+          "label": "참조 이미지 6"
+        },
+        "reference_image_7": {
+          "label": "참조 이미지 7"
+        },
+        "reference_image_8": {
+          "label": "참조 이미지 8"
+        },
+        "reference_image_9": {
+          "label": "참조 이미지 9"
+        },
+        "reference_image_10": {
+          "label": "참조 이미지 10"
+        },
+        "reference_video_1": {
+          "label": "참조 동영상 1"
+        },
+        "reference_video_2": {
+          "label": "참조 동영상 2"
+        },
+        "reference_video_3": {
+          "label": "참조 동영상 3"
+        },
+        "reference_image_sources": {
+          "label": "참조 이미지 소스"
+        },
+        "reference_video_sources": {
+          "label": "참조 동영상 URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "참조 이미지나 동영상을 하나 이상 제공합니다. 첫 이미지의 인물이 참조 동영상 속 인물처럼 걷도록 요청하는 등 각 자료를 자연어로 설명합니다. 최대 20,000자입니다."
+        },
+        "reference_image_1": {
+          "help": "20 MB 이하의 PNG, JPEG 또는 WebP를 업로드합니다. 고급 설정에서 소스를 추가할 수도 있습니다."
+        },
+        "reference_video_1": {
+          "help": "각각 3초 이하의 MP4를 업로드합니다. 출력 길이가 11초에서 15초이면 참조 동영상은 한 개까지입니다. 모델은 참조 영상의 오디오를 사용하지 않습니다."
+        },
+        "duration": {
+          "help": "3에서 15 사이의 정수를 입력합니다. 기본값은 10초입니다. 11초 이상이면 참조 동영상은 한 개까지입니다."
+        },
+        "aspect_ratio": {
+          "help": "가로 16:9 또는 세로 9:16을 선택합니다."
+        },
+        "resolution": {
+          "help": "미리보기는 360p, 기본값은 720p입니다. 1080p와 4K는 모델에서 업스케일합니다."
+        },
+        "thinking_level": {
+          "help": "수준을 높이면 복잡한 지시의 결과가 개선될 수 있으며 생성 시간이 늘어날 수 있습니다."
+        },
+        "seed": {
+          "help": "정수를 입력합니다. -1은 무작위 시드를 사용합니다."
+        },
+        "reference_image_2": {
+          "help": "20 MB 이하의 PNG, JPEG 또는 WebP를 업로드합니다. 고급 설정에서 소스를 추가할 수도 있습니다."
+        },
+        "reference_image_3": {
+          "help": "20 MB 이하의 PNG, JPEG 또는 WebP를 업로드합니다. 고급 설정에서 소스를 추가할 수도 있습니다."
+        },
+        "reference_image_4": {
+          "help": "20 MB 이하의 PNG, JPEG 또는 WebP를 업로드합니다. 고급 설정에서 소스를 추가할 수도 있습니다."
+        },
+        "reference_image_5": {
+          "help": "20 MB 이하의 PNG, JPEG 또는 WebP를 업로드합니다. 고급 설정에서 소스를 추가할 수도 있습니다."
+        },
+        "reference_image_6": {
+          "help": "20 MB 이하의 PNG, JPEG 또는 WebP를 업로드합니다. 고급 설정에서 소스를 추가할 수도 있습니다."
+        },
+        "reference_image_7": {
+          "help": "20 MB 이하의 PNG, JPEG 또는 WebP를 업로드합니다. 고급 설정에서 소스를 추가할 수도 있습니다."
+        },
+        "reference_image_8": {
+          "help": "20 MB 이하의 PNG, JPEG 또는 WebP를 업로드합니다. 고급 설정에서 소스를 추가할 수도 있습니다."
+        },
+        "reference_image_9": {
+          "help": "20 MB 이하의 PNG, JPEG 또는 WebP를 업로드합니다. 고급 설정에서 소스를 추가할 수도 있습니다."
+        },
+        "reference_image_10": {
+          "help": "20 MB 이하의 PNG, JPEG 또는 WebP를 업로드합니다. 고급 설정에서 소스를 추가할 수도 있습니다."
+        },
+        "reference_video_2": {
+          "help": "각각 3초 이하의 MP4를 업로드합니다. 출력 길이가 11초에서 15초이면 참조 동영상은 한 개까지입니다. 모델은 참조 영상의 오디오를 사용하지 않습니다."
+        },
+        "reference_video_3": {
+          "help": "각각 3초 이하의 MP4를 업로드합니다. 출력 길이가 11초에서 15초이면 참조 동영상은 한 개까지입니다. 모델은 참조 영상의 오디오를 사용하지 않습니다."
+        },
+        "reference_image_sources": {
+          "help": "공개 이미지 URL 또는 Base64 데이터 URL을 한 줄에 하나씩 입력합니다. 업로드한 이미지 뒤에 추가되며 합계는 최대 열 장입니다."
+        },
+        "reference_video_sources": {
+          "help": "공개 MP4 URL을 한 줄에 하나씩 입력합니다. 업로드 뒤에 추가됩니다. 최대 세 개이며 출력 길이가 11초 이상이면 한 개까지입니다."
+        }
+      }
+    }
+  }
+}

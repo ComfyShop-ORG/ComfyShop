@@ -1,0 +1,923 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-flux3-edit",
+  "name": "FLUX 3 图像编辑",
+  "description": "用提示词编辑 1 至 10 张参考图，可按图片编号说明各自的作用。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "optional": true,
+      "default": "auto",
+      "choices": [
+        "auto",
+        "21:9",
+        "2:1",
+        "16:9",
+        "3:2",
+        "7:5",
+        "4:3",
+        "5:4",
+        "1:1",
+        "4:5",
+        "3:4",
+        "5:7",
+        "2:3",
+        "9:16",
+        "1:2"
+      ]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "optional": true,
+      "default": "1k",
+      "choices": ["768sq", "1k", "2k", "4k"]
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "default": "jpeg",
+      "choices": ["jpeg", "png"]
+    },
+    {
+      "name": "safety_tolerance",
+      "kind": "integer",
+      "default": 2,
+      "minimum": "0",
+      "maximum": "4",
+      "optional": true
+    },
+    {
+      "name": "enable_prompt_expansion",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_10",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "safety_tolerance",
+      "section": "advanced",
+      "control": "slider"
+    },
+    {
+      "fieldId": "enable_prompt_expansion",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_10",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "black-forest-labs/flux-3/edit",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "output_format": "output_format",
+        "safety_tolerance": "safety_tolerance",
+        "enable_prompt_expansion": "enable_prompt_expansion"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "reference_images": {
+          "kind": "image",
+          "array": true,
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4",
+            "reference_image_5",
+            "reference_image_6",
+            "reference_image_7",
+            "reference_image_8",
+            "reference_image_9",
+            "reference_image_10"
+          ],
+          "external_sources_field": "image_sources",
+          "external_urls_only": true,
+          "min_items": 1,
+          "image_bounds": {
+            "min_side": 256
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "FLUX 3 图像编辑",
+      "description": "用提示词编辑 1 至 10 张参考图，可按图片编号说明各自的作用。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "auto": "自动",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "3:2": "3:2",
+            "7:5": "7:5",
+            "4:3": "4:3",
+            "5:4": "5:4",
+            "1:1": "1:1",
+            "4:5": "4:5",
+            "3:4": "3:4",
+            "5:7": "5:7",
+            "2:3": "2:3",
+            "9:16": "9:16",
+            "1:2": "1:2"
+          }
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "768sq": "768sq",
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "output_format": {
+          "label": "图片格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "safety_tolerance": {
+          "label": "内容审核容忍度"
+        },
+        "enable_prompt_expansion": {
+          "label": "提示词扩写"
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        },
+        "reference_image_5": {
+          "label": "参考图 5"
+        },
+        "reference_image_6": {
+          "label": "参考图 6"
+        },
+        "reference_image_7": {
+          "label": "参考图 7"
+        },
+        "reference_image_8": {
+          "label": "参考图 8"
+        },
+        "reference_image_9": {
+          "label": "参考图 9"
+        },
+        "reference_image_10": {
+          "label": "参考图 10"
+        },
+        "image_sources": {
+          "label": "参考图 URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "用简短指令描述要修改的内容。image 1 是数组中的第一张图。"
+        },
+        "reference_image_1": {
+          "help": "上传参考图，宽高至少 256 像素。Atlas 会按比例缩小超过 4 MP 的图片。"
+        },
+        "aspect_ratio": {
+          "help": "自动比例沿用第一张参考图。"
+        },
+        "resolution": {
+          "help": "选择 768sq、1K、2K 或 4K。较高档位需要更长时间。"
+        },
+        "output_format": {
+          "help": "选择 JPEG 或 PNG。"
+        },
+        "safety_tolerance": {
+          "help": "选择 0 至 4，0 最严格，默认 2。"
+        },
+        "enable_prompt_expansion": {
+          "help": "扩写提示词并明确每张参考图的用途。"
+        },
+        "reference_image_2": {
+          "help": "按上传顺序编号，外部来源排在上传之后。"
+        },
+        "reference_image_3": {
+          "help": "按上传顺序编号，外部来源排在上传之后。"
+        },
+        "reference_image_4": {
+          "help": "按上传顺序编号，外部来源排在上传之后。"
+        },
+        "reference_image_5": {
+          "help": "按上传顺序编号，外部来源排在上传之后。"
+        },
+        "reference_image_6": {
+          "help": "按上传顺序编号，外部来源排在上传之后。"
+        },
+        "reference_image_7": {
+          "help": "按上传顺序编号，外部来源排在上传之后。"
+        },
+        "reference_image_8": {
+          "help": "按上传顺序编号，外部来源排在上传之后。"
+        },
+        "reference_image_9": {
+          "help": "按上传顺序编号，外部来源排在上传之后。"
+        },
+        "reference_image_10": {
+          "help": "按上传顺序编号，外部来源排在上传之后。"
+        },
+        "image_sources": {
+          "help": "每行一个公开图片 URL。与上传合计 1 至 10 张，URL 排在上传槽位之后。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "FLUX 3 圖片編輯",
+      "description": "用提示詞編輯 1 至 10 張參考圖，可按圖片編號說明各自的用途。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "auto": "自動",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "3:2": "3:2",
+            "7:5": "7:5",
+            "4:3": "4:3",
+            "5:4": "5:4",
+            "1:1": "1:1",
+            "4:5": "4:5",
+            "3:4": "3:4",
+            "5:7": "5:7",
+            "2:3": "2:3",
+            "9:16": "9:16",
+            "1:2": "1:2"
+          }
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "768sq": "768sq",
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "output_format": {
+          "label": "圖片格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "safety_tolerance": {
+          "label": "內容審查容忍度"
+        },
+        "enable_prompt_expansion": {
+          "label": "提示詞擴寫"
+        },
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "reference_image_4": {
+          "label": "參考圖 4"
+        },
+        "reference_image_5": {
+          "label": "參考圖 5"
+        },
+        "reference_image_6": {
+          "label": "參考圖 6"
+        },
+        "reference_image_7": {
+          "label": "參考圖 7"
+        },
+        "reference_image_8": {
+          "label": "參考圖 8"
+        },
+        "reference_image_9": {
+          "label": "參考圖 9"
+        },
+        "reference_image_10": {
+          "label": "參考圖 10"
+        },
+        "image_sources": {
+          "label": "參考圖 URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "用簡短指令描述要修改的內容。image 1 是陣列中的第一張圖。"
+        },
+        "reference_image_1": {
+          "help": "上傳參考圖，寬高至少 256 像素。Atlas 會按比例縮小超過 4 MP 的圖片。"
+        },
+        "aspect_ratio": {
+          "help": "自動比例沿用第一張參考圖。"
+        },
+        "resolution": {
+          "help": "選擇 768sq、1K、2K 或 4K。較高級別需要更長時間。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG 或 PNG。"
+        },
+        "safety_tolerance": {
+          "help": "選擇 0 至 4，0 最嚴格，預設 2。"
+        },
+        "enable_prompt_expansion": {
+          "help": "擴寫提示詞並明確每張參考圖的用途。"
+        },
+        "reference_image_2": {
+          "help": "按上傳順序編號，外部來源排在上傳之後。"
+        },
+        "reference_image_3": {
+          "help": "按上傳順序編號，外部來源排在上傳之後。"
+        },
+        "reference_image_4": {
+          "help": "按上傳順序編號，外部來源排在上傳之後。"
+        },
+        "reference_image_5": {
+          "help": "按上傳順序編號，外部來源排在上傳之後。"
+        },
+        "reference_image_6": {
+          "help": "按上傳順序編號，外部來源排在上傳之後。"
+        },
+        "reference_image_7": {
+          "help": "按上傳順序編號，外部來源排在上傳之後。"
+        },
+        "reference_image_8": {
+          "help": "按上傳順序編號，外部來源排在上傳之後。"
+        },
+        "reference_image_9": {
+          "help": "按上傳順序編號，外部來源排在上傳之後。"
+        },
+        "reference_image_10": {
+          "help": "按上傳順序編號，外部來源排在上傳之後。"
+        },
+        "image_sources": {
+          "help": "每行一個公開圖片 URL。與上傳合計 1 至 10 張，URL 排在上傳欄位之後。"
+        }
+      }
+    },
+    "en": {
+      "name": "FLUX 3 Image Editing",
+      "description": "Edit from one to ten references and describe their roles by image number.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "auto": "Automatic",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "3:2": "3:2",
+            "7:5": "7:5",
+            "4:3": "4:3",
+            "5:4": "5:4",
+            "1:1": "1:1",
+            "4:5": "4:5",
+            "3:4": "3:4",
+            "5:7": "5:7",
+            "2:3": "2:3",
+            "9:16": "9:16",
+            "1:2": "1:2"
+          }
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "768sq": "768sq",
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "output_format": {
+          "label": "Image format",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "safety_tolerance": {
+          "label": "Moderation tolerance"
+        },
+        "enable_prompt_expansion": {
+          "label": "Expand prompt"
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        },
+        "reference_image_5": {
+          "label": "Reference image 5"
+        },
+        "reference_image_6": {
+          "label": "Reference image 6"
+        },
+        "reference_image_7": {
+          "label": "Reference image 7"
+        },
+        "reference_image_8": {
+          "label": "Reference image 8"
+        },
+        "reference_image_9": {
+          "label": "Reference image 9"
+        },
+        "reference_image_10": {
+          "label": "Reference image 10"
+        },
+        "image_sources": {
+          "label": "Reference image URLs"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Write short, direct editing instructions. Image 1 is the first entry in the reference list."
+        },
+        "reference_image_1": {
+          "help": "Upload an image at least 256 pixels on each side. Atlas downscales images above 4 MP while keeping their aspect ratio."
+        },
+        "aspect_ratio": {
+          "help": "Automatic follows the aspect ratio of the first reference image."
+        },
+        "resolution": {
+          "help": "Choose 768sq, 1K, 2K, or 4K. Higher tiers take longer."
+        },
+        "output_format": {
+          "help": "Choose JPEG or PNG."
+        },
+        "safety_tolerance": {
+          "help": "Choose 0 to 4. Zero is strictest, and 2 is the default."
+        },
+        "enable_prompt_expansion": {
+          "help": "Clarify the prompt and make the role of each reference explicit."
+        },
+        "reference_image_2": {
+          "help": "Images are numbered in upload order, followed by external sources."
+        },
+        "reference_image_3": {
+          "help": "Images are numbered in upload order, followed by external sources."
+        },
+        "reference_image_4": {
+          "help": "Images are numbered in upload order, followed by external sources."
+        },
+        "reference_image_5": {
+          "help": "Images are numbered in upload order, followed by external sources."
+        },
+        "reference_image_6": {
+          "help": "Images are numbered in upload order, followed by external sources."
+        },
+        "reference_image_7": {
+          "help": "Images are numbered in upload order, followed by external sources."
+        },
+        "reference_image_8": {
+          "help": "Images are numbered in upload order, followed by external sources."
+        },
+        "reference_image_9": {
+          "help": "Images are numbered in upload order, followed by external sources."
+        },
+        "reference_image_10": {
+          "help": "Images are numbered in upload order, followed by external sources."
+        },
+        "image_sources": {
+          "help": "Enter one public image URL per line. Provide one to ten references total. URLs follow the uploads."
+        }
+      }
+    },
+    "ja": {
+      "name": "FLUX 3 画像編集",
+      "description": "1〜10 枚の参照画像を使って編集し、画像番号でそれぞれの役割を指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "auto": "自動",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "3:2": "3:2",
+            "7:5": "7:5",
+            "4:3": "4:3",
+            "5:4": "5:4",
+            "1:1": "1:1",
+            "4:5": "4:5",
+            "3:4": "3:4",
+            "5:7": "5:7",
+            "2:3": "2:3",
+            "9:16": "9:16",
+            "1:2": "1:2"
+          }
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "768sq": "768sq",
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "output_format": {
+          "label": "画像形式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "safety_tolerance": {
+          "label": "コンテンツ審査の許容度"
+        },
+        "enable_prompt_expansion": {
+          "label": "プロンプトを拡張"
+        },
+        "reference_image_1": {
+          "label": "参照画像1"
+        },
+        "reference_image_2": {
+          "label": "参照画像2"
+        },
+        "reference_image_3": {
+          "label": "参照画像3"
+        },
+        "reference_image_4": {
+          "label": "参照画像4"
+        },
+        "reference_image_5": {
+          "label": "参照画像5"
+        },
+        "reference_image_6": {
+          "label": "参照画像6"
+        },
+        "reference_image_7": {
+          "label": "参照画像7"
+        },
+        "reference_image_8": {
+          "label": "参照画像8"
+        },
+        "reference_image_9": {
+          "label": "参照画像9"
+        },
+        "reference_image_10": {
+          "label": "参照画像10"
+        },
+        "image_sources": {
+          "label": "参照画像 URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "短い指示で変更内容を記述します。image 1 は最初の参照画像です。"
+        },
+        "reference_image_1": {
+          "help": "各辺が 256 ピクセル以上の画像をアップロードします。4 MP を超える画像は縦横比を保って Atlas が縮小します。"
+        },
+        "aspect_ratio": {
+          "help": "自動では最初の参照画像の縦横比に合わせます。"
+        },
+        "resolution": {
+          "help": "768sq、1K、2K、4K から選びます。高い解像度では処理時間が長くなります。"
+        },
+        "output_format": {
+          "help": "JPEG または PNG を選びます。"
+        },
+        "safety_tolerance": {
+          "help": "0〜4 を選びます。最も厳しい値は 0 で、既定値は 2 です。"
+        },
+        "enable_prompt_expansion": {
+          "help": "プロンプトを明確にし、各参照画像の役割を指定します。"
+        },
+        "reference_image_2": {
+          "help": "アップロードの順に番号が付き、その後に外部ソースが続きます。"
+        },
+        "reference_image_3": {
+          "help": "アップロードの順に番号が付き、その後に外部ソースが続きます。"
+        },
+        "reference_image_4": {
+          "help": "アップロードの順に番号が付き、その後に外部ソースが続きます。"
+        },
+        "reference_image_5": {
+          "help": "アップロードの順に番号が付き、その後に外部ソースが続きます。"
+        },
+        "reference_image_6": {
+          "help": "アップロードの順に番号が付き、その後に外部ソースが続きます。"
+        },
+        "reference_image_7": {
+          "help": "アップロードの順に番号が付き、その後に外部ソースが続きます。"
+        },
+        "reference_image_8": {
+          "help": "アップロードの順に番号が付き、その後に外部ソースが続きます。"
+        },
+        "reference_image_9": {
+          "help": "アップロードの順に番号が付き、その後に外部ソースが続きます。"
+        },
+        "reference_image_10": {
+          "help": "アップロードの順に番号が付き、その後に外部ソースが続きます。"
+        },
+        "image_sources": {
+          "help": "公開画像 URL を 1 行に 1 つ入力します。アップロードと合わせて 1〜10 枚です。URL はアップロードの後に送信します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "FLUX 3 이미지 편집",
+      "description": "참조 이미지 1~10장으로 편집하고 이미지 번호로 각 자료의 역할을 지정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "auto": "자동",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "3:2": "3:2",
+            "7:5": "7:5",
+            "4:3": "4:3",
+            "5:4": "5:4",
+            "1:1": "1:1",
+            "4:5": "4:5",
+            "3:4": "3:4",
+            "5:7": "5:7",
+            "2:3": "2:3",
+            "9:16": "9:16",
+            "1:2": "1:2"
+          }
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "768sq": "768sq",
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "output_format": {
+          "label": "이미지 형식",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "safety_tolerance": {
+          "label": "콘텐츠 검토 허용 수준"
+        },
+        "enable_prompt_expansion": {
+          "label": "프롬프트 확장"
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_image_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_image_6": {
+          "label": "참조 이미지 6"
+        },
+        "reference_image_7": {
+          "label": "참조 이미지 7"
+        },
+        "reference_image_8": {
+          "label": "참조 이미지 8"
+        },
+        "reference_image_9": {
+          "label": "참조 이미지 9"
+        },
+        "reference_image_10": {
+          "label": "참조 이미지 10"
+        },
+        "image_sources": {
+          "label": "참조 이미지 URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "짧고 명확하게 변경 사항을 설명하세요. image 1은 첫 번째 참조 이미지입니다."
+        },
+        "reference_image_1": {
+          "help": "각 변이 256픽셀 이상인 이미지를 업로드하세요. 4MP를 넘으면 Atlas가 비율을 유지해 축소합니다."
+        },
+        "aspect_ratio": {
+          "help": "자동은 첫 번째 참조 이미지의 화면 비율을 따릅니다."
+        },
+        "resolution": {
+          "help": "768sq, 1K, 2K, 4K 중 선택하세요. 해상도가 높으면 시간이 더 걸립니다."
+        },
+        "output_format": {
+          "help": "JPEG 또는 PNG를 선택하세요."
+        },
+        "safety_tolerance": {
+          "help": "0~4를 선택하세요. 0이 가장 엄격하며 기본값은 2입니다."
+        },
+        "enable_prompt_expansion": {
+          "help": "프롬프트를 명확하게 다듬고 각 참조 이미지의 역할을 지정합니다."
+        },
+        "reference_image_2": {
+          "help": "업로드 순서로 번호를 붙인 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_3": {
+          "help": "업로드 순서로 번호를 붙인 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_4": {
+          "help": "업로드 순서로 번호를 붙인 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_5": {
+          "help": "업로드 순서로 번호를 붙인 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_6": {
+          "help": "업로드 순서로 번호를 붙인 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_7": {
+          "help": "업로드 순서로 번호를 붙인 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_8": {
+          "help": "업로드 순서로 번호를 붙인 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_9": {
+          "help": "업로드 순서로 번호를 붙인 뒤 외부 소스를 추가합니다."
+        },
+        "reference_image_10": {
+          "help": "업로드 순서로 번호를 붙인 뒤 외부 소스를 추가합니다."
+        },
+        "image_sources": {
+          "help": "한 줄에 공개 이미지 URL을 하나씩 입력하세요. 업로드와 합해 1~10장을 지정하며 URL은 업로드 뒤에 전송합니다."
+        }
+      }
+    }
+  }
+}

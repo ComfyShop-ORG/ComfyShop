@@ -1,0 +1,506 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-seedance-2-mini-text-to-video",
+  "name": "Seedance 2.0 Mini 文生视频",
+  "description": "用提示词生成 4 至 15 秒的视频，可同时生成音频和导出尾帧。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "A golden retriever running on a sunny beach, waves crashing in the background, cinematic lighting",
+      "multiline": true
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "default": 5,
+      "choices": [-1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "adaptive",
+      "choices": ["16:9", "4:3", "1:1", "3:4", "9:16", "21:9", "adaptive"],
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["480p", "720p", "720p-SR", "1080p-SR", "1440p-SR"],
+      "optional": true
+    },
+    {
+      "name": "bitrate_mode",
+      "kind": "choice",
+      "default": "standard",
+      "choices": ["standard", "high"],
+      "optional": true
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "minimum": "-1",
+      "maximum": "4294967295",
+      "optional": true
+    },
+    {
+      "name": "add_watermark",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "include_last_frame",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "bitrate_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "add_watermark",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "include_last_frame",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "additionalOutputKinds": ["image"],
+    "config": {
+      "model": "bytedance/seedance-2.0-mini/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "bitrate_mode": "bitrate_mode",
+        "generate_audio": "generate_audio",
+        "seed": "seed",
+        "watermark": "add_watermark",
+        "return_last_frame": "include_last_frame"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seedance 2.0 Mini 文生视频",
+      "description": "用提示词生成 4 至 15 秒的视频，可同时生成音频和导出尾帧。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "成品时长（秒）"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "21:9": "21:9",
+            "adaptive": "自适应"
+          }
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "bitrate_mode": {
+          "label": "码率模式",
+          "choiceLabels": {
+            "standard": "标准",
+            "high": "高"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "add_watermark": {
+          "label": "添加水印"
+        },
+        "include_last_frame": {
+          "label": "导出尾帧"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、场景、动作和镜头。建议中文少于 500 字，英文少于 1,000 词。"
+        },
+        "duration_seconds": {
+          "help": "选择 4 至 15 秒，选 -1 由模型决定时长。"
+        },
+        "aspect_ratio": {
+          "help": "选择画面宽高比，或让模型根据提示词决定。"
+        },
+        "resolution": {
+          "help": "可选原生 480p、720p 或 SR 超分辨率。"
+        },
+        "bitrate_mode": {
+          "help": "高码率可以保留更多细节，同时增大文件体积。"
+        },
+        "generate_audio": {
+          "help": "生成与画面同步的语音、音效或音乐。"
+        },
+        "seed": {
+          "help": "填写 -1 至 4,294,967,295 的整数。-1 表示随机。"
+        },
+        "add_watermark": {
+          "help": "为输出视频添加水印。"
+        },
+        "include_last_frame": {
+          "help": "将输出视频的最后一帧另存为图片。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seedance 2.0 Mini 文生影片",
+      "description": "使用提示詞生成 4 至 15 秒的影片，可同時生成音訊與匯出尾幀。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "成品長度（秒）"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "21:9": "21:9",
+            "adaptive": "自適應"
+          }
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "bitrate_mode": {
+          "label": "位元率模式",
+          "choiceLabels": {
+            "standard": "標準",
+            "high": "高"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "add_watermark": {
+          "label": "加入浮水印"
+        },
+        "include_last_frame": {
+          "label": "匯出尾幀"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、場景、動作和鏡頭。建議中文少於 500 字，英文少於 1,000 詞。"
+        },
+        "duration_seconds": {
+          "help": "選擇 4 至 15 秒，選 -1 由模型決定長度。"
+        },
+        "aspect_ratio": {
+          "help": "選擇畫面寬高比，或讓模型依提示詞決定。"
+        },
+        "resolution": {
+          "help": "可選原生 480p、720p 或 SR 超解析度。"
+        },
+        "bitrate_mode": {
+          "help": "高位元率可保留更多細節，並增加檔案大小。"
+        },
+        "generate_audio": {
+          "help": "生成與畫面同步的語音、音效或音樂。"
+        },
+        "seed": {
+          "help": "輸入 -1 至 4,294,967,295 的整數。-1 代表隨機。"
+        },
+        "add_watermark": {
+          "help": "為輸出影片加入浮水印。"
+        },
+        "include_last_frame": {
+          "help": "將輸出影片的最後一幀另存為圖片。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seedance 2.0 Mini Text-to-Video",
+      "description": "Generate 4–15 second videos from text with optional synchronized audio and final-frame export.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "21:9": "21:9",
+            "adaptive": "Adaptive"
+          }
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "bitrate_mode": {
+          "label": "Bitrate mode",
+          "choiceLabels": {
+            "standard": "Standard",
+            "high": "High"
+          }
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "seed": {
+          "label": "Random seed"
+        },
+        "add_watermark": {
+          "label": "Add watermark"
+        },
+        "include_last_frame": {
+          "label": "Export last frame"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, scene, action, and camera. Keep Chinese prompts under 500 characters and English prompts under 1,000 words when possible."
+        },
+        "duration_seconds": {
+          "help": "Choose 4 to 15 seconds or −1 for automatic duration."
+        },
+        "aspect_ratio": {
+          "help": "Choose the frame proportions or let the model infer them from the prompt."
+        },
+        "resolution": {
+          "help": "Choose native 480p, 720p, or SR (super-resolution) output."
+        },
+        "bitrate_mode": {
+          "help": "Higher bitrate preserves more detail and produces a larger file."
+        },
+        "generate_audio": {
+          "help": "Generate speech, sound effects, or music synchronized with the video."
+        },
+        "seed": {
+          "help": "Enter an integer from −1 to 4,294,967,295. Use −1 for a random seed."
+        },
+        "add_watermark": {
+          "help": "Add a watermark to the output video."
+        },
+        "include_last_frame": {
+          "help": "Save the final video frame as a separate image."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seedance 2.0 Mini テキストから動画",
+      "description": "プロンプトから 4〜15 秒の動画を生成し、同期音声や最終フレームを出力できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "動画の長さ（秒）"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "21:9": "21:9",
+            "adaptive": "自動"
+          }
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "bitrate_mode": {
+          "label": "ビットレートモード",
+          "choiceLabels": {
+            "standard": "標準",
+            "high": "高"
+          }
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "seed": {
+          "label": "シード値"
+        },
+        "add_watermark": {
+          "label": "透かしを追加"
+        },
+        "include_last_frame": {
+          "label": "最終フレームを書き出す"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、動作、カメラを記述してください。中国語は 500 字未満、英語は 1,000 語未満を推奨します。"
+        },
+        "duration_seconds": {
+          "help": "4〜15 秒を選びます。-1 で長さを自動決定します。"
+        },
+        "aspect_ratio": {
+          "help": "画面の縦横比を選ぶか、プロンプトに応じて自動で決定します。"
+        },
+        "resolution": {
+          "help": "ネイティブ 480p、720p、または超解像（SR）を選べます。"
+        },
+        "bitrate_mode": {
+          "help": "高ビットレートでは細部を保てますが、ファイルが大きくなります。"
+        },
+        "generate_audio": {
+          "help": "映像に同期する音声、効果音、音楽を生成します。"
+        },
+        "seed": {
+          "help": "-1〜4,294,967,295 の整数を入力します。-1 はランダムです。"
+        },
+        "add_watermark": {
+          "help": "出力動画に透かしを追加します。"
+        },
+        "include_last_frame": {
+          "help": "動画の最後のフレームを別の画像として保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seedance 2.0 Mini 텍스트로 동영상 생성",
+      "description": "프롬프트에서 4~15초 동영상을 만들고 동기화된 오디오와 마지막 프레임을 출력할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "동영상 길이(초)"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "21:9": "21:9",
+            "adaptive": "자동"
+          }
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "bitrate_mode": {
+          "label": "비트레이트 모드",
+          "choiceLabels": {
+            "standard": "표준",
+            "high": "높음"
+          }
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "seed": {
+          "label": "랜덤 시드"
+        },
+        "add_watermark": {
+          "label": "워터마크 추가"
+        },
+        "include_last_frame": {
+          "label": "마지막 프레임 내보내기"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 장면, 동작, 카메라를 설명하세요. 중국어는 500자 미만, 영어는 1,000단어 미만을 권장합니다."
+        },
+        "duration_seconds": {
+          "help": "4~15초를 선택하세요. -1이면 길이가 자동으로 결정됩니다."
+        },
+        "aspect_ratio": {
+          "help": "화면 비율을 선택하거나 프롬프트에 따라 자동으로 결정합니다."
+        },
+        "resolution": {
+          "help": "기본 480p, 720p 또는 초해상도(SR)를 선택합니다."
+        },
+        "bitrate_mode": {
+          "help": "높은 비트레이트는 더 많은 디테일을 보존하며 파일 크기가 커집니다."
+        },
+        "generate_audio": {
+          "help": "영상과 동기화된 음성, 효과음, 음악을 생성합니다."
+        },
+        "seed": {
+          "help": "-1~4,294,967,295의 정수를 입력하세요. -1은 무작위입니다."
+        },
+        "add_watermark": {
+          "help": "출력 동영상에 워터마크를 추가합니다."
+        },
+        "include_last_frame": {
+          "help": "동영상의 마지막 프레임을 별도의 이미지로 저장합니다."
+        }
+      }
+    }
+  }
+}

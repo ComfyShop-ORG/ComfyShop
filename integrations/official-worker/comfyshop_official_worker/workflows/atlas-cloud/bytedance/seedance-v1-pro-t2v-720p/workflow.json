@@ -1,0 +1,278 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-bytedance-seedance-v1-pro-t2v-720p",
+  "name": "Seedance v1 Pro 720p 文生视频",
+  "description": "根据文字生成 2 至 12 秒的 480p 视频，可配置画面比例与种子。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "A vibrant illustration centered on a blue macaw. Bold, cheerful, and crisp colors dominate the composition. The background bursts with vivid hues, artistic graphic elements, and organic shapes, enhancing the macaw’s presence. The overall style is expressive, creative, and visually harmonious.",
+      "multiline": true,
+      "maxLength": 2000
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "choices": ["21:9", "16:9", "4:3", "1:1", "3:4", "9:16"],
+      "optional": true
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 5,
+      "minimum": "2",
+      "maximum": "12",
+      "step": "1",
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "bytedance/seedance-v1-pro-t2v-720p",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "aspect_ratio": "aspect_ratio",
+        "duration": "duration",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 2000
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seedance v1 Pro 720p 文生视频",
+      "description": "根据文字生成 2 至 12 秒的 480p 视频，可配置画面比例与种子。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "21:9": "21:9",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "seed": {
+          "label": "随机种子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、场景、动作和镜头，最多 2,000 字符。"
+        },
+        "aspect_ratio": {
+          "help": "选择输出宽高比，默认 16:9。"
+        },
+        "duration": {
+          "help": "选择 2 至 12 秒，默认 5 秒。"
+        },
+        "seed": {
+          "help": "填写整数以指定种子。默认 -1，使用随机种子。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seedance v1 Pro 720p 文生影片",
+      "description": "根據文字生成 2 至 12 秒的 480p 影片，可設定畫面比例與種子。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "21:9": "21:9",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "seed": {
+          "label": "隨機種子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、場景、動作和鏡頭，最多 2,000 字元。"
+        },
+        "aspect_ratio": {
+          "help": "選擇輸出寬高比，預設 16:9。"
+        },
+        "duration": {
+          "help": "選擇 2 至 12 秒，預設 5 秒。"
+        },
+        "seed": {
+          "help": "填寫整數以指定種子。預設 -1，使用隨機種子。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seedance v1 Pro 720p Text to Video",
+      "description": "Generate a two- to twelve-second 480p video from text with aspect ratio and seed controls.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "21:9": "21:9",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "seed": {
+          "label": "Seed"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, scene, action and camera in up to 2,000 characters."
+        },
+        "aspect_ratio": {
+          "help": "Choose the output aspect ratio. The default is 16:9."
+        },
+        "duration": {
+          "help": "Choose 2 to 12 seconds. The default is 5."
+        },
+        "seed": {
+          "help": "Enter an integer to specify a seed. The default of −1 uses a random seed."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seedance v1 Pro 720p テキストから動画",
+      "description": "テキストから 2〜12 秒の 480p 動画を生成し、縦横比とシードを設定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "21:9": "21:9",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "duration": {
+          "label": "動画の長さ（秒）"
+        },
+        "seed": {
+          "label": "シード"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、動き、カメラワークを 2,000 文字以内で記述します。"
+        },
+        "aspect_ratio": {
+          "help": "出力の縦横比を選択します。既定は 16:9 です。"
+        },
+        "duration": {
+          "help": "2〜12 秒を選択します。既定は 5 秒です。"
+        },
+        "seed": {
+          "help": "整数を入力してシードを指定します。既定値の -1 はランダムです。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seedance v1 Pro 720p 텍스트에서 동영상",
+      "description": "텍스트로 2~12초짜리 480p 동영상을 만들며 화면 비율과 시드를 설정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "21:9": "21:9",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "duration": {
+          "label": "동영상 길이(초)"
+        },
+        "seed": {
+          "label": "시드"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 장면, 움직임과 카메라 동작을 최대 2,000자로 설명하세요."
+        },
+        "aspect_ratio": {
+          "help": "출력 화면 비율을 선택하세요. 기본값은 16:9입니다."
+        },
+        "duration": {
+          "help": "2~12초를 선택하세요. 기본값은 5초입니다."
+        },
+        "seed": {
+          "help": "정수를 입력하여 시드를 정하세요. 기본값 -1은 무작위입니다."
+        }
+      }
+    }
+  }
+}

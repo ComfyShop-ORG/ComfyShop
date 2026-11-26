@@ -1,0 +1,181 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlascloud-photo-cleanup",
+  "name": "Atlas Cloud 照片清理",
+  "description": "减少静态图片里的灰尘、细划痕、噪点和重复纹理，保留主体与构图。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "image",
+      "kind": "image"
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "default": "png",
+      "choices": ["png", "jpeg", "webp", "jpg"]
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "image",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "operation": "image",
+      "model": "atlascloud/photo-cleanup",
+      "parameters": {
+        "output_format": "output_format"
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["image"],
+          "min_items": 1
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Atlas Cloud 照片清理",
+      "description": "减少静态图片里的灰尘、细划痕、噪点和重复纹理，保留主体与构图。",
+      "fields": {
+        "image": {
+          "label": "原图"
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG",
+            "webp": "WebP",
+            "jpg": "JPG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "上传一张要清理的图片。"
+        },
+        "output_format": {
+          "help": "选择 PNG、JPEG、WebP 或 JPG，默认 PNG。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Atlas Cloud 照片清理",
+      "description": "減少靜態圖片中的灰塵、細刮痕、雜訊和重複紋理，保留主體與構圖。",
+      "fields": {
+        "image": {
+          "label": "原圖"
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG",
+            "webp": "WebP",
+            "jpg": "JPG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "上傳一張要清理的圖片。"
+        },
+        "output_format": {
+          "help": "選擇 PNG、JPEG、WebP 或 JPG，預設為 PNG。"
+        }
+      }
+    },
+    "en": {
+      "name": "Atlas Cloud Photo Cleanup",
+      "description": "Reduce dust, scratches, noise, and repeated textures in a still image while preserving its subject and composition.",
+      "fields": {
+        "image": {
+          "label": "Source image"
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG",
+            "webp": "WebP",
+            "jpg": "JPG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "Upload one image to clean up."
+        },
+        "output_format": {
+          "help": "Choose PNG, JPEG, WebP, or JPG. PNG is the default."
+        }
+      }
+    },
+    "ja": {
+      "name": "Atlas Cloud 写真の修復",
+      "description": "画像のほこり、細かい傷、ノイズ、繰り返し模様を軽減し、被写体と構図を保ちます。",
+      "fields": {
+        "image": {
+          "label": "元の画像"
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG",
+            "webp": "WebP",
+            "jpg": "JPG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "修復する画像を 1 枚アップロードします。"
+        },
+        "output_format": {
+          "help": "PNG、JPEG、WebP、JPG のいずれかを選びます。既定値は PNG です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Atlas Cloud 사진 정리",
+      "description": "정지 이미지의 먼지, 자잘한 긁힘, 노이즈, 반복 질감을 완화하면서 피사체와 구도를 유지합니다.",
+      "fields": {
+        "image": {
+          "label": "원본 이미지"
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG",
+            "webp": "WebP",
+            "jpg": "JPG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "정리할 이미지를 한 장 업로드하세요."
+        },
+        "output_format": {
+          "help": "PNG, JPEG, WebP 또는 JPG를 선택하세요. 기본값은 PNG입니다."
+        }
+      }
+    }
+  }
+}

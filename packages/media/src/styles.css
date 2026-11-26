@@ -1,0 +1,29 @@
+.media-feed {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+.media-width-reference {
+  position: absolute;
+  inset: 0 auto auto 0;
+  height: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.media-loading {
+  height: var(--space-16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.media-loading > span {
+  width: var(--space-4);
+  height: var(--line-focus);
+  background: var(--color-accent);
+  animation: media-pulse var(--motion-normal) alternate infinite;
+}
+@keyframes media-pulse {
+  to {
+    opacity: var(--opacity-disabled);
+  }
+}

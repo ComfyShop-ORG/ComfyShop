@@ -1,0 +1,285 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "minimax-lyrics-generation",
+  "name": "MiniMax 歌词生成",
+  "description": "根据主题写出完整歌词，也可修改或续写已有歌词。",
+  "category": "audio",
+  "fields": [
+    {
+      "name": "mode",
+      "kind": "choice",
+      "default": "write_full_song",
+      "choices": ["write_full_song", "edit"]
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "lyrics",
+      "kind": "string",
+      "multiline": true,
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "title",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "sync_mode",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "mode",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "lyrics",
+      "section": "default"
+    },
+    {
+      "fieldId": "title",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "sync_mode",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "text",
+    "config": {
+      "operation": "audio",
+      "model": "minimax/lyrics-generation",
+      "parameters": {
+        "mode": "mode",
+        "prompt": "prompt",
+        "lyrics": "lyrics",
+        "title": "title",
+        "enable_sync_mode": "sync_mode"
+      },
+      "text_max_lengths": {
+        "prompt": 2000,
+        "lyrics": 3500
+      },
+      "enabled_by": {
+        "lyrics": {
+          "parameter": "mode",
+          "equals": "edit"
+        }
+      },
+      "required_when": {
+        "lyrics": {
+          "mode": ["edit"]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "MiniMax 歌词生成",
+      "description": "根据主题写出完整歌词，也可修改或续写已有歌词。",
+      "fields": {
+        "mode": {
+          "label": "生成模式"
+        },
+        "prompt": {
+          "label": "主题或修改要求"
+        },
+        "lyrics": {
+          "label": "原歌词"
+        },
+        "title": {
+          "label": "歌名"
+        },
+        "sync_mode": {
+          "label": "同步返回"
+        }
+      },
+      "parameterLayout": {
+        "mode": {
+          "help": "write_full_song 写新歌，edit 修改已有歌词。"
+        },
+        "prompt": {
+          "help": "最多 2000 字符。可描述题材和风格，也可填写修改要求。留空随机生成。"
+        },
+        "lyrics": {
+          "help": "edit 模式必填，最多 3500 字符。每行一句，段落标签可使用 [Verse] 和 [Chorus]。"
+        },
+        "title": {
+          "help": "填写后保留指定歌名。留空由模型生成。"
+        },
+        "sync_mode": {
+          "help": "开启后优先读取提交响应中的成品。默认关闭。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "MiniMax 歌詞生成",
+      "description": "根據主題撰寫完整歌詞，也可修改或續寫現有歌詞。",
+      "fields": {
+        "mode": {
+          "label": "生成模式"
+        },
+        "prompt": {
+          "label": "主題或修改要求"
+        },
+        "lyrics": {
+          "label": "原歌詞"
+        },
+        "title": {
+          "label": "歌名"
+        },
+        "sync_mode": {
+          "label": "同步回傳"
+        }
+      },
+      "parameterLayout": {
+        "mode": {
+          "help": "write_full_song 撰寫新歌，edit 修改現有歌詞。"
+        },
+        "prompt": {
+          "help": "最多 2000 個字元。可描述主題和風格，也可輸入修改要求。留空隨機產生。"
+        },
+        "lyrics": {
+          "help": "edit 模式必填，最多 3500 個字元。每行一句，可用 [Verse] 和 [Chorus] 標記段落。"
+        },
+        "title": {
+          "help": "填寫後保留指定歌名。留空由模型產生。"
+        },
+        "sync_mode": {
+          "help": "啟用後優先讀取提交回應中的成品。預設關閉。"
+        }
+      }
+    },
+    "en": {
+      "name": "MiniMax Lyrics Generation",
+      "description": "Write a complete song from a theme or revise and extend existing lyrics.",
+      "fields": {
+        "mode": {
+          "label": "Generation mode"
+        },
+        "prompt": {
+          "label": "Theme or editing instruction"
+        },
+        "lyrics": {
+          "label": "Existing lyrics"
+        },
+        "title": {
+          "label": "Song title"
+        },
+        "sync_mode": {
+          "label": "Return synchronously"
+        }
+      },
+      "parameterLayout": {
+        "mode": {
+          "help": "Choose write_full_song to write new lyrics or edit to work with existing lyrics."
+        },
+        "prompt": {
+          "help": "Describe a theme, style, or edit in up to 2000 characters. Leave blank to generate a random song."
+        },
+        "lyrics": {
+          "help": "Required in edit mode. Enter up to 3500 characters, one line at a time. Use [Verse] and [Chorus] to mark sections."
+        },
+        "title": {
+          "help": "Enter a title to keep it in the result. Leave blank to let the model choose."
+        },
+        "sync_mode": {
+          "help": "Read the result from the submission response when available. Off by default."
+        }
+      }
+    },
+    "ja": {
+      "name": "MiniMax 歌詞作成",
+      "description": "テーマから曲の歌詞を作成します。既存の歌詞の修正や続きを作ることもできます。",
+      "fields": {
+        "mode": {
+          "label": "生成モード"
+        },
+        "prompt": {
+          "label": "テーマまたは編集指示"
+        },
+        "lyrics": {
+          "label": "元の歌詞"
+        },
+        "title": {
+          "label": "曲名"
+        },
+        "sync_mode": {
+          "label": "同期で返す"
+        }
+      },
+      "parameterLayout": {
+        "mode": {
+          "help": "write_full_song では新しい歌詞を、edit では既存の歌詞の編集を行います。"
+        },
+        "prompt": {
+          "help": "テーマ、曲調、編集指示を 2000 文字まで入力します。空欄ではランダムに生成します。"
+        },
+        "lyrics": {
+          "help": "edit モードで必須です。1 行ずつ入力し、3500 文字まで指定できます。[Verse]、[Chorus] などで構成を指定します。"
+        },
+        "title": {
+          "help": "入力すると指定した曲名が維持されます。空欄ではモデルが決定します。"
+        },
+        "sync_mode": {
+          "help": "送信時の応答に結果が含まれる場合は直接読み取ります。既定では無効です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "MiniMax 가사 생성",
+      "description": "주제로 노래 가사를 쓰거나 기존 가사를 수정하고 이어 쓸 수 있습니다.",
+      "fields": {
+        "mode": {
+          "label": "생성 모드"
+        },
+        "prompt": {
+          "label": "주제 또는 수정 요청"
+        },
+        "lyrics": {
+          "label": "기존 가사"
+        },
+        "title": {
+          "label": "노래 제목"
+        },
+        "sync_mode": {
+          "label": "동기식 응답"
+        }
+      },
+      "parameterLayout": {
+        "mode": {
+          "help": "write_full_song은 새 가사를 쓰고 edit은 기존 가사를 수정합니다."
+        },
+        "prompt": {
+          "help": "주제, 스타일 또는 수정 요청을 최대 2000자로 입력하세요. 비우면 임의로 생성합니다."
+        },
+        "lyrics": {
+          "help": "edit 모드에 필수입니다. 한 줄씩 최대 3500자를 입력하세요. [Verse]와 [Chorus] 등으로 구성을 지정할 수 있습니다."
+        },
+        "title": {
+          "help": "제목을 입력하면 결과에 그대로 사용됩니다. 비우면 모델이 정합니다."
+        },
+        "sync_mode": {
+          "help": "제출 응답에 결과가 포함되면 바로 읽습니다. 기본값은 꺼짐입니다."
+        }
+      }
+    }
+  }
+}

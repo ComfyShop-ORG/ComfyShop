@@ -1,0 +1,929 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "gpt-image-26-flare-text",
+  "name": "GPT Image 2.6 Flare 文生图",
+  "description": "快速从提示词生成静态图、GIF 动画或可编辑 SVG 矢量文件。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "maxLength": 32000,
+      "default": "A neon-lit ramen stall on a rainy Tokyo street, cinematic wide shot."
+    },
+    {
+      "name": "quality",
+      "kind": "choice",
+      "optional": true,
+      "default": "medium",
+      "choices": ["auto", "low", "medium", "high", "xhigh", "max"]
+    },
+    {
+      "name": "complexity",
+      "kind": "choice",
+      "optional": true,
+      "default": "high",
+      "choices": ["low", "medium", "high"]
+    },
+    {
+      "name": "size",
+      "kind": "choice",
+      "optional": true,
+      "default": "",
+      "choices": [
+        "",
+        "auto",
+        "1024x1024",
+        "1024x768",
+        "768x1024",
+        "1024x1280",
+        "1024x1536",
+        "1536x1024",
+        "2048x2048",
+        "2048x1152",
+        "1152x2048",
+        "2560x1088",
+        "1088x2560",
+        "2880x2160",
+        "2160x2880",
+        "3840x2160",
+        "2160x3840"
+      ]
+    },
+    {
+      "name": "custom_size",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "maxLength": 9
+    },
+    {
+      "name": "background",
+      "kind": "choice",
+      "optional": true,
+      "default": "auto",
+      "choices": ["auto", "opaque", "transparent"]
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "default": "png",
+      "choices": ["png", "jpeg", "webp", "gif", "svg"]
+    },
+    {
+      "name": "frame_count",
+      "kind": "integer",
+      "optional": true,
+      "default": 9,
+      "minimum": "2",
+      "maximum": "64"
+    },
+    {
+      "name": "frame_duration_ms",
+      "kind": "integer",
+      "optional": true,
+      "default": 200,
+      "minimum": "20",
+      "maximum": "2000"
+    },
+    {
+      "name": "svg_model",
+      "kind": "choice",
+      "optional": true,
+      "default": "gpt-5.4-mini",
+      "choices": [
+        "gpt-6-astra",
+        "gpt-6-luna",
+        "gpt-6.1-terra",
+        "gpt-6-sol",
+        "gpt-5.5",
+        "gpt-5.4",
+        "gpt-5.4-mini"
+      ]
+    },
+    {
+      "name": "moderation",
+      "kind": "choice",
+      "optional": true,
+      "default": "auto",
+      "choices": ["auto", "low"]
+    },
+    {
+      "name": "n",
+      "kind": "integer",
+      "optional": true,
+      "default": 1,
+      "minimum": "1",
+      "maximum": "10"
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "quality",
+      "section": "default"
+    },
+    {
+      "fieldId": "complexity",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "custom_size",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "background",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "frame_count",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "frame_duration_ms",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "svg_model",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "moderation",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "n",
+      "section": "default"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "additionalOutputKinds": ["text"],
+    "config": {
+      "model": "openai/gpt-image-2.6-flare/text-to-image",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "quality": "quality",
+        "complexity": "complexity",
+        "size": "size",
+        "background": "background",
+        "output_format": "output_format",
+        "frame_count": "frame_count",
+        "frame_duration_ms": "frame_duration_ms",
+        "svg_model": "svg_model",
+        "moderation": "moderation",
+        "n": "n"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 32000
+      },
+      "parameter_overrides": {
+        "size": "custom_size"
+      },
+      "omit_blank_parameters": ["size"],
+      "image_size_limits": {
+        "min_side": 256,
+        "max_side": 3840,
+        "min_pixels": 65536,
+        "max_pixels": 8294400,
+        "max_aspect_ratio": 3,
+        "separator": "x",
+        "side_multiple": 16
+      },
+      "choice_constraints": {
+        "output_format": {
+          "parameter": "background",
+          "values": {
+            "transparent": ["png", "webp", "svg"]
+          }
+        }
+      },
+      "choice_bounds": {
+        "n": {
+          "parameter": "output_format",
+          "ranges": {
+            "svg": [1, 1]
+          }
+        }
+      },
+      "enabled_by": {
+        "frame_count": {
+          "parameter": "output_format",
+          "equals": ["gif"]
+        },
+        "frame_duration_ms": {
+          "parameter": "output_format",
+          "equals": ["gif"]
+        },
+        "svg_model": {
+          "parameter": "output_format",
+          "equals": ["svg"]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "GPT Image 2.6 Flare 文生图",
+      "description": "快速从提示词生成静态图、GIF 动画或可编辑 SVG 矢量文件。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "quality": {
+          "label": "渲染质量",
+          "choiceLabels": {
+            "auto": "自动",
+            "low": "低",
+            "medium": "中",
+            "high": "高",
+            "xhigh": "极高",
+            "max": "最高"
+          }
+        },
+        "complexity": {
+          "label": "构图复杂度",
+          "choiceLabels": {
+            "low": "低",
+            "medium": "中",
+            "high": "高"
+          }
+        },
+        "size": {
+          "label": "图片尺寸",
+          "choiceLabels": {
+            "": "按格式使用接口默认值",
+            "auto": "自动",
+            "1024x1024": "1024 × 1024",
+            "1024x768": "1024 × 768",
+            "768x1024": "768 × 1024",
+            "1024x1280": "1024 × 1280",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024",
+            "2048x2048": "2048 × 2048",
+            "2048x1152": "2048 × 1152",
+            "1152x2048": "1152 × 2048",
+            "2560x1088": "2560 × 1088",
+            "1088x2560": "1088 × 2560",
+            "2880x2160": "2880 × 2160",
+            "2160x2880": "2160 × 2880",
+            "3840x2160": "3840 × 2160",
+            "2160x3840": "2160 × 3840"
+          }
+        },
+        "custom_size": {
+          "label": "自定义宽高"
+        },
+        "background": {
+          "label": "背景",
+          "choiceLabels": {
+            "auto": "自动",
+            "opaque": "不透明",
+            "transparent": "透明"
+          }
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP",
+            "gif": "GIF",
+            "svg": "SVG"
+          }
+        },
+        "frame_count": {
+          "label": "动画帧数"
+        },
+        "frame_duration_ms": {
+          "label": "每帧时长（毫秒）"
+        },
+        "svg_model": {
+          "label": "SVG 生成模型",
+          "choiceLabels": {
+            "gpt-6-astra": "gpt-6-astra",
+            "gpt-6-luna": "gpt-6-luna",
+            "gpt-6.1-terra": "gpt-6.1-terra",
+            "gpt-6-sol": "gpt-6-sol",
+            "gpt-5.5": "gpt-5.5",
+            "gpt-5.4": "gpt-5.4",
+            "gpt-5.4-mini": "gpt-5.4-mini"
+          }
+        },
+        "moderation": {
+          "label": "内容审核",
+          "choiceLabels": {
+            "auto": "自动",
+            "low": "低"
+          }
+        },
+        "n": {
+          "label": "生成数量"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要生成的内容。GIF 可补充动作和循环方式。最多 32000 字符。"
+        },
+        "quality": {
+          "help": "选择渲染质量。各档位的耗时和计费可能不同。"
+        },
+        "complexity": {
+          "help": "控制渲染前的构图规划深度。复杂文字或布局可选高。"
+        },
+        "size": {
+          "help": "静态图默认 1024×1024，GIF 默认自动。GIF 的宽高为单帧尺寸。"
+        },
+        "custom_size": {
+          "help": "用 宽x高 格式覆盖预设，例如 512x512。每边为 256 至 3840 且为 16 的倍数，总像素最多 8294400，宽高比为 1:3 至 3:1。"
+        },
+        "background": {
+          "help": "透明背景支持 PNG、WebP 或 SVG。"
+        },
+        "output_format": {
+          "help": "GIF 生成动画。SVG 以源代码预览，可下载矢量原件。"
+        },
+        "frame_count": {
+          "help": "只用于 GIF。可填 2 至 64，Atlas 按每组最多 8 帧计费。"
+        },
+        "frame_duration_ms": {
+          "help": "只用于 GIF。可填 20 至 2000 毫秒，Atlas 四舍五入到 10 毫秒。"
+        },
+        "svg_model": {
+          "help": "只用于 SVG，用于将参考图绘制为矢量文件。"
+        },
+        "moderation": {
+          "help": "选择 Atlas 的自动或低强度内容审核。"
+        },
+        "n": {
+          "help": "可填 1 至 10。SVG 只能生成 1 份。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "GPT Image 2.6 Flare 文生圖",
+      "description": "快速從提示詞產生靜態圖、GIF 動畫或可編輯 SVG 向量檔。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "quality": {
+          "label": "渲染品質",
+          "choiceLabels": {
+            "auto": "自動",
+            "low": "低",
+            "medium": "中",
+            "high": "高",
+            "xhigh": "極高",
+            "max": "最高"
+          }
+        },
+        "complexity": {
+          "label": "構圖複雜度",
+          "choiceLabels": {
+            "low": "低",
+            "medium": "中",
+            "high": "高"
+          }
+        },
+        "size": {
+          "label": "圖片尺寸",
+          "choiceLabels": {
+            "": "依格式使用介面預設值",
+            "auto": "自動",
+            "1024x1024": "1024 × 1024",
+            "1024x768": "1024 × 768",
+            "768x1024": "768 × 1024",
+            "1024x1280": "1024 × 1280",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024",
+            "2048x2048": "2048 × 2048",
+            "2048x1152": "2048 × 1152",
+            "1152x2048": "1152 × 2048",
+            "2560x1088": "2560 × 1088",
+            "1088x2560": "1088 × 2560",
+            "2880x2160": "2880 × 2160",
+            "2160x2880": "2160 × 2880",
+            "3840x2160": "3840 × 2160",
+            "2160x3840": "2160 × 3840"
+          }
+        },
+        "custom_size": {
+          "label": "自訂寬高"
+        },
+        "background": {
+          "label": "背景",
+          "choiceLabels": {
+            "auto": "自動",
+            "opaque": "不透明",
+            "transparent": "透明"
+          }
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP",
+            "gif": "GIF",
+            "svg": "SVG"
+          }
+        },
+        "frame_count": {
+          "label": "動畫畫格數"
+        },
+        "frame_duration_ms": {
+          "label": "每格時間（毫秒）"
+        },
+        "svg_model": {
+          "label": "SVG 產生模型",
+          "choiceLabels": {
+            "gpt-6-astra": "gpt-6-astra",
+            "gpt-6-luna": "gpt-6-luna",
+            "gpt-6.1-terra": "gpt-6.1-terra",
+            "gpt-6-sol": "gpt-6-sol",
+            "gpt-5.5": "gpt-5.5",
+            "gpt-5.4": "gpt-5.4",
+            "gpt-5.4-mini": "gpt-5.4-mini"
+          }
+        },
+        "moderation": {
+          "label": "內容審查",
+          "choiceLabels": {
+            "auto": "自動",
+            "low": "低"
+          }
+        },
+        "n": {
+          "label": "產生數量"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要產生的內容。GIF 可補充動作和循環方式。最多 32000 個字元。"
+        },
+        "quality": {
+          "help": "選擇渲染品質。各級的耗時和費用可能不同。"
+        },
+        "complexity": {
+          "help": "控制渲染前的構圖規劃深度。複雜文字或版面可選高。"
+        },
+        "size": {
+          "help": "靜態圖預設為 1024×1024，GIF 預設為自動。GIF 的寬高為單格尺寸。"
+        },
+        "custom_size": {
+          "help": "以 寬x高 格式覆寫預設，例如 512x512。每邊為 256 至 3840 且為 16 的倍數，總像素最多 8294400，寬高比為 1:3 至 3:1。"
+        },
+        "background": {
+          "help": "透明背景支援 PNG、WebP 或 SVG。"
+        },
+        "output_format": {
+          "help": "GIF 產生動畫。SVG 以原始碼預覽，可下載向量原始檔。"
+        },
+        "frame_count": {
+          "help": "僅用於 GIF。可填 2 至 64，Atlas 按每組最多 8 格計費。"
+        },
+        "frame_duration_ms": {
+          "help": "僅用於 GIF。可填 20 至 2000 毫秒，Atlas 四捨五入到 10 毫秒。"
+        },
+        "svg_model": {
+          "help": "僅用於 SVG，用於將參考圖繪製成向量檔。"
+        },
+        "moderation": {
+          "help": "選擇 Atlas 的自動或低強度內容審查。"
+        },
+        "n": {
+          "help": "可填 1 至 10。SVG 只能產生 1 份。"
+        }
+      }
+    },
+    "en": {
+      "name": "GPT Image 2.6 Flare Text to Image",
+      "description": "Quickly generate still images, animated GIFs, or editable SVG vectors from a prompt.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "quality": {
+          "label": "Rendering quality",
+          "choiceLabels": {
+            "auto": "Auto",
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High",
+            "xhigh": "Extra high",
+            "max": "Maximum"
+          }
+        },
+        "complexity": {
+          "label": "Planning complexity",
+          "choiceLabels": {
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High"
+          }
+        },
+        "size": {
+          "label": "Image size",
+          "choiceLabels": {
+            "": "API default for the selected format",
+            "auto": "Auto",
+            "1024x1024": "1024 × 1024",
+            "1024x768": "1024 × 768",
+            "768x1024": "768 × 1024",
+            "1024x1280": "1024 × 1280",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024",
+            "2048x2048": "2048 × 2048",
+            "2048x1152": "2048 × 1152",
+            "1152x2048": "1152 × 2048",
+            "2560x1088": "2560 × 1088",
+            "1088x2560": "1088 × 2560",
+            "2880x2160": "2880 × 2160",
+            "2160x2880": "2160 × 2880",
+            "3840x2160": "3840 × 2160",
+            "2160x3840": "2160 × 3840"
+          }
+        },
+        "custom_size": {
+          "label": "Custom dimensions"
+        },
+        "background": {
+          "label": "Background",
+          "choiceLabels": {
+            "auto": "Auto",
+            "opaque": "Opaque",
+            "transparent": "Transparent"
+          }
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP",
+            "gif": "GIF",
+            "svg": "SVG"
+          }
+        },
+        "frame_count": {
+          "label": "Animation frames"
+        },
+        "frame_duration_ms": {
+          "label": "Frame delay (ms)"
+        },
+        "svg_model": {
+          "label": "SVG model",
+          "choiceLabels": {
+            "gpt-6-astra": "gpt-6-astra",
+            "gpt-6-luna": "gpt-6-luna",
+            "gpt-6.1-terra": "gpt-6.1-terra",
+            "gpt-6-sol": "gpt-6-sol",
+            "gpt-5.5": "gpt-5.5",
+            "gpt-5.4": "gpt-5.4",
+            "gpt-5.4-mini": "gpt-5.4-mini"
+          }
+        },
+        "moderation": {
+          "label": "Moderation",
+          "choiceLabels": {
+            "auto": "Auto",
+            "low": "Low"
+          }
+        },
+        "n": {
+          "label": "Output count"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe what to generate. For a GIF, include the motion and how it loops. Up to 32,000 characters."
+        },
+        "quality": {
+          "help": "Choose the rendering quality. Time and cost can vary by tier."
+        },
+        "complexity": {
+          "help": "Controls how much planning happens before rendering. Use high for dense text or complex layouts."
+        },
+        "size": {
+          "help": "Still images default to 1024 × 1024 and GIFs default to auto. GIF dimensions apply to each frame."
+        },
+        "custom_size": {
+          "help": "Override the preset with widthxheight, such as 512x512. Each side must be 256 to 3840 and divisible by 16. Maximum area is 8,294,400 pixels, with a 1:3 to 3:1 aspect ratio."
+        },
+        "background": {
+          "help": "Transparent backgrounds work with PNG, WebP, or SVG."
+        },
+        "output_format": {
+          "help": "GIF produces animation. SVG can be viewed as source code and downloaded as an editable vector file."
+        },
+        "frame_count": {
+          "help": "GIF only. Enter 2 to 64. Atlas bills in groups of up to 8 frames."
+        },
+        "frame_duration_ms": {
+          "help": "GIF only. Enter 20 to 2,000 milliseconds. Atlas rounds to the nearest 10 milliseconds."
+        },
+        "svg_model": {
+          "help": "SVG only. The selected model draws the reference image as vectors."
+        },
+        "moderation": {
+          "help": "Choose automatic or low content moderation on Atlas."
+        },
+        "n": {
+          "help": "Enter 1 to 10. SVG output requires 1."
+        }
+      }
+    },
+    "ja": {
+      "name": "GPT Image 2.6 Flare テキストから画像",
+      "description": "指示文から静止画、GIF アニメーション、編集可能な SVG ベクターをすばやく生成します。",
+      "fields": {
+        "prompt": {
+          "label": "指示文"
+        },
+        "quality": {
+          "label": "描画品質",
+          "choiceLabels": {
+            "auto": "自動",
+            "low": "低",
+            "medium": "中",
+            "high": "高",
+            "xhigh": "非常に高い",
+            "max": "最大"
+          }
+        },
+        "complexity": {
+          "label": "構図の複雑さ",
+          "choiceLabels": {
+            "low": "低",
+            "medium": "中",
+            "high": "高"
+          }
+        },
+        "size": {
+          "label": "画像サイズ",
+          "choiceLabels": {
+            "": "形式に応じた API の既定値",
+            "auto": "自動",
+            "1024x1024": "1024 × 1024",
+            "1024x768": "1024 × 768",
+            "768x1024": "768 × 1024",
+            "1024x1280": "1024 × 1280",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024",
+            "2048x2048": "2048 × 2048",
+            "2048x1152": "2048 × 1152",
+            "1152x2048": "1152 × 2048",
+            "2560x1088": "2560 × 1088",
+            "1088x2560": "1088 × 2560",
+            "2880x2160": "2880 × 2160",
+            "2160x2880": "2160 × 2880",
+            "3840x2160": "3840 × 2160",
+            "2160x3840": "2160 × 3840"
+          }
+        },
+        "custom_size": {
+          "label": "幅と高さの指定"
+        },
+        "background": {
+          "label": "背景",
+          "choiceLabels": {
+            "auto": "自動",
+            "opaque": "不透明",
+            "transparent": "透過"
+          }
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP",
+            "gif": "GIF",
+            "svg": "SVG"
+          }
+        },
+        "frame_count": {
+          "label": "アニメーションのフレーム数"
+        },
+        "frame_duration_ms": {
+          "label": "フレーム間隔（ミリ秒）"
+        },
+        "svg_model": {
+          "label": "SVG 生成モデル",
+          "choiceLabels": {
+            "gpt-6-astra": "gpt-6-astra",
+            "gpt-6-luna": "gpt-6-luna",
+            "gpt-6.1-terra": "gpt-6.1-terra",
+            "gpt-6-sol": "gpt-6-sol",
+            "gpt-5.5": "gpt-5.5",
+            "gpt-5.4": "gpt-5.4",
+            "gpt-5.4-mini": "gpt-5.4-mini"
+          }
+        },
+        "moderation": {
+          "label": "コンテンツ審査",
+          "choiceLabels": {
+            "auto": "自動",
+            "low": "低"
+          }
+        },
+        "n": {
+          "label": "生成数"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "生成する内容を記述します。GIF の場合は動きとループの仕方を記述します。最大 32000 文字です。"
+        },
+        "quality": {
+          "help": "描画品質を選びます。処理時間と料金は段階によって変わります。"
+        },
+        "complexity": {
+          "help": "描画前の構図計画の度合いです。文字が多い場合や複雑なレイアウトでは「高」を選べます。"
+        },
+        "size": {
+          "help": "静止画の既定値は 1024×1024、GIF は自動です。GIF では 1 フレームあたりのサイズです。"
+        },
+        "custom_size": {
+          "help": "512x512 など、幅x高さを入力するとプリセットを上書きします。各辺は 256～3840 で 16 の倍数、総画素数は 8294400 以下、縦横比は 1:3～3:1 です。"
+        },
+        "background": {
+          "help": "透過背景には PNG、WebP、SVG を使用できます。"
+        },
+        "output_format": {
+          "help": "GIF はアニメーションになります。SVG はソースコードを表示し、ベクターの原本をダウンロードできます。"
+        },
+        "frame_count": {
+          "help": "GIF 専用です。2～64 フレームを指定します。Atlas は最大 8 フレームずつ課金します。"
+        },
+        "frame_duration_ms": {
+          "help": "GIF 専用です。20～2000 ミリ秒を指定します。Atlas は 10 ミリ秒単位に丸めます。"
+        },
+        "svg_model": {
+          "help": "SVG 専用です。指定したモデルが参考画像をベクターとして描画します。"
+        },
+        "moderation": {
+          "help": "Atlas のコンテンツ審査を自動または低から選びます。"
+        },
+        "n": {
+          "help": "1～10 を指定します。SVG は 1 のみです。"
+        }
+      }
+    },
+    "ko": {
+      "name": "GPT Image 2.6 Flare 텍스트로 이미지 생성",
+      "description": "프롬프트로 정지 이미지, GIF 애니메이션 또는 편집 가능한 SVG 벡터를 빠르게 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "quality": {
+          "label": "렌더링 품질",
+          "choiceLabels": {
+            "auto": "자동",
+            "low": "낮음",
+            "medium": "중간",
+            "high": "높음",
+            "xhigh": "매우 높음",
+            "max": "최대"
+          }
+        },
+        "complexity": {
+          "label": "구도 복잡도",
+          "choiceLabels": {
+            "low": "낮음",
+            "medium": "중간",
+            "high": "높음"
+          }
+        },
+        "size": {
+          "label": "이미지 크기",
+          "choiceLabels": {
+            "": "형식에 따른 API 기본값",
+            "auto": "자동",
+            "1024x1024": "1024 × 1024",
+            "1024x768": "1024 × 768",
+            "768x1024": "768 × 1024",
+            "1024x1280": "1024 × 1280",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024",
+            "2048x2048": "2048 × 2048",
+            "2048x1152": "2048 × 1152",
+            "1152x2048": "1152 × 2048",
+            "2560x1088": "2560 × 1088",
+            "1088x2560": "1088 × 2560",
+            "2880x2160": "2880 × 2160",
+            "2160x2880": "2160 × 2880",
+            "3840x2160": "3840 × 2160",
+            "2160x3840": "2160 × 3840"
+          }
+        },
+        "custom_size": {
+          "label": "사용자 지정 크기"
+        },
+        "background": {
+          "label": "배경",
+          "choiceLabels": {
+            "auto": "자동",
+            "opaque": "불투명",
+            "transparent": "투명"
+          }
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP",
+            "gif": "GIF",
+            "svg": "SVG"
+          }
+        },
+        "frame_count": {
+          "label": "애니메이션 프레임 수"
+        },
+        "frame_duration_ms": {
+          "label": "프레임 간격(밀리초)"
+        },
+        "svg_model": {
+          "label": "SVG 생성 모델",
+          "choiceLabels": {
+            "gpt-6-astra": "gpt-6-astra",
+            "gpt-6-luna": "gpt-6-luna",
+            "gpt-6.1-terra": "gpt-6.1-terra",
+            "gpt-6-sol": "gpt-6-sol",
+            "gpt-5.5": "gpt-5.5",
+            "gpt-5.4": "gpt-5.4",
+            "gpt-5.4-mini": "gpt-5.4-mini"
+          }
+        },
+        "moderation": {
+          "label": "콘텐츠 검토",
+          "choiceLabels": {
+            "auto": "자동",
+            "low": "낮음"
+          }
+        },
+        "n": {
+          "label": "생성 수"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "만들 내용을 설명하세요. GIF는 움직임과 반복 방식도 입력하세요. 최대 32000자입니다."
+        },
+        "quality": {
+          "help": "렌더링 품질을 고르세요. 처리 시간과 요금은 등급별로 달라질 수 있습니다."
+        },
+        "complexity": {
+          "help": "렌더링 전 구도를 계획하는 수준입니다. 글자가 많거나 레이아웃이 복잡하면 높음을 선택할 수 있습니다."
+        },
+        "size": {
+          "help": "정지 이미지는 1024×1024, GIF는 자동이 기본입니다. GIF는 프레임 하나의 크기입니다."
+        },
+        "custom_size": {
+          "help": "512x512처럼 너비x높이를 입력해 프리셋을 덮어씁니다. 각 변은 256~3840의 16배수, 총 8294400픽셀 이하, 가로세로 비율은 1:3~3:1입니다."
+        },
+        "background": {
+          "help": "투명 배경은 PNG, WebP 또는 SVG에서 사용할 수 있습니다."
+        },
+        "output_format": {
+          "help": "GIF는 애니메이션입니다. SVG는 소스 코드를 미리 보고 편집 가능한 벡터 원본을 다운로드할 수 있습니다."
+        },
+        "frame_count": {
+          "help": "GIF에만 적용됩니다. 2~64를 입력하세요. Atlas는 최대 8프레임 단위로 과금합니다."
+        },
+        "frame_duration_ms": {
+          "help": "GIF에만 적용됩니다. 20~2000밀리초를 입력하면 Atlas가 10밀리초 단위로 반올림합니다."
+        },
+        "svg_model": {
+          "help": "SVG에만 적용됩니다. 선택한 모델이 참조 이미지를 벡터로 그립니다."
+        },
+        "moderation": {
+          "help": "Atlas의 콘텐츠 검토 강도를 자동 또는 낮음으로 선택합니다."
+        },
+        "n": {
+          "help": "1~10을 입력하세요. SVG는 1개만 생성할 수 있습니다."
+        }
+      }
+    }
+  }
+}

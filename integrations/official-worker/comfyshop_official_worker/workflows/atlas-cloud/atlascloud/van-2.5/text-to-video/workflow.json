@@ -1,0 +1,432 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-atlascloud-van-2-5-text-to-video",
+  "name": "Atlas Cloud Van 2.5 文生视频",
+  "description": "用文字生成 5 或 10 秒的视频，支持横屏、竖屏和参考音频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "size",
+      "kind": "choice",
+      "default": "1280*720",
+      "optional": false,
+      "choices": ["1280*720", "720*1280", "1920*1080", "1080*1920"]
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 5,
+      "optional": true,
+      "choices": [5, 10]
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    },
+    {
+      "name": "negative_prompt",
+      "optional": true,
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "soundtrack",
+      "optional": true,
+      "kind": "audio"
+    },
+    {
+      "name": "soundtrack_source",
+      "optional": true,
+      "kind": "string",
+      "default": ""
+    },
+    {
+      "name": "enable_prompt_expansion",
+      "optional": true,
+      "kind": "boolean",
+      "default": false
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "negative_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "soundtrack",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "soundtrack_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_prompt_expansion",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "atlascloud/van-2.5/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "seed": "seed",
+        "negative_prompt": "negative_prompt",
+        "enable_prompt_expansion": "enable_prompt_expansion",
+        "size": "size"
+      },
+      "required_text": ["prompt"],
+      "omit_blank_parameters": ["negative_prompt"],
+      "media": {
+        "audio": {
+          "kind": "audio",
+          "fields": ["soundtrack"],
+          "external_urls_only": true,
+          "external_sources_field": "soundtrack_source"
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Atlas Cloud Van 2.5 文生视频",
+      "description": "用文字生成 5 或 10 秒的视频，支持横屏、竖屏和参考音频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "视频尺寸",
+          "choiceLabels": {
+            "1280*720": "1280 × 720",
+            "720*1280": "720 × 1280",
+            "1920*1080": "1920 × 1080",
+            "1080*1920": "1080 × 1920"
+          }
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "negative_prompt": {
+          "label": "负面提示词"
+        },
+        "soundtrack": {
+          "label": "参考音频"
+        },
+        "soundtrack_source": {
+          "label": "参考音频地址"
+        },
+        "enable_prompt_expansion": {
+          "label": "扩写提示词"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、场景、动作和镜头。"
+        },
+        "size": {
+          "help": "选择宽 × 高。默认 1280 × 720 像素。"
+        },
+        "duration": {
+          "help": "选择 5 或 10 秒。默认 5 秒。"
+        },
+        "seed": {
+          "help": "填写整数。-1 使用随机种子。"
+        },
+        "negative_prompt": {
+          "help": "描述画面中希望避开的元素。"
+        },
+        "soundtrack": {
+          "help": "上传参考音频，引导配音或音乐。"
+        },
+        "soundtrack_source": {
+          "help": "填写一个公开音频 URL，与上传二选一。"
+        },
+        "enable_prompt_expansion": {
+          "help": "开启后优化和扩写提示词。默认关闭。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Atlas Cloud Van 2.5 文生影片",
+      "description": "用文字生成 5 或 10 秒的影片，支援橫式、直式和參考音訊。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "影片尺寸",
+          "choiceLabels": {
+            "1280*720": "1280 × 720",
+            "720*1280": "720 × 1280",
+            "1920*1080": "1920 × 1080",
+            "1080*1920": "1080 × 1920"
+          }
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "negative_prompt": {
+          "label": "負面提示詞"
+        },
+        "soundtrack": {
+          "label": "參考音訊"
+        },
+        "soundtrack_source": {
+          "label": "參考音訊網址"
+        },
+        "enable_prompt_expansion": {
+          "label": "擴寫提示詞"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、場景、動作和運鏡。"
+        },
+        "size": {
+          "help": "選擇寬 × 高。預設 1280 × 720 像素。"
+        },
+        "duration": {
+          "help": "選擇 5 或 10 秒。預設 5 秒。"
+        },
+        "seed": {
+          "help": "填寫整數。-1 使用隨機種子。"
+        },
+        "negative_prompt": {
+          "help": "描述畫面中希望避開的元素。"
+        },
+        "soundtrack": {
+          "help": "上傳參考音訊，作為配音或音樂的依據。"
+        },
+        "soundtrack_source": {
+          "help": "填寫一個公開音訊網址，與上傳擇一。"
+        },
+        "enable_prompt_expansion": {
+          "help": "開啟後最佳化和擴寫提示詞。預設關閉。"
+        }
+      }
+    },
+    "en": {
+      "name": "Atlas Cloud Van 2.5 Text to Video",
+      "description": "Generate 5- or 10-second landscape or portrait videos from text with optional reference audio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Video size",
+          "choiceLabels": {
+            "1280*720": "1280 × 720",
+            "720*1280": "720 × 1280",
+            "1920*1080": "1920 × 1080",
+            "1080*1920": "1080 × 1920"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "negative_prompt": {
+          "label": "Negative prompt"
+        },
+        "soundtrack": {
+          "label": "Audio reference"
+        },
+        "soundtrack_source": {
+          "label": "Audio reference URL"
+        },
+        "enable_prompt_expansion": {
+          "label": "Expand prompt"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, setting, motion, and camera direction."
+        },
+        "size": {
+          "help": "Choose a width × height preset. The default is 1280 × 720 pixels."
+        },
+        "duration": {
+          "help": "Choose 5 or 10 seconds. The default is 5 seconds."
+        },
+        "seed": {
+          "help": "Enter a whole number. Use -1 for a random seed."
+        },
+        "negative_prompt": {
+          "help": "Describe elements to avoid."
+        },
+        "soundtrack": {
+          "help": "Upload reference audio to guide speech or music."
+        },
+        "soundtrack_source": {
+          "help": "Enter one public audio URL in place of an upload."
+        },
+        "enable_prompt_expansion": {
+          "help": "Optimize and expand the prompt. Off by default."
+        }
+      }
+    },
+    "ja": {
+      "name": "Atlas Cloud Van 2.5 テキストから動画生成",
+      "description": "テキストから横向きまたは縦向きの 5 秒・10 秒動画を生成し、参照音声を指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "動画サイズ",
+          "choiceLabels": {
+            "1280*720": "1280 × 720",
+            "720*1280": "720 × 1280",
+            "1920*1080": "1920 × 1080",
+            "1080*1920": "1080 × 1920"
+          }
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "negative_prompt": {
+          "label": "ネガティブプロンプト"
+        },
+        "soundtrack": {
+          "label": "参照音声"
+        },
+        "soundtrack_source": {
+          "label": "参照音声のURL"
+        },
+        "enable_prompt_expansion": {
+          "label": "プロンプトを拡張"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、動き、カメラワークを記述します。"
+        },
+        "size": {
+          "help": "幅 × 高さを選択します。既定は 1280 × 720 ピクセルです。"
+        },
+        "duration": {
+          "help": "5 秒または 10 秒を選択します。既定は 5 秒です。"
+        },
+        "seed": {
+          "help": "整数を入力します。ランダムにする場合は -1 を指定します。"
+        },
+        "negative_prompt": {
+          "help": "映像に含めたくない要素を記述します。"
+        },
+        "soundtrack": {
+          "help": "セリフや音楽の参考音声をアップロードします。"
+        },
+        "soundtrack_source": {
+          "help": "アップロードの代わりに公開音声のURLを1件入力します。"
+        },
+        "enable_prompt_expansion": {
+          "help": "有効にするとプロンプトを最適化して拡張します。既定はオフです。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Atlas Cloud Van 2.5 텍스트 동영상 생성",
+      "description": "텍스트로 5초 또는 10초의 가로형·세로형 동영상을 생성하고 참조 오디오를 지정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "동영상 크기",
+          "choiceLabels": {
+            "1280*720": "1280 × 720",
+            "720*1280": "720 × 1280",
+            "1920*1080": "1920 × 1080",
+            "1080*1920": "1080 × 1920"
+          }
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "negative_prompt": {
+          "label": "부정 프롬프트"
+        },
+        "soundtrack": {
+          "label": "참조 오디오"
+        },
+        "soundtrack_source": {
+          "label": "참조 오디오 URL"
+        },
+        "enable_prompt_expansion": {
+          "label": "프롬프트 확장"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 배경, 움직임, 카메라 구도를 설명하세요."
+        },
+        "size": {
+          "help": "너비 × 높이를 선택하세요. 기본값은 1280 × 720픽셀입니다."
+        },
+        "duration": {
+          "help": "5초 또는 10초를 선택하세요. 기본값은 5초입니다."
+        },
+        "seed": {
+          "help": "정수를 입력하세요. -1은 무작위 시드를 사용합니다."
+        },
+        "negative_prompt": {
+          "help": "화면에서 피하고 싶은 요소를 설명하세요."
+        },
+        "soundtrack": {
+          "help": "음성 또는 음악의 기준으로 사용할 참조 오디오를 업로드하세요."
+        },
+        "soundtrack_source": {
+          "help": "업로드 대신 공개 오디오 URL을 하나 입력합니다."
+        },
+        "enable_prompt_expansion": {
+          "help": "켜면 프롬프트를 최적화하고 확장합니다. 기본값은 꺼짐입니다."
+        }
+      }
+    }
+  }
+}

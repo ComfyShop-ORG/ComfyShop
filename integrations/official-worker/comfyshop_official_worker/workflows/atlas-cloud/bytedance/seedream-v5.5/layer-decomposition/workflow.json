@@ -1,0 +1,504 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "seedream-v55-layer-decomposition",
+  "name": "Seedream v5.5 图层拆分",
+  "description": "把一张图片拆成底图和最多 99 张透明 PNG 图层，可识别文字图层的内容和样式。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_source",
+      "kind": "string",
+      "optional": true,
+      "multiline": true,
+      "default": "",
+      "maxLength": 4194304
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "optional": true,
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["auto", "1k", "1.5k", "2k"],
+      "default": "auto"
+    },
+    {
+      "name": "num_images",
+      "kind": "integer",
+      "optional": true,
+      "default": 30,
+      "minimum": "2",
+      "maximum": "100"
+    },
+    {
+      "name": "enable_text_recognition",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["png", "jpeg"],
+      "default": "png"
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "image",
+      "section": "default"
+    },
+    {
+      "fieldId": "image_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "num_images",
+      "section": "default"
+    },
+    {
+      "fieldId": "enable_text_recognition",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "additionalOutputKinds": ["text"],
+    "config": {
+      "operation": "image",
+      "model": "bytedance/seedream-v5.5/layer-decomposition",
+      "parameters": {
+        "prompt": "prompt",
+        "output_format": "output_format",
+        "enable_sync_mode": "enable_sync_mode",
+        "enable_base64_output": "enable_base64_output",
+        "resolution": "resolution",
+        "num_images": "num_images",
+        "enable_text_recognition": "enable_text_recognition"
+      },
+      "omit_blank_parameters": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["image"],
+          "min_items": 1,
+          "external_sources_field": "image_source",
+          "content_types": ["image/png", "image/jpeg"],
+          "max_bytes": 30000000,
+          "image_bounds": {
+            "min_pixels": 262144,
+            "max_pixels": 36000000,
+            "max_aspect_ratio": 16
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seedream v5.5 图层拆分",
+      "description": "把一张图片拆成底图和最多 99 张透明 PNG 图层，可识别文字图层的内容和样式。",
+      "fields": {
+        "image": {
+          "label": "原图"
+        },
+        "image_source": {
+          "label": "原图地址或 Base64"
+        },
+        "prompt": {
+          "label": "拆分说明"
+        },
+        "resolution": {
+          "label": "输出尺寸档位",
+          "choiceLabels": {
+            "auto": "自动",
+            "1k": "1K",
+            "1.5k": "1.5K",
+            "2k": "2K"
+          }
+        },
+        "num_images": {
+          "label": "最多输出张数"
+        },
+        "enable_text_recognition": {
+          "label": "识别文字图层"
+        },
+        "output_format": {
+          "label": "底图格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "上传一张 PNG 或 JPEG，最大 30 MB。总像素为 512×512 至 6000×6000，宽高比为 1:16 至 16:1。"
+        },
+        "image_source": {
+          "help": "填一个公开 HTTP(S) 图片地址或 PNG、JPEG 的 Base64 data URL。使用此项时留空上传槽位。"
+        },
+        "prompt": {
+          "help": "可描述要拆出的元素，或用 <bbox>x1 y1 x2 y2</bbox> 指定区域。坐标为 0 至 1000，以左上角为原点。留空自动拆分。"
+        },
+        "resolution": {
+          "help": "自动按每个成品的原始尺寸选取 1K 至 2K 范围，保留各自的宽高比。"
+        },
+        "num_images": {
+          "help": "填写 2 至 100，包含一张底图。实际数量取决于拆分说明与原图。"
+        },
+        "enable_text_recognition": {
+          "help": "从常规印刷字识别正文、行坐标和样式。"
+        },
+        "output_format": {
+          "help": "选择 JPEG 或 PNG 底图，拆出的图层采用透明 PNG。"
+        },
+        "enable_sync_mode": {
+          "help": "等待 Atlas 完成后在提交响应中取结果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以内联 Base64 返回成品，工作机解码后保存。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seedream v5.5 圖層拆分",
+      "description": "把一張圖片拆成底圖和最多 99 張透明 PNG 圖層，可辨識文字圖層的內容與樣式。",
+      "fields": {
+        "image": {
+          "label": "原圖"
+        },
+        "image_source": {
+          "label": "原圖網址或 Base64"
+        },
+        "prompt": {
+          "label": "拆分說明"
+        },
+        "resolution": {
+          "label": "輸出尺寸等級",
+          "choiceLabels": {
+            "auto": "自動",
+            "1k": "1K",
+            "1.5k": "1.5K",
+            "2k": "2K"
+          }
+        },
+        "num_images": {
+          "label": "最多輸出張數"
+        },
+        "enable_text_recognition": {
+          "label": "辨識文字圖層"
+        },
+        "output_format": {
+          "label": "底圖格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步回傳"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "上傳一張 PNG 或 JPEG，最大 30 MB。總像素為 512×512 至 6000×6000，寬高比為 1:16 至 16:1。"
+        },
+        "image_source": {
+          "help": "填寫一個公開 HTTP(S) 圖片網址或 PNG、JPEG 的 Base64 data URL。使用此項時請留空上傳欄位。"
+        },
+        "prompt": {
+          "help": "可描述要拆出的元素，或用 <bbox>x1 y1 x2 y2</bbox> 指定區域。座標為 0 至 1000，以左上角為原點。留空自動拆分。"
+        },
+        "resolution": {
+          "help": "自動依每個成品的原始尺寸選擇 1K 至 2K 範圍，保留各自的寬高比。"
+        },
+        "num_images": {
+          "help": "填寫 2 至 100，包含一張底圖。實際數量取決於拆分說明和原圖。"
+        },
+        "enable_text_recognition": {
+          "help": "從常規印刷文字辨識正文、各行座標及樣式。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG 或 PNG 底圖，拆出的圖層採用透明 PNG。"
+        },
+        "enable_sync_mode": {
+          "help": "等 Atlas 完成後，從提交回應取得結果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以內嵌 Base64 回傳成品，工作機解碼後儲存。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seedream v5.5 Layer Decomposition",
+      "description": "Split one image into a base and up to 99 transparent PNG layers, with optional text and style recognition.",
+      "fields": {
+        "image": {
+          "label": "Source image"
+        },
+        "image_source": {
+          "label": "Source URL or Base64"
+        },
+        "prompt": {
+          "label": "Layer instructions"
+        },
+        "resolution": {
+          "label": "Output size tier",
+          "choiceLabels": {
+            "auto": "Auto",
+            "1k": "1K",
+            "1.5k": "1.5K",
+            "2k": "2K"
+          }
+        },
+        "num_images": {
+          "label": "Maximum outputs"
+        },
+        "enable_text_recognition": {
+          "label": "Recognize text layers"
+        },
+        "output_format": {
+          "label": "Base image format",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "Wait for result"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "Upload one PNG or JPEG up to 30 MB. Use 512×512 to 6000×6000 total pixels and a 1:16 to 16:1 aspect ratio."
+        },
+        "image_source": {
+          "help": "Enter one public HTTP(S) URL or a PNG or JPEG Base64 data URL. Leave the upload field empty when using this option."
+        },
+        "prompt": {
+          "help": "Describe elements to split, or target a region with <bbox>x1 y1 x2 y2</bbox>. Coordinates range from 0 to 1000 with a top-left origin. Leave blank for automatic decomposition."
+        },
+        "resolution": {
+          "help": "Auto keeps each output within the 1K–2K range and preserves its aspect ratio."
+        },
+        "num_images": {
+          "help": "Enter 2 to 100, including the base image. The actual count depends on the instructions and source."
+        },
+        "enable_text_recognition": {
+          "help": "Extract printed text, line positions, and styles."
+        },
+        "output_format": {
+          "help": "Choose JPEG or PNG for the base. The separated layers use transparent PNG."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for Atlas to return a finished result in the submit response."
+        },
+        "enable_base64_output": {
+          "help": "Request inline Base64 and let the work machine decode and save the images."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seedream v5.5 レイヤー分解",
+      "description": "画像 1 枚をベース画像と最大 99 枚の透過 PNG レイヤーに分解します。文字レイヤーの内容や書式を認識できます。",
+      "fields": {
+        "image": {
+          "label": "元の画像"
+        },
+        "image_source": {
+          "label": "元画像の URL または Base64"
+        },
+        "prompt": {
+          "label": "分解の指示"
+        },
+        "resolution": {
+          "label": "出力サイズの区分",
+          "choiceLabels": {
+            "auto": "自動",
+            "1k": "1K",
+            "1.5k": "1.5K",
+            "2k": "2K"
+          }
+        },
+        "num_images": {
+          "label": "出力枚数の上限"
+        },
+        "enable_text_recognition": {
+          "label": "文字レイヤーを認識"
+        },
+        "output_format": {
+          "label": "ベース画像の形式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "PNG または JPEG を 1 枚アップロードします。最大 30 MB、総画素数は 512×512～6000×6000、縦横比は 1:16～16:1 です。"
+        },
+        "image_source": {
+          "help": "公開 HTTP(S) URL または PNG・JPEG の Base64 データ URL を 1 件入力します。この欄を使う場合、アップロード欄は空にします。"
+        },
+        "prompt": {
+          "help": "分解する要素を記述するか、<bbox>x1 y1 x2 y2</bbox> で指定します。座標は左上が原点で 0〜1000 です。空欄なら自動で分解します。"
+        },
+        "resolution": {
+          "help": "自動では各出力を 1K～2K の範囲に調整し、縦横比を保ちます。"
+        },
+        "num_images": {
+          "help": "ベース画像を含めて 2～100 枚を指定します。実際の枚数は指示内容と原画像に応じて変わります。"
+        },
+        "enable_text_recognition": {
+          "help": "一般的な活字の本文、行の位置と書式を取得します。"
+        },
+        "output_format": {
+          "help": "ベース画像を JPEG または PNG にします。分解したレイヤーは透過 PNG です。"
+        },
+        "enable_sync_mode": {
+          "help": "Atlas の完了を待ち、送信時の応答で結果を取得します。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas にインラインの Base64 を求めます。ワーカーが復号して保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seedream v5.5 레이어 분리",
+      "description": "이미지 한 장을 바탕 이미지와 투명 PNG 레이어 최대 99장으로 분리합니다. 텍스트 레이어의 내용과 스타일을 인식할 수 있습니다.",
+      "fields": {
+        "image": {
+          "label": "원본 이미지"
+        },
+        "image_source": {
+          "label": "원본 URL 또는 Base64"
+        },
+        "prompt": {
+          "label": "레이어 분리 지시"
+        },
+        "resolution": {
+          "label": "출력 크기 단계",
+          "choiceLabels": {
+            "auto": "자동",
+            "1k": "1K",
+            "1.5k": "1.5K",
+            "2k": "2K"
+          }
+        },
+        "num_images": {
+          "label": "최대 출력 장수"
+        },
+        "enable_text_recognition": {
+          "label": "텍스트 레이어 인식"
+        },
+        "output_format": {
+          "label": "바탕 이미지 형식",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "결과 기다리기"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "최대 30 MB의 PNG 또는 JPEG 파일 한 장을 업로드하세요. 총 픽셀은 512×512~6000×6000, 가로세로 비율은 1:16~16:1입니다."
+        },
+        "image_source": {
+          "help": "공개 HTTP(S) URL 또는 PNG나 JPEG의 Base64 데이터 URL 하나를 입력하세요. 이 필드를 사용할 때는 업로드 슬롯을 비워 두세요."
+        },
+        "prompt": {
+          "help": "분리할 요소를 설명하거나 <bbox>x1 y1 x2 y2</bbox>로 영역을 지정하세요. 왼쪽 위가 원점이며 좌표는 0~1000입니다. 비워 두면 자동으로 분리합니다."
+        },
+        "resolution": {
+          "help": "자동은 각 결과를 1K~2K 범위로 조정하면서 가로세로 비율을 유지합니다."
+        },
+        "num_images": {
+          "help": "바탕 이미지를 포함해 2~100장을 입력하세요. 실제 장수는 분리 지시와 원본에 따라 달라집니다."
+        },
+        "enable_text_recognition": {
+          "help": "일반 인쇄체의 텍스트, 줄 위치와 스타일을 추출합니다."
+        },
+        "output_format": {
+          "help": "바탕 이미지의 JPEG 또는 PNG를 선택하세요. 분리된 레이어는 투명 PNG입니다."
+        },
+        "enable_sync_mode": {
+          "help": "Atlas 생성이 완료되면 제출 응답에서 결과를 받습니다."
+        },
+        "enable_base64_output": {
+          "help": "Atlas에 인라인 Base64를 요청하고 작업 머신에서 디코딩해 저장합니다."
+        }
+      }
+    }
+  }
+}

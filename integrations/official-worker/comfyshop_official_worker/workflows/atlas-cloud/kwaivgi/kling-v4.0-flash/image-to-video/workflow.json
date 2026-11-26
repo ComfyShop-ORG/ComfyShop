@@ -1,0 +1,309 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kwaivgi-kling-v4-0-flash-image-to-video",
+  "name": "可灵 4.0 Flash 图生视频",
+  "description": "用一张起始图生成 3 至 20 秒的 720p 视频。可用提示词指定动作、场景变化和运镜。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "She looks into the camera with a confident smile, adjusts her hair and walks two steps toward the camera; the camera slowly pushes in.",
+      "multiline": true,
+      "maxLength": 26000,
+      "optional": true
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 10,
+      "minimum": "3",
+      "maximum": "20",
+      "step": "1",
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["720p"],
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "hidden"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "kwaivgi/kling-v4.0-flash/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "resolution": "resolution"
+      },
+      "text_max_lengths": {
+        "prompt": 26000
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "allow_raw_base64": true,
+          "content_types": ["image/jpeg", "image/png"],
+          "min_items": 1,
+          "max_bytes": 30000000,
+          "image_bounds": {
+            "min_side": 300,
+            "max_aspect_ratio": 2.5
+          }
+        }
+      },
+      "omit_blank_parameters": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 4.0 Flash 图生视频",
+      "description": "用一张起始图生成 3 至 20 秒的 720p 视频。可用提示词指定动作、场景变化和运镜。",
+      "fields": {
+        "first_frame": {
+          "label": "起始关键帧"
+        },
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720p": "720p"
+          }
+        },
+        "first_frame_source": {
+          "label": "起始图来源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传 JPEG 或 PNG，最多 30 MB，每边至少 300 像素，宽高比为 2:5 至 5:2。"
+        },
+        "prompt": {
+          "help": "可描述起始图之后的主体动作、场景变化和镜头。英文最多 26,000 字符，非英文最多 11,000。"
+        },
+        "duration": {
+          "help": "选择 3 至 20 秒。默认 10 秒。"
+        },
+        "resolution": {
+          "help": "Flash 图生视频固定输出 720p。"
+        },
+        "first_frame_source": {
+          "help": "填写一个公开图片 URL、Base64 数据网址或纯 Base64。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 4.0 Flash 圖生影片",
+      "description": "用一張起始圖生成 3 至 20 秒的 720p 影片。可用提示詞指定動作、場景變化和運鏡。",
+      "fields": {
+        "first_frame": {
+          "label": "起始關鍵影格"
+        },
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720p": "720p"
+          }
+        },
+        "first_frame_source": {
+          "label": "起始圖來源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳 JPEG 或 PNG，最多 30 MB，每邊至少 300 像素，寬高比為 2:5 至 5:2。"
+        },
+        "prompt": {
+          "help": "可描述起始圖之後的主體動作、場景變化和鏡頭。英文最多 26,000 字元，非英文最多 11,000。"
+        },
+        "duration": {
+          "help": "選擇 3 至 20 秒。預設 10 秒。"
+        },
+        "resolution": {
+          "help": "Flash 圖生影片固定輸出 720p。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個公開圖片 URL、Base64 資料網址或純 Base64。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling 4.0 Flash Image to Video",
+      "description": "Animate one opening image in a 3- to 20-second 720p video, with optional action, scene, and camera direction.",
+      "fields": {
+        "first_frame": {
+          "label": "Opening keyframe"
+        },
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Output duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720p": "720p"
+          }
+        },
+        "first_frame_source": {
+          "label": "Opening image source"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload a JPEG or PNG up to 30 MB, at least 300 pixels per side, with a ratio from 2:5 to 5:2."
+        },
+        "prompt": {
+          "help": "Optionally describe how the subject, scene, and camera move after the opening image. Use up to 26,000 English characters or 11,000 non-English characters."
+        },
+        "duration": {
+          "help": "Choose 3 to 20 seconds. The default is 10."
+        },
+        "resolution": {
+          "help": "Flash image-to-video outputs at 720p."
+        },
+        "first_frame_source": {
+          "help": "Enter one public image URL, Base64 data URL, or raw Base64 image."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling 4.0 Flash 画像から動画生成",
+      "description": "開始画像一枚から 3〜20 秒の 720p 動画を生成します。動き、場面の変化、カメラワークを指定できます。",
+      "fields": {
+        "first_frame": {
+          "label": "開始キーフレーム"
+        },
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "出力の長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720p": "720p"
+          }
+        },
+        "first_frame_source": {
+          "label": "開始画像のソース"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "各辺 300 ピクセル以上、比率 2:5〜5:2、最大 30 MB の JPEG または PNG をアップロードします。"
+        },
+        "prompt": {
+          "help": "開始画像に続く動き、場面の変化、カメラワークを指定できます。英語は 26,000 文字、その他の言語は 11,000 文字以内です。"
+        },
+        "duration": {
+          "help": "3〜20 秒を選択します。既定は 10 秒です。"
+        },
+        "resolution": {
+          "help": "Flash の画像から動画生成は 720p 固定です。"
+        },
+        "first_frame_source": {
+          "help": "公開画像 URL、Base64 データ URL、または Base64 画像を一つ入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling 4.0 Flash 이미지 동영상 생성",
+      "description": "시작 이미지 한 장으로 3~20초의 720p 동영상을 만들고 움직임, 장면 변화, 카메라 구도를 지정할 수 있습니다.",
+      "fields": {
+        "first_frame": {
+          "label": "시작 키프레임"
+        },
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "결과 길이(초)"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720p": "720p"
+          }
+        },
+        "first_frame_source": {
+          "label": "시작 이미지 소스"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "각 변이 300픽셀 이상이고 비율이 2:5~5:2인 최대 30MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "prompt": {
+          "help": "시작 이미지 이후의 피사체 움직임, 장면 변화, 카메라 구도를 설명할 수 있습니다. 영어는 최대 26,000자, 다른 언어는 최대 11,000자입니다."
+        },
+        "duration": {
+          "help": "3~20초를 선택하세요. 기본값은 10초입니다."
+        },
+        "resolution": {
+          "help": "Flash 이미지 동영상 생성은 720p로 출력합니다."
+        },
+        "first_frame_source": {
+          "help": "공개 이미지 URL, Base64 데이터 URL 또는 Base64 이미지 하나를 입력하세요."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,701 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-mj82-mix",
+  "name": "Midjourney V8.2 图片融合",
+  "description": "融合 2 至 5 张参考图片生成 4 张新图，可用提示词指明主题。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "",
+      "maxLength": 1024,
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["1:1", "9:16", "16:9", "4:3", "3:4", "2:3", "3:2", "9:21", "21:9"],
+      "optional": true,
+      "default": "1:1"
+    },
+    {
+      "name": "hd",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "stylize",
+      "kind": "integer",
+      "optional": true,
+      "default": 0,
+      "minimum": "0",
+      "maximum": "1000"
+    },
+    {
+      "name": "chaos",
+      "kind": "integer",
+      "optional": true,
+      "default": 0,
+      "minimum": "0",
+      "maximum": "100"
+    },
+    {
+      "name": "weird",
+      "kind": "integer",
+      "optional": true,
+      "default": 0,
+      "minimum": "0",
+      "maximum": "3000"
+    },
+    {
+      "name": "quality",
+      "kind": "choice",
+      "choices": [1, 4],
+      "optional": true,
+      "default": 1
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true,
+      "default": -1
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_5",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "hd",
+      "section": "default"
+    },
+    {
+      "fieldId": "stylize",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "chaos",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "weird",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "quality",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "midjourney/v8.2/blend",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "aspect_ratio": "aspect_ratio",
+        "hd": "hd",
+        "stylize": "stylize",
+        "chaos": "chaos",
+        "weird": "weird",
+        "quality": "quality",
+        "seed": "seed",
+        "enable_base64_output": "enable_base64_output"
+      },
+      "text_max_lengths": {
+        "prompt": 1024
+      },
+      "media": {
+        "images": {
+          "kind": "image",
+          "array": true,
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4",
+            "reference_image_5"
+          ],
+          "min_items": 2,
+          "external_sources_field": "reference_image_sources",
+          "external_urls_only": true,
+          "external_https_only": true
+        }
+      },
+      "omit_blank_parameters": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Midjourney V8.2 图片融合",
+      "description": "融合 2 至 5 张参考图片生成 4 张新图，可用提示词指明主题。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "宽高比"
+        },
+        "hd": {
+          "label": "原生 2K"
+        },
+        "stylize": {
+          "label": "风格化强度"
+        },
+        "chaos": {
+          "label": "变化幅度"
+        },
+        "weird": {
+          "label": "奇异度"
+        },
+        "quality": {
+          "label": "细节质量"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        },
+        "reference_image_5": {
+          "label": "参考图 5"
+        },
+        "reference_image_sources": {
+          "label": "参考图 URL"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "合计提供 2 至 5 张参考图。上传图片按槽位顺序发送。"
+        },
+        "reference_image_2": {
+          "help": "合计提供 2 至 5 张参考图。上传图片按槽位顺序发送。"
+        },
+        "reference_image_3": {
+          "help": "合计提供 2 至 5 张参考图。上传图片按槽位顺序发送。"
+        },
+        "reference_image_4": {
+          "help": "合计提供 2 至 5 张参考图。上传图片按槽位顺序发送。"
+        },
+        "reference_image_5": {
+          "help": "合计提供 2 至 5 张参考图。上传图片按槽位顺序发送。"
+        },
+        "prompt": {
+          "help": "可描述想融合的内容、风格或布局，最多 1,024 字符。"
+        },
+        "aspect_ratio": {
+          "help": "设定生成图片的宽高比。"
+        },
+        "hd": {
+          "help": "开启后生成原生 2K 图片，Atlas 按常规档位的 1.5 倍计费。"
+        },
+        "stylize": {
+          "help": "0 至 1,000。数值越高，越强调模型的美学风格。"
+        },
+        "chaos": {
+          "help": "0 至 100。调高后，同一任务的图片变化更多。"
+        },
+        "weird": {
+          "help": "0 至 3,000。调高后，画面更不寻常。"
+        },
+        "quality": {
+          "help": "4 提供更多细节，耗时更长。"
+        },
+        "seed": {
+          "help": "-1 为随机。复用种子和输入素材有助于复现画面。"
+        },
+        "enable_base64_output": {
+          "help": "开启后，Atlas 以 Base64 返回图片，由工作机解码保存。"
+        },
+        "reference_image_sources": {
+          "help": "每行填写一个公开 HTTPS 图片地址。URL 排在已上传图片之后，合计 2 至 5 张。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Midjourney V8.2 圖片融合",
+      "description": "融合 2 至 5 張參考圖片生成 4 張新圖，可用提示詞指定主題。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "長寬比"
+        },
+        "hd": {
+          "label": "原生 2K"
+        },
+        "stylize": {
+          "label": "風格化強度"
+        },
+        "chaos": {
+          "label": "變化幅度"
+        },
+        "weird": {
+          "label": "奇異度"
+        },
+        "quality": {
+          "label": "細節品質"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "reference_image_4": {
+          "label": "參考圖 4"
+        },
+        "reference_image_5": {
+          "label": "參考圖 5"
+        },
+        "reference_image_sources": {
+          "label": "參考圖 URL"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "合計提供 2 至 5 張參考圖。上傳圖片依欄位順序傳送。"
+        },
+        "reference_image_2": {
+          "help": "合計提供 2 至 5 張參考圖。上傳圖片依欄位順序傳送。"
+        },
+        "reference_image_3": {
+          "help": "合計提供 2 至 5 張參考圖。上傳圖片依欄位順序傳送。"
+        },
+        "reference_image_4": {
+          "help": "合計提供 2 至 5 張參考圖。上傳圖片依欄位順序傳送。"
+        },
+        "reference_image_5": {
+          "help": "合計提供 2 至 5 張參考圖。上傳圖片依欄位順序傳送。"
+        },
+        "prompt": {
+          "help": "可描述想融合的內容、風格或版面，最多 1,024 個字元。"
+        },
+        "aspect_ratio": {
+          "help": "設定生成圖片的長寬比。"
+        },
+        "hd": {
+          "help": "開啟後生成原生 2K 圖片，Atlas 按一般方案的 1.5 倍計費。"
+        },
+        "stylize": {
+          "help": "0 至 1,000。數值越高，越強調模型的美學風格。"
+        },
+        "chaos": {
+          "help": "0 至 100。調高後，同一任務的圖片變化更多。"
+        },
+        "weird": {
+          "help": "0 至 3,000。調高後，畫面更不尋常。"
+        },
+        "quality": {
+          "help": "4 提供更多細節，耗時更長。"
+        },
+        "seed": {
+          "help": "-1 為隨機。沿用種子與輸入素材有助重現畫面。"
+        },
+        "enable_base64_output": {
+          "help": "開啟後，Atlas 以 Base64 傳回圖片，由工作機解碼儲存。"
+        },
+        "reference_image_sources": {
+          "help": "每行填入一個公開 HTTPS 圖片網址。網址排在上傳圖片之後，合計 2 至 5 張。"
+        }
+      }
+    },
+    "en": {
+      "name": "Midjourney V8.2 Image Blend",
+      "description": "Blend two to five reference images into four new images, with optional text guidance.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "hd": {
+          "label": "Native 2K"
+        },
+        "stylize": {
+          "label": "Stylization"
+        },
+        "chaos": {
+          "label": "Variation"
+        },
+        "weird": {
+          "label": "Weirdness"
+        },
+        "quality": {
+          "label": "Detail quality"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        },
+        "reference_image_5": {
+          "label": "Reference image 5"
+        },
+        "reference_image_sources": {
+          "label": "Reference image URLs"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "Provide two to five references in total. Uploaded images are sent in slot order."
+        },
+        "reference_image_2": {
+          "help": "Provide two to five references in total. Uploaded images are sent in slot order."
+        },
+        "reference_image_3": {
+          "help": "Provide two to five references in total. Uploaded images are sent in slot order."
+        },
+        "reference_image_4": {
+          "help": "Provide two to five references in total. Uploaded images are sent in slot order."
+        },
+        "reference_image_5": {
+          "help": "Provide two to five references in total. Uploaded images are sent in slot order."
+        },
+        "prompt": {
+          "help": "Describe the content, style, or layout to blend in up to 1,024 characters."
+        },
+        "aspect_ratio": {
+          "help": "Set the width-to-height ratio of the images."
+        },
+        "hd": {
+          "help": "Generate native 2K images. Atlas charges 1.5 times the standard rate."
+        },
+        "stylize": {
+          "help": "From 0 to 1,000. Higher values strengthen the model's aesthetic."
+        },
+        "chaos": {
+          "help": "From 0 to 100. Higher values increase variation across the four images."
+        },
+        "weird": {
+          "help": "From 0 to 3,000. Higher values create more unconventional images."
+        },
+        "quality": {
+          "help": "4 produces more detail and takes longer."
+        },
+        "seed": {
+          "help": "Use -1 for a random seed. Reuse the seed and inputs for similar results."
+        },
+        "enable_base64_output": {
+          "help": "Return images as Base64 for the worker to decode and save."
+        },
+        "reference_image_sources": {
+          "help": "Enter one public HTTPS image URL per line. URLs follow uploaded images. Provide two to five images total."
+        }
+      }
+    },
+    "ja": {
+      "name": "Midjourney V8.2 画像ブレンド",
+      "description": "参照画像 2〜5 枚を組み合わせて画像を 4 枚生成します。プロンプトで方向性を指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "縦横比"
+        },
+        "hd": {
+          "label": "ネイティブ 2K"
+        },
+        "stylize": {
+          "label": "スタイルの強さ"
+        },
+        "chaos": {
+          "label": "変化の幅"
+        },
+        "weird": {
+          "label": "意外性"
+        },
+        "quality": {
+          "label": "細部の品質"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        },
+        "reference_image_1": {
+          "label": "参照画像 1"
+        },
+        "reference_image_2": {
+          "label": "参照画像 2"
+        },
+        "reference_image_3": {
+          "label": "参照画像 3"
+        },
+        "reference_image_4": {
+          "label": "参照画像 4"
+        },
+        "reference_image_5": {
+          "label": "参照画像 5"
+        },
+        "reference_image_sources": {
+          "label": "参照画像の URL"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "合計 2〜5 枚の参照画像を指定します。アップロード画像は入力欄の順番で送信します。"
+        },
+        "reference_image_2": {
+          "help": "合計 2〜5 枚の参照画像を指定します。アップロード画像は入力欄の順番で送信します。"
+        },
+        "reference_image_3": {
+          "help": "合計 2〜5 枚の参照画像を指定します。アップロード画像は入力欄の順番で送信します。"
+        },
+        "reference_image_4": {
+          "help": "合計 2〜5 枚の参照画像を指定します。アップロード画像は入力欄の順番で送信します。"
+        },
+        "reference_image_5": {
+          "help": "合計 2〜5 枚の参照画像を指定します。アップロード画像は入力欄の順番で送信します。"
+        },
+        "prompt": {
+          "help": "組み合わせたい題材、スタイル、構図を 1,024 文字以内で記述します。"
+        },
+        "aspect_ratio": {
+          "help": "画像の横幅と高さの比率を設定します。"
+        },
+        "hd": {
+          "help": "ネイティブ 2K 画像を生成します。Atlas の料金は標準の 1.5 倍です。"
+        },
+        "stylize": {
+          "help": "0〜1,000。値が高いほどモデルの作風が強く反映されます。"
+        },
+        "chaos": {
+          "help": "0〜100。値を上げると、4 枚の画像の違いが大きくなります。"
+        },
+        "weird": {
+          "help": "0〜3,000。値を上げると、より個性的な画像になります。"
+        },
+        "quality": {
+          "help": "4 は細部がより豊かになり、生成に時間がかかります。"
+        },
+        "seed": {
+          "help": "-1 はランダムです。同じシードと入力で近い結果を再現できます。"
+        },
+        "enable_base64_output": {
+          "help": "画像を Base64 で受け取り、ワーカーがデコードして保存します。"
+        },
+        "reference_image_sources": {
+          "help": "公開 HTTPS 画像の URL を 1 行に 1 件入力します。アップロード画像の後に続き、合計 2〜5 枚まで指定できます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Midjourney V8.2 이미지 혼합",
+      "description": "참조 이미지 2~5장을 혼합해 새 이미지 4장을 생성합니다. 텍스트로 방향을 지정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "hd": {
+          "label": "네이티브 2K"
+        },
+        "stylize": {
+          "label": "스타일 강도"
+        },
+        "chaos": {
+          "label": "변화 폭"
+        },
+        "weird": {
+          "label": "독특함"
+        },
+        "quality": {
+          "label": "세부 표현 품질"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_image_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_image_sources": {
+          "label": "참조 이미지 URL"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "참조 이미지를 합계 2~5장 제공하세요. 업로드한 이미지는 입력란 순서로 전송됩니다."
+        },
+        "reference_image_2": {
+          "help": "참조 이미지를 합계 2~5장 제공하세요. 업로드한 이미지는 입력란 순서로 전송됩니다."
+        },
+        "reference_image_3": {
+          "help": "참조 이미지를 합계 2~5장 제공하세요. 업로드한 이미지는 입력란 순서로 전송됩니다."
+        },
+        "reference_image_4": {
+          "help": "참조 이미지를 합계 2~5장 제공하세요. 업로드한 이미지는 입력란 순서로 전송됩니다."
+        },
+        "reference_image_5": {
+          "help": "참조 이미지를 합계 2~5장 제공하세요. 업로드한 이미지는 입력란 순서로 전송됩니다."
+        },
+        "prompt": {
+          "help": "혼합할 내용, 화풍 또는 구도를 최대 1,024자로 설명하세요."
+        },
+        "aspect_ratio": {
+          "help": "이미지의 가로세로 비율을 설정합니다."
+        },
+        "hd": {
+          "help": "네이티브 2K 이미지를 생성합니다. Atlas 요금은 일반 요금의 1.5배입니다."
+        },
+        "stylize": {
+          "help": "0~1,000. 값이 높을수록 모델의 화풍이 강하게 반영됩니다."
+        },
+        "chaos": {
+          "help": "0~100. 값이 높을수록 이미지 4장의 차이가 커집니다."
+        },
+        "weird": {
+          "help": "0~3,000. 값을 높이면 더 독특한 결과를 얻을 수 있습니다."
+        },
+        "quality": {
+          "help": "4는 세부 표현을 향상하며 생성 시간이 더 길어집니다."
+        },
+        "seed": {
+          "help": "-1은 무작위입니다. 시드와 입력을 재사용하면 비슷한 결과를 얻을 수 있습니다."
+        },
+        "enable_base64_output": {
+          "help": "Base64 이미지 데이터를 받아 워커가 디코딩 후 저장합니다."
+        },
+        "reference_image_sources": {
+          "help": "한 줄에 공개 HTTPS 이미지 URL 하나를 입력하세요. URL은 업로드한 이미지 뒤에 배치되며 총 2~5장이 필요합니다."
+        }
+      }
+    }
+  }
+}

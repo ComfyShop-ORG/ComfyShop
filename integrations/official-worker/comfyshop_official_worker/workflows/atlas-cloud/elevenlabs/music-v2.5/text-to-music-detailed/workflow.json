@@ -1,0 +1,278 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "elevenlabs-music-v25-text-to-music-detailed",
+  "name": "ElevenLabs Music v2.5 Detailed 音乐生成",
+  "description": "生成音乐并返回歌名、风格和分段方案。可附上逐词时间戳。",
+  "category": "audio",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "optional": true,
+      "multiline": true,
+      "default": "Upbeat lo-fi hip hop instrumental with mellow piano, vinyl crackle and soft drums"
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "3",
+      "maximum": "600",
+      "step": "1",
+      "default": 30
+    },
+    {
+      "name": "instrumental",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "composition_plan",
+      "kind": "string",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "timestamps",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "instrumental",
+      "section": "default"
+    },
+    {
+      "fieldId": "composition_plan",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "timestamps",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "audio",
+    "config": {
+      "operation": "audio",
+      "model": "elevenlabs/music-v2.5/text-to-music-detailed",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "force_instrumental": "instrumental",
+        "with_timestamps": "timestamps"
+      },
+      "text_max_lengths": {
+        "prompt": 2000
+      },
+      "composition_plan_field": "composition_plan"
+    },
+    "additionalOutputKinds": ["text"]
+  },
+  "translations": {
+    "zh": {
+      "name": "ElevenLabs Music v2.5 Detailed 音乐生成",
+      "description": "生成音乐并返回歌名、风格和分段方案。可附上逐词时间戳。",
+      "fields": {
+        "prompt": {
+          "label": "音乐描述"
+        },
+        "duration": {
+          "label": "时长"
+        },
+        "instrumental": {
+          "label": "纯音乐"
+        },
+        "composition_plan": {
+          "label": "分段方案 JSON"
+        },
+        "timestamps": {
+          "label": "逐词时间戳"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述曲风、情绪、节奏、乐器和人声，最多 2000 字符。使用分段方案时留空。"
+        },
+        "duration": {
+          "help": "选择 3 至 600 秒，默认 30 秒。使用分段方案时取总毫秒数除以 1000 后向上取整。"
+        },
+        "instrumental": {
+          "help": "仅在使用音乐描述时生效，开启后只生成器乐。默认关闭。"
+        },
+        "composition_plan": {
+          "help": "粘贴包含 chunks 的 JSON 对象，最多 30 段。每段 3000 至 120000 毫秒。使用时清空音乐描述并关闭纯音乐。"
+        },
+        "timestamps": {
+          "help": "开启后在元数据文件中包含歌词的逐词起止时间。默认关闭。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "ElevenLabs Music v2.5 Detailed 音樂產生",
+      "description": "產生音樂並回傳歌名、風格和分段方案。可附上逐字時間戳記。",
+      "fields": {
+        "prompt": {
+          "label": "音樂描述"
+        },
+        "duration": {
+          "label": "長度"
+        },
+        "instrumental": {
+          "label": "純音樂"
+        },
+        "composition_plan": {
+          "label": "分段方案 JSON"
+        },
+        "timestamps": {
+          "label": "逐字時間戳記"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述曲風、情緒、節奏、樂器與人聲，最多 2000 個字元。使用分段方案時留空。"
+        },
+        "duration": {
+          "help": "選擇 3 至 600 秒，預設為 30 秒。使用分段方案時將總毫秒數除以 1000 後無條件進位。"
+        },
+        "instrumental": {
+          "help": "僅於使用音樂描述時生效。啟用後只產生器樂。預設關閉。"
+        },
+        "composition_plan": {
+          "help": "貼上含 chunks 的 JSON 物件，最多 30 段。每段 3000 至 120000 毫秒。使用時清空音樂描述並關閉純音樂。"
+        },
+        "timestamps": {
+          "help": "啟用後中繼資料檔包含歌詞的逐字起訖時間。預設關閉。"
+        }
+      }
+    },
+    "en": {
+      "name": "ElevenLabs Music v2.5 Detailed Music Generation",
+      "description": "Create music and receive the title, styles, and composition plan, with optional word-level timestamps.",
+      "fields": {
+        "prompt": {
+          "label": "Musical description"
+        },
+        "duration": {
+          "label": "Duration"
+        },
+        "instrumental": {
+          "label": "Instrumental"
+        },
+        "composition_plan": {
+          "label": "Composition plan JSON"
+        },
+        "timestamps": {
+          "label": "Word-level timestamps"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the genre, mood, tempo, instruments, and vocals in up to 2000 characters. Leave blank when using a composition plan."
+        },
+        "duration": {
+          "help": "Select 3 to 600 seconds. The default is 30. For a plan, divide its total milliseconds by 1000 and round up."
+        },
+        "instrumental": {
+          "help": "Applies to description-based generation. Turn on for instrumental music. Off by default."
+        },
+        "composition_plan": {
+          "help": "Paste a JSON object containing chunks. Each of up to 30 chunks spans 3000 to 120000 milliseconds. Clear the description and turn off Instrumental to use a plan."
+        },
+        "timestamps": {
+          "help": "Include per-word lyric timing in the metadata file. Off by default."
+        }
+      }
+    },
+    "ja": {
+      "name": "ElevenLabs Music v2.5 Detailed 音楽生成",
+      "description": "音楽と曲名、スタイル、楽曲構成を生成します。単語単位のタイムスタンプも追加できます。",
+      "fields": {
+        "prompt": {
+          "label": "曲の説明"
+        },
+        "duration": {
+          "label": "長さ"
+        },
+        "instrumental": {
+          "label": "インストゥルメンタル"
+        },
+        "composition_plan": {
+          "label": "楽曲構成 JSON"
+        },
+        "timestamps": {
+          "label": "単語単位のタイムスタンプ"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "ジャンル、雰囲気、テンポ、楽器、歌声を 2000 文字まで記述します。楽曲構成を使う場合は空欄にします。"
+        },
+        "duration": {
+          "help": "3～600 秒を指定します。既定値は 30 秒です。楽曲構成を使うときは合計ミリ秒を 1000 で割り、端数を切り上げます。"
+        },
+        "instrumental": {
+          "help": "曲の説明を使う場合に適用されます。有効にすると楽器演奏を生成します。既定では無効です。"
+        },
+        "composition_plan": {
+          "help": "chunks を含む JSON オブジェクトを貼り付けます。最大 30 セクション、各セクションは 3000～120000 ミリ秒です。曲の説明を空にし、インストゥルメンタルを無効にします。"
+        },
+        "timestamps": {
+          "help": "歌詞の単語ごとの開始・終了時刻をメタデータに含めます。既定では無効です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "ElevenLabs Music v2.5 Detailed 음악 생성",
+      "description": "음악과 함께 제목, 스타일, 구간별 구성안을 받습니다. 단어별 타임스탬프를 추가할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "음악 설명"
+        },
+        "duration": {
+          "label": "길이"
+        },
+        "instrumental": {
+          "label": "연주곡"
+        },
+        "composition_plan": {
+          "label": "구성안 JSON"
+        },
+        "timestamps": {
+          "label": "단어별 타임스탬프"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "장르, 분위기, 템포, 악기, 보컬을 최대 2000자로 설명하세요. 구성안을 사용하면 비워 두세요."
+        },
+        "duration": {
+          "help": "3~600초 중에서 선택하세요. 기본값은 30초입니다. 구성안을 사용하면 전체 밀리초를 1000으로 나눈 뒤 올림하세요."
+        },
+        "instrumental": {
+          "help": "음악 설명으로 생성할 때 적용됩니다. 켜면 악기 연주를 생성합니다. 기본값은 꺼짐입니다."
+        },
+        "composition_plan": {
+          "help": "chunks가 들어 있는 JSON 객체를 붙여 넣으세요. 구간은 최대 30개이며 각 길이는 3000~120000밀리초입니다. 음악 설명을 비우고 연주곡을 끄세요."
+        },
+        "timestamps": {
+          "help": "가사의 단어별 시작 및 종료 시간을 메타데이터 파일에 포함합니다. 기본값은 꺼짐입니다."
+        }
+      }
+    }
+  }
+}

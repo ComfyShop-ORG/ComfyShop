@@ -1,0 +1,216 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kwaivgi-kling-video-o1-text-to-video",
+  "name": "可灵 O1 文生视频",
+  "description": "用文字生成 5 或 10 秒的 1080p 视频，可选择横屏、竖屏或方形画面。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "optional": false
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "optional": true,
+      "choices": ["16:9", "9:16", "1:1"]
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 5,
+      "optional": true,
+      "choices": [5, 10]
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "kwaivgi/kling-video-o1/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "aspect_ratio": "aspect_ratio"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 O1 文生视频",
+      "description": "用文字生成 5 或 10 秒的 1080p 视频，可选择横屏、竖屏或方形画面。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "时长（秒）"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、场景、动作和镜头。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9、9:16 或 1:1。默认 16:9。"
+        },
+        "duration": {
+          "help": "选择 5 或 10 秒。默认 5 秒。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 O1 文生影片",
+      "description": "用文字生成 5 或 10 秒的 1080p 影片，可選擇橫式、直式或正方形畫面。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "長度（秒）"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、場景、動作和運鏡。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9、9:16 或 1:1。預設 16:9。"
+        },
+        "duration": {
+          "help": "選擇 5 或 10 秒。預設 5 秒。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling O1 Text to Video",
+      "description": "Generate a 5- or 10-second 1080p video from text in landscape, portrait, or square format.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, setting, movement, and camera direction."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9, 9:16, or 1:1. The default is 16:9."
+        },
+        "duration": {
+          "help": "Choose 5 or 10 seconds. The default is 5."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling O1 テキストから動画生成",
+      "description": "テキストから横向き、縦向き、正方形の 5 秒または 10 秒の 1080p 動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、動き、カメラワークを記述します。"
+        },
+        "aspect_ratio": {
+          "help": "16:9、9:16、1:1 から選択します。既定は 16:9 です。"
+        },
+        "duration": {
+          "help": "5 秒または 10 秒を選択します。既定は 5 秒です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling O1 텍스트 동영상 생성",
+      "description": "텍스트에서 가로형, 세로형 또는 정사각형의 5초 또는 10초 1080p 동영상을 만듭니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "길이(초)"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 배경, 움직임과 카메라 구도를 설명하세요."
+        },
+        "aspect_ratio": {
+          "help": "16:9, 9:16 또는 1:1 중에서 선택하세요. 기본값은 16:9입니다."
+        },
+        "duration": {
+          "help": "5초 또는 10초를 선택하세요. 기본값은 5초입니다."
+        }
+      }
+    }
+  }
+}

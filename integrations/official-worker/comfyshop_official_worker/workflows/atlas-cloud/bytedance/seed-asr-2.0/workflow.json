@@ -1,0 +1,530 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "bytedance-seed-asr-20",
+  "name": "Seed ASR 2.0 语音转文字",
+  "description": "从录音提取文字，可返回时间戳和说话人信息。",
+  "category": "audio",
+  "fields": [
+    {
+      "name": "audio",
+      "kind": "audio"
+    },
+    {
+      "name": "format",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["mp3", "wav", "ogg", "raw"],
+      "default": "mp3"
+    },
+    {
+      "name": "language",
+      "kind": "string",
+      "optional": true
+    },
+    {
+      "name": "punctuation",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "normalize_numbers",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    },
+    {
+      "name": "remove_fillers",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "speaker_labels",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "timestamps",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "hotwords",
+      "kind": "string",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "boosting_table",
+      "kind": "string",
+      "optional": true
+    },
+    {
+      "name": "correction_table",
+      "kind": "string",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "audio",
+      "section": "default"
+    },
+    {
+      "fieldId": "format",
+      "section": "default"
+    },
+    {
+      "fieldId": "language",
+      "section": "default"
+    },
+    {
+      "fieldId": "punctuation",
+      "section": "default"
+    },
+    {
+      "fieldId": "normalize_numbers",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "remove_fillers",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "speaker_labels",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "timestamps",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "hotwords",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "boosting_table",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "correction_table",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "text",
+    "config": {
+      "operation": "audio",
+      "model": "bytedance/seed-asr-2.0",
+      "prediction_timeout_seconds": 10980,
+      "parameters": {
+        "format": "format",
+        "language": "language",
+        "enable_itn": "normalize_numbers",
+        "enable_punc": "punctuation",
+        "enable_ddc": "remove_fillers",
+        "enable_speaker_info": "speaker_labels",
+        "show_utterances": "timestamps",
+        "context": "hotwords",
+        "boosting_table_name": "boosting_table",
+        "correct_table_name": "correction_table"
+      },
+      "json_object_parameters": ["context"],
+      "media": {
+        "audio_url": {
+          "kind": "audio",
+          "fields": ["audio"],
+          "min_items": 1,
+          "content_types": ["audio/mpeg", "audio/wav", "audio/ogg", "audio/x-pcm"],
+          "format": {
+            "parameter": "format",
+            "content_types": {
+              "mp3": "audio/mpeg",
+              "wav": "audio/wav",
+              "ogg": "audio/ogg",
+              "raw": "audio/x-pcm"
+            }
+          },
+          "max_bytes": 512000000
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seed ASR 2.0 语音转文字",
+      "description": "从录音提取文字，可返回时间戳和说话人信息。",
+      "fields": {
+        "audio": {
+          "label": "音频文件"
+        },
+        "format": {
+          "label": "音频格式"
+        },
+        "language": {
+          "label": "识别语言"
+        },
+        "punctuation": {
+          "label": "添加标点"
+        },
+        "normalize_numbers": {
+          "label": "数字和单位规范化"
+        },
+        "remove_fillers": {
+          "label": "去除口头语"
+        },
+        "speaker_labels": {
+          "label": "区分说话人"
+        },
+        "timestamps": {
+          "label": "返回时间戳"
+        },
+        "hotwords": {
+          "label": "临时热词"
+        },
+        "boosting_table": {
+          "label": "热词表名称"
+        },
+        "correction_table": {
+          "label": "纠错表名称"
+        }
+      },
+      "parameterLayout": {
+        "audio": {
+          "help": "上传 MP3、WAV、OGG 或原始 PCM。"
+        },
+        "format": {
+          "help": "选择与文件一致的格式，默认 MP3。raw 对应 16 kHz 单声道 16 位 PCM。"
+        },
+        "language": {
+          "help": "留空可自动识别中英文和支持的方言。指定语言可输入 zh-CN、en-US 或 ja-JP 等代码。"
+        },
+        "punctuation": {
+          "help": "在转写文字中添加标点。默认关闭。"
+        },
+        "normalize_numbers": {
+          "help": "将口述数字和单位转成常用书写形式。默认开启。"
+        },
+        "remove_fillers": {
+          "help": "删除口头语和重复内容，让转写更通顺。默认关闭。"
+        },
+        "speaker_labels": {
+          "help": "为转写片段标记说话人，最多 10 人。默认关闭。"
+        },
+        "timestamps": {
+          "help": "返回带秒级起止时间的转写片段。默认关闭。"
+        },
+        "hotwords": {
+          "help": "填写 JSON 文本，例如 {\"hotwords\":[{\"word\":\"ComfyShop\"}]}。留空可跳过。"
+        },
+        "boosting_table": {
+          "help": "填写 Atlas Cloud 已配置的热词表名称，帮助识别专有名词。"
+        },
+        "correction_table": {
+          "help": "填写 Atlas Cloud 已配置的纠错表名称，在识别后替换指定文字。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seed ASR 2.0 語音轉文字",
+      "description": "從錄音擷取文字，可回傳時間戳記與說話者資訊。",
+      "fields": {
+        "audio": {
+          "label": "音訊檔案"
+        },
+        "format": {
+          "label": "音訊格式"
+        },
+        "language": {
+          "label": "辨識語言"
+        },
+        "punctuation": {
+          "label": "加入標點"
+        },
+        "normalize_numbers": {
+          "label": "數字與單位正規化"
+        },
+        "remove_fillers": {
+          "label": "移除口頭語"
+        },
+        "speaker_labels": {
+          "label": "區分說話者"
+        },
+        "timestamps": {
+          "label": "回傳時間戳記"
+        },
+        "hotwords": {
+          "label": "臨時熱詞"
+        },
+        "boosting_table": {
+          "label": "熱詞表名稱"
+        },
+        "correction_table": {
+          "label": "校正表名稱"
+        }
+      },
+      "parameterLayout": {
+        "audio": {
+          "help": "上傳 MP3、WAV、OGG 或原始 PCM。"
+        },
+        "format": {
+          "help": "選擇與檔案相符的格式，預設為 MP3。raw 對應 16 kHz 單聲道 16 位元 PCM。"
+        },
+        "language": {
+          "help": "留空可自動辨識中英文及支援的方言。可輸入 zh-CN、en-US 或 ja-JP 等語言代碼。"
+        },
+        "punctuation": {
+          "help": "在轉錄文字中加入標點。預設關閉。"
+        },
+        "normalize_numbers": {
+          "help": "將口述數字與單位轉成常用書寫方式。預設開啟。"
+        },
+        "remove_fillers": {
+          "help": "移除口頭語與重複內容，讓轉錄更通順。預設關閉。"
+        },
+        "speaker_labels": {
+          "help": "標記轉錄片段的說話者，最多 10 人。預設關閉。"
+        },
+        "timestamps": {
+          "help": "回傳含秒級起訖時間的轉錄片段。預設關閉。"
+        },
+        "hotwords": {
+          "help": "填寫 JSON 文字，例如 {\"hotwords\":[{\"word\":\"ComfyShop\"}]}。可留空。"
+        },
+        "boosting_table": {
+          "help": "填寫已在 Atlas Cloud 設定的熱詞表名稱，協助辨識專有名詞。"
+        },
+        "correction_table": {
+          "help": "填寫已在 Atlas Cloud 設定的校正表名稱，在辨識後取代指定文字。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seed ASR 2.0 Speech to Text",
+      "description": "Transcribe a recording with optional timestamps and speaker labels.",
+      "fields": {
+        "audio": {
+          "label": "Audio file"
+        },
+        "format": {
+          "label": "Audio format"
+        },
+        "language": {
+          "label": "Recognition language"
+        },
+        "punctuation": {
+          "label": "Add punctuation"
+        },
+        "normalize_numbers": {
+          "label": "Normalize numbers and units"
+        },
+        "remove_fillers": {
+          "label": "Remove filler words"
+        },
+        "speaker_labels": {
+          "label": "Identify speakers"
+        },
+        "timestamps": {
+          "label": "Include timestamps"
+        },
+        "hotwords": {
+          "label": "Inline hotwords"
+        },
+        "boosting_table": {
+          "label": "Hotword table name"
+        },
+        "correction_table": {
+          "label": "Correction table name"
+        }
+      },
+      "parameterLayout": {
+        "audio": {
+          "help": "Upload MP3, WAV, OGG, or raw PCM audio."
+        },
+        "format": {
+          "help": "Choose the format that matches the file. The default is MP3. Use raw for 16 kHz mono 16-bit PCM."
+        },
+        "language": {
+          "help": "Leave blank to auto-detect Chinese, English, or a supported dialect. Enter a language code such as zh-CN, en-US, or ja-JP to specify it."
+        },
+        "punctuation": {
+          "help": "Add punctuation to the transcript. Off by default."
+        },
+        "normalize_numbers": {
+          "help": "Convert spoken numbers and units into conventional written forms. On by default."
+        },
+        "remove_fillers": {
+          "help": "Remove filler words and repetitions for a smoother transcript. Off by default."
+        },
+        "speaker_labels": {
+          "help": "Label transcript segments by speaker. Supports up to 10 speakers. Off by default."
+        },
+        "timestamps": {
+          "help": "Return transcript segments with start and end times in seconds. Off by default."
+        },
+        "hotwords": {
+          "help": "Enter JSON text such as {\"hotwords\":[{\"word\":\"ComfyShop\"}]} or leave blank."
+        },
+        "boosting_table": {
+          "help": "Enter the name of an existing Atlas Cloud hotword table to help recognize specific terms."
+        },
+        "correction_table": {
+          "help": "Enter the name of an existing Atlas Cloud correction table to replace specified text after recognition."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seed ASR 2.0 音声からテキスト",
+      "description": "録音を文字起こしします。タイムスタンプと話者情報を追加できます。",
+      "fields": {
+        "audio": {
+          "label": "音声ファイル"
+        },
+        "format": {
+          "label": "音声形式"
+        },
+        "language": {
+          "label": "認識言語"
+        },
+        "punctuation": {
+          "label": "句読点を付ける"
+        },
+        "normalize_numbers": {
+          "label": "数値と単位を正規化"
+        },
+        "remove_fillers": {
+          "label": "つなぎ言葉を除く"
+        },
+        "speaker_labels": {
+          "label": "話者を識別"
+        },
+        "timestamps": {
+          "label": "タイムスタンプを返す"
+        },
+        "hotwords": {
+          "label": "一時的な認識語句"
+        },
+        "boosting_table": {
+          "label": "認識語句テーブル名"
+        },
+        "correction_table": {
+          "label": "訂正テーブル名"
+        }
+      },
+      "parameterLayout": {
+        "audio": {
+          "help": "MP3、WAV、OGG、または生の PCM をアップロードします。"
+        },
+        "format": {
+          "help": "ファイルと一致する形式を選択します。既定値は MP3 です。raw は 16 kHz モノラル 16 ビット PCM です。"
+        },
+        "language": {
+          "help": "空欄では中国語、英語、対応する方言を自動認識します。zh-CN、en-US、ja-JP などの言語コードも指定できます。"
+        },
+        "punctuation": {
+          "help": "文字起こしに句読点を付けます。既定では無効です。"
+        },
+        "normalize_numbers": {
+          "help": "口頭で述べた数値と単位を一般的な表記に変換します。既定では有効です。"
+        },
+        "remove_fillers": {
+          "help": "つなぎ言葉と繰り返しを取り除き、文字起こしを読みやすくします。既定では無効です。"
+        },
+        "speaker_labels": {
+          "help": "文字起こしに話者ラベルを付けます。最大 10 人まで対応します。既定では無効です。"
+        },
+        "timestamps": {
+          "help": "開始時間と終了時間を秒単位で含む文字起こし区間を返します。既定では無効です。"
+        },
+        "hotwords": {
+          "help": "{\"hotwords\":[{\"word\":\"ComfyShop\"}]} のような JSON テキストを入力できます。空欄でも構いません。"
+        },
+        "boosting_table": {
+          "help": "特定の語句を認識しやすくするには、Atlas Cloud で設定済みの認識語句テーブル名を入力します。"
+        },
+        "correction_table": {
+          "help": "認識後に指定語句を置き換えるには、Atlas Cloud で設定済みの訂正テーブル名を入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seed ASR 2.0 음성을 텍스트로 변환",
+      "description": "녹음을 텍스트로 옮기고 필요한 경우 타임스탬프와 화자 정보를 포함합니다.",
+      "fields": {
+        "audio": {
+          "label": "오디오 파일"
+        },
+        "format": {
+          "label": "오디오 형식"
+        },
+        "language": {
+          "label": "인식 언어"
+        },
+        "punctuation": {
+          "label": "문장 부호 추가"
+        },
+        "normalize_numbers": {
+          "label": "숫자와 단위 정규화"
+        },
+        "remove_fillers": {
+          "label": "군더더기 표현 제거"
+        },
+        "speaker_labels": {
+          "label": "화자 구분"
+        },
+        "timestamps": {
+          "label": "타임스탬프 포함"
+        },
+        "hotwords": {
+          "label": "임시 인식 단어"
+        },
+        "boosting_table": {
+          "label": "인식 단어 목록 이름"
+        },
+        "correction_table": {
+          "label": "교정 목록 이름"
+        }
+      },
+      "parameterLayout": {
+        "audio": {
+          "help": "MP3, WAV, OGG 또는 원시 PCM을 업로드하세요."
+        },
+        "format": {
+          "help": "파일과 일치하는 형식을 선택하세요. 기본값은 MP3입니다. raw는 16 kHz 모노 16비트 PCM입니다."
+        },
+        "language": {
+          "help": "비우면 중국어, 영어 또는 지원 방언을 자동으로 인식합니다. zh-CN, en-US, ja-JP와 같은 언어 코드를 지정할 수 있습니다."
+        },
+        "punctuation": {
+          "help": "전사문에 문장 부호를 추가합니다. 기본값은 꺼짐입니다."
+        },
+        "normalize_numbers": {
+          "help": "말로 표현한 숫자와 단위를 일반적인 표기로 변환합니다. 기본값은 켜짐입니다."
+        },
+        "remove_fillers": {
+          "help": "군더더기 표현과 반복을 없애 전사문을 읽기 쉽게 만듭니다. 기본값은 꺼짐입니다."
+        },
+        "speaker_labels": {
+          "help": "전사 구간에 화자를 표시합니다. 최대 10명을 지원합니다. 기본값은 꺼짐입니다."
+        },
+        "timestamps": {
+          "help": "전사 구간에 시작 및 종료 시간을 초 단위로 포함합니다. 기본값은 꺼짐입니다."
+        },
+        "hotwords": {
+          "help": "{\"hotwords\":[{\"word\":\"ComfyShop\"}]}와 같은 JSON 텍스트를 입력하거나 비워 두세요."
+        },
+        "boosting_table": {
+          "help": "특정 단어를 인식하도록 Atlas Cloud에 설정된 인식 단어 목록의 이름을 입력합니다."
+        },
+        "correction_table": {
+          "help": "인식한 텍스트의 특정 표현을 바꾸려면 Atlas Cloud에 설정된 교정 목록의 이름을 입력합니다."
+        }
+      }
+    }
+  }
+}

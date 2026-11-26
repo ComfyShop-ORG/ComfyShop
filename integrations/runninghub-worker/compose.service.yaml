@@ -1,0 +1,17 @@
+services:
+  runninghub-worker:
+    profiles: [runninghub]
+    image: comfyshop-runninghub-worker:local
+    build:
+      context: ../..
+      dockerfile: integrations/runninghub-worker/Dockerfile
+    init: true
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    environment:
+      COMFYSHOP_SERVER_URL: http://app:8688
+      COMFYSHOP_WORKER_LOG_LEVEL: ${COMFYSHOP_WORKER_LOG_LEVEL:-INFO}
+      COMFYSHOP_WORKER_SERVICE_TOKENS__RUNNINGHUB: ${COMFYSHOP_WORKER_SERVICE_TOKENS__RUNNINGHUB:-}
+      COMFYSHOP_RUNNINGHUB_OUTPUT_HOSTS: ${COMFYSHOP_RUNNINGHUB_OUTPUT_HOSTS:-}

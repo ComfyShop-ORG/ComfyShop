@@ -1,0 +1,632 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-alibaba-wan-2-6-video-to-video",
+  "name": "Wan 2.6 视频生视频",
+  "description": "参考一至三段视频中的人物、主体与声音生成新视频。",
+  "category": "video_tool",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 1500
+    },
+    {
+      "name": "size",
+      "kind": "choice",
+      "default": "1280*720",
+      "optional": false,
+      "choices": [
+        "1280*720",
+        "720*1280",
+        "960*960",
+        "1088*832",
+        "832*1088",
+        "1920*1080",
+        "1080*1920",
+        "1440*1440",
+        "1632*1248",
+        "1248*1632"
+      ]
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 5,
+      "optional": true,
+      "choices": [5, 10]
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true,
+      "minimum": "-1",
+      "maximum": "2147483647"
+    },
+    {
+      "name": "negative_prompt",
+      "optional": true,
+      "kind": "string",
+      "multiline": true,
+      "maxLength": 500,
+      "default": ""
+    },
+    {
+      "name": "enable_prompt_expansion",
+      "optional": true,
+      "kind": "boolean",
+      "default": true
+    },
+    {
+      "name": "shot_type",
+      "kind": "choice",
+      "optional": true,
+      "default": "multi",
+      "choices": ["multi", "single"]
+    },
+    {
+      "name": "reference_video_1",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_2",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_3",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_video_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "shot_type",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "negative_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_prompt_expansion",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "alibaba/wan-2.6/video-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "seed": "seed",
+        "negative_prompt": "negative_prompt",
+        "enable_prompt_expansion": "enable_prompt_expansion",
+        "shot_type": "shot_type",
+        "size": "size"
+      },
+      "required_text": ["prompt"],
+      "omit_blank_parameters": ["negative_prompt"],
+      "media": {
+        "videos": {
+          "kind": "video",
+          "fields": ["reference_video_1", "reference_video_2", "reference_video_3"],
+          "min_items": 1,
+          "array": true,
+          "content_types": ["video/mp4", "video/quicktime"],
+          "max_bytes": 99999999,
+          "min_duration_ms": 2000,
+          "max_duration_ms": 30000,
+          "external_sources_field": "reference_video_sources",
+          "external_urls_only": true
+        }
+      },
+      "choice_constraints": {
+        "enable_prompt_expansion": {
+          "parameter": "shot_type",
+          "values": {
+            "multi": true
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Wan 2.6 视频生视频",
+      "description": "参考一至三段视频中的人物、主体与声音生成新视频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "视频尺寸",
+          "choiceLabels": {
+            "1280*720": "1280 × 720",
+            "720*1280": "720 × 1280",
+            "960*960": "960 × 960",
+            "1088*832": "1088 × 832",
+            "832*1088": "832 × 1088",
+            "1920*1080": "1920 × 1080",
+            "1080*1920": "1080 × 1920",
+            "1440*1440": "1440 × 1440",
+            "1632*1248": "1632 × 1248",
+            "1248*1632": "1248 × 1632"
+          }
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "negative_prompt": {
+          "label": "负面提示词"
+        },
+        "enable_prompt_expansion": {
+          "label": "扩写提示词"
+        },
+        "shot_type": {
+          "label": "镜头模式",
+          "choiceLabels": {
+            "multi": "多镜头",
+            "single": "单镜头"
+          }
+        },
+        "reference_video_1": {
+          "label": "参考视频 1"
+        },
+        "reference_video_2": {
+          "label": "参考视频 2"
+        },
+        "reference_video_3": {
+          "label": "参考视频 3"
+        },
+        "reference_video_sources": {
+          "label": "参考视频地址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "按视频顺序用 character1、character2、character3 指代主体。最多 1,500 字符。"
+        },
+        "reference_video_1": {
+          "help": "上传 MP4 或 MOV，2 至 30 秒，小于 100 MB。"
+        },
+        "size": {
+          "help": "选择宽×高预设，默认 1280×720 像素。"
+        },
+        "duration": {
+          "help": "选择 5 或 10 秒，默认 5 秒。"
+        },
+        "shot_type": {
+          "help": "选择单镜头或多镜头。默认多镜头。"
+        },
+        "seed": {
+          "help": "输入 -1 使用随机种子，或指定 0 至 2147483647 的整数。"
+        },
+        "negative_prompt": {
+          "help": "描述希望避免的元素，最多 500 字符。"
+        },
+        "enable_prompt_expansion": {
+          "help": "优化提示词。默认开启，多镜头模式需要开启。"
+        },
+        "reference_video_2": {
+          "help": "上传 MP4 或 MOV，2 至 30 秒，小于 100 MB。"
+        },
+        "reference_video_3": {
+          "help": "上传 MP4 或 MOV，2 至 30 秒，小于 100 MB。"
+        },
+        "reference_video_sources": {
+          "help": "每行填写一个公开视频 URL，追加到上传素材之后，合计一至三段。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Wan 2.6 影片生成影片",
+      "description": "參考一至三段影片中的人物、主體與聲音產生新影片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "影片尺寸",
+          "choiceLabels": {
+            "1280*720": "1280 × 720",
+            "720*1280": "720 × 1280",
+            "960*960": "960 × 960",
+            "1088*832": "1088 × 832",
+            "832*1088": "832 × 1088",
+            "1920*1080": "1920 × 1080",
+            "1080*1920": "1080 × 1920",
+            "1440*1440": "1440 × 1440",
+            "1632*1248": "1632 × 1248",
+            "1248*1632": "1248 × 1632"
+          }
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "negative_prompt": {
+          "label": "負面提示詞"
+        },
+        "enable_prompt_expansion": {
+          "label": "擴寫提示詞"
+        },
+        "shot_type": {
+          "label": "鏡頭模式",
+          "choiceLabels": {
+            "multi": "多鏡頭",
+            "single": "單鏡頭"
+          }
+        },
+        "reference_video_1": {
+          "label": "參考影片 1"
+        },
+        "reference_video_2": {
+          "label": "參考影片 2"
+        },
+        "reference_video_3": {
+          "label": "參考影片 3"
+        },
+        "reference_video_sources": {
+          "label": "參考影片網址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "依影片順序用 character1、character2、character3 指代主體。最多 1,500 字元。"
+        },
+        "reference_video_1": {
+          "help": "上傳 MP4 或 MOV，2 至 30 秒，小於 100 MB。"
+        },
+        "size": {
+          "help": "選擇寬×高預設，預設為 1280×720 像素。"
+        },
+        "duration": {
+          "help": "選擇 5 或 10 秒，預設為 5 秒。"
+        },
+        "shot_type": {
+          "help": "選擇單鏡頭或多鏡頭。預設為多鏡頭。"
+        },
+        "seed": {
+          "help": "輸入 -1 使用隨機種子，或指定 0 至 2147483647 的整數。"
+        },
+        "negative_prompt": {
+          "help": "描述想避免的元素，最多 500 字元。"
+        },
+        "enable_prompt_expansion": {
+          "help": "最佳化提示詞。預設為開啟，多鏡頭模式須開啟。"
+        },
+        "reference_video_2": {
+          "help": "上傳 MP4 或 MOV，2 至 30 秒，小於 100 MB。"
+        },
+        "reference_video_3": {
+          "help": "上傳 MP4 或 MOV，2 至 30 秒，小於 100 MB。"
+        },
+        "reference_video_sources": {
+          "help": "每行填寫一個公開影片網址，依序加到上傳素材後，合計一至三段。"
+        }
+      }
+    },
+    "en": {
+      "name": "Wan 2.6 Video to Video",
+      "description": "Generate a new video from the subjects and voices in one to three reference clips.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Video size",
+          "choiceLabels": {
+            "1280*720": "1280 × 720",
+            "720*1280": "720 × 1280",
+            "960*960": "960 × 960",
+            "1088*832": "1088 × 832",
+            "832*1088": "832 × 1088",
+            "1920*1080": "1920 × 1080",
+            "1080*1920": "1080 × 1920",
+            "1440*1440": "1440 × 1440",
+            "1632*1248": "1632 × 1248",
+            "1248*1632": "1248 × 1632"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "negative_prompt": {
+          "label": "Negative prompt"
+        },
+        "enable_prompt_expansion": {
+          "label": "Expand prompt"
+        },
+        "shot_type": {
+          "label": "Shot mode",
+          "choiceLabels": {
+            "multi": "Multiple shots",
+            "single": "Single shot"
+          }
+        },
+        "reference_video_1": {
+          "label": "Reference video 1"
+        },
+        "reference_video_2": {
+          "label": "Reference video 2"
+        },
+        "reference_video_3": {
+          "label": "Reference video 3"
+        },
+        "reference_video_sources": {
+          "label": "Reference video URLs"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Refer to the subjects in clip order with character1, character2, and character3. Use up to 1,500 characters."
+        },
+        "reference_video_1": {
+          "help": "Upload a 2- to 30-second MP4 or MOV under 100 MB."
+        },
+        "size": {
+          "help": "Select a width × height preset. The default is 1280 × 720 pixels."
+        },
+        "duration": {
+          "help": "Choose 5 or 10 seconds. The default is 5 seconds."
+        },
+        "shot_type": {
+          "help": "Choose a single shot or multiple shots. Multiple shots is the default."
+        },
+        "seed": {
+          "help": "Enter -1 for a random seed or use an integer from 0 to 2147483647."
+        },
+        "negative_prompt": {
+          "help": "Describe elements to avoid. Use up to 500 characters."
+        },
+        "enable_prompt_expansion": {
+          "help": "Optimize the prompt. On by default and required for multiple shots."
+        },
+        "reference_video_2": {
+          "help": "Upload a 2- to 30-second MP4 or MOV under 100 MB."
+        },
+        "reference_video_3": {
+          "help": "Upload a 2- to 30-second MP4 or MOV under 100 MB."
+        },
+        "reference_video_sources": {
+          "help": "Enter one public video URL per line. These follow uploaded clips, with one to three clips total."
+        }
+      }
+    },
+    "ja": {
+      "name": "Wan 2.6 動画から動画",
+      "description": "1〜3件の参照動画の人物、被写体、音声を使って新しい動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "動画サイズ",
+          "choiceLabels": {
+            "1280*720": "1280 × 720",
+            "720*1280": "720 × 1280",
+            "960*960": "960 × 960",
+            "1088*832": "1088 × 832",
+            "832*1088": "832 × 1088",
+            "1920*1080": "1920 × 1080",
+            "1080*1920": "1080 × 1920",
+            "1440*1440": "1440 × 1440",
+            "1632*1248": "1632 × 1248",
+            "1248*1632": "1248 × 1632"
+          }
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "negative_prompt": {
+          "label": "ネガティブプロンプト"
+        },
+        "enable_prompt_expansion": {
+          "label": "プロンプトを拡張"
+        },
+        "shot_type": {
+          "label": "ショットモード",
+          "choiceLabels": {
+            "multi": "複数ショット",
+            "single": "単一ショット"
+          }
+        },
+        "reference_video_1": {
+          "label": "参照動画 1"
+        },
+        "reference_video_2": {
+          "label": "参照動画 2"
+        },
+        "reference_video_3": {
+          "label": "参照動画 3"
+        },
+        "reference_video_sources": {
+          "label": "参照動画のURL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "参照動画の順に、被写体をcharacter1、character2、character3で指定します。最大1,500文字です。"
+        },
+        "reference_video_1": {
+          "help": "2〜30秒で100 MB未満のMP4またはMOVをアップロードします。"
+        },
+        "size": {
+          "help": "幅×高さのプリセットを選択します。既定値は1280×720ピクセルです。"
+        },
+        "duration": {
+          "help": "5秒または10秒を選択します。既定値は5秒です。"
+        },
+        "shot_type": {
+          "help": "単一または複数のショットを選択します。既定値は複数ショットです。"
+        },
+        "seed": {
+          "help": "ランダムなシードには-1を入力します。固定する場合は0〜2147483647の整数を指定します。"
+        },
+        "negative_prompt": {
+          "help": "避けたい要素を記述します。最大500文字です。"
+        },
+        "enable_prompt_expansion": {
+          "help": "プロンプトを最適化します。既定では有効で、複数ショットの場合は有効にします。"
+        },
+        "reference_video_2": {
+          "help": "2〜30秒で100 MB未満のMP4またはMOVをアップロードします。"
+        },
+        "reference_video_3": {
+          "help": "2〜30秒で100 MB未満のMP4またはMOVをアップロードします。"
+        },
+        "reference_video_sources": {
+          "help": "公開動画のURLを1行に1件入力します。アップロード分の後に追加され、合計1〜3件です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Wan 2.6 동영상으로 동영상 생성",
+      "description": "참조 동영상 한 개에서 세 개의 피사체와 음성을 바탕으로 새 동영상을 만듭니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "동영상 크기",
+          "choiceLabels": {
+            "1280*720": "1280 × 720",
+            "720*1280": "720 × 1280",
+            "960*960": "960 × 960",
+            "1088*832": "1088 × 832",
+            "832*1088": "832 × 1088",
+            "1920*1080": "1920 × 1080",
+            "1080*1920": "1080 × 1920",
+            "1440*1440": "1440 × 1440",
+            "1632*1248": "1632 × 1248",
+            "1248*1632": "1248 × 1632"
+          }
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "negative_prompt": {
+          "label": "부정 프롬프트"
+        },
+        "enable_prompt_expansion": {
+          "label": "프롬프트 확장"
+        },
+        "shot_type": {
+          "label": "쇼트 모드",
+          "choiceLabels": {
+            "multi": "다중 쇼트",
+            "single": "단일 쇼트"
+          }
+        },
+        "reference_video_1": {
+          "label": "참조 동영상 1"
+        },
+        "reference_video_2": {
+          "label": "참조 동영상 2"
+        },
+        "reference_video_3": {
+          "label": "참조 동영상 3"
+        },
+        "reference_video_sources": {
+          "label": "참조 동영상 URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "참조 동영상 순서에 따라 character1, character2, character3으로 피사체를 지정합니다. 최대 1,500자입니다."
+        },
+        "reference_video_1": {
+          "help": "2초에서 30초 길이의 100 MB 미만 MP4 또는 MOV를 업로드합니다."
+        },
+        "size": {
+          "help": "너비 × 높이 프리셋을 선택합니다. 기본값은 1280 × 720픽셀입니다."
+        },
+        "duration": {
+          "help": "5초 또는 10초를 선택합니다. 기본값은 5초입니다."
+        },
+        "shot_type": {
+          "help": "단일 쇼트 또는 다중 쇼트를 선택합니다. 기본값은 다중 쇼트입니다."
+        },
+        "seed": {
+          "help": "무작위 시드는 -1을 입력합니다. 고정하려면 0에서 2147483647 사이의 정수를 지정합니다."
+        },
+        "negative_prompt": {
+          "help": "피하고 싶은 요소를 설명합니다. 최대 500자입니다."
+        },
+        "enable_prompt_expansion": {
+          "help": "프롬프트를 최적화합니다. 기본값은 켜짐이며 다중 쇼트에는 켜야 합니다."
+        },
+        "reference_video_2": {
+          "help": "2초에서 30초 길이의 100 MB 미만 MP4 또는 MOV를 업로드합니다."
+        },
+        "reference_video_3": {
+          "help": "2초에서 30초 길이의 100 MB 미만 MP4 또는 MOV를 업로드합니다."
+        },
+        "reference_video_sources": {
+          "help": "공개 동영상 URL을 한 줄에 하나씩 입력합니다. 업로드 뒤에 추가되며 합계는 한 개에서 세 개입니다."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,669 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "seedream-v47-edit-sequential",
+  "name": "Seedream v4.7 组图编辑",
+  "description": "按参考图顺序和提示词编辑图片。参考图与生成张数合计最多 15 张。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "reference_1",
+      "kind": "image"
+    },
+    {
+      "name": "image_count",
+      "kind": "integer",
+      "minimum": "1",
+      "maximum": "14",
+      "step": "1",
+      "default": 2
+    },
+    {
+      "name": "image_size",
+      "kind": "choice",
+      "choices": [
+        "2048*2048",
+        "2304*1728",
+        "1728*2304",
+        "2848*1600",
+        "1600*2848",
+        "2496*1664",
+        "1664*2496",
+        "3136*1344",
+        "4096*4096",
+        "4704*3520",
+        "3520*4704",
+        "5504*3040",
+        "3040*5504",
+        "4992*3328",
+        "3328*4992",
+        "6240*2656",
+        "1024*1024",
+        "1280*720",
+        "720*1280",
+        "1248*832",
+        "832*1248",
+        "1568*672"
+      ],
+      "default": "2048*2048",
+      "optional": true
+    },
+    {
+      "name": "reference_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_10",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "kind": "choice",
+      "choices": ["standard", "fast"],
+      "default": "standard",
+      "optional": true,
+      "name": "prompt_expansion_mode"
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "image_count",
+      "section": "default"
+    },
+    {
+      "fieldId": "image_size",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_2",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_10",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "prompt_expansion_mode",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "operation": "image",
+      "model": "bytedance/seedream-v4.7/edit-sequential",
+      "parameters": {
+        "prompt": "prompt",
+        "num_images": "image_count",
+        "size": "image_size",
+        "prompt_expansion_mode": "prompt_expansion_mode"
+      },
+      "fixed": {
+        "enable_base64_output": false
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "images": {
+          "kind": "image",
+          "array": true,
+          "min_items": 1,
+          "fields": [
+            "reference_1",
+            "reference_2",
+            "reference_3",
+            "reference_4",
+            "reference_5",
+            "reference_6",
+            "reference_7",
+            "reference_8",
+            "reference_9",
+            "reference_10"
+          ],
+          "count_parameter": "num_images",
+          "max_combined": 15
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seedream v4.7 组图编辑",
+      "description": "按参考图顺序和提示词编辑图片。参考图与生成张数合计最多 15 张。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "reference_1": {
+          "label": "参考图 1"
+        },
+        "image_count": {
+          "label": "生成张数上限"
+        },
+        "image_size": {
+          "label": "图片尺寸"
+        },
+        "reference_2": {
+          "label": "参考图 2（选填）"
+        },
+        "reference_3": {
+          "label": "参考图 3（选填）"
+        },
+        "reference_4": {
+          "label": "参考图 4（选填）"
+        },
+        "reference_5": {
+          "label": "参考图 5（选填）"
+        },
+        "reference_6": {
+          "label": "参考图 6（选填）"
+        },
+        "reference_7": {
+          "label": "参考图 7（选填）"
+        },
+        "reference_8": {
+          "label": "参考图 8（选填）"
+        },
+        "reference_9": {
+          "label": "参考图 9（选填）"
+        },
+        "reference_10": {
+          "label": "参考图 10（选填）"
+        },
+        "prompt_expansion_mode": {
+          "label": "提示词扩写模式"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要对参考图做的编辑。"
+        },
+        "reference_1": {
+          "help": "按编号顺序使用已上传的参考图。"
+        },
+        "image_count": {
+          "help": "参考图与生成张数上限合计最多 15 张。"
+        },
+        "image_size": {
+          "help": "选择生成图片的像素尺寸。"
+        },
+        "reference_2": {
+          "help": "按编号顺序使用已上传的参考图。"
+        },
+        "reference_3": {
+          "help": "按编号顺序使用已上传的参考图。"
+        },
+        "reference_4": {
+          "help": "按编号顺序使用已上传的参考图。"
+        },
+        "reference_5": {
+          "help": "按编号顺序使用已上传的参考图。"
+        },
+        "reference_6": {
+          "help": "按编号顺序使用已上传的参考图。"
+        },
+        "reference_7": {
+          "help": "按编号顺序使用已上传的参考图。"
+        },
+        "reference_8": {
+          "help": "按编号顺序使用已上传的参考图。"
+        },
+        "reference_9": {
+          "help": "按编号顺序使用已上传的参考图。"
+        },
+        "reference_10": {
+          "help": "按编号顺序使用已上传的参考图。"
+        },
+        "prompt_expansion_mode": {
+          "help": "standard 优先质量，fast 优先速度。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seedream v4.7 多圖編輯",
+      "description": "依參考圖順序與提示詞編輯圖片。參考圖與生成張數合計最多 15 張。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "reference_1": {
+          "label": "參考圖 1"
+        },
+        "image_count": {
+          "label": "生成張數上限"
+        },
+        "image_size": {
+          "label": "圖片尺寸"
+        },
+        "reference_2": {
+          "label": "參考圖 2（選填）"
+        },
+        "reference_3": {
+          "label": "參考圖 3（選填）"
+        },
+        "reference_4": {
+          "label": "參考圖 4（選填）"
+        },
+        "reference_5": {
+          "label": "參考圖 5（選填）"
+        },
+        "reference_6": {
+          "label": "參考圖 6（選填）"
+        },
+        "reference_7": {
+          "label": "參考圖 7（選填）"
+        },
+        "reference_8": {
+          "label": "參考圖 8（選填）"
+        },
+        "reference_9": {
+          "label": "參考圖 9（選填）"
+        },
+        "reference_10": {
+          "label": "參考圖 10（選填）"
+        },
+        "prompt_expansion_mode": {
+          "label": "提示詞擴寫模式"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要對參考圖片進行的編輯。"
+        },
+        "reference_1": {
+          "help": "按編號順序使用已上傳的參考圖片。"
+        },
+        "image_count": {
+          "help": "參考圖片與生成張數上限合計最多 15 張。"
+        },
+        "image_size": {
+          "help": "選擇產生圖片的像素尺寸。"
+        },
+        "reference_2": {
+          "help": "按編號順序使用已上傳的參考圖片。"
+        },
+        "reference_3": {
+          "help": "按編號順序使用已上傳的參考圖片。"
+        },
+        "reference_4": {
+          "help": "按編號順序使用已上傳的參考圖片。"
+        },
+        "reference_5": {
+          "help": "按編號順序使用已上傳的參考圖片。"
+        },
+        "reference_6": {
+          "help": "按編號順序使用已上傳的參考圖片。"
+        },
+        "reference_7": {
+          "help": "按編號順序使用已上傳的參考圖片。"
+        },
+        "reference_8": {
+          "help": "按編號順序使用已上傳的參考圖片。"
+        },
+        "reference_9": {
+          "help": "按編號順序使用已上傳的參考圖片。"
+        },
+        "reference_10": {
+          "help": "按編號順序使用已上傳的參考圖片。"
+        },
+        "prompt_expansion_mode": {
+          "help": "standard 優先品質，fast 優先速度。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seedream v4.7 Sequential Image Editing",
+      "description": "Edit images using a prompt and ordered reference images. You can use up to 15 reference and output images in total.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "reference_1": {
+          "label": "Reference image 1"
+        },
+        "image_count": {
+          "label": "Maximum output images"
+        },
+        "image_size": {
+          "label": "Image size"
+        },
+        "reference_2": {
+          "label": "Reference image 2 (optional)"
+        },
+        "reference_3": {
+          "label": "Reference image 3 (optional)"
+        },
+        "reference_4": {
+          "label": "Reference image 4 (optional)"
+        },
+        "reference_5": {
+          "label": "Reference image 5 (optional)"
+        },
+        "reference_6": {
+          "label": "Reference image 6 (optional)"
+        },
+        "reference_7": {
+          "label": "Reference image 7 (optional)"
+        },
+        "reference_8": {
+          "label": "Reference image 8 (optional)"
+        },
+        "reference_9": {
+          "label": "Reference image 9 (optional)"
+        },
+        "reference_10": {
+          "label": "Reference image 10 (optional)"
+        },
+        "prompt_expansion_mode": {
+          "label": "Prompt expansion mode"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe how to edit the reference images."
+        },
+        "reference_1": {
+          "help": "Uploaded references are sent in slot order."
+        },
+        "image_count": {
+          "help": "References plus the maximum output count may total up to 15 images."
+        },
+        "image_size": {
+          "help": "Choose the output image dimensions in pixels."
+        },
+        "reference_2": {
+          "help": "Uploaded references are sent in slot order."
+        },
+        "reference_3": {
+          "help": "Uploaded references are sent in slot order."
+        },
+        "reference_4": {
+          "help": "Uploaded references are sent in slot order."
+        },
+        "reference_5": {
+          "help": "Uploaded references are sent in slot order."
+        },
+        "reference_6": {
+          "help": "Uploaded references are sent in slot order."
+        },
+        "reference_7": {
+          "help": "Uploaded references are sent in slot order."
+        },
+        "reference_8": {
+          "help": "Uploaded references are sent in slot order."
+        },
+        "reference_9": {
+          "help": "Uploaded references are sent in slot order."
+        },
+        "reference_10": {
+          "help": "Uploaded references are sent in slot order."
+        },
+        "prompt_expansion_mode": {
+          "help": "standard prioritizes quality and fast prioritizes speed."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seedream v4.7 複数画像編集",
+      "description": "参照画像の順序とプロンプトに沿って画像を編集します。参照画像と生成画像は合計 15 枚までです。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "reference_1": {
+          "label": "参照画像 1"
+        },
+        "image_count": {
+          "label": "生成枚数の上限"
+        },
+        "image_size": {
+          "label": "画像サイズ"
+        },
+        "reference_2": {
+          "label": "参照画像 2（任意）"
+        },
+        "reference_3": {
+          "label": "参照画像 3（任意）"
+        },
+        "reference_4": {
+          "label": "参照画像 4（任意）"
+        },
+        "reference_5": {
+          "label": "参照画像 5（任意）"
+        },
+        "reference_6": {
+          "label": "参照画像 6（任意）"
+        },
+        "reference_7": {
+          "label": "参照画像 7（任意）"
+        },
+        "reference_8": {
+          "label": "参照画像 8（任意）"
+        },
+        "reference_9": {
+          "label": "参照画像 9（任意）"
+        },
+        "reference_10": {
+          "label": "参照画像 10（任意）"
+        },
+        "prompt_expansion_mode": {
+          "label": "プロンプト拡張モード"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "参照画像に加える編集内容を記述します。"
+        },
+        "reference_1": {
+          "help": "アップロードした参照画像を番号順に使用します。"
+        },
+        "image_count": {
+          "help": "参照画像数と最大生成枚数の合計は 15 枚までです。"
+        },
+        "image_size": {
+          "help": "出力画像のピクセルサイズを選びます。"
+        },
+        "reference_2": {
+          "help": "アップロードした参照画像を番号順に使用します。"
+        },
+        "reference_3": {
+          "help": "アップロードした参照画像を番号順に使用します。"
+        },
+        "reference_4": {
+          "help": "アップロードした参照画像を番号順に使用します。"
+        },
+        "reference_5": {
+          "help": "アップロードした参照画像を番号順に使用します。"
+        },
+        "reference_6": {
+          "help": "アップロードした参照画像を番号順に使用します。"
+        },
+        "reference_7": {
+          "help": "アップロードした参照画像を番号順に使用します。"
+        },
+        "reference_8": {
+          "help": "アップロードした参照画像を番号順に使用します。"
+        },
+        "reference_9": {
+          "help": "アップロードした参照画像を番号順に使用します。"
+        },
+        "reference_10": {
+          "help": "アップロードした参照画像を番号順に使用します。"
+        },
+        "prompt_expansion_mode": {
+          "help": "standard は品質を、fast は速度を優先します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seedream v4.7 여러 이미지 편집",
+      "description": "참조 이미지의 순서와 프롬프트에 따라 이미지를 편집합니다. 참조 이미지와 생성 이미지는 합계 최대 15장입니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "reference_1": {
+          "label": "참조 이미지 1"
+        },
+        "image_count": {
+          "label": "최대 생성 이미지 수"
+        },
+        "image_size": {
+          "label": "이미지 크기"
+        },
+        "reference_2": {
+          "label": "참조 이미지 2(선택 사항)"
+        },
+        "reference_3": {
+          "label": "참조 이미지 3(선택 사항)"
+        },
+        "reference_4": {
+          "label": "참조 이미지 4(선택 사항)"
+        },
+        "reference_5": {
+          "label": "참조 이미지 5(선택 사항)"
+        },
+        "reference_6": {
+          "label": "참조 이미지 6(선택 사항)"
+        },
+        "reference_7": {
+          "label": "참조 이미지 7(선택 사항)"
+        },
+        "reference_8": {
+          "label": "참조 이미지 8(선택 사항)"
+        },
+        "reference_9": {
+          "label": "참조 이미지 9(선택 사항)"
+        },
+        "reference_10": {
+          "label": "참조 이미지 10(선택 사항)"
+        },
+        "prompt_expansion_mode": {
+          "label": "프롬프트 확장 모드"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "참조 이미지에 적용할 편집을 설명합니다."
+        },
+        "reference_1": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "image_count": {
+          "help": "참조 이미지 수와 최대 생성 이미지 수의 합은 15장까지입니다."
+        },
+        "image_size": {
+          "help": "출력 이미지의 픽셀 크기를 선택합니다."
+        },
+        "reference_2": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_3": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_4": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_5": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_6": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_7": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_8": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_9": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_10": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "prompt_expansion_mode": {
+          "help": "standard는 품질을, fast는 속도를 우선합니다."
+        }
+      }
+    }
+  }
+}

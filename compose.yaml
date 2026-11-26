@@ -1,0 +1,40 @@
+name: comfyshop
+
+services:
+  app:
+    extends:
+      file: compose.app.yaml
+      service: app
+    build: .
+    image: comfyshop:local
+    restart: unless-stopped
+    ports:
+      - '0.0.0.0:${COMFYSHOP_PORT:-8688}:8688'
+    environment:
+      COMFYSHOP_DATABASE_URL: ${COMFYSHOP_DATABASE_URL:-}
+    volumes:
+      - data:/data
+
+  comfyui-worker:
+    extends:
+      file: integrations/comfyui/compose.service.yaml
+      service: comfyui-worker
+
+  runninghub-worker:
+    extends:
+      file: integrations/runninghub-worker/compose.service.yaml
+      service: runninghub-worker
+
+  official-worker:
+    extends:
+      file: integrations/official-worker/compose.service.yaml
+      service: official-worker
+
+  official-init:
+    extends:
+      file: integrations/official-worker/compose.service.yaml
+      service: official-init
+
+volumes:
+  data:
+    name: comfyshop-data

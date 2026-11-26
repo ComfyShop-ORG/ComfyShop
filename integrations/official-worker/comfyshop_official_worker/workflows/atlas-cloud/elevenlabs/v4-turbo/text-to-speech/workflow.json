@@ -1,0 +1,597 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "elevenlabs-v4-turbo-text-to-speech",
+  "name": "ElevenLabs v4 Turbo 文本转语音",
+  "description": "低延迟合成带表达标签的语音，支持单人朗读和多音色对话。",
+  "category": "audio",
+  "fields": [
+    {
+      "name": "text",
+      "kind": "string",
+      "optional": true,
+      "multiline": true,
+      "default": "Welcome to Atlas Cloud - One API for All Media AI."
+    },
+    {
+      "name": "voice",
+      "kind": "choice",
+      "optional": true,
+      "choices": [
+        "Adam",
+        "Alice",
+        "Bella",
+        "Bill",
+        "Brian",
+        "Callum",
+        "Charlie",
+        "Chris",
+        "Daniel",
+        "Eric",
+        "George",
+        "Harry",
+        "Jessica",
+        "Laura",
+        "Liam",
+        "Lily",
+        "Matilda",
+        "River",
+        "Roger",
+        "Sarah",
+        "Will"
+      ],
+      "default": "Roger"
+    },
+    {
+      "name": "format",
+      "kind": "choice",
+      "optional": true,
+      "choices": [
+        "mp3_44100_128",
+        "mp3_44100_64",
+        "mp3_22050_32",
+        "opus_48000_128",
+        "pcm_24000",
+        "pcm_16000",
+        "wav_44100",
+        "ulaw_8000",
+        "alaw_8000"
+      ],
+      "default": "mp3_44100_128"
+    },
+    {
+      "name": "custom_voice",
+      "kind": "string",
+      "optional": true
+    },
+    {
+      "name": "language",
+      "kind": "string",
+      "optional": true,
+      "default": null
+    },
+    {
+      "name": "dialogue",
+      "kind": "string",
+      "optional": true,
+      "multiline": true,
+      "default": "[]",
+      "maxLength": 4194304
+    },
+    {
+      "name": "stability",
+      "kind": "number",
+      "optional": true,
+      "minimum": "0",
+      "maximum": "1",
+      "default": 0.5
+    },
+    {
+      "name": "similarity",
+      "kind": "number",
+      "optional": true,
+      "minimum": "0",
+      "maximum": "1",
+      "default": 0.75
+    },
+    {
+      "name": "clone_strength",
+      "kind": "number",
+      "optional": true,
+      "minimum": "0",
+      "maximum": "1"
+    },
+    {
+      "name": "normalization",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["auto", "on", "off"],
+      "default": "auto"
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "0",
+      "maximum": "4294967295",
+      "step": "1"
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "text",
+      "section": "default"
+    },
+    {
+      "fieldId": "voice",
+      "section": "default"
+    },
+    {
+      "fieldId": "format",
+      "section": "default"
+    },
+    {
+      "fieldId": "custom_voice",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "language",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "dialogue",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "stability",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "similarity",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "clone_strength",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "normalization",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "audio",
+    "config": {
+      "operation": "audio",
+      "model": "elevenlabs/v4-turbo/text-to-speech",
+      "parameters": {
+        "text": "text",
+        "voice": "voice",
+        "output_format": "format",
+        "stability": "stability",
+        "similarity_boost": "similarity",
+        "clone_strength": "clone_strength",
+        "language_code": "language",
+        "apply_text_normalization": "normalization",
+        "seed": "seed"
+      },
+      "text_max_lengths": {
+        "text": 10000
+      },
+      "dialogue": {
+        "field": "dialogue",
+        "custom_voice_field": "custom_voice",
+        "default_voice": "Roger"
+      },
+      "audio_suffixes": {
+        "opus_48000_128": ".opus",
+        "pcm_24000": ".pcm",
+        "pcm_16000": ".pcm",
+        "ulaw_8000": ".ulaw",
+        "alaw_8000": ".alaw"
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "ElevenLabs v4 Turbo 文本转语音",
+      "description": "低延迟合成带表达标签的语音，支持单人朗读和多音色对话。",
+      "fields": {
+        "text": {
+          "label": "朗读文本"
+        },
+        "voice": {
+          "label": "预设音色"
+        },
+        "format": {
+          "label": "输出格式"
+        },
+        "custom_voice": {
+          "label": "自定义音色 ID"
+        },
+        "language": {
+          "label": "语言代码"
+        },
+        "dialogue": {
+          "label": "对话 JSON"
+        },
+        "stability": {
+          "label": "稳定性"
+        },
+        "similarity": {
+          "label": "音色相似度"
+        },
+        "clone_strength": {
+          "label": "复刻强度"
+        },
+        "normalization": {
+          "label": "文本规范化",
+          "choiceLabels": {
+            "auto": "自动",
+            "on": "开启",
+            "off": "关闭"
+          }
+        },
+        "seed": {
+          "label": "种子"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "最多 10000 字符。可使用 [cheerfully]、[whispers] 等表达标签，建议不超过约 5000 字符。"
+        },
+        "voice": {
+          "help": "默认 Roger。对话中未指定音色的台词可使用此预设。"
+        },
+        "format": {
+          "help": "选择编码、采样率和码率。PCM、μ-law、A-law 可下载原件。"
+        },
+        "custom_voice": {
+          "help": "填写已有 ElevenLabs 音色 ID，用于单人朗读和未指定音色的台词。"
+        },
+        "language": {
+          "help": "可填写 ISO 639-1 代码。留空由供应商识别。"
+        },
+        "dialogue": {
+          "help": "输入 JSON 数组。每项包含 text，可加 voice 名称或 ID。最多 10 种音色，台词合计最多 10000 字符，建议不超过约 5000 字符。填写后按对话生成。"
+        },
+        "stability": {
+          "help": "选择 0 至 1，默认 0.5。较低值带来更多表达变化。"
+        },
+        "similarity": {
+          "help": "选择 0 至 1，默认 0.75。数值越高越接近原音色。"
+        },
+        "clone_strength": {
+          "help": "专业复刻音色可设置 0 至 1。留空使用供应商默认行为。"
+        },
+        "normalization": {
+          "help": "可自动处理或开关数字、日期和缩写等内容的朗读规则。默认自动。"
+        },
+        "seed": {
+          "help": "可填 0 至 4294967295 的整数。留空由供应商选择。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "ElevenLabs v4 Turbo 文字轉語音",
+      "description": "以低延遲合成含表達標記的語音，支援單人朗讀與多音色對話。",
+      "fields": {
+        "text": {
+          "label": "朗讀文字"
+        },
+        "voice": {
+          "label": "預設音色"
+        },
+        "format": {
+          "label": "輸出格式"
+        },
+        "custom_voice": {
+          "label": "自訂音色 ID"
+        },
+        "language": {
+          "label": "語言代碼"
+        },
+        "dialogue": {
+          "label": "對話 JSON"
+        },
+        "stability": {
+          "label": "穩定性"
+        },
+        "similarity": {
+          "label": "音色相似度"
+        },
+        "clone_strength": {
+          "label": "複製強度"
+        },
+        "normalization": {
+          "label": "文字正規化",
+          "choiceLabels": {
+            "auto": "自動",
+            "on": "開啟",
+            "off": "關閉"
+          }
+        },
+        "seed": {
+          "label": "種子"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "最多 10000 個字元。可用 [cheerfully]、[whispers] 等表達標記，建議控制在約 5000 個字元以內。"
+        },
+        "voice": {
+          "help": "預設為 Roger。對話中未指定音色的台詞可使用此預設。"
+        },
+        "format": {
+          "help": "選擇編碼、取樣率和位元率。PCM、μ-law、A-law 可下載原始檔。"
+        },
+        "custom_voice": {
+          "help": "填寫現有的 ElevenLabs 音色 ID，用於單人朗讀及未指定音色的台詞。"
+        },
+        "language": {
+          "help": "可填寫 ISO 639-1 代碼。留空由供應商辨識。"
+        },
+        "dialogue": {
+          "help": "輸入 JSON 陣列。每項含 text，可加 voice 名稱或 ID。最多 10 種音色，台詞合計最多 10000 個字元，建議控制在約 5000 個字元以內。填寫後依對話產生。"
+        },
+        "stability": {
+          "help": "選擇 0 至 1，預設為 0.5。較低值帶來更多表達變化。"
+        },
+        "similarity": {
+          "help": "選擇 0 至 1，預設為 0.75。數值越高越接近原音色。"
+        },
+        "clone_strength": {
+          "help": "專業複製音色可設定 0 至 1。留空使用供應商預設行為。"
+        },
+        "normalization": {
+          "help": "可自動處理或切換數字、日期及縮寫等文字的朗讀規則。預設自動。"
+        },
+        "seed": {
+          "help": "可填 0 至 4294967295 的整數。留空由供應商選擇。"
+        }
+      }
+    },
+    "en": {
+      "name": "ElevenLabs v4 Turbo Text to Speech",
+      "description": "Synthesize low-latency single-voice speech or dialogue with delivery tags and multiple voices.",
+      "fields": {
+        "text": {
+          "label": "Text to read"
+        },
+        "voice": {
+          "label": "Preset voice"
+        },
+        "format": {
+          "label": "Output format"
+        },
+        "custom_voice": {
+          "label": "Custom voice ID"
+        },
+        "language": {
+          "label": "Language code"
+        },
+        "dialogue": {
+          "label": "Dialogue JSON"
+        },
+        "stability": {
+          "label": "Stability"
+        },
+        "similarity": {
+          "label": "Voice similarity"
+        },
+        "clone_strength": {
+          "label": "Clone strength"
+        },
+        "normalization": {
+          "label": "Text normalization",
+          "choiceLabels": {
+            "auto": "Automatic",
+            "on": "On",
+            "off": "Off"
+          }
+        },
+        "seed": {
+          "label": "Seed"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "Enter up to 10,000 characters and use delivery tags such as [cheerfully] or [whispers]. Keep requests to about 5,000 characters for reliable synthesis."
+        },
+        "voice": {
+          "help": "The default is Roger. Dialogue turns without a voice can use this preset."
+        },
+        "format": {
+          "help": "Choose encoding, sample rate, and bitrate. PCM, μ-law, and A-law are available as original downloads."
+        },
+        "custom_voice": {
+          "help": "Enter an existing ElevenLabs voice ID for single-voice speech or dialogue turns without a voice."
+        },
+        "language": {
+          "help": "Enter an ISO 639-1 language code or leave blank for detection."
+        },
+        "dialogue": {
+          "help": "Enter a JSON array with text and an optional voice name or ID in each item. Use up to 10 distinct voices and 10,000 characters total. Keep dialogue to about 5,000 characters for reliable synthesis."
+        },
+        "stability": {
+          "help": "Select from 0 to 1. Lower values allow more variation. The default is 0.5."
+        },
+        "similarity": {
+          "help": "Select from 0 to 1. Higher values follow the source voice more closely. The default is 0.75."
+        },
+        "clone_strength": {
+          "help": "Professional voice clones can use values from 0 to 1. Leave blank for the provider default."
+        },
+        "normalization": {
+          "help": "Choose whether to normalize numbers, dates, and abbreviations for speech. Automatic by default."
+        },
+        "seed": {
+          "help": "Enter an integer from 0 to 4294967295 or leave blank for a provider-selected seed."
+        }
+      }
+    },
+    "ja": {
+      "name": "ElevenLabs v4 Turbo テキスト読み上げ",
+      "description": "表現タグ付きの音声を低遅延で合成します。単独の読み上げや複数の声による対話に対応します。",
+      "fields": {
+        "text": {
+          "label": "読み上げるテキスト"
+        },
+        "voice": {
+          "label": "プリセット音色"
+        },
+        "format": {
+          "label": "出力形式"
+        },
+        "custom_voice": {
+          "label": "カスタム音色 ID"
+        },
+        "language": {
+          "label": "言語コード"
+        },
+        "dialogue": {
+          "label": "対話 JSON"
+        },
+        "stability": {
+          "label": "安定性"
+        },
+        "similarity": {
+          "label": "音色の類似度"
+        },
+        "clone_strength": {
+          "label": "クローンの強度"
+        },
+        "normalization": {
+          "label": "テキストの正規化",
+          "choiceLabels": {
+            "auto": "自動",
+            "on": "有効",
+            "off": "無効"
+          }
+        },
+        "seed": {
+          "label": "シード"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "10000 文字まで入力できます。[cheerfully] や [whispers] などを使えます。合成を安定させるには約 5000 文字以内に収めてください。"
+        },
+        "voice": {
+          "help": "既定値は Roger です。音色指定のない対話のセリフに使えます。"
+        },
+        "format": {
+          "help": "エンコード、サンプリング周波数、ビットレートを選択します。PCM、μ-law、A-law は元ファイルをダウンロードできます。"
+        },
+        "custom_voice": {
+          "help": "既存の ElevenLabs 音色 ID を入力します。単独の読み上げと音色指定のないセリフに使います。"
+        },
+        "language": {
+          "help": "ISO 639-1 コードを指定できます。空欄ではプロバイダーが認識します。"
+        },
+        "dialogue": {
+          "help": "JSON 配列を入力します。各項目は text と任意の voice 名または ID を含みます。最大 10 音色、合計 10000 文字です。合成を安定させるには約 5000 文字以内に収めてください。"
+        },
+        "stability": {
+          "help": "0～1 の範囲を指定します。値が低いほど表現に変化が出ます。既定値は 0.5 です。"
+        },
+        "similarity": {
+          "help": "0～1 の範囲を指定します。値が高いほど元の音色に近づきます。既定値は 0.75 です。"
+        },
+        "clone_strength": {
+          "help": "プロ向け音色クローンに 0～1 を指定します。空欄ではプロバイダーの既定値を使います。"
+        },
+        "normalization": {
+          "help": "数値、日付、略語の読み上げ表記を調整します。既定では自動です。"
+        },
+        "seed": {
+          "help": "0～4294967295 の整数を指定します。空欄ではプロバイダーが選択します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "ElevenLabs v4 Turbo 텍스트 음성 변환",
+      "description": "표현 태그가 있는 음성을 낮은 지연으로 합성합니다. 한 음색으로 읽거나 여러 음색으로 대화할 수 있습니다.",
+      "fields": {
+        "text": {
+          "label": "읽을 텍스트"
+        },
+        "voice": {
+          "label": "사전 설정 음색"
+        },
+        "format": {
+          "label": "출력 형식"
+        },
+        "custom_voice": {
+          "label": "사용자 지정 음색 ID"
+        },
+        "language": {
+          "label": "언어 코드"
+        },
+        "dialogue": {
+          "label": "대화 JSON"
+        },
+        "stability": {
+          "label": "안정성"
+        },
+        "similarity": {
+          "label": "음색 유사도"
+        },
+        "clone_strength": {
+          "label": "복제 강도"
+        },
+        "normalization": {
+          "label": "텍스트 정규화",
+          "choiceLabels": {
+            "auto": "자동",
+            "on": "켜짐",
+            "off": "꺼짐"
+          }
+        },
+        "seed": {
+          "label": "시드"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "최대 10000자를 입력하세요. [cheerfully], [whispers] 등의 표현 태그를 사용할 수 있습니다. 안정적인 합성을 위해 약 5000자 이하를 권장합니다."
+        },
+        "voice": {
+          "help": "기본값은 Roger입니다. 대화에서 음색을 지정하지 않은 대사에 사용됩니다."
+        },
+        "format": {
+          "help": "인코딩, 샘플링 주파수, 비트 전송률을 선택하세요. PCM, μ-law, A-law는 원본을 다운로드할 수 있습니다."
+        },
+        "custom_voice": {
+          "help": "기존 ElevenLabs 음색 ID를 입력하세요. 한 음색으로 읽거나 음색이 지정되지 않은 대사에 사용됩니다."
+        },
+        "language": {
+          "help": "ISO 639-1 언어 코드를 입력하세요. 비우면 공급업체가 인식합니다."
+        },
+        "dialogue": {
+          "help": "JSON 배열을 입력하세요. 항목마다 text와 선택 항목인 voice 이름 또는 ID를 넣습니다. 음색은 최대 10개, 대사는 합계 10000자이며 안정적인 합성을 위해 약 5000자 이하를 권장합니다."
+        },
+        "stability": {
+          "help": "0~1 범위에서 설정하세요. 값이 낮으면 표현에 변화가 커집니다. 기본값은 0.5입니다."
+        },
+        "similarity": {
+          "help": "0~1 범위에서 설정하세요. 값이 높으면 원래 음색에 더 가깝습니다. 기본값은 0.75입니다."
+        },
+        "clone_strength": {
+          "help": "전문 음색 복제에 0~1을 설정할 수 있습니다. 비우면 공급업체 기본값을 사용합니다."
+        },
+        "normalization": {
+          "help": "숫자, 날짜와 약어를 읽기 쉬운 형태로 바꿀지 선택하세요. 기본값은 자동입니다."
+        },
+        "seed": {
+          "help": "0~4294967295 사이의 정수를 입력하세요. 비우면 공급업체가 선택합니다."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,877 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kwaivgi-kling-video-o3-std-reference-to-video",
+  "name": "可灵 O3 标准版参考生视频",
+  "description": "以图片、视频、主体和音色为参考生成原生 720p 视频。可选择自动分镜或编排自定义分镜。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "reference_video",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 2500
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "optional": true,
+      "choices": ["16:9", "9:16", "1:1"]
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 5,
+      "choices": [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "optional": true
+    },
+    {
+      "name": "multi_shot",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "multi_prompt",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "elements",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "sound",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "video_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "reference_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "voice_ids",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "reference_video",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "multi_shot",
+      "section": "default"
+    },
+    {
+      "fieldId": "multi_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "elements",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "sound",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "voice_ids",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "kwaivgi/kling-video-o3-std/reference-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "multi_shot": "multi_shot",
+        "sound": "sound",
+        "aspect_ratio": "aspect_ratio"
+      },
+      "omit_blank_parameters": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 2500
+      },
+      "kling_storyboard_field": "multi_prompt",
+      "kling_elements": {
+        "field": "elements",
+        "max_items": 6,
+        "max_video_subjects": 3,
+        "require_reference_type": true,
+        "max_images_per_subject": 3,
+        "max_videos_per_subject": 1
+      },
+      "kling_storyboard_encoding": "indexed_string_duration",
+      "kling_reference_limits": {
+        "max_images": 7,
+        "max_images_with_video": 4
+      },
+      "text_arrays": {
+        "voice_ids": {
+          "field": "voice_ids",
+          "max_items": 3
+        }
+      },
+      "media": {
+        "video": {
+          "kind": "video",
+          "fields": ["reference_video"],
+          "external_sources_field": "video_source",
+          "external_urls_only": true,
+          "content_types": ["video/mp4", "video/quicktime"],
+          "max_bytes": 200000000,
+          "min_duration_ms": 3000,
+          "max_duration_ms": 15500,
+          "image_bounds": {
+            "min_side": 700,
+            "max_side": 4553,
+            "max_pixels": 8294400,
+            "aspect_ratio_range": [0.4, 2]
+          }
+        },
+        "images": {
+          "kind": "image",
+          "fields": [
+            "reference_1",
+            "reference_2",
+            "reference_3",
+            "reference_4",
+            "reference_5",
+            "reference_6",
+            "reference_7"
+          ],
+          "array": true,
+          "external_sources_field": "reference_sources",
+          "external_urls_only": true,
+          "content_types": ["image/jpeg", "image/png"],
+          "max_bytes": 50000000,
+          "image_bounds": {
+            "min_side": 300,
+            "max_aspect_ratio": 2.5
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 O3 标准版参考生视频",
+      "description": "以图片、视频、主体和音色为参考生成原生 720p 视频。可选择自动分镜或编排自定义分镜。",
+      "fields": {
+        "reference_video": {
+          "label": "参考视频"
+        },
+        "reference_1": {
+          "label": "参考图 1"
+        },
+        "reference_2": {
+          "label": "参考图 2"
+        },
+        "reference_3": {
+          "label": "参考图 3"
+        },
+        "reference_4": {
+          "label": "参考图 4"
+        },
+        "reference_5": {
+          "label": "参考图 5"
+        },
+        "reference_6": {
+          "label": "参考图 6"
+        },
+        "reference_7": {
+          "label": "参考图 7"
+        },
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "multi_shot": {
+          "label": "多镜头"
+        },
+        "multi_prompt": {
+          "label": "分镜方案"
+        },
+        "elements": {
+          "label": "主体引用"
+        },
+        "sound": {
+          "label": "生成同期声"
+        },
+        "video_source": {
+          "label": "参考视频 URL"
+        },
+        "reference_sources": {
+          "label": "参考图 URL"
+        },
+        "voice_ids": {
+          "label": "音色 ID"
+        }
+      },
+      "parameterLayout": {
+        "reference_video": {
+          "help": "可上传一条 MP4 或 MOV，用作运镜、动作或风格参考。时长 3 至 15.5 秒，最多 200 MB，24 至 60 帧每秒。使用参考视频时，成品无声且只支持自动分镜。"
+        },
+        "reference_1": {
+          "help": "上传 JPEG 或 PNG，最多 50 MB，每边至少 300 像素，宽高比 1:2.5 至 2.5:1。"
+        },
+        "prompt": {
+          "help": "可描述场景、动作与镜头，最多 2,500 字符。未提供自定义分镜时必填。用 <<<image_1>>>、<<<video_1>>>、<<<element_1>>>、<<<voice_1>>> 等引用素材。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9、9:16 或 1:1。默认 16:9。"
+        },
+        "duration": {
+          "help": "选择 3 至 15 秒的整数时长。默认 5 秒。"
+        },
+        "multi_shot": {
+          "help": "开启后可在高级参数输入自定义分镜。留空时模型根据提示词自动分镜。"
+        },
+        "multi_prompt": {
+          "help": "开启多镜头后可填 1 至 6 项 JSON 数组。每项填写 prompt（最多 512 字符）和 duration（1 至 15 秒）。工作机按顺序生成 index 并将时长转为字符串。各段时长之和须等于总时长。"
+        },
+        "elements": {
+          "help": "可填最多 6 项的 JSON 数组。填写已有主体的 element_id，或用 element_name、reference_type 和素材 URL 新建。新建图片主体需要正面图及 1 至 3 张参考图，视频主体需要 1 条视频。"
+        },
+        "sound": {
+          "help": "仅在未提供参考视频时可启用。默认关闭。"
+        },
+        "reference_2": {
+          "help": "上传 JPEG 或 PNG，最多 50 MB，每边至少 300 像素，宽高比 1:2.5 至 2.5:1。"
+        },
+        "reference_3": {
+          "help": "上传 JPEG 或 PNG，最多 50 MB，每边至少 300 像素，宽高比 1:2.5 至 2.5:1。"
+        },
+        "reference_4": {
+          "help": "上传 JPEG 或 PNG，最多 50 MB，每边至少 300 像素，宽高比 1:2.5 至 2.5:1。"
+        },
+        "reference_5": {
+          "help": "上传 JPEG 或 PNG，最多 50 MB，每边至少 300 像素，宽高比 1:2.5 至 2.5:1。"
+        },
+        "reference_6": {
+          "help": "上传 JPEG 或 PNG，最多 50 MB，每边至少 300 像素，宽高比 1:2.5 至 2.5:1。"
+        },
+        "reference_7": {
+          "help": "上传 JPEG 或 PNG，最多 50 MB，每边至少 300 像素，宽高比 1:2.5 至 2.5:1。"
+        },
+        "video_source": {
+          "help": "填写公开的 MP4 或 MOV 直链，作为上传的替代来源。"
+        },
+        "reference_sources": {
+          "help": "每行填写一个图片 URL。上传和 URL 合计，加上图片主体最多 7 项。提供参考视频或使用视频主体时最多 4 项。"
+        },
+        "voice_ids": {
+          "help": "每行填写一个可灵已有或预设的音色 ID，最多 3 个。用 <<<voice_1>>> 或 @voice_1 等按顺序引用。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 O3 標準版參考生影片",
+      "description": "以圖片、影片、主體和音色為參考生成原生 720p 影片。可選擇自動分鏡或編排自訂分鏡。",
+      "fields": {
+        "reference_video": {
+          "label": "參考影片"
+        },
+        "reference_1": {
+          "label": "參考圖 1"
+        },
+        "reference_2": {
+          "label": "參考圖 2"
+        },
+        "reference_3": {
+          "label": "參考圖 3"
+        },
+        "reference_4": {
+          "label": "參考圖 4"
+        },
+        "reference_5": {
+          "label": "參考圖 5"
+        },
+        "reference_6": {
+          "label": "參考圖 6"
+        },
+        "reference_7": {
+          "label": "參考圖 7"
+        },
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "multi_shot": {
+          "label": "多鏡頭"
+        },
+        "multi_prompt": {
+          "label": "分鏡方案"
+        },
+        "elements": {
+          "label": "主體引用"
+        },
+        "sound": {
+          "label": "生成同步聲音"
+        },
+        "video_source": {
+          "label": "參考影片 URL"
+        },
+        "reference_sources": {
+          "label": "參考圖 URL"
+        },
+        "voice_ids": {
+          "label": "音色 ID"
+        }
+      },
+      "parameterLayout": {
+        "reference_video": {
+          "help": "可上傳一部 MP4 或 MOV，參考其運鏡、動作或風格。長度 3 至 15.5 秒，最多 200 MB，每秒 24 至 60 幀。使用參考影片時，成品無聲且僅支援自動分鏡。"
+        },
+        "reference_1": {
+          "help": "上傳 JPEG 或 PNG，最多 50 MB，每邊至少 300 像素，寬高比 1:2.5 至 2.5:1。"
+        },
+        "prompt": {
+          "help": "可描述場景、動作和運鏡，最多 2,500 字元。未提供自訂分鏡時必填。用 <<<image_1>>>、<<<video_1>>>、<<<element_1>>>、<<<voice_1>>> 等引用素材。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9、9:16 或 1:1。預設 16:9。"
+        },
+        "duration": {
+          "help": "選擇 3 至 15 秒的整數長度。預設 5 秒。"
+        },
+        "multi_shot": {
+          "help": "開啟後可在進階參數輸入自訂分鏡。空白時模型依提示詞自動分鏡。"
+        },
+        "multi_prompt": {
+          "help": "開啟多鏡頭後可填 1 至 6 項的 JSON 陣列。每項包含 prompt（最多 512 字元）和 duration（1 至 15 秒）。工作機依序生成 index 並將長度轉為字串。各段長度總和須等於影片長度。"
+        },
+        "elements": {
+          "help": "可填最多 6 項的 JSON 陣列。填既有主體的 element_id，或透過 element_name、reference_type 和素材 URL 新建。新建圖片主體需正面圖及 1 至 3 張參考圖，影片主體需 1 部影片。"
+        },
+        "sound": {
+          "help": "僅在未提供參考影片時可啟用。預設關閉。"
+        },
+        "reference_2": {
+          "help": "上傳 JPEG 或 PNG，最多 50 MB，每邊至少 300 像素，寬高比 1:2.5 至 2.5:1。"
+        },
+        "reference_3": {
+          "help": "上傳 JPEG 或 PNG，最多 50 MB，每邊至少 300 像素，寬高比 1:2.5 至 2.5:1。"
+        },
+        "reference_4": {
+          "help": "上傳 JPEG 或 PNG，最多 50 MB，每邊至少 300 像素，寬高比 1:2.5 至 2.5:1。"
+        },
+        "reference_5": {
+          "help": "上傳 JPEG 或 PNG，最多 50 MB，每邊至少 300 像素，寬高比 1:2.5 至 2.5:1。"
+        },
+        "reference_6": {
+          "help": "上傳 JPEG 或 PNG，最多 50 MB，每邊至少 300 像素，寬高比 1:2.5 至 2.5:1。"
+        },
+        "reference_7": {
+          "help": "上傳 JPEG 或 PNG，最多 50 MB，每邊至少 300 像素，寬高比 1:2.5 至 2.5:1。"
+        },
+        "video_source": {
+          "help": "填寫公開的 MP4 或 MOV 直接連結，作為上傳的替代來源。"
+        },
+        "reference_sources": {
+          "help": "每行填寫一個圖片 URL。上傳和 URL 合計，加上圖片主體最多 7 項。提供參考影片或使用影片主體時最多 4 項。"
+        },
+        "voice_ids": {
+          "help": "每行填寫一個可靈既有或預設音色 ID，最多 3 個。用 <<<voice_1>>> 或 @voice_1 等依序引用。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling O3 Standard Reference to Video",
+      "description": "Generate native 720p video guided by images, video, subjects, and voices. Use automatic shot splitting or provide a storyboard.",
+      "fields": {
+        "reference_video": {
+          "label": "Reference video"
+        },
+        "reference_1": {
+          "label": "Reference image 1"
+        },
+        "reference_2": {
+          "label": "Reference image 2"
+        },
+        "reference_3": {
+          "label": "Reference image 3"
+        },
+        "reference_4": {
+          "label": "Reference image 4"
+        },
+        "reference_5": {
+          "label": "Reference image 5"
+        },
+        "reference_6": {
+          "label": "Reference image 6"
+        },
+        "reference_7": {
+          "label": "Reference image 7"
+        },
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "multi_shot": {
+          "label": "Multiple shots"
+        },
+        "multi_prompt": {
+          "label": "Storyboard"
+        },
+        "elements": {
+          "label": "Subject references"
+        },
+        "sound": {
+          "label": "Generate synchronized audio"
+        },
+        "video_source": {
+          "label": "Reference video URL"
+        },
+        "reference_sources": {
+          "label": "Reference image URLs"
+        },
+        "voice_ids": {
+          "label": "Voice IDs"
+        }
+      },
+      "parameterLayout": {
+        "reference_video": {
+          "help": "Optionally upload one MP4 or MOV to guide the camera, motion, or style. Use 3 to 15.5 seconds, up to 200 MB, and 24 to 60 fps. With a video reference, shots are split automatically and the result has no audio."
+        },
+        "reference_1": {
+          "help": "Upload a JPEG or PNG up to 50 MB. Each side must be at least 300 pixels with a ratio from 1:2.5 to 2.5:1."
+        },
+        "prompt": {
+          "help": "Describe the scene, action, and camera in up to 2,500 characters. Required without custom shots. Use <<<image_1>>>, <<<video_1>>>, <<<element_1>>>, and <<<voice_1>>> to reference inputs."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9, 9:16, or 1:1. The default is 16:9."
+        },
+        "duration": {
+          "help": "Choose a whole number from 3 to 15. The default is 5."
+        },
+        "multi_shot": {
+          "help": "Enable to enter a custom storyboard under Advanced. Leave it blank to split the prompt into shots automatically."
+        },
+        "multi_prompt": {
+          "help": "With multiple shots enabled, enter a JSON array of one to six shots. Each needs a prompt of up to 512 characters and a duration of one to fifteen seconds. The worker sets index in array order and sends duration as a string. Durations must add up to the total."
+        },
+        "elements": {
+          "help": "Enter up to six subjects as a JSON array. Use an existing element_id or supply element_name, reference_type, and media URLs. Open a new image subject with a frontal image and one to three references, or a video subject with one video."
+        },
+        "sound": {
+          "help": "Available when no reference video is supplied. Off by default."
+        },
+        "reference_2": {
+          "help": "Upload a JPEG or PNG up to 50 MB. Each side must be at least 300 pixels with a ratio from 1:2.5 to 2.5:1."
+        },
+        "reference_3": {
+          "help": "Upload a JPEG or PNG up to 50 MB. Each side must be at least 300 pixels with a ratio from 1:2.5 to 2.5:1."
+        },
+        "reference_4": {
+          "help": "Upload a JPEG or PNG up to 50 MB. Each side must be at least 300 pixels with a ratio from 1:2.5 to 2.5:1."
+        },
+        "reference_5": {
+          "help": "Upload a JPEG or PNG up to 50 MB. Each side must be at least 300 pixels with a ratio from 1:2.5 to 2.5:1."
+        },
+        "reference_6": {
+          "help": "Upload a JPEG or PNG up to 50 MB. Each side must be at least 300 pixels with a ratio from 1:2.5 to 2.5:1."
+        },
+        "reference_7": {
+          "help": "Upload a JPEG or PNG up to 50 MB. Each side must be at least 300 pixels with a ratio from 1:2.5 to 2.5:1."
+        },
+        "video_source": {
+          "help": "Enter one public direct MP4 or MOV URL in place of an upload."
+        },
+        "reference_sources": {
+          "help": "Enter one public image URL per line. Uploaded images, URLs, and image subjects total up to seven, or up to four when using a reference video or a video subject."
+        },
+        "voice_ids": {
+          "help": "Enter up to three existing or preset Kling voice IDs, one per line. Refer to them in order with <<<voice_1>>> or @voice_1."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling O3 Standard 参照素材から動画生成",
+      "description": "画像、動画、主体、音声を参照してネイティブ 720p 動画を生成します。ショットを自動分割したり、構成を指定したりできます。",
+      "fields": {
+        "reference_video": {
+          "label": "参照動画"
+        },
+        "reference_1": {
+          "label": "参照画像 1"
+        },
+        "reference_2": {
+          "label": "参照画像 2"
+        },
+        "reference_3": {
+          "label": "参照画像 3"
+        },
+        "reference_4": {
+          "label": "参照画像 4"
+        },
+        "reference_5": {
+          "label": "参照画像 5"
+        },
+        "reference_6": {
+          "label": "参照画像 6"
+        },
+        "reference_7": {
+          "label": "参照画像 7"
+        },
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "multi_shot": {
+          "label": "複数ショット"
+        },
+        "multi_prompt": {
+          "label": "ショット構成"
+        },
+        "elements": {
+          "label": "主体参照"
+        },
+        "sound": {
+          "label": "同期音声の生成"
+        },
+        "video_source": {
+          "label": "参照動画の URL"
+        },
+        "reference_sources": {
+          "label": "参照画像の URL"
+        },
+        "voice_ids": {
+          "label": "音声 ID"
+        }
+      },
+      "parameterLayout": {
+        "reference_video": {
+          "help": "カメラワーク、動き、画風の参考になる MP4 または MOV を一つ指定できます。3〜15.5 秒、最大 200 MB、毎秒 24〜60 フレームです。参照動画がある場合は自動分割のみで、出力は無音です。"
+        },
+        "reference_1": {
+          "help": "各辺 300 ピクセル以上、比率 1:2.5〜2.5:1、最大 50 MB の JPEG または PNG をアップロードします。"
+        },
+        "prompt": {
+          "help": "場面、動き、カメラワークを 2,500 文字以内で指定します。ショット構成を指定しない場合は必須です。<<<image_1>>>、<<<video_1>>>、<<<element_1>>>、<<<voice_1>>> などで素材を参照します。"
+        },
+        "aspect_ratio": {
+          "help": "16:9、9:16、1:1 から選択します。既定は 16:9 です。"
+        },
+        "duration": {
+          "help": "3〜15 秒の整数から選択します。既定は 5 秒です。"
+        },
+        "multi_shot": {
+          "help": "詳細設定でショット構成を入力できます。空欄の場合、Atlas はプロンプトに沿って自動でショットを分割します。"
+        },
+        "multi_prompt": {
+          "help": "複数ショットをオンにし、1〜6 項目の JSON 配列を入力します。各項目に prompt（512 文字以内）と duration（1〜15 秒）を指定します。ワーカーが配列順に index を設定し、長さを文字列で送信します。合計は動画の長さと一致させます。"
+        },
+        "elements": {
+          "help": "最大 6 件の JSON 配列を入力します。既存の element_id か、element_name、reference_type、素材 URL で指定します。画像主体には正面画像と参照画像 1〜3 枚、動画主体には動画 1 本が必要です。"
+        },
+        "sound": {
+          "help": "参照動画を指定しない場合に有効にできます。既定はオフです。"
+        },
+        "reference_2": {
+          "help": "各辺 300 ピクセル以上、比率 1:2.5〜2.5:1、最大 50 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_3": {
+          "help": "各辺 300 ピクセル以上、比率 1:2.5〜2.5:1、最大 50 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_4": {
+          "help": "各辺 300 ピクセル以上、比率 1:2.5〜2.5:1、最大 50 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_5": {
+          "help": "各辺 300 ピクセル以上、比率 1:2.5〜2.5:1、最大 50 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_6": {
+          "help": "各辺 300 ピクセル以上、比率 1:2.5〜2.5:1、最大 50 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_7": {
+          "help": "各辺 300 ピクセル以上、比率 1:2.5〜2.5:1、最大 50 MB の JPEG または PNG をアップロードします。"
+        },
+        "video_source": {
+          "help": "アップロードの代わりに、公開された MP4 または MOV の直接 URL を入力します。"
+        },
+        "reference_sources": {
+          "help": "公開画像の URL を一行に一つ入力します。アップロード画像、URL、画像主体の合計は最大 7 件です。参照動画や動画主体を使う場合は最大 4 件です。"
+        },
+        "voice_ids": {
+          "help": "既存またはプリセットの Kling 音声 ID を一行に一つ、最大 3 個入力します。<<<voice_1>>> または @voice_1 で順に参照します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling O3 Standard 참조 동영상 생성",
+      "description": "이미지, 영상, 피사체, 음성을 참고해 기본 720p 동영상을 만듭니다. 숏을 자동으로 나누거나 직접 지정할 수 있습니다.",
+      "fields": {
+        "reference_video": {
+          "label": "참조 동영상"
+        },
+        "reference_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_6": {
+          "label": "참조 이미지 6"
+        },
+        "reference_7": {
+          "label": "참조 이미지 7"
+        },
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "multi_shot": {
+          "label": "여러 숏"
+        },
+        "multi_prompt": {
+          "label": "스토리보드"
+        },
+        "elements": {
+          "label": "피사체 참조"
+        },
+        "sound": {
+          "label": "동기화 오디오 생성"
+        },
+        "video_source": {
+          "label": "참조 동영상 URL"
+        },
+        "reference_sources": {
+          "label": "참조 이미지 URL"
+        },
+        "voice_ids": {
+          "label": "음성 ID"
+        }
+      },
+      "parameterLayout": {
+        "reference_video": {
+          "help": "카메라 움직임, 동작, 스타일의 기준이 되는 MP4 또는 MOV 한 개를 올릴 수 있습니다. 3~15.5초, 최대 200MB, 초당 24~60프레임을 사용하세요. 참조 영상이 있으면 숏은 자동으로 나뉘고 결과에는 소리가 없습니다."
+        },
+        "reference_1": {
+          "help": "각 변이 300픽셀 이상이고 비율이 1:2.5~2.5:1인 최대 50MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "prompt": {
+          "help": "장면, 움직임과 카메라 구도를 최대 2,500자로 설명하세요. 숏을 직접 지정하지 않으면 필수입니다. <<<image_1>>>, <<<video_1>>>, <<<element_1>>>, <<<voice_1>>> 등으로 소재를 참조합니다."
+        },
+        "aspect_ratio": {
+          "help": "16:9, 9:16 또는 1:1 중에서 선택하세요. 기본값은 16:9입니다."
+        },
+        "duration": {
+          "help": "3~15초 사이의 정수를 선택하세요. 기본값은 5초입니다."
+        },
+        "multi_shot": {
+          "help": "켜면 고급 설정에서 숏을 지정할 수 있습니다. 비우면 프롬프트에 맞게 숏을 자동으로 나눕니다."
+        },
+        "multi_prompt": {
+          "help": "여러 숏을 켠 뒤 1~6개 항목의 JSON 배열을 입력하세요. 각 항목에 prompt(최대 512자)와 duration(1~15초)을 입력합니다. 워커가 배열 순서대로 index를 지정하고 길이를 문자열로 보냅니다. 길이의 합은 전체 영상 길이와 같아야 합니다."
+        },
+        "elements": {
+          "help": "최대 6개 항목의 JSON 배열로 입력하세요. 기존 element_id를 쓰거나 element_name, reference_type, 소재 URL로 지정합니다. 이미지 피사체는 정면 이미지와 참조 이미지 1~3장, 영상 피사체는 영상 1개가 필요합니다."
+        },
+        "sound": {
+          "help": "참조 영상이 없을 때 켤 수 있습니다. 기본값은 꺼짐입니다."
+        },
+        "reference_2": {
+          "help": "각 변이 300픽셀 이상이고 비율이 1:2.5~2.5:1인 최대 50MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_3": {
+          "help": "각 변이 300픽셀 이상이고 비율이 1:2.5~2.5:1인 최대 50MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_4": {
+          "help": "각 변이 300픽셀 이상이고 비율이 1:2.5~2.5:1인 최대 50MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_5": {
+          "help": "각 변이 300픽셀 이상이고 비율이 1:2.5~2.5:1인 최대 50MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_6": {
+          "help": "각 변이 300픽셀 이상이고 비율이 1:2.5~2.5:1인 최대 50MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_7": {
+          "help": "각 변이 300픽셀 이상이고 비율이 1:2.5~2.5:1인 최대 50MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "video_source": {
+          "help": "업로드 대신 공개 MP4 또는 MOV의 직접 URL을 하나 입력하세요."
+        },
+        "reference_sources": {
+          "help": "한 줄에 공개 이미지 URL을 하나씩 입력하세요. 업로드, URL 및 이미지 피사체를 합해 최대 7개입니다. 참조 영상 또는 영상 피사체를 사용하면 최대 4개입니다."
+        },
+        "voice_ids": {
+          "help": "기존 또는 프리셋 Kling 음성 ID를 한 줄에 하나씩 최대 3개 입력하세요. <<<voice_1>>> 또는 @voice_1 등으로 순서대로 참조합니다."
+        }
+      }
+    }
+  }
+}

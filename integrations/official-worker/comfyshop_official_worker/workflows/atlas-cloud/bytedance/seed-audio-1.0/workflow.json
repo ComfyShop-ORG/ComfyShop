@@ -1,0 +1,978 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "bytedance-seed-audio-10",
+  "name": "Seed Audio 1.0 文本生成音频",
+  "description": "根据脚本生成旁白、音效和场景音频，可选音色、录音或图片作为参考。",
+  "category": "audio",
+  "fields": [
+    {
+      "name": "text",
+      "kind": "string",
+      "multiline": true,
+      "default": "A phone vibrates first, then a calm male voice says: Welcome to Seed Audio."
+    },
+    {
+      "name": "format",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["mp3", "wav", "pcm", "ogg_opus"],
+      "default": "mp3"
+    },
+    {
+      "name": "sample_rate",
+      "kind": "choice",
+      "optional": true,
+      "choices": [8000, 16000, 24000, 32000, 44100, 48000],
+      "default": 24000
+    },
+    {
+      "name": "pitch",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "-12",
+      "maximum": "12",
+      "step": "1",
+      "default": 0
+    },
+    {
+      "name": "speech_rate",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "-50",
+      "maximum": "100",
+      "step": "1",
+      "default": 0
+    },
+    {
+      "name": "loudness",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "-50",
+      "maximum": "100",
+      "step": "1",
+      "default": 0
+    },
+    {
+      "name": "speaker_1",
+      "kind": "choice",
+      "optional": true,
+      "choices": [
+        "zh_female_vv_uranus_bigtts",
+        "zh_female_xiaohe_uranus_bigtts",
+        "zh_male_m191_uranus_bigtts",
+        "zh_male_taocheng_uranus_bigtts",
+        "zh_male_liufei_uranus_bigtts",
+        "zh_female_sophie_uranus_bigtts",
+        "zh_female_qingxinnvsheng_uranus_bigtts",
+        "zh_female_cancan_uranus_bigtts",
+        "zh_female_tianmeitaozi_uranus_bigtts",
+        "zh_male_ruyayichen_uranus_bigtts"
+      ]
+    },
+    {
+      "name": "voice_id_1",
+      "kind": "string",
+      "optional": true
+    },
+    {
+      "name": "audio_1",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "inline_1",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "speaker_2",
+      "kind": "choice",
+      "optional": true,
+      "choices": [
+        "zh_female_vv_uranus_bigtts",
+        "zh_female_xiaohe_uranus_bigtts",
+        "zh_male_m191_uranus_bigtts",
+        "zh_male_taocheng_uranus_bigtts",
+        "zh_male_liufei_uranus_bigtts",
+        "zh_female_sophie_uranus_bigtts",
+        "zh_female_qingxinnvsheng_uranus_bigtts",
+        "zh_female_cancan_uranus_bigtts",
+        "zh_female_tianmeitaozi_uranus_bigtts",
+        "zh_male_ruyayichen_uranus_bigtts"
+      ]
+    },
+    {
+      "name": "voice_id_2",
+      "kind": "string",
+      "optional": true
+    },
+    {
+      "name": "audio_2",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "inline_2",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "speaker_3",
+      "kind": "choice",
+      "optional": true,
+      "choices": [
+        "zh_female_vv_uranus_bigtts",
+        "zh_female_xiaohe_uranus_bigtts",
+        "zh_male_m191_uranus_bigtts",
+        "zh_male_taocheng_uranus_bigtts",
+        "zh_male_liufei_uranus_bigtts",
+        "zh_female_sophie_uranus_bigtts",
+        "zh_female_qingxinnvsheng_uranus_bigtts",
+        "zh_female_cancan_uranus_bigtts",
+        "zh_female_tianmeitaozi_uranus_bigtts",
+        "zh_male_ruyayichen_uranus_bigtts"
+      ]
+    },
+    {
+      "name": "voice_id_3",
+      "kind": "string",
+      "optional": true
+    },
+    {
+      "name": "audio_3",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "inline_3",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "reference_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "inline_image",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "text",
+      "section": "default"
+    },
+    {
+      "fieldId": "format",
+      "section": "default"
+    },
+    {
+      "fieldId": "sample_rate",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "pitch",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "speech_rate",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "loudness",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "speaker_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "voice_id_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "inline_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "speaker_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "voice_id_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "inline_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "speaker_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "voice_id_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "inline_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "inline_image",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "audio",
+    "config": {
+      "operation": "audio",
+      "model": "bytedance/seed-audio-1.0",
+      "parameters": {
+        "text": "text",
+        "format": "format",
+        "sample_rate": "sample_rate",
+        "pitch_rate": "pitch",
+        "speech_rate": "speech_rate",
+        "loudness_rate": "loudness"
+      },
+      "required_text": ["text"],
+      "text_max_lengths": {
+        "text": 3000
+      },
+      "reference_arrays": {
+        "references": {
+          "max_items": 3,
+          "exclusive_kinds": ["image"],
+          "slots": [
+            {
+              "values": {
+                "speaker_1": "speaker",
+                "voice_id_1": "speaker"
+              },
+              "asset": {
+                "kind": "audio",
+                "fields": ["audio_1"],
+                "inline_field": "inline_1",
+                "url_key": "audio_url",
+                "data_key": "audio_data",
+                "max_bytes": 10000000,
+                "max_duration_ms": 30000,
+                "content_types": ["audio/mpeg", "audio/wav", "audio/x-pcm", "audio/ogg"]
+              }
+            },
+            {
+              "values": {
+                "speaker_2": "speaker",
+                "voice_id_2": "speaker"
+              },
+              "asset": {
+                "kind": "audio",
+                "fields": ["audio_2"],
+                "inline_field": "inline_2",
+                "url_key": "audio_url",
+                "data_key": "audio_data",
+                "max_bytes": 10000000,
+                "max_duration_ms": 30000,
+                "content_types": ["audio/mpeg", "audio/wav", "audio/x-pcm", "audio/ogg"]
+              }
+            },
+            {
+              "values": {
+                "speaker_3": "speaker",
+                "voice_id_3": "speaker"
+              },
+              "asset": {
+                "kind": "audio",
+                "fields": ["audio_3"],
+                "inline_field": "inline_3",
+                "url_key": "audio_url",
+                "data_key": "audio_data",
+                "max_bytes": 10000000,
+                "max_duration_ms": 30000,
+                "content_types": ["audio/mpeg", "audio/wav", "audio/x-pcm", "audio/ogg"]
+              }
+            },
+            {
+              "asset": {
+                "kind": "image",
+                "fields": ["reference_image"],
+                "inline_field": "inline_image",
+                "url_key": "image_url",
+                "data_key": "image_data",
+                "max_bytes": 10000000,
+                "content_types": ["image/jpeg", "image/png", "image/webp"]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seed Audio 1.0 文本生成音频",
+      "description": "根据脚本生成旁白、音效和场景音频，可选音色、录音或图片作为参考。",
+      "fields": {
+        "text": {
+          "label": "音频脚本"
+        },
+        "format": {
+          "label": "输出格式"
+        },
+        "sample_rate": {
+          "label": "采样率"
+        },
+        "pitch": {
+          "label": "音高"
+        },
+        "speech_rate": {
+          "label": "语速"
+        },
+        "loudness": {
+          "label": "响度"
+        },
+        "speaker_1": {
+          "label": "预设音色 1"
+        },
+        "voice_id_1": {
+          "label": "自定义音色 ID 1"
+        },
+        "audio_1": {
+          "label": "参考音频 1"
+        },
+        "inline_1": {
+          "label": "内联音频 1"
+        },
+        "speaker_2": {
+          "label": "预设音色 2"
+        },
+        "voice_id_2": {
+          "label": "自定义音色 ID 2"
+        },
+        "audio_2": {
+          "label": "参考音频 2"
+        },
+        "inline_2": {
+          "label": "内联音频 2"
+        },
+        "speaker_3": {
+          "label": "预设音色 3"
+        },
+        "voice_id_3": {
+          "label": "自定义音色 ID 3"
+        },
+        "audio_3": {
+          "label": "参考音频 3"
+        },
+        "inline_3": {
+          "label": "内联音频 3"
+        },
+        "reference_image": {
+          "label": "参考图片"
+        },
+        "inline_image": {
+          "label": "内联图片"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "描述旁白、音效和背景声，最多 3000 字符。使用 @Audio1、@Audio2 或 @Audio3 引用依次提交的音色或音频。"
+        },
+        "format": {
+          "help": "默认 MP3。PCM 返回可下载的裸音频。"
+        },
+        "sample_rate": {
+          "help": "选择输出采样率，默认 24000 Hz。"
+        },
+        "pitch": {
+          "help": "可调整 -12 至 12，默认 0。"
+        },
+        "speech_rate": {
+          "help": "可调整 -50 至 100。-50 为 0.5 倍速，100 为 2 倍速，默认 0。"
+        },
+        "loudness": {
+          "help": "可调整 -50 至 100。-50 为 0.5 倍响度，100 为 2 倍响度，默认 0。"
+        },
+        "speaker_1": {
+          "help": "选择一个官方音色，第 1 项只填一种参考来源。"
+        },
+        "voice_id_1": {
+          "help": "填写供应商已注册的音色 ID。该项使用自定义音色时，其他来源留空。"
+        },
+        "audio_1": {
+          "help": "支持 MP3、WAV、PCM 或 OGG Opus，单段不超过 30 秒和 10 MB。"
+        },
+        "inline_1": {
+          "help": "开启后以内联 Base64 发送所上传的参考音频。默认上传后使用链接。"
+        },
+        "speaker_2": {
+          "help": "选择一个官方音色，第 2 项只填一种参考来源。"
+        },
+        "voice_id_2": {
+          "help": "填写供应商已注册的音色 ID。该项使用自定义音色时，其他来源留空。"
+        },
+        "audio_2": {
+          "help": "支持 MP3、WAV、PCM 或 OGG Opus，单段不超过 30 秒和 10 MB。"
+        },
+        "inline_2": {
+          "help": "开启后以内联 Base64 发送所上传的参考音频。默认上传后使用链接。"
+        },
+        "speaker_3": {
+          "help": "选择一个官方音色，第 3 项只填一种参考来源。"
+        },
+        "voice_id_3": {
+          "help": "填写供应商已注册的音色 ID。该项使用自定义音色时，其他来源留空。"
+        },
+        "audio_3": {
+          "help": "支持 MP3、WAV、PCM 或 OGG Opus，单段不超过 30 秒和 10 MB。"
+        },
+        "inline_3": {
+          "help": "开启后以内联 Base64 发送所上传的参考音频。默认上传后使用链接。"
+        },
+        "reference_image": {
+          "help": "最多一张 JPEG、PNG 或 WebP，最大 10 MB。图片参考须单独使用。"
+        },
+        "inline_image": {
+          "help": "开启后以内联 Base64 发送图片。默认上传后使用链接。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seed Audio 1.0 文字產生音訊",
+      "description": "根據腳本產生旁白、音效和場景音訊，可選用音色、錄音或圖片作為參考。",
+      "fields": {
+        "text": {
+          "label": "音訊腳本"
+        },
+        "format": {
+          "label": "輸出格式"
+        },
+        "sample_rate": {
+          "label": "取樣率"
+        },
+        "pitch": {
+          "label": "音高"
+        },
+        "speech_rate": {
+          "label": "語速"
+        },
+        "loudness": {
+          "label": "響度"
+        },
+        "speaker_1": {
+          "label": "預設音色 1"
+        },
+        "voice_id_1": {
+          "label": "自訂音色 ID 1"
+        },
+        "audio_1": {
+          "label": "參考音訊 1"
+        },
+        "inline_1": {
+          "label": "內嵌音訊 1"
+        },
+        "speaker_2": {
+          "label": "預設音色 2"
+        },
+        "voice_id_2": {
+          "label": "自訂音色 ID 2"
+        },
+        "audio_2": {
+          "label": "參考音訊 2"
+        },
+        "inline_2": {
+          "label": "內嵌音訊 2"
+        },
+        "speaker_3": {
+          "label": "預設音色 3"
+        },
+        "voice_id_3": {
+          "label": "自訂音色 ID 3"
+        },
+        "audio_3": {
+          "label": "參考音訊 3"
+        },
+        "inline_3": {
+          "label": "內嵌音訊 3"
+        },
+        "reference_image": {
+          "label": "參考圖片"
+        },
+        "inline_image": {
+          "label": "內嵌圖片"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "描述旁白、音效與背景聲，最多 3000 個字元。使用 @Audio1、@Audio2 或 @Audio3 引用依序提交的音色或音訊。"
+        },
+        "format": {
+          "help": "預設為 MP3。PCM 回傳可下載的裸音訊。"
+        },
+        "sample_rate": {
+          "help": "選擇輸出取樣率，預設為 24000 Hz。"
+        },
+        "pitch": {
+          "help": "可調整 -12 至 12，預設為 0。"
+        },
+        "speech_rate": {
+          "help": "可調整 -50 至 100。-50 為 0.5 倍速，100 為 2 倍速，預設為 0。"
+        },
+        "loudness": {
+          "help": "可調整 -50 至 100。-50 為 0.5 倍響度，100 為 2 倍響度，預設為 0。"
+        },
+        "speaker_1": {
+          "help": "選擇一個官方音色，第 1 項僅填一種參考來源。"
+        },
+        "voice_id_1": {
+          "help": "填入已在供應商註冊的音色 ID。使用自訂音色時，其他來源請留空。"
+        },
+        "audio_1": {
+          "help": "支援 MP3、WAV、PCM 或 OGG Opus，單段最多 30 秒和 10 MB。"
+        },
+        "inline_1": {
+          "help": "啟用後以內嵌 Base64 傳送所上傳的參考音訊。預設上傳後使用連結。"
+        },
+        "speaker_2": {
+          "help": "選擇一個官方音色，第 2 項僅填一種參考來源。"
+        },
+        "voice_id_2": {
+          "help": "填入已在供應商註冊的音色 ID。使用自訂音色時，其他來源請留空。"
+        },
+        "audio_2": {
+          "help": "支援 MP3、WAV、PCM 或 OGG Opus，單段最多 30 秒和 10 MB。"
+        },
+        "inline_2": {
+          "help": "啟用後以內嵌 Base64 傳送所上傳的參考音訊。預設上傳後使用連結。"
+        },
+        "speaker_3": {
+          "help": "選擇一個官方音色，第 3 項僅填一種參考來源。"
+        },
+        "voice_id_3": {
+          "help": "填入已在供應商註冊的音色 ID。使用自訂音色時，其他來源請留空。"
+        },
+        "audio_3": {
+          "help": "支援 MP3、WAV、PCM 或 OGG Opus，單段最多 30 秒和 10 MB。"
+        },
+        "inline_3": {
+          "help": "啟用後以內嵌 Base64 傳送所上傳的參考音訊。預設上傳後使用連結。"
+        },
+        "reference_image": {
+          "help": "最多一張 JPEG、PNG 或 WebP，最大 10 MB。圖片參考須單獨使用。"
+        },
+        "inline_image": {
+          "help": "啟用後以內嵌 Base64 傳送圖片。預設上傳後使用連結。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seed Audio 1.0 Text to Audio",
+      "description": "Generate narration, sound effects, and scene audio from a script. Optionally use voices, recordings, or an image as references.",
+      "fields": {
+        "text": {
+          "label": "Audio script"
+        },
+        "format": {
+          "label": "Output format"
+        },
+        "sample_rate": {
+          "label": "Sample rate"
+        },
+        "pitch": {
+          "label": "Pitch"
+        },
+        "speech_rate": {
+          "label": "Speech speed"
+        },
+        "loudness": {
+          "label": "Loudness"
+        },
+        "speaker_1": {
+          "label": "Preset voice 1"
+        },
+        "voice_id_1": {
+          "label": "Custom voice ID 1"
+        },
+        "audio_1": {
+          "label": "Reference audio 1"
+        },
+        "inline_1": {
+          "label": "Inline audio 1"
+        },
+        "speaker_2": {
+          "label": "Preset voice 2"
+        },
+        "voice_id_2": {
+          "label": "Custom voice ID 2"
+        },
+        "audio_2": {
+          "label": "Reference audio 2"
+        },
+        "inline_2": {
+          "label": "Inline audio 2"
+        },
+        "speaker_3": {
+          "label": "Preset voice 3"
+        },
+        "voice_id_3": {
+          "label": "Custom voice ID 3"
+        },
+        "audio_3": {
+          "label": "Reference audio 3"
+        },
+        "inline_3": {
+          "label": "Inline audio 3"
+        },
+        "reference_image": {
+          "label": "Reference image"
+        },
+        "inline_image": {
+          "label": "Inline image"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "Describe narration, sound effects, and ambience in up to 3000 characters. Use @Audio1, @Audio2, or @Audio3 to refer to voices or recordings in submission order."
+        },
+        "format": {
+          "help": "The default is MP3. PCM returns a downloadable raw audio file."
+        },
+        "sample_rate": {
+          "help": "Select the output sample rate. The default is 24000 Hz."
+        },
+        "pitch": {
+          "help": "Adjust from -12 to 12. The default is 0."
+        },
+        "speech_rate": {
+          "help": "Adjust from -50 to 100. -50 is half speed and 100 is double speed. The default is 0."
+        },
+        "loudness": {
+          "help": "Adjust from -50 to 100. -50 is half loudness and 100 is double loudness. The default is 0."
+        },
+        "speaker_1": {
+          "help": "Select an official voice. Choose one source for reference 1."
+        },
+        "voice_id_1": {
+          "help": "Enter a voice ID registered with the provider. Leave the other sources for this reference blank."
+        },
+        "audio_1": {
+          "help": "Supports MP3, WAV, PCM, or OGG Opus up to 30 seconds and 10 MB per recording."
+        },
+        "inline_1": {
+          "help": "Send the uploaded reference as inline Base64. Off by default, which uses an uploaded URL."
+        },
+        "speaker_2": {
+          "help": "Select an official voice. Choose one source for reference 2."
+        },
+        "voice_id_2": {
+          "help": "Enter a voice ID registered with the provider. Leave the other sources for this reference blank."
+        },
+        "audio_2": {
+          "help": "Supports MP3, WAV, PCM, or OGG Opus up to 30 seconds and 10 MB per recording."
+        },
+        "inline_2": {
+          "help": "Send the uploaded reference as inline Base64. Off by default, which uses an uploaded URL."
+        },
+        "speaker_3": {
+          "help": "Select an official voice. Choose one source for reference 3."
+        },
+        "voice_id_3": {
+          "help": "Enter a voice ID registered with the provider. Leave the other sources for this reference blank."
+        },
+        "audio_3": {
+          "help": "Supports MP3, WAV, PCM, or OGG Opus up to 30 seconds and 10 MB per recording."
+        },
+        "inline_3": {
+          "help": "Send the uploaded reference as inline Base64. Off by default, which uses an uploaded URL."
+        },
+        "reference_image": {
+          "help": "Use one JPEG, PNG, or WebP image up to 10 MB. An image reference must be used on its own."
+        },
+        "inline_image": {
+          "help": "Send the image as inline Base64. Off by default, which uses an uploaded URL."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seed Audio 1.0 テキストから音声",
+      "description": "台本からナレーション、効果音、背景音を生成します。音色、録音、画像を参照できます。",
+      "fields": {
+        "text": {
+          "label": "音声台本"
+        },
+        "format": {
+          "label": "出力形式"
+        },
+        "sample_rate": {
+          "label": "サンプリング周波数"
+        },
+        "pitch": {
+          "label": "ピッチ"
+        },
+        "speech_rate": {
+          "label": "話速"
+        },
+        "loudness": {
+          "label": "音量"
+        },
+        "speaker_1": {
+          "label": "プリセット音色 1"
+        },
+        "voice_id_1": {
+          "label": "カスタム音色 ID 1"
+        },
+        "audio_1": {
+          "label": "参照音声 1"
+        },
+        "inline_1": {
+          "label": "インライン音声 1"
+        },
+        "speaker_2": {
+          "label": "プリセット音色 2"
+        },
+        "voice_id_2": {
+          "label": "カスタム音色 ID 2"
+        },
+        "audio_2": {
+          "label": "参照音声 2"
+        },
+        "inline_2": {
+          "label": "インライン音声 2"
+        },
+        "speaker_3": {
+          "label": "プリセット音色 3"
+        },
+        "voice_id_3": {
+          "label": "カスタム音色 ID 3"
+        },
+        "audio_3": {
+          "label": "参照音声 3"
+        },
+        "inline_3": {
+          "label": "インライン音声 3"
+        },
+        "reference_image": {
+          "label": "参照画像"
+        },
+        "inline_image": {
+          "label": "インライン画像"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "ナレーション、効果音、背景音を 3000 文字まで記述します。@Audio1、@Audio2、@Audio3 で送信順の音声や音色を参照します。"
+        },
+        "format": {
+          "help": "既定値は MP3 です。PCM は元の生音声をダウンロードできます。"
+        },
+        "sample_rate": {
+          "help": "出力のサンプリング周波数を選択します。既定値は 24000 Hz です。"
+        },
+        "pitch": {
+          "help": "-12～12 の範囲で調整します。既定値は 0 です。"
+        },
+        "speech_rate": {
+          "help": "-50～100 の範囲で調整します。-50 は 0.5 倍速、100 は 2 倍速です。既定値は 0 です。"
+        },
+        "loudness": {
+          "help": "-50～100 の範囲で調整します。-50 は音量 0.5 倍、100 は 2 倍です。既定値は 0 です。"
+        },
+        "speaker_1": {
+          "help": "公式音色を選択します。参照 1 にはソースを 1 つ指定します。"
+        },
+        "voice_id_1": {
+          "help": "プロバイダーに登録済みの音色 ID を指定します。この参照の他の項目は空欄にします。"
+        },
+        "audio_1": {
+          "help": "MP3、WAV、PCM、OGG Opus に対応します。1 件あたり 30 秒、10 MB までです。"
+        },
+        "inline_1": {
+          "help": "アップロードした参照音声をインライン Base64 として送信します。既定では URL を使います。"
+        },
+        "speaker_2": {
+          "help": "公式音色を選択します。参照 2 にはソースを 1 つ指定します。"
+        },
+        "voice_id_2": {
+          "help": "プロバイダーに登録済みの音色 ID を指定します。この参照の他の項目は空欄にします。"
+        },
+        "audio_2": {
+          "help": "MP3、WAV、PCM、OGG Opus に対応します。1 件あたり 30 秒、10 MB までです。"
+        },
+        "inline_2": {
+          "help": "アップロードした参照音声をインライン Base64 として送信します。既定では URL を使います。"
+        },
+        "speaker_3": {
+          "help": "公式音色を選択します。参照 3 にはソースを 1 つ指定します。"
+        },
+        "voice_id_3": {
+          "help": "プロバイダーに登録済みの音色 ID を指定します。この参照の他の項目は空欄にします。"
+        },
+        "audio_3": {
+          "help": "MP3、WAV、PCM、OGG Opus に対応します。1 件あたり 30 秒、10 MB までです。"
+        },
+        "inline_3": {
+          "help": "アップロードした参照音声をインライン Base64 として送信します。既定では URL を使います。"
+        },
+        "reference_image": {
+          "help": "JPEG、PNG、WebP を 1 枚、10 MB まで指定します。画像は単独で参照します。"
+        },
+        "inline_image": {
+          "help": "画像をインライン Base64 で送信します。既定では URL を使います。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seed Audio 1.0 텍스트로 오디오 생성",
+      "description": "대본에서 내레이션, 효과음과 배경음을 생성합니다. 음색, 녹음 또는 이미지를 참조할 수 있습니다.",
+      "fields": {
+        "text": {
+          "label": "오디오 대본"
+        },
+        "format": {
+          "label": "출력 형식"
+        },
+        "sample_rate": {
+          "label": "샘플링 주파수"
+        },
+        "pitch": {
+          "label": "음높이"
+        },
+        "speech_rate": {
+          "label": "말하기 속도"
+        },
+        "loudness": {
+          "label": "음량"
+        },
+        "speaker_1": {
+          "label": "사전 설정 음색 1"
+        },
+        "voice_id_1": {
+          "label": "사용자 지정 음색 ID 1"
+        },
+        "audio_1": {
+          "label": "참조 오디오 1"
+        },
+        "inline_1": {
+          "label": "인라인 오디오 1"
+        },
+        "speaker_2": {
+          "label": "사전 설정 음색 2"
+        },
+        "voice_id_2": {
+          "label": "사용자 지정 음색 ID 2"
+        },
+        "audio_2": {
+          "label": "참조 오디오 2"
+        },
+        "inline_2": {
+          "label": "인라인 오디오 2"
+        },
+        "speaker_3": {
+          "label": "사전 설정 음색 3"
+        },
+        "voice_id_3": {
+          "label": "사용자 지정 음색 ID 3"
+        },
+        "audio_3": {
+          "label": "참조 오디오 3"
+        },
+        "inline_3": {
+          "label": "인라인 오디오 3"
+        },
+        "reference_image": {
+          "label": "참조 이미지"
+        },
+        "inline_image": {
+          "label": "인라인 이미지"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "내레이션, 효과음, 배경음을 3000자 이내로 설명하세요. @Audio1, @Audio2, @Audio3으로 제출 순서에 맞는 음색이나 녹음을 지정합니다."
+        },
+        "format": {
+          "help": "기본값은 MP3입니다. PCM은 원시 오디오로 다운로드할 수 있습니다."
+        },
+        "sample_rate": {
+          "help": "출력 샘플링 주파수를 선택하세요. 기본값은 24000 Hz입니다."
+        },
+        "pitch": {
+          "help": "-12~12까지 조절합니다. 기본값은 0입니다."
+        },
+        "speech_rate": {
+          "help": "-50~100까지 조절합니다. -50은 0.5배속, 100은 2배속입니다. 기본값은 0입니다."
+        },
+        "loudness": {
+          "help": "-50~100까지 조절합니다. -50은 음량 0.5배, 100은 2배입니다. 기본값은 0입니다."
+        },
+        "speaker_1": {
+          "help": "공식 음색을 선택하세요. 참조 1에는 소스 하나만 지정합니다."
+        },
+        "voice_id_1": {
+          "help": "공급업체에 등록된 음색 ID를 입력하세요. 이 참조의 다른 소스는 비워 두세요."
+        },
+        "audio_1": {
+          "help": "MP3, WAV, PCM 또는 OGG Opus를 지원합니다. 녹음당 최대 30초, 10 MB입니다."
+        },
+        "inline_1": {
+          "help": "업로드한 참조 오디오를 인라인 Base64로 보냅니다. 기본값은 업로드 URL을 사용합니다."
+        },
+        "speaker_2": {
+          "help": "공식 음색을 선택하세요. 참조 2에는 소스 하나만 지정합니다."
+        },
+        "voice_id_2": {
+          "help": "공급업체에 등록된 음색 ID를 입력하세요. 이 참조의 다른 소스는 비워 두세요."
+        },
+        "audio_2": {
+          "help": "MP3, WAV, PCM 또는 OGG Opus를 지원합니다. 녹음당 최대 30초, 10 MB입니다."
+        },
+        "inline_2": {
+          "help": "업로드한 참조 오디오를 인라인 Base64로 보냅니다. 기본값은 업로드 URL을 사용합니다."
+        },
+        "speaker_3": {
+          "help": "공식 음색을 선택하세요. 참조 3에는 소스 하나만 지정합니다."
+        },
+        "voice_id_3": {
+          "help": "공급업체에 등록된 음색 ID를 입력하세요. 이 참조의 다른 소스는 비워 두세요."
+        },
+        "audio_3": {
+          "help": "MP3, WAV, PCM 또는 OGG Opus를 지원합니다. 녹음당 최대 30초, 10 MB입니다."
+        },
+        "inline_3": {
+          "help": "업로드한 참조 오디오를 인라인 Base64로 보냅니다. 기본값은 업로드 URL을 사용합니다."
+        },
+        "reference_image": {
+          "help": "최대 10 MB의 JPEG, PNG 또는 WebP 한 장을 사용하세요. 이미지 참조는 단독으로 사용합니다."
+        },
+        "inline_image": {
+          "help": "이미지를 인라인 Base64로 보냅니다. 기본값은 업로드 URL을 사용합니다."
+        }
+      }
+    }
+  }
+}

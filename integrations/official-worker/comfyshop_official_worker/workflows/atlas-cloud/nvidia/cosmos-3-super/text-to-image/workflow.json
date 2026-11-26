@@ -1,0 +1,559 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-cosmos-image",
+  "name": "NVIDIA Cosmos 3 Super 文生图",
+  "description": "根据提示词生成图片，可选预设尺寸或自定义宽高。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 2500
+    },
+    {
+      "name": "size_preset",
+      "kind": "choice",
+      "choices": [
+        "square_hd",
+        "square",
+        "portrait_4_3",
+        "portrait_16_9",
+        "landscape_4_3",
+        "landscape_16_9"
+      ],
+      "optional": true,
+      "default": "landscape_16_9"
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "default": "jpeg",
+      "choices": ["jpeg", "png"]
+    },
+    {
+      "name": "output_width",
+      "kind": "integer",
+      "minimum": "1",
+      "maximum": "14142",
+      "optional": true
+    },
+    {
+      "name": "output_height",
+      "kind": "integer",
+      "minimum": "1",
+      "maximum": "14142",
+      "optional": true
+    },
+    {
+      "name": "negative_prompt",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "num_inference_steps",
+      "kind": "integer",
+      "minimum": "1",
+      "maximum": "50",
+      "optional": true,
+      "default": 28
+    },
+    {
+      "name": "guidance_scale",
+      "kind": "number",
+      "minimum": "1",
+      "maximum": "20",
+      "optional": true,
+      "default": 4
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "minimum": "0",
+      "optional": true
+    },
+    {
+      "name": "enable_safety_checker",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size_preset",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_width",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "output_height",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "negative_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "num_inference_steps",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "guidance_scale",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_safety_checker",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "nvidia/cosmos-3-super/text-to-image",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "image_size": "size_preset",
+        "output_format": "output_format",
+        "negative_prompt": "negative_prompt",
+        "num_inference_steps": "num_inference_steps",
+        "guidance_scale": "guidance_scale",
+        "seed": "seed",
+        "enable_safety_checker": "enable_safety_checker"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 2500
+      },
+      "parameter_objects": {
+        "image_size": {
+          "width": "output_width",
+          "height": "output_height"
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "NVIDIA Cosmos 3 Super 文生图",
+      "description": "根据提示词生成图片，可选预设尺寸或自定义宽高。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size_preset": {
+          "label": "尺寸预设",
+          "choiceLabels": {
+            "square_hd": "高清方图（1024×1024）",
+            "square": "方图（512×512）",
+            "portrait_4_3": "竖屏 4:3 预设",
+            "portrait_16_9": "竖屏 16:9 预设",
+            "landscape_4_3": "横屏 4:3",
+            "landscape_16_9": "横屏 16:9"
+          }
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "output_width": {
+          "label": "自定义宽度"
+        },
+        "output_height": {
+          "label": "自定义高度"
+        },
+        "negative_prompt": {
+          "label": "反向提示词"
+        },
+        "num_inference_steps": {
+          "label": "推理步数"
+        },
+        "guidance_scale": {
+          "label": "提示词引导强度"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "enable_safety_checker": {
+          "label": "内容检查"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要生成的图片，最多 2,500 字符。"
+        },
+        "size_preset": {
+          "help": "选择输出画面预设。设置自定义宽或高后使用自定义尺寸。"
+        },
+        "output_format": {
+          "help": "选择 JPEG 或 PNG，默认 JPEG。"
+        },
+        "output_width": {
+          "help": "输入 1 至 14,142 像素。只填高度时，宽度采用接口默认的 512。"
+        },
+        "output_height": {
+          "help": "输入 1 至 14,142 像素。只填宽度时，高度采用接口默认的 512。"
+        },
+        "negative_prompt": {
+          "help": "描述希望避免的内容或画面缺陷。"
+        },
+        "num_inference_steps": {
+          "help": "1 至 50，默认 28。较大的值需要更长生成时间。"
+        },
+        "guidance_scale": {
+          "help": "1 至 20，默认 4。数值越大，越贴近提示词。"
+        },
+        "seed": {
+          "help": "输入大于等于 0 的整数。留空时随机选择。"
+        },
+        "enable_safety_checker": {
+          "help": "启用模型的内容检查。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "NVIDIA Cosmos 3 Super 文生圖",
+      "description": "依提示詞生成圖片，可選預設尺寸或自訂寬高。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size_preset": {
+          "label": "尺寸預設",
+          "choiceLabels": {
+            "square_hd": "高畫質方形（1024×1024）",
+            "square": "方形（512×512）",
+            "portrait_4_3": "直式 4:3 預設",
+            "portrait_16_9": "直式 16:9 預設",
+            "landscape_4_3": "橫式 4:3",
+            "landscape_16_9": "橫式 16:9"
+          }
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "output_width": {
+          "label": "自訂寬度"
+        },
+        "output_height": {
+          "label": "自訂高度"
+        },
+        "negative_prompt": {
+          "label": "負向提示詞"
+        },
+        "num_inference_steps": {
+          "label": "推論步數"
+        },
+        "guidance_scale": {
+          "label": "提示詞引導強度"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "enable_safety_checker": {
+          "label": "內容檢查"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要生成的圖片，最多 2,500 個字元。"
+        },
+        "size_preset": {
+          "help": "選擇輸出畫面預設。設定自訂寬或高後使用自訂尺寸。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG 或 PNG，預設 JPEG。"
+        },
+        "output_width": {
+          "help": "輸入 1 至 14,142 像素。只填高度時，寬度採用介面預設的 512。"
+        },
+        "output_height": {
+          "help": "輸入 1 至 14,142 像素。只填寬度時，高度採用介面預設的 512。"
+        },
+        "negative_prompt": {
+          "help": "描述希望避免的內容或畫面瑕疵。"
+        },
+        "num_inference_steps": {
+          "help": "1 至 50，預設 28。較大的值需要更長生成時間。"
+        },
+        "guidance_scale": {
+          "help": "1 至 20，預設 4。數值越大，越貼近提示詞。"
+        },
+        "seed": {
+          "help": "輸入大於或等於 0 的整數。留空時隨機選擇。"
+        },
+        "enable_safety_checker": {
+          "help": "啟用模型的內容檢查。"
+        }
+      }
+    },
+    "en": {
+      "name": "NVIDIA Cosmos 3 Super Text-to-Image",
+      "description": "Generate an image from a prompt using preset or custom dimensions.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size_preset": {
+          "label": "Size preset",
+          "choiceLabels": {
+            "square_hd": "Square HD (1024×1024)",
+            "square": "Square (512×512)",
+            "portrait_4_3": "Portrait 4:3 preset",
+            "portrait_16_9": "Portrait 16:9 preset",
+            "landscape_4_3": "Landscape 4:3",
+            "landscape_16_9": "Landscape 16:9"
+          }
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "output_width": {
+          "label": "Custom width"
+        },
+        "output_height": {
+          "label": "Custom height"
+        },
+        "negative_prompt": {
+          "label": "Negative prompt"
+        },
+        "num_inference_steps": {
+          "label": "Inference steps"
+        },
+        "guidance_scale": {
+          "label": "Prompt guidance scale"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "enable_safety_checker": {
+          "label": "Content checker"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the image in up to 2,500 characters."
+        },
+        "size_preset": {
+          "help": "Choose an output preset. Enter custom width or height to override it."
+        },
+        "output_format": {
+          "help": "Choose JPEG or PNG. The default is JPEG."
+        },
+        "output_width": {
+          "help": "Enter 1 to 14,142 pixels. If you enter only a height, the API defaults the width to 512."
+        },
+        "output_height": {
+          "help": "Enter 1 to 14,142 pixels. If you enter only a width, the API defaults the height to 512."
+        },
+        "negative_prompt": {
+          "help": "Describe the content or artifacts to avoid."
+        },
+        "num_inference_steps": {
+          "help": "Enter 1 to 50. The default is 28. Higher values take longer."
+        },
+        "guidance_scale": {
+          "help": "Enter 1 to 20. The default is 4. Higher values follow the prompt more closely."
+        },
+        "seed": {
+          "help": "Enter a non-negative integer or leave blank for a random seed."
+        },
+        "enable_safety_checker": {
+          "help": "Enable the model's content checker."
+        }
+      }
+    },
+    "ja": {
+      "name": "NVIDIA Cosmos 3 Super テキストから画像",
+      "description": "プロンプトから、プリセットまたはカスタムサイズの画像を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size_preset": {
+          "label": "サイズプリセット",
+          "choiceLabels": {
+            "square_hd": "高解像度の正方形（1024×1024）",
+            "square": "正方形（512×512）",
+            "portrait_4_3": "縦長 4:3 プリセット",
+            "portrait_16_9": "縦長 16:9 プリセット",
+            "landscape_4_3": "横長 4:3",
+            "landscape_16_9": "横長 16:9"
+          }
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "output_width": {
+          "label": "カスタム幅"
+        },
+        "output_height": {
+          "label": "カスタム高さ"
+        },
+        "negative_prompt": {
+          "label": "ネガティブプロンプト"
+        },
+        "num_inference_steps": {
+          "label": "推論ステップ数"
+        },
+        "guidance_scale": {
+          "label": "プロンプトの反映強度"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "enable_safety_checker": {
+          "label": "コンテンツチェック"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "生成する画像を 2,500 文字以内で記述します。"
+        },
+        "size_preset": {
+          "help": "出力のプリセットを選びます。幅または高さを入力するとカスタムサイズを使用します。"
+        },
+        "output_format": {
+          "help": "JPEG または PNG を選びます。既定値は JPEG です。"
+        },
+        "output_width": {
+          "help": "1〜14,142 ピクセルを入力します。高さのみを指定した場合、API の既定の幅 512 を使用します。"
+        },
+        "output_height": {
+          "help": "1〜14,142 ピクセルを入力します。幅のみを指定した場合、API の既定の高さ 512 を使用します。"
+        },
+        "negative_prompt": {
+          "help": "出力から除外したい内容や乱れを記述します。"
+        },
+        "num_inference_steps": {
+          "help": "1〜50 を入力します。既定値は 28 です。値が大きいと処理時間が長くなります。"
+        },
+        "guidance_scale": {
+          "help": "1〜20 を入力します。既定値は 4 です。値が大きいほど、プロンプトに忠実になります。"
+        },
+        "seed": {
+          "help": "0 以上の整数を入力します。空欄ならランダムです。"
+        },
+        "enable_safety_checker": {
+          "help": "モデルのコンテンツチェックを有効にします。"
+        }
+      }
+    },
+    "ko": {
+      "name": "NVIDIA Cosmos 3 Super 텍스트로 이미지 생성",
+      "description": "프롬프트로 이미지를 생성하고 사전 설정 또는 맞춤 크기를 사용합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size_preset": {
+          "label": "크기 사전 설정",
+          "choiceLabels": {
+            "square_hd": "고해상도 정사각형(1024×1024)",
+            "square": "정사각형(512×512)",
+            "portrait_4_3": "세로 4:3 사전 설정",
+            "portrait_16_9": "세로 16:9 사전 설정",
+            "landscape_4_3": "가로 4:3",
+            "landscape_16_9": "가로 16:9"
+          }
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "output_width": {
+          "label": "맞춤 너비"
+        },
+        "output_height": {
+          "label": "맞춤 높이"
+        },
+        "negative_prompt": {
+          "label": "부정 프롬프트"
+        },
+        "num_inference_steps": {
+          "label": "추론 단계"
+        },
+        "guidance_scale": {
+          "label": "프롬프트 반영 강도"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "enable_safety_checker": {
+          "label": "콘텐츠 검사"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "생성할 이미지를 최대 2,500자까지 설명하세요."
+        },
+        "size_preset": {
+          "help": "출력 사전 설정을 선택하세요. 너비나 높이를 직접 입력하면 맞춤 크기를 사용합니다."
+        },
+        "output_format": {
+          "help": "JPEG 또는 PNG를 선택하세요. 기본값은 JPEG입니다."
+        },
+        "output_width": {
+          "help": "1~14,142픽셀을 입력하세요. 높이만 입력하면 API의 기본 너비인 512를 사용합니다."
+        },
+        "output_height": {
+          "help": "1~14,142픽셀을 입력하세요. 너비만 입력하면 API의 기본 높이인 512를 사용합니다."
+        },
+        "negative_prompt": {
+          "help": "피할 내용이나 화면 결함을 설명하세요."
+        },
+        "num_inference_steps": {
+          "help": "1~50을 입력하세요. 기본값은 28입니다. 값이 높으면 처리 시간이 길어집니다."
+        },
+        "guidance_scale": {
+          "help": "1~20을 입력하세요. 기본값은 4입니다. 값이 높을수록 프롬프트에 가깝게 생성합니다."
+        },
+        "seed": {
+          "help": "0 이상의 정수를 입력하세요. 비우면 무작위입니다."
+        },
+        "enable_safety_checker": {
+          "help": "모델의 콘텐츠 검사를 켭니다."
+        }
+      }
+    }
+  }
+}

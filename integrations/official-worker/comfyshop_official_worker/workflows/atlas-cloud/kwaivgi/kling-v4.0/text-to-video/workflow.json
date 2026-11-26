@@ -1,0 +1,380 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kling-4-text-to-video",
+  "name": "可灵 4.0 文生视频",
+  "description": "从文字生成 3 至 30 秒的视频，可选原生 4K 和 10 位 HDR。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "A single drop of water falls from the tip of a leaf into a shallow dish, creating concentric ripples; warm window light, macro cinematography, photorealistic.",
+      "multiline": true,
+      "maxLength": 26000,
+      "optional": false
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "choices": ["16:9", "9:16", "1:1", "21:9"],
+      "optional": true
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 10,
+      "minimum": "3",
+      "maximum": "30",
+      "step": "1",
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1080p",
+      "choices": ["720p", "1080p", "4k", "1080p-esr", "2k-esr", "4k-esr"],
+      "optional": true
+    },
+    {
+      "name": "dynamic_range",
+      "kind": "choice",
+      "default": "sdr",
+      "optional": true,
+      "choices": ["sdr", "hdr"]
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "dynamic_range",
+      "section": "default"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "kwaivgi/kling-v4.0/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "resolution": "resolution",
+        "aspect_ratio": "aspect_ratio",
+        "dynamic_range": "dynamic_range"
+      },
+      "text_max_lengths": {
+        "prompt": 26000
+      },
+      "required_text": ["prompt"],
+      "choice_constraints": {
+        "resolution": {
+          "parameter": "dynamic_range",
+          "values": {
+            "hdr": ["1080p", "4k"]
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 4.0 文生视频",
+      "description": "从文字生成 3 至 30 秒的视频，可选原生 4K 和 10 位 HDR。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "21:9": "21:9"
+          }
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K",
+            "1080p-esr": "1080p 超分",
+            "2k-esr": "2K 超分",
+            "4k-esr": "4K 超分"
+          }
+        },
+        "dynamic_range": {
+          "label": "动态范围",
+          "choiceLabels": {
+            "sdr": "SDR",
+            "hdr": "HDR"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、动作、环境和镜头。英文最多 26,000 字符，非英文最多 11,000。 可一并描述希望避免的内容。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9、9:16、1:1 或 21:9。默认 16:9。"
+        },
+        "duration": {
+          "help": "选择 3 至 30 秒。默认 10 秒。"
+        },
+        "resolution": {
+          "help": "选择原生分辨率或腾讯 ESR 超分。默认原生 1080p。"
+        },
+        "dynamic_range": {
+          "help": "默认 SDR。10 位 HDR 适用于原生 1080p 和 4K。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 4.0 文生影片",
+      "description": "從文字生成 3 至 30 秒的影片，可選原生 4K 和 10 位元 HDR。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "21:9": "21:9"
+          }
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K",
+            "1080p-esr": "1080p 超解析度",
+            "2k-esr": "2K 超解析度",
+            "4k-esr": "4K 超解析度"
+          }
+        },
+        "dynamic_range": {
+          "label": "動態範圍",
+          "choiceLabels": {
+            "sdr": "SDR",
+            "hdr": "HDR"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、動作、環境和運鏡。英文最多 26,000 字元，非英文最多 11,000。 也可以描述希望避免的內容。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9、9:16、1:1 或 21:9。預設 16:9。"
+        },
+        "duration": {
+          "help": "選擇 3 至 30 秒。預設 10 秒。"
+        },
+        "resolution": {
+          "help": "選擇原生解析度或騰訊 ESR 超解析度。預設原生 1080p。"
+        },
+        "dynamic_range": {
+          "help": "預設 SDR。10 位元 HDR 適用於原生 1080p 和 4K。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling 4.0 Text to Video",
+      "description": "Generate a 3- to 30-second video from a prompt, with native 4K and 10-bit HDR options.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "21:9": "21:9"
+          }
+        },
+        "duration": {
+          "label": "Output duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K",
+            "1080p-esr": "1080p upscaled",
+            "2k-esr": "2K upscaled",
+            "4k-esr": "4K upscaled"
+          }
+        },
+        "dynamic_range": {
+          "label": "Dynamic range",
+          "choiceLabels": {
+            "sdr": "SDR",
+            "hdr": "HDR"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, movement, surroundings, and camera. Use up to 26,000 English characters or 11,000 non-English characters. You can also describe details to avoid."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9, 9:16, 1:1, or 21:9. The default is 16:9."
+        },
+        "duration": {
+          "help": "Choose 3 to 30 seconds. The default is 10."
+        },
+        "resolution": {
+          "help": "Choose native resolution or Tencent ESR upscaling. The default is native 1080p."
+        },
+        "dynamic_range": {
+          "help": "SDR is the default. 10-bit HDR is available at native 1080p and 4K."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling 4.0 テキストから動画",
+      "description": "テキストから 3〜30 秒の動画を生成します。ネイティブ 4K と 10 ビット HDR を選択できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "21:9": "21:9"
+          }
+        },
+        "duration": {
+          "label": "出力の長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K",
+            "1080p-esr": "1080p アップスケール",
+            "2k-esr": "2K アップスケール",
+            "4k-esr": "4K アップスケール"
+          }
+        },
+        "dynamic_range": {
+          "label": "ダイナミックレンジ",
+          "choiceLabels": {
+            "sdr": "SDR",
+            "hdr": "HDR"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、動き、場面、カメラワークを記述します。英語は 26,000 文字、その他の言語は 11,000 文字以内です。 避けたい要素も記述できます。"
+        },
+        "aspect_ratio": {
+          "help": "16:9、9:16、1:1、21:9 から選択します。既定は 16:9 です。"
+        },
+        "duration": {
+          "help": "3〜30 秒を選択します。既定は 10 秒です。"
+        },
+        "resolution": {
+          "help": "ネイティブ解像度または Tencent ESR のアップスケールを選択します。既定はネイティブ 1080p です。"
+        },
+        "dynamic_range": {
+          "help": "既定は SDR です。10 ビット HDR はネイティブ 1080p と 4K で利用できます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling 4.0 텍스트에서 동영상",
+      "description": "프롬프트로 3~30초의 동영상을 생성합니다. 기본 4K와 10비트 HDR을 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "21:9": "21:9"
+          }
+        },
+        "duration": {
+          "label": "결과 길이(초)"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K",
+            "1080p-esr": "1080p 업스케일",
+            "2k-esr": "2K 업스케일",
+            "4k-esr": "4K 업스케일"
+          }
+        },
+        "dynamic_range": {
+          "label": "다이내믹 레인지",
+          "choiceLabels": {
+            "sdr": "SDR",
+            "hdr": "HDR"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 움직임, 배경, 카메라 구도를 설명하세요. 영어는 최대 26,000자, 다른 언어는 최대 11,000자입니다. 피해야 할 요소도 설명할 수 있습니다."
+        },
+        "aspect_ratio": {
+          "help": "16:9, 9:16, 1:1 또는 21:9를 선택하세요. 기본값은 16:9입니다."
+        },
+        "duration": {
+          "help": "3~30초를 선택하세요. 기본값은 10초입니다."
+        },
+        "resolution": {
+          "help": "기본 해상도 또는 Tencent ESR 업스케일을 선택하세요. 기본값은 1080p입니다."
+        },
+        "dynamic_range": {
+          "help": "기본값은 SDR입니다. 10비트 HDR은 기본 1080p와 4K에서 사용할 수 있습니다."
+        }
+      }
+    }
+  }
+}

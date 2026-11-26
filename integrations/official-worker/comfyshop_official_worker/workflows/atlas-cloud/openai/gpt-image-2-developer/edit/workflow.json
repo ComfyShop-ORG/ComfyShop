@@ -1,0 +1,1023 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "gpt-image-2-developer-edit",
+  "name": "GPT Image 2 Developer 图像编辑",
+  "description": "通过 GPT Image 2 Developer 编辑最多 10 张参考图，可自定义宽高、画质和成品格式。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "quality",
+      "kind": "choice",
+      "optional": true,
+      "default": "medium",
+      "choices": ["low", "medium", "high"]
+    },
+    {
+      "name": "size",
+      "kind": "choice",
+      "optional": true,
+      "default": "1024x1024",
+      "choices": [
+        "1024x1024",
+        "1024x768",
+        "768x1024",
+        "1024x1536",
+        "1536x1024",
+        "2048x2048",
+        "2048x1152",
+        "1152x2048",
+        "2560x1088",
+        "1088x2560",
+        "2880x2160",
+        "2160x2880",
+        "3840x2160",
+        "2160x3840"
+      ]
+    },
+    {
+      "name": "custom_size",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "maxLength": 9
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "default": "jpeg",
+      "choices": ["jpeg", "png"]
+    },
+    {
+      "name": "moderation",
+      "kind": "choice",
+      "optional": true,
+      "default": "low",
+      "choices": ["auto", "low"]
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "reference_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_10",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "quality",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "custom_size",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "moderation",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_10",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "openai/gpt-image-2-developer/edit",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "quality": "quality",
+        "size": "size",
+        "output_format": "output_format",
+        "moderation": "moderation",
+        "enable_sync_mode": "enable_sync_mode",
+        "enable_base64_output": "enable_base64_output"
+      },
+      "required_text": ["prompt"],
+      "parameter_overrides": {
+        "size": "custom_size"
+      },
+      "image_size_limits": {
+        "min_side": 1,
+        "max_side": 3840,
+        "min_pixels": 655360,
+        "max_pixels": 8294400,
+        "max_aspect_ratio": 3,
+        "allow_auto": false,
+        "separator": "x",
+        "side_multiple": 16
+      },
+      "media": {
+        "images": {
+          "kind": "image",
+          "fields": [
+            "reference_1",
+            "reference_2",
+            "reference_3",
+            "reference_4",
+            "reference_5",
+            "reference_6",
+            "reference_7",
+            "reference_8",
+            "reference_9",
+            "reference_10"
+          ],
+          "array": true,
+          "min_items": 1,
+          "content_types": ["image/jpeg", "image/png"],
+          "external_sources_field": "reference_sources"
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "GPT Image 2 Developer 图像编辑",
+      "description": "通过 GPT Image 2 Developer 编辑最多 10 张参考图，可自定义宽高、画质和成品格式。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "quality": {
+          "label": "渲染质量",
+          "choiceLabels": {
+            "low": "低",
+            "medium": "中",
+            "high": "高"
+          }
+        },
+        "size": {
+          "label": "图片尺寸",
+          "choiceLabels": {
+            "1024x1024": "1024 × 1024",
+            "1024x768": "1024 × 768",
+            "768x1024": "768 × 1024",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024",
+            "2048x2048": "2048 × 2048",
+            "2048x1152": "2048 × 1152",
+            "1152x2048": "1152 × 2048",
+            "2560x1088": "2560 × 1088",
+            "1088x2560": "1088 × 2560",
+            "2880x2160": "2880 × 2160",
+            "2160x2880": "2160 × 2880",
+            "3840x2160": "3840 × 2160",
+            "2160x3840": "2160 × 3840"
+          }
+        },
+        "custom_size": {
+          "label": "自定义宽高"
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "moderation": {
+          "label": "内容审核",
+          "choiceLabels": {
+            "auto": "自动",
+            "low": "低"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "reference_1": {
+          "label": "参考图 1"
+        },
+        "reference_2": {
+          "label": "参考图 2"
+        },
+        "reference_3": {
+          "label": "参考图 3"
+        },
+        "reference_4": {
+          "label": "参考图 4"
+        },
+        "reference_5": {
+          "label": "参考图 5"
+        },
+        "reference_6": {
+          "label": "参考图 6"
+        },
+        "reference_7": {
+          "label": "参考图 7"
+        },
+        "reference_8": {
+          "label": "参考图 8"
+        },
+        "reference_9": {
+          "label": "参考图 9"
+        },
+        "reference_10": {
+          "label": "参考图 10"
+        },
+        "reference_sources": {
+          "label": "参考图地址或 Base64"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要修改和保留的部分，可按编号引用参考图。"
+        },
+        "reference_1": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "quality": {
+          "help": "选择渲染质量。各档位的耗时和计费可能不同。"
+        },
+        "size": {
+          "help": "选择预设宽高，或在高级参数填写自定义尺寸。"
+        },
+        "custom_size": {
+          "help": "填写宽x高，例如 1536x864。每边至多 3840 且为 16 的倍数，总像素为 655360 至 8294400，宽高比为 1:3 至 3:1。"
+        },
+        "output_format": {
+          "help": "选择 JPEG 或 PNG。"
+        },
+        "moderation": {
+          "help": "选择 Atlas 的自动或低强度内容审核。"
+        },
+        "enable_sync_mode": {
+          "help": "等待 Atlas 完成后在提交响应中取结果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 返回图片。工作机解码后保存图片原件。"
+        },
+        "reference_2": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_3": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_4": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_5": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_6": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_7": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_8": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_9": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_10": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_sources": {
+          "help": "每行填一项公开 HTTP(S) 图片地址或 Base64 data URL。与上传的文件合计 1 至 10 张。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "GPT Image 2 Developer 圖像編輯",
+      "description": "透過 GPT Image 2 Developer 編輯最多 10 張參考圖，可自訂寬高、畫質和成品格式。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "quality": {
+          "label": "渲染品質",
+          "choiceLabels": {
+            "low": "低",
+            "medium": "中",
+            "high": "高"
+          }
+        },
+        "size": {
+          "label": "圖片尺寸",
+          "choiceLabels": {
+            "1024x1024": "1024 × 1024",
+            "1024x768": "1024 × 768",
+            "768x1024": "768 × 1024",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024",
+            "2048x2048": "2048 × 2048",
+            "2048x1152": "2048 × 1152",
+            "1152x2048": "1152 × 2048",
+            "2560x1088": "2560 × 1088",
+            "1088x2560": "1088 × 2560",
+            "2880x2160": "2880 × 2160",
+            "2160x2880": "2160 × 2880",
+            "3840x2160": "3840 × 2160",
+            "2160x3840": "2160 × 3840"
+          }
+        },
+        "custom_size": {
+          "label": "自訂寬高"
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "moderation": {
+          "label": "內容審查",
+          "choiceLabels": {
+            "auto": "自動",
+            "low": "低"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步回傳"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "reference_1": {
+          "label": "參考圖 1"
+        },
+        "reference_2": {
+          "label": "參考圖 2"
+        },
+        "reference_3": {
+          "label": "參考圖 3"
+        },
+        "reference_4": {
+          "label": "參考圖 4"
+        },
+        "reference_5": {
+          "label": "參考圖 5"
+        },
+        "reference_6": {
+          "label": "參考圖 6"
+        },
+        "reference_7": {
+          "label": "參考圖 7"
+        },
+        "reference_8": {
+          "label": "參考圖 8"
+        },
+        "reference_9": {
+          "label": "參考圖 9"
+        },
+        "reference_10": {
+          "label": "參考圖 10"
+        },
+        "reference_sources": {
+          "label": "參考圖網址或 Base64"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要修改和保留的部分，可依編號引用參考圖。"
+        },
+        "reference_1": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "quality": {
+          "help": "選擇渲染品質。各級的耗時和費用可能不同。"
+        },
+        "size": {
+          "help": "選擇預設寬高，或在進階參數填寫自訂尺寸。"
+        },
+        "custom_size": {
+          "help": "填寫寬x高，例如 1536x864。每邊最多 3840 且為 16 的倍數，總像素為 655360 至 8294400，寬高比為 1:3 至 3:1。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG 或 PNG。"
+        },
+        "moderation": {
+          "help": "選擇 Atlas 的自動或低強度內容審查。"
+        },
+        "enable_sync_mode": {
+          "help": "等 Atlas 完成後，從提交回應取得結果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 回傳圖片。工作機解碼後儲存圖片原始檔案。"
+        },
+        "reference_2": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_3": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_4": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_5": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_6": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_7": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_8": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_9": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_10": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_sources": {
+          "help": "每列填寫公開 HTTP(S) 圖片網址或 Base64 data URL，連同上傳檔案共 1 至 10 張。"
+        }
+      }
+    },
+    "en": {
+      "name": "GPT Image 2 Developer Image Edit",
+      "description": "Edit up to 10 references through GPT Image 2 Developer with custom dimensions, quality, and format.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "quality": {
+          "label": "Rendering quality",
+          "choiceLabels": {
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High"
+          }
+        },
+        "size": {
+          "label": "Image size",
+          "choiceLabels": {
+            "1024x1024": "1024 × 1024",
+            "1024x768": "1024 × 768",
+            "768x1024": "768 × 1024",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024",
+            "2048x2048": "2048 × 2048",
+            "2048x1152": "2048 × 1152",
+            "1152x2048": "1152 × 2048",
+            "2560x1088": "2560 × 1088",
+            "1088x2560": "1088 × 2560",
+            "2880x2160": "2880 × 2160",
+            "2160x2880": "2160 × 2880",
+            "3840x2160": "3840 × 2160",
+            "2160x3840": "2160 × 3840"
+          }
+        },
+        "custom_size": {
+          "label": "Custom dimensions"
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "moderation": {
+          "label": "Moderation",
+          "choiceLabels": {
+            "auto": "Auto",
+            "low": "Low"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "Wait for result"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "reference_1": {
+          "label": "Reference image 1"
+        },
+        "reference_2": {
+          "label": "Reference image 2"
+        },
+        "reference_3": {
+          "label": "Reference image 3"
+        },
+        "reference_4": {
+          "label": "Reference image 4"
+        },
+        "reference_5": {
+          "label": "Reference image 5"
+        },
+        "reference_6": {
+          "label": "Reference image 6"
+        },
+        "reference_7": {
+          "label": "Reference image 7"
+        },
+        "reference_8": {
+          "label": "Reference image 8"
+        },
+        "reference_9": {
+          "label": "Reference image 9"
+        },
+        "reference_10": {
+          "label": "Reference image 10"
+        },
+        "reference_sources": {
+          "label": "Reference URLs or Base64"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe what to change and keep. Refer to source images by number."
+        },
+        "reference_1": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "quality": {
+          "help": "Choose the rendering quality. Time and cost can vary by tier."
+        },
+        "size": {
+          "help": "Select a size preset or enter custom dimensions in advanced settings."
+        },
+        "custom_size": {
+          "help": "Enter widthxheight, such as 1536x864. Each side must be divisible by 16 and no longer than 3840. Total pixels must be 655,360 to 8,294,400, with a 1:3 to 3:1 aspect ratio."
+        },
+        "output_format": {
+          "help": "Choose JPEG or PNG."
+        },
+        "moderation": {
+          "help": "Choose automatic or low content moderation on Atlas."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for Atlas to return a finished result in the submit response."
+        },
+        "enable_base64_output": {
+          "help": "Request a Base64 response. The work machine decodes it and stores the original image."
+        },
+        "reference_2": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_3": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_4": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_5": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_6": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_7": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_8": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_9": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_10": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_sources": {
+          "help": "Enter one public HTTP(S) image URL or Base64 data URL per line. Use 1 to 10 images including uploads."
+        }
+      }
+    },
+    "ja": {
+      "name": "GPT Image 2 Developer 画像編集",
+      "description": "GPT Image 2 Developer で最大 10 枚の参考画像を編集します。幅、高さ、画質、形式を指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "指示文"
+        },
+        "quality": {
+          "label": "描画品質",
+          "choiceLabels": {
+            "low": "低",
+            "medium": "中",
+            "high": "高"
+          }
+        },
+        "size": {
+          "label": "画像サイズ",
+          "choiceLabels": {
+            "1024x1024": "1024 × 1024",
+            "1024x768": "1024 × 768",
+            "768x1024": "768 × 1024",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024",
+            "2048x2048": "2048 × 2048",
+            "2048x1152": "2048 × 1152",
+            "1152x2048": "1152 × 2048",
+            "2560x1088": "2560 × 1088",
+            "1088x2560": "1088 × 2560",
+            "2880x2160": "2880 × 2160",
+            "2160x2880": "2160 × 2880",
+            "3840x2160": "3840 × 2160",
+            "2160x3840": "2160 × 3840"
+          }
+        },
+        "custom_size": {
+          "label": "幅と高さの指定"
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "moderation": {
+          "label": "コンテンツ審査",
+          "choiceLabels": {
+            "auto": "自動",
+            "low": "低"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        },
+        "reference_1": {
+          "label": "参考画像 1"
+        },
+        "reference_2": {
+          "label": "参考画像 2"
+        },
+        "reference_3": {
+          "label": "参考画像 3"
+        },
+        "reference_4": {
+          "label": "参考画像 4"
+        },
+        "reference_5": {
+          "label": "参考画像 5"
+        },
+        "reference_6": {
+          "label": "参考画像 6"
+        },
+        "reference_7": {
+          "label": "参考画像 7"
+        },
+        "reference_8": {
+          "label": "参考画像 8"
+        },
+        "reference_9": {
+          "label": "参考画像 9"
+        },
+        "reference_10": {
+          "label": "参考画像 10"
+        },
+        "reference_sources": {
+          "label": "参考画像の URL または Base64"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "変更する部分と残す部分を記述します。参考画像は番号で指定できます。"
+        },
+        "reference_1": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "quality": {
+          "help": "描画品質を選びます。処理時間と料金は段階によって変わります。"
+        },
+        "size": {
+          "help": "幅と高さのプリセットを選ぶか、詳細設定で指定します。"
+        },
+        "custom_size": {
+          "help": "1536x864 のように幅x高さを入力します。各辺は 16 の倍数で 3840 以下、総画素数は 655360～8294400、縦横比は 1:3～3:1 です。"
+        },
+        "output_format": {
+          "help": "JPEG または PNG から選びます。"
+        },
+        "moderation": {
+          "help": "Atlas のコンテンツ審査を自動または低から選びます。"
+        },
+        "enable_sync_mode": {
+          "help": "Atlas の完了を待ち、送信時の応答で結果を取得します。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas に Base64 での返却を求めます。ワーカーが復号して元の画像を保存します。"
+        },
+        "reference_2": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_3": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_4": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_5": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_6": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_7": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_8": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_9": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_10": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_sources": {
+          "help": "公開 HTTP(S) 画像 URL または Base64 データ URL を 1 行に 1 件入力します。アップロード画像と合わせて 1～10 枚です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "GPT Image 2 Developer 이미지 편집",
+      "description": "GPT Image 2 Developer로 참고 이미지 최대 10장을 편집합니다. 출력 크기, 화질, 형식을 지정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "quality": {
+          "label": "렌더링 품질",
+          "choiceLabels": {
+            "low": "낮음",
+            "medium": "중간",
+            "high": "높음"
+          }
+        },
+        "size": {
+          "label": "이미지 크기",
+          "choiceLabels": {
+            "1024x1024": "1024 × 1024",
+            "1024x768": "1024 × 768",
+            "768x1024": "768 × 1024",
+            "1024x1536": "1024 × 1536",
+            "1536x1024": "1536 × 1024",
+            "2048x2048": "2048 × 2048",
+            "2048x1152": "2048 × 1152",
+            "1152x2048": "1152 × 2048",
+            "2560x1088": "2560 × 1088",
+            "1088x2560": "1088 × 2560",
+            "2880x2160": "2880 × 2160",
+            "2160x2880": "2160 × 2880",
+            "3840x2160": "3840 × 2160",
+            "2160x3840": "2160 × 3840"
+          }
+        },
+        "custom_size": {
+          "label": "사용자 지정 크기"
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "moderation": {
+          "label": "콘텐츠 검토",
+          "choiceLabels": {
+            "auto": "자동",
+            "low": "낮음"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "결과 기다리기"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        },
+        "reference_1": {
+          "label": "참고 이미지 1"
+        },
+        "reference_2": {
+          "label": "참고 이미지 2"
+        },
+        "reference_3": {
+          "label": "참고 이미지 3"
+        },
+        "reference_4": {
+          "label": "참고 이미지 4"
+        },
+        "reference_5": {
+          "label": "참고 이미지 5"
+        },
+        "reference_6": {
+          "label": "참고 이미지 6"
+        },
+        "reference_7": {
+          "label": "참고 이미지 7"
+        },
+        "reference_8": {
+          "label": "참고 이미지 8"
+        },
+        "reference_9": {
+          "label": "참고 이미지 9"
+        },
+        "reference_10": {
+          "label": "참고 이미지 10"
+        },
+        "reference_sources": {
+          "label": "참고 이미지 URL 또는 Base64"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "바꿀 부분과 유지할 부분을 설명하세요. 번호로 참고 이미지를 지정할 수 있습니다."
+        },
+        "reference_1": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "quality": {
+          "help": "렌더링 품질을 고르세요. 처리 시간과 요금은 등급별로 달라질 수 있습니다."
+        },
+        "size": {
+          "help": "너비와 높이 프리셋을 고르거나 고급 설정에서 직접 입력하세요."
+        },
+        "custom_size": {
+          "help": "1536x864처럼 너비x높이를 입력하세요. 각 변은 16의 배수이며 최대 3840입니다. 총 655360~8294400픽셀, 가로세로 비율 1:3~3:1입니다."
+        },
+        "output_format": {
+          "help": "JPEG 또는 PNG를 선택하세요."
+        },
+        "moderation": {
+          "help": "Atlas의 콘텐츠 검토 강도를 자동 또는 낮음으로 선택합니다."
+        },
+        "enable_sync_mode": {
+          "help": "Atlas 생성이 완료되면 제출 응답에서 결과를 받습니다."
+        },
+        "enable_base64_output": {
+          "help": "Atlas에 Base64 결과를 요청합니다. 작업 머신에서 디코딩해 이미지 원본을 저장합니다."
+        },
+        "reference_2": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_3": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_4": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_5": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_6": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_7": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_8": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_9": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_10": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_sources": {
+          "help": "공개 HTTP(S) 이미지 URL이나 Base64 데이터 URL을 한 줄에 하나씩 입력하세요. 업로드를 포함해 1~10장입니다."
+        }
+      }
+    }
+  }
+}

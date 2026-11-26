@@ -1,0 +1,241 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-grok-video-extend",
+  "name": "Grok Imagine Video 视频续写",
+  "description": "在一段 MP4 结尾追加 2 至 10 秒，输出原视频和续写片段。",
+  "category": "video_tool",
+  "fields": [
+    {
+      "name": "source_video",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "video_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "integer",
+      "default": 6,
+      "minimum": "2",
+      "maximum": "10",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "source_video",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "video_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "xai/grok-imagine-video/extend-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "video_url": {
+          "kind": "video",
+          "fields": ["source_video"],
+          "external_sources_field": "video_source",
+          "external_urls_only": true,
+          "content_types": ["video/mp4"],
+          "max_duration_ms": 15000,
+          "min_items": 1,
+          "min_duration_ms": 2000
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Grok Imagine Video 视频续写",
+      "description": "在一段 MP4 结尾追加 2 至 10 秒，输出原视频和续写片段。",
+      "fields": {
+        "source_video": {
+          "label": "源视频"
+        },
+        "prompt": {
+          "label": "续写提示词"
+        },
+        "video_source": {
+          "label": "源视频 URL"
+        },
+        "duration_seconds": {
+          "label": "续写时长（秒）"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上传 2 至 15 秒的 MP4。"
+        },
+        "prompt": {
+          "help": "描述源视频结束之后发生的动作或画面。"
+        },
+        "duration_seconds": {
+          "help": "选择续写片段的长度，2 至 10 秒，默认 6 秒。"
+        },
+        "video_source": {
+          "help": "填写一个公开 MP4 地址，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Grok Imagine Video 影片續寫",
+      "description": "在一段 MP4 結尾加入 2 至 10 秒，輸出原影片與續寫片段。",
+      "fields": {
+        "source_video": {
+          "label": "來源影片"
+        },
+        "prompt": {
+          "label": "續寫提示詞"
+        },
+        "video_source": {
+          "label": "來源影片 URL"
+        },
+        "duration_seconds": {
+          "label": "續寫長度（秒）"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上傳 2 至 15 秒的 MP4。"
+        },
+        "prompt": {
+          "help": "描述原影片結束後的動作或畫面。"
+        },
+        "duration_seconds": {
+          "help": "選擇續寫片段的長度，2 至 10 秒，預設 6 秒。"
+        },
+        "video_source": {
+          "help": "填寫一個公開 MP4 網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Grok Imagine Video Video Extension",
+      "description": "Append a 2–10 second segment to an MP4 and return the original clip with the extension.",
+      "fields": {
+        "source_video": {
+          "label": "Source video"
+        },
+        "prompt": {
+          "label": "Extension prompt"
+        },
+        "video_source": {
+          "label": "Source video URL"
+        },
+        "duration_seconds": {
+          "label": "Extension duration (seconds)"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "Upload an MP4 from 2 to 15 seconds."
+        },
+        "prompt": {
+          "help": "Describe what happens after the source video's final frame."
+        },
+        "duration_seconds": {
+          "help": "Choose 2 to 10 seconds for the extension. The default is 6 seconds."
+        },
+        "video_source": {
+          "help": "Enter one public MP4 URL as an alternative to uploading."
+        }
+      }
+    },
+    "ja": {
+      "name": "Grok Imagine Video 動画の延長",
+      "description": "MP4 の末尾に 2〜10 秒を追加し、元動画と延長部分をまとめて出力します。",
+      "fields": {
+        "source_video": {
+          "label": "元動画"
+        },
+        "prompt": {
+          "label": "延長のプロンプト"
+        },
+        "video_source": {
+          "label": "元動画 URL"
+        },
+        "duration_seconds": {
+          "label": "延長時間（秒）"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "2〜15 秒の MP4 をアップロードします。"
+        },
+        "prompt": {
+          "help": "元動画の最終フレームの後に続く動きや場面を記述します。"
+        },
+        "duration_seconds": {
+          "help": "追加する時間を 2〜10 秒から選びます。既定値は 6 秒です。"
+        },
+        "video_source": {
+          "help": "アップロードの代わりに公開 MP4 URL を 1 つ入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Grok Imagine Video 동영상 연장",
+      "description": "MP4 끝에 2~10초를 추가하고 원본과 연장 구간을 함께 출력합니다.",
+      "fields": {
+        "source_video": {
+          "label": "원본 동영상"
+        },
+        "prompt": {
+          "label": "연장 프롬프트"
+        },
+        "video_source": {
+          "label": "원본 동영상 URL"
+        },
+        "duration_seconds": {
+          "label": "연장 길이(초)"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "2~15초 분량의 MP4를 업로드하세요."
+        },
+        "prompt": {
+          "help": "원본 동영상의 마지막 프레임 뒤에 이어질 장면이나 동작을 설명하세요."
+        },
+        "duration_seconds": {
+          "help": "추가할 구간을 2~10초 중에서 선택하세요. 기본값은 6초입니다."
+        },
+        "video_source": {
+          "help": "업로드 대신 공개 MP4 URL을 하나 입력하세요."
+        }
+      }
+    }
+  }
+}

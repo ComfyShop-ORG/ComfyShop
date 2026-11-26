@@ -1,0 +1,1744 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kwaivgi-kling-v4-0-reference-to-video",
+  "name": "可灵 4.0 参考生视频",
+  "description": "混合图片、视频、主体和音色参考，可沿时间轴指定起始、中间和结束关键帧。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "The man in @image_1 walks through a park at golden hour, following the motion rhythm of @video_1. Photorealistic style.",
+      "multiline": true,
+      "maxLength": 26000
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 10,
+      "minimum": "3",
+      "maximum": "30",
+      "step": "1",
+      "optional": true
+    },
+    {
+      "name": "image_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "reference_video_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "elements",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "voice_ids",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_10",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_video_1",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_2",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_3",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_4",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "auto",
+      "choices": ["auto", "16:9", "9:16", "1:1", "21:9"],
+      "optional": true
+    },
+    {
+      "name": "reference_video_5",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1080p",
+      "choices": ["720p", "1080p", "4k", "1080p-esr", "2k-esr", "4k-esr"],
+      "optional": true
+    },
+    {
+      "name": "dynamic_range",
+      "kind": "choice",
+      "default": "sdr",
+      "optional": true,
+      "choices": ["sdr", "hdr"]
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "middle_frame_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "middle_frame_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "middle_frame_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "middle_frame_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "middle_frame_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "middle_frame_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "middle_frame_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "middle_frame_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "middle_frame_8",
+      "kind": "image",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "dynamic_range",
+      "section": "default"
+    },
+    {
+      "fieldId": "image_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "elements",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "voice_ids",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_10",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "middle_frame_8",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "kwaivgi/kling-v4.0/reference-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "resolution": "resolution",
+        "aspect_ratio": "aspect_ratio",
+        "dynamic_range": "dynamic_range"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 26000
+      },
+      "kling_max_total_inputs": 15,
+      "kling_elements": {
+        "field": "elements",
+        "max_items": 7,
+        "max_video_subjects": 3,
+        "require_reference_type": true,
+        "max_images_per_subject": 3,
+        "max_videos_per_subject": 1,
+        "max_name_length": 20,
+        "max_description_length": 100,
+        "allow_frontal_only": true,
+        "allow_bound_voice": true
+      },
+      "text_arrays": {
+        "voice_ids": {
+          "field": "voice_ids",
+          "max_items": 3
+        }
+      },
+      "media": {
+        "reference_images": {
+          "kind": "image",
+          "array": true,
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4",
+            "reference_image_5",
+            "reference_image_6",
+            "reference_image_7",
+            "reference_image_8",
+            "reference_image_9",
+            "reference_image_10"
+          ],
+          "external_sources_field": "image_sources",
+          "allow_raw_base64": true,
+          "content_types": ["image/jpeg", "image/png", "image/gif", "image/webp", "image/bmp"]
+        },
+        "reference_videos": {
+          "kind": "video",
+          "content_types": ["video/mp4", "video/quicktime"],
+          "external_urls_only": true,
+          "max_bytes": 300000000,
+          "min_duration_ms": 3000,
+          "max_duration_ms": 30000,
+          "image_bounds": {
+            "min_side": 700,
+            "max_side": 4553
+          },
+          "array": true,
+          "fields": [
+            "reference_video_1",
+            "reference_video_2",
+            "reference_video_3",
+            "reference_video_4",
+            "reference_video_5"
+          ],
+          "external_sources_field": "reference_video_sources",
+          "max_total_duration_ms": 30000
+        },
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "allow_raw_base64": true,
+          "content_types": ["image/jpeg", "image/png", "image/gif", "image/webp", "image/bmp"]
+        },
+        "last_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "external_sources_field": "last_frame_source",
+          "allow_raw_base64": true,
+          "content_types": ["image/jpeg", "image/png", "image/gif", "image/webp", "image/bmp"]
+        },
+        "middle_images": {
+          "kind": "image",
+          "fields": [
+            "middle_frame_1",
+            "middle_frame_2",
+            "middle_frame_3",
+            "middle_frame_4",
+            "middle_frame_5",
+            "middle_frame_6",
+            "middle_frame_7",
+            "middle_frame_8"
+          ],
+          "external_sources_field": "middle_frame_sources",
+          "allow_raw_base64": true,
+          "content_types": ["image/jpeg", "image/png", "image/gif", "image/webp", "image/bmp"],
+          "array": true
+        }
+      },
+      "choice_constraints": {
+        "resolution": {
+          "parameter": "dynamic_range",
+          "values": {
+            "hdr": ["1080p", "4k"]
+          }
+        }
+      },
+      "kling_max_total_images": 10
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 4.0 参考生视频",
+      "description": "混合图片、视频、主体和音色参考，可沿时间轴指定起始、中间和结束关键帧。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "image_sources": {
+          "label": "参考图来源"
+        },
+        "reference_video_sources": {
+          "label": "参考视频 URL"
+        },
+        "elements": {
+          "label": "主体引用"
+        },
+        "voice_ids": {
+          "label": "音色 ID"
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        },
+        "reference_image_5": {
+          "label": "参考图 5"
+        },
+        "reference_image_6": {
+          "label": "参考图 6"
+        },
+        "reference_image_7": {
+          "label": "参考图 7"
+        },
+        "reference_image_8": {
+          "label": "参考图 8"
+        },
+        "reference_image_9": {
+          "label": "参考图 9"
+        },
+        "reference_image_10": {
+          "label": "参考图 10"
+        },
+        "reference_video_1": {
+          "label": "参考视频 1"
+        },
+        "reference_video_2": {
+          "label": "参考视频 2"
+        },
+        "reference_video_3": {
+          "label": "参考视频 3"
+        },
+        "reference_video_4": {
+          "label": "参考视频 4"
+        },
+        "first_frame": {
+          "label": "起始关键帧"
+        },
+        "first_frame_source": {
+          "label": "起始图来源"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "auto": "自动",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "21:9": "21:9"
+          }
+        },
+        "reference_video_5": {
+          "label": "参考视频 5"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K",
+            "1080p-esr": "1080p 超分",
+            "2k-esr": "2K 超分",
+            "4k-esr": "4K 超分"
+          }
+        },
+        "dynamic_range": {
+          "label": "动态范围",
+          "choiceLabels": {
+            "sdr": "SDR",
+            "hdr": "HDR"
+          }
+        },
+        "last_frame": {
+          "label": "结束关键帧"
+        },
+        "last_frame_source": {
+          "label": "结束图来源"
+        },
+        "middle_frame_sources": {
+          "label": "中间关键帧来源"
+        },
+        "middle_frame_1": {
+          "label": "中间关键帧 1"
+        },
+        "middle_frame_2": {
+          "label": "中间关键帧 2"
+        },
+        "middle_frame_3": {
+          "label": "中间关键帧 3"
+        },
+        "middle_frame_4": {
+          "label": "中间关键帧 4"
+        },
+        "middle_frame_5": {
+          "label": "中间关键帧 5"
+        },
+        "middle_frame_6": {
+          "label": "中间关键帧 6"
+        },
+        "middle_frame_7": {
+          "label": "中间关键帧 7"
+        },
+        "middle_frame_8": {
+          "label": "中间关键帧 8"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要生成的视频。英文最多 26,000 字符，非英文最多 11,000。用 @image_N、@video_N、@element_N 和 @voice_N 引用素材。"
+        },
+        "first_frame": {
+          "help": "可选起始图，与其他图片合计最多 10 张。"
+        },
+        "last_frame": {
+          "help": "可选一张结束图，固定成品最后一帧。"
+        },
+        "aspect_ratio": {
+          "help": "选择输出宽高比，默认根据参考素材自动选择。"
+        },
+        "duration": {
+          "help": "选择 3 至 30 秒。默认 10 秒。"
+        },
+        "resolution": {
+          "help": "选择原生分辨率或腾讯 ESR 超分。默认原生 1080p。"
+        },
+        "dynamic_range": {
+          "help": "默认 SDR。10 位 HDR 适用于原生 1080p 和 4K。"
+        },
+        "image_sources": {
+          "help": "参考图片与所有关键帧合计最多 10 张。每行填一个公开 URL、Base64 数据网址或纯 Base64。"
+        },
+        "reference_video_sources": {
+          "help": "每行填写一个公开 MP4 或 MOV 直链。与上传合计最多 5 条。"
+        },
+        "elements": {
+          "help": "填写最多 7 项的 JSON 数组，视频主体最多 3 项。使用已有主体 ID 或新建图片、视频主体。新建图片人物可绑定 element_voice_id。"
+        },
+        "voice_ids": {
+          "help": "每行一个可灵音色 ID，最多 3 个。用 @voice_N 按顺序引用。"
+        },
+        "reference_image_1": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_2": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_3": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_4": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_5": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_6": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_7": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_8": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_9": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_10": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_video_1": {
+          "help": "每条 MP4 或 MOV 需 3 至 30 秒，每边 700 至 4,553 像素，最多 300 MB。参考视频合计最多 30 秒。"
+        },
+        "reference_video_2": {
+          "help": "每条 MP4 或 MOV 需 3 至 30 秒，每边 700 至 4,553 像素，最多 300 MB。参考视频合计最多 30 秒。"
+        },
+        "reference_video_3": {
+          "help": "每条 MP4 或 MOV 需 3 至 30 秒，每边 700 至 4,553 像素，最多 300 MB。参考视频合计最多 30 秒。"
+        },
+        "reference_video_4": {
+          "help": "每条 MP4 或 MOV 需 3 至 30 秒，每边 700 至 4,553 像素，最多 300 MB。参考视频合计最多 30 秒。"
+        },
+        "first_frame_source": {
+          "help": "填写一个公开图片 URL、Base64 数据网址或纯 Base64。"
+        },
+        "reference_video_5": {
+          "help": "每条 MP4 或 MOV 需 3 至 30 秒，每边 700 至 4,553 像素，最多 300 MB。参考视频合计最多 30 秒。"
+        },
+        "last_frame_source": {
+          "help": "填写一个公开图片 URL、Base64 数据网址或纯 Base64。"
+        },
+        "middle_frame_sources": {
+          "help": "每行填写一个图片 URL、Base64 数据网址或纯 Base64，按视频时间顺序排列。与已上传中间帧合计最多 8 张。"
+        },
+        "middle_frame_1": {
+          "help": "可按时间顺序上传中间关键帧。关键帧和参考图合计最多 10 张。"
+        },
+        "middle_frame_2": {
+          "help": "可按时间顺序上传中间关键帧。关键帧和参考图合计最多 10 张。"
+        },
+        "middle_frame_3": {
+          "help": "可按时间顺序上传中间关键帧。关键帧和参考图合计最多 10 张。"
+        },
+        "middle_frame_4": {
+          "help": "可按时间顺序上传中间关键帧。关键帧和参考图合计最多 10 张。"
+        },
+        "middle_frame_5": {
+          "help": "可按时间顺序上传中间关键帧。关键帧和参考图合计最多 10 张。"
+        },
+        "middle_frame_6": {
+          "help": "可按时间顺序上传中间关键帧。关键帧和参考图合计最多 10 张。"
+        },
+        "middle_frame_7": {
+          "help": "可按时间顺序上传中间关键帧。关键帧和参考图合计最多 10 张。"
+        },
+        "middle_frame_8": {
+          "help": "可按时间顺序上传中间关键帧。关键帧和参考图合计最多 10 张。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 4.0 參考生影片",
+      "description": "混合圖片、影片、主體和音色參考，可沿時間軸指定起始、中間和結束關鍵影格。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "image_sources": {
+          "label": "參考圖來源"
+        },
+        "reference_video_sources": {
+          "label": "參考影片 URL"
+        },
+        "elements": {
+          "label": "主體引用"
+        },
+        "voice_ids": {
+          "label": "音色 ID"
+        },
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "reference_image_4": {
+          "label": "參考圖 4"
+        },
+        "reference_image_5": {
+          "label": "參考圖 5"
+        },
+        "reference_image_6": {
+          "label": "參考圖 6"
+        },
+        "reference_image_7": {
+          "label": "參考圖 7"
+        },
+        "reference_image_8": {
+          "label": "參考圖 8"
+        },
+        "reference_image_9": {
+          "label": "參考圖 9"
+        },
+        "reference_image_10": {
+          "label": "參考圖 10"
+        },
+        "reference_video_1": {
+          "label": "參考影片 1"
+        },
+        "reference_video_2": {
+          "label": "參考影片 2"
+        },
+        "reference_video_3": {
+          "label": "參考影片 3"
+        },
+        "reference_video_4": {
+          "label": "參考影片 4"
+        },
+        "first_frame": {
+          "label": "起始關鍵影格"
+        },
+        "first_frame_source": {
+          "label": "起始圖來源"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "auto": "自動",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "21:9": "21:9"
+          }
+        },
+        "reference_video_5": {
+          "label": "參考影片 5"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K",
+            "1080p-esr": "1080p 超解析度",
+            "2k-esr": "2K 超解析度",
+            "4k-esr": "4K 超解析度"
+          }
+        },
+        "dynamic_range": {
+          "label": "動態範圍",
+          "choiceLabels": {
+            "sdr": "SDR",
+            "hdr": "HDR"
+          }
+        },
+        "last_frame": {
+          "label": "結束關鍵影格"
+        },
+        "last_frame_source": {
+          "label": "結束圖來源"
+        },
+        "middle_frame_sources": {
+          "label": "中間關鍵影格來源"
+        },
+        "middle_frame_1": {
+          "label": "中間關鍵影格 1"
+        },
+        "middle_frame_2": {
+          "label": "中間關鍵影格 2"
+        },
+        "middle_frame_3": {
+          "label": "中間關鍵影格 3"
+        },
+        "middle_frame_4": {
+          "label": "中間關鍵影格 4"
+        },
+        "middle_frame_5": {
+          "label": "中間關鍵影格 5"
+        },
+        "middle_frame_6": {
+          "label": "中間關鍵影格 6"
+        },
+        "middle_frame_7": {
+          "label": "中間關鍵影格 7"
+        },
+        "middle_frame_8": {
+          "label": "中間關鍵影格 8"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要生成的影片。英文最多 26,000 字元，非英文最多 11,000。用 @image_N、@video_N、@element_N 和 @voice_N 引用素材。"
+        },
+        "first_frame": {
+          "help": "可選起始圖，和其他圖片合計最多 10 張。"
+        },
+        "last_frame": {
+          "help": "可選一張結束圖，固定成品最後一幀。"
+        },
+        "aspect_ratio": {
+          "help": "選擇輸出寬高比，預設會依參考素材自動選擇。"
+        },
+        "duration": {
+          "help": "選擇 3 至 30 秒。預設 10 秒。"
+        },
+        "resolution": {
+          "help": "選擇原生解析度或騰訊 ESR 超解析度。預設原生 1080p。"
+        },
+        "dynamic_range": {
+          "help": "預設 SDR。10 位元 HDR 適用於原生 1080p 和 4K。"
+        },
+        "image_sources": {
+          "help": "參考圖片與所有關鍵影格合計最多 10 張。每行填一個公開 URL、Base64 資料網址或純 Base64。"
+        },
+        "reference_video_sources": {
+          "help": "每行填寫一個公開 MP4 或 MOV 直接連結。和上傳合計最多 5 部。"
+        },
+        "elements": {
+          "help": "填寫最多 7 項的 JSON 陣列，影片主體最多 3 項。使用既有主體 ID 或建立圖片、影片主體。新建圖片人物可綁定 element_voice_id。"
+        },
+        "voice_ids": {
+          "help": "每行一個可靈音色 ID，最多 3 個。用 @voice_N 依序引用。"
+        },
+        "reference_image_1": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_2": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_3": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_4": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_5": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_6": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_7": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_8": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_9": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_10": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_video_1": {
+          "help": "每部 MP4 或 MOV 需 3 至 30 秒，每邊 700 至 4,553 像素，最多 300 MB。參考影片合計最多 30 秒。"
+        },
+        "reference_video_2": {
+          "help": "每部 MP4 或 MOV 需 3 至 30 秒，每邊 700 至 4,553 像素，最多 300 MB。參考影片合計最多 30 秒。"
+        },
+        "reference_video_3": {
+          "help": "每部 MP4 或 MOV 需 3 至 30 秒，每邊 700 至 4,553 像素，最多 300 MB。參考影片合計最多 30 秒。"
+        },
+        "reference_video_4": {
+          "help": "每部 MP4 或 MOV 需 3 至 30 秒，每邊 700 至 4,553 像素，最多 300 MB。參考影片合計最多 30 秒。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個公開圖片 URL、Base64 資料網址或純 Base64。"
+        },
+        "reference_video_5": {
+          "help": "每部 MP4 或 MOV 需 3 至 30 秒，每邊 700 至 4,553 像素，最多 300 MB。參考影片合計最多 30 秒。"
+        },
+        "last_frame_source": {
+          "help": "填寫一個公開圖片 URL、Base64 資料網址或純 Base64。"
+        },
+        "middle_frame_sources": {
+          "help": "每行填寫一個圖片 URL、Base64 資料網址或純 Base64，依影片時間順序排列。與已上傳的中間影格合計最多 8 張。"
+        },
+        "middle_frame_1": {
+          "help": "可依時間順序上傳中間關鍵影格。關鍵影格與參考圖合計最多 10 張。"
+        },
+        "middle_frame_2": {
+          "help": "可依時間順序上傳中間關鍵影格。關鍵影格與參考圖合計最多 10 張。"
+        },
+        "middle_frame_3": {
+          "help": "可依時間順序上傳中間關鍵影格。關鍵影格與參考圖合計最多 10 張。"
+        },
+        "middle_frame_4": {
+          "help": "可依時間順序上傳中間關鍵影格。關鍵影格與參考圖合計最多 10 張。"
+        },
+        "middle_frame_5": {
+          "help": "可依時間順序上傳中間關鍵影格。關鍵影格與參考圖合計最多 10 張。"
+        },
+        "middle_frame_6": {
+          "help": "可依時間順序上傳中間關鍵影格。關鍵影格與參考圖合計最多 10 張。"
+        },
+        "middle_frame_7": {
+          "help": "可依時間順序上傳中間關鍵影格。關鍵影格與參考圖合計最多 10 張。"
+        },
+        "middle_frame_8": {
+          "help": "可依時間順序上傳中間關鍵影格。關鍵影格與參考圖合計最多 10 張。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling 4.0 Reference to Video",
+      "description": "Generate video from images, video, subjects, and voices, with optional opening, middle, and closing keyframes.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Output duration (seconds)"
+        },
+        "image_sources": {
+          "label": "Reference image sources"
+        },
+        "reference_video_sources": {
+          "label": "Reference video URLs"
+        },
+        "elements": {
+          "label": "Subject references"
+        },
+        "voice_ids": {
+          "label": "Voice IDs"
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        },
+        "reference_image_5": {
+          "label": "Reference image 5"
+        },
+        "reference_image_6": {
+          "label": "Reference image 6"
+        },
+        "reference_image_7": {
+          "label": "Reference image 7"
+        },
+        "reference_image_8": {
+          "label": "Reference image 8"
+        },
+        "reference_image_9": {
+          "label": "Reference image 9"
+        },
+        "reference_image_10": {
+          "label": "Reference image 10"
+        },
+        "reference_video_1": {
+          "label": "Reference video 1"
+        },
+        "reference_video_2": {
+          "label": "Reference video 2"
+        },
+        "reference_video_3": {
+          "label": "Reference video 3"
+        },
+        "reference_video_4": {
+          "label": "Reference video 4"
+        },
+        "first_frame": {
+          "label": "Opening keyframe"
+        },
+        "first_frame_source": {
+          "label": "Opening image source"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "auto": "Automatic",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "21:9": "21:9"
+          }
+        },
+        "reference_video_5": {
+          "label": "Reference video 5"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K",
+            "1080p-esr": "1080p upscaled",
+            "2k-esr": "2K upscaled",
+            "4k-esr": "4K upscaled"
+          }
+        },
+        "dynamic_range": {
+          "label": "Dynamic range",
+          "choiceLabels": {
+            "sdr": "SDR",
+            "hdr": "HDR"
+          }
+        },
+        "last_frame": {
+          "label": "Closing keyframe"
+        },
+        "last_frame_source": {
+          "label": "Closing image source"
+        },
+        "middle_frame_sources": {
+          "label": "Middle keyframe sources"
+        },
+        "middle_frame_1": {
+          "label": "Middle keyframe 1"
+        },
+        "middle_frame_2": {
+          "label": "Middle keyframe 2"
+        },
+        "middle_frame_3": {
+          "label": "Middle keyframe 3"
+        },
+        "middle_frame_4": {
+          "label": "Middle keyframe 4"
+        },
+        "middle_frame_5": {
+          "label": "Middle keyframe 5"
+        },
+        "middle_frame_6": {
+          "label": "Middle keyframe 6"
+        },
+        "middle_frame_7": {
+          "label": "Middle keyframe 7"
+        },
+        "middle_frame_8": {
+          "label": "Middle keyframe 8"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the video. Use up to 26,000 English characters or 11,000 non-English characters. Refer to inputs with @image_N, @video_N, @element_N, and @voice_N."
+        },
+        "first_frame": {
+          "help": "Optionally upload an opening image. Use up to ten images including references and other keyframes."
+        },
+        "last_frame": {
+          "help": "Optionally supply a closing image to set the final frame."
+        },
+        "aspect_ratio": {
+          "help": "Choose an output ratio. The default adapts to the references."
+        },
+        "duration": {
+          "help": "Choose 3 to 30 seconds. The default is 10."
+        },
+        "resolution": {
+          "help": "Choose native resolution or Tencent ESR upscaling. The default is native 1080p."
+        },
+        "dynamic_range": {
+          "help": "SDR is the default. 10-bit HDR is available at native 1080p and 4K."
+        },
+        "image_sources": {
+          "help": "Use up to ten images including all keyframes. Enter one public URL, Base64 data URL, or raw Base64 image per line."
+        },
+        "reference_video_sources": {
+          "help": "Enter one public MP4 or MOV direct URL per line. Use up to five reference videos across links and uploads."
+        },
+        "elements": {
+          "help": "Enter a JSON array of up to seven subjects, with up to three video subjects. Use an existing ID or define a new image or video subject. A new image character can bind an element_voice_id."
+        },
+        "voice_ids": {
+          "help": "Enter up to three Kling voice IDs, one per line. Refer to them in order with @voice_N."
+        },
+        "reference_image_1": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_2": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_3": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_4": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_5": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_6": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_7": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_8": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_9": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_10": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_video_1": {
+          "help": "Upload MP4 or MOV, 3 to 30 seconds each, with 700 to 4,553 pixels per side and up to 300 MB. Reference videos total up to 30 seconds."
+        },
+        "reference_video_2": {
+          "help": "Upload MP4 or MOV, 3 to 30 seconds each, with 700 to 4,553 pixels per side and up to 300 MB. Reference videos total up to 30 seconds."
+        },
+        "reference_video_3": {
+          "help": "Upload MP4 or MOV, 3 to 30 seconds each, with 700 to 4,553 pixels per side and up to 300 MB. Reference videos total up to 30 seconds."
+        },
+        "reference_video_4": {
+          "help": "Upload MP4 or MOV, 3 to 30 seconds each, with 700 to 4,553 pixels per side and up to 300 MB. Reference videos total up to 30 seconds."
+        },
+        "first_frame_source": {
+          "help": "Enter one public image URL, Base64 data URL, or raw Base64 image."
+        },
+        "reference_video_5": {
+          "help": "Upload MP4 or MOV, 3 to 30 seconds each, with 700 to 4,553 pixels per side and up to 300 MB. Reference videos total up to 30 seconds."
+        },
+        "last_frame_source": {
+          "help": "Enter one public image URL, Base64 data URL, or raw Base64 image."
+        },
+        "middle_frame_sources": {
+          "help": "Enter one image URL, Base64 data URL, or raw Base64 image per line in timeline order. Use up to eight middle keyframes across uploads and URLs."
+        },
+        "middle_frame_1": {
+          "help": "Optionally upload middle keyframes in timeline order. Keyframes and reference images total up to ten."
+        },
+        "middle_frame_2": {
+          "help": "Optionally upload middle keyframes in timeline order. Keyframes and reference images total up to ten."
+        },
+        "middle_frame_3": {
+          "help": "Optionally upload middle keyframes in timeline order. Keyframes and reference images total up to ten."
+        },
+        "middle_frame_4": {
+          "help": "Optionally upload middle keyframes in timeline order. Keyframes and reference images total up to ten."
+        },
+        "middle_frame_5": {
+          "help": "Optionally upload middle keyframes in timeline order. Keyframes and reference images total up to ten."
+        },
+        "middle_frame_6": {
+          "help": "Optionally upload middle keyframes in timeline order. Keyframes and reference images total up to ten."
+        },
+        "middle_frame_7": {
+          "help": "Optionally upload middle keyframes in timeline order. Keyframes and reference images total up to ten."
+        },
+        "middle_frame_8": {
+          "help": "Optionally upload middle keyframes in timeline order. Keyframes and reference images total up to ten."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling 4.0 参照素材から動画生成",
+      "description": "画像、動画、主体、音声を参照して動画を生成します。開始、中間、終了のキーフレームも指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "出力の長さ（秒）"
+        },
+        "image_sources": {
+          "label": "参照画像のソース"
+        },
+        "reference_video_sources": {
+          "label": "参照動画の URL"
+        },
+        "elements": {
+          "label": "主体参照"
+        },
+        "voice_ids": {
+          "label": "音声 ID"
+        },
+        "reference_image_1": {
+          "label": "参照画像 1"
+        },
+        "reference_image_2": {
+          "label": "参照画像 2"
+        },
+        "reference_image_3": {
+          "label": "参照画像 3"
+        },
+        "reference_image_4": {
+          "label": "参照画像 4"
+        },
+        "reference_image_5": {
+          "label": "参照画像 5"
+        },
+        "reference_image_6": {
+          "label": "参照画像 6"
+        },
+        "reference_image_7": {
+          "label": "参照画像 7"
+        },
+        "reference_image_8": {
+          "label": "参照画像 8"
+        },
+        "reference_image_9": {
+          "label": "参照画像 9"
+        },
+        "reference_image_10": {
+          "label": "参照画像 10"
+        },
+        "reference_video_1": {
+          "label": "参照動画 1"
+        },
+        "reference_video_2": {
+          "label": "参照動画 2"
+        },
+        "reference_video_3": {
+          "label": "参照動画 3"
+        },
+        "reference_video_4": {
+          "label": "参照動画 4"
+        },
+        "first_frame": {
+          "label": "開始キーフレーム"
+        },
+        "first_frame_source": {
+          "label": "開始画像のソース"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "auto": "自動",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "21:9": "21:9"
+          }
+        },
+        "reference_video_5": {
+          "label": "参照動画 5"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K",
+            "1080p-esr": "1080p アップスケール",
+            "2k-esr": "2K アップスケール",
+            "4k-esr": "4K アップスケール"
+          }
+        },
+        "dynamic_range": {
+          "label": "ダイナミックレンジ",
+          "choiceLabels": {
+            "sdr": "SDR",
+            "hdr": "HDR"
+          }
+        },
+        "last_frame": {
+          "label": "終了キーフレーム"
+        },
+        "last_frame_source": {
+          "label": "終了画像のソース"
+        },
+        "middle_frame_sources": {
+          "label": "中間キーフレームのソース"
+        },
+        "middle_frame_1": {
+          "label": "中間キーフレーム 1"
+        },
+        "middle_frame_2": {
+          "label": "中間キーフレーム 2"
+        },
+        "middle_frame_3": {
+          "label": "中間キーフレーム 3"
+        },
+        "middle_frame_4": {
+          "label": "中間キーフレーム 4"
+        },
+        "middle_frame_5": {
+          "label": "中間キーフレーム 5"
+        },
+        "middle_frame_6": {
+          "label": "中間キーフレーム 6"
+        },
+        "middle_frame_7": {
+          "label": "中間キーフレーム 7"
+        },
+        "middle_frame_8": {
+          "label": "中間キーフレーム 8"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "生成する動画を記述します。英語は 26,000 文字、その他の言語は 11,000 文字以内です。@image_N、@video_N、@element_N、@voice_N で素材を参照します。"
+        },
+        "first_frame": {
+          "help": "開始画像を指定できます。他の画像と合わせて最大 10 枚です。"
+        },
+        "last_frame": {
+          "help": "最後のフレームとなる画像を一枚指定できます。"
+        },
+        "aspect_ratio": {
+          "help": "出力の比率を選択します。既定は参照素材に合わせて自動で選択します。"
+        },
+        "duration": {
+          "help": "3〜30 秒を選択します。既定は 10 秒です。"
+        },
+        "resolution": {
+          "help": "ネイティブ解像度または Tencent ESR のアップスケールを選択します。既定はネイティブ 1080p です。"
+        },
+        "dynamic_range": {
+          "help": "既定は SDR です。10 ビット HDR はネイティブ 1080p と 4K で利用できます。"
+        },
+        "image_sources": {
+          "help": "すべてのキーフレームを含めて、参照画像の合計は最大 10 枚です。一行に公開 URL、Base64 データ URL、または Base64 画像を一つ入力します。"
+        },
+        "reference_video_sources": {
+          "help": "公開された MP4 または MOV の直接 URL を一行に一つ入力します。アップロードを含めて最大 5 本です。"
+        },
+        "elements": {
+          "help": "最大 7 件の JSON 配列を入力します。動画主体は最大 3 件です。既存の ID、または新しい画像・動画主体を指定します。新規の人物画像主体には element_voice_id を設定できます。"
+        },
+        "voice_ids": {
+          "help": "Kling の音声 ID を一行に一つ、最大 3 件入力します。@voice_N で順に参照します。"
+        },
+        "reference_image_1": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_2": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_3": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_4": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_5": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_6": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_7": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_8": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_9": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_10": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_video_1": {
+          "help": "各動画が 3〜30 秒、各辺 700〜4,553 ピクセル、最大 300 MB の MP4 または MOV をアップロードします。参照動画の合計は最長 30 秒です。"
+        },
+        "reference_video_2": {
+          "help": "各動画が 3〜30 秒、各辺 700〜4,553 ピクセル、最大 300 MB の MP4 または MOV をアップロードします。参照動画の合計は最長 30 秒です。"
+        },
+        "reference_video_3": {
+          "help": "各動画が 3〜30 秒、各辺 700〜4,553 ピクセル、最大 300 MB の MP4 または MOV をアップロードします。参照動画の合計は最長 30 秒です。"
+        },
+        "reference_video_4": {
+          "help": "各動画が 3〜30 秒、各辺 700〜4,553 ピクセル、最大 300 MB の MP4 または MOV をアップロードします。参照動画の合計は最長 30 秒です。"
+        },
+        "first_frame_source": {
+          "help": "公開画像 URL、Base64 データ URL、または Base64 画像を一つ入力します。"
+        },
+        "reference_video_5": {
+          "help": "各動画が 3〜30 秒、各辺 700〜4,553 ピクセル、最大 300 MB の MP4 または MOV をアップロードします。参照動画の合計は最長 30 秒です。"
+        },
+        "last_frame_source": {
+          "help": "公開画像 URL、Base64 データ URL、または Base64 画像を一つ入力します。"
+        },
+        "middle_frame_sources": {
+          "help": "画像 URL、Base64 データ URL、または Base64 画像を時系列順に一行に一つ入力します。アップロードを含めて中間キーフレームは最大 8 枚です。"
+        },
+        "middle_frame_1": {
+          "help": "中間キーフレームを時系列順にアップロードできます。キーフレームと参照画像の合計は最大 10 枚です。"
+        },
+        "middle_frame_2": {
+          "help": "中間キーフレームを時系列順にアップロードできます。キーフレームと参照画像の合計は最大 10 枚です。"
+        },
+        "middle_frame_3": {
+          "help": "中間キーフレームを時系列順にアップロードできます。キーフレームと参照画像の合計は最大 10 枚です。"
+        },
+        "middle_frame_4": {
+          "help": "中間キーフレームを時系列順にアップロードできます。キーフレームと参照画像の合計は最大 10 枚です。"
+        },
+        "middle_frame_5": {
+          "help": "中間キーフレームを時系列順にアップロードできます。キーフレームと参照画像の合計は最大 10 枚です。"
+        },
+        "middle_frame_6": {
+          "help": "中間キーフレームを時系列順にアップロードできます。キーフレームと参照画像の合計は最大 10 枚です。"
+        },
+        "middle_frame_7": {
+          "help": "中間キーフレームを時系列順にアップロードできます。キーフレームと参照画像の合計は最大 10 枚です。"
+        },
+        "middle_frame_8": {
+          "help": "中間キーフレームを時系列順にアップロードできます。キーフレームと参照画像の合計は最大 10 枚です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling 4.0 참조 동영상 생성",
+      "description": "이미지, 영상, 피사체, 음성을 참고해 영상을 만들고 시작, 중간, 끝 키프레임을 지정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "결과 길이(초)"
+        },
+        "image_sources": {
+          "label": "참조 이미지 소스"
+        },
+        "reference_video_sources": {
+          "label": "참조 동영상 URL"
+        },
+        "elements": {
+          "label": "피사체 참조"
+        },
+        "voice_ids": {
+          "label": "음성 ID"
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_image_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_image_6": {
+          "label": "참조 이미지 6"
+        },
+        "reference_image_7": {
+          "label": "참조 이미지 7"
+        },
+        "reference_image_8": {
+          "label": "참조 이미지 8"
+        },
+        "reference_image_9": {
+          "label": "참조 이미지 9"
+        },
+        "reference_image_10": {
+          "label": "참조 이미지 10"
+        },
+        "reference_video_1": {
+          "label": "참조 동영상 1"
+        },
+        "reference_video_2": {
+          "label": "참조 동영상 2"
+        },
+        "reference_video_3": {
+          "label": "참조 동영상 3"
+        },
+        "reference_video_4": {
+          "label": "참조 동영상 4"
+        },
+        "first_frame": {
+          "label": "시작 키프레임"
+        },
+        "first_frame_source": {
+          "label": "시작 이미지 소스"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "auto": "자동",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "21:9": "21:9"
+          }
+        },
+        "reference_video_5": {
+          "label": "참조 동영상 5"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K",
+            "1080p-esr": "1080p 업스케일",
+            "2k-esr": "2K 업스케일",
+            "4k-esr": "4K 업스케일"
+          }
+        },
+        "dynamic_range": {
+          "label": "다이내믹 레인지",
+          "choiceLabels": {
+            "sdr": "SDR",
+            "hdr": "HDR"
+          }
+        },
+        "last_frame": {
+          "label": "끝 키프레임"
+        },
+        "last_frame_source": {
+          "label": "끝 이미지 소스"
+        },
+        "middle_frame_sources": {
+          "label": "중간 키프레임 소스"
+        },
+        "middle_frame_1": {
+          "label": "중간 키프레임 1"
+        },
+        "middle_frame_2": {
+          "label": "중간 키프레임 2"
+        },
+        "middle_frame_3": {
+          "label": "중간 키프레임 3"
+        },
+        "middle_frame_4": {
+          "label": "중간 키프레임 4"
+        },
+        "middle_frame_5": {
+          "label": "중간 키프레임 5"
+        },
+        "middle_frame_6": {
+          "label": "중간 키프레임 6"
+        },
+        "middle_frame_7": {
+          "label": "중간 키프레임 7"
+        },
+        "middle_frame_8": {
+          "label": "중간 키프레임 8"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "만들 동영상을 설명하세요. 영어는 최대 26,000자, 다른 언어는 최대 11,000자입니다. @image_N, @video_N, @element_N, @voice_N으로 소재를 참조하세요."
+        },
+        "first_frame": {
+          "help": "시작 이미지를 선택할 수 있습니다. 다른 이미지와 합해 최대 10장입니다."
+        },
+        "last_frame": {
+          "help": "마지막 장면을 고정할 이미지 한 장을 선택할 수 있습니다."
+        },
+        "aspect_ratio": {
+          "help": "출력 비율을 선택하세요. 기본값은 참조 소재에 맞춰 자동으로 선택합니다."
+        },
+        "duration": {
+          "help": "3~30초를 선택하세요. 기본값은 10초입니다."
+        },
+        "resolution": {
+          "help": "기본 해상도 또는 Tencent ESR 업스케일을 선택하세요. 기본값은 1080p입니다."
+        },
+        "dynamic_range": {
+          "help": "기본값은 SDR입니다. 10비트 HDR은 기본 1080p와 4K에서 사용할 수 있습니다."
+        },
+        "image_sources": {
+          "help": "모든 키프레임과 참조 이미지를 합해 최대 10장입니다. 공개 URL, Base64 데이터 URL 또는 Base64 이미지 하나를 한 줄에 입력하세요."
+        },
+        "reference_video_sources": {
+          "help": "한 줄에 공개 MP4 또는 MOV 직접 URL을 하나씩 입력하세요. 업로드를 포함해 최대 5개입니다."
+        },
+        "elements": {
+          "help": "최대 7개의 피사체를 JSON 배열로 입력하세요. 영상 피사체는 최대 3개입니다. 기존 ID를 쓰거나 새 이미지·영상 피사체를 만듭니다. 새 이미지 인물에 element_voice_id를 연결할 수 있습니다."
+        },
+        "voice_ids": {
+          "help": "Kling 음성 ID를 한 줄에 하나씩 최대 3개 입력하세요. @voice_N으로 순서대로 참조합니다."
+        },
+        "reference_image_1": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_2": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_3": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_4": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_5": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_6": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_7": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_8": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_9": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_10": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_video_1": {
+          "help": "각 영상이 3~30초, 각 변 700~4,553픽셀, 최대 300MB인 MP4 또는 MOV를 올리세요. 참조 영상 길이는 합계 최대 30초입니다."
+        },
+        "reference_video_2": {
+          "help": "각 영상이 3~30초, 각 변 700~4,553픽셀, 최대 300MB인 MP4 또는 MOV를 올리세요. 참조 영상 길이는 합계 최대 30초입니다."
+        },
+        "reference_video_3": {
+          "help": "각 영상이 3~30초, 각 변 700~4,553픽셀, 최대 300MB인 MP4 또는 MOV를 올리세요. 참조 영상 길이는 합계 최대 30초입니다."
+        },
+        "reference_video_4": {
+          "help": "각 영상이 3~30초, 각 변 700~4,553픽셀, 최대 300MB인 MP4 또는 MOV를 올리세요. 참조 영상 길이는 합계 최대 30초입니다."
+        },
+        "first_frame_source": {
+          "help": "공개 이미지 URL, Base64 데이터 URL 또는 Base64 이미지 하나를 입력하세요."
+        },
+        "reference_video_5": {
+          "help": "각 영상이 3~30초, 각 변 700~4,553픽셀, 최대 300MB인 MP4 또는 MOV를 올리세요. 참조 영상 길이는 합계 최대 30초입니다."
+        },
+        "last_frame_source": {
+          "help": "공개 이미지 URL, Base64 데이터 URL 또는 Base64 이미지 하나를 입력하세요."
+        },
+        "middle_frame_sources": {
+          "help": "이미지 URL, Base64 데이터 URL 또는 Base64 이미지를 시간 순서대로 한 줄에 하나씩 입력하세요. 업로드를 포함해 중간 프레임은 최대 8장입니다."
+        },
+        "middle_frame_1": {
+          "help": "시간 순서대로 중간 키프레임을 올릴 수 있습니다. 키프레임과 참조 이미지 합계는 최대 10장입니다."
+        },
+        "middle_frame_2": {
+          "help": "시간 순서대로 중간 키프레임을 올릴 수 있습니다. 키프레임과 참조 이미지 합계는 최대 10장입니다."
+        },
+        "middle_frame_3": {
+          "help": "시간 순서대로 중간 키프레임을 올릴 수 있습니다. 키프레임과 참조 이미지 합계는 최대 10장입니다."
+        },
+        "middle_frame_4": {
+          "help": "시간 순서대로 중간 키프레임을 올릴 수 있습니다. 키프레임과 참조 이미지 합계는 최대 10장입니다."
+        },
+        "middle_frame_5": {
+          "help": "시간 순서대로 중간 키프레임을 올릴 수 있습니다. 키프레임과 참조 이미지 합계는 최대 10장입니다."
+        },
+        "middle_frame_6": {
+          "help": "시간 순서대로 중간 키프레임을 올릴 수 있습니다. 키프레임과 참조 이미지 합계는 최대 10장입니다."
+        },
+        "middle_frame_7": {
+          "help": "시간 순서대로 중간 키프레임을 올릴 수 있습니다. 키프레임과 참조 이미지 합계는 최대 10장입니다."
+        },
+        "middle_frame_8": {
+          "help": "시간 순서대로 중간 키프레임을 올릴 수 있습니다. 키프레임과 참조 이미지 합계는 최대 10장입니다."
+        }
+      }
+    }
+  }
+}

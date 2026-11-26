@@ -1,0 +1,611 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-flux-kontext-dev-lora",
+  "name": "FLUX.1 Kontext Dev LoRA 图像编辑",
+  "description": "用提示词和最多三组 LoRA 权重编辑图片。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "optional": true
+    },
+    {
+      "name": "size",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "num_images",
+      "kind": "integer",
+      "default": 1,
+      "minimum": "1",
+      "maximum": "4",
+      "optional": true
+    },
+    {
+      "optional": true,
+      "name": "source_image",
+      "kind": "image"
+    },
+    {
+      "optional": true,
+      "name": "num_inference_steps",
+      "kind": "integer",
+      "default": 28,
+      "minimum": "1",
+      "maximum": "50"
+    },
+    {
+      "optional": true,
+      "name": "guidance_scale",
+      "kind": "number",
+      "default": 2.5,
+      "minimum": "0",
+      "maximum": "20",
+      "step": "0.1"
+    },
+    {
+      "optional": true,
+      "name": "seed",
+      "kind": "integer",
+      "default": -1
+    },
+    {
+      "optional": true,
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "default": false
+    },
+    {
+      "optional": true,
+      "name": "source_image_url",
+      "kind": "string",
+      "default": ""
+    },
+    {
+      "name": "loras",
+      "kind": "string",
+      "optional": true,
+      "multiline": true,
+      "default": "[]"
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "default": "jpeg",
+      "choices": ["jpeg", "png", "webp"]
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "loras",
+      "section": "default"
+    },
+    {
+      "fieldId": "num_images",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "source_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "num_inference_steps",
+      "section": "advanced",
+      "control": "slider"
+    },
+    {
+      "fieldId": "guidance_scale",
+      "section": "advanced",
+      "control": "slider"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "source_image_url",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "black-forest-labs/flux-kontext-dev-lora",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "num_images": "num_images",
+        "num_inference_steps": "num_inference_steps",
+        "guidance_scale": "guidance_scale",
+        "seed": "seed",
+        "enable_base64_output": "enable_base64_output",
+        "loras": "loras",
+        "output_format": "output_format",
+        "enable_sync_mode": "enable_sync_mode"
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["source_image"],
+          "external_sources_field": "source_image_url",
+          "external_urls_only": true
+        }
+      },
+      "omit_blank_parameters": ["size", "prompt", "loras"],
+      "image_size_limits": {
+        "allow_auto": false,
+        "min_side": 1,
+        "max_side": 1536
+      },
+      "lora_parameters": {
+        "loras": {
+          "max_items": 3,
+          "scale_range": [0, 4]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "FLUX.1 Kontext Dev LoRA 图像编辑",
+      "description": "用提示词和最多三组 LoRA 权重编辑图片。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "图片尺寸"
+        },
+        "num_images": {
+          "label": "出图数量"
+        },
+        "source_image": {
+          "label": "源图"
+        },
+        "num_inference_steps": {
+          "label": "推理步数"
+        },
+        "guidance_scale": {
+          "label": "引导强度"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "enable_base64_output": {
+          "label": "Base64 输出"
+        },
+        "source_image_url": {
+          "label": "源图 URL"
+        },
+        "loras": {
+          "label": "LoRA 权重"
+        },
+        "output_format": {
+          "label": "图片格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG",
+            "webp": "WebP"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、场景、构图和风格。"
+        },
+        "size": {
+          "help": "按宽*高填写像素，每边最多 1,536 像素。可留空使用接口设置。"
+        },
+        "loras": {
+          "help": "填写 JSON 数组，最多三项。每项填写权重路径或 URL，系数 0 至 4，默认 1。"
+        },
+        "num_images": {
+          "help": "选择 1 至 4 张。"
+        },
+        "output_format": {
+          "help": "选择 JPEG、PNG 或 WebP。"
+        },
+        "source_image": {
+          "help": "上传要编辑的源图。也可在高级参数中填写公开图片地址。"
+        },
+        "num_inference_steps": {
+          "help": "选择 1 至 50 步，默认 28 步。"
+        },
+        "guidance_scale": {
+          "help": "选择 0 至 20，数值越高越贴近提示词。默认 2.5。"
+        },
+        "seed": {
+          "help": "输入整数以重用种子，默认 -1 表示随机。"
+        },
+        "enable_base64_output": {
+          "help": "返回 Base64 图像数据，工作机解码后保存成品。"
+        },
+        "source_image_url": {
+          "help": "填写一个公开图片地址，与上传二选一。"
+        },
+        "enable_sync_mode": {
+          "help": "让 Atlas 等待图片生成后在提交响应中直接返回成品。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "FLUX.1 Kontext Dev LoRA 圖片編輯",
+      "description": "用提示詞和最多三組 LoRA 權重編輯圖片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "圖片尺寸"
+        },
+        "num_images": {
+          "label": "出圖數量"
+        },
+        "source_image": {
+          "label": "來源圖"
+        },
+        "num_inference_steps": {
+          "label": "推論步數"
+        },
+        "guidance_scale": {
+          "label": "引導強度"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "enable_base64_output": {
+          "label": "Base64 輸出"
+        },
+        "source_image_url": {
+          "label": "來源圖 URL"
+        },
+        "loras": {
+          "label": "LoRA 權重"
+        },
+        "output_format": {
+          "label": "圖片格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG",
+            "webp": "WebP"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步回傳"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、場景、構圖和風格。"
+        },
+        "size": {
+          "help": "按寬*高填寫像素，每邊最多 1,536 像素。可留空使用介面設定。"
+        },
+        "loras": {
+          "help": "填寫 JSON 陣列，最多三項。每項填寫權重路徑或 URL，係數 0 至 4，預設 1。"
+        },
+        "num_images": {
+          "help": "選擇 1 至 4 張。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG、PNG 或 WebP。"
+        },
+        "source_image": {
+          "help": "上傳要編輯的來源圖。也可在進階參數中填寫公開圖片網址。"
+        },
+        "num_inference_steps": {
+          "help": "選擇 1 至 50 步，預設 28 步。"
+        },
+        "guidance_scale": {
+          "help": "選擇 0 至 20，數值越高越符合提示詞。預設 2.5。"
+        },
+        "seed": {
+          "help": "輸入整數以重用種子，預設 -1 代表隨機。"
+        },
+        "enable_base64_output": {
+          "help": "回傳 Base64 圖片資料，工作機解碼後儲存成品。"
+        },
+        "source_image_url": {
+          "help": "填寫一個公開圖片網址，與上傳擇一。"
+        },
+        "enable_sync_mode": {
+          "help": "讓 Atlas 等待圖片生成後，在提交回應中直接回傳成品。"
+        }
+      }
+    },
+    "en": {
+      "name": "FLUX.1 Kontext Dev LoRA Image Editing",
+      "description": "Edit images using a prompt and up to three LoRA weights.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Image size"
+        },
+        "num_images": {
+          "label": "Image count"
+        },
+        "source_image": {
+          "label": "Source image"
+        },
+        "num_inference_steps": {
+          "label": "Inference steps"
+        },
+        "guidance_scale": {
+          "label": "Guidance scale"
+        },
+        "seed": {
+          "label": "Random seed"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "source_image_url": {
+          "label": "Source image URL"
+        },
+        "loras": {
+          "label": "LoRA weights"
+        },
+        "output_format": {
+          "label": "Image format",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG",
+            "webp": "WebP"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "Synchronous response"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, scene, composition, and style."
+        },
+        "size": {
+          "help": "Enter width*height in pixels, up to 1,536 per side. Leave blank to use the provider's settings."
+        },
+        "loras": {
+          "help": "Enter a JSON array of up to three entries. Each needs a weights path or URL. Scale ranges from 0 to 4 and defaults to 1."
+        },
+        "num_images": {
+          "help": "Choose one to four images."
+        },
+        "output_format": {
+          "help": "Choose JPEG, PNG, or WebP."
+        },
+        "source_image": {
+          "help": "Upload the image to edit or enter a public image URL in advanced settings."
+        },
+        "num_inference_steps": {
+          "help": "Choose 1 to 50 steps. The default is 28."
+        },
+        "guidance_scale": {
+          "help": "Choose 0 to 20. Higher values follow the prompt more closely. The default is 2.5."
+        },
+        "seed": {
+          "help": "Enter an integer to reuse a seed. The default of −1 selects a random seed."
+        },
+        "enable_base64_output": {
+          "help": "Return Base64 image data for the worker to decode and save."
+        },
+        "source_image_url": {
+          "help": "Enter a public image URL as an alternative to uploading."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for Atlas to include the finished images in the submit response."
+        }
+      }
+    },
+    "ja": {
+      "name": "FLUX.1 Kontext Dev LoRA 画像編集",
+      "description": "プロンプトと最大 3 件の LoRA ウェイトで画像を編集します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "画像サイズ"
+        },
+        "num_images": {
+          "label": "生成枚数"
+        },
+        "source_image": {
+          "label": "元画像"
+        },
+        "num_inference_steps": {
+          "label": "推論ステップ数"
+        },
+        "guidance_scale": {
+          "label": "ガイダンスの強さ"
+        },
+        "seed": {
+          "label": "シード値"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        },
+        "source_image_url": {
+          "label": "元画像 URL"
+        },
+        "loras": {
+          "label": "LoRA ウェイト"
+        },
+        "output_format": {
+          "label": "画像形式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG",
+            "webp": "WebP"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、構図、スタイルを記述します。"
+        },
+        "size": {
+          "help": "幅*高さをピクセル単位で入力します。各辺は最大 1,536 ピクセルです。空欄では提供元の設定を使います。"
+        },
+        "loras": {
+          "help": "最大 3 件の JSON 配列を入力します。各項目にはウェイトのパスまたは URL が必要です。倍率は 0〜4 で、既定値は 1 です。"
+        },
+        "num_images": {
+          "help": "1〜4 枚を選びます。"
+        },
+        "output_format": {
+          "help": "JPEG、PNG、WebP から選びます。"
+        },
+        "source_image": {
+          "help": "編集する元画像をアップロードするか、詳細設定で公開画像 URL を入力します。"
+        },
+        "num_inference_steps": {
+          "help": "1〜50 ステップを選びます。既定値は 28 です。"
+        },
+        "guidance_scale": {
+          "help": "0〜20 を選びます。値が高いほどプロンプトに忠実になります。既定値は 2.5 です。"
+        },
+        "seed": {
+          "help": "シードを再利用するには整数を入力します。既定の -1 はランダムです。"
+        },
+        "enable_base64_output": {
+          "help": "Base64 画像データを受け取り、ワーカーがデコードして保存します。"
+        },
+        "source_image_url": {
+          "help": "アップロードの代わりに公開画像 URL を入力します。"
+        },
+        "enable_sync_mode": {
+          "help": "画像の生成を待ち、Atlas から送信応答で完成画像を受け取ります。"
+        }
+      }
+    },
+    "ko": {
+      "name": "FLUX.1 Kontext Dev LoRA 이미지 편집",
+      "description": "프롬프트와 최대 세 개의 LoRA 가중치로 이미지를 편집합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "이미지 크기"
+        },
+        "num_images": {
+          "label": "이미지 수"
+        },
+        "source_image": {
+          "label": "원본 이미지"
+        },
+        "num_inference_steps": {
+          "label": "추론 단계"
+        },
+        "guidance_scale": {
+          "label": "가이던스 강도"
+        },
+        "seed": {
+          "label": "랜덤 시드"
+        },
+        "enable_base64_output": {
+          "label": "Base64 출력"
+        },
+        "source_image_url": {
+          "label": "원본 이미지 URL"
+        },
+        "loras": {
+          "label": "LoRA 가중치"
+        },
+        "output_format": {
+          "label": "이미지 형식",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG",
+            "webp": "WebP"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "동기 응답"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 장면, 구도, 스타일을 설명하세요."
+        },
+        "size": {
+          "help": "가로*세로를 픽셀 단위로 입력하세요. 각 변은 최대 1,536픽셀입니다. 비워 두면 공급자의 설정을 사용합니다."
+        },
+        "loras": {
+          "help": "최대 세 항목의 JSON 배열을 입력하세요. 각 항목에 가중치 경로나 URL이 필요합니다. 배율은 0~4이며 기본값은 1입니다."
+        },
+        "num_images": {
+          "help": "1~4장을 선택하세요."
+        },
+        "output_format": {
+          "help": "JPEG, PNG 또는 WebP를 선택하세요."
+        },
+        "source_image": {
+          "help": "편집할 이미지를 업로드하거나 고급 설정에서 공개 이미지 URL을 입력하세요."
+        },
+        "num_inference_steps": {
+          "help": "1~50단계를 선택하세요. 기본값은 28입니다."
+        },
+        "guidance_scale": {
+          "help": "0~20을 선택하세요. 값이 높을수록 프롬프트를 더 가깝게 따릅니다. 기본값은 2.5입니다."
+        },
+        "seed": {
+          "help": "시드를 재사용하려면 정수를 입력하세요. 기본값 -1은 무작위입니다."
+        },
+        "enable_base64_output": {
+          "help": "Base64 이미지 데이터를 받아 작업기가 디코딩하고 저장합니다."
+        },
+        "source_image_url": {
+          "help": "업로드 대신 공개 이미지 URL을 입력하세요."
+        },
+        "enable_sync_mode": {
+          "help": "생성이 끝날 때까지 기다린 뒤 Atlas 제출 응답에 완성 이미지를 포함합니다."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,706 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-tencent-vega-video-1-5-lite-image-to-video",
+  "name": "腾讯 Vega Video 1.5 Lite 图生视频",
+  "description": "用文字和起始图或结束图生成 2 至 30 秒的视频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "A cat wearing a tiny astronaut helmet floats past glowing nebulae in deep space; cinematic, volumetric lighting, 8k.",
+      "multiline": true,
+      "maxLength": 7000
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 5,
+      "optional": true,
+      "choices": [
+        -1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+        26, 27, 28, 29, 30
+      ]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "480P",
+      "choices": ["480P", "720P", "1080P", "2K", "4K"],
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "choices": ["16:9", "9:16", "1:1", "4:3", "3:4", "adaptive"],
+      "optional": true
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "storage_mode",
+      "kind": "choice",
+      "default": "Temporary",
+      "choices": ["Permanent", "Temporary"],
+      "optional": true
+    },
+    {
+      "name": "enhance_prompt",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "moderation_mode",
+      "kind": "choice",
+      "default": "Moderation_L1",
+      "choices": ["Moderation_L0", "Moderation_L1", "Moderation_L2"],
+      "optional": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "storage_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enhance_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "moderation_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "tencent/vega-video-1.5-lite/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "resolution": "resolution",
+        "aspect_ratio": "aspect_ratio",
+        "generate_audio": "generate_audio",
+        "storage_mode": "storage_mode",
+        "enhance_prompt": "enhance_prompt",
+        "moderation_mode": "moderation_mode"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 7000
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "max_bytes": 20000000,
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "allow_raw_base64": true
+        },
+        "last_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "external_sources_field": "last_frame_source",
+          "max_bytes": 20000000,
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "allow_raw_base64": true
+        }
+      },
+      "required_any_of": [["image", "last_image"]]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "腾讯 Vega Video 1.5 Lite 图生视频",
+      "description": "用文字和起始图或结束图生成 2 至 30 秒的视频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "480P": "480P",
+            "720P": "720P",
+            "1080P": "1080P",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "adaptive": "自动"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "storage_mode": {
+          "label": "源视频存储",
+          "choiceLabels": {
+            "Permanent": "永久保留",
+            "Temporary": "临时保留"
+          }
+        },
+        "enhance_prompt": {
+          "label": "提示词增强"
+        },
+        "moderation_mode": {
+          "label": "内容审核级别",
+          "choiceLabels": {
+            "Moderation_L0": "L0",
+            "Moderation_L1": "L1",
+            "Moderation_L2": "L2"
+          }
+        },
+        "first_frame": {
+          "label": "起始图"
+        },
+        "first_frame_source": {
+          "label": "起始图来源"
+        },
+        "last_frame": {
+          "label": "结束图"
+        },
+        "last_frame_source": {
+          "label": "结束图来源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 20 MB。可在高级区填写来源。至少提供一帧。"
+        },
+        "last_frame": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 20 MB。可在高级区填写来源。至少提供一帧。"
+        },
+        "prompt": {
+          "help": "描述主体、场景、动作和镜头。最多 7,000 字符。"
+        },
+        "duration": {
+          "help": "选择 2 至 30 秒。选择 -1 使用智能时长。默认 5 秒。"
+        },
+        "resolution": {
+          "help": "选择输出分辨率。默认 480P。"
+        },
+        "aspect_ratio": {
+          "help": "选择输出宽高比，或选择自动以使用模型决定的比例。默认 16:9。"
+        },
+        "generate_audio": {
+          "help": "随视频生成配套声音。默认开启。"
+        },
+        "storage_mode": {
+          "help": "选择腾讯云点播中源视频的保留方式。默认临时保留。"
+        },
+        "enhance_prompt": {
+          "help": "由模型在生成前扩写提示词。默认关闭。"
+        },
+        "moderation_mode": {
+          "help": "选择腾讯内容审核级别。默认 L1。"
+        },
+        "first_frame_source": {
+          "help": "填写一个公开图片 URL、Base64 数据网址或纯 Base64。"
+        },
+        "last_frame_source": {
+          "help": "填写一个公开图片 URL、Base64 数据网址或纯 Base64。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "騰訊 Vega Video 1.5 Lite 圖生影片",
+      "description": "使用文字和起始圖或結束圖生成 2 至 30 秒的影片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "480P": "480P",
+            "720P": "720P",
+            "1080P": "1080P",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "adaptive": "自動"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "storage_mode": {
+          "label": "來源影片儲存",
+          "choiceLabels": {
+            "Permanent": "永久保留",
+            "Temporary": "暫時保留"
+          }
+        },
+        "enhance_prompt": {
+          "label": "提示詞增強"
+        },
+        "moderation_mode": {
+          "label": "內容審核級別",
+          "choiceLabels": {
+            "Moderation_L0": "L0",
+            "Moderation_L1": "L1",
+            "Moderation_L2": "L2"
+          }
+        },
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "first_frame_source": {
+          "label": "起始圖來源"
+        },
+        "last_frame": {
+          "label": "結束圖"
+        },
+        "last_frame_source": {
+          "label": "結束圖來源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 20 MB。可在進階區填寫來源。至少提供一個影格。"
+        },
+        "last_frame": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 20 MB。可在進階區填寫來源。至少提供一個影格。"
+        },
+        "prompt": {
+          "help": "描述主體、場景、動作和鏡頭。最多 7,000 字元。"
+        },
+        "duration": {
+          "help": "選擇 2 至 30 秒。選擇 -1 使用智慧長度。預設 5 秒。"
+        },
+        "resolution": {
+          "help": "選擇輸出解析度。預設 480P。"
+        },
+        "aspect_ratio": {
+          "help": "選擇輸出寬高比，或選擇自動讓模型決定比例。預設 16:9。"
+        },
+        "generate_audio": {
+          "help": "隨影片生成搭配的聲音。預設開啟。"
+        },
+        "storage_mode": {
+          "help": "選擇騰訊雲點播中來源影片的保留方式。預設暫時保留。"
+        },
+        "enhance_prompt": {
+          "help": "由模型在生成前擴寫提示詞。預設關閉。"
+        },
+        "moderation_mode": {
+          "help": "選擇騰訊內容審核級別。預設 L1。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個公開圖片 URL、Base64 資料網址或純 Base64。"
+        },
+        "last_frame_source": {
+          "help": "填寫一個公開圖片 URL、Base64 資料網址或純 Base64。"
+        }
+      }
+    },
+    "en": {
+      "name": "Tencent Vega Video 1.5 Lite Image to Video",
+      "description": "Generate a two- to thirty-second video from text and a starting or ending image.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "480P": "480P",
+            "720P": "720P",
+            "1080P": "1080P",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "adaptive": "Adaptive"
+          }
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "storage_mode": {
+          "label": "Source video storage",
+          "choiceLabels": {
+            "Permanent": "Permanent",
+            "Temporary": "Temporary"
+          }
+        },
+        "enhance_prompt": {
+          "label": "Enhance prompt"
+        },
+        "moderation_mode": {
+          "label": "Content moderation level",
+          "choiceLabels": {
+            "Moderation_L0": "L0",
+            "Moderation_L1": "L1",
+            "Moderation_L2": "L2"
+          }
+        },
+        "first_frame": {
+          "label": "Starting image"
+        },
+        "first_frame_source": {
+          "label": "Starting image source"
+        },
+        "last_frame": {
+          "label": "Ending image"
+        },
+        "last_frame_source": {
+          "label": "Ending image source"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload a JPEG, PNG or WebP up to 20 MB, or enter its source in advanced settings. Provide at least one frame."
+        },
+        "last_frame": {
+          "help": "Upload a JPEG, PNG or WebP up to 20 MB, or enter its source in advanced settings. Provide at least one frame."
+        },
+        "prompt": {
+          "help": "Describe the subject, scene, action and camera in up to 7,000 characters."
+        },
+        "duration": {
+          "help": "Choose 2 to 30 seconds, or choose −1 for smart duration. The default is 5."
+        },
+        "resolution": {
+          "help": "Choose the output resolution. The default is 480P."
+        },
+        "aspect_ratio": {
+          "help": "Choose an output aspect ratio or let the model choose. The default is 16:9."
+        },
+        "generate_audio": {
+          "help": "Generate a soundtrack with the video. On by default."
+        },
+        "storage_mode": {
+          "help": "Choose how Tencent Cloud VOD retains the source video. The default is temporary."
+        },
+        "enhance_prompt": {
+          "help": "Let the model expand the prompt before generation. Off by default."
+        },
+        "moderation_mode": {
+          "help": "Choose the Tencent content moderation level. The default is L1."
+        },
+        "first_frame_source": {
+          "help": "Enter one public image URL, Base64 data URL, or raw Base64 image."
+        },
+        "last_frame_source": {
+          "help": "Enter one public image URL, Base64 data URL, or raw Base64 image."
+        }
+      }
+    },
+    "ja": {
+      "name": "Tencent Vega Video 1.5 Lite 画像から動画",
+      "description": "テキストと開始画像または終了画像から、2〜30 秒の動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "動画の長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "480P": "480P",
+            "720P": "720P",
+            "1080P": "1080P",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "adaptive": "自動"
+          }
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "storage_mode": {
+          "label": "ソース動画の保存",
+          "choiceLabels": {
+            "Permanent": "永久保存",
+            "Temporary": "一時保存"
+          }
+        },
+        "enhance_prompt": {
+          "label": "プロンプト強化"
+        },
+        "moderation_mode": {
+          "label": "コンテンツ審査レベル",
+          "choiceLabels": {
+            "Moderation_L0": "L0",
+            "Moderation_L1": "L1",
+            "Moderation_L2": "L2"
+          }
+        },
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "first_frame_source": {
+          "label": "開始画像のソース"
+        },
+        "last_frame": {
+          "label": "終了画像"
+        },
+        "last_frame_source": {
+          "label": "終了画像のソース"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "最大 20 MB の JPEG、PNG または WebP をアップロードするか、詳細設定でソースを指定します。最低 1 フレームを指定してください。"
+        },
+        "last_frame": {
+          "help": "最大 20 MB の JPEG、PNG または WebP をアップロードするか、詳細設定でソースを指定します。最低 1 フレームを指定してください。"
+        },
+        "prompt": {
+          "help": "被写体、場面、動き、カメラワークを 7,000 文字以内で記述します。"
+        },
+        "duration": {
+          "help": "2〜30 秒を選択します。-1 はモデルが長さを決めます。既定は 5 秒です。"
+        },
+        "resolution": {
+          "help": "出力解像度を選択します。既定は 480P です。"
+        },
+        "aspect_ratio": {
+          "help": "出力の縦横比を選ぶか、モデルに任せます。既定は 16:9 です。"
+        },
+        "generate_audio": {
+          "help": "動画と一緒に音声を生成します。既定はオンです。"
+        },
+        "storage_mode": {
+          "help": "Tencent Cloud VOD でのソース動画の保持方法を選択します。既定は一時保存です。"
+        },
+        "enhance_prompt": {
+          "help": "生成前にモデルがプロンプトを補強します。既定はオフです。"
+        },
+        "moderation_mode": {
+          "help": "Tencent のコンテンツ審査レベルを選択します。既定は L1 です。"
+        },
+        "first_frame_source": {
+          "help": "公開画像 URL、Base64 データ URL、または Base64 画像を一つ入力します。"
+        },
+        "last_frame_source": {
+          "help": "公開画像 URL、Base64 データ URL、または Base64 画像を一つ入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Tencent Vega Video 1.5 Lite 이미지에서 동영상",
+      "description": "텍스트와 시작 이미지 또는 마지막 이미지로 2~30초 동영상을 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "동영상 길이(초)"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "480P": "480P",
+            "720P": "720P",
+            "1080P": "1080P",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "adaptive": "자동"
+          }
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "storage_mode": {
+          "label": "원본 동영상 저장",
+          "choiceLabels": {
+            "Permanent": "영구 보관",
+            "Temporary": "임시 보관"
+          }
+        },
+        "enhance_prompt": {
+          "label": "프롬프트 강화"
+        },
+        "moderation_mode": {
+          "label": "콘텐츠 검토 수준",
+          "choiceLabels": {
+            "Moderation_L0": "L0",
+            "Moderation_L1": "L1",
+            "Moderation_L2": "L2"
+          }
+        },
+        "first_frame": {
+          "label": "시작 이미지"
+        },
+        "first_frame_source": {
+          "label": "시작 이미지 소스"
+        },
+        "last_frame": {
+          "label": "마지막 이미지"
+        },
+        "last_frame_source": {
+          "label": "마지막 이미지 소스"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "최대 20 MB의 JPEG, PNG 또는 WebP를 업로드하거나 고급 설정에서 소스를 입력하세요. 프레임을 하나 이상 제공하세요."
+        },
+        "last_frame": {
+          "help": "최대 20 MB의 JPEG, PNG 또는 WebP를 업로드하거나 고급 설정에서 소스를 입력하세요. 프레임을 하나 이상 제공하세요."
+        },
+        "prompt": {
+          "help": "피사체, 장면, 움직임과 카메라 동작을 최대 7,000자로 설명하세요."
+        },
+        "duration": {
+          "help": "2~30초를 선택하세요. -1을 선택하면 모델이 길이를 결정합니다. 기본값은 5초입니다."
+        },
+        "resolution": {
+          "help": "출력 해상도를 선택하세요. 기본값은 480P입니다."
+        },
+        "aspect_ratio": {
+          "help": "출력 화면 비율을 선택하거나 모델이 결정하게 하세요. 기본값은 16:9입니다."
+        },
+        "generate_audio": {
+          "help": "동영상과 함께 사운드를 생성합니다. 기본값은 켜짐입니다."
+        },
+        "storage_mode": {
+          "help": "Tencent Cloud VOD의 원본 동영상 보관 방식을 선택하세요. 기본값은 임시 보관입니다."
+        },
+        "enhance_prompt": {
+          "help": "생성하기 전에 모델이 프롬프트를 보강합니다. 기본값은 꺼짐입니다."
+        },
+        "moderation_mode": {
+          "help": "Tencent 콘텐츠 검토 수준을 선택하세요. 기본값은 L1입니다."
+        },
+        "first_frame_source": {
+          "help": "공개 이미지 URL, Base64 데이터 URL 또는 Base64 이미지 하나를 입력하세요."
+        },
+        "last_frame_source": {
+          "help": "공개 이미지 URL, Base64 데이터 URL 또는 Base64 이미지 하나를 입력하세요."
+        }
+      }
+    }
+  }
+}

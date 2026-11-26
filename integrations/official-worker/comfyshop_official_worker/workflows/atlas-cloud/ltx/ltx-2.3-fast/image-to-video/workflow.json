@@ -1,0 +1,584 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-ltx23fast-image",
+  "name": "LTX 2.3 Fast 图生视频",
+  "description": "根据首帧图片生成最高 4K 的无声视频，可指定尾帧。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "The scene comes alive with gentle, natural motion and cinematic lighting.",
+      "optional": true
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "choices": [6, 8, 10, 12, 14, 16, 18, 20],
+      "optional": true,
+      "default": 6
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["720p", "1080p", "1440p", "4k"],
+      "optional": true,
+      "default": "720p"
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["16:9", "9:16"],
+      "optional": true,
+      "default": "16:9"
+    },
+    {
+      "name": "fps",
+      "kind": "choice",
+      "choices": [24, 25, 48, 50],
+      "optional": true,
+      "default": 24
+    },
+    {
+      "name": "camera_motion",
+      "kind": "choice",
+      "choices": [
+        "",
+        "dolly_in",
+        "dolly_out",
+        "dolly_left",
+        "dolly_right",
+        "jib_up",
+        "jib_down",
+        "static",
+        "focus_shift"
+      ],
+      "optional": true,
+      "default": ""
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "fps",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "camera_motion",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "ltx/ltx-2.3-fast/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "resolution": "resolution",
+        "aspect_ratio": "aspect_ratio",
+        "fps": "fps",
+        "camera_motion": "camera_motion"
+      },
+      "omit_blank_parameters": ["camera_motion", "prompt"],
+      "choice_bounds": {
+        "duration": [
+          {
+            "parameter": "resolution",
+            "ranges": {
+              "1440p": [6, 10],
+              "4k": [6, 10]
+            }
+          },
+          {
+            "parameter": "fps",
+            "ranges": {
+              "48": [6, 10],
+              "50": [6, 10]
+            }
+          }
+        ]
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "allow_raw_base64": true,
+          "allow_asset_references": true
+        },
+        "last_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "external_sources_field": "last_frame_source",
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "allow_raw_base64": true,
+          "allow_asset_references": true
+        }
+      },
+      "fixed": {
+        "generate_audio": false
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "LTX 2.3 Fast 图生视频",
+      "description": "根据首帧图片生成最高 4K 的无声视频，可指定尾帧。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "aspect_ratio": {
+          "label": "宽高比"
+        },
+        "fps": {
+          "label": "帧率（fps）"
+        },
+        "camera_motion": {
+          "label": "镜头运动",
+          "choiceLabels": {
+            "": "未设置",
+            "dolly_in": "推进",
+            "dolly_out": "拉远",
+            "dolly_left": "向左移动",
+            "dolly_right": "向右移动",
+            "jib_up": "摇臂上升",
+            "jib_down": "摇臂下降",
+            "static": "固定镜头",
+            "focus_shift": "转移焦点"
+          }
+        },
+        "first_frame": {
+          "label": "首帧图片"
+        },
+        "first_frame_source": {
+          "label": "首帧图片来源"
+        },
+        "last_frame": {
+          "label": "尾帧图片"
+        },
+        "last_frame_source": {
+          "label": "尾帧图片来源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传 JPEG、PNG 或 WebP 作为起始画面。"
+        },
+        "last_frame": {
+          "help": "可上传 JPEG、PNG 或 WebP 作为结束画面。"
+        },
+        "prompt": {
+          "help": "可描述运动、镜头变化和氛围。"
+        },
+        "duration_seconds": {
+          "help": "默认 6 秒。12 至 20 秒使用 720p 或 1080p，帧率为 24 或 25 fps。"
+        },
+        "resolution": {
+          "help": "选择 720p、1080p、1440p 或 4K。1440p 和 4K 的手动时长为 6 至 10 秒。"
+        },
+        "aspect_ratio": {
+          "help": "16:9 为横向，9:16 为竖向。"
+        },
+        "fps": {
+          "help": "选择 24、25、48 或 50。48 和 50 fps 的手动时长为 6 至 10 秒。"
+        },
+        "camera_motion": {
+          "help": "选择镜头移动、摇臂升降、固定镜头或转移焦点。"
+        },
+        "first_frame_source": {
+          "help": "填写公开图片 URL、Base64 Data URI、原始 Base64 或 Atlas 的 asset:// 引用，与上传二选一。"
+        },
+        "last_frame_source": {
+          "help": "填写公开图片 URL、Base64 Data URI、原始 Base64 或 Atlas 的 asset:// 引用，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "LTX 2.3 Fast 圖生影片",
+      "description": "依首幀圖片生成最高 4K 的無聲影片，可指定尾幀。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "時長（秒）"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "aspect_ratio": {
+          "label": "長寬比"
+        },
+        "fps": {
+          "label": "影格率（fps）"
+        },
+        "camera_motion": {
+          "label": "鏡頭運動",
+          "choiceLabels": {
+            "": "未設定",
+            "dolly_in": "推近",
+            "dolly_out": "拉遠",
+            "dolly_left": "向左移動",
+            "dolly_right": "向右移動",
+            "jib_up": "搖臂上升",
+            "jib_down": "搖臂下降",
+            "static": "固定鏡頭",
+            "focus_shift": "轉移焦點"
+          }
+        },
+        "first_frame": {
+          "label": "首幀圖片"
+        },
+        "first_frame_source": {
+          "label": "首幀圖片來源"
+        },
+        "last_frame": {
+          "label": "尾幀圖片"
+        },
+        "last_frame_source": {
+          "label": "尾幀圖片來源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳 JPEG、PNG 或 WebP 作為起始畫面。"
+        },
+        "last_frame": {
+          "help": "可上傳 JPEG、PNG 或 WebP 作為結束畫面。"
+        },
+        "prompt": {
+          "help": "可描述運動、鏡頭變化與氣氛。"
+        },
+        "duration_seconds": {
+          "help": "預設 6 秒。12 至 20 秒使用 720p 或 1080p，影格率為 24 或 25 fps。"
+        },
+        "resolution": {
+          "help": "選擇 720p、1080p、1440p 或 4K。1440p 和 4K 的手動時長為 6 至 10 秒。"
+        },
+        "aspect_ratio": {
+          "help": "16:9 為橫向，9:16 為直向。"
+        },
+        "fps": {
+          "help": "選擇 24、25、48 或 50。48 和 50 fps 的手動時長為 6 至 10 秒。"
+        },
+        "camera_motion": {
+          "help": "選擇鏡頭移動、搖臂升降、固定鏡頭或轉移焦點。"
+        },
+        "first_frame_source": {
+          "help": "填寫公開圖片網址、Base64 Data URI、原始 Base64 或 Atlas 的 asset:// 引用，與上傳擇一。"
+        },
+        "last_frame_source": {
+          "help": "填寫公開圖片網址、Base64 Data URI、原始 Base64 或 Atlas 的 asset:// 引用，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "LTX 2.3 Fast Image-to-Video",
+      "description": "Animate a first-frame image into silent video up to 4K, with an optional final frame.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "fps": {
+          "label": "Frame rate (fps)"
+        },
+        "camera_motion": {
+          "label": "Camera motion",
+          "choiceLabels": {
+            "": "Unset",
+            "dolly_in": "Dolly in",
+            "dolly_out": "Dolly out",
+            "dolly_left": "Dolly left",
+            "dolly_right": "Dolly right",
+            "jib_up": "Jib up",
+            "jib_down": "Jib down",
+            "static": "Static",
+            "focus_shift": "Focus shift"
+          }
+        },
+        "first_frame": {
+          "label": "First-frame image"
+        },
+        "first_frame_source": {
+          "label": "First-frame source"
+        },
+        "last_frame": {
+          "label": "Last-frame image"
+        },
+        "last_frame_source": {
+          "label": "Last-frame source"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload JPEG, PNG, or WebP for the opening frame."
+        },
+        "last_frame": {
+          "help": "Upload an optional JPEG, PNG, or WebP for the final frame."
+        },
+        "prompt": {
+          "help": "Optionally describe motion, camera movement, and atmosphere."
+        },
+        "duration_seconds": {
+          "help": "The default is 6 seconds. 12 to 20 seconds requires 720p or 1080p at 24 or 25 fps."
+        },
+        "resolution": {
+          "help": "Choose 720p, 1080p, 1440p, or 4K. At 1440p and 4K, manual durations range from 6 to 10 seconds."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9 for landscape or 9:16 for portrait."
+        },
+        "fps": {
+          "help": "Choose 24, 25, 48, or 50. At 48 or 50 fps, manual durations range from 6 to 10 seconds."
+        },
+        "camera_motion": {
+          "help": "Select a dolly, jib, static camera, or focus shift."
+        },
+        "first_frame_source": {
+          "help": "Provide a public image URL, Base64 data URI, raw Base64, or Atlas asset:// reference, or upload an image."
+        },
+        "last_frame_source": {
+          "help": "Provide a public image URL, Base64 data URI, raw Base64, or Atlas asset:// reference, or upload an image."
+        }
+      }
+    },
+    "ja": {
+      "name": "LTX 2.3 Fast 画像から動画",
+      "description": "開始画像から最大 4K の無音動画を生成します。終了画像も指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "aspect_ratio": {
+          "label": "縦横比"
+        },
+        "fps": {
+          "label": "フレームレート（fps）"
+        },
+        "camera_motion": {
+          "label": "カメラワーク",
+          "choiceLabels": {
+            "": "未設定",
+            "dolly_in": "ドリーイン",
+            "dolly_out": "ドリーアウト",
+            "dolly_left": "左へドリー",
+            "dolly_right": "右へドリー",
+            "jib_up": "ジブアップ",
+            "jib_down": "ジブダウン",
+            "static": "カメラ固定",
+            "focus_shift": "焦点移動"
+          }
+        },
+        "first_frame": {
+          "label": "開始フレーム画像"
+        },
+        "first_frame_source": {
+          "label": "開始フレームの入力元"
+        },
+        "last_frame": {
+          "label": "終了フレーム画像"
+        },
+        "last_frame_source": {
+          "label": "終了フレームの入力元"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "開始画像として JPEG、PNG、WebP をアップロードします。"
+        },
+        "last_frame": {
+          "help": "終了画像として JPEG、PNG、WebP をアップロードできます。"
+        },
+        "prompt": {
+          "help": "動き、カメラワーク、雰囲気を記述できます。"
+        },
+        "duration_seconds": {
+          "help": "既定値は 6 秒です。12〜20 秒には 720p または 1080p と 24 または 25 fps が必要です。"
+        },
+        "resolution": {
+          "help": "720p、1080p、1440p、4K から選びます。1440p と 4K では 6〜10 秒を手動指定できます。"
+        },
+        "aspect_ratio": {
+          "help": "横向きは 16:9、縦向きは 9:16 です。"
+        },
+        "fps": {
+          "help": "24、25、48、50 から選びます。48 と 50 fps では 6〜10 秒を手動指定できます。"
+        },
+        "camera_motion": {
+          "help": "ドリー、ジブ、カメラ固定、焦点移動から選びます。"
+        },
+        "first_frame_source": {
+          "help": "公開画像 URL、Base64 Data URI、Base64 文字列、Atlas の asset:// 参照の入力、または画像のアップロードを選びます。"
+        },
+        "last_frame_source": {
+          "help": "公開画像 URL、Base64 Data URI、Base64 文字列、Atlas の asset:// 参照の入力、または画像のアップロードを選びます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "LTX 2.3 Fast 이미지로 동영상 생성",
+      "description": "첫 프레임 이미지로 최대 4K 무음 동영상을 생성합니다. 끝 프레임을 지정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "길이(초)"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "fps": {
+          "label": "프레임 속도(fps)"
+        },
+        "camera_motion": {
+          "label": "카메라 움직임",
+          "choiceLabels": {
+            "": "미설정",
+            "dolly_in": "달리 인",
+            "dolly_out": "달리 아웃",
+            "dolly_left": "왼쪽 달리",
+            "dolly_right": "오른쪽 달리",
+            "jib_up": "지브 상승",
+            "jib_down": "지브 하강",
+            "static": "카메라 고정",
+            "focus_shift": "초점 이동"
+          }
+        },
+        "first_frame": {
+          "label": "첫 프레임 이미지"
+        },
+        "first_frame_source": {
+          "label": "첫 프레임 소스"
+        },
+        "last_frame": {
+          "label": "끝 프레임 이미지"
+        },
+        "last_frame_source": {
+          "label": "끝 프레임 소스"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "시작 장면에 사용할 JPEG, PNG 또는 WebP 이미지를 업로드하세요."
+        },
+        "last_frame": {
+          "help": "끝 장면에 사용할 JPEG, PNG 또는 WebP 이미지를 업로드할 수 있습니다."
+        },
+        "prompt": {
+          "help": "움직임, 카메라 변화와 분위기를 설명할 수 있습니다."
+        },
+        "duration_seconds": {
+          "help": "기본값은 6초입니다. 12~20초는 720p 또는 1080p와 24 또는 25 fps가 필요합니다."
+        },
+        "resolution": {
+          "help": "720p, 1080p, 1440p, 4K 중 선택하세요. 1440p와 4K에서는 6~10초를 직접 지정할 수 있습니다."
+        },
+        "aspect_ratio": {
+          "help": "가로형은 16:9, 세로형은 9:16입니다."
+        },
+        "fps": {
+          "help": "24, 25, 48, 50 중 선택하세요. 48과 50 fps에서는 6~10초를 직접 지정할 수 있습니다."
+        },
+        "camera_motion": {
+          "help": "달리, 지브, 카메라 고정 또는 초점 이동을 선택하세요."
+        },
+        "first_frame_source": {
+          "help": "공개 이미지 URL, Base64 Data URI, Base64 문자열, Atlas asset:// 참조를 입력하거나 이미지를 업로드하세요."
+        },
+        "last_frame_source": {
+          "help": "공개 이미지 URL, Base64 Data URI, Base64 문자열, Atlas asset:// 참조를 입력하거나 이미지를 업로드하세요."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,698 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-seedance-25-image-to-video",
+  "name": "Seedance 2.5 图生视频",
+  "description": "从起始图生成视频，可指定结束图或生成 480p 草稿。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "The scene comes alive with gentle motion and cinematic lighting",
+      "multiline": true,
+      "optional": true
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "default": 5,
+      "choices": [
+        -1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+        27, 28, 29, 30
+      ],
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "adaptive",
+      "choices": ["adaptive"],
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": [
+        "480p",
+        "720p",
+        "720p-sr",
+        "720p-esr",
+        "1080p",
+        "1080p-sr",
+        "1080p-esr",
+        "1080p-esr & 60fps",
+        "1440p-sr",
+        "1440p-esr",
+        "4k-esr",
+        "4k"
+      ],
+      "optional": true
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "add_watermark",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "include_last_frame",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "video_format",
+      "kind": "choice",
+      "default": "mp4",
+      "choices": ["mp4", "mov"],
+      "optional": true
+    },
+    {
+      "name": "draft",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "hidden"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "add_watermark",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "include_last_frame",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "draft",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "additionalOutputKinds": ["image", "text"],
+    "config": {
+      "model": "bytedance/seedance-2.5/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "generate_audio": "generate_audio",
+        "watermark": "add_watermark",
+        "return_last_frame": "include_last_frame",
+        "output_format": "video_format",
+        "draft": "draft"
+      },
+      "omit_blank_parameters": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "max_bytes": 30000000,
+          "content_types": [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/bmp",
+            "image/tiff",
+            "image/gif"
+          ],
+          "allow_raw_base64": true,
+          "allow_asset_references": true,
+          "image_bounds": {
+            "min_side": 300,
+            "max_side": 6000,
+            "aspect_ratio_range": [0.4, 2.5]
+          }
+        },
+        "last_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "external_sources_field": "last_frame_source",
+          "max_bytes": 30000000,
+          "content_types": [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/bmp",
+            "image/tiff",
+            "image/gif"
+          ],
+          "allow_raw_base64": true,
+          "allow_asset_references": true,
+          "image_bounds": {
+            "min_side": 300,
+            "max_side": 6000,
+            "aspect_ratio_range": [0.4, 2.5]
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seedance 2.5 图生视频",
+      "description": "从起始图生成视频，可指定结束图或生成 480p 草稿。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "成品时长（秒）"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "adaptive": "自适应"
+          }
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "add_watermark": {
+          "label": "添加水印"
+        },
+        "include_last_frame": {
+          "label": "导出尾帧"
+        },
+        "first_frame": {
+          "label": "起始图"
+        },
+        "first_frame_source": {
+          "label": "起始图来源"
+        },
+        "last_frame": {
+          "label": "结束图"
+        },
+        "last_frame_source": {
+          "label": "结束图来源"
+        },
+        "video_format": {
+          "label": "视频容器",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "mov": "MOV"
+          }
+        },
+        "draft": {
+          "label": "生成草稿"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "从这张图片开始生成。首尾帧支持 JPEG、PNG、WebP、BMP、TIFF 和 GIF。"
+        },
+        "last_frame": {
+          "help": "指定最终画面，可留空。"
+        },
+        "prompt": {
+          "help": "描述起始图中的动作、镜头和画面变化，可留空。"
+        },
+        "duration_seconds": {
+          "help": "选择 4 至 30 秒，选 -1 由模型决定时长。"
+        },
+        "aspect_ratio": {
+          "help": "沿用起始图的宽高比。"
+        },
+        "resolution": {
+          "help": "选择原生分辨率、SR 超分辨率或 ESR 增强。开启草稿时生成 480p。"
+        },
+        "generate_audio": {
+          "help": "生成与画面同步的语音、音效或音乐。"
+        },
+        "add_watermark": {
+          "help": "为输出视频添加水印。"
+        },
+        "include_last_frame": {
+          "help": "将输出视频的最后一帧另存为图片。"
+        },
+        "first_frame_source": {
+          "help": "填写一个公开图片 URL、Base64 或 asset:// 素材库引用，与上传二选一。"
+        },
+        "last_frame_source": {
+          "help": "填写一个公开图片 URL、Base64 或 asset:// 素材库引用，与上传二选一。"
+        },
+        "video_format": {
+          "help": "选择 MP4 或 MOV。MOV 使用 YUV 4:4:4 以保留色彩细节。"
+        },
+        "draft": {
+          "help": "生成 480p 预览和草稿 ID。可在七天内用草稿 ID 渲染正式版。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seedance 2.5 圖生影片",
+      "description": "從起始圖生成影片，可指定結束圖或生成 480p 草稿。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "成品長度（秒）"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "adaptive": "自適應"
+          }
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "add_watermark": {
+          "label": "加入浮水印"
+        },
+        "include_last_frame": {
+          "label": "匯出尾幀"
+        },
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "first_frame_source": {
+          "label": "起始圖來源"
+        },
+        "last_frame": {
+          "label": "結束圖"
+        },
+        "last_frame_source": {
+          "label": "結束圖來源"
+        },
+        "video_format": {
+          "label": "影片容器",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "mov": "MOV"
+          }
+        },
+        "draft": {
+          "label": "生成草稿"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "從這張圖片開始生成。首尾幀支援 JPEG、PNG、WebP、BMP、TIFF 和 GIF。"
+        },
+        "last_frame": {
+          "help": "指定最終畫面，可留空。"
+        },
+        "prompt": {
+          "help": "描述起始圖片中的動作、鏡頭和畫面變化，可留空。"
+        },
+        "duration_seconds": {
+          "help": "選擇 4 至 30 秒，選 -1 由模型決定長度。"
+        },
+        "aspect_ratio": {
+          "help": "沿用起始圖的寬高比。"
+        },
+        "resolution": {
+          "help": "選擇原生解析度、SR 超解析度或 ESR 增強。開啟草稿時生成 480p。"
+        },
+        "generate_audio": {
+          "help": "生成與畫面同步的語音、音效或音樂。"
+        },
+        "add_watermark": {
+          "help": "為輸出影片加入浮水印。"
+        },
+        "include_last_frame": {
+          "help": "將輸出影片的最後一幀另存為圖片。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個公開圖片 URL、Base64 或 asset:// 素材庫參照，與上傳擇一。"
+        },
+        "last_frame_source": {
+          "help": "填寫一個公開圖片 URL、Base64 或 asset:// 素材庫參照，與上傳擇一。"
+        },
+        "video_format": {
+          "help": "選擇 MP4 或 MOV。MOV 使用 YUV 4:4:4 以保留色彩細節。"
+        },
+        "draft": {
+          "help": "生成 480p 預覽和草稿 ID。可在七天內用草稿 ID 渲染正式版。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seedance 2.5 Image-to-Video",
+      "description": "Animate a starting image with an optional ending image and 480p draft rendering.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "adaptive": "Adaptive"
+          }
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "add_watermark": {
+          "label": "Add watermark"
+        },
+        "include_last_frame": {
+          "label": "Export last frame"
+        },
+        "first_frame": {
+          "label": "Starting image"
+        },
+        "first_frame_source": {
+          "label": "Starting image source"
+        },
+        "last_frame": {
+          "label": "Ending image"
+        },
+        "last_frame_source": {
+          "label": "Ending image source"
+        },
+        "video_format": {
+          "label": "Video container",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "mov": "MOV"
+          }
+        },
+        "draft": {
+          "label": "Generate draft"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Start from this image. Both frames accept JPEG, PNG, WebP, BMP, TIFF, and GIF."
+        },
+        "last_frame": {
+          "help": "Set the final frame or leave it empty."
+        },
+        "prompt": {
+          "help": "Describe the motion, camera, and changes from the starting image. You can leave this blank."
+        },
+        "duration_seconds": {
+          "help": "Choose 4 to 30 seconds or −1 for automatic duration."
+        },
+        "aspect_ratio": {
+          "help": "Use adaptive to preserve the starting image's aspect ratio."
+        },
+        "resolution": {
+          "help": "Choose a native resolution, SR upscale, or ESR enhancement. Draft mode outputs 480p."
+        },
+        "generate_audio": {
+          "help": "Generate speech, sound effects, or music synchronized with the video."
+        },
+        "add_watermark": {
+          "help": "Add a watermark to the output video."
+        },
+        "include_last_frame": {
+          "help": "Save the final video frame as a separate image."
+        },
+        "first_frame_source": {
+          "help": "Enter a public image URL, Base64, or an asset:// library reference as an alternative to uploading."
+        },
+        "last_frame_source": {
+          "help": "Enter a public image URL, Base64, or an asset:// library reference as an alternative to uploading."
+        },
+        "video_format": {
+          "help": "Choose MP4 or MOV. MOV uses YUV 4:4:4 to preserve color detail."
+        },
+        "draft": {
+          "help": "Render a 480p preview and get a draft ID. Use that ID to render the final within seven days."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seedance 2.5 画像から動画",
+      "description": "開始画像から動画を生成します。終了画像の指定や 480p の下書き作成もできます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "動画の長さ（秒）"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "adaptive": "自動"
+          }
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "add_watermark": {
+          "label": "透かしを追加"
+        },
+        "include_last_frame": {
+          "label": "最終フレームを書き出す"
+        },
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "first_frame_source": {
+          "label": "開始画像のソース"
+        },
+        "last_frame": {
+          "label": "終了画像"
+        },
+        "last_frame_source": {
+          "label": "終了画像のソース"
+        },
+        "video_format": {
+          "label": "動画コンテナ",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "mov": "MOV"
+          }
+        },
+        "draft": {
+          "label": "下書きを生成"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "この画像から生成を開始します。両方のフレームで JPEG、PNG、WebP、BMP、TIFF、GIF を使用できます。"
+        },
+        "last_frame": {
+          "help": "最終フレームを指定します。省略できます。"
+        },
+        "prompt": {
+          "help": "開始画像からの動き、カメラ、画面の変化を記述します。空欄にもできます。"
+        },
+        "duration_seconds": {
+          "help": "4〜30 秒を選びます。-1 で長さを自動決定します。"
+        },
+        "aspect_ratio": {
+          "help": "開始画像の縦横比を維持します。"
+        },
+        "resolution": {
+          "help": "ネイティブ解像度、超解像（SR）、画質強化（ESR）を選べます。下書きは 480p で出力されます。"
+        },
+        "generate_audio": {
+          "help": "映像に同期する音声、効果音、音楽を生成します。"
+        },
+        "add_watermark": {
+          "help": "出力動画に透かしを追加します。"
+        },
+        "include_last_frame": {
+          "help": "動画の最後のフレームを別の画像として保存します。"
+        },
+        "first_frame_source": {
+          "help": "アップロードの代わりに、公開画像 URL、Base64、または asset:// ライブラリ参照を入力します。"
+        },
+        "last_frame_source": {
+          "help": "アップロードの代わりに、公開画像 URL、Base64、または asset:// ライブラリ参照を入力します。"
+        },
+        "video_format": {
+          "help": "MP4 または MOV を選びます。MOV は YUV 4:4:4 で色のディテールを保ちます。"
+        },
+        "draft": {
+          "help": "480p のプレビューと下書き ID を出力します。下書き ID を使って 7 日以内に完成版を生成できます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seedance 2.5 이미지로 동영상 생성",
+      "description": "시작 이미지로 동영상을 만듭니다. 종료 이미지를 지정하거나 480p 초안을 만들 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "동영상 길이(초)"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "adaptive": "자동"
+          }
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "add_watermark": {
+          "label": "워터마크 추가"
+        },
+        "include_last_frame": {
+          "label": "마지막 프레임 내보내기"
+        },
+        "first_frame": {
+          "label": "시작 이미지"
+        },
+        "first_frame_source": {
+          "label": "시작 이미지 소스"
+        },
+        "last_frame": {
+          "label": "종료 이미지"
+        },
+        "last_frame_source": {
+          "label": "종료 이미지 소스"
+        },
+        "video_format": {
+          "label": "동영상 컨테이너",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "mov": "MOV"
+          }
+        },
+        "draft": {
+          "label": "초안 생성"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "이 이미지에서 생성을 시작합니다. 두 프레임 모두 JPEG, PNG, WebP, BMP, TIFF, GIF를 지원합니다."
+        },
+        "last_frame": {
+          "help": "마지막 프레임을 지정합니다. 비워 둘 수 있습니다."
+        },
+        "prompt": {
+          "help": "시작 이미지의 움직임, 카메라, 화면 변화를 설명하세요. 비워 둘 수 있습니다."
+        },
+        "duration_seconds": {
+          "help": "4~30초를 선택하세요. -1이면 길이가 자동으로 결정됩니다."
+        },
+        "aspect_ratio": {
+          "help": "시작 이미지의 화면 비율을 유지합니다."
+        },
+        "resolution": {
+          "help": "기본 해상도, 초해상도(SR), 화질 향상(ESR) 중 선택하세요. 초안 모드에서는 480p로 출력됩니다."
+        },
+        "generate_audio": {
+          "help": "영상과 동기화된 음성, 효과음, 음악을 생성합니다."
+        },
+        "add_watermark": {
+          "help": "출력 동영상에 워터마크를 추가합니다."
+        },
+        "include_last_frame": {
+          "help": "동영상의 마지막 프레임을 별도의 이미지로 저장합니다."
+        },
+        "first_frame_source": {
+          "help": "업로드 대신 공개 이미지 URL, Base64 또는 asset:// 라이브러리 참조를 입력합니다."
+        },
+        "last_frame_source": {
+          "help": "업로드 대신 공개 이미지 URL, Base64 또는 asset:// 라이브러리 참조를 입력합니다."
+        },
+        "video_format": {
+          "help": "MP4 또는 MOV를 선택하세요. MOV는 YUV 4:4:4를 사용해 색상 디테일을 보존합니다."
+        },
+        "draft": {
+          "help": "480p 미리 보기와 초안 ID를 출력합니다. 7일 이내에 초안 ID로 최종본을 렌더링할 수 있습니다."
+        }
+      }
+    }
+  }
+}

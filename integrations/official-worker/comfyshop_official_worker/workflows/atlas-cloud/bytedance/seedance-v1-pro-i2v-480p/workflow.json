@@ -1,0 +1,469 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-seedance-v1-pro-i2v-480p",
+  "name": "Seedance v1 Pro 480p 图生视频",
+  "description": "使用起始图生成 2 至 12 秒的 480p 视频，可选结束图。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": " A girl turns toward the camera, her earrings swaying gently with the motion. The camera rotates, bathed in dreamy sunlight.",
+      "multiline": true,
+      "maxLength": 2000,
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "",
+      "choices": ["", "21:9", "16:9", "4:3", "1:1", "3:4", "9:16"],
+      "optional": true
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 5,
+      "minimum": "2",
+      "maximum": "12",
+      "step": "1",
+      "optional": false
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "bytedance/seedance-v1-pro-i2v-480p",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "aspect_ratio": "aspect_ratio",
+        "duration": "duration",
+        "seed": "seed"
+      },
+      "text_max_lengths": {
+        "prompt": 2000
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "max_bytes": 10000000,
+          "content_types": ["image/jpeg", "image/png"],
+          "image_bounds": {
+            "min_side": 300
+          }
+        },
+        "last_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "external_sources_field": "last_frame_source",
+          "max_bytes": 10000000,
+          "content_types": ["image/jpeg", "image/png"],
+          "image_bounds": {
+            "min_side": 300
+          }
+        }
+      },
+      "omit_blank_parameters": ["prompt", "aspect_ratio"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seedance v1 Pro 480p 图生视频",
+      "description": "使用起始图生成 2 至 12 秒的 480p 视频，可选结束图。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "21:9": "21:9",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "": "按模型默认"
+          }
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "first_frame": {
+          "label": "起始图"
+        },
+        "first_frame_source": {
+          "label": "起始图来源"
+        },
+        "last_frame": {
+          "label": "结束图"
+        },
+        "last_frame_source": {
+          "label": "结束图来源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传 JPEG 或 PNG，每张最多 10 MB，每边至少 300 像素。"
+        },
+        "last_frame": {
+          "help": "上传 JPEG 或 PNG，每张最多 10 MB，每边至少 300 像素。"
+        },
+        "prompt": {
+          "help": "可描述动作、场景和镜头，最多 2,000 字符。"
+        },
+        "aspect_ratio": {
+          "help": "选择画面比例，或留空使用接口默认值。"
+        },
+        "duration": {
+          "help": "选择 2 至 12 秒，默认 5 秒。"
+        },
+        "seed": {
+          "help": "填写整数以指定种子。默认 -1，使用随机种子。"
+        },
+        "first_frame_source": {
+          "help": "填写一个公开图片 URL 或带媒体类型的 Base64 数据网址。"
+        },
+        "last_frame_source": {
+          "help": "填写一个公开图片 URL 或带媒体类型的 Base64 数据网址。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seedance v1 Pro 480p 圖生影片",
+      "description": "使用起始圖生成 2 至 12 秒的 480p 影片，可選結束圖。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "21:9": "21:9",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "": "依模型預設"
+          }
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "first_frame_source": {
+          "label": "起始圖來源"
+        },
+        "last_frame": {
+          "label": "結束圖"
+        },
+        "last_frame_source": {
+          "label": "結束圖來源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳 JPEG 或 PNG，每張最多 10 MB，每邊至少 300 像素。"
+        },
+        "last_frame": {
+          "help": "上傳 JPEG 或 PNG，每張最多 10 MB，每邊至少 300 像素。"
+        },
+        "prompt": {
+          "help": "可描述動作、場景和鏡頭，最多 2,000 字元。"
+        },
+        "aspect_ratio": {
+          "help": "選擇畫面比例，或留空使用介面預設值。"
+        },
+        "duration": {
+          "help": "選擇 2 至 12 秒，預設 5 秒。"
+        },
+        "seed": {
+          "help": "填寫整數以指定種子。預設 -1，使用隨機種子。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個公開圖片網址或帶媒體類型的 Base64 資料網址。"
+        },
+        "last_frame_source": {
+          "help": "填寫一個公開圖片網址或帶媒體類型的 Base64 資料網址。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seedance v1 Pro 480p Image to Video",
+      "description": "Animate a starting image into a two- to twelve-second 480p video, with an optional ending image.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "21:9": "21:9",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "": "Model default"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "first_frame": {
+          "label": "Starting image"
+        },
+        "first_frame_source": {
+          "label": "Starting image source"
+        },
+        "last_frame": {
+          "label": "Ending image"
+        },
+        "last_frame_source": {
+          "label": "Ending image source"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload a JPEG or PNG up to 10 MB, with each side at least 300 px."
+        },
+        "last_frame": {
+          "help": "Upload a JPEG or PNG up to 10 MB, with each side at least 300 px."
+        },
+        "prompt": {
+          "help": "Optionally describe motion, scene and camera in up to 2,000 characters."
+        },
+        "aspect_ratio": {
+          "help": "Choose an aspect ratio or use the model default."
+        },
+        "duration": {
+          "help": "Choose 2 to 12 seconds. The default is 5."
+        },
+        "seed": {
+          "help": "Enter an integer to specify a seed. The default of −1 uses a random seed."
+        },
+        "first_frame_source": {
+          "help": "Enter one public image URL or a Base64 data URL with its image type."
+        },
+        "last_frame_source": {
+          "help": "Enter one public image URL or a Base64 data URL with its image type."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seedance v1 Pro 480p 画像から動画",
+      "description": "開始画像から 2〜12 秒の 480p 動画を生成します。終了画像も指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "21:9": "21:9",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "": "モデルの既定値"
+          }
+        },
+        "duration": {
+          "label": "動画の長さ（秒）"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "first_frame_source": {
+          "label": "開始画像のソース"
+        },
+        "last_frame": {
+          "label": "終了画像"
+        },
+        "last_frame_source": {
+          "label": "終了画像のソース"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "最大 10 MB の JPEG または PNG をアップロードします。各辺は 300 ピクセル以上です。"
+        },
+        "last_frame": {
+          "help": "最大 10 MB の JPEG または PNG をアップロードします。各辺は 300 ピクセル以上です。"
+        },
+        "prompt": {
+          "help": "動き、シーン、カメラワークを必要に応じて最大 2,000 文字で記述します。"
+        },
+        "aspect_ratio": {
+          "help": "縦横比を選択するか、モデルの既定値を使用します。"
+        },
+        "duration": {
+          "help": "2〜12 秒を選択します。既定は 5 秒です。"
+        },
+        "seed": {
+          "help": "整数を入力してシードを指定します。既定値の -1 はランダムです。"
+        },
+        "first_frame_source": {
+          "help": "公開画像 URL または画像のメディアタイプを指定した Base64 データ URL を 1 つ入力します。"
+        },
+        "last_frame_source": {
+          "help": "公開画像 URL または画像のメディアタイプを指定した Base64 データ URL を 1 つ入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seedance v1 Pro 480p 이미지에서 동영상",
+      "description": "시작 이미지로 2~12초짜리 480p 동영상을 만들고 마지막 이미지를 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "21:9": "21:9",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16",
+            "": "모델 기본값"
+          }
+        },
+        "duration": {
+          "label": "동영상 길이(초)"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "first_frame": {
+          "label": "시작 이미지"
+        },
+        "first_frame_source": {
+          "label": "시작 이미지 소스"
+        },
+        "last_frame": {
+          "label": "마지막 이미지"
+        },
+        "last_frame_source": {
+          "label": "마지막 이미지 소스"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "최대 10 MB의 JPEG 또는 PNG를 업로드하세요. 각 변은 300픽셀 이상이어야 합니다."
+        },
+        "last_frame": {
+          "help": "최대 10 MB의 JPEG 또는 PNG를 업로드하세요. 각 변은 300픽셀 이상이어야 합니다."
+        },
+        "prompt": {
+          "help": "움직임, 장면과 카메라 동작을 최대 2,000자로 설명할 수 있습니다."
+        },
+        "aspect_ratio": {
+          "help": "화면 비율을 선택하거나 모델 기본값을 사용하세요."
+        },
+        "duration": {
+          "help": "2~12초를 선택하세요. 기본값은 5초입니다."
+        },
+        "seed": {
+          "help": "정수를 입력하여 시드를 정하세요. 기본값 -1은 무작위입니다."
+        },
+        "first_frame_source": {
+          "help": "공개 이미지 URL 또는 이미지 미디어 유형이 포함된 Base64 데이터 URL 하나를 입력하세요."
+        },
+        "last_frame_source": {
+          "help": "공개 이미지 URL 또는 이미지 미디어 유형이 포함된 Base64 데이터 URL 하나를 입력하세요."
+        }
+      }
+    }
+  }
+}

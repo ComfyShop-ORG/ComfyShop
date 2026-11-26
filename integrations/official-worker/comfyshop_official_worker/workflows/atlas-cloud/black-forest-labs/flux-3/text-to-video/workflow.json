@@ -1,0 +1,429 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-flux3-text-to-video",
+  "name": "FLUX 3 文生视频",
+  "description": "用文字生成 5 至 20 秒的视频，可生成同步音频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "optional": true,
+      "default": "auto",
+      "choices": ["auto", "21:9", "2:1", "16:9", "4:3", "1:1", "3:4", "9:16"]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "optional": true,
+      "default": "720p",
+      "choices": ["720p", "1080p"]
+    },
+    {
+      "name": "safety_tolerance",
+      "kind": "integer",
+      "default": 2,
+      "minimum": "0",
+      "maximum": "4",
+      "optional": true
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "optional": true,
+      "default": 5,
+      "choices": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "0"
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "safety_tolerance",
+      "section": "advanced",
+      "control": "slider"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "black-forest-labs/flux-3/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "safety_tolerance": "safety_tolerance",
+        "duration": "duration_seconds",
+        "generate_audio": "generate_audio",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "omit_blank_parameters": ["seed"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "FLUX 3 文生视频",
+      "description": "用文字生成 5 至 20 秒的视频，可生成同步音频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "auto": "自动",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "safety_tolerance": {
+          "label": "内容审核容忍度"
+        },
+        "duration_seconds": {
+          "label": "成品时长（秒）"
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "seed": {
+          "label": "随机种子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述视频的主体、动作、场景和镜头。开启音频时也可描述声音。"
+        },
+        "aspect_ratio": {
+          "help": "选择图片的宽高比，或让模型自动选择。"
+        },
+        "resolution": {
+          "help": "选择 720p 或 1080p。"
+        },
+        "duration_seconds": {
+          "help": "选择 5 至 20 秒，默认 5 秒。"
+        },
+        "safety_tolerance": {
+          "help": "选择 0 至 4，0 最严格，默认 2。"
+        },
+        "generate_audio": {
+          "help": "开启后随视频生成同步语音、音效和环境声。关闭后生成静音视频。"
+        },
+        "seed": {
+          "help": "填写非负整数以重用种子，留空由模型选择。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "FLUX 3 文生影片",
+      "description": "用文字生成 5 至 20 秒的影片，可生成同步音訊。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "auto": "自動",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "safety_tolerance": {
+          "label": "內容審查容忍度"
+        },
+        "duration_seconds": {
+          "label": "成品長度（秒）"
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "seed": {
+          "label": "隨機種子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述影片的主體、動作、場景和鏡頭。開啟音訊時也可描述聲音。"
+        },
+        "aspect_ratio": {
+          "help": "選擇圖片的寬高比，或讓模型自動選擇。"
+        },
+        "resolution": {
+          "help": "選擇 720p 或 1080p。"
+        },
+        "duration_seconds": {
+          "help": "選擇 5 至 20 秒，預設 5 秒。"
+        },
+        "safety_tolerance": {
+          "help": "選擇 0 至 4，0 最嚴格，預設 2。"
+        },
+        "generate_audio": {
+          "help": "開啟後隨影片生成同步語音、音效和環境聲。關閉後生成靜音影片。"
+        },
+        "seed": {
+          "help": "填寫非負整數以重用種子，留空由模型選擇。"
+        }
+      }
+    },
+    "en": {
+      "name": "FLUX 3 Text-to-Video",
+      "description": "Generate a 5–20 second video with optional synchronized audio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "auto": "Automatic",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "safety_tolerance": {
+          "label": "Moderation tolerance"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "seed": {
+          "label": "Random seed"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, motion, setting, and camera. Include sound instructions when generating audio."
+        },
+        "aspect_ratio": {
+          "help": "Choose the width-to-height ratio or let the model decide."
+        },
+        "resolution": {
+          "help": "Choose 720p or 1080p."
+        },
+        "duration_seconds": {
+          "help": "Choose 5 to 20 seconds. The default is 5."
+        },
+        "safety_tolerance": {
+          "help": "Choose 0 to 4. Zero is strictest, and 2 is the default."
+        },
+        "generate_audio": {
+          "help": "Generate synchronized speech, sound effects, and ambience. Turn off for a silent clip."
+        },
+        "seed": {
+          "help": "Enter a nonnegative integer to reuse a seed or leave blank for the model to choose."
+        }
+      }
+    },
+    "ja": {
+      "name": "FLUX 3 テキストから動画",
+      "description": "プロンプトから 5〜20 秒の動画を生成します。同期音声も生成できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "auto": "自動",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "safety_tolerance": {
+          "label": "コンテンツ審査の許容度"
+        },
+        "duration_seconds": {
+          "label": "動画の長さ（秒）"
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "seed": {
+          "label": "シード値"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、動き、場面、カメラを記述します。音声を生成する場合は音の指示も指定できます。"
+        },
+        "aspect_ratio": {
+          "help": "画像の縦横比を指定するか、自動選択にします。"
+        },
+        "resolution": {
+          "help": "720p または 1080p を選びます。"
+        },
+        "duration_seconds": {
+          "help": "5〜20 秒から選びます。既定値は 5 秒です。"
+        },
+        "safety_tolerance": {
+          "help": "0〜4 を選びます。最も厳しい値は 0 で、既定値は 2 です。"
+        },
+        "generate_audio": {
+          "help": "動画に同期する音声、効果音、環境音を生成します。オフにすると無音になります。"
+        },
+        "seed": {
+          "help": "シードを再利用するには非負の整数を入力します。空欄ではモデルが決定します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "FLUX 3 텍스트로 동영상 생성",
+      "description": "프롬프트에서 5~20초 동영상을 만들고 동기화된 오디오를 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "auto": "자동",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "safety_tolerance": {
+          "label": "콘텐츠 검토 허용 수준"
+        },
+        "duration_seconds": {
+          "label": "동영상 길이(초)"
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "seed": {
+          "label": "랜덤 시드"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "동영상의 피사체, 동작, 배경, 카메라를 설명하세요. 오디오 생성 시 소리도 설명할 수 있습니다."
+        },
+        "aspect_ratio": {
+          "help": "이미지의 가로세로 비율을 지정하거나 모델이 선택하게 합니다."
+        },
+        "resolution": {
+          "help": "720p 또는 1080p를 선택하세요."
+        },
+        "duration_seconds": {
+          "help": "5~20초를 선택하세요. 기본값은 5초입니다."
+        },
+        "safety_tolerance": {
+          "help": "0~4를 선택하세요. 0이 가장 엄격하며 기본값은 2입니다."
+        },
+        "generate_audio": {
+          "help": "동기화된 음성, 효과음, 주변 소리를 생성합니다. 끄면 소리 없는 동영상을 만듭니다."
+        },
+        "seed": {
+          "help": "시드를 재사용하려면 음이 아닌 정수를 입력하세요. 비워 두면 모델이 선택합니다."
+        }
+      }
+    }
+  }
+}

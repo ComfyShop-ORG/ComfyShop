@@ -1,0 +1,282 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kling-v2-6-standard-avatar",
+  "name": "可灵 2.6 标准版数字人",
+  "description": "用人物图和语音生成口型同步视频，成品时长由语音决定。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "portrait",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "voice",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "portrait_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "voice_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "portrait",
+      "section": "default"
+    },
+    {
+      "fieldId": "voice",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "portrait_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "voice_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "kwaivgi/kling-v2.6-std/avatar",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt"
+      },
+      "omit_blank_parameters": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["portrait"],
+          "external_sources_field": "portrait_source",
+          "external_urls_only": true,
+          "min_items": 1
+        },
+        "audio": {
+          "kind": "audio",
+          "fields": ["voice"],
+          "external_sources_field": "voice_source",
+          "external_urls_only": true,
+          "min_items": 1,
+          "max_duration_ms": 300000
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 2.6 标准版数字人",
+      "description": "用人物图和语音生成口型同步视频，成品时长由语音决定。",
+      "fields": {
+        "portrait": {
+          "label": "人物图片"
+        },
+        "voice": {
+          "label": "驱动语音"
+        },
+        "prompt": {
+          "label": "表演提示词"
+        },
+        "portrait_source": {
+          "label": "人物图片来源"
+        },
+        "voice_source": {
+          "label": "驱动语音来源"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "上传一张清晰的人物图片，或在高级参数填写公开图片 URL。"
+        },
+        "voice": {
+          "help": "上传最长 5 分钟的驱动语音，或在高级参数填写公开语音 URL。"
+        },
+        "prompt": {
+          "help": "可描述人物的表情、风格或镜头氛围。"
+        },
+        "portrait_source": {
+          "help": "填写一个可公开访问的人物图片 URL。"
+        },
+        "voice_source": {
+          "help": "填写一个可公开访问的语音 URL。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 2.6 標準版數位人",
+      "description": "用人物圖和語音生成嘴型同步影片，成品長度依語音決定。",
+      "fields": {
+        "portrait": {
+          "label": "人物圖片"
+        },
+        "voice": {
+          "label": "驅動語音"
+        },
+        "prompt": {
+          "label": "表演提示詞"
+        },
+        "portrait_source": {
+          "label": "人物圖片來源"
+        },
+        "voice_source": {
+          "label": "驅動語音來源"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "上傳一張清晰的人物圖片，或在進階參數填寫公開圖片 URL。"
+        },
+        "voice": {
+          "help": "上傳最長 5 分鐘的驅動語音，或在進階參數填寫公開語音 URL。"
+        },
+        "prompt": {
+          "help": "可描述人物的表情、風格或鏡頭氛圍。"
+        },
+        "portrait_source": {
+          "help": "填寫一個可公開存取的人物圖片 URL。"
+        },
+        "voice_source": {
+          "help": "填寫一個可公開存取的語音 URL。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling 2.6 Standard Avatar",
+      "description": "Create a lip-synced talking avatar from a portrait and speech recording. The audio determines the video length.",
+      "fields": {
+        "portrait": {
+          "label": "Portrait"
+        },
+        "voice": {
+          "label": "Driving audio"
+        },
+        "prompt": {
+          "label": "Performance prompt"
+        },
+        "portrait_source": {
+          "label": "Portrait URL"
+        },
+        "voice_source": {
+          "label": "Driving audio URL"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "Upload a clear portrait or enter its public URL under Advanced."
+        },
+        "voice": {
+          "help": "Upload up to five minutes of driving audio, or enter its public URL under Advanced."
+        },
+        "prompt": {
+          "help": "Optionally describe the expression, style, or camera mood."
+        },
+        "portrait_source": {
+          "help": "Enter one public portrait image URL."
+        },
+        "voice_source": {
+          "help": "Enter one public speech audio URL."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling 2.6 Standard アバター",
+      "description": "人物画像と音声から、口の動きが音声に合ったアバター動画を作成します。長さは音声に従います。",
+      "fields": {
+        "portrait": {
+          "label": "人物画像"
+        },
+        "voice": {
+          "label": "駆動音声"
+        },
+        "prompt": {
+          "label": "演技プロンプト"
+        },
+        "portrait_source": {
+          "label": "人物画像の URL"
+        },
+        "voice_source": {
+          "label": "駆動音声の URL"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "鮮明な人物画像をアップロードするか、詳細設定で公開 URL を入力します。"
+        },
+        "voice": {
+          "help": "最長 5 分の駆動音声をアップロードするか、詳細設定で公開されている音声 URL を入力します。"
+        },
+        "prompt": {
+          "help": "表情、画風、カメラの雰囲気を指定できます。"
+        },
+        "portrait_source": {
+          "help": "公開されている人物画像の URL を一つ入力します。"
+        },
+        "voice_source": {
+          "help": "公開されている音声の URL を一つ入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling 2.6 Standard 아바타",
+      "description": "인물 이미지와 음성으로 입 모양이 맞는 아바타 동영상을 만듭니다. 동영상 길이는 음성에 따라 결정됩니다.",
+      "fields": {
+        "portrait": {
+          "label": "인물 이미지"
+        },
+        "voice": {
+          "label": "구동 음성"
+        },
+        "prompt": {
+          "label": "연기 프롬프트"
+        },
+        "portrait_source": {
+          "label": "인물 이미지 URL"
+        },
+        "voice_source": {
+          "label": "구동 음성 URL"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "선명한 인물 이미지를 업로드하거나 고급 설정에 공개 URL을 입력하세요."
+        },
+        "voice": {
+          "help": "최대 5분 길이의 구동 음성을 업로드하거나 고급 설정에 공개 음성 URL을 입력하세요."
+        },
+        "prompt": {
+          "help": "표정, 스타일, 카메라 분위기를 설명할 수 있습니다."
+        },
+        "portrait_source": {
+          "help": "공개 인물 이미지 URL을 하나 입력하세요."
+        },
+        "voice_source": {
+          "help": "공개 음성 URL을 하나 입력하세요."
+        }
+      }
+    }
+  }
+}

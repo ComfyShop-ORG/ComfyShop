@@ -1,0 +1,241 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "tencent-hunyuan3d-rapid-image-to-3d",
+  "name": "Hunyuan 3D Rapid 图生 3D",
+  "description": "根据参考图生成 3D 模型，可选择输出格式和材质。",
+  "category": "3d",
+  "fields": [
+    {
+      "name": "reference_image",
+      "kind": "image"
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "choices": ["GLB", "OBJ", "USDZ", "FBX", "STL", "MP4"],
+      "default": "GLB",
+      "optional": true
+    },
+    {
+      "name": "pbr",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "include_geometry",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "reference_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "pbr",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "include_geometry",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "3d",
+    "additionalOutputKinds": ["image", "video"],
+    "config": {
+      "operation": "image",
+      "model": "tencent/hunyuan3d-rapid/image-to-3d",
+      "parameters": {
+        "format": "output_format",
+        "enable_pbr": "pbr",
+        "enable_geometry": "include_geometry"
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "encoding": "base64",
+          "fields": ["reference_image"],
+          "min_items": 1,
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "image_bounds": {
+            "min_side": 128,
+            "max_side": 5000
+          },
+          "max_bytes": 4500000
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Hunyuan 3D Rapid 图生 3D",
+      "description": "根据参考图生成 3D 模型，可选择输出格式和材质。",
+      "fields": {
+        "reference_image": {
+          "label": "参考图片"
+        },
+        "output_format": {
+          "label": "输出格式"
+        },
+        "pbr": {
+          "label": "生成 PBR 材质"
+        },
+        "include_geometry": {
+          "label": "附加纯几何模型"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "上传 PNG、JPEG 或 WebP。每边 128 至 5000 像素，最多 4.5 MB。"
+        },
+        "output_format": {
+          "help": "选择 GLB、OBJ、USDZ、FBX、STL 或 MP4。GLB 可在线预览，MP4 可播放。"
+        },
+        "pbr": {
+          "help": "生成金属度、粗糙度和法线贴图。"
+        },
+        "include_geometry": {
+          "help": "额外输出一份不带纹理的 GLB 网格。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Hunyuan 3D Rapid 圖片生成 3D",
+      "description": "根據參考圖產生 3D 模型，可選擇輸出格式與材質。",
+      "fields": {
+        "reference_image": {
+          "label": "參考圖片"
+        },
+        "output_format": {
+          "label": "輸出格式"
+        },
+        "pbr": {
+          "label": "產生 PBR 材質"
+        },
+        "include_geometry": {
+          "label": "附加純幾何模型"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "上傳 PNG、JPEG 或 WebP。每邊 128 至 5000 像素，最多 4.5 MB。"
+        },
+        "output_format": {
+          "help": "選擇 GLB、OBJ、USDZ、FBX、STL 或 MP4。GLB 可線上預覽，MP4 可播放。"
+        },
+        "pbr": {
+          "help": "產生金屬度、粗糙度和法線貼圖。"
+        },
+        "include_geometry": {
+          "help": "額外輸出一份沒有紋理的 GLB 網格。"
+        }
+      }
+    },
+    "en": {
+      "name": "Hunyuan 3D Rapid Image-to-3D",
+      "description": "Generate a 3D model from a reference image with controls for format and materials.",
+      "fields": {
+        "reference_image": {
+          "label": "Reference image"
+        },
+        "output_format": {
+          "label": "Output format"
+        },
+        "pbr": {
+          "label": "Generate PBR maps"
+        },
+        "include_geometry": {
+          "label": "Include geometry-only model"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "Upload PNG, JPEG, or WebP up to 4.5 MB, with each side between 128 and 5000 pixels."
+        },
+        "output_format": {
+          "help": "Choose GLB, OBJ, USDZ, FBX, STL, or MP4. Preview GLB and play MP4 online."
+        },
+        "pbr": {
+          "help": "Generate metallic, roughness, and normal maps."
+        },
+        "include_geometry": {
+          "help": "Include an additional untextured GLB mesh."
+        }
+      }
+    },
+    "ja": {
+      "name": "Hunyuan 3D Rapid 画像から 3D モデルを生成",
+      "description": "参照画像から 3D モデルを生成します。出力形式とマテリアルを設定できます。",
+      "fields": {
+        "reference_image": {
+          "label": "参照画像"
+        },
+        "output_format": {
+          "label": "出力形式"
+        },
+        "pbr": {
+          "label": "PBR マップを生成"
+        },
+        "include_geometry": {
+          "label": "形状のみのモデルも出力"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "PNG、JPEG、WebP をアップロードします。各辺は 128〜5000 ピクセル、ファイルは 4.5 MB 以下です。"
+        },
+        "output_format": {
+          "help": "GLB、OBJ、USDZ、FBX、STL、MP4 から選びます。GLB はプレビュー、MP4 は再生ができます。"
+        },
+        "pbr": {
+          "help": "メタリック、粗さ、法線マップを生成します。"
+        },
+        "include_geometry": {
+          "help": "テクスチャなしの GLB メッシュを追加で出力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Hunyuan 3D Rapid 이미지로 3D 모델 생성",
+      "description": "참조 이미지로 3D 모델을 생성합니다. 내보내기 형식과 재질을 선택할 수 있습니다.",
+      "fields": {
+        "reference_image": {
+          "label": "참조 이미지"
+        },
+        "output_format": {
+          "label": "출력 형식"
+        },
+        "pbr": {
+          "label": "PBR 맵 생성"
+        },
+        "include_geometry": {
+          "label": "기하 전용 모델 포함"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "PNG, JPEG, WebP를 업로드합니다. 각 변은 128~5000픽셀이며 파일은 4.5MB 이하여야 합니다."
+        },
+        "output_format": {
+          "help": "GLB, OBJ, USDZ, FBX, STL, MP4 중 하나를 선택합니다. GLB는 미리 보고 MP4는 재생할 수 있습니다."
+        },
+        "pbr": {
+          "help": "금속성, 거칠기, 노멀 맵을 생성합니다."
+        },
+        "include_geometry": {
+          "help": "텍스처가 없는 GLB 메시를 추가로 내보냅니다."
+        }
+      }
+    }
+  }
+}

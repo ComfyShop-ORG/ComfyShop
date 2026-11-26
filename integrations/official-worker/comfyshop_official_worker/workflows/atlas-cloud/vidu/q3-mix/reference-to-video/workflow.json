@@ -1,0 +1,672 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-vidu-q3-mix-reference-to-video",
+  "name": "Vidu Q3 Mix 参考生视频",
+  "description": "用一至四张参考图保持主体外观，生成 1 至 16 秒的视频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "Santa Claus and the bear hug by the lakeside.",
+      "multiline": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["16:9", "9:16", "3:4", "4:3", "1:1"],
+      "default": "16:9",
+      "optional": true
+    },
+    {
+      "name": "movement_amplitude",
+      "kind": "choice",
+      "default": "auto",
+      "choices": ["auto", "small", "medium", "large"],
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": 0,
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["720p", "1080p", "1080p-sr", "1440p-sr"],
+      "optional": true
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 5,
+      "optional": true,
+      "minimum": "1",
+      "maximum": "16",
+      "step": "1"
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "reference_image_4",
+      "kind": "image",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "movement_amplitude",
+      "section": "default"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "vidu/q3-mix/reference-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "movement_amplitude": "movement_amplitude",
+        "seed": "seed",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "duration": "duration",
+        "generate_audio": "generate_audio"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "images": {
+          "kind": "image",
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4"
+          ],
+          "external_sources_field": "image_sources",
+          "min_items": 1,
+          "max_bytes": 50000000,
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "image_bounds": {
+            "min_side": 128,
+            "max_aspect_ratio_exclusive": 4
+          },
+          "array": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Vidu Q3 Mix 参考生视频",
+      "description": "用一至四张参考图保持主体外观，生成 1 至 16 秒的视频。",
+      "fields": {
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4"
+          }
+        },
+        "movement_amplitude": {
+          "label": "动作幅度",
+          "choiceLabels": {
+            "auto": "自动",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "image_sources": {
+          "label": "参考图来源"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "1080p-sr": "1080p 超分",
+            "1440p-sr": "1440p 超分"
+          }
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "上传 JPEG、PNG 或 WebP，最多 50 MB。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "prompt": {
+          "help": "描述主体的动作、场景和镜头。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9、9:16、3:4、4:3 或 1:1，默认 16:9。"
+        },
+        "resolution": {
+          "help": "选择原生 720p、1080p 或 FlashVSR 超分。默认 720p。"
+        },
+        "duration": {
+          "help": "选择 1 至 16 秒，默认 5 秒。"
+        },
+        "movement_amplitude": {
+          "help": "控制画面中主体的动作幅度，默认自动。"
+        },
+        "generate_audio": {
+          "help": "是否生成视频的音频，默认开启。"
+        },
+        "seed": {
+          "help": "填写整数以指定种子。默认 0，输入 -1 使用随机种子。"
+        },
+        "reference_image_2": {
+          "help": "上传 JPEG、PNG 或 WebP，最多 50 MB。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "reference_image_3": {
+          "help": "上传 JPEG、PNG 或 WebP，最多 50 MB。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "image_sources": {
+          "help": "每行填写一个公开图片 URL 或带媒体类型的 Base64 数据网址，和上传图片合计一至四张。"
+        },
+        "reference_image_4": {
+          "help": "上传 JPEG、PNG 或 WebP，最多 50 MB。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Vidu Q3 Mix 參考生影片",
+      "description": "使用一至四張參考圖保持主體外觀，生成 1 至 16 秒的影片。",
+      "fields": {
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4"
+          }
+        },
+        "movement_amplitude": {
+          "label": "動作幅度",
+          "choiceLabels": {
+            "auto": "自動",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "image_sources": {
+          "label": "參考圖來源"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "1080p-sr": "1080p 超解析度",
+            "1440p-sr": "1440p 超解析度"
+          }
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "reference_image_4": {
+          "label": "參考圖 4"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "上傳 JPEG、PNG 或 WebP，最多 50 MB。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "prompt": {
+          "help": "描述主體的動作、場景和鏡頭。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9、9:16、3:4、4:3 或 1:1，預設 16:9。"
+        },
+        "resolution": {
+          "help": "選擇原生 720p、1080p 或 FlashVSR 超解析度。預設 720p。"
+        },
+        "duration": {
+          "help": "選擇 1 至 16 秒，預設 5 秒。"
+        },
+        "movement_amplitude": {
+          "help": "控制畫面中主體的動作幅度，預設自動。"
+        },
+        "generate_audio": {
+          "help": "是否生成影片的音訊，預設開啟。"
+        },
+        "seed": {
+          "help": "填寫整數可指定種子。預設 0，輸入 -1 使用隨機種子。"
+        },
+        "reference_image_2": {
+          "help": "上傳 JPEG、PNG 或 WebP，最多 50 MB。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "reference_image_3": {
+          "help": "上傳 JPEG、PNG 或 WebP，最多 50 MB。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "image_sources": {
+          "help": "每行填寫一個公開圖片網址或帶媒體類型的 Base64 資料網址，和上傳圖片合計一至四張。"
+        },
+        "reference_image_4": {
+          "help": "上傳 JPEG、PNG 或 WebP，最多 50 MB。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        }
+      }
+    },
+    "en": {
+      "name": "Vidu Q3 Mix Reference to Video",
+      "description": "Create a one- to sixteen-second video from one to four reference images and keep the subjects visually consistent.",
+      "fields": {
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4"
+          }
+        },
+        "movement_amplitude": {
+          "label": "Motion amplitude",
+          "choiceLabels": {
+            "auto": "Auto",
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large"
+          }
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "image_sources": {
+          "label": "Reference image sources"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "1080p-sr": "1080p upscaled",
+            "1440p-sr": "1440p upscaled"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "prompt": {
+          "help": "Describe the action, scene and camera motion."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9, 9:16, 3:4, 4:3 or 1:1. The default is 16:9."
+        },
+        "resolution": {
+          "help": "Choose native 720p, 1080p or FlashVSR upscaling. The default is 720p."
+        },
+        "duration": {
+          "help": "Choose 1 to 16 seconds. The default is 5."
+        },
+        "movement_amplitude": {
+          "help": "Choose how much objects in the frame move. Auto is the default."
+        },
+        "generate_audio": {
+          "help": "Generate audio for the video. On by default."
+        },
+        "seed": {
+          "help": "Enter an integer to specify a seed. The default is 0. Use −1 for random."
+        },
+        "reference_image_2": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "reference_image_3": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "image_sources": {
+          "help": "Enter one public image URL or Base64 data URL with its image type per line. Use one to four images in total, including uploads."
+        },
+        "reference_image_4": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        }
+      }
+    },
+    "ja": {
+      "name": "Vidu Q3 Mix 参照画像から動画",
+      "description": "参照画像 1〜4 枚から、被写体の見た目を保った 1〜16 秒の動画を生成します。",
+      "fields": {
+        "reference_image_1": {
+          "label": "参照画像 1"
+        },
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4"
+          }
+        },
+        "movement_amplitude": {
+          "label": "動きの大きさ",
+          "choiceLabels": {
+            "auto": "自動",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "reference_image_2": {
+          "label": "参照画像 2"
+        },
+        "reference_image_3": {
+          "label": "参照画像 3"
+        },
+        "image_sources": {
+          "label": "参照画像のソース"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "1080p-sr": "1080p アップスケール",
+            "1440p-sr": "1440p アップスケール"
+          }
+        },
+        "duration": {
+          "label": "動画の長さ（秒）"
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "reference_image_4": {
+          "label": "参照画像 4"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "prompt": {
+          "help": "動き、シーン、カメラワークを記述します。"
+        },
+        "aspect_ratio": {
+          "help": "16:9、9:16、3:4、4:3 または 1:1 を選択します。既定は 16:9 です。"
+        },
+        "resolution": {
+          "help": "ネイティブの 720p、1080p または FlashVSR のアップスケールを選択します。既定は 720p です。"
+        },
+        "duration": {
+          "help": "1〜16 秒を選択します。既定は 5 秒です。"
+        },
+        "movement_amplitude": {
+          "help": "画面内の被写体の動きの大きさを選択します。既定は自動です。"
+        },
+        "generate_audio": {
+          "help": "動画の音声を生成します。既定はオンです。"
+        },
+        "seed": {
+          "help": "整数を入力してシードを指定します。既定は 0 です。-1 はランダムです。"
+        },
+        "reference_image_2": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "reference_image_3": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "image_sources": {
+          "help": "公開画像 URL または画像のメディアタイプを指定した Base64 データ URL を 1 行に 1 つ入力します。アップロード分を含めて 1〜4 枚です。"
+        },
+        "reference_image_4": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Vidu Q3 Mix 참조 이미지에서 동영상",
+      "description": "참조 이미지 한 장에서 네 장으로 피사체의 모양을 유지하며 1~16초 동영상을 생성합니다.",
+      "fields": {
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4"
+          }
+        },
+        "movement_amplitude": {
+          "label": "움직임 크기",
+          "choiceLabels": {
+            "auto": "자동",
+            "small": "작게",
+            "medium": "보통",
+            "large": "크게"
+          }
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "image_sources": {
+          "label": "참조 이미지 소스"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "1080p-sr": "1080p 업스케일",
+            "1440p-sr": "1440p 업스케일"
+          }
+        },
+        "duration": {
+          "label": "동영상 길이(초)"
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "prompt": {
+          "help": "움직임, 장면과 카메라 동작을 설명하세요."
+        },
+        "aspect_ratio": {
+          "help": "16:9, 9:16, 3:4, 4:3 또는 1:1을 선택하세요. 기본값은 16:9입니다."
+        },
+        "resolution": {
+          "help": "기본 720p, 1080p 또는 FlashVSR 업스케일을 선택하세요. 기본값은 720p입니다."
+        },
+        "duration": {
+          "help": "1~16초를 선택하세요. 기본값은 5초입니다."
+        },
+        "movement_amplitude": {
+          "help": "화면 속 피사체의 움직임 크기를 선택하세요. 기본값은 자동입니다."
+        },
+        "generate_audio": {
+          "help": "동영상의 오디오를 생성합니다. 기본값은 켜짐입니다."
+        },
+        "seed": {
+          "help": "정수를 입력하여 시드를 정하세요. 기본값은 0이며 -1은 무작위를 사용합니다."
+        },
+        "reference_image_2": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "reference_image_3": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "image_sources": {
+          "help": "한 줄에 공개 이미지 URL 또는 이미지 미디어 유형이 포함된 Base64 데이터 URL 하나를 입력하세요. 업로드한 이미지를 포함해 총 1~4장입니다."
+        },
+        "reference_image_4": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        }
+      }
+    }
+  }
+}

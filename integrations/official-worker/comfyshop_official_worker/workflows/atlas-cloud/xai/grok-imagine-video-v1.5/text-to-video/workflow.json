@@ -1,0 +1,234 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-grok-video15-text-to-video",
+  "name": "Grok Imagine Video v1.5 文生视频",
+  "description": "用文字生成 1 至 15 秒的视频，同时生成同步音频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "integer",
+      "default": 8,
+      "minimum": "1",
+      "maximum": "15",
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["480p", "720p", "1080p"],
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "choices": ["1:1", "16:9", "9:16", "4:3", "3:4", "3:2", "2:3"],
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "xai/grok-imagine-video-v1.5/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "resolution": "resolution",
+        "aspect_ratio": "aspect_ratio"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Grok Imagine Video v1.5 文生视频",
+      "description": "用文字生成 1 至 15 秒的视频，同时生成同步音频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "成品时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "aspect_ratio": {
+          "label": "画面比例"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、场景、动作、镜头及希望听到的声音。"
+        },
+        "duration_seconds": {
+          "help": "选择 1 至 15 秒，默认 8 秒。"
+        },
+        "resolution": {
+          "help": "选择 480p、720p 或 1080p。"
+        },
+        "aspect_ratio": {
+          "help": "选择输出视频的宽高比，默认 16:9。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Grok Imagine Video v1.5 文生影片",
+      "description": "用文字生成 1 至 15 秒的影片，同時生成同步音訊。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "成品長度（秒）"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、場景、動作、鏡頭與想聽到的聲音。"
+        },
+        "duration_seconds": {
+          "help": "選擇 1 至 15 秒，預設 8 秒。"
+        },
+        "resolution": {
+          "help": "選擇 480p、720p 或 1080p。"
+        },
+        "aspect_ratio": {
+          "help": "選擇輸出影片的寬高比，預設 16:9。"
+        }
+      }
+    },
+    "en": {
+      "name": "Grok Imagine Video v1.5 Text-to-Video",
+      "description": "Generate a 1–15 second video and synchronized audio from text.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, scene, motion, camera, and desired audio."
+        },
+        "duration_seconds": {
+          "help": "Choose 1 to 15 seconds. The default is 8 seconds."
+        },
+        "resolution": {
+          "help": "Choose 480p, 720p, or 1080p."
+        },
+        "aspect_ratio": {
+          "help": "Choose the output aspect ratio. The default is 16:9."
+        }
+      }
+    },
+    "ja": {
+      "name": "Grok Imagine Video v1.5 テキストから動画",
+      "description": "プロンプトから 1〜15 秒の動画と同期音声を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "動画の長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、動き、カメラ、希望する音声を記述します。"
+        },
+        "duration_seconds": {
+          "help": "1〜15 秒を選びます。既定値は 8 秒です。"
+        },
+        "resolution": {
+          "help": "480p、720p、または 1080p を選びます。"
+        },
+        "aspect_ratio": {
+          "help": "出力動画の縦横比を選びます。既定値は 16:9 です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Grok Imagine Video v1.5 텍스트로 동영상 생성",
+      "description": "텍스트로 1~15초 동영상과 동기화된 오디오를 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "동영상 길이(초)"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 장면, 동작, 카메라와 원하는 소리를 설명하세요."
+        },
+        "duration_seconds": {
+          "help": "1~15초를 선택하세요. 기본값은 8초입니다."
+        },
+        "resolution": {
+          "help": "480p, 720p 또는 1080p를 선택하세요."
+        },
+        "aspect_ratio": {
+          "help": "출력 동영상의 화면 비율을 선택하세요. 기본값은 16:9입니다."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlascloud-video-upscaler",
+  "name": "Atlas Cloud 视频放大",
+  "description": "将现有视频提升到 1080p 或 2K，保留原有画面构图和时间节奏。",
+  "category": "video_tool",
+  "fields": [
+    {
+      "name": "video",
+      "kind": "video"
+    },
+    {
+      "name": "target_resolution",
+      "kind": "choice",
+      "optional": true,
+      "default": "1080p",
+      "choices": ["1080p", "2k"]
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "video",
+      "section": "default"
+    },
+    {
+      "fieldId": "target_resolution",
+      "section": "default"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "operation": "video",
+      "model": "atlascloud/video-upscaler",
+      "parameters": {
+        "target_resolution": "target_resolution"
+      },
+      "media": {
+        "video": {
+          "kind": "video",
+          "fields": ["video"],
+          "min_items": 1
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Atlas Cloud 视频放大",
+      "description": "将现有视频提升到 1080p 或 2K，保留原有画面构图和时间节奏。",
+      "fields": {
+        "video": {
+          "label": "原视频"
+        },
+        "target_resolution": {
+          "label": "目标分辨率",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "2k": "2K"
+          }
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "上传一段帧率不超过 30 fps 的视频。1080p 最多 53 秒且不超过 1590 帧，2K 最多 23 秒且不超过 690 帧。"
+        },
+        "target_resolution": {
+          "help": "默认为 1080p。2K 对应 2560×1440 档位。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Atlas Cloud 影片放大",
+      "description": "將現有影片提升至 1080p 或 2K，保留原有構圖與時間節奏。",
+      "fields": {
+        "video": {
+          "label": "原始影片"
+        },
+        "target_resolution": {
+          "label": "目標解析度",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "2k": "2K"
+          }
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "上傳一段影格率不超過 30 fps 的影片。1080p 最多 53 秒且不超過 1590 幀，2K 最多 23 秒且不超過 690 幀。"
+        },
+        "target_resolution": {
+          "help": "預設為 1080p。2K 對應 2560×1440 等級。"
+        }
+      }
+    },
+    "en": {
+      "name": "Atlas Cloud Video Upscaler",
+      "description": "Upscale an existing clip to 1080p or 2K while preserving source timing and framing.",
+      "fields": {
+        "video": {
+          "label": "Source video"
+        },
+        "target_resolution": {
+          "label": "Target resolution",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "2k": "2K"
+          }
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "Upload a clip at up to 30 fps. The 1080p tier allows up to 53 seconds and 1,590 frames. The 2K tier allows up to 23 seconds and 690 frames."
+        },
+        "target_resolution": {
+          "help": "The default is 1080p. The 2K tier corresponds to 2560×1440."
+        }
+      }
+    },
+    "ja": {
+      "name": "Atlas Cloud 動画の高解像度化",
+      "description": "元の構図やタイミングを保ったまま、既存の動画を 1080p または 2K に拡大します。",
+      "fields": {
+        "video": {
+          "label": "元の動画"
+        },
+        "target_resolution": {
+          "label": "目標解像度",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "2k": "2K"
+          }
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "30 fps 以下の動画をアップロードします。1080p は 53 秒かつ 1590 フレームまで、2K は 23 秒かつ 690 フレームまでです。"
+        },
+        "target_resolution": {
+          "help": "既定値は 1080p です。2K は 2560×1440 の解像度区分です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Atlas Cloud 동영상 확대",
+      "description": "원본 구도와 타이밍을 유지하면서 기존 동영상을 1080p 또는 2K로 높입니다.",
+      "fields": {
+        "video": {
+          "label": "원본 동영상"
+        },
+        "target_resolution": {
+          "label": "목표 해상도",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "2k": "2K"
+          }
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "30 fps 이하의 동영상을 올리세요. 1080p는 최대 53초 및 1590프레임, 2K는 최대 23초 및 690프레임입니다."
+        },
+        "target_resolution": {
+          "help": "기본값은 1080p입니다. 2K는 2560×1440 등급입니다."
+        }
+      }
+    }
+  }
+}

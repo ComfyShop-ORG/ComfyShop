@@ -1,0 +1,803 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-alibaba-wan-2-6-image-edit",
+  "name": "Wan 2.6 图像编辑",
+  "description": "根据提示词编辑一至四张图片，可设置输出尺寸与提示词扩写。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 2000
+    },
+    {
+      "name": "size",
+      "kind": "choice",
+      "default": "1280*1280",
+      "choices": [
+        "576*1344",
+        "720*1280",
+        "720*1680",
+        "768*1024",
+        "800*1200",
+        "816*1904",
+        "936*1664",
+        "960*1280",
+        "960*1440",
+        "1024*768",
+        "1024*1024",
+        "1040*1560",
+        "1104*1472",
+        "1200*800",
+        "1280*720",
+        "1280*960",
+        "1280*1280",
+        "1344*576",
+        "1440*960",
+        "1472*1104",
+        "1560*1040",
+        "1664*936",
+        "1680*720",
+        "1904*816"
+      ],
+      "optional": true
+    },
+    {
+      "name": "custom_size",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "negative_prompt",
+      "optional": true,
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 500
+    },
+    {
+      "name": "enable_prompt_expansion",
+      "optional": true,
+      "kind": "boolean",
+      "default": false
+    },
+    {
+      "name": "reference_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "custom_size",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "negative_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_prompt_expansion",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "alibaba/wan-2.6/image-edit",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "seed": "seed",
+        "enable_sync_mode": "enable_sync_mode",
+        "enable_base64_output": "enable_base64_output",
+        "negative_prompt": "negative_prompt",
+        "enable_prompt_expansion": "enable_prompt_expansion"
+      },
+      "required_text": ["prompt"],
+      "parameter_overrides": {
+        "size": "custom_size"
+      },
+      "image_size_limits": {
+        "allow_auto": false,
+        "min_side": 1,
+        "min_pixels": 589824,
+        "max_pixels": 4194304,
+        "max_aspect_ratio": 4,
+        "preset_sizes": [
+          "576*1344",
+          "720*1280",
+          "720*1680",
+          "768*1024",
+          "800*1200",
+          "816*1904",
+          "936*1664",
+          "960*1280",
+          "960*1440",
+          "1024*768",
+          "1024*1024",
+          "1040*1560",
+          "1104*1472",
+          "1200*800",
+          "1280*720",
+          "1280*960",
+          "1280*1280",
+          "1344*576",
+          "1440*960",
+          "1472*1104",
+          "1560*1040",
+          "1664*936",
+          "1680*720",
+          "1904*816"
+        ]
+      },
+      "omit_blank_parameters": ["negative_prompt"],
+      "media": {
+        "images": {
+          "kind": "image",
+          "fields": ["reference_1", "reference_2", "reference_3", "reference_4"],
+          "array": true,
+          "min_items": 1,
+          "content_types": ["image/jpeg", "image/png", "image/bmp", "image/webp"],
+          "external_sources_field": "reference_sources",
+          "max_bytes": 10000000,
+          "image_bounds": {
+            "min_side": 384,
+            "max_side": 5000
+          },
+          "reject_png_alpha": true,
+          "external_urls_only": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Wan 2.6 图像编辑",
+      "description": "根据提示词编辑一至四张图片，可设置输出尺寸与提示词扩写。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "尺寸",
+          "choiceLabels": {
+            "576*1344": "576 × 1344",
+            "720*1280": "720 × 1280",
+            "720*1680": "720 × 1680",
+            "768*1024": "768 × 1024",
+            "800*1200": "800 × 1200",
+            "816*1904": "816 × 1904",
+            "936*1664": "936 × 1664",
+            "960*1280": "960 × 1280",
+            "960*1440": "960 × 1440",
+            "1024*768": "1024 × 768",
+            "1024*1024": "1024 × 1024",
+            "1040*1560": "1040 × 1560",
+            "1104*1472": "1104 × 1472",
+            "1200*800": "1200 × 800",
+            "1280*720": "1280 × 720",
+            "1280*960": "1280 × 960",
+            "1280*1280": "1280 × 1280",
+            "1344*576": "1344 × 576",
+            "1440*960": "1440 × 960",
+            "1472*1104": "1472 × 1104",
+            "1560*1040": "1560 × 1040",
+            "1664*936": "1664 × 936",
+            "1680*720": "1680 × 720",
+            "1904*816": "1904 × 816"
+          }
+        },
+        "custom_size": {
+          "label": "自定义尺寸"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "enable_sync_mode": {
+          "label": "等待成品"
+        },
+        "enable_base64_output": {
+          "label": "Base64 输出"
+        },
+        "negative_prompt": {
+          "label": "负面提示词"
+        },
+        "enable_prompt_expansion": {
+          "label": "扩写提示词"
+        },
+        "reference_1": {
+          "label": "参考图 1"
+        },
+        "reference_2": {
+          "label": "参考图 2"
+        },
+        "reference_3": {
+          "label": "参考图 3"
+        },
+        "reference_4": {
+          "label": "参考图 4"
+        },
+        "reference_sources": {
+          "label": "参考图地址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述图中要保留或改变的元素，最多 2,000 字符。"
+        },
+        "reference_1": {
+          "help": "上传 JPEG、无透明通道的 PNG、BMP 或 WebP，宽高各 384 至 5000 像素，单张最多 10 MB。"
+        },
+        "size": {
+          "help": "选择预设宽高。默认 1280×1280，可在高级区自定义。"
+        },
+        "custom_size": {
+          "help": "填写宽*高，总像素为 589,824 至 4,194,304，长短边比例最多 4:1。"
+        },
+        "seed": {
+          "help": "输入 -1 使用随机种子，或输入固定整数。"
+        },
+        "enable_sync_mode": {
+          "help": "开启后等待生成完成并直接返回结果。"
+        },
+        "enable_base64_output": {
+          "help": "以 Base64 返回图片，工作机解码后保存。"
+        },
+        "negative_prompt": {
+          "help": "描述希望避开的画面元素，最多 500 字符。"
+        },
+        "enable_prompt_expansion": {
+          "help": "启用模型的提示词优化。默认关闭。"
+        },
+        "reference_2": {
+          "help": "上传 JPEG、无透明通道的 PNG、BMP 或 WebP，宽高各 384 至 5000 像素，单张最多 10 MB。"
+        },
+        "reference_3": {
+          "help": "上传 JPEG、无透明通道的 PNG、BMP 或 WebP，宽高各 384 至 5000 像素，单张最多 10 MB。"
+        },
+        "reference_4": {
+          "help": "上传 JPEG、无透明通道的 PNG、BMP 或 WebP，宽高各 384 至 5000 像素，单张最多 10 MB。"
+        },
+        "reference_sources": {
+          "help": "每行填写一个可公开访问的图片 URL。上传和地址合计一至四张。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Wan 2.6 影像編輯",
+      "description": "依提示詞編輯一至四張圖片，可設定輸出尺寸與提示詞擴寫。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "尺寸",
+          "choiceLabels": {
+            "576*1344": "576 × 1344",
+            "720*1280": "720 × 1280",
+            "720*1680": "720 × 1680",
+            "768*1024": "768 × 1024",
+            "800*1200": "800 × 1200",
+            "816*1904": "816 × 1904",
+            "936*1664": "936 × 1664",
+            "960*1280": "960 × 1280",
+            "960*1440": "960 × 1440",
+            "1024*768": "1024 × 768",
+            "1024*1024": "1024 × 1024",
+            "1040*1560": "1040 × 1560",
+            "1104*1472": "1104 × 1472",
+            "1200*800": "1200 × 800",
+            "1280*720": "1280 × 720",
+            "1280*960": "1280 × 960",
+            "1280*1280": "1280 × 1280",
+            "1344*576": "1344 × 576",
+            "1440*960": "1440 × 960",
+            "1472*1104": "1472 × 1104",
+            "1560*1040": "1560 × 1040",
+            "1664*936": "1664 × 936",
+            "1680*720": "1680 × 720",
+            "1904*816": "1904 × 816"
+          }
+        },
+        "custom_size": {
+          "label": "自訂尺寸"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "enable_sync_mode": {
+          "label": "等待成品"
+        },
+        "enable_base64_output": {
+          "label": "Base64 輸出"
+        },
+        "negative_prompt": {
+          "label": "負面提示詞"
+        },
+        "enable_prompt_expansion": {
+          "label": "擴寫提示詞"
+        },
+        "reference_1": {
+          "label": "參考圖 1"
+        },
+        "reference_2": {
+          "label": "參考圖 2"
+        },
+        "reference_3": {
+          "label": "參考圖 3"
+        },
+        "reference_4": {
+          "label": "參考圖 4"
+        },
+        "reference_sources": {
+          "label": "參考圖網址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述圖中要保留或修改的元素，最多 2,000 字元。"
+        },
+        "reference_1": {
+          "help": "上傳 JPEG、無透明通道的 PNG、BMP 或 WebP，寬高各 384 至 5000 像素，每張最多 10 MB。"
+        },
+        "size": {
+          "help": "選擇預設寬高。預設為 1280×1280，可在進階區自訂。"
+        },
+        "custom_size": {
+          "help": "填寫寬*高，總像素為 589,824 至 4,194,304，長短邊比例最多 4:1。"
+        },
+        "seed": {
+          "help": "輸入 -1 使用隨機種子，或輸入固定整數。"
+        },
+        "enable_sync_mode": {
+          "help": "開啟後等待生成完成並直接回傳結果。"
+        },
+        "enable_base64_output": {
+          "help": "以 Base64 回傳圖片，工作機解碼後儲存。"
+        },
+        "negative_prompt": {
+          "help": "描述希望避免的畫面元素，最多 500 字元。"
+        },
+        "enable_prompt_expansion": {
+          "help": "啟用模型的提示詞最佳化。預設為關閉。"
+        },
+        "reference_2": {
+          "help": "上傳 JPEG、無透明通道的 PNG、BMP 或 WebP，寬高各 384 至 5000 像素，每張最多 10 MB。"
+        },
+        "reference_3": {
+          "help": "上傳 JPEG、無透明通道的 PNG、BMP 或 WebP，寬高各 384 至 5000 像素，每張最多 10 MB。"
+        },
+        "reference_4": {
+          "help": "上傳 JPEG、無透明通道的 PNG、BMP 或 WebP，寬高各 384 至 5000 像素，每張最多 10 MB。"
+        },
+        "reference_sources": {
+          "help": "每行填寫一個可公開存取的圖片網址。上傳與網址合計一至四張。"
+        }
+      }
+    },
+    "en": {
+      "name": "Wan 2.6 Image Editing",
+      "description": "Edit one to four images with a prompt and set the output size and prompt expansion.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Size",
+          "choiceLabels": {
+            "576*1344": "576 × 1344",
+            "720*1280": "720 × 1280",
+            "720*1680": "720 × 1680",
+            "768*1024": "768 × 1024",
+            "800*1200": "800 × 1200",
+            "816*1904": "816 × 1904",
+            "936*1664": "936 × 1664",
+            "960*1280": "960 × 1280",
+            "960*1440": "960 × 1440",
+            "1024*768": "1024 × 768",
+            "1024*1024": "1024 × 1024",
+            "1040*1560": "1040 × 1560",
+            "1104*1472": "1104 × 1472",
+            "1200*800": "1200 × 800",
+            "1280*720": "1280 × 720",
+            "1280*960": "1280 × 960",
+            "1280*1280": "1280 × 1280",
+            "1344*576": "1344 × 576",
+            "1440*960": "1440 × 960",
+            "1472*1104": "1472 × 1104",
+            "1560*1040": "1560 × 1040",
+            "1664*936": "1664 × 936",
+            "1680*720": "1680 × 720",
+            "1904*816": "1904 × 816"
+          }
+        },
+        "custom_size": {
+          "label": "Custom size"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "enable_sync_mode": {
+          "label": "Wait for result"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "negative_prompt": {
+          "label": "Negative prompt"
+        },
+        "enable_prompt_expansion": {
+          "label": "Expand prompt"
+        },
+        "reference_1": {
+          "label": "Reference image 1"
+        },
+        "reference_2": {
+          "label": "Reference image 2"
+        },
+        "reference_3": {
+          "label": "Reference image 3"
+        },
+        "reference_4": {
+          "label": "Reference image 4"
+        },
+        "reference_sources": {
+          "label": "Reference image URLs"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe what to keep and what to change in the images. Use up to 2,000 characters."
+        },
+        "reference_1": {
+          "help": "Upload JPEG, PNG without an alpha channel, BMP, or WebP. Each side must be 384–5,000 pixels and each image up to 10 MB."
+        },
+        "size": {
+          "help": "Select a width and height preset. The default is 1280 × 1280. Set a custom size under Advanced."
+        },
+        "custom_size": {
+          "help": "Enter width*height. Use 589,824 to 4,194,304 total pixels and a maximum long-to-short side ratio of 4:1."
+        },
+        "seed": {
+          "help": "Enter -1 for a random seed or use an integer for a fixed seed."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for generation to finish and return the result in the submission response."
+        },
+        "enable_base64_output": {
+          "help": "Request Base64 images. The work machine decodes and stores them."
+        },
+        "negative_prompt": {
+          "help": "Describe visual elements to avoid. Use up to 500 characters."
+        },
+        "enable_prompt_expansion": {
+          "help": "Enable the model's prompt optimizer. Off by default."
+        },
+        "reference_2": {
+          "help": "Upload JPEG, PNG without an alpha channel, BMP, or WebP. Each side must be 384–5,000 pixels and each image up to 10 MB."
+        },
+        "reference_3": {
+          "help": "Upload JPEG, PNG without an alpha channel, BMP, or WebP. Each side must be 384–5,000 pixels and each image up to 10 MB."
+        },
+        "reference_4": {
+          "help": "Upload JPEG, PNG without an alpha channel, BMP, or WebP. Each side must be 384–5,000 pixels and each image up to 10 MB."
+        },
+        "reference_sources": {
+          "help": "Enter one public image URL per line. Uploads and URLs together can total one to four images."
+        }
+      }
+    },
+    "ja": {
+      "name": "Wan 2.6 画像編集",
+      "description": "プロンプトで1〜4枚の画像を編集し、出力サイズとプロンプトの拡張を設定します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "サイズ",
+          "choiceLabels": {
+            "576*1344": "576 × 1344",
+            "720*1280": "720 × 1280",
+            "720*1680": "720 × 1680",
+            "768*1024": "768 × 1024",
+            "800*1200": "800 × 1200",
+            "816*1904": "816 × 1904",
+            "936*1664": "936 × 1664",
+            "960*1280": "960 × 1280",
+            "960*1440": "960 × 1440",
+            "1024*768": "1024 × 768",
+            "1024*1024": "1024 × 1024",
+            "1040*1560": "1040 × 1560",
+            "1104*1472": "1104 × 1472",
+            "1200*800": "1200 × 800",
+            "1280*720": "1280 × 720",
+            "1280*960": "1280 × 960",
+            "1280*1280": "1280 × 1280",
+            "1344*576": "1344 × 576",
+            "1440*960": "1440 × 960",
+            "1472*1104": "1472 × 1104",
+            "1560*1040": "1560 × 1040",
+            "1664*936": "1664 × 936",
+            "1680*720": "1680 × 720",
+            "1904*816": "1904 × 816"
+          }
+        },
+        "custom_size": {
+          "label": "カスタムサイズ"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "enable_sync_mode": {
+          "label": "生成完了まで待機"
+        },
+        "enable_base64_output": {
+          "label": "Base64出力"
+        },
+        "negative_prompt": {
+          "label": "ネガティブプロンプト"
+        },
+        "enable_prompt_expansion": {
+          "label": "プロンプトを拡張"
+        },
+        "reference_1": {
+          "label": "参考画像 1"
+        },
+        "reference_2": {
+          "label": "参考画像 2"
+        },
+        "reference_3": {
+          "label": "参考画像 3"
+        },
+        "reference_4": {
+          "label": "参考画像 4"
+        },
+        "reference_sources": {
+          "label": "参照画像のURL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "画像の残す部分と変更する部分を記述します。最大2,000文字です。"
+        },
+        "reference_1": {
+          "help": "JPEG、アルファチャンネルなしのPNG、BMP、またはWebPをアップロードします。縦横384〜5,000ピクセル、各10 MBまでです。"
+        },
+        "size": {
+          "help": "幅と高さのプリセットを選択します。既定値は1280×1280です。詳細設定でカスタムサイズを指定できます。"
+        },
+        "custom_size": {
+          "help": "幅*高さで入力します。総画素数は589,824〜4,194,304、長辺と短辺の比は最大4:1です。"
+        },
+        "seed": {
+          "help": "ランダムなシードには-1を入力します。固定する場合は整数を指定します。"
+        },
+        "enable_sync_mode": {
+          "help": "生成が終わるまで待ち、送信時の応答に結果を返します。"
+        },
+        "enable_base64_output": {
+          "help": "画像をBase64形式で返します。ワーカーが復号して保存します。"
+        },
+        "negative_prompt": {
+          "help": "避けたい画面要素を記述します。最大500文字です。"
+        },
+        "enable_prompt_expansion": {
+          "help": "モデルのプロンプト最適化を有効にします。既定では無効です。"
+        },
+        "reference_2": {
+          "help": "JPEG、アルファチャンネルなしのPNG、BMP、またはWebPをアップロードします。縦横384〜5,000ピクセル、各10 MBまでです。"
+        },
+        "reference_3": {
+          "help": "JPEG、アルファチャンネルなしのPNG、BMP、またはWebPをアップロードします。縦横384〜5,000ピクセル、各10 MBまでです。"
+        },
+        "reference_4": {
+          "help": "JPEG、アルファチャンネルなしのPNG、BMP、またはWebPをアップロードします。縦横384〜5,000ピクセル、各10 MBまでです。"
+        },
+        "reference_sources": {
+          "help": "公開画像のURLを1行に1件入力します。アップロード分と合わせて1〜4枚です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Wan 2.6 이미지 편집",
+      "description": "프롬프트로 한 장에서 네 장의 이미지를 편집하고 출력 크기와 프롬프트 확장을 설정합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "크기",
+          "choiceLabels": {
+            "576*1344": "576 × 1344",
+            "720*1280": "720 × 1280",
+            "720*1680": "720 × 1680",
+            "768*1024": "768 × 1024",
+            "800*1200": "800 × 1200",
+            "816*1904": "816 × 1904",
+            "936*1664": "936 × 1664",
+            "960*1280": "960 × 1280",
+            "960*1440": "960 × 1440",
+            "1024*768": "1024 × 768",
+            "1024*1024": "1024 × 1024",
+            "1040*1560": "1040 × 1560",
+            "1104*1472": "1104 × 1472",
+            "1200*800": "1200 × 800",
+            "1280*720": "1280 × 720",
+            "1280*960": "1280 × 960",
+            "1280*1280": "1280 × 1280",
+            "1344*576": "1344 × 576",
+            "1440*960": "1440 × 960",
+            "1472*1104": "1472 × 1104",
+            "1560*1040": "1560 × 1040",
+            "1664*936": "1664 × 936",
+            "1680*720": "1680 × 720",
+            "1904*816": "1904 × 816"
+          }
+        },
+        "custom_size": {
+          "label": "사용자 지정 크기"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "enable_sync_mode": {
+          "label": "결과 대기"
+        },
+        "enable_base64_output": {
+          "label": "Base64 출력"
+        },
+        "negative_prompt": {
+          "label": "부정 프롬프트"
+        },
+        "enable_prompt_expansion": {
+          "label": "프롬프트 확장"
+        },
+        "reference_1": {
+          "label": "참고 이미지 1"
+        },
+        "reference_2": {
+          "label": "참고 이미지 2"
+        },
+        "reference_3": {
+          "label": "참고 이미지 3"
+        },
+        "reference_4": {
+          "label": "참고 이미지 4"
+        },
+        "reference_sources": {
+          "label": "참조 이미지 URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "이미지에서 유지할 요소와 변경할 요소를 설명합니다. 최대 2,000자입니다."
+        },
+        "reference_1": {
+          "help": "JPEG, 알파 채널이 없는 PNG, BMP 또는 WebP를 업로드합니다. 가로와 세로는 각각 384~5,000픽셀이며 이미지당 최대 10 MB입니다."
+        },
+        "size": {
+          "help": "너비와 높이 프리셋을 선택합니다. 기본값은 1280 × 1280이며 고급 설정에서 크기를 지정할 수 있습니다."
+        },
+        "custom_size": {
+          "help": "너비*높이를 입력합니다. 총 589,824~4,194,304픽셀이며 긴 변과 짧은 변의 비율은 최대 4:1입니다."
+        },
+        "seed": {
+          "help": "무작위 시드는 -1을 입력합니다. 고정하려면 정수를 지정합니다."
+        },
+        "enable_sync_mode": {
+          "help": "생성이 끝날 때까지 기다렸다가 제출 응답으로 결과를 받습니다."
+        },
+        "enable_base64_output": {
+          "help": "이미지를 Base64 형식으로 받습니다. 작업기가 디코딩해 저장합니다."
+        },
+        "negative_prompt": {
+          "help": "피하고 싶은 시각 요소를 설명합니다. 최대 500자입니다."
+        },
+        "enable_prompt_expansion": {
+          "help": "모델의 프롬프트 최적화를 사용합니다. 기본값은 꺼짐입니다."
+        },
+        "reference_2": {
+          "help": "JPEG, 알파 채널이 없는 PNG, BMP 또는 WebP를 업로드합니다. 가로와 세로는 각각 384~5,000픽셀이며 이미지당 최대 10 MB입니다."
+        },
+        "reference_3": {
+          "help": "JPEG, 알파 채널이 없는 PNG, BMP 또는 WebP를 업로드합니다. 가로와 세로는 각각 384~5,000픽셀이며 이미지당 최대 10 MB입니다."
+        },
+        "reference_4": {
+          "help": "JPEG, 알파 채널이 없는 PNG, BMP 또는 WebP를 업로드합니다. 가로와 세로는 각각 384~5,000픽셀이며 이미지당 최대 10 MB입니다."
+        },
+        "reference_sources": {
+          "help": "공개 이미지 URL을 한 줄에 하나씩 입력합니다. 업로드와 URL을 합쳐 한 장에서 네 장입니다."
+        }
+      }
+    }
+  }
+}

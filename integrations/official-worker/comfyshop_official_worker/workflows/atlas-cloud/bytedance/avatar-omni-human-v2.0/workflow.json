@@ -1,0 +1,346 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-omnihuman-20",
+  "name": "OmniHuman 2.0 音频驱动人像",
+  "description": "用一张图片和一段说话或唱歌音频生成视频，视频时长跟随音频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "portrait",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "driving_audio",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "optional": true
+    },
+    {
+      "name": "portrait_source",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "audio_source",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "add_watermark",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "portrait",
+      "section": "default"
+    },
+    {
+      "fieldId": "driving_audio",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "portrait_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "add_watermark",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "bytedance/avatar-omni-human-v2.0",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "watermark": "add_watermark"
+      },
+      "omit_blank_parameters": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["portrait"],
+          "external_sources_field": "portrait_source",
+          "min_items": 1,
+          "allow_raw_base64": true,
+          "content_types": [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/bmp",
+            "image/tiff",
+            "image/gif",
+            "image/heic",
+            "image/heif"
+          ],
+          "max_bytes": 29999999,
+          "image_bounds": {
+            "min_side": 300,
+            "max_side": 6000,
+            "aspect_ratio_range": [0.4, 2.5]
+          }
+        },
+        "audio": {
+          "kind": "audio",
+          "fields": ["driving_audio"],
+          "external_sources_field": "audio_source",
+          "min_items": 1,
+          "allow_raw_base64": true,
+          "content_types": ["audio/mpeg", "audio/mp3", "audio/wav", "audio/wave", "audio/x-wav"],
+          "max_bytes": 14999999,
+          "min_duration_ms": 4000,
+          "max_duration_ms": 300000
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "OmniHuman 2.0 音频驱动人像",
+      "description": "用一张图片和一段说话或唱歌音频生成视频，视频时长跟随音频。",
+      "fields": {
+        "portrait": {
+          "label": "人像"
+        },
+        "driving_audio": {
+          "label": "驱动音频"
+        },
+        "prompt": {
+          "label": "提示词"
+        },
+        "portrait_source": {
+          "label": "人像来源"
+        },
+        "audio_source": {
+          "label": "音频来源"
+        },
+        "add_watermark": {
+          "label": "添加水印"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "上传 JPEG、PNG、WebP、BMP、TIFF、GIF、HEIC 或 HEIF，尺寸和比例限制见模型说明。"
+        },
+        "driving_audio": {
+          "help": "上传 4 至 300 秒的 WAV 或 MP3，小于 15 MB。"
+        },
+        "prompt": {
+          "help": "可描述场景、动作、手势和镜头。支持中文、英文、日文、韩文、墨西哥西班牙语和印尼语。"
+        },
+        "portrait_source": {
+          "help": "可填写公开 HTTP(S) 图片地址或 Base64，与上传二选一。"
+        },
+        "audio_source": {
+          "help": "可填写公开 HTTP(S) WAV 或 MP3 地址或 Base64，与上传二选一。"
+        },
+        "add_watermark": {
+          "help": "为输出视频添加水印。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "OmniHuman 2.0 音訊驅動人像",
+      "description": "用一張圖片和一段說話或唱歌音訊生成影片，影片長度跟隨音訊。",
+      "fields": {
+        "portrait": {
+          "label": "人像"
+        },
+        "driving_audio": {
+          "label": "驅動音訊"
+        },
+        "prompt": {
+          "label": "提示詞"
+        },
+        "portrait_source": {
+          "label": "人像來源"
+        },
+        "audio_source": {
+          "label": "音訊來源"
+        },
+        "add_watermark": {
+          "label": "加入浮水印"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "上傳 JPEG、PNG、WebP、BMP、TIFF、GIF、HEIC 或 HEIF，尺寸和比例限制見模型說明。"
+        },
+        "driving_audio": {
+          "help": "上傳 4 至 300 秒的 WAV 或 MP3，小於 15 MB。"
+        },
+        "prompt": {
+          "help": "可描述場景、動作、手勢和鏡頭。支援中文、英文、日文、韓文、墨西哥西班牙語和印尼語。"
+        },
+        "portrait_source": {
+          "help": "可填寫公開 HTTP(S) 圖片網址或 Base64，與上傳擇一。"
+        },
+        "audio_source": {
+          "help": "可填寫公開 HTTP(S) WAV 或 MP3 網址或 Base64，與上傳擇一。"
+        },
+        "add_watermark": {
+          "help": "為輸出影片加入浮水印。"
+        }
+      }
+    },
+    "en": {
+      "name": "OmniHuman 2.0 Audio-Driven Portrait",
+      "description": "Animate an image with spoken or sung audio. The video duration follows the audio.",
+      "fields": {
+        "portrait": {
+          "label": "Portrait"
+        },
+        "driving_audio": {
+          "label": "Driving audio"
+        },
+        "prompt": {
+          "label": "Prompt"
+        },
+        "portrait_source": {
+          "label": "Portrait source"
+        },
+        "audio_source": {
+          "label": "Audio source"
+        },
+        "add_watermark": {
+          "label": "Add watermark"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "Upload JPEG, PNG, WebP, BMP, TIFF, GIF, HEIC, or HEIF. See the model notes for dimension and ratio limits."
+        },
+        "driving_audio": {
+          "help": "Upload a WAV or MP3 clip from 4 to 300 seconds and smaller than 15 MB."
+        },
+        "prompt": {
+          "help": "Optionally direct the scene, actions, gestures, or camera. Supports Chinese, English, Japanese, Korean, Mexican Spanish, and Indonesian."
+        },
+        "portrait_source": {
+          "help": "Enter a public HTTP(S) image URL or Base64 as an alternative to uploading."
+        },
+        "audio_source": {
+          "help": "Enter a public HTTP(S) WAV or MP3 URL or Base64 as an alternative to uploading."
+        },
+        "add_watermark": {
+          "help": "Add a watermark to the output video."
+        }
+      }
+    },
+    "ja": {
+      "name": "OmniHuman 2.0 音声で人物をアニメーション化",
+      "description": "画像と会話または歌唱の音声から動画を生成します。動画の長さは音声に合わせます。",
+      "fields": {
+        "portrait": {
+          "label": "人物画像"
+        },
+        "driving_audio": {
+          "label": "参照音声"
+        },
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "portrait_source": {
+          "label": "人物画像のソース"
+        },
+        "audio_source": {
+          "label": "音声のソース"
+        },
+        "add_watermark": {
+          "label": "透かしを追加"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "JPEG、PNG、WebP、BMP、TIFF、GIF、HEIC、HEIF をアップロードできます。サイズと縦横比の制限はモデル説明を参照してください。"
+        },
+        "driving_audio": {
+          "help": "4〜300 秒で 15 MB 未満の WAV または MP3 をアップロードします。"
+        },
+        "prompt": {
+          "help": "場面、動き、ジェスチャー、カメラなどを指定できます。中国語、英語、日本語、韓国語、メキシコのスペイン語、インドネシア語に対応します。"
+        },
+        "portrait_source": {
+          "help": "アップロードの代わりに公開 HTTP(S) 画像 URL または Base64 を入力します。"
+        },
+        "audio_source": {
+          "help": "アップロードの代わりに公開 HTTP(S) の WAV または MP3 の URL や Base64 を入力します。"
+        },
+        "add_watermark": {
+          "help": "出力動画に透かしを追加します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "OmniHuman 2.0 오디오로 인물 영상 생성",
+      "description": "이미지와 말하거나 노래하는 오디오로 동영상을 만듭니다. 영상 길이는 오디오를 따릅니다.",
+      "fields": {
+        "portrait": {
+          "label": "인물 사진"
+        },
+        "driving_audio": {
+          "label": "구동 오디오"
+        },
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "portrait_source": {
+          "label": "인물 사진 소스"
+        },
+        "audio_source": {
+          "label": "오디오 소스"
+        },
+        "add_watermark": {
+          "label": "워터마크 추가"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "JPEG, PNG, WebP, BMP, TIFF, GIF, HEIC, HEIF를 업로드하세요. 크기와 화면 비율 제한은 모델 설명을 참고하세요."
+        },
+        "driving_audio": {
+          "help": "4~300초, 15 MB 미만의 WAV 또는 MP3를 업로드하세요."
+        },
+        "prompt": {
+          "help": "장면, 동작, 몸짓, 카메라의 움직임을 지정할 수 있습니다. 중국어, 영어, 일본어, 한국어, 멕시코 스페인어, 인도네시아어를 지원합니다."
+        },
+        "portrait_source": {
+          "help": "업로드 대신 공개 HTTP(S) 이미지 URL 또는 Base64를 입력하세요."
+        },
+        "audio_source": {
+          "help": "업로드 대신 공개 HTTP(S) WAV 또는 MP3 URL이나 Base64를 입력하세요."
+        },
+        "add_watermark": {
+          "help": "출력 동영상에 워터마크를 추가합니다."
+        }
+      }
+    }
+  }
+}

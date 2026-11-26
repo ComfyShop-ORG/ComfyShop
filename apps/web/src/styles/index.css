@@ -1,0 +1,12 @@
+/* 应用样式入口。导入顺序就是层叠顺序，responsive.css 须保持在最后。 */
+@import './shell.css';
+@import './catalog.css';
+@import './auth.css';
+@import './workflow.css';
+@import './tasks.css';
+@import './machines.css';
+@import './parameters.css';
+@import './results.css';
+@import './assets.css';
+@import './projects.css';
+@import './responsive.css';

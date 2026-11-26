@@ -1,0 +1,884 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-flux2-flex-edit",
+  "name": "FLUX.2 Flex 图像编辑",
+  "description": "根据提示词编辑 1 至 8 张源图，可选 JPEG 或 PNG 成品。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "default": "jpeg",
+      "choices": ["jpeg", "png"]
+    },
+    {
+      "optional": true,
+      "name": "seed",
+      "kind": "integer",
+      "default": -1
+    },
+    {
+      "optional": true,
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "default": false
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "size",
+      "kind": "string",
+      "default": "1024*1024",
+      "optional": true
+    },
+    {
+      "name": "safety_tolerance",
+      "kind": "integer",
+      "default": 2,
+      "minimum": "0",
+      "maximum": "5",
+      "optional": true
+    },
+    {
+      "name": "source_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "source_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "source_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "source_image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "source_image_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "source_image_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "source_image_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "source_image_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "enable_prompt_expansion",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "optional": true,
+      "name": "guidance_scale",
+      "kind": "number",
+      "default": 5,
+      "minimum": "1.5",
+      "maximum": "10"
+    },
+    {
+      "optional": true,
+      "name": "num_inference_steps",
+      "kind": "integer",
+      "default": 50,
+      "minimum": "1",
+      "maximum": "50"
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "source_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "enable_prompt_expansion",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "guidance_scale",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "num_inference_steps",
+      "section": "advanced",
+      "control": "slider"
+    },
+    {
+      "fieldId": "safety_tolerance",
+      "section": "advanced",
+      "control": "slider"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "size",
+      "section": "hidden"
+    },
+    {
+      "fieldId": "source_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "source_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "source_image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "source_image_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "source_image_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "source_image_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "source_image_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "black-forest-labs/flux-2-flex/edit",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "output_format": "output_format",
+        "seed": "seed",
+        "enable_base64_output": "enable_base64_output",
+        "enable_sync_mode": "enable_sync_mode",
+        "size": "size",
+        "safety_tolerance": "safety_tolerance",
+        "enable_prompt_expansion": "enable_prompt_expansion",
+        "guidance_scale": "guidance_scale",
+        "num_inference_steps": "num_inference_steps"
+      },
+      "required_text": ["prompt"],
+      "omit_blank_parameters": ["size"],
+      "image_size_limits": {
+        "allow_auto": false,
+        "min_side": 256,
+        "max_side": 2048
+      },
+      "media": {
+        "images": {
+          "kind": "image",
+          "array": true,
+          "fields": [
+            "source_image_1",
+            "source_image_2",
+            "source_image_3",
+            "source_image_4",
+            "source_image_5",
+            "source_image_6",
+            "source_image_7",
+            "source_image_8"
+          ],
+          "external_sources_field": "image_sources",
+          "min_items": 1,
+          "content_types": ["image/png", "image/jpeg", "image/webp"],
+          "allow_raw_base64": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "FLUX.2 Flex 图像编辑",
+      "description": "根据提示词编辑 1 至 8 张源图，可选 JPEG 或 PNG 成品。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "output_format": {
+          "label": "图片格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "enable_base64_output": {
+          "label": "Base64 输出"
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        },
+        "size": {
+          "label": "图片尺寸"
+        },
+        "safety_tolerance": {
+          "label": "内容审核容忍度"
+        },
+        "source_image_1": {
+          "label": "源图 1"
+        },
+        "source_image_2": {
+          "label": "源图 2"
+        },
+        "source_image_3": {
+          "label": "源图 3"
+        },
+        "source_image_4": {
+          "label": "源图 4"
+        },
+        "source_image_5": {
+          "label": "源图 5"
+        },
+        "source_image_6": {
+          "label": "源图 6"
+        },
+        "source_image_7": {
+          "label": "源图 7"
+        },
+        "source_image_8": {
+          "label": "源图 8"
+        },
+        "image_sources": {
+          "label": "源图来源"
+        },
+        "enable_prompt_expansion": {
+          "label": "提示词扩写"
+        },
+        "guidance_scale": {
+          "label": "引导强度"
+        },
+        "num_inference_steps": {
+          "label": "推理步数"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述希望修改的主体、布局或风格。"
+        },
+        "source_image_1": {
+          "help": "上传一张源图，或在高级参数中填写来源。"
+        },
+        "output_format": {
+          "help": "选择 JPEG 或 PNG。"
+        },
+        "enable_prompt_expansion": {
+          "help": "开启后，Atlas 在生成前扩写提示词。"
+        },
+        "guidance_scale": {
+          "help": "可填写 1.5 至 10。较高的值会更贴近提示词，画面可能更不写实。"
+        },
+        "num_inference_steps": {
+          "help": "选择 1 至 50 步，默认 50 步。"
+        },
+        "safety_tolerance": {
+          "help": "选择 0 至 5，0 最严格，默认 2。"
+        },
+        "seed": {
+          "help": "输入整数以重用种子，默认 -1 表示随机。"
+        },
+        "enable_base64_output": {
+          "help": "返回 Base64 图像数据，工作机解码后保存成品。"
+        },
+        "enable_sync_mode": {
+          "help": "让 Atlas 等待图片生成后在提交响应中直接返回成品。"
+        },
+        "size": {
+          "help": "按宽*高填写像素，宽高均为 256 至 2,048。留空时由模型选择。"
+        },
+        "source_image_2": {
+          "help": "按上传顺序编号，外部来源排在上传之后。"
+        },
+        "source_image_3": {
+          "help": "按上传顺序编号，外部来源排在上传之后。"
+        },
+        "source_image_4": {
+          "help": "按上传顺序编号，外部来源排在上传之后。"
+        },
+        "source_image_5": {
+          "help": "按上传顺序编号，外部来源排在上传之后。"
+        },
+        "source_image_6": {
+          "help": "按上传顺序编号，外部来源排在上传之后。"
+        },
+        "source_image_7": {
+          "help": "按上传顺序编号，外部来源排在上传之后。"
+        },
+        "source_image_8": {
+          "help": "按上传顺序编号，外部来源排在上传之后。"
+        },
+        "image_sources": {
+          "help": "每行填写一个公开图片 URL、原始 Base64 或 Data URI，和上传合计 1 至 8 张。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "FLUX.2 Flex 圖片編輯",
+      "description": "根據提示詞編輯 1 至 8 張來源圖，可選 JPEG 或 PNG 成品。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "output_format": {
+          "label": "圖片格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "enable_base64_output": {
+          "label": "Base64 輸出"
+        },
+        "enable_sync_mode": {
+          "label": "同步回傳"
+        },
+        "size": {
+          "label": "圖片尺寸"
+        },
+        "safety_tolerance": {
+          "label": "內容審查容忍度"
+        },
+        "source_image_1": {
+          "label": "來源圖 1"
+        },
+        "source_image_2": {
+          "label": "來源圖 2"
+        },
+        "source_image_3": {
+          "label": "來源圖 3"
+        },
+        "source_image_4": {
+          "label": "來源圖 4"
+        },
+        "source_image_5": {
+          "label": "來源圖 5"
+        },
+        "source_image_6": {
+          "label": "來源圖 6"
+        },
+        "source_image_7": {
+          "label": "來源圖 7"
+        },
+        "source_image_8": {
+          "label": "來源圖 8"
+        },
+        "image_sources": {
+          "label": "來源圖地址"
+        },
+        "enable_prompt_expansion": {
+          "label": "提示詞擴寫"
+        },
+        "guidance_scale": {
+          "label": "引導強度"
+        },
+        "num_inference_steps": {
+          "label": "推論步數"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要修改的主體、佈局或風格。"
+        },
+        "source_image_1": {
+          "help": "上傳一張來源圖，或在進階參數中填寫來源。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG 或 PNG。"
+        },
+        "enable_prompt_expansion": {
+          "help": "開啟後，Atlas 在生成前擴寫提示詞。"
+        },
+        "guidance_scale": {
+          "help": "可填寫 1.5 至 10。較高的值會更符合提示詞，畫面可能較不寫實。"
+        },
+        "num_inference_steps": {
+          "help": "選擇 1 至 50 步，預設 50 步。"
+        },
+        "safety_tolerance": {
+          "help": "選擇 0 至 5，0 最嚴格，預設 2。"
+        },
+        "seed": {
+          "help": "輸入整數以重用種子，預設 -1 代表隨機。"
+        },
+        "enable_base64_output": {
+          "help": "回傳 Base64 圖片資料，工作機解碼後儲存成品。"
+        },
+        "enable_sync_mode": {
+          "help": "讓 Atlas 等待圖片生成後，在提交回應中直接回傳成品。"
+        },
+        "size": {
+          "help": "按寬*高填寫像素，寬高均為 256 至 2,048。留空時由模型選擇。"
+        },
+        "source_image_2": {
+          "help": "按上傳順序編號，外部來源排在上傳之後。"
+        },
+        "source_image_3": {
+          "help": "按上傳順序編號，外部來源排在上傳之後。"
+        },
+        "source_image_4": {
+          "help": "按上傳順序編號，外部來源排在上傳之後。"
+        },
+        "source_image_5": {
+          "help": "按上傳順序編號，外部來源排在上傳之後。"
+        },
+        "source_image_6": {
+          "help": "按上傳順序編號，外部來源排在上傳之後。"
+        },
+        "source_image_7": {
+          "help": "按上傳順序編號，外部來源排在上傳之後。"
+        },
+        "source_image_8": {
+          "help": "按上傳順序編號，外部來源排在上傳之後。"
+        },
+        "image_sources": {
+          "help": "每行填寫一個公開圖片 URL、原始 Base64 或 Data URI，與上傳合計 1 至 8 張。"
+        }
+      }
+    },
+    "en": {
+      "name": "FLUX.2 Flex Image Editing",
+      "description": "Edit one to eight source images from a prompt and output JPEG or PNG.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "output_format": {
+          "label": "Image format",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "seed": {
+          "label": "Random seed"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "enable_sync_mode": {
+          "label": "Synchronous response"
+        },
+        "size": {
+          "label": "Image size"
+        },
+        "safety_tolerance": {
+          "label": "Moderation tolerance"
+        },
+        "source_image_1": {
+          "label": "Source image 1"
+        },
+        "source_image_2": {
+          "label": "Source image 2"
+        },
+        "source_image_3": {
+          "label": "Source image 3"
+        },
+        "source_image_4": {
+          "label": "Source image 4"
+        },
+        "source_image_5": {
+          "label": "Source image 5"
+        },
+        "source_image_6": {
+          "label": "Source image 6"
+        },
+        "source_image_7": {
+          "label": "Source image 7"
+        },
+        "source_image_8": {
+          "label": "Source image 8"
+        },
+        "image_sources": {
+          "label": "Source images from URL or Base64"
+        },
+        "enable_prompt_expansion": {
+          "label": "Expand prompt"
+        },
+        "guidance_scale": {
+          "label": "Guidance scale"
+        },
+        "num_inference_steps": {
+          "label": "Inference steps"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, layout, or style you want to change."
+        },
+        "source_image_1": {
+          "help": "Upload a source image or enter its source in advanced settings."
+        },
+        "output_format": {
+          "help": "Choose JPEG or PNG."
+        },
+        "enable_prompt_expansion": {
+          "help": "Let Atlas expand the prompt before generating."
+        },
+        "guidance_scale": {
+          "help": "Enter a value from 1.5 to 10. Higher values follow the prompt more closely and may reduce realism."
+        },
+        "num_inference_steps": {
+          "help": "Choose 1 to 50 steps. The default is 50."
+        },
+        "safety_tolerance": {
+          "help": "Choose 0 to 5. Zero is the strictest setting, and 2 is the default."
+        },
+        "seed": {
+          "help": "Enter an integer to reuse a seed. The default of −1 selects a random seed."
+        },
+        "enable_base64_output": {
+          "help": "Return Base64 image data for the worker to decode and save."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for Atlas to include the finished images in the submit response."
+        },
+        "size": {
+          "help": "Enter width*height in pixels, with each side between 256 and 2,048. Leave blank to let the model choose."
+        },
+        "source_image_2": {
+          "help": "Images are numbered in upload order, followed by external sources."
+        },
+        "source_image_3": {
+          "help": "Images are numbered in upload order, followed by external sources."
+        },
+        "source_image_4": {
+          "help": "Images are numbered in upload order, followed by external sources."
+        },
+        "source_image_5": {
+          "help": "Images are numbered in upload order, followed by external sources."
+        },
+        "source_image_6": {
+          "help": "Images are numbered in upload order, followed by external sources."
+        },
+        "source_image_7": {
+          "help": "Images are numbered in upload order, followed by external sources."
+        },
+        "source_image_8": {
+          "help": "Images are numbered in upload order, followed by external sources."
+        },
+        "image_sources": {
+          "help": "Enter one public image URL, raw Base64 image, or data URI per line. Provide one to eight images total, including uploads."
+        }
+      }
+    },
+    "ja": {
+      "name": "FLUX.2 Flex 画像編集",
+      "description": "1〜8 枚の元画像をプロンプトで編集し、JPEG または PNG で出力します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "output_format": {
+          "label": "画像形式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "seed": {
+          "label": "シード値"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        },
+        "size": {
+          "label": "画像サイズ"
+        },
+        "safety_tolerance": {
+          "label": "コンテンツ審査の許容度"
+        },
+        "source_image_1": {
+          "label": "元画像1"
+        },
+        "source_image_2": {
+          "label": "元画像2"
+        },
+        "source_image_3": {
+          "label": "元画像3"
+        },
+        "source_image_4": {
+          "label": "元画像4"
+        },
+        "source_image_5": {
+          "label": "元画像5"
+        },
+        "source_image_6": {
+          "label": "元画像6"
+        },
+        "source_image_7": {
+          "label": "元画像7"
+        },
+        "source_image_8": {
+          "label": "元画像8"
+        },
+        "image_sources": {
+          "label": "元画像のソース"
+        },
+        "enable_prompt_expansion": {
+          "label": "プロンプトを拡張"
+        },
+        "guidance_scale": {
+          "label": "ガイダンスの強さ"
+        },
+        "num_inference_steps": {
+          "label": "推論ステップ数"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "変更したい被写体、配置、スタイルを記述します。"
+        },
+        "source_image_1": {
+          "help": "元画像をアップロードするか、詳細設定でソースを入力します。"
+        },
+        "output_format": {
+          "help": "JPEG または PNG を選びます。"
+        },
+        "enable_prompt_expansion": {
+          "help": "生成前に Atlas がプロンプトを拡張します。"
+        },
+        "guidance_scale": {
+          "help": "1.5〜10 を入力します。値が高いほどプロンプトに忠実になりますが、写実性が弱まる場合があります。"
+        },
+        "num_inference_steps": {
+          "help": "1〜50 ステップを選びます。既定値は 50 です。"
+        },
+        "safety_tolerance": {
+          "help": "0〜5 を選びます。最も厳しい値は 0、既定値は 2 です。"
+        },
+        "seed": {
+          "help": "シードを再利用するには整数を入力します。既定の -1 はランダムです。"
+        },
+        "enable_base64_output": {
+          "help": "Base64 画像データを受け取り、ワーカーがデコードして保存します。"
+        },
+        "enable_sync_mode": {
+          "help": "画像の生成を待ち、Atlas から送信応答で完成画像を受け取ります。"
+        },
+        "size": {
+          "help": "幅*高さをピクセル単位で入力します。各辺は 256〜2,048 ピクセルです。空欄ではモデルが決定します。"
+        },
+        "source_image_2": {
+          "help": "アップロードの順に番号が付き、その後に外部ソースが続きます。"
+        },
+        "source_image_3": {
+          "help": "アップロードの順に番号が付き、その後に外部ソースが続きます。"
+        },
+        "source_image_4": {
+          "help": "アップロードの順に番号が付き、その後に外部ソースが続きます。"
+        },
+        "source_image_5": {
+          "help": "アップロードの順に番号が付き、その後に外部ソースが続きます。"
+        },
+        "source_image_6": {
+          "help": "アップロードの順に番号が付き、その後に外部ソースが続きます。"
+        },
+        "source_image_7": {
+          "help": "アップロードの順に番号が付き、その後に外部ソースが続きます。"
+        },
+        "source_image_8": {
+          "help": "アップロードの順に番号が付き、その後に外部ソースが続きます。"
+        },
+        "image_sources": {
+          "help": "公開画像 URL、Base64、データ URI を 1 行に 1 つ入力します。アップロードと合わせて 1〜8 枚を指定します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "FLUX.2 Flex 이미지 편집",
+      "description": "프롬프트로 원본 이미지 1~8장을 편집하고 JPEG 또는 PNG로 출력합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "output_format": {
+          "label": "이미지 형식",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "seed": {
+          "label": "랜덤 시드"
+        },
+        "enable_base64_output": {
+          "label": "Base64 출력"
+        },
+        "enable_sync_mode": {
+          "label": "동기 응답"
+        },
+        "size": {
+          "label": "이미지 크기"
+        },
+        "safety_tolerance": {
+          "label": "콘텐츠 검토 허용 수준"
+        },
+        "source_image_1": {
+          "label": "원본 이미지 1"
+        },
+        "source_image_2": {
+          "label": "원본 이미지 2"
+        },
+        "source_image_3": {
+          "label": "원본 이미지 3"
+        },
+        "source_image_4": {
+          "label": "원본 이미지 4"
+        },
+        "source_image_5": {
+          "label": "원본 이미지 5"
+        },
+        "source_image_6": {
+          "label": "원본 이미지 6"
+        },
+        "source_image_7": {
+          "label": "원본 이미지 7"
+        },
+        "source_image_8": {
+          "label": "원본 이미지 8"
+        },
+        "image_sources": {
+          "label": "원본 이미지 소스"
+        },
+        "enable_prompt_expansion": {
+          "label": "프롬프트 확장"
+        },
+        "guidance_scale": {
+          "label": "가이던스 강도"
+        },
+        "num_inference_steps": {
+          "label": "추론 단계"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "변경하려는 피사체, 배치 또는 스타일을 설명하세요."
+        },
+        "source_image_1": {
+          "help": "원본 이미지를 업로드하거나 고급 설정에 소스를 입력하세요."
+        },
+        "output_format": {
+          "help": "JPEG 또는 PNG를 선택하세요."
+        },
+        "enable_prompt_expansion": {
+          "help": "생성 전에 Atlas가 프롬프트를 확장합니다."
+        },
+        "guidance_scale": {
+          "help": "1.5~10을 입력하세요. 값이 높을수록 프롬프트를 더 충실히 따르며 사실감이 줄어들 수 있습니다."
+        },
+        "num_inference_steps": {
+          "help": "1~50단계를 선택하세요. 기본값은 50입니다."
+        },
+        "safety_tolerance": {
+          "help": "0~5를 선택하세요. 0이 가장 엄격하며 기본값은 2입니다."
+        },
+        "seed": {
+          "help": "시드를 재사용하려면 정수를 입력하세요. 기본값 -1은 무작위입니다."
+        },
+        "enable_base64_output": {
+          "help": "Base64 이미지 데이터를 받아 작업기가 디코딩하고 저장합니다."
+        },
+        "enable_sync_mode": {
+          "help": "생성이 끝날 때까지 기다린 뒤 Atlas 제출 응답에 완성 이미지를 포함합니다."
+        },
+        "size": {
+          "help": "가로*세로를 픽셀 단위로 입력하세요. 각 변은 256~2,048픽셀입니다. 비워 두면 모델이 선택합니다."
+        },
+        "source_image_2": {
+          "help": "업로드 순서로 번호를 붙인 뒤 외부 소스를 추가합니다."
+        },
+        "source_image_3": {
+          "help": "업로드 순서로 번호를 붙인 뒤 외부 소스를 추가합니다."
+        },
+        "source_image_4": {
+          "help": "업로드 순서로 번호를 붙인 뒤 외부 소스를 추가합니다."
+        },
+        "source_image_5": {
+          "help": "업로드 순서로 번호를 붙인 뒤 외부 소스를 추가합니다."
+        },
+        "source_image_6": {
+          "help": "업로드 순서로 번호를 붙인 뒤 외부 소스를 추가합니다."
+        },
+        "source_image_7": {
+          "help": "업로드 순서로 번호를 붙인 뒤 외부 소스를 추가합니다."
+        },
+        "source_image_8": {
+          "help": "업로드 순서로 번호를 붙인 뒤 외부 소스를 추가합니다."
+        },
+        "image_sources": {
+          "help": "한 줄에 공개 이미지 URL, 원시 Base64 또는 데이터 URI를 하나씩 입력하세요. 업로드와 합해 1~8장을 지정합니다."
+        }
+      }
+    }
+  }
+}

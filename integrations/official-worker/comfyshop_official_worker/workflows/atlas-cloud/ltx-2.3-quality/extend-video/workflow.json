@@ -1,0 +1,525 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-ltx23q-extend",
+  "name": "LTX 2.3 Quality 视频延长",
+  "description": "根据提示词在原视频前后生成新画面，可匹配原片帧率并生成音频。",
+  "category": "video_tool",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "Continue the scene naturally, maintaining the same style, lighting, and motion dynamics",
+      "maxLength": 2000
+    },
+    {
+      "name": "num_frames",
+      "kind": "integer",
+      "minimum": "9",
+      "maximum": "481",
+      "step": "8",
+      "optional": true,
+      "default": 81
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": [
+        "square_hd",
+        "square",
+        "portrait_3_4",
+        "portrait_9_16",
+        "landscape_4_3",
+        "landscape_16_9"
+      ],
+      "optional": true,
+      "default": "landscape_16_9"
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "minimum": "0",
+      "optional": true
+    },
+    {
+      "name": "source_video",
+      "kind": "video",
+      "optional": true,
+      "additionalAssetKinds": ["image"]
+    },
+    {
+      "name": "source_video_url",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    },
+    {
+      "name": "extend_direction",
+      "kind": "choice",
+      "choices": ["forward", "backward"],
+      "optional": true,
+      "default": "forward"
+    },
+    {
+      "name": "match_input_fps",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "source_video",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "extend_direction",
+      "section": "default"
+    },
+    {
+      "fieldId": "num_frames",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "match_input_fps",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "source_video_url",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "ltx-2.3-quality/extend-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "num_frames": "num_frames",
+        "resolution": "resolution",
+        "generate_audio": "generate_audio",
+        "seed": "seed",
+        "extend_direction": "extend_direction",
+        "match_input_fps": "match_input_fps"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 2000
+      },
+      "media": {
+        "video_url": {
+          "kind": "video",
+          "fields": ["source_video"],
+          "external_sources_field": "source_video_url",
+          "external_urls_only": true,
+          "min_items": 1,
+          "content_types": [
+            "video/mp4",
+            "video/quicktime",
+            "video/webm",
+            "video/x-m4v",
+            "image/gif"
+          ]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "LTX 2.3 Quality 视频延长",
+      "description": "根据提示词在原视频前后生成新画面，可匹配原片帧率并生成音频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "num_frames": {
+          "label": "续接帧数"
+        },
+        "resolution": {
+          "label": "画面尺寸",
+          "choiceLabels": {
+            "square_hd": "高清方形（1024×1024）",
+            "square": "方形（512×512）",
+            "portrait_3_4": "竖向 3:4",
+            "portrait_9_16": "竖向 9:16",
+            "landscape_4_3": "横向 4:3",
+            "landscape_16_9": "横向 16:9"
+          }
+        },
+        "generate_audio": {
+          "label": "生成同步音频"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "source_video": {
+          "label": "原视频或 GIF"
+        },
+        "source_video_url": {
+          "label": "原视频 URL"
+        },
+        "extend_direction": {
+          "label": "延长方向",
+          "choiceLabels": {
+            "forward": "向后追加",
+            "backward": "向前补齐"
+          }
+        },
+        "match_input_fps": {
+          "label": "匹配原片帧率"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上传 MP4、MOV、WebM、M4V 或 GIF。"
+        },
+        "prompt": {
+          "help": "描述要延长的场景和镜头变化，最多 2,000 字符。"
+        },
+        "extend_direction": {
+          "help": "选择在原片之后追加画面，或在原片之前生成画面。"
+        },
+        "num_frames": {
+          "help": "9 至 481 帧，每次增加 8 帧，默认 81 帧。"
+        },
+        "resolution": {
+          "help": "选择方形、竖向或横向预设。"
+        },
+        "generate_audio": {
+          "help": "为视频生成配套音频。"
+        },
+        "seed": {
+          "help": "填写非负整数以复用生成条件，留空时由 Atlas 选取。"
+        },
+        "match_input_fps": {
+          "help": "沿用原视频的帧率。"
+        },
+        "source_video_url": {
+          "help": "填写公开可访问的视频或 GIF 地址，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "LTX 2.3 Quality 影片延長",
+      "description": "依提示詞在原影片前後生成新畫面，可配合原片影格率並生成音訊。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "num_frames": {
+          "label": "續接影格數"
+        },
+        "resolution": {
+          "label": "畫面尺寸",
+          "choiceLabels": {
+            "square_hd": "高畫質方形（1024×1024）",
+            "square": "方形（512×512）",
+            "portrait_3_4": "直向 3:4",
+            "portrait_9_16": "直向 9:16",
+            "landscape_4_3": "橫向 4:3",
+            "landscape_16_9": "橫向 16:9"
+          }
+        },
+        "generate_audio": {
+          "label": "生成同步音訊"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "source_video": {
+          "label": "原影片或 GIF"
+        },
+        "source_video_url": {
+          "label": "原影片 URL"
+        },
+        "extend_direction": {
+          "label": "延長方向",
+          "choiceLabels": {
+            "forward": "向後追加",
+            "backward": "向前補齊"
+          }
+        },
+        "match_input_fps": {
+          "label": "配合原片影格率"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上傳 MP4、MOV、WebM、M4V 或 GIF。"
+        },
+        "prompt": {
+          "help": "描述要延長的場景與鏡頭變化，最多 2,000 個字元。"
+        },
+        "extend_direction": {
+          "help": "選擇在原片之後追加畫面，或在原片之前生成畫面。"
+        },
+        "num_frames": {
+          "help": "9 至 481 個影格，每次增加 8 個，預設 81。"
+        },
+        "resolution": {
+          "help": "選擇方形、直向或橫向預設。"
+        },
+        "generate_audio": {
+          "help": "為影片生成配套音訊。"
+        },
+        "seed": {
+          "help": "填寫非負整數以重複使用生成條件，留空時由 Atlas 選取。"
+        },
+        "match_input_fps": {
+          "help": "沿用原影片的影格率。"
+        },
+        "source_video_url": {
+          "help": "填寫公開可存取的影片或 GIF 網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "LTX 2.3 Quality Video Extension",
+      "description": "Generate new footage before or after a source video, with optional frame rate matching and audio generation.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "num_frames": {
+          "label": "Extension frames"
+        },
+        "resolution": {
+          "label": "Frame size",
+          "choiceLabels": {
+            "square_hd": "HD square (1024×1024)",
+            "square": "Square (512×512)",
+            "portrait_3_4": "Portrait 3:4",
+            "portrait_9_16": "Portrait 9:16",
+            "landscape_4_3": "Landscape 4:3",
+            "landscape_16_9": "Landscape 16:9"
+          }
+        },
+        "generate_audio": {
+          "label": "Generate synchronized audio"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "source_video": {
+          "label": "Source video or GIF"
+        },
+        "source_video_url": {
+          "label": "Source video URL"
+        },
+        "extend_direction": {
+          "label": "Extension direction",
+          "choiceLabels": {
+            "forward": "Append after",
+            "backward": "Prepend before"
+          }
+        },
+        "match_input_fps": {
+          "label": "Match source frame rate"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "Upload MP4, MOV, WebM, M4V, or GIF."
+        },
+        "prompt": {
+          "help": "Describe the extended scene and camera movement in up to 2,000 characters."
+        },
+        "extend_direction": {
+          "help": "Add footage after the source video or generate footage before it."
+        },
+        "num_frames": {
+          "help": "Choose 9 to 481 frames in steps of 8. The default is 81."
+        },
+        "resolution": {
+          "help": "Choose a square, portrait, or landscape preset."
+        },
+        "generate_audio": {
+          "help": "Create audio to accompany the video."
+        },
+        "seed": {
+          "help": "Provide a nonnegative integer to reuse the seed. Leave blank for Atlas to choose."
+        },
+        "match_input_fps": {
+          "help": "Use the source video's frame rate."
+        },
+        "source_video_url": {
+          "help": "Provide a public video or GIF URL, or upload the file."
+        }
+      }
+    },
+    "ja": {
+      "name": "LTX 2.3 Quality 動画延長",
+      "description": "元動画の前後に新しい映像を生成します。元動画のフレームレートと同期音声も指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "num_frames": {
+          "label": "追加フレーム数"
+        },
+        "resolution": {
+          "label": "画面サイズ",
+          "choiceLabels": {
+            "square_hd": "HD 正方形（1024×1024）",
+            "square": "正方形（512×512）",
+            "portrait_3_4": "縦向き 3:4",
+            "portrait_9_16": "縦向き 9:16",
+            "landscape_4_3": "横向き 4:3",
+            "landscape_16_9": "横向き 16:9"
+          }
+        },
+        "generate_audio": {
+          "label": "同期音声を生成"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "source_video": {
+          "label": "元動画または GIF"
+        },
+        "source_video_url": {
+          "label": "元動画の URL"
+        },
+        "extend_direction": {
+          "label": "延長する方向",
+          "choiceLabels": {
+            "forward": "末尾に追加",
+            "backward": "先頭の前に追加"
+          }
+        },
+        "match_input_fps": {
+          "label": "元動画のフレームレートに合わせる"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "MP4、MOV、WebM、M4V、GIF をアップロードします。"
+        },
+        "prompt": {
+          "help": "追加する場面とカメラワークを 2,000 文字以内で記述します。"
+        },
+        "extend_direction": {
+          "help": "元動画の末尾に追加するか、先頭の前に映像を生成します。"
+        },
+        "num_frames": {
+          "help": "9〜481 フレームを 8 刻みで選びます。既定値は 81 です。"
+        },
+        "resolution": {
+          "help": "正方形、縦向き、横向きのプリセットを選びます。"
+        },
+        "generate_audio": {
+          "help": "動画に合った音声を生成します。"
+        },
+        "seed": {
+          "help": "同じシードを使うには 0 以上の整数を指定します。空欄の場合は Atlas が選びます。"
+        },
+        "match_input_fps": {
+          "help": "元動画と同じフレームレートを使います。"
+        },
+        "source_video_url": {
+          "help": "公開動画または GIF の URL を入力するか、ファイルをアップロードします。"
+        }
+      }
+    },
+    "ko": {
+      "name": "LTX 2.3 Quality 동영상 연장",
+      "description": "원본 동영상의 앞이나 뒤에 새 장면을 생성합니다. 원본 프레임 속도와 동기화 오디오를 설정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "num_frames": {
+          "label": "연장 프레임 수"
+        },
+        "resolution": {
+          "label": "화면 크기",
+          "choiceLabels": {
+            "square_hd": "HD 정사각형(1024×1024)",
+            "square": "정사각형(512×512)",
+            "portrait_3_4": "세로형 3:4",
+            "portrait_9_16": "세로형 9:16",
+            "landscape_4_3": "가로형 4:3",
+            "landscape_16_9": "가로형 16:9"
+          }
+        },
+        "generate_audio": {
+          "label": "동기화 오디오 생성"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "source_video": {
+          "label": "원본 동영상 또는 GIF"
+        },
+        "source_video_url": {
+          "label": "원본 동영상 URL"
+        },
+        "extend_direction": {
+          "label": "연장 방향",
+          "choiceLabels": {
+            "forward": "뒤에 추가",
+            "backward": "앞에 추가"
+          }
+        },
+        "match_input_fps": {
+          "label": "원본 프레임 속도 맞추기"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "MP4, MOV, WebM, M4V 또는 GIF를 업로드하세요."
+        },
+        "prompt": {
+          "help": "연장할 장면과 카메라 움직임을 최대 2,000자로 설명하세요."
+        },
+        "extend_direction": {
+          "help": "원본 동영상 뒤에 붙이거나 앞에 추가할 장면을 생성합니다."
+        },
+        "num_frames": {
+          "help": "9~481 사이에서 8씩 조절합니다. 기본값은 81입니다."
+        },
+        "resolution": {
+          "help": "정사각형, 세로형 또는 가로형 프리셋을 선택하세요."
+        },
+        "generate_audio": {
+          "help": "동영상에 어울리는 오디오를 생성합니다."
+        },
+        "seed": {
+          "help": "같은 시드를 재사용하려면 0 이상의 정수를 입력하세요. 비워 두면 Atlas가 선택합니다."
+        },
+        "match_input_fps": {
+          "help": "원본 동영상의 프레임 속도를 사용합니다."
+        },
+        "source_video_url": {
+          "help": "공개 동영상 또는 GIF URL을 입력하거나 파일을 업로드하세요."
+        }
+      }
+    }
+  }
+}

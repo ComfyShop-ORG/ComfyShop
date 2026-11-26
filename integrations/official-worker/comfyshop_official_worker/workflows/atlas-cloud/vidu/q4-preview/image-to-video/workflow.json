@@ -1,0 +1,447 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-vidu-q4-preview-image",
+  "name": "Vidu Q4 Preview 图生视频",
+  "description": "根据起始图生成 3 至 16 秒的视频，支持最高 4K、同步音频和提示词扩写。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "The girl slowly turns toward the camera and smiles as wind moves through her hair, soft cinematic lighting.",
+      "optional": true,
+      "maxLength": 20000
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["540p", "720p", "1080p", "2k", "4k"],
+      "optional": true
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 5,
+      "optional": true,
+      "minimum": "3",
+      "maximum": "16",
+      "step": "1"
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true,
+      "default": -1
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "enable_prompt_expansion",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_prompt_expansion",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "vidu/q4-preview/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "duration": "duration",
+        "generate_audio": "generate_audio",
+        "seed": "seed",
+        "enable_prompt_expansion": "enable_prompt_expansion"
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "max_bytes": 50000000,
+          "content_types": ["image/jpeg", "image/png", "image/webp"]
+        }
+      },
+      "text_max_lengths": {
+        "prompt": 20000
+      },
+      "omit_blank_parameters": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Vidu Q4 Preview 图生视频",
+      "description": "根据起始图生成 3 至 16 秒的视频，支持最高 4K、同步音频和提示词扩写。",
+      "fields": {
+        "first_frame": {
+          "label": "起始图"
+        },
+        "prompt": {
+          "label": "提示词"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "first_frame_source": {
+          "label": "起始图来源"
+        },
+        "enable_prompt_expansion": {
+          "label": "提示词扩写"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传 JPEG、PNG 或 WebP，最多 50 MB。也可在高级区填写图片来源。"
+        },
+        "prompt": {
+          "help": "可描述动作、镜头和声音，最多 20,000 字符。"
+        },
+        "resolution": {
+          "help": "选择 540p、720p、1080p、2K 或 4K，默认 720p。"
+        },
+        "duration": {
+          "help": "选择 3 至 16 秒，默认 5 秒。"
+        },
+        "generate_audio": {
+          "help": "生成与视频同步的对白、音效和环境声，默认开启。"
+        },
+        "enable_prompt_expansion": {
+          "help": "生成前由模型改写并丰富提示词，默认关闭。"
+        },
+        "seed": {
+          "help": "填写整数以指定种子。默认 -1，使用随机种子。"
+        },
+        "first_frame_source": {
+          "help": "使用一个公开图片 URL 或带媒体类型的 Base64 数据网址。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Vidu Q4 Preview 圖生影片",
+      "description": "根據起始圖生成 3 至 16 秒的影片，支援最高 4K、同步音訊和提示詞擴寫。",
+      "fields": {
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "prompt": {
+          "label": "提示詞"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "first_frame_source": {
+          "label": "起始圖來源"
+        },
+        "enable_prompt_expansion": {
+          "label": "提示詞擴寫"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳 JPEG、PNG 或 WebP，最多 50 MB。也可在進階區填寫圖片來源。"
+        },
+        "prompt": {
+          "help": "可描述動作、鏡頭和聲音，最多 20,000 字元。"
+        },
+        "resolution": {
+          "help": "選擇 540p、720p、1080p、2K 或 4K，預設 720p。"
+        },
+        "duration": {
+          "help": "選擇 3 至 16 秒，預設 5 秒。"
+        },
+        "generate_audio": {
+          "help": "生成與影片同步的對白、音效和環境音，預設開啟。"
+        },
+        "enable_prompt_expansion": {
+          "help": "生成前由模型改寫並豐富提示詞，預設關閉。"
+        },
+        "seed": {
+          "help": "填寫整數可指定種子。預設 -1，使用隨機種子。"
+        },
+        "first_frame_source": {
+          "help": "使用一個公開圖片網址或帶媒體類型的 Base64 資料網址。"
+        }
+      }
+    },
+    "en": {
+      "name": "Vidu Q4 Preview Image to Video",
+      "description": "Animate a starting image into a three- to sixteen-second video at up to 4K, with synchronized audio and optional prompt expansion.",
+      "fields": {
+        "first_frame": {
+          "label": "Starting image"
+        },
+        "prompt": {
+          "label": "Prompt"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "first_frame_source": {
+          "label": "Starting image source"
+        },
+        "enable_prompt_expansion": {
+          "label": "Prompt expansion"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB, or enter its source in advanced settings."
+        },
+        "prompt": {
+          "help": "Optionally describe the motion, camera and sound in up to 20,000 characters."
+        },
+        "resolution": {
+          "help": "Choose 540p, 720p, 1080p, 2K or 4K. The default is 720p."
+        },
+        "duration": {
+          "help": "Choose 3 to 16 seconds. The default is 5."
+        },
+        "generate_audio": {
+          "help": "Generate synchronized dialogue, sound effects and ambient sound. On by default."
+        },
+        "enable_prompt_expansion": {
+          "help": "Let the model rewrite and enrich the prompt before generation. Off by default."
+        },
+        "seed": {
+          "help": "Enter an integer to specify a seed. The default of −1 uses a random seed."
+        },
+        "first_frame_source": {
+          "help": "Enter one public image URL or a Base64 data URL with its image type."
+        }
+      }
+    },
+    "ja": {
+      "name": "Vidu Q4 Preview 画像から動画",
+      "description": "開始画像から 3〜16 秒、最大 4K の動画を生成します。同期音声やプロンプトの拡張を利用できます。",
+      "fields": {
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "duration": {
+          "label": "動画の長さ（秒）"
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "first_frame_source": {
+          "label": "開始画像のソース"
+        },
+        "enable_prompt_expansion": {
+          "label": "プロンプト拡張"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードするか、詳細設定でソースを指定します。"
+        },
+        "prompt": {
+          "help": "動き、カメラワーク、音を必要に応じて記述します。最大 20,000 文字です。"
+        },
+        "resolution": {
+          "help": "540p、720p、1080p、2K または 4K を選択します。既定は 720p です。"
+        },
+        "duration": {
+          "help": "3〜16 秒を選択します。既定は 5 秒です。"
+        },
+        "generate_audio": {
+          "help": "動画に同期した会話、効果音、環境音を生成します。既定はオンです。"
+        },
+        "enable_prompt_expansion": {
+          "help": "生成前にモデルがプロンプトを書き直し、内容を補います。既定はオフです。"
+        },
+        "seed": {
+          "help": "整数を入力してシードを指定します。既定値の -1 はランダムです。"
+        },
+        "first_frame_source": {
+          "help": "公開画像 URL または画像のメディアタイプを指定した Base64 データ URL を 1 つ入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Vidu Q4 Preview 이미지에서 동영상",
+      "description": "시작 이미지로 3~16초 동영상을 최대 4K로 생성하며 동기화된 오디오와 프롬프트 확장을 선택할 수 있습니다.",
+      "fields": {
+        "first_frame": {
+          "label": "시작 이미지"
+        },
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "540p": "540p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "duration": {
+          "label": "동영상 길이(초)"
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "first_frame_source": {
+          "label": "시작 이미지 소스"
+        },
+        "enable_prompt_expansion": {
+          "label": "프롬프트 확장"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하거나 고급 설정에 소스를 입력하세요."
+        },
+        "prompt": {
+          "help": "움직임, 카메라, 소리를 최대 20,000자로 설명할 수 있습니다."
+        },
+        "resolution": {
+          "help": "540p, 720p, 1080p, 2K 또는 4K를 선택하세요. 기본값은 720p입니다."
+        },
+        "duration": {
+          "help": "3~16초를 선택하세요. 기본값은 5초입니다."
+        },
+        "generate_audio": {
+          "help": "동영상에 맞춰 대사, 효과음, 환경음을 생성합니다. 기본값은 켜짐입니다."
+        },
+        "enable_prompt_expansion": {
+          "help": "생성하기 전에 모델이 프롬프트를 다시 작성하고 내용을 보강합니다. 기본값은 꺼짐입니다."
+        },
+        "seed": {
+          "help": "정수를 입력하여 시드를 정하세요. 기본값 -1은 무작위입니다."
+        },
+        "first_frame_source": {
+          "help": "공개 이미지 URL 또는 이미지 미디어 유형이 포함된 Base64 데이터 URL 하나를 입력하세요."
+        }
+      }
+    }
+  }
+}

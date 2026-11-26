@@ -1,0 +1,2009 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-vidu-q1-subject-reference",
+  "name": "Vidu Q1 主体参考生视频",
+  "description": "为人物或物体分别提供参考图，生成外观一致的 5 秒 1080p 视频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "the girl walks from the painting to the room, put the coffee cup on the table",
+      "maxLength": 1500
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "choices": ["16:9", "9:16", "1:1"],
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1080p",
+      "choices": ["1080p"],
+      "optional": true
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 5,
+      "choices": [5],
+      "optional": true
+    },
+    {
+      "name": "movement_amplitude",
+      "kind": "choice",
+      "default": "auto",
+      "choices": ["auto", "small", "medium", "large"],
+      "optional": true
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true,
+      "default": 0
+    },
+    {
+      "name": "audio_type",
+      "kind": "choice",
+      "default": "all",
+      "choices": ["all", "speech_only", "sound_effect_only"],
+      "optional": true
+    },
+    {
+      "name": "subject_1_id",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    },
+    {
+      "name": "subject_1_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_1_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_1_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_1_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "subject_2_id",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    },
+    {
+      "name": "subject_2_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_2_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_2_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_2_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "subject_3_id",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    },
+    {
+      "name": "subject_3_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_3_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_3_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_3_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "subject_4_id",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    },
+    {
+      "name": "subject_4_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_4_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_4_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_4_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "subject_5_id",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    },
+    {
+      "name": "subject_5_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_5_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_5_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_5_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "subject_6_id",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    },
+    {
+      "name": "subject_6_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_6_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_6_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_6_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "subject_7_id",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    },
+    {
+      "name": "subject_7_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_7_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_7_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "subject_7_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "subject_1_id",
+      "section": "default"
+    },
+    {
+      "fieldId": "subject_1_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "hidden"
+    },
+    {
+      "fieldId": "duration",
+      "section": "hidden"
+    },
+    {
+      "fieldId": "movement_amplitude",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_type",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_1_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_1_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_1_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_2_id",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_2_image_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_2_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_2_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_2_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_3_id",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_3_image_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_3_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_3_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_3_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_4_id",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_4_image_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_4_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_4_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_4_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_5_id",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_5_image_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_5_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_5_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_5_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_6_id",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_6_image_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_6_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_6_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_6_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_7_id",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_7_image_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_7_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_7_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "subject_7_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "vidu/q1/reference-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "duration": "duration",
+        "movement_amplitude": "movement_amplitude",
+        "generate_audio": "generate_audio",
+        "seed": "seed",
+        "audio_type": "audio_type"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 1500
+      },
+      "image_subjects": {
+        "slots": [
+          {
+            "id_field": "subject_1_id",
+            "images": {
+              "kind": "image",
+              "array": true,
+              "fields": ["subject_1_image_1", "subject_1_image_2", "subject_1_image_3"],
+              "external_sources_field": "subject_1_sources",
+              "min_items": 1,
+              "content_types": ["image/jpeg", "image/png", "image/webp"],
+              "image_bounds": {
+                "min_side": 128,
+                "max_aspect_ratio_exclusive": 4
+              }
+            }
+          },
+          {
+            "id_field": "subject_2_id",
+            "images": {
+              "kind": "image",
+              "array": true,
+              "fields": ["subject_2_image_1", "subject_2_image_2", "subject_2_image_3"],
+              "external_sources_field": "subject_2_sources",
+              "min_items": 1,
+              "content_types": ["image/jpeg", "image/png", "image/webp"],
+              "image_bounds": {
+                "min_side": 128,
+                "max_aspect_ratio_exclusive": 4
+              }
+            }
+          },
+          {
+            "id_field": "subject_3_id",
+            "images": {
+              "kind": "image",
+              "array": true,
+              "fields": ["subject_3_image_1", "subject_3_image_2", "subject_3_image_3"],
+              "external_sources_field": "subject_3_sources",
+              "min_items": 1,
+              "content_types": ["image/jpeg", "image/png", "image/webp"],
+              "image_bounds": {
+                "min_side": 128,
+                "max_aspect_ratio_exclusive": 4
+              }
+            }
+          },
+          {
+            "id_field": "subject_4_id",
+            "images": {
+              "kind": "image",
+              "array": true,
+              "fields": ["subject_4_image_1", "subject_4_image_2", "subject_4_image_3"],
+              "external_sources_field": "subject_4_sources",
+              "min_items": 1,
+              "content_types": ["image/jpeg", "image/png", "image/webp"],
+              "image_bounds": {
+                "min_side": 128,
+                "max_aspect_ratio_exclusive": 4
+              }
+            }
+          },
+          {
+            "id_field": "subject_5_id",
+            "images": {
+              "kind": "image",
+              "array": true,
+              "fields": ["subject_5_image_1", "subject_5_image_2", "subject_5_image_3"],
+              "external_sources_field": "subject_5_sources",
+              "min_items": 1,
+              "content_types": ["image/jpeg", "image/png", "image/webp"],
+              "image_bounds": {
+                "min_side": 128,
+                "max_aspect_ratio_exclusive": 4
+              }
+            }
+          },
+          {
+            "id_field": "subject_6_id",
+            "images": {
+              "kind": "image",
+              "array": true,
+              "fields": ["subject_6_image_1", "subject_6_image_2", "subject_6_image_3"],
+              "external_sources_field": "subject_6_sources",
+              "min_items": 1,
+              "content_types": ["image/jpeg", "image/png", "image/webp"],
+              "image_bounds": {
+                "min_side": 128,
+                "max_aspect_ratio_exclusive": 4
+              }
+            }
+          },
+          {
+            "id_field": "subject_7_id",
+            "images": {
+              "kind": "image",
+              "array": true,
+              "fields": ["subject_7_image_1", "subject_7_image_2", "subject_7_image_3"],
+              "external_sources_field": "subject_7_sources",
+              "min_items": 1,
+              "content_types": ["image/jpeg", "image/png", "image/webp"],
+              "image_bounds": {
+                "min_side": 128,
+                "max_aspect_ratio_exclusive": 4
+              }
+            }
+          }
+        ],
+        "max_images": 7
+      },
+      "request_max_bytes": 20000000,
+      "enabled_by": {
+        "audio_type": "generate_audio"
+      },
+      "required_when": {
+        "audio_type": {
+          "generate_audio": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Vidu Q1 主体参考生视频",
+      "description": "为人物或物体分别提供参考图，生成外观一致的 5 秒 1080p 视频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "movement_amplitude": {
+          "label": "动作幅度",
+          "choiceLabels": {
+            "auto": "自动",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "audio_type": {
+          "label": "音频类型",
+          "choiceLabels": {
+            "all": "语音和音效",
+            "speech_only": "仅语音",
+            "sound_effect_only": "仅音效"
+          }
+        },
+        "subject_1_id": {
+          "label": "主体 1 ID"
+        },
+        "subject_1_image_1": {
+          "label": "主体 1 图片 1"
+        },
+        "subject_1_image_2": {
+          "label": "主体 1 图片 2"
+        },
+        "subject_1_image_3": {
+          "label": "主体 1 图片 3"
+        },
+        "subject_1_sources": {
+          "label": "主体 1 图片来源"
+        },
+        "subject_2_id": {
+          "label": "主体 2 ID"
+        },
+        "subject_2_image_1": {
+          "label": "主体 2 图片 1"
+        },
+        "subject_2_image_2": {
+          "label": "主体 2 图片 2"
+        },
+        "subject_2_image_3": {
+          "label": "主体 2 图片 3"
+        },
+        "subject_2_sources": {
+          "label": "主体 2 图片来源"
+        },
+        "subject_3_id": {
+          "label": "主体 3 ID"
+        },
+        "subject_3_image_1": {
+          "label": "主体 3 图片 1"
+        },
+        "subject_3_image_2": {
+          "label": "主体 3 图片 2"
+        },
+        "subject_3_image_3": {
+          "label": "主体 3 图片 3"
+        },
+        "subject_3_sources": {
+          "label": "主体 3 图片来源"
+        },
+        "subject_4_id": {
+          "label": "主体 4 ID"
+        },
+        "subject_4_image_1": {
+          "label": "主体 4 图片 1"
+        },
+        "subject_4_image_2": {
+          "label": "主体 4 图片 2"
+        },
+        "subject_4_image_3": {
+          "label": "主体 4 图片 3"
+        },
+        "subject_4_sources": {
+          "label": "主体 4 图片来源"
+        },
+        "subject_5_id": {
+          "label": "主体 5 ID"
+        },
+        "subject_5_image_1": {
+          "label": "主体 5 图片 1"
+        },
+        "subject_5_image_2": {
+          "label": "主体 5 图片 2"
+        },
+        "subject_5_image_3": {
+          "label": "主体 5 图片 3"
+        },
+        "subject_5_sources": {
+          "label": "主体 5 图片来源"
+        },
+        "subject_6_id": {
+          "label": "主体 6 ID"
+        },
+        "subject_6_image_1": {
+          "label": "主体 6 图片 1"
+        },
+        "subject_6_image_2": {
+          "label": "主体 6 图片 2"
+        },
+        "subject_6_image_3": {
+          "label": "主体 6 图片 3"
+        },
+        "subject_6_sources": {
+          "label": "主体 6 图片来源"
+        },
+        "subject_7_id": {
+          "label": "主体 7 ID"
+        },
+        "subject_7_image_1": {
+          "label": "主体 7 图片 1"
+        },
+        "subject_7_image_2": {
+          "label": "主体 7 图片 2"
+        },
+        "subject_7_image_3": {
+          "label": "主体 7 图片 3"
+        },
+        "subject_7_sources": {
+          "label": "主体 7 图片来源"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述动作、场景和镜头，并用 @主体ID 引用各主体。最多 1,500 字符。"
+        },
+        "subject_1_id": {
+          "help": "填写一个主体 ID，例如 dancer。在提示词中写 @dancer 以引用该主体。"
+        },
+        "subject_1_image_1": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9、9:16 或 1:1。默认 16:9。"
+        },
+        "resolution": {
+          "help": "此接口固定输出 1080p。"
+        },
+        "duration": {
+          "help": "此接口固定生成 5 秒视频。"
+        },
+        "movement_amplitude": {
+          "help": "控制画面中主体的动作幅度，默认自动。"
+        },
+        "generate_audio": {
+          "help": "是否生成视频的音频，默认开启。"
+        },
+        "audio_type": {
+          "help": "开启生成音频时选择。默认同时生成语音和音效。"
+        },
+        "seed": {
+          "help": "填写整数以指定种子。默认 0，输入 -1 使用随机种子。"
+        },
+        "subject_1_image_2": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_1_image_3": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_1_sources": {
+          "help": "每行输入一个公开图片 URL 或带媒体类型的 Base64 数据网址。每个主体最多 3 张，所有主体合计最多 7 张。"
+        },
+        "subject_2_id": {
+          "help": "填写一个主体 ID，例如 dancer。在提示词中写 @dancer 以引用该主体。"
+        },
+        "subject_2_image_1": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_2_image_2": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_2_image_3": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_2_sources": {
+          "help": "每行输入一个公开图片 URL 或带媒体类型的 Base64 数据网址。每个主体最多 3 张，所有主体合计最多 7 张。"
+        },
+        "subject_3_id": {
+          "help": "填写一个主体 ID，例如 dancer。在提示词中写 @dancer 以引用该主体。"
+        },
+        "subject_3_image_1": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_3_image_2": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_3_image_3": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_3_sources": {
+          "help": "每行输入一个公开图片 URL 或带媒体类型的 Base64 数据网址。每个主体最多 3 张，所有主体合计最多 7 张。"
+        },
+        "subject_4_id": {
+          "help": "填写一个主体 ID，例如 dancer。在提示词中写 @dancer 以引用该主体。"
+        },
+        "subject_4_image_1": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_4_image_2": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_4_image_3": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_4_sources": {
+          "help": "每行输入一个公开图片 URL 或带媒体类型的 Base64 数据网址。每个主体最多 3 张，所有主体合计最多 7 张。"
+        },
+        "subject_5_id": {
+          "help": "填写一个主体 ID，例如 dancer。在提示词中写 @dancer 以引用该主体。"
+        },
+        "subject_5_image_1": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_5_image_2": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_5_image_3": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_5_sources": {
+          "help": "每行输入一个公开图片 URL 或带媒体类型的 Base64 数据网址。每个主体最多 3 张，所有主体合计最多 7 张。"
+        },
+        "subject_6_id": {
+          "help": "填写一个主体 ID，例如 dancer。在提示词中写 @dancer 以引用该主体。"
+        },
+        "subject_6_image_1": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_6_image_2": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_6_image_3": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_6_sources": {
+          "help": "每行输入一个公开图片 URL 或带媒体类型的 Base64 数据网址。每个主体最多 3 张，所有主体合计最多 7 张。"
+        },
+        "subject_7_id": {
+          "help": "填写一个主体 ID，例如 dancer。在提示词中写 @dancer 以引用该主体。"
+        },
+        "subject_7_image_1": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_7_image_2": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_7_image_3": {
+          "help": "上传 JPEG、PNG 或 WebP。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "subject_7_sources": {
+          "help": "每行输入一个公开图片 URL 或带媒体类型的 Base64 数据网址。每个主体最多 3 张，所有主体合计最多 7 张。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Vidu Q1 主體參考生影片",
+      "description": "為人物或物件分別提供參考圖，生成外觀一致的 5 秒 1080p 影片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "movement_amplitude": {
+          "label": "動作幅度",
+          "choiceLabels": {
+            "auto": "自動",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "audio_type": {
+          "label": "音訊類型",
+          "choiceLabels": {
+            "all": "語音和音效",
+            "speech_only": "僅語音",
+            "sound_effect_only": "僅音效"
+          }
+        },
+        "subject_1_id": {
+          "label": "主體 1 ID"
+        },
+        "subject_1_image_1": {
+          "label": "主體 1 圖片 1"
+        },
+        "subject_1_image_2": {
+          "label": "主體 1 圖片 2"
+        },
+        "subject_1_image_3": {
+          "label": "主體 1 圖片 3"
+        },
+        "subject_1_sources": {
+          "label": "主體 1 圖片來源"
+        },
+        "subject_2_id": {
+          "label": "主體 2 ID"
+        },
+        "subject_2_image_1": {
+          "label": "主體 2 圖片 1"
+        },
+        "subject_2_image_2": {
+          "label": "主體 2 圖片 2"
+        },
+        "subject_2_image_3": {
+          "label": "主體 2 圖片 3"
+        },
+        "subject_2_sources": {
+          "label": "主體 2 圖片來源"
+        },
+        "subject_3_id": {
+          "label": "主體 3 ID"
+        },
+        "subject_3_image_1": {
+          "label": "主體 3 圖片 1"
+        },
+        "subject_3_image_2": {
+          "label": "主體 3 圖片 2"
+        },
+        "subject_3_image_3": {
+          "label": "主體 3 圖片 3"
+        },
+        "subject_3_sources": {
+          "label": "主體 3 圖片來源"
+        },
+        "subject_4_id": {
+          "label": "主體 4 ID"
+        },
+        "subject_4_image_1": {
+          "label": "主體 4 圖片 1"
+        },
+        "subject_4_image_2": {
+          "label": "主體 4 圖片 2"
+        },
+        "subject_4_image_3": {
+          "label": "主體 4 圖片 3"
+        },
+        "subject_4_sources": {
+          "label": "主體 4 圖片來源"
+        },
+        "subject_5_id": {
+          "label": "主體 5 ID"
+        },
+        "subject_5_image_1": {
+          "label": "主體 5 圖片 1"
+        },
+        "subject_5_image_2": {
+          "label": "主體 5 圖片 2"
+        },
+        "subject_5_image_3": {
+          "label": "主體 5 圖片 3"
+        },
+        "subject_5_sources": {
+          "label": "主體 5 圖片來源"
+        },
+        "subject_6_id": {
+          "label": "主體 6 ID"
+        },
+        "subject_6_image_1": {
+          "label": "主體 6 圖片 1"
+        },
+        "subject_6_image_2": {
+          "label": "主體 6 圖片 2"
+        },
+        "subject_6_image_3": {
+          "label": "主體 6 圖片 3"
+        },
+        "subject_6_sources": {
+          "label": "主體 6 圖片來源"
+        },
+        "subject_7_id": {
+          "label": "主體 7 ID"
+        },
+        "subject_7_image_1": {
+          "label": "主體 7 圖片 1"
+        },
+        "subject_7_image_2": {
+          "label": "主體 7 圖片 2"
+        },
+        "subject_7_image_3": {
+          "label": "主體 7 圖片 3"
+        },
+        "subject_7_sources": {
+          "label": "主體 7 圖片來源"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述動作、場景和鏡頭，並用 @主體ID 引用各主體。最多 1,500 字元。"
+        },
+        "subject_1_id": {
+          "help": "填寫一個主體 ID，例如 dancer。在提示詞中寫 @dancer 以引用該主體。"
+        },
+        "subject_1_image_1": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9、9:16 或 1:1。預設 16:9。"
+        },
+        "resolution": {
+          "help": "此介面固定輸出 1080p。"
+        },
+        "duration": {
+          "help": "此介面固定生成 5 秒影片。"
+        },
+        "movement_amplitude": {
+          "help": "控制畫面中主體的動作幅度，預設自動。"
+        },
+        "generate_audio": {
+          "help": "是否生成影片的音訊，預設開啟。"
+        },
+        "audio_type": {
+          "help": "開啟生成音訊時選擇。預設同時生成語音和音效。"
+        },
+        "seed": {
+          "help": "填寫整數可指定種子。預設 0，輸入 -1 使用隨機種子。"
+        },
+        "subject_1_image_2": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_1_image_3": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_1_sources": {
+          "help": "每行輸入一個公開圖片網址或帶媒體類型的 Base64 資料網址。每個主體最多 3 張，所有主體合計最多 7 張。"
+        },
+        "subject_2_id": {
+          "help": "填寫一個主體 ID，例如 dancer。在提示詞中寫 @dancer 以引用該主體。"
+        },
+        "subject_2_image_1": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_2_image_2": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_2_image_3": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_2_sources": {
+          "help": "每行輸入一個公開圖片網址或帶媒體類型的 Base64 資料網址。每個主體最多 3 張，所有主體合計最多 7 張。"
+        },
+        "subject_3_id": {
+          "help": "填寫一個主體 ID，例如 dancer。在提示詞中寫 @dancer 以引用該主體。"
+        },
+        "subject_3_image_1": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_3_image_2": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_3_image_3": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_3_sources": {
+          "help": "每行輸入一個公開圖片網址或帶媒體類型的 Base64 資料網址。每個主體最多 3 張，所有主體合計最多 7 張。"
+        },
+        "subject_4_id": {
+          "help": "填寫一個主體 ID，例如 dancer。在提示詞中寫 @dancer 以引用該主體。"
+        },
+        "subject_4_image_1": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_4_image_2": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_4_image_3": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_4_sources": {
+          "help": "每行輸入一個公開圖片網址或帶媒體類型的 Base64 資料網址。每個主體最多 3 張，所有主體合計最多 7 張。"
+        },
+        "subject_5_id": {
+          "help": "填寫一個主體 ID，例如 dancer。在提示詞中寫 @dancer 以引用該主體。"
+        },
+        "subject_5_image_1": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_5_image_2": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_5_image_3": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_5_sources": {
+          "help": "每行輸入一個公開圖片網址或帶媒體類型的 Base64 資料網址。每個主體最多 3 張，所有主體合計最多 7 張。"
+        },
+        "subject_6_id": {
+          "help": "填寫一個主體 ID，例如 dancer。在提示詞中寫 @dancer 以引用該主體。"
+        },
+        "subject_6_image_1": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_6_image_2": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_6_image_3": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_6_sources": {
+          "help": "每行輸入一個公開圖片網址或帶媒體類型的 Base64 資料網址。每個主體最多 3 張，所有主體合計最多 7 張。"
+        },
+        "subject_7_id": {
+          "help": "填寫一個主體 ID，例如 dancer。在提示詞中寫 @dancer 以引用該主體。"
+        },
+        "subject_7_image_1": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_7_image_2": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_7_image_3": {
+          "help": "上傳 JPEG、PNG 或 WebP。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "subject_7_sources": {
+          "help": "每行輸入一個公開圖片網址或帶媒體類型的 Base64 資料網址。每個主體最多 3 張，所有主體合計最多 7 張。"
+        }
+      }
+    },
+    "en": {
+      "name": "Vidu Q1 Subject Reference to Video",
+      "description": "Use separate reference images for people or objects to keep their appearance consistent in a five-second 1080p video.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "movement_amplitude": {
+          "label": "Motion amplitude",
+          "choiceLabels": {
+            "auto": "Auto",
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large"
+          }
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "audio_type": {
+          "label": "Audio type",
+          "choiceLabels": {
+            "all": "Speech and sound effects",
+            "speech_only": "Speech only",
+            "sound_effect_only": "Sound effects only"
+          }
+        },
+        "subject_1_id": {
+          "label": "Subject 1 ID"
+        },
+        "subject_1_image_1": {
+          "label": "Subject 1 image 1"
+        },
+        "subject_1_image_2": {
+          "label": "Subject 1 image 2"
+        },
+        "subject_1_image_3": {
+          "label": "Subject 1 image 3"
+        },
+        "subject_1_sources": {
+          "label": "Subject 1 image sources"
+        },
+        "subject_2_id": {
+          "label": "Subject 2 ID"
+        },
+        "subject_2_image_1": {
+          "label": "Subject 2 image 1"
+        },
+        "subject_2_image_2": {
+          "label": "Subject 2 image 2"
+        },
+        "subject_2_image_3": {
+          "label": "Subject 2 image 3"
+        },
+        "subject_2_sources": {
+          "label": "Subject 2 image sources"
+        },
+        "subject_3_id": {
+          "label": "Subject 3 ID"
+        },
+        "subject_3_image_1": {
+          "label": "Subject 3 image 1"
+        },
+        "subject_3_image_2": {
+          "label": "Subject 3 image 2"
+        },
+        "subject_3_image_3": {
+          "label": "Subject 3 image 3"
+        },
+        "subject_3_sources": {
+          "label": "Subject 3 image sources"
+        },
+        "subject_4_id": {
+          "label": "Subject 4 ID"
+        },
+        "subject_4_image_1": {
+          "label": "Subject 4 image 1"
+        },
+        "subject_4_image_2": {
+          "label": "Subject 4 image 2"
+        },
+        "subject_4_image_3": {
+          "label": "Subject 4 image 3"
+        },
+        "subject_4_sources": {
+          "label": "Subject 4 image sources"
+        },
+        "subject_5_id": {
+          "label": "Subject 5 ID"
+        },
+        "subject_5_image_1": {
+          "label": "Subject 5 image 1"
+        },
+        "subject_5_image_2": {
+          "label": "Subject 5 image 2"
+        },
+        "subject_5_image_3": {
+          "label": "Subject 5 image 3"
+        },
+        "subject_5_sources": {
+          "label": "Subject 5 image sources"
+        },
+        "subject_6_id": {
+          "label": "Subject 6 ID"
+        },
+        "subject_6_image_1": {
+          "label": "Subject 6 image 1"
+        },
+        "subject_6_image_2": {
+          "label": "Subject 6 image 2"
+        },
+        "subject_6_image_3": {
+          "label": "Subject 6 image 3"
+        },
+        "subject_6_sources": {
+          "label": "Subject 6 image sources"
+        },
+        "subject_7_id": {
+          "label": "Subject 7 ID"
+        },
+        "subject_7_image_1": {
+          "label": "Subject 7 image 1"
+        },
+        "subject_7_image_2": {
+          "label": "Subject 7 image 2"
+        },
+        "subject_7_image_3": {
+          "label": "Subject 7 image 3"
+        },
+        "subject_7_sources": {
+          "label": "Subject 7 image sources"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the action, scene and camera. Use @subjectId to refer to a subject. Up to 1,500 characters."
+        },
+        "subject_1_id": {
+          "help": "Enter a subject ID, such as dancer. Refer to it in the prompt as @dancer."
+        },
+        "subject_1_image_1": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9, 9:16 or 1:1. The default is 16:9."
+        },
+        "resolution": {
+          "help": "This endpoint outputs 1080p."
+        },
+        "duration": {
+          "help": "This endpoint generates a five-second video."
+        },
+        "movement_amplitude": {
+          "help": "Choose how much objects in the frame move. Auto is the default."
+        },
+        "generate_audio": {
+          "help": "Generate audio for the video. On by default."
+        },
+        "audio_type": {
+          "help": "Choose the audio type when audio generation is on. Speech and sound effects are selected by default."
+        },
+        "seed": {
+          "help": "Enter an integer to specify a seed. The default is 0. Use −1 for random."
+        },
+        "subject_1_image_2": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_1_image_3": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_1_sources": {
+          "help": "Enter one public image URL or Base64 data URL with its image type per line. Use up to three images per subject and seven across all subjects."
+        },
+        "subject_2_id": {
+          "help": "Enter a subject ID, such as dancer. Refer to it in the prompt as @dancer."
+        },
+        "subject_2_image_1": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_2_image_2": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_2_image_3": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_2_sources": {
+          "help": "Enter one public image URL or Base64 data URL with its image type per line. Use up to three images per subject and seven across all subjects."
+        },
+        "subject_3_id": {
+          "help": "Enter a subject ID, such as dancer. Refer to it in the prompt as @dancer."
+        },
+        "subject_3_image_1": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_3_image_2": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_3_image_3": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_3_sources": {
+          "help": "Enter one public image URL or Base64 data URL with its image type per line. Use up to three images per subject and seven across all subjects."
+        },
+        "subject_4_id": {
+          "help": "Enter a subject ID, such as dancer. Refer to it in the prompt as @dancer."
+        },
+        "subject_4_image_1": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_4_image_2": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_4_image_3": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_4_sources": {
+          "help": "Enter one public image URL or Base64 data URL with its image type per line. Use up to three images per subject and seven across all subjects."
+        },
+        "subject_5_id": {
+          "help": "Enter a subject ID, such as dancer. Refer to it in the prompt as @dancer."
+        },
+        "subject_5_image_1": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_5_image_2": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_5_image_3": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_5_sources": {
+          "help": "Enter one public image URL or Base64 data URL with its image type per line. Use up to three images per subject and seven across all subjects."
+        },
+        "subject_6_id": {
+          "help": "Enter a subject ID, such as dancer. Refer to it in the prompt as @dancer."
+        },
+        "subject_6_image_1": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_6_image_2": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_6_image_3": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_6_sources": {
+          "help": "Enter one public image URL or Base64 data URL with its image type per line. Use up to three images per subject and seven across all subjects."
+        },
+        "subject_7_id": {
+          "help": "Enter a subject ID, such as dancer. Refer to it in the prompt as @dancer."
+        },
+        "subject_7_image_1": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_7_image_2": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_7_image_3": {
+          "help": "Upload a JPEG, PNG or WebP. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "subject_7_sources": {
+          "help": "Enter one public image URL or Base64 data URL with its image type per line. Use up to three images per subject and seven across all subjects."
+        }
+      }
+    },
+    "ja": {
+      "name": "Vidu Q1 被写体参照から動画",
+      "description": "人物や物体ごとに参照画像を指定し、見た目を保った 5 秒の 1080p 動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "動画の長さ（秒）"
+        },
+        "movement_amplitude": {
+          "label": "動きの大きさ",
+          "choiceLabels": {
+            "auto": "自動",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "audio_type": {
+          "label": "音声タイプ",
+          "choiceLabels": {
+            "all": "音声と効果音",
+            "speech_only": "音声のみ",
+            "sound_effect_only": "効果音のみ"
+          }
+        },
+        "subject_1_id": {
+          "label": "被写体 1 ID"
+        },
+        "subject_1_image_1": {
+          "label": "被写体 1 画像 1"
+        },
+        "subject_1_image_2": {
+          "label": "被写体 1 画像 2"
+        },
+        "subject_1_image_3": {
+          "label": "被写体 1 画像 3"
+        },
+        "subject_1_sources": {
+          "label": "被写体 1 画像のソース"
+        },
+        "subject_2_id": {
+          "label": "被写体 2 ID"
+        },
+        "subject_2_image_1": {
+          "label": "被写体 2 画像 1"
+        },
+        "subject_2_image_2": {
+          "label": "被写体 2 画像 2"
+        },
+        "subject_2_image_3": {
+          "label": "被写体 2 画像 3"
+        },
+        "subject_2_sources": {
+          "label": "被写体 2 画像のソース"
+        },
+        "subject_3_id": {
+          "label": "被写体 3 ID"
+        },
+        "subject_3_image_1": {
+          "label": "被写体 3 画像 1"
+        },
+        "subject_3_image_2": {
+          "label": "被写体 3 画像 2"
+        },
+        "subject_3_image_3": {
+          "label": "被写体 3 画像 3"
+        },
+        "subject_3_sources": {
+          "label": "被写体 3 画像のソース"
+        },
+        "subject_4_id": {
+          "label": "被写体 4 ID"
+        },
+        "subject_4_image_1": {
+          "label": "被写体 4 画像 1"
+        },
+        "subject_4_image_2": {
+          "label": "被写体 4 画像 2"
+        },
+        "subject_4_image_3": {
+          "label": "被写体 4 画像 3"
+        },
+        "subject_4_sources": {
+          "label": "被写体 4 画像のソース"
+        },
+        "subject_5_id": {
+          "label": "被写体 5 ID"
+        },
+        "subject_5_image_1": {
+          "label": "被写体 5 画像 1"
+        },
+        "subject_5_image_2": {
+          "label": "被写体 5 画像 2"
+        },
+        "subject_5_image_3": {
+          "label": "被写体 5 画像 3"
+        },
+        "subject_5_sources": {
+          "label": "被写体 5 画像のソース"
+        },
+        "subject_6_id": {
+          "label": "被写体 6 ID"
+        },
+        "subject_6_image_1": {
+          "label": "被写体 6 画像 1"
+        },
+        "subject_6_image_2": {
+          "label": "被写体 6 画像 2"
+        },
+        "subject_6_image_3": {
+          "label": "被写体 6 画像 3"
+        },
+        "subject_6_sources": {
+          "label": "被写体 6 画像のソース"
+        },
+        "subject_7_id": {
+          "label": "被写体 7 ID"
+        },
+        "subject_7_image_1": {
+          "label": "被写体 7 画像 1"
+        },
+        "subject_7_image_2": {
+          "label": "被写体 7 画像 2"
+        },
+        "subject_7_image_3": {
+          "label": "被写体 7 画像 3"
+        },
+        "subject_7_sources": {
+          "label": "被写体 7 画像のソース"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "動き、場面、カメラワークを記述し、@被写体ID で被写体を参照します。最大 1,500 文字です。"
+        },
+        "subject_1_id": {
+          "help": "dancer などの被写体 ID を入力します。プロンプトでは @dancer で参照します。"
+        },
+        "subject_1_image_1": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "aspect_ratio": {
+          "help": "16:9、9:16 または 1:1 を選択します。既定は 16:9 です。"
+        },
+        "resolution": {
+          "help": "このエンドポイントは 1080p で出力します。"
+        },
+        "duration": {
+          "help": "このエンドポイントは 5 秒の動画を生成します。"
+        },
+        "movement_amplitude": {
+          "help": "画面内の被写体の動きの大きさを選択します。既定は自動です。"
+        },
+        "generate_audio": {
+          "help": "動画の音声を生成します。既定はオンです。"
+        },
+        "audio_type": {
+          "help": "音声生成を有効にしたときの種類を選択します。既定では音声と効果音を生成します。"
+        },
+        "seed": {
+          "help": "整数を入力してシードを指定します。既定は 0 です。-1 はランダムです。"
+        },
+        "subject_1_image_2": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_1_image_3": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_1_sources": {
+          "help": "公開画像 URL または画像のメディアタイプを指定した Base64 データ URL を 1 行に 1 つ入力します。被写体ごとに最大 3 枚、全体で最大 7 枚です。"
+        },
+        "subject_2_id": {
+          "help": "dancer などの被写体 ID を入力します。プロンプトでは @dancer で参照します。"
+        },
+        "subject_2_image_1": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_2_image_2": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_2_image_3": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_2_sources": {
+          "help": "公開画像 URL または画像のメディアタイプを指定した Base64 データ URL を 1 行に 1 つ入力します。被写体ごとに最大 3 枚、全体で最大 7 枚です。"
+        },
+        "subject_3_id": {
+          "help": "dancer などの被写体 ID を入力します。プロンプトでは @dancer で参照します。"
+        },
+        "subject_3_image_1": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_3_image_2": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_3_image_3": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_3_sources": {
+          "help": "公開画像 URL または画像のメディアタイプを指定した Base64 データ URL を 1 行に 1 つ入力します。被写体ごとに最大 3 枚、全体で最大 7 枚です。"
+        },
+        "subject_4_id": {
+          "help": "dancer などの被写体 ID を入力します。プロンプトでは @dancer で参照します。"
+        },
+        "subject_4_image_1": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_4_image_2": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_4_image_3": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_4_sources": {
+          "help": "公開画像 URL または画像のメディアタイプを指定した Base64 データ URL を 1 行に 1 つ入力します。被写体ごとに最大 3 枚、全体で最大 7 枚です。"
+        },
+        "subject_5_id": {
+          "help": "dancer などの被写体 ID を入力します。プロンプトでは @dancer で参照します。"
+        },
+        "subject_5_image_1": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_5_image_2": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_5_image_3": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_5_sources": {
+          "help": "公開画像 URL または画像のメディアタイプを指定した Base64 データ URL を 1 行に 1 つ入力します。被写体ごとに最大 3 枚、全体で最大 7 枚です。"
+        },
+        "subject_6_id": {
+          "help": "dancer などの被写体 ID を入力します。プロンプトでは @dancer で参照します。"
+        },
+        "subject_6_image_1": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_6_image_2": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_6_image_3": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_6_sources": {
+          "help": "公開画像 URL または画像のメディアタイプを指定した Base64 データ URL を 1 行に 1 つ入力します。被写体ごとに最大 3 枚、全体で最大 7 枚です。"
+        },
+        "subject_7_id": {
+          "help": "dancer などの被写体 ID を入力します。プロンプトでは @dancer で参照します。"
+        },
+        "subject_7_image_1": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_7_image_2": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_7_image_3": {
+          "help": "JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "subject_7_sources": {
+          "help": "公開画像 URL または画像のメディアタイプを指定した Base64 データ URL を 1 行に 1 つ入力します。被写体ごとに最大 3 枚、全体で最大 7 枚です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Vidu Q1 피사체 참조 동영상",
+      "description": "인물이나 사물마다 참조 이미지를 제공해 모양이 일관된 5초 1080p 동영상을 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "동영상 길이(초)"
+        },
+        "movement_amplitude": {
+          "label": "움직임 크기",
+          "choiceLabels": {
+            "auto": "자동",
+            "small": "작게",
+            "medium": "보통",
+            "large": "크게"
+          }
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "audio_type": {
+          "label": "오디오 유형",
+          "choiceLabels": {
+            "all": "음성과 효과음",
+            "speech_only": "음성만",
+            "sound_effect_only": "효과음만"
+          }
+        },
+        "subject_1_id": {
+          "label": "피사체 1 ID"
+        },
+        "subject_1_image_1": {
+          "label": "피사체 1 이미지 1"
+        },
+        "subject_1_image_2": {
+          "label": "피사체 1 이미지 2"
+        },
+        "subject_1_image_3": {
+          "label": "피사체 1 이미지 3"
+        },
+        "subject_1_sources": {
+          "label": "피사체 1 이미지 소스"
+        },
+        "subject_2_id": {
+          "label": "피사체 2 ID"
+        },
+        "subject_2_image_1": {
+          "label": "피사체 2 이미지 1"
+        },
+        "subject_2_image_2": {
+          "label": "피사체 2 이미지 2"
+        },
+        "subject_2_image_3": {
+          "label": "피사체 2 이미지 3"
+        },
+        "subject_2_sources": {
+          "label": "피사체 2 이미지 소스"
+        },
+        "subject_3_id": {
+          "label": "피사체 3 ID"
+        },
+        "subject_3_image_1": {
+          "label": "피사체 3 이미지 1"
+        },
+        "subject_3_image_2": {
+          "label": "피사체 3 이미지 2"
+        },
+        "subject_3_image_3": {
+          "label": "피사체 3 이미지 3"
+        },
+        "subject_3_sources": {
+          "label": "피사체 3 이미지 소스"
+        },
+        "subject_4_id": {
+          "label": "피사체 4 ID"
+        },
+        "subject_4_image_1": {
+          "label": "피사체 4 이미지 1"
+        },
+        "subject_4_image_2": {
+          "label": "피사체 4 이미지 2"
+        },
+        "subject_4_image_3": {
+          "label": "피사체 4 이미지 3"
+        },
+        "subject_4_sources": {
+          "label": "피사체 4 이미지 소스"
+        },
+        "subject_5_id": {
+          "label": "피사체 5 ID"
+        },
+        "subject_5_image_1": {
+          "label": "피사체 5 이미지 1"
+        },
+        "subject_5_image_2": {
+          "label": "피사체 5 이미지 2"
+        },
+        "subject_5_image_3": {
+          "label": "피사체 5 이미지 3"
+        },
+        "subject_5_sources": {
+          "label": "피사체 5 이미지 소스"
+        },
+        "subject_6_id": {
+          "label": "피사체 6 ID"
+        },
+        "subject_6_image_1": {
+          "label": "피사체 6 이미지 1"
+        },
+        "subject_6_image_2": {
+          "label": "피사체 6 이미지 2"
+        },
+        "subject_6_image_3": {
+          "label": "피사체 6 이미지 3"
+        },
+        "subject_6_sources": {
+          "label": "피사체 6 이미지 소스"
+        },
+        "subject_7_id": {
+          "label": "피사체 7 ID"
+        },
+        "subject_7_image_1": {
+          "label": "피사체 7 이미지 1"
+        },
+        "subject_7_image_2": {
+          "label": "피사체 7 이미지 2"
+        },
+        "subject_7_image_3": {
+          "label": "피사체 7 이미지 3"
+        },
+        "subject_7_sources": {
+          "label": "피사체 7 이미지 소스"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "움직임, 장면과 카메라를 설명하고 @피사체ID로 피사체를 참조하세요. 최대 1,500자입니다."
+        },
+        "subject_1_id": {
+          "help": "dancer와 같은 피사체 ID를 입력하세요. 프롬프트에서 @dancer로 참조합니다."
+        },
+        "subject_1_image_1": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "aspect_ratio": {
+          "help": "16:9, 9:16 또는 1:1을 선택하세요. 기본값은 16:9입니다."
+        },
+        "resolution": {
+          "help": "이 인터페이스는 1080p로 출력합니다."
+        },
+        "duration": {
+          "help": "이 인터페이스는 5초짜리 동영상을 생성합니다."
+        },
+        "movement_amplitude": {
+          "help": "화면 속 피사체의 움직임 크기를 선택하세요. 기본값은 자동입니다."
+        },
+        "generate_audio": {
+          "help": "동영상의 오디오를 생성합니다. 기본값은 켜짐입니다."
+        },
+        "audio_type": {
+          "help": "오디오 생성을 켰을 때 유형을 선택하세요. 기본값은 음성과 효과음입니다."
+        },
+        "seed": {
+          "help": "정수를 입력하여 시드를 정하세요. 기본값은 0이며 -1은 무작위를 사용합니다."
+        },
+        "subject_1_image_2": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_1_image_3": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_1_sources": {
+          "help": "한 줄에 공개 이미지 URL 또는 이미지 미디어 유형이 포함된 Base64 데이터 URL 하나를 입력하세요. 피사체당 최대 3장, 전체 최대 7장입니다."
+        },
+        "subject_2_id": {
+          "help": "dancer와 같은 피사체 ID를 입력하세요. 프롬프트에서 @dancer로 참조합니다."
+        },
+        "subject_2_image_1": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_2_image_2": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_2_image_3": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_2_sources": {
+          "help": "한 줄에 공개 이미지 URL 또는 이미지 미디어 유형이 포함된 Base64 데이터 URL 하나를 입력하세요. 피사체당 최대 3장, 전체 최대 7장입니다."
+        },
+        "subject_3_id": {
+          "help": "dancer와 같은 피사체 ID를 입력하세요. 프롬프트에서 @dancer로 참조합니다."
+        },
+        "subject_3_image_1": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_3_image_2": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_3_image_3": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_3_sources": {
+          "help": "한 줄에 공개 이미지 URL 또는 이미지 미디어 유형이 포함된 Base64 데이터 URL 하나를 입력하세요. 피사체당 최대 3장, 전체 최대 7장입니다."
+        },
+        "subject_4_id": {
+          "help": "dancer와 같은 피사체 ID를 입력하세요. 프롬프트에서 @dancer로 참조합니다."
+        },
+        "subject_4_image_1": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_4_image_2": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_4_image_3": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_4_sources": {
+          "help": "한 줄에 공개 이미지 URL 또는 이미지 미디어 유형이 포함된 Base64 데이터 URL 하나를 입력하세요. 피사체당 최대 3장, 전체 최대 7장입니다."
+        },
+        "subject_5_id": {
+          "help": "dancer와 같은 피사체 ID를 입력하세요. 프롬프트에서 @dancer로 참조합니다."
+        },
+        "subject_5_image_1": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_5_image_2": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_5_image_3": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_5_sources": {
+          "help": "한 줄에 공개 이미지 URL 또는 이미지 미디어 유형이 포함된 Base64 데이터 URL 하나를 입력하세요. 피사체당 최대 3장, 전체 최대 7장입니다."
+        },
+        "subject_6_id": {
+          "help": "dancer와 같은 피사체 ID를 입력하세요. 프롬프트에서 @dancer로 참조합니다."
+        },
+        "subject_6_image_1": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_6_image_2": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_6_image_3": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_6_sources": {
+          "help": "한 줄에 공개 이미지 URL 또는 이미지 미디어 유형이 포함된 Base64 데이터 URL 하나를 입력하세요. 피사체당 최대 3장, 전체 최대 7장입니다."
+        },
+        "subject_7_id": {
+          "help": "dancer와 같은 피사체 ID를 입력하세요. 프롬프트에서 @dancer로 참조합니다."
+        },
+        "subject_7_image_1": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_7_image_2": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_7_image_3": {
+          "help": "JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "subject_7_sources": {
+          "help": "한 줄에 공개 이미지 URL 또는 이미지 미디어 유형이 포함된 Base64 데이터 URL 하나를 입력하세요. 피사체당 최대 3장, 전체 최대 7장입니다."
+        }
+      }
+    }
+  }
+}

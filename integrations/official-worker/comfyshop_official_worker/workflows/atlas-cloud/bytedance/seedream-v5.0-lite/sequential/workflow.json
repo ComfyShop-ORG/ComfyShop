@@ -1,0 +1,401 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "seedream-v50-lite-sequential",
+  "name": "Seedream v5.0 Lite 连续生图",
+  "description": "根据一段提示词生成一组相关图片，最多可生成 15 张。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "size",
+      "kind": "choice",
+      "optional": true,
+      "choices": [
+        "2048*2048",
+        "2304*1728",
+        "1728*2304",
+        "2848*1600",
+        "1600*2848",
+        "2496*1664",
+        "1664*2496",
+        "3136*1344",
+        "3072*3072",
+        "3456*2592",
+        "2592*3456",
+        "4096*2304",
+        "2304*4096",
+        "2496*3744",
+        "3744*2496",
+        "4704*2016"
+      ],
+      "default": "2048*2048"
+    },
+    {
+      "name": "max_images",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "1",
+      "maximum": "15",
+      "default": 1
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["jpeg", "png"],
+      "default": "jpeg"
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "max_images",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "operation": "image",
+      "model": "bytedance/seedream-v5.0-lite/sequential",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "output_format": "output_format",
+        "enable_base64_output": "enable_base64_output",
+        "max_images": "max_images"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seedream v5.0 Lite 连续生图",
+      "description": "根据一段提示词生成一组相关图片，最多可生成 15 张。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "图片尺寸",
+          "choiceLabels": {
+            "2048*2048": "2048 × 2048 · 2K",
+            "2304*1728": "2304 × 1728 · 2K",
+            "1728*2304": "1728 × 2304 · 2K",
+            "2848*1600": "2848 × 1600 · 2K",
+            "1600*2848": "1600 × 2848 · 2K",
+            "2496*1664": "2496 × 1664 · 2K",
+            "1664*2496": "1664 × 2496 · 2K",
+            "3136*1344": "3136 × 1344 · 2K",
+            "3072*3072": "3072 × 3072 · 3K",
+            "3456*2592": "3456 × 2592 · 3K",
+            "2592*3456": "2592 × 3456 · 3K",
+            "4096*2304": "4096 × 2304 · 3K",
+            "2304*4096": "2304 × 4096 · 3K",
+            "2496*3744": "2496 × 3744 · 3K",
+            "3744*2496": "3744 × 2496 · 3K",
+            "4704*2016": "4704 × 2016 · 3K"
+          }
+        },
+        "max_images": {
+          "label": "最多生成张数"
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、构图、光线和细节。Atlas 建议英文提示词少于 600 词。"
+        },
+        "size": {
+          "help": "选择 2K 或 3K 档位下的预设宽高，单位像素。"
+        },
+        "max_images": {
+          "help": "可填 1 至 15，实际成品张数由 Atlas 根据提示词决定。"
+        },
+        "output_format": {
+          "help": "选择 JPEG 或 PNG。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 返回图片。工作机解码后保存图片原件。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seedream v5.0 Lite 連續生圖",
+      "description": "根據一段提示詞產生一組相關圖片，最多可產生 15 張。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "圖片尺寸",
+          "choiceLabels": {
+            "2048*2048": "2048 × 2048 · 2K",
+            "2304*1728": "2304 × 1728 · 2K",
+            "1728*2304": "1728 × 2304 · 2K",
+            "2848*1600": "2848 × 1600 · 2K",
+            "1600*2848": "1600 × 2848 · 2K",
+            "2496*1664": "2496 × 1664 · 2K",
+            "1664*2496": "1664 × 2496 · 2K",
+            "3136*1344": "3136 × 1344 · 2K",
+            "3072*3072": "3072 × 3072 · 3K",
+            "3456*2592": "3456 × 2592 · 3K",
+            "2592*3456": "2592 × 3456 · 3K",
+            "4096*2304": "4096 × 2304 · 3K",
+            "2304*4096": "2304 × 4096 · 3K",
+            "2496*3744": "2496 × 3744 · 3K",
+            "3744*2496": "3744 × 2496 · 3K",
+            "4704*2016": "4704 × 2016 · 3K"
+          }
+        },
+        "max_images": {
+          "label": "最多產生張數"
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、構圖、光線及細節。Atlas 建議英文提示詞少於 600 字。"
+        },
+        "size": {
+          "help": "選擇 2K 或 3K 等級的預設寬高，單位為像素。"
+        },
+        "max_images": {
+          "help": "可填 1 至 15，實際成品張數由 Atlas 根據提示詞決定。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG 或 PNG。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 回傳圖片。工作機解碼後儲存圖片原始檔案。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seedream v5.0 Lite Sequential Generation",
+      "description": "Generate a related set of up to 15 images from one prompt.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Image size",
+          "choiceLabels": {
+            "2048*2048": "2048 × 2048 · 2K",
+            "2304*1728": "2304 × 1728 · 2K",
+            "1728*2304": "1728 × 2304 · 2K",
+            "2848*1600": "2848 × 1600 · 2K",
+            "1600*2848": "1600 × 2848 · 2K",
+            "2496*1664": "2496 × 1664 · 2K",
+            "1664*2496": "1664 × 2496 · 2K",
+            "3136*1344": "3136 × 1344 · 2K",
+            "3072*3072": "3072 × 3072 · 3K",
+            "3456*2592": "3456 × 2592 · 3K",
+            "2592*3456": "2592 × 3456 · 3K",
+            "4096*2304": "4096 × 2304 · 3K",
+            "2304*4096": "2304 × 4096 · 3K",
+            "2496*3744": "2496 × 3744 · 3K",
+            "3744*2496": "3744 × 2496 · 3K",
+            "4704*2016": "4704 × 2016 · 3K"
+          }
+        },
+        "max_images": {
+          "label": "Maximum images"
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, composition, lighting, and details. Atlas recommends fewer than 600 English words."
+        },
+        "size": {
+          "help": "Choose a preset width and height in pixels at the 2K or 3K tier."
+        },
+        "max_images": {
+          "help": "Enter 1 to 15. Atlas determines the actual number of images from the prompt."
+        },
+        "output_format": {
+          "help": "Choose JPEG or PNG."
+        },
+        "enable_base64_output": {
+          "help": "Request a Base64 response. The work machine decodes it and stores the original image."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seedream v5.0 Lite 連続画像生成",
+      "description": "1 つの指示文で関連する画像を最大 15 枚生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "画像サイズ",
+          "choiceLabels": {
+            "2048*2048": "2048 × 2048 · 2K",
+            "2304*1728": "2304 × 1728 · 2K",
+            "1728*2304": "1728 × 2304 · 2K",
+            "2848*1600": "2848 × 1600 · 2K",
+            "1600*2848": "1600 × 2848 · 2K",
+            "2496*1664": "2496 × 1664 · 2K",
+            "1664*2496": "1664 × 2496 · 2K",
+            "3136*1344": "3136 × 1344 · 2K",
+            "3072*3072": "3072 × 3072 · 3K",
+            "3456*2592": "3456 × 2592 · 3K",
+            "2592*3456": "2592 × 3456 · 3K",
+            "4096*2304": "4096 × 2304 · 3K",
+            "2304*4096": "2304 × 4096 · 3K",
+            "2496*3744": "2496 × 3744 · 3K",
+            "3744*2496": "3744 × 2496 · 3K",
+            "4704*2016": "4704 × 2016 · 3K"
+          }
+        },
+        "max_images": {
+          "label": "生成枚数の上限"
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、構図、光、細部を記述します。Atlas は英語で 600 語未満を推奨しています。"
+        },
+        "size": {
+          "help": "2K または 3K のプリセットからピクセル単位の幅と高さを選びます。"
+        },
+        "max_images": {
+          "help": "1～15 枚を指定します。実際の生成枚数は指示文に応じて Atlas が決定します。"
+        },
+        "output_format": {
+          "help": "JPEG または PNG を選びます。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas に Base64 での返却を求めます。ワーカーが復号して元の画像を保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seedream v5.0 Lite 연속 이미지 생성",
+      "description": "프롬프트 하나로 서로 관련된 이미지를 최대 15장 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "이미지 크기",
+          "choiceLabels": {
+            "2048*2048": "2048 × 2048 · 2K",
+            "2304*1728": "2304 × 1728 · 2K",
+            "1728*2304": "1728 × 2304 · 2K",
+            "2848*1600": "2848 × 1600 · 2K",
+            "1600*2848": "1600 × 2848 · 2K",
+            "2496*1664": "2496 × 1664 · 2K",
+            "1664*2496": "1664 × 2496 · 2K",
+            "3136*1344": "3136 × 1344 · 2K",
+            "3072*3072": "3072 × 3072 · 3K",
+            "3456*2592": "3456 × 2592 · 3K",
+            "2592*3456": "2592 × 3456 · 3K",
+            "4096*2304": "4096 × 2304 · 3K",
+            "2304*4096": "2304 × 4096 · 3K",
+            "2496*3744": "2496 × 3744 · 3K",
+            "3744*2496": "3744 × 2496 · 3K",
+            "4704*2016": "4704 × 2016 · 3K"
+          }
+        },
+        "max_images": {
+          "label": "최대 생성 장수"
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 구도, 조명, 세부 묘사를 입력하세요. Atlas는 영어 600단어 미만을 권장합니다."
+        },
+        "size": {
+          "help": "2K 또는 3K의 픽셀 너비와 높이 프리셋을 선택하세요."
+        },
+        "max_images": {
+          "help": "1~15장을 입력하세요. 실제 생성 장수는 Atlas가 프롬프트에 따라 결정합니다."
+        },
+        "output_format": {
+          "help": "JPEG 또는 PNG를 선택하세요."
+        },
+        "enable_base64_output": {
+          "help": "Atlas에 Base64 결과를 요청합니다. 작업 머신에서 디코딩해 이미지 원본을 저장합니다."
+        }
+      }
+    }
+  }
+}

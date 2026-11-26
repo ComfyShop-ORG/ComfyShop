@@ -1,0 +1,16 @@
+diff --git a/lib/parse.js b/lib/parse.js
+--- a/lib/parse.js
++++ b/lib/parse.js
+@@ -375,10 +375,8 @@
+     star = `(${star})`;
+   }
+ 
+-  // minimatch options support
+-  if (typeof opts.noext === 'boolean') {
+-    opts.noextglob = opts.noext;
+-  }
++  // Disable extglob parsing for GHSA-fc5q-39xc-vjpf.
++  opts.noextglob = true;
+ 
+   const state = {
+     input,

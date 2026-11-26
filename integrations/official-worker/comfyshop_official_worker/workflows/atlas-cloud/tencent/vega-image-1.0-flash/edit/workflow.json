@@ -1,0 +1,783 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-tencent-vega-image-1-0-flash-edit",
+  "name": "腾讯 Vega 1.0 Flash 图像编辑",
+  "description": "用主参考图和编辑指令生成 1K、2K 或 4K 图像，可再提供最多五张参考图。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "Make the lighting warm and cinematic, and add soft morning haze.",
+      "multiline": true
+    },
+    {
+      "name": "size",
+      "kind": "choice",
+      "default": "1K",
+      "choices": ["1K", "2K", "4K"],
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "1:1",
+      "choices": ["16:9", "9:16", "1:1", "3:4", "4:3"],
+      "optional": true
+    },
+    {
+      "name": "negative_prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "optional": true
+    },
+    {
+      "name": "enhance_prompt",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true
+    },
+    {
+      "name": "input_region",
+      "kind": "choice",
+      "default": "Oversea",
+      "choices": ["Mainland", "Oversea", "OverseaUSWest"],
+      "optional": true
+    },
+    {
+      "name": "primary_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "primary_image_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_sources",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304,
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_5",
+      "kind": "image",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "primary_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "negative_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enhance_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "input_region",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "primary_image_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "tencent/vega-image-1.0-flash/edit",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "aspect_ratio": "aspect_ratio",
+        "negative_prompt": "negative_prompt",
+        "enhance_prompt": "enhance_prompt",
+        "seed": "seed",
+        "input_region": "input_region"
+      },
+      "required_text": ["prompt"],
+      "omit_blank_parameters": ["negative_prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["primary_image"],
+          "external_sources_field": "primary_image_source",
+          "min_items": 1,
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "allow_raw_base64": true
+        },
+        "images": {
+          "kind": "image",
+          "array": true,
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4",
+            "reference_image_5"
+          ],
+          "external_sources_field": "image_sources",
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "allow_raw_base64": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "腾讯 Vega 1.0 Flash 图像编辑",
+      "description": "用主参考图和编辑指令生成 1K、2K 或 4K 图像，可再提供最多五张参考图。",
+      "fields": {
+        "prompt": {
+          "label": "编辑指令"
+        },
+        "size": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "1K": "1K",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3"
+          }
+        },
+        "negative_prompt": {
+          "label": "反向提示词"
+        },
+        "enhance_prompt": {
+          "label": "提示词增强"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "input_region": {
+          "label": "输入地区",
+          "choiceLabels": {
+            "Mainland": "中国大陆",
+            "Oversea": "海外",
+            "OverseaUSWest": "海外（美国西部）"
+          }
+        },
+        "primary_image": {
+          "label": "主参考图"
+        },
+        "primary_image_source": {
+          "label": "主参考图来源"
+        },
+        "reference_image_1": {
+          "label": "补充参考图 1"
+        },
+        "reference_image_2": {
+          "label": "补充参考图 2"
+        },
+        "image_sources": {
+          "label": "补充参考图来源"
+        },
+        "reference_image_3": {
+          "label": "补充参考图 3"
+        },
+        "reference_image_4": {
+          "label": "补充参考图 4"
+        },
+        "reference_image_5": {
+          "label": "补充参考图 5"
+        }
+      },
+      "parameterLayout": {
+        "primary_image": {
+          "help": "主要编辑参考图。上传 JPEG、PNG 或 WebP，也可在高级区填写来源。"
+        },
+        "prompt": {
+          "help": "描述要对参考图做的修改，例如光线、背景或构图。"
+        },
+        "size": {
+          "help": "选择 1K、2K 或 4K。默认 1K。"
+        },
+        "aspect_ratio": {
+          "help": "选择画面宽高比。默认 1:1。"
+        },
+        "negative_prompt": {
+          "help": "填写希望画面避开的内容。"
+        },
+        "enhance_prompt": {
+          "help": "让模型在生成前增强提示词。默认关闭。"
+        },
+        "seed": {
+          "help": "填写整数以复用种子，留空时省略。"
+        },
+        "input_region": {
+          "help": "选择内容审核所用的地区。默认海外。"
+        },
+        "primary_image_source": {
+          "help": "填写一个公开图片 URL、带媒体类型的 Base64 数据网址或纯 Base64。"
+        },
+        "reference_image_1": {
+          "help": "可上传需要合并或参照的 JPEG、PNG、WebP 图片。"
+        },
+        "reference_image_2": {
+          "help": "可上传需要合并或参照的 JPEG、PNG、WebP 图片。"
+        },
+        "reference_image_3": {
+          "help": "可上传需要合并或参照的 JPEG、PNG、WebP 图片。"
+        },
+        "reference_image_4": {
+          "help": "可上传需要合并或参照的 JPEG、PNG、WebP 图片。"
+        },
+        "reference_image_5": {
+          "help": "可上传需要合并或参照的 JPEG、PNG、WebP 图片。"
+        },
+        "image_sources": {
+          "help": "每行填写一个公开图片 URL 或 Base64。含上传图片最多五张。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "騰訊 Vega 1.0 Flash 圖像編輯",
+      "description": "使用主參考圖和編輯指令生成 1K、2K 或 4K 圖像，可再提供最多五張參考圖。",
+      "fields": {
+        "prompt": {
+          "label": "編輯指令"
+        },
+        "size": {
+          "label": "解析度",
+          "choiceLabels": {
+            "1K": "1K",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3"
+          }
+        },
+        "negative_prompt": {
+          "label": "反向提示詞"
+        },
+        "enhance_prompt": {
+          "label": "提示詞增強"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "input_region": {
+          "label": "輸入地區",
+          "choiceLabels": {
+            "Mainland": "中國大陸",
+            "Oversea": "海外",
+            "OverseaUSWest": "海外（美國西部）"
+          }
+        },
+        "primary_image": {
+          "label": "主參考圖"
+        },
+        "primary_image_source": {
+          "label": "主參考圖來源"
+        },
+        "reference_image_1": {
+          "label": "補充參考圖 1"
+        },
+        "reference_image_2": {
+          "label": "補充參考圖 2"
+        },
+        "image_sources": {
+          "label": "補充參考圖來源"
+        },
+        "reference_image_3": {
+          "label": "補充參考圖 3"
+        },
+        "reference_image_4": {
+          "label": "補充參考圖 4"
+        },
+        "reference_image_5": {
+          "label": "補充參考圖 5"
+        }
+      },
+      "parameterLayout": {
+        "primary_image": {
+          "help": "主要編輯參考圖。上傳 JPEG、PNG 或 WebP，也可在進階區填寫來源。"
+        },
+        "prompt": {
+          "help": "描述要對參考圖做的修改，例如光線、背景或構圖。"
+        },
+        "size": {
+          "help": "選擇 1K、2K 或 4K。預設 1K。"
+        },
+        "aspect_ratio": {
+          "help": "選擇畫面寬高比。預設 1:1。"
+        },
+        "negative_prompt": {
+          "help": "填寫希望畫面避開的內容。"
+        },
+        "enhance_prompt": {
+          "help": "讓模型在生成前增強提示詞。預設關閉。"
+        },
+        "seed": {
+          "help": "填寫整數以重用種子，留空時省略。"
+        },
+        "input_region": {
+          "help": "選擇內容審核所用的地區。預設海外。"
+        },
+        "primary_image_source": {
+          "help": "填寫一個公開圖片網址、帶媒體類型的 Base64 資料網址或純 Base64。"
+        },
+        "reference_image_1": {
+          "help": "可上傳需要合併或參照的 JPEG、PNG、WebP 圖片。"
+        },
+        "reference_image_2": {
+          "help": "可上傳需要合併或參照的 JPEG、PNG、WebP 圖片。"
+        },
+        "reference_image_3": {
+          "help": "可上傳需要合併或參照的 JPEG、PNG、WebP 圖片。"
+        },
+        "reference_image_4": {
+          "help": "可上傳需要合併或參照的 JPEG、PNG、WebP 圖片。"
+        },
+        "reference_image_5": {
+          "help": "可上傳需要合併或參照的 JPEG、PNG、WebP 圖片。"
+        },
+        "image_sources": {
+          "help": "每行填寫一個公開圖片網址或 Base64。含上傳圖片最多五張。"
+        }
+      }
+    },
+    "en": {
+      "name": "Tencent Vega 1.0 Flash Image Editing",
+      "description": "Edit a primary reference at 1K, 2K or 4K and optionally add up to five more images.",
+      "fields": {
+        "prompt": {
+          "label": "Edit instructions"
+        },
+        "size": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "1K": "1K",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3"
+          }
+        },
+        "negative_prompt": {
+          "label": "Negative prompt"
+        },
+        "enhance_prompt": {
+          "label": "Enhance prompt"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "input_region": {
+          "label": "Input region",
+          "choiceLabels": {
+            "Mainland": "Mainland China",
+            "Oversea": "Overseas",
+            "OverseaUSWest": "Overseas (US West)"
+          }
+        },
+        "primary_image": {
+          "label": "Primary reference image"
+        },
+        "primary_image_source": {
+          "label": "Primary image source"
+        },
+        "reference_image_1": {
+          "label": "Additional reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Additional reference image 2"
+        },
+        "image_sources": {
+          "label": "Additional image sources"
+        },
+        "reference_image_3": {
+          "label": "Additional reference image 3"
+        },
+        "reference_image_4": {
+          "label": "Additional reference image 4"
+        },
+        "reference_image_5": {
+          "label": "Additional reference image 5"
+        }
+      },
+      "parameterLayout": {
+        "primary_image": {
+          "help": "Upload a JPEG, PNG or WebP for the main edit, or enter its source in advanced settings."
+        },
+        "prompt": {
+          "help": "Describe the edits you want to make to the references, such as lighting, background or composition."
+        },
+        "size": {
+          "help": "Choose 1K, 2K or 4K. The default is 1K."
+        },
+        "aspect_ratio": {
+          "help": "Choose the width-to-height ratio. The default is 1:1."
+        },
+        "negative_prompt": {
+          "help": "Describe content to avoid in the image."
+        },
+        "enhance_prompt": {
+          "help": "Let the model enhance the prompt before generation. Off by default."
+        },
+        "seed": {
+          "help": "Enter an integer to reuse a seed, or leave blank to omit."
+        },
+        "input_region": {
+          "help": "Choose the region used for content moderation. Overseas is the default."
+        },
+        "primary_image_source": {
+          "help": "Enter one public image URL, a Base64 data URL with its image type, or raw Base64."
+        },
+        "reference_image_1": {
+          "help": "Upload a JPEG, PNG or WebP to combine with or use as a reference for the edit."
+        },
+        "reference_image_2": {
+          "help": "Upload a JPEG, PNG or WebP to combine with or use as a reference for the edit."
+        },
+        "reference_image_3": {
+          "help": "Upload a JPEG, PNG or WebP to combine with or use as a reference for the edit."
+        },
+        "reference_image_4": {
+          "help": "Upload a JPEG, PNG or WebP to combine with or use as a reference for the edit."
+        },
+        "reference_image_5": {
+          "help": "Upload a JPEG, PNG or WebP to combine with or use as a reference for the edit."
+        },
+        "image_sources": {
+          "help": "Enter one public image URL or Base64 image per line. Use at most five additional images, including uploads."
+        }
+      }
+    },
+    "ja": {
+      "name": "Tencent Vega 1.0 Flash 画像編集",
+      "description": "主参照画像を 1K、2K、4K で編集します。追加の参照画像を最大 5 枚指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "編集指示"
+        },
+        "size": {
+          "label": "解像度",
+          "choiceLabels": {
+            "1K": "1K",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3"
+          }
+        },
+        "negative_prompt": {
+          "label": "ネガティブプロンプト"
+        },
+        "enhance_prompt": {
+          "label": "プロンプト強化"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "input_region": {
+          "label": "入力地域",
+          "choiceLabels": {
+            "Mainland": "中国本土",
+            "Oversea": "中国本土外",
+            "OverseaUSWest": "中国本土外（米国西部）"
+          }
+        },
+        "primary_image": {
+          "label": "主参照画像"
+        },
+        "primary_image_source": {
+          "label": "主参照画像のソース"
+        },
+        "reference_image_1": {
+          "label": "追加参照画像 1"
+        },
+        "reference_image_2": {
+          "label": "追加参照画像 2"
+        },
+        "image_sources": {
+          "label": "追加参照画像のソース"
+        },
+        "reference_image_3": {
+          "label": "追加参照画像 3"
+        },
+        "reference_image_4": {
+          "label": "追加参照画像 4"
+        },
+        "reference_image_5": {
+          "label": "追加参照画像 5"
+        }
+      },
+      "parameterLayout": {
+        "primary_image": {
+          "help": "主参照画像として JPEG、PNG または WebP をアップロードするか、詳細設定でソースを指定します。"
+        },
+        "prompt": {
+          "help": "照明、背景、構図など、参照画像に加える変更を記述します。"
+        },
+        "size": {
+          "help": "1K、2K または 4K を選択します。既定は 1K です。"
+        },
+        "aspect_ratio": {
+          "help": "画像の縦横比を選択します。既定は 1:1 です。"
+        },
+        "negative_prompt": {
+          "help": "画像で避けたい内容を記述します。"
+        },
+        "enhance_prompt": {
+          "help": "生成前にモデルがプロンプトを補強します。既定はオフです。"
+        },
+        "seed": {
+          "help": "再利用するシードを整数で入力します。空欄では省略します。"
+        },
+        "input_region": {
+          "help": "コンテンツ審査に使う地域を選択します。既定は中国本土外です。"
+        },
+        "primary_image_source": {
+          "help": "公開画像 URL、メディアタイプ付きの Base64 データ URL、または Base64 文字列を 1 つ入力します。"
+        },
+        "reference_image_1": {
+          "help": "編集に組み合わせる JPEG、PNG または WebP をアップロードします。"
+        },
+        "reference_image_2": {
+          "help": "編集に組み合わせる JPEG、PNG または WebP をアップロードします。"
+        },
+        "reference_image_3": {
+          "help": "編集に組み合わせる JPEG、PNG または WebP をアップロードします。"
+        },
+        "reference_image_4": {
+          "help": "編集に組み合わせる JPEG、PNG または WebP をアップロードします。"
+        },
+        "reference_image_5": {
+          "help": "編集に組み合わせる JPEG、PNG または WebP をアップロードします。"
+        },
+        "image_sources": {
+          "help": "公開画像 URL または Base64 画像を 1 行に 1 つ入力します。アップロード分を含めて最大 5 枚です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Tencent Vega 1.0 Flash 이미지 편집",
+      "description": "기본 참조 이미지를 1K, 2K 또는 4K로 편집하며 추가 참조 이미지를 최대 다섯 장 제공할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "편집 지시"
+        },
+        "size": {
+          "label": "해상도",
+          "choiceLabels": {
+            "1K": "1K",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3"
+          }
+        },
+        "negative_prompt": {
+          "label": "네거티브 프롬프트"
+        },
+        "enhance_prompt": {
+          "label": "프롬프트 강화"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "input_region": {
+          "label": "입력 지역",
+          "choiceLabels": {
+            "Mainland": "중국 본토",
+            "Oversea": "해외",
+            "OverseaUSWest": "해외 (미국 서부)"
+          }
+        },
+        "primary_image": {
+          "label": "기본 참조 이미지"
+        },
+        "primary_image_source": {
+          "label": "기본 이미지 소스"
+        },
+        "reference_image_1": {
+          "label": "추가 참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "추가 참조 이미지 2"
+        },
+        "image_sources": {
+          "label": "추가 이미지 소스"
+        },
+        "reference_image_3": {
+          "label": "추가 참조 이미지 3"
+        },
+        "reference_image_4": {
+          "label": "추가 참조 이미지 4"
+        },
+        "reference_image_5": {
+          "label": "추가 참조 이미지 5"
+        }
+      },
+      "parameterLayout": {
+        "primary_image": {
+          "help": "편집할 JPEG, PNG 또는 WebP를 업로드하거나 고급 설정에서 소스를 입력하세요."
+        },
+        "prompt": {
+          "help": "조명, 배경, 구도 등 참조 이미지에 적용할 편집을 설명하세요."
+        },
+        "size": {
+          "help": "1K, 2K 또는 4K를 선택하세요. 기본값은 1K입니다."
+        },
+        "aspect_ratio": {
+          "help": "가로세로 비율을 선택하세요. 기본값은 1:1입니다."
+        },
+        "negative_prompt": {
+          "help": "이미지에서 피하고 싶은 내용을 설명하세요."
+        },
+        "enhance_prompt": {
+          "help": "생성하기 전에 모델이 프롬프트를 보강합니다. 기본값은 꺼짐입니다."
+        },
+        "seed": {
+          "help": "재사용할 시드를 정수로 입력하세요. 빈칸은 생략합니다."
+        },
+        "input_region": {
+          "help": "콘텐츠 검토에 적용되는 지역을 선택하세요. 기본값은 해외입니다."
+        },
+        "primary_image_source": {
+          "help": "공개 이미지 URL, 미디어 유형을 포함한 Base64 데이터 URL 또는 Base64 문자열 하나를 입력하세요."
+        },
+        "reference_image_1": {
+          "help": "편집에 함께 사용하거나 참고할 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "reference_image_2": {
+          "help": "편집에 함께 사용하거나 참고할 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "reference_image_3": {
+          "help": "편집에 함께 사용하거나 참고할 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "reference_image_4": {
+          "help": "편집에 함께 사용하거나 참고할 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "reference_image_5": {
+          "help": "편집에 함께 사용하거나 참고할 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "image_sources": {
+          "help": "한 줄에 공개 이미지 URL 또는 Base64 이미지 하나를 입력하세요. 업로드한 이미지를 포함해 최대 다섯 장입니다."
+        }
+      }
+    }
+  }
+}

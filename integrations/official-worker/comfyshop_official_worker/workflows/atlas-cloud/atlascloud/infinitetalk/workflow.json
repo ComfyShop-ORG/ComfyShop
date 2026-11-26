@@ -1,0 +1,387 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-atlascloud-infinitetalk",
+  "name": "Atlas Cloud InfiniteTalk 语音驱动视频",
+  "description": "用一张人物图片和一段语音生成口型同步视频，可描述表情与姿势。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "portrait",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "voice",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "480p",
+      "choices": ["480p", "720p"],
+      "optional": true
+    },
+    {
+      "name": "portrait_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "voice_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "portrait",
+      "section": "default"
+    },
+    {
+      "fieldId": "voice",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "portrait_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "voice_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "atlascloud/infinitetalk",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "seed": "seed"
+      },
+      "omit_blank_parameters": ["prompt"],
+      "prediction_timeout_seconds": 21600,
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["portrait"],
+          "external_sources_field": "portrait_source",
+          "external_urls_only": true,
+          "min_items": 1
+        },
+        "audio": {
+          "kind": "audio",
+          "fields": ["voice"],
+          "external_sources_field": "voice_source",
+          "external_urls_only": true,
+          "min_items": 1,
+          "content_types": ["audio/wav", "audio/mpeg"],
+          "max_duration_ms": 600000
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Atlas Cloud InfiniteTalk 语音驱动视频",
+      "description": "用一张人物图片和一段语音生成口型同步视频，可描述表情与姿势。",
+      "fields": {
+        "portrait": {
+          "label": "人物图片"
+        },
+        "voice": {
+          "label": "驱动语音"
+        },
+        "prompt": {
+          "label": "表演提示词"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p"
+          }
+        },
+        "portrait_source": {
+          "label": "人物图片来源"
+        },
+        "voice_source": {
+          "label": "驱动语音来源"
+        },
+        "seed": {
+          "label": "种子"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "上传人物图片，或在高级参数填写公开图片 URL。"
+        },
+        "voice": {
+          "help": "上传最长 10 分钟的 WAV 或 MP3 语音，也可在高级参数填写语音 URL。"
+        },
+        "prompt": {
+          "help": "可描述人物的表情、姿势或动作。"
+        },
+        "resolution": {
+          "help": "选择 480p 或 720p。默认 480p。"
+        },
+        "portrait_source": {
+          "help": "填写一个可公开访问的人物图片 URL。"
+        },
+        "voice_source": {
+          "help": "填写一个可公开访问的 WAV 或 MP3 URL。"
+        },
+        "seed": {
+          "help": "填写整数。-1 使用随机种子。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Atlas Cloud InfiniteTalk 語音驅動影片",
+      "description": "用一張人物圖片和一段語音生成嘴型同步影片，可描述表情與姿勢。",
+      "fields": {
+        "portrait": {
+          "label": "人物圖片"
+        },
+        "voice": {
+          "label": "驅動語音"
+        },
+        "prompt": {
+          "label": "表演提示詞"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p"
+          }
+        },
+        "portrait_source": {
+          "label": "人物圖片來源"
+        },
+        "voice_source": {
+          "label": "驅動語音來源"
+        },
+        "seed": {
+          "label": "種子"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "上傳人物圖片，或在進階參數填寫公開圖片 URL。"
+        },
+        "voice": {
+          "help": "上傳最長 10 分鐘的 WAV 或 MP3 語音，也可在進階參數填寫語音 URL。"
+        },
+        "prompt": {
+          "help": "可描述人物的表情、姿勢或動作。"
+        },
+        "resolution": {
+          "help": "選擇 480p 或 720p。預設 480p。"
+        },
+        "portrait_source": {
+          "help": "填寫一個可公開存取的人物圖片 URL。"
+        },
+        "voice_source": {
+          "help": "填寫一個可公開存取的 WAV 或 MP3 URL。"
+        },
+        "seed": {
+          "help": "填寫整數。-1 使用隨機種子。"
+        }
+      }
+    },
+    "en": {
+      "name": "Atlas Cloud InfiniteTalk Audio-Driven Video",
+      "description": "Turn a portrait and speech recording into a lip-synced video with optional expression and pose guidance.",
+      "fields": {
+        "portrait": {
+          "label": "Portrait"
+        },
+        "voice": {
+          "label": "Driving audio"
+        },
+        "prompt": {
+          "label": "Performance prompt"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p"
+          }
+        },
+        "portrait_source": {
+          "label": "Portrait URL"
+        },
+        "voice_source": {
+          "label": "Driving audio URL"
+        },
+        "seed": {
+          "label": "Seed"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "Upload a portrait or enter its public URL under Advanced."
+        },
+        "voice": {
+          "help": "Upload up to 10 minutes of WAV or MP3 speech, or enter its URL under Advanced."
+        },
+        "prompt": {
+          "help": "Optionally describe the speaker's expression, pose, or movements."
+        },
+        "resolution": {
+          "help": "Choose 480p or 720p. The default is 480p."
+        },
+        "portrait_source": {
+          "help": "Enter one public portrait image URL."
+        },
+        "voice_source": {
+          "help": "Enter one public WAV or MP3 URL."
+        },
+        "seed": {
+          "help": "Enter a whole number. Use -1 for a random seed."
+        }
+      }
+    },
+    "ja": {
+      "name": "Atlas Cloud InfiniteTalk 音声駆動動画",
+      "description": "人物画像と音声から口の動きが音声に合った動画を作り、表情や姿勢を指定できます。",
+      "fields": {
+        "portrait": {
+          "label": "人物画像"
+        },
+        "voice": {
+          "label": "駆動音声"
+        },
+        "prompt": {
+          "label": "演技プロンプト"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p"
+          }
+        },
+        "portrait_source": {
+          "label": "人物画像の URL"
+        },
+        "voice_source": {
+          "label": "駆動音声の URL"
+        },
+        "seed": {
+          "label": "シード"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "人物画像をアップロードするか、詳細設定で公開 URL を入力します。"
+        },
+        "voice": {
+          "help": "最長 10 分の WAV または MP3 音声をアップロードするか、詳細設定で URL を入力します。"
+        },
+        "prompt": {
+          "help": "人物の表情、姿勢、動作を指定できます。"
+        },
+        "resolution": {
+          "help": "480p または 720p を選択します。既定は 480p です。"
+        },
+        "portrait_source": {
+          "help": "公開されている人物画像の URL を一つ入力します。"
+        },
+        "voice_source": {
+          "help": "公開されている WAV または MP3 の URL を一つ入力します。"
+        },
+        "seed": {
+          "help": "整数を入力します。ランダムにする場合は -1 を指定します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Atlas Cloud InfiniteTalk 음성 기반 동영상",
+      "description": "인물 이미지와 음성으로 입 모양이 맞는 동영상을 만들고 표정과 자세를 지정할 수 있습니다.",
+      "fields": {
+        "portrait": {
+          "label": "인물 이미지"
+        },
+        "voice": {
+          "label": "구동 음성"
+        },
+        "prompt": {
+          "label": "연기 프롬프트"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p"
+          }
+        },
+        "portrait_source": {
+          "label": "인물 이미지 URL"
+        },
+        "voice_source": {
+          "label": "구동 음성 URL"
+        },
+        "seed": {
+          "label": "시드"
+        }
+      },
+      "parameterLayout": {
+        "portrait": {
+          "help": "인물 이미지를 업로드하거나 고급 설정에 공개 URL을 입력하세요."
+        },
+        "voice": {
+          "help": "최대 10분 길이의 WAV 또는 MP3 음성을 업로드하거나 고급 설정에 URL을 입력하세요."
+        },
+        "prompt": {
+          "help": "인물의 표정, 자세, 동작을 설명할 수 있습니다."
+        },
+        "resolution": {
+          "help": "480p 또는 720p를 선택하세요. 기본값은 480p입니다."
+        },
+        "portrait_source": {
+          "help": "공개 인물 이미지 URL을 하나 입력하세요."
+        },
+        "voice_source": {
+          "help": "공개 WAV 또는 MP3 URL을 하나 입력하세요."
+        },
+        "seed": {
+          "help": "정수를 입력하세요. -1은 무작위 시드를 사용합니다."
+        }
+      }
+    }
+  }
+}

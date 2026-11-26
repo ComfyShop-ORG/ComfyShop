@@ -1,0 +1,451 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-alibaba-wan-2-7-text-to-image",
+  "name": "Wan 2.7 文生图",
+  "description": "用提示词生成图片，可指定尺寸、张数与调色板。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 5000
+    },
+    {
+      "name": "size",
+      "kind": "choice",
+      "default": "2K",
+      "choices": ["1K", "2K"],
+      "optional": true
+    },
+    {
+      "name": "n",
+      "kind": "integer",
+      "default": 1,
+      "minimum": "1",
+      "maximum": "4",
+      "optional": true
+    },
+    {
+      "name": "custom_size",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "color_palette",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "optional": true
+    },
+    {
+      "name": "thinking_mode",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "minimum": "-1",
+      "maximum": "2147483647",
+      "optional": true
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "n",
+      "section": "default"
+    },
+    {
+      "fieldId": "custom_size",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "color_palette",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "thinking_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "alibaba/wan-2.7/text-to-image",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "n": "n",
+        "thinking_mode": "thinking_mode",
+        "seed": "seed",
+        "enable_sync_mode": "enable_sync_mode",
+        "enable_base64_output": "enable_base64_output"
+      },
+      "required_text": ["prompt"],
+      "parameter_overrides": {
+        "size": "custom_size"
+      },
+      "image_size_limits": {
+        "min_side": 1,
+        "min_pixels": 589824,
+        "max_pixels": 4194304,
+        "max_aspect_ratio": 8,
+        "allow_auto": false,
+        "preset_sizes": ["1K", "2K"]
+      },
+      "color_palette_field": "color_palette"
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Wan 2.7 文生图",
+      "description": "用提示词生成图片，可指定尺寸、张数与调色板。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "尺寸"
+        },
+        "n": {
+          "label": "张数"
+        },
+        "custom_size": {
+          "label": "自定义尺寸"
+        },
+        "color_palette": {
+          "label": "调色板"
+        },
+        "thinking_mode": {
+          "label": "思考模式"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "enable_sync_mode": {
+          "label": "等待成品"
+        },
+        "enable_base64_output": {
+          "label": "Base64 输出"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、构图、光线和风格。最多 5,000 字符。"
+        },
+        "size": {
+          "help": "选择 1K 或 2K。默认 2K，可用高级区的自定义尺寸替换。"
+        },
+        "n": {
+          "help": "选择 1 至 4 张。默认 1 张。"
+        },
+        "custom_size": {
+          "help": "填写宽*高，例如 2048*2048。总像素为 589,824 至 4,194,304，长短边比例最多 8:1。"
+        },
+        "color_palette": {
+          "help": "填写含 3 至 10 项的 JSON 数组。每项含 hex（如 #274A67）与 ratio（如 50.00%），百分比合计 100.00%。"
+        },
+        "thinking_mode": {
+          "help": "开启后让模型进一步理解构图与画面。默认开启。"
+        },
+        "seed": {
+          "help": "输入 -1 使用随机种子，或指定 0 至 2147483647 的整数。"
+        },
+        "enable_sync_mode": {
+          "help": "开启后等待生成完成并直接返回结果。"
+        },
+        "enable_base64_output": {
+          "help": "以 Base64 返回图片，工作机解码后保存。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Wan 2.7 文生圖",
+      "description": "用提示詞產生圖片，可指定尺寸、張數與調色盤。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "尺寸"
+        },
+        "n": {
+          "label": "張數"
+        },
+        "custom_size": {
+          "label": "自訂尺寸"
+        },
+        "color_palette": {
+          "label": "調色盤"
+        },
+        "thinking_mode": {
+          "label": "思考模式"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "enable_sync_mode": {
+          "label": "等待成品"
+        },
+        "enable_base64_output": {
+          "label": "Base64 輸出"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、構圖、光線與風格。最多 5,000 字元。"
+        },
+        "size": {
+          "help": "選擇 1K 或 2K。預設為 2K，可在進階區以自訂尺寸替換。"
+        },
+        "n": {
+          "help": "選擇 1 至 4 張。預設為 1 張。"
+        },
+        "custom_size": {
+          "help": "填寫寬*高，例如 2048*2048。總像素為 589,824 至 4,194,304，長短邊比例最多 8:1。"
+        },
+        "color_palette": {
+          "help": "填寫含 3 至 10 項的 JSON 陣列。每項含 hex（如 #274A67）與 ratio（如 50.00%），百分比合計 100.00%。"
+        },
+        "thinking_mode": {
+          "help": "開啟後讓模型進一步理解構圖與畫面。預設為開啟。"
+        },
+        "seed": {
+          "help": "輸入 -1 使用隨機種子，或指定 0 至 2147483647 的整數。"
+        },
+        "enable_sync_mode": {
+          "help": "開啟後等待生成完成並直接回傳結果。"
+        },
+        "enable_base64_output": {
+          "help": "以 Base64 回傳圖片，工作機解碼後儲存。"
+        }
+      }
+    },
+    "en": {
+      "name": "Wan 2.7 Text to Image",
+      "description": "Generate images from a prompt with a choice of image size, count, and color palette.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Size"
+        },
+        "n": {
+          "label": "Image count"
+        },
+        "custom_size": {
+          "label": "Custom size"
+        },
+        "color_palette": {
+          "label": "Color palette"
+        },
+        "thinking_mode": {
+          "label": "Thinking mode"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "enable_sync_mode": {
+          "label": "Wait for result"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, composition, lighting, and style. Use up to 5,000 characters."
+        },
+        "size": {
+          "help": "Choose 1K or 2K. The default is 2K. Set a custom size under Advanced to override it."
+        },
+        "n": {
+          "help": "Choose one to four images. The default is one."
+        },
+        "custom_size": {
+          "help": "Enter width*height, such as 2048*2048. Use 589,824 to 4,194,304 total pixels and a maximum long-to-short side ratio of 8:1."
+        },
+        "color_palette": {
+          "help": "Enter a JSON array of 3 to 10 colors. Give each a hex value like #274A67 and a ratio like 50.00%. The percentages must add to 100.00%."
+        },
+        "thinking_mode": {
+          "help": "Let the model reason further about the composition and scene. On by default."
+        },
+        "seed": {
+          "help": "Enter -1 for a random seed or use an integer from 0 to 2147483647."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for generation to finish and return the result in the submission response."
+        },
+        "enable_base64_output": {
+          "help": "Request Base64 images. The work machine decodes and stores them."
+        }
+      }
+    },
+    "ja": {
+      "name": "Wan 2.7 テキストから画像",
+      "description": "プロンプトから画像を生成し、サイズ、枚数、カラーパレットを指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "サイズ"
+        },
+        "n": {
+          "label": "枚数"
+        },
+        "custom_size": {
+          "label": "カスタムサイズ"
+        },
+        "color_palette": {
+          "label": "カラーパレット"
+        },
+        "thinking_mode": {
+          "label": "推論モード"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "enable_sync_mode": {
+          "label": "生成完了まで待機"
+        },
+        "enable_base64_output": {
+          "label": "Base64出力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、構図、照明、スタイルを記述します。最大5,000文字です。"
+        },
+        "size": {
+          "help": "1Kまたは2Kを選択します。既定値は2Kです。詳細設定のカスタムサイズで上書きできます。"
+        },
+        "n": {
+          "help": "1〜4枚から選択します。既定値は1枚です。"
+        },
+        "custom_size": {
+          "help": "2048*2048のように幅*高さで入力します。総画素数は589,824〜4,194,304、長辺と短辺の比は最大8:1です。"
+        },
+        "color_palette": {
+          "help": "3〜10色のJSON配列を入力します。各色のhexは #274A67、ratioは 50.00% のように指定し、比率の合計を100.00%にします。"
+        },
+        "thinking_mode": {
+          "help": "モデルが構図や場面を詳しく解釈します。既定では有効です。"
+        },
+        "seed": {
+          "help": "ランダムなシードには-1を入力します。固定する場合は0〜2147483647の整数を指定します。"
+        },
+        "enable_sync_mode": {
+          "help": "生成が終わるまで待ち、送信時の応答に結果を返します。"
+        },
+        "enable_base64_output": {
+          "help": "画像をBase64形式で返します。ワーカーが復号して保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Wan 2.7 텍스트로 이미지 생성",
+      "description": "프롬프트로 이미지를 만들고 크기, 장수와 색상 팔레트를 지정합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "크기"
+        },
+        "n": {
+          "label": "이미지 장수"
+        },
+        "custom_size": {
+          "label": "사용자 지정 크기"
+        },
+        "color_palette": {
+          "label": "색상 팔레트"
+        },
+        "thinking_mode": {
+          "label": "추론 모드"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "enable_sync_mode": {
+          "label": "결과 대기"
+        },
+        "enable_base64_output": {
+          "label": "Base64 출력"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 구도, 조명, 스타일을 설명합니다. 최대 5,000자입니다."
+        },
+        "size": {
+          "help": "1K 또는 2K를 선택합니다. 기본값은 2K이며 고급 설정에서 사용자 지정 크기로 바꿀 수 있습니다."
+        },
+        "n": {
+          "help": "한 장에서 네 장 중에 선택합니다. 기본값은 한 장입니다."
+        },
+        "custom_size": {
+          "help": "2048*2048처럼 너비*높이를 입력합니다. 총 589,824~4,194,304픽셀이며 긴 변과 짧은 변의 비율은 최대 8:1입니다."
+        },
+        "color_palette": {
+          "help": "세 개에서 열 개의 색상을 JSON 배열로 입력합니다. 각 항목에 #274A67 형식의 hex와 50.00% 형식의 ratio를 입력합니다. 비율의 합은 100.00%입니다."
+        },
+        "thinking_mode": {
+          "help": "모델이 구도와 장면을 더 자세히 해석합니다. 기본값은 켜짐입니다."
+        },
+        "seed": {
+          "help": "무작위 시드는 -1을 입력합니다. 고정하려면 0에서 2147483647 사이의 정수를 지정합니다."
+        },
+        "enable_sync_mode": {
+          "help": "생성이 끝날 때까지 기다렸다가 제출 응답으로 결과를 받습니다."
+        },
+        "enable_base64_output": {
+          "help": "이미지를 Base64 형식으로 받습니다. 작업기가 디코딩해 저장합니다."
+        }
+      }
+    }
+  }
+}

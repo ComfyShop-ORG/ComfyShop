@@ -1,0 +1,438 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-luma-ray32-edit",
+  "name": "Luma Ray 3.2 视频编辑",
+  "description": "根据提示词编辑原视频，可选择保留原片或重新演绎的程度。",
+  "category": "video_tool",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "Restyle the clip with a warm cinematic look and richer color grading."
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "choices": [5, 10],
+      "optional": true,
+      "default": 5
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["540p", "720p", "1080p"],
+      "optional": true,
+      "default": "720p"
+    },
+    {
+      "name": "hdr",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "strength",
+      "kind": "choice",
+      "choices": [
+        "adhere_1",
+        "adhere_2",
+        "adhere_3",
+        "flex_1",
+        "flex_2",
+        "flex_3",
+        "reimagine_1",
+        "reimagine_2",
+        "reimagine_3"
+      ],
+      "optional": true,
+      "default": "flex_2"
+    },
+    {
+      "name": "source_video",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "source_video_url",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "source_video",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "strength",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "hdr",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "source_video_url",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "luma/ray-3.2/video-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "resolution": "resolution",
+        "hdr": "hdr",
+        "strength": "strength"
+      },
+      "required_text": ["prompt"],
+      "forbidden_combinations": [
+        {
+          "hdr": true,
+          "duration": [10]
+        },
+        {
+          "hdr": true,
+          "resolution": ["540p"]
+        }
+      ],
+      "media": {
+        "video": {
+          "kind": "video",
+          "fields": ["source_video"],
+          "external_sources_field": "source_video_url",
+          "external_urls_only": true,
+          "external_https_only": true,
+          "min_items": 1,
+          "content_types": ["video/mp4"]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Luma Ray 3.2 视频编辑",
+      "description": "根据提示词编辑原视频，可选择保留原片或重新演绎的程度。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "hdr": {
+          "label": "HDR"
+        },
+        "strength": {
+          "label": "改动强度",
+          "choiceLabels": {
+            "adhere_1": "保留 1",
+            "adhere_2": "保留 2",
+            "adhere_3": "保留 3",
+            "flex_1": "平衡 1",
+            "flex_2": "平衡 2",
+            "flex_3": "平衡 3",
+            "reimagine_1": "重新演绎 1",
+            "reimagine_2": "重新演绎 2",
+            "reimagine_3": "重新演绎 3"
+          }
+        },
+        "source_video": {
+          "label": "原视频"
+        },
+        "source_video_url": {
+          "label": "原视频 URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上传一个 MP4 文件。"
+        },
+        "prompt": {
+          "help": "描述要改变的画风、内容或色彩。"
+        },
+        "strength": {
+          "help": "选择保留原片、平衡修改或重新演绎。"
+        },
+        "duration_seconds": {
+          "help": "选择 5 或 10 秒，默认 5 秒。"
+        },
+        "resolution": {
+          "help": "选择 540p、720p 或 1080p。"
+        },
+        "hdr": {
+          "help": "使用 5 秒及 720p 或 1080p，需要 Atlas 上游账户具备 HDR 权限。"
+        },
+        "source_video_url": {
+          "help": "填写公开可访问的 HTTPS MP4 地址，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Luma Ray 3.2 影片編輯",
+      "description": "依提示詞編輯原影片，可選擇保留原片或重新演繹的程度。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "時長（秒）"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "hdr": {
+          "label": "HDR"
+        },
+        "strength": {
+          "label": "改動強度",
+          "choiceLabels": {
+            "adhere_1": "保留 1",
+            "adhere_2": "保留 2",
+            "adhere_3": "保留 3",
+            "flex_1": "平衡 1",
+            "flex_2": "平衡 2",
+            "flex_3": "平衡 3",
+            "reimagine_1": "重新演繹 1",
+            "reimagine_2": "重新演繹 2",
+            "reimagine_3": "重新演繹 3"
+          }
+        },
+        "source_video": {
+          "label": "原影片"
+        },
+        "source_video_url": {
+          "label": "原影片 URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上傳一個 MP4 檔案。"
+        },
+        "prompt": {
+          "help": "描述要改變的畫風、內容或色彩。"
+        },
+        "strength": {
+          "help": "選擇保留原片、平衡修改或重新演繹。"
+        },
+        "duration_seconds": {
+          "help": "選擇 5 或 10 秒，預設 5 秒。"
+        },
+        "resolution": {
+          "help": "選擇 540p、720p 或 1080p。"
+        },
+        "hdr": {
+          "help": "使用 5 秒及 720p 或 1080p，需要 Atlas 上游帳戶具備 HDR 權限。"
+        },
+        "source_video_url": {
+          "help": "填寫公開可存取的 HTTPS MP4 網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Luma Ray 3.2 Video Edit",
+      "description": "Edit a source video with a text prompt and choose how closely to preserve the original clip.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "hdr": {
+          "label": "HDR"
+        },
+        "strength": {
+          "label": "Edit strength",
+          "choiceLabels": {
+            "adhere_1": "Adhere 1",
+            "adhere_2": "Adhere 2",
+            "adhere_3": "Adhere 3",
+            "flex_1": "Flex 1",
+            "flex_2": "Flex 2",
+            "flex_3": "Flex 3",
+            "reimagine_1": "Reimagine 1",
+            "reimagine_2": "Reimagine 2",
+            "reimagine_3": "Reimagine 3"
+          }
+        },
+        "source_video": {
+          "label": "Source video"
+        },
+        "source_video_url": {
+          "label": "Source video URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "Upload one MP4 file."
+        },
+        "prompt": {
+          "help": "Describe the changes to the style, content, or color."
+        },
+        "strength": {
+          "help": "Choose how closely to preserve the source or how freely to reinterpret it."
+        },
+        "duration_seconds": {
+          "help": "Choose 5 or 10 seconds. The default is 5."
+        },
+        "resolution": {
+          "help": "Choose 540p, 720p, or 1080p."
+        },
+        "hdr": {
+          "help": "Use with five-second 720p or 1080p clips. The upstream Atlas account requires HDR access."
+        },
+        "source_video_url": {
+          "help": "Provide a publicly accessible HTTPS MP4 URL or upload the video."
+        }
+      }
+    },
+    "ja": {
+      "name": "Luma Ray 3.2 動画編集",
+      "description": "プロンプトで元動画を編集し、元の映像をどの程度残すかを指定します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "hdr": {
+          "label": "HDR"
+        },
+        "strength": {
+          "label": "編集の強さ",
+          "choiceLabels": {
+            "adhere_1": "保持 1",
+            "adhere_2": "保持 2",
+            "adhere_3": "保持 3",
+            "flex_1": "バランス 1",
+            "flex_2": "バランス 2",
+            "flex_3": "バランス 3",
+            "reimagine_1": "再解釈 1",
+            "reimagine_2": "再解釈 2",
+            "reimagine_3": "再解釈 3"
+          }
+        },
+        "source_video": {
+          "label": "元動画"
+        },
+        "source_video_url": {
+          "label": "元動画の URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "MP4 ファイルを 1 本アップロードします。"
+        },
+        "prompt": {
+          "help": "画風、内容、色の変更を記述します。"
+        },
+        "strength": {
+          "help": "元動画を重視するか、バランスを取るか、自由に変更するかを選びます。"
+        },
+        "duration_seconds": {
+          "help": "5 秒または 10 秒から選びます。既定値は 5 秒です。"
+        },
+        "resolution": {
+          "help": "540p、720p、1080p から選びます。"
+        },
+        "hdr": {
+          "help": "5 秒、720p または 1080p で使います。Atlas の上流アカウントに HDR 権限が必要です。"
+        },
+        "source_video_url": {
+          "help": "公開 HTTPS MP4 の URL を入力するか、動画をアップロードします。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Luma Ray 3.2 동영상 편집",
+      "description": "프롬프트로 원본 동영상을 편집하고 원본을 얼마나 유지할지 선택합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "길이(초)"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "hdr": {
+          "label": "HDR"
+        },
+        "strength": {
+          "label": "편집 강도",
+          "choiceLabels": {
+            "adhere_1": "유지 1",
+            "adhere_2": "유지 2",
+            "adhere_3": "유지 3",
+            "flex_1": "균형 1",
+            "flex_2": "균형 2",
+            "flex_3": "균형 3",
+            "reimagine_1": "재해석 1",
+            "reimagine_2": "재해석 2",
+            "reimagine_3": "재해석 3"
+          }
+        },
+        "source_video": {
+          "label": "원본 동영상"
+        },
+        "source_video_url": {
+          "label": "원본 동영상 URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "MP4 파일 하나를 업로드하세요."
+        },
+        "prompt": {
+          "help": "바꿀 화풍, 내용 또는 색감을 설명하세요."
+        },
+        "strength": {
+          "help": "원본 유지, 균형 또는 재해석을 선택하세요."
+        },
+        "duration_seconds": {
+          "help": "5초 또는 10초를 선택하세요. 기본값은 5초입니다."
+        },
+        "resolution": {
+          "help": "540p, 720p, 1080p 중 선택하세요."
+        },
+        "hdr": {
+          "help": "720p 또는 1080p의 5초 동영상에 사용합니다. Atlas 상위 계정에 HDR 권한이 필요합니다."
+        },
+        "source_video_url": {
+          "help": "공개 HTTPS MP4 URL을 입력하거나 동영상을 업로드하세요."
+        }
+      }
+    }
+  }
+}

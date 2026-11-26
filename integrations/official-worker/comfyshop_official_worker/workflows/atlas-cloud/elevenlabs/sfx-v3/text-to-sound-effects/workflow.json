@@ -1,0 +1,279 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "elevenlabs-sfx-v3-text-to-sound-effects",
+  "name": "ElevenLabs SFX v3 音效生成",
+  "description": "根据文字描述生成动作音效、环境声和可循环音效。",
+  "category": "audio",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "Cinematic whoosh followed by a deep impact boom with a long reverb tail"
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "1",
+      "maximum": "30",
+      "step": "1",
+      "default": 5
+    },
+    {
+      "name": "format",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["mp3", "wav"],
+      "default": "mp3"
+    },
+    {
+      "name": "loop",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "prompt_influence",
+      "kind": "number",
+      "optional": true,
+      "minimum": "0",
+      "maximum": "1",
+      "default": 0.3
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "format",
+      "section": "default"
+    },
+    {
+      "fieldId": "loop",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "prompt_influence",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "audio",
+    "config": {
+      "operation": "audio",
+      "model": "elevenlabs/sfx-v3/text-to-sound-effects",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "output_format": "format",
+        "loop": "loop",
+        "prompt_influence": "prompt_influence"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 2000
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "ElevenLabs SFX v3 音效生成",
+      "description": "根据文字描述生成动作音效、环境声和可循环音效。",
+      "fields": {
+        "prompt": {
+          "label": "音效描述"
+        },
+        "duration": {
+          "label": "时长"
+        },
+        "format": {
+          "label": "输出格式"
+        },
+        "loop": {
+          "label": "无缝循环"
+        },
+        "prompt_influence": {
+          "label": "描述影响力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述想要的声音，最多 2000 字符。"
+        },
+        "duration": {
+          "help": "选择 1 至 30 秒，默认 5 秒。"
+        },
+        "format": {
+          "help": "MP3 为 44.1 kHz、128 kbps。WAV 为 48 kHz。默认 MP3。"
+        },
+        "loop": {
+          "help": "开启后生成首尾可衔接的音效。默认关闭。"
+        },
+        "prompt_influence": {
+          "help": "可设置 0 至 1。数值越高越贴合描述，默认 0.3。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "ElevenLabs SFX v3 音效產生",
+      "description": "根據文字描述產生動作音效、環境聲和可循環音效。",
+      "fields": {
+        "prompt": {
+          "label": "音效描述"
+        },
+        "duration": {
+          "label": "長度"
+        },
+        "format": {
+          "label": "輸出格式"
+        },
+        "loop": {
+          "label": "無縫循環"
+        },
+        "prompt_influence": {
+          "label": "描述影響力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述想要的聲音，最多 2000 個字元。"
+        },
+        "duration": {
+          "help": "選擇 1 至 30 秒，預設為 5 秒。"
+        },
+        "format": {
+          "help": "MP3 為 44.1 kHz、128 kbps。WAV 為 48 kHz。預設為 MP3。"
+        },
+        "loop": {
+          "help": "啟用後產生首尾可銜接的音效。預設關閉。"
+        },
+        "prompt_influence": {
+          "help": "可設定 0 至 1。數值越高越貼合描述，預設為 0.3。"
+        }
+      }
+    },
+    "en": {
+      "name": "ElevenLabs SFX v3 Sound Effects",
+      "description": "Generate action sounds, ambience, and seamless loops from a text description.",
+      "fields": {
+        "prompt": {
+          "label": "Sound description"
+        },
+        "duration": {
+          "label": "Duration"
+        },
+        "format": {
+          "label": "Output format"
+        },
+        "loop": {
+          "label": "Seamless loop"
+        },
+        "prompt_influence": {
+          "label": "Prompt influence"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the sound in up to 2000 characters."
+        },
+        "duration": {
+          "help": "Select 1 to 30 seconds. The default is 5 seconds."
+        },
+        "format": {
+          "help": "MP3 uses 44.1 kHz at 128 kbps. WAV uses 48 kHz. The default is MP3."
+        },
+        "loop": {
+          "help": "Make the sound loop seamlessly. Off by default."
+        },
+        "prompt_influence": {
+          "help": "Set a value from 0 to 1. Higher values follow the description more closely. The default is 0.3."
+        }
+      }
+    },
+    "ja": {
+      "name": "ElevenLabs SFX v3 効果音生成",
+      "description": "テキストで指定した動作音、環境音、ループ効果音を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "効果音の説明"
+        },
+        "duration": {
+          "label": "長さ"
+        },
+        "format": {
+          "label": "出力形式"
+        },
+        "loop": {
+          "label": "シームレスなループ"
+        },
+        "prompt_influence": {
+          "label": "説明の影響度"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "目的の音を 2000 文字まで記述します。"
+        },
+        "duration": {
+          "help": "長さを 1～30 秒で指定します。既定値は 5 秒です。"
+        },
+        "format": {
+          "help": "MP3 は 44.1 kHz、128 kbps、WAV は 48 kHz です。既定値は MP3 です。"
+        },
+        "loop": {
+          "help": "音の先頭と末尾が自然につながるように生成します。既定では無効です。"
+        },
+        "prompt_influence": {
+          "help": "0～1 の範囲で指定します。値が高いほど説明に忠実になります。既定値は 0.3 です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "ElevenLabs SFX v3 효과음 생성",
+      "description": "텍스트 설명으로 동작 효과음, 환경음과 매끄럽게 반복되는 효과음을 만듭니다.",
+      "fields": {
+        "prompt": {
+          "label": "효과음 설명"
+        },
+        "duration": {
+          "label": "길이"
+        },
+        "format": {
+          "label": "출력 형식"
+        },
+        "loop": {
+          "label": "매끄러운 반복"
+        },
+        "prompt_influence": {
+          "label": "설명 영향력"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "원하는 소리를 최대 2000자로 설명하세요."
+        },
+        "duration": {
+          "help": "1~30초 중에서 선택하세요. 기본값은 5초입니다."
+        },
+        "format": {
+          "help": "MP3는 44.1 kHz, 128 kbps이며 WAV는 48 kHz입니다. 기본값은 MP3입니다."
+        },
+        "loop": {
+          "help": "시작과 끝이 자연스럽게 이어지도록 만듭니다. 기본값은 꺼짐입니다."
+        },
+        "prompt_influence": {
+          "help": "0~1 범위에서 선택하세요. 값이 높을수록 설명을 더 충실히 따릅니다. 기본값은 0.3입니다."
+        }
+      }
+    }
+  }
+}

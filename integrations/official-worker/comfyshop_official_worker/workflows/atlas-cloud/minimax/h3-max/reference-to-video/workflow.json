@@ -1,0 +1,889 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "minimax-h3-max-reference-to-video",
+  "name": "MiniMax H3 Max 参考生视频",
+  "description": "用参考图、视频或音频和提示词生成视频，保留主体外观并控制动作与节奏。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "video_1",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "audio_1",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "choices": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "default": 8
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["480P", "768P"],
+      "default": "768P"
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["adaptive", "21:9", "16:9", "4:3", "1:1", "3:4", "9:16"],
+      "default": "adaptive",
+      "optional": true
+    },
+    {
+      "name": "expand_prompt",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "video_2",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "video_3",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "audio_2",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "audio_3",
+      "kind": "audio",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "video_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "audio_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "expand_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_3",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "operation": "video",
+      "model": "minimax/h3-max/reference-to-video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "resolution": "resolution",
+        "ratio": "aspect_ratio",
+        "prompt_expansion": "expand_prompt"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "refers": {
+          "groups": [
+            {
+              "kind": "image",
+              "fields": [
+                "image_1",
+                "image_2",
+                "image_3",
+                "image_4",
+                "image_5",
+                "image_6",
+                "image_7",
+                "image_8",
+                "image_9"
+              ],
+              "content_types": ["image/png", "image/jpeg", "image/webp"]
+            },
+            {
+              "kind": "video",
+              "fields": ["video_1", "video_2", "video_3"],
+              "content_types": ["video/mp4"]
+            },
+            {
+              "kind": "audio",
+              "fields": ["audio_1", "audio_2", "audio_3"],
+              "content_types": ["audio/wav", "audio/mpeg"]
+            }
+          ],
+          "requires_any_kind": ["image", "video"],
+          "max_items": 12
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "MiniMax H3 Max 参考生视频",
+      "description": "用参考图、视频或音频和提示词生成视频，保留主体外观并控制动作与节奏。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "image_1": {
+          "label": "参考图 1"
+        },
+        "video_1": {
+          "label": "参考视频 1"
+        },
+        "audio_1": {
+          "label": "参考音频 1"
+        },
+        "duration_seconds": {
+          "label": "时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "aspect_ratio": {
+          "label": "画面比例"
+        },
+        "expand_prompt": {
+          "label": "扩写提示词"
+        },
+        "image_2": {
+          "label": "参考图 2"
+        },
+        "image_3": {
+          "label": "参考图 3"
+        },
+        "image_4": {
+          "label": "参考图 4"
+        },
+        "image_5": {
+          "label": "参考图 5"
+        },
+        "image_6": {
+          "label": "参考图 6"
+        },
+        "image_7": {
+          "label": "参考图 7"
+        },
+        "image_8": {
+          "label": "参考图 8"
+        },
+        "image_9": {
+          "label": "参考图 9"
+        },
+        "video_2": {
+          "label": "参考视频 2"
+        },
+        "video_3": {
+          "label": "参考视频 3"
+        },
+        "audio_2": {
+          "label": "参考音频 2"
+        },
+        "audio_3": {
+          "label": "参考音频 3"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述场景和动作，说明各素材需要保留的外观、动作或节奏。 至少提供一张参考图或一个参考视频，素材合计最多 12 份。"
+        },
+        "image_1": {
+          "help": "支持 PNG、JPEG 和 WebP。每边 256 至 5760 像素，单张最多 30 MB。 宽高比须在 0.4 至 2.5 之间。"
+        },
+        "video_1": {
+          "help": "支持 H.264 或 H.265 编码的 MP4、MOV。每段 2 至 15 秒、最多 50 MB，视频合计最多 15 秒。 帧率须在 23.976 至 60 fps 之间。"
+        },
+        "audio_1": {
+          "help": "支持 WAV 和 MP3。每段 2 至 15 秒、最多 15 MB，音频合计最多 15 秒。"
+        },
+        "duration_seconds": {
+          "help": "选择视频成品的时长，单位为秒。"
+        },
+        "resolution": {
+          "help": "可选 480P 或 768P。"
+        },
+        "aspect_ratio": {
+          "help": "自适应跟随参考素材，也可指定画面宽高比。"
+        },
+        "expand_prompt": {
+          "help": "开启后会先扩写提示词，再生成视频。"
+        },
+        "image_2": {
+          "help": "按编号顺序使用已上传的素材。"
+        },
+        "image_3": {
+          "help": "按编号顺序使用已上传的素材。"
+        },
+        "image_4": {
+          "help": "按编号顺序使用已上传的素材。"
+        },
+        "image_5": {
+          "help": "按编号顺序使用已上传的素材。"
+        },
+        "image_6": {
+          "help": "按编号顺序使用已上传的素材。"
+        },
+        "image_7": {
+          "help": "按编号顺序使用已上传的素材。"
+        },
+        "image_8": {
+          "help": "按编号顺序使用已上传的素材。"
+        },
+        "image_9": {
+          "help": "按编号顺序使用已上传的素材。"
+        },
+        "video_2": {
+          "help": "按编号顺序使用已上传的素材。"
+        },
+        "video_3": {
+          "help": "按编号顺序使用已上传的素材。"
+        },
+        "audio_2": {
+          "help": "按编号顺序使用已上传的素材。"
+        },
+        "audio_3": {
+          "help": "按编号顺序使用已上传的素材。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "MiniMax H3 Max 參考素材生成影片",
+      "description": "用參考圖片、影片或音訊與提示詞生成影片，保留主體外觀並控制動作和節奏。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "image_1": {
+          "label": "參考圖 1"
+        },
+        "video_1": {
+          "label": "參考影片 1"
+        },
+        "audio_1": {
+          "label": "參考音訊 1"
+        },
+        "duration_seconds": {
+          "label": "片長（秒）"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例"
+        },
+        "expand_prompt": {
+          "label": "擴寫提示詞"
+        },
+        "image_2": {
+          "label": "參考圖 2"
+        },
+        "image_3": {
+          "label": "參考圖 3"
+        },
+        "image_4": {
+          "label": "參考圖 4"
+        },
+        "image_5": {
+          "label": "參考圖 5"
+        },
+        "image_6": {
+          "label": "參考圖 6"
+        },
+        "image_7": {
+          "label": "參考圖 7"
+        },
+        "image_8": {
+          "label": "參考圖 8"
+        },
+        "image_9": {
+          "label": "參考圖 9"
+        },
+        "video_2": {
+          "label": "參考影片 2"
+        },
+        "video_3": {
+          "label": "參考影片 3"
+        },
+        "audio_2": {
+          "label": "參考音訊 2"
+        },
+        "audio_3": {
+          "label": "參考音訊 3"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述場景和動作，說明各素材需要保留的外觀、動作或節奏。 至少提供一張參考圖或一個參考影片，素材合計最多 12 份。"
+        },
+        "image_1": {
+          "help": "支援 PNG、JPEG 和 WebP。每邊 256 至 5760 像素，每張最多 30 MB。 寬高比須在 0.4 至 2.5 之間。"
+        },
+        "video_1": {
+          "help": "支援 H.264 或 H.265 編碼的 MP4、MOV。每段 2 至 15 秒、最多 50 MB，影片合計最多 15 秒。 畫格率須在 23.976 至 60 fps 之間。"
+        },
+        "audio_1": {
+          "help": "支援 WAV 和 MP3。每段 2 至 15 秒、最多 15 MB，音訊合計最多 15 秒。"
+        },
+        "duration_seconds": {
+          "help": "選擇影片成品的片長，單位為秒。"
+        },
+        "resolution": {
+          "help": "可選 480P 或 768P。"
+        },
+        "aspect_ratio": {
+          "help": "自適應會跟隨參考素材，也可指定畫面寬高比。"
+        },
+        "expand_prompt": {
+          "help": "啟用後會先擴寫提示詞，再產生影片。"
+        },
+        "image_2": {
+          "help": "依編號順序使用已上傳的素材。"
+        },
+        "image_3": {
+          "help": "依編號順序使用已上傳的素材。"
+        },
+        "image_4": {
+          "help": "依編號順序使用已上傳的素材。"
+        },
+        "image_5": {
+          "help": "依編號順序使用已上傳的素材。"
+        },
+        "image_6": {
+          "help": "依編號順序使用已上傳的素材。"
+        },
+        "image_7": {
+          "help": "依編號順序使用已上傳的素材。"
+        },
+        "image_8": {
+          "help": "依編號順序使用已上傳的素材。"
+        },
+        "image_9": {
+          "help": "依編號順序使用已上傳的素材。"
+        },
+        "video_2": {
+          "help": "依編號順序使用已上傳的素材。"
+        },
+        "video_3": {
+          "help": "依編號順序使用已上傳的素材。"
+        },
+        "audio_2": {
+          "help": "依編號順序使用已上傳的素材。"
+        },
+        "audio_3": {
+          "help": "依編號順序使用已上傳的素材。"
+        }
+      }
+    },
+    "en": {
+      "name": "MiniMax H3 Max Reference-to-Video",
+      "description": "Generate video from a prompt and reference images, videos, or audio to guide the subject, motion, and pacing.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "image_1": {
+          "label": "Reference image 1"
+        },
+        "video_1": {
+          "label": "Reference video 1"
+        },
+        "audio_1": {
+          "label": "Reference audio 1"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "expand_prompt": {
+          "label": "Expand prompt"
+        },
+        "image_2": {
+          "label": "Reference image 2"
+        },
+        "image_3": {
+          "label": "Reference image 3"
+        },
+        "image_4": {
+          "label": "Reference image 4"
+        },
+        "image_5": {
+          "label": "Reference image 5"
+        },
+        "image_6": {
+          "label": "Reference image 6"
+        },
+        "image_7": {
+          "label": "Reference image 7"
+        },
+        "image_8": {
+          "label": "Reference image 8"
+        },
+        "image_9": {
+          "label": "Reference image 9"
+        },
+        "video_2": {
+          "label": "Reference video 2"
+        },
+        "video_3": {
+          "label": "Reference video 3"
+        },
+        "audio_2": {
+          "label": "Reference audio 2"
+        },
+        "audio_3": {
+          "label": "Reference audio 3"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the scene and action, including which visual details, movements, and rhythms to keep from the references. Include at least one image or video and at most 12 references in total."
+        },
+        "image_1": {
+          "help": "Upload PNG, JPEG, or WebP, 256 to 5760 pixels per side and up to 30 MB each. The aspect ratio must be between 0.4 and 2.5."
+        },
+        "video_1": {
+          "help": "Upload H.264 or H.265 MP4 or MOV. Each clip can be 2 to 15 seconds and up to 50 MB, with a 15-second total. Use a frame rate from 23.976 to 60 fps."
+        },
+        "audio_1": {
+          "help": "Upload WAV or MP3. Each clip can be 2 to 15 seconds and up to 15 MB, with a 15-second total."
+        },
+        "duration_seconds": {
+          "help": "Choose the length of the video in seconds."
+        },
+        "resolution": {
+          "help": "Choose 480P or 768P."
+        },
+        "aspect_ratio": {
+          "help": "Use adaptive to follow the reference media, or select a fixed aspect ratio."
+        },
+        "expand_prompt": {
+          "help": "Expand the prompt before generating the video."
+        },
+        "image_2": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "image_3": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "image_4": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "image_5": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "image_6": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "image_7": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "image_8": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "image_9": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "video_2": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "video_3": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "audio_2": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "audio_3": {
+          "help": "Uploaded references are used in slot order."
+        }
+      }
+    },
+    "ja": {
+      "name": "MiniMax H3 Max 参照素材から動画を生成",
+      "description": "プロンプトと参照画像、動画、音声から、被写体の外見や動き、リズムを反映した動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "image_1": {
+          "label": "参照画像 1"
+        },
+        "video_1": {
+          "label": "参照動画 1"
+        },
+        "audio_1": {
+          "label": "参照音声 1"
+        },
+        "duration_seconds": {
+          "label": "長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        },
+        "expand_prompt": {
+          "label": "プロンプトを拡張"
+        },
+        "image_2": {
+          "label": "参照画像 2"
+        },
+        "image_3": {
+          "label": "参照画像 3"
+        },
+        "image_4": {
+          "label": "参照画像 4"
+        },
+        "image_5": {
+          "label": "参照画像 5"
+        },
+        "image_6": {
+          "label": "参照画像 6"
+        },
+        "image_7": {
+          "label": "参照画像 7"
+        },
+        "image_8": {
+          "label": "参照画像 8"
+        },
+        "image_9": {
+          "label": "参照画像 9"
+        },
+        "video_2": {
+          "label": "参照動画 2"
+        },
+        "video_3": {
+          "label": "参照動画 3"
+        },
+        "audio_2": {
+          "label": "参照音声 2"
+        },
+        "audio_3": {
+          "label": "参照音声 3"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "シーンと動きを記述し、各参照素材から引き継ぐ外見や動き、リズムを指定します。 参照画像または参照動画を 1 点以上、参照素材を合計 12 点以内で指定します。"
+        },
+        "image_1": {
+          "help": "PNG、JPEG、WebP に対応します。各辺を 256〜5760 ピクセル、1 枚を 30 MB 以下にします。 アスペクト比を 0.4〜2.5 にします。"
+        },
+        "video_1": {
+          "help": "H.264 または H.265 の MP4 と MOV に対応します。1 本は 2〜15 秒で 50 MB 以下、動画は合計 15 秒までです。 フレームレートを 23.976〜60 fps にします。"
+        },
+        "audio_1": {
+          "help": "WAV と MP3 に対応します。1 本は 2〜15 秒で 15 MB 以下、音声は合計 15 秒までです。"
+        },
+        "duration_seconds": {
+          "help": "動画の長さを秒単位で選びます。"
+        },
+        "resolution": {
+          "help": "480P または 768P を選びます。"
+        },
+        "aspect_ratio": {
+          "help": "自動調整で参照素材に合わせるか、固定のアスペクト比を選びます。"
+        },
+        "expand_prompt": {
+          "help": "有効にすると動画の生成前にプロンプトを拡張します。"
+        },
+        "image_2": {
+          "help": "アップロード済みの素材を番号順に使用します。"
+        },
+        "image_3": {
+          "help": "アップロード済みの素材を番号順に使用します。"
+        },
+        "image_4": {
+          "help": "アップロード済みの素材を番号順に使用します。"
+        },
+        "image_5": {
+          "help": "アップロード済みの素材を番号順に使用します。"
+        },
+        "image_6": {
+          "help": "アップロード済みの素材を番号順に使用します。"
+        },
+        "image_7": {
+          "help": "アップロード済みの素材を番号順に使用します。"
+        },
+        "image_8": {
+          "help": "アップロード済みの素材を番号順に使用します。"
+        },
+        "image_9": {
+          "help": "アップロード済みの素材を番号順に使用します。"
+        },
+        "video_2": {
+          "help": "アップロード済みの素材を番号順に使用します。"
+        },
+        "video_3": {
+          "help": "アップロード済みの素材を番号順に使用します。"
+        },
+        "audio_2": {
+          "help": "アップロード済みの素材を番号順に使用します。"
+        },
+        "audio_3": {
+          "help": "アップロード済みの素材を番号順に使用します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "MiniMax H3 Max 참조 자료로 동영상 생성",
+      "description": "프롬프트와 참조 이미지, 동영상, 오디오를 사용해 피사체의 모습과 움직임, 리듬을 반영한 동영상을 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "image_1": {
+          "label": "참조 이미지 1"
+        },
+        "video_1": {
+          "label": "참조 동영상 1"
+        },
+        "audio_1": {
+          "label": "참조 오디오 1"
+        },
+        "duration_seconds": {
+          "label": "길이(초)"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "expand_prompt": {
+          "label": "프롬프트 확장"
+        },
+        "image_2": {
+          "label": "참조 이미지 2"
+        },
+        "image_3": {
+          "label": "참조 이미지 3"
+        },
+        "image_4": {
+          "label": "참조 이미지 4"
+        },
+        "image_5": {
+          "label": "참조 이미지 5"
+        },
+        "image_6": {
+          "label": "참조 이미지 6"
+        },
+        "image_7": {
+          "label": "참조 이미지 7"
+        },
+        "image_8": {
+          "label": "참조 이미지 8"
+        },
+        "image_9": {
+          "label": "참조 이미지 9"
+        },
+        "video_2": {
+          "label": "참조 동영상 2"
+        },
+        "video_3": {
+          "label": "참조 동영상 3"
+        },
+        "audio_2": {
+          "label": "참조 오디오 2"
+        },
+        "audio_3": {
+          "label": "참조 오디오 3"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "장면과 동작을 설명하고 각 참조 자료에서 유지할 모습이나 움직임, 리듬을 지정합니다. 이미지 또는 동영상을 최소 하나 포함하고 모든 참조 자료는 합계 12개 이내로 제한합니다."
+        },
+        "image_1": {
+          "help": "PNG, JPEG, WebP를 지원합니다. 각 변은 256~5760픽셀, 파일은 30MB 이하여야 합니다. 가로세로비는 0.4~2.5여야 합니다."
+        },
+        "video_1": {
+          "help": "H.264 또는 H.265 MP4와 MOV를 지원합니다. 클립은 2~15초에 50MB 이하이며 합계는 최대 15초입니다. 프레임률은 23.976~60fps여야 합니다."
+        },
+        "audio_1": {
+          "help": "WAV와 MP3를 지원합니다. 클립은 2~15초에 15MB 이하이며 합계는 최대 15초입니다."
+        },
+        "duration_seconds": {
+          "help": "동영상 길이를 초 단위로 선택합니다."
+        },
+        "resolution": {
+          "help": "480P 또는 768P를 선택합니다."
+        },
+        "aspect_ratio": {
+          "help": "적응형 비율은 참조 자료를 따릅니다. 고정 화면 비율도 선택할 수 있습니다."
+        },
+        "expand_prompt": {
+          "help": "활성화하면 동영상을 생성하기 전에 프롬프트를 확장합니다."
+        },
+        "image_2": {
+          "help": "업로드한 참조 자료를 슬롯 번호 순으로 사용합니다."
+        },
+        "image_3": {
+          "help": "업로드한 참조 자료를 슬롯 번호 순으로 사용합니다."
+        },
+        "image_4": {
+          "help": "업로드한 참조 자료를 슬롯 번호 순으로 사용합니다."
+        },
+        "image_5": {
+          "help": "업로드한 참조 자료를 슬롯 번호 순으로 사용합니다."
+        },
+        "image_6": {
+          "help": "업로드한 참조 자료를 슬롯 번호 순으로 사용합니다."
+        },
+        "image_7": {
+          "help": "업로드한 참조 자료를 슬롯 번호 순으로 사용합니다."
+        },
+        "image_8": {
+          "help": "업로드한 참조 자료를 슬롯 번호 순으로 사용합니다."
+        },
+        "image_9": {
+          "help": "업로드한 참조 자료를 슬롯 번호 순으로 사용합니다."
+        },
+        "video_2": {
+          "help": "업로드한 참조 자료를 슬롯 번호 순으로 사용합니다."
+        },
+        "video_3": {
+          "help": "업로드한 참조 자료를 슬롯 번호 순으로 사용합니다."
+        },
+        "audio_2": {
+          "help": "업로드한 참조 자료를 슬롯 번호 순으로 사용합니다."
+        },
+        "audio_3": {
+          "help": "업로드한 참조 자료를 슬롯 번호 순으로 사용합니다."
+        }
+      }
+    }
+  }
+}

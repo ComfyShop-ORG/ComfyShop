@@ -1,0 +1,722 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-alibaba-wan-2-7-image-to-video",
+  "name": "Wan 2.7 图生视频与续写",
+  "description": "用起始图生成视频，或续写原视频。可指定结束帧。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 5000,
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1080P",
+      "optional": true,
+      "choices": ["720P", "1080P", "1080P-SR", "1440P-SR"]
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 5,
+      "optional": true,
+      "minimum": "2",
+      "maximum": "15"
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true,
+      "minimum": "-1",
+      "maximum": "2147483647"
+    },
+    {
+      "name": "negative_prompt",
+      "optional": true,
+      "kind": "string",
+      "multiline": true,
+      "maxLength": 500,
+      "default": ""
+    },
+    {
+      "name": "soundtrack",
+      "optional": true,
+      "kind": "audio"
+    },
+    {
+      "name": "soundtrack_source",
+      "optional": true,
+      "kind": "string",
+      "default": ""
+    },
+    {
+      "name": "prompt_extend",
+      "optional": true,
+      "kind": "boolean",
+      "default": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "video",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "video_source",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "video",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "negative_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "soundtrack",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "soundtrack_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "prompt_extend",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "alibaba/wan-2.7/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "duration": "duration",
+        "seed": "seed",
+        "negative_prompt": "negative_prompt",
+        "prompt_extend": "prompt_extend"
+      },
+      "omit_blank_parameters": ["negative_prompt", "prompt"],
+      "media": {
+        "audio": {
+          "kind": "audio",
+          "fields": ["soundtrack"],
+          "content_types": ["audio/wav", "audio/mpeg"],
+          "max_bytes": 15000000,
+          "min_duration_ms": 2000,
+          "max_duration_ms": 30000,
+          "external_urls_only": true,
+          "external_sources_field": "soundtrack_source"
+        },
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "max_bytes": 20000000,
+          "content_types": ["image/jpeg", "image/png", "image/bmp", "image/webp"],
+          "external_urls_only": true,
+          "image_bounds": {
+            "min_side": 240,
+            "max_side": 8000,
+            "max_aspect_ratio": 8
+          },
+          "reject_png_alpha": true
+        },
+        "last_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "external_sources_field": "last_frame_source",
+          "max_bytes": 20000000,
+          "content_types": ["image/jpeg", "image/png", "image/bmp", "image/webp"],
+          "external_urls_only": true,
+          "image_bounds": {
+            "min_side": 240,
+            "max_side": 8000,
+            "max_aspect_ratio": 8
+          },
+          "reject_png_alpha": true
+        },
+        "video": {
+          "kind": "video",
+          "fields": ["video"],
+          "external_sources_field": "video_source",
+          "external_urls_only": true,
+          "content_types": ["video/mp4", "video/quicktime"],
+          "min_duration_ms": 2000,
+          "max_duration_ms": 10000,
+          "max_bytes": 100000000
+        }
+      },
+      "required_one_of": [["image", "video"]],
+      "mutually_exclusive": [["video", "audio"]]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Wan 2.7 图生视频与续写",
+      "description": "用起始图生成视频，或续写原视频。可指定结束帧。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720P": "720P",
+            "1080P": "1080P",
+            "1080P-SR": "1080P SR",
+            "1440P-SR": "1440P SR"
+          }
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "negative_prompt": {
+          "label": "负面提示词"
+        },
+        "soundtrack": {
+          "label": "驱动音频"
+        },
+        "soundtrack_source": {
+          "label": "驱动音频地址"
+        },
+        "prompt_extend": {
+          "label": "扩写提示词"
+        },
+        "first_frame": {
+          "label": "起始帧"
+        },
+        "first_frame_source": {
+          "label": "起始帧地址"
+        },
+        "last_frame": {
+          "label": "结束帧"
+        },
+        "last_frame_source": {
+          "label": "结束帧地址"
+        },
+        "video": {
+          "label": "原视频"
+        },
+        "video_source": {
+          "label": "原视频地址"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传 JPEG、无透明通道的 PNG、BMP 或 WebP。宽高各 240 至 8000 像素，长短边比例最多 8:1，每张最多 20 MB。"
+        },
+        "last_frame": {
+          "help": "上传 JPEG、无透明通道的 PNG、BMP 或 WebP。宽高各 240 至 8000 像素，长短边比例最多 8:1，每张最多 20 MB。"
+        },
+        "video": {
+          "help": "与起始帧二选一。上传 2 至 10 秒的 MP4 或 MOV，最多 100 MB。"
+        },
+        "prompt": {
+          "help": "可选。描述希望生成的动作、场景或续写内容，最多 5,000 字符。"
+        },
+        "resolution": {
+          "help": "选择 720P 或 1080P 原生输出，也可选超分辨率。默认 1080P。"
+        },
+        "duration": {
+          "help": "输入 2 至 15 的整数，默认 5 秒。"
+        },
+        "seed": {
+          "help": "输入 -1 使用随机种子，或指定 0 至 2147483647 的整数。"
+        },
+        "negative_prompt": {
+          "help": "描述希望避免的元素，最多 500 字符。"
+        },
+        "soundtrack": {
+          "help": "从起始帧生成时，可用 WAV 或 MP3 驱动口型或动作。时长 2 至 30 秒，最多 15 MB。"
+        },
+        "soundtrack_source": {
+          "help": "填写一个公开音频 URL，与上传二选一。"
+        },
+        "prompt_extend": {
+          "help": "让模型补充提示词细节。默认开启，生成时间可能增加。"
+        },
+        "first_frame_source": {
+          "help": "填写一个公开图片 URL，与上传二选一。"
+        },
+        "last_frame_source": {
+          "help": "填写一个公开图片 URL，与上传二选一。"
+        },
+        "video_source": {
+          "help": "填写公开视频 URL，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Wan 2.7 圖生影片與延續",
+      "description": "用起始圖產生影片，或延續原始影片，可指定結尾影格。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720P": "720P",
+            "1080P": "1080P",
+            "1080P-SR": "1080P SR",
+            "1440P-SR": "1440P SR"
+          }
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "negative_prompt": {
+          "label": "負面提示詞"
+        },
+        "soundtrack": {
+          "label": "驅動音訊"
+        },
+        "soundtrack_source": {
+          "label": "驅動音訊網址"
+        },
+        "prompt_extend": {
+          "label": "擴寫提示詞"
+        },
+        "first_frame": {
+          "label": "起始影格"
+        },
+        "first_frame_source": {
+          "label": "起始影格網址"
+        },
+        "last_frame": {
+          "label": "結尾影格"
+        },
+        "last_frame_source": {
+          "label": "結尾影格網址"
+        },
+        "video": {
+          "label": "原始影片"
+        },
+        "video_source": {
+          "label": "原始影片網址"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳 JPEG、無透明通道的 PNG、BMP 或 WebP。寬高各 240 至 8000 像素，長短邊比例最多 8:1，每張最多 20 MB。"
+        },
+        "last_frame": {
+          "help": "上傳 JPEG、無透明通道的 PNG、BMP 或 WebP。寬高各 240 至 8000 像素，長短邊比例最多 8:1，每張最多 20 MB。"
+        },
+        "video": {
+          "help": "與起始影格擇一。上傳 2 至 10 秒的 MP4 或 MOV，最多 100 MB。"
+        },
+        "prompt": {
+          "help": "選填。描述想產生的動作、場景或延續內容，最多 5,000 字元。"
+        },
+        "resolution": {
+          "help": "選擇 720P 或 1080P 原生輸出，也可選超解析度。預設為 1080P。"
+        },
+        "duration": {
+          "help": "輸入 2 至 15 的整數，預設為 5 秒。"
+        },
+        "seed": {
+          "help": "輸入 -1 使用隨機種子，或指定 0 至 2147483647 的整數。"
+        },
+        "negative_prompt": {
+          "help": "描述想避免的元素，最多 500 字元。"
+        },
+        "soundtrack": {
+          "help": "從起始影格生成時，可用 WAV 或 MP3 驅動嘴形或動作。長度 2 至 30 秒，最多 15 MB。"
+        },
+        "soundtrack_source": {
+          "help": "填寫一個公開音訊網址，與上傳擇一。"
+        },
+        "prompt_extend": {
+          "help": "讓模型補充提示詞細節。預設為開啟，生成時間可能增加。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個公開圖片網址，與上傳擇一。"
+        },
+        "last_frame_source": {
+          "help": "填寫一個公開圖片網址，與上傳擇一。"
+        },
+        "video_source": {
+          "help": "填寫公開影片網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Wan 2.7 Image to Video and Extension",
+      "description": "Animate an opening image or continue an existing clip with an optional closing frame.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720P": "720P",
+            "1080P": "1080P",
+            "1080P-SR": "1080P SR",
+            "1440P-SR": "1440P SR"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "negative_prompt": {
+          "label": "Negative prompt"
+        },
+        "soundtrack": {
+          "label": "Driving audio"
+        },
+        "soundtrack_source": {
+          "label": "Driving audio URL"
+        },
+        "prompt_extend": {
+          "label": "Extend prompt"
+        },
+        "first_frame": {
+          "label": "First frame"
+        },
+        "first_frame_source": {
+          "label": "First frame URL"
+        },
+        "last_frame": {
+          "label": "Last frame"
+        },
+        "last_frame_source": {
+          "label": "Last frame URL"
+        },
+        "video": {
+          "label": "Source video"
+        },
+        "video_source": {
+          "label": "Source video URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload JPEG, PNG without an alpha channel, BMP, or WebP. Each side must be 240–8,000 pixels, the longer side at most 8 times the shorter, and the image up to 20 MB."
+        },
+        "last_frame": {
+          "help": "Upload JPEG, PNG without an alpha channel, BMP, or WebP. Each side must be 240–8,000 pixels, the longer side at most 8 times the shorter, and the image up to 20 MB."
+        },
+        "video": {
+          "help": "Use a video or an opening image. Upload a 2- to 10-second MP4 or MOV up to 100 MB."
+        },
+        "prompt": {
+          "help": "Optionally describe the desired motion, scene, or continuation. Use up to 5,000 characters."
+        },
+        "resolution": {
+          "help": "Choose native 720P or 1080P, or a super-resolution option. The default is 1080P."
+        },
+        "duration": {
+          "help": "Enter a whole number from 2 to 15. The default is 5 seconds."
+        },
+        "seed": {
+          "help": "Enter -1 for a random seed or use an integer from 0 to 2147483647."
+        },
+        "negative_prompt": {
+          "help": "Describe elements to avoid. Use up to 500 characters."
+        },
+        "soundtrack": {
+          "help": "When generating from an image, use WAV or MP3 to drive lip sync or actions. Use 2 to 30 seconds, up to 15 MB."
+        },
+        "soundtrack_source": {
+          "help": "Enter one public audio URL in place of an upload."
+        },
+        "prompt_extend": {
+          "help": "Let the model add details to the prompt. On by default and may increase generation time."
+        },
+        "first_frame_source": {
+          "help": "Enter one public image URL in place of an upload."
+        },
+        "last_frame_source": {
+          "help": "Enter one public image URL in place of an upload."
+        },
+        "video_source": {
+          "help": "Enter one public video URL in place of an upload."
+        }
+      }
+    },
+    "ja": {
+      "name": "Wan 2.7 画像から動画・動画延長",
+      "description": "開始画像を動かすか、元の動画を延長します。終了フレームは任意です。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720P": "720P",
+            "1080P": "1080P",
+            "1080P-SR": "1080P SR",
+            "1440P-SR": "1440P SR"
+          }
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "negative_prompt": {
+          "label": "ネガティブプロンプト"
+        },
+        "soundtrack": {
+          "label": "動きの参照音声"
+        },
+        "soundtrack_source": {
+          "label": "参照音声のURL"
+        },
+        "prompt_extend": {
+          "label": "プロンプトを拡張"
+        },
+        "first_frame": {
+          "label": "開始フレーム"
+        },
+        "first_frame_source": {
+          "label": "開始フレームのURL"
+        },
+        "last_frame": {
+          "label": "終了フレーム"
+        },
+        "last_frame_source": {
+          "label": "終了フレームのURL"
+        },
+        "video": {
+          "label": "元の動画"
+        },
+        "video_source": {
+          "label": "元の動画のURL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "JPEG、アルファチャンネルなしのPNG、BMP、またはWebPをアップロードします。縦横240〜8,000ピクセル、長辺と短辺の比は最大8:1、各20 MBまでです。"
+        },
+        "last_frame": {
+          "help": "JPEG、アルファチャンネルなしのPNG、BMP、またはWebPをアップロードします。縦横240〜8,000ピクセル、長辺と短辺の比は最大8:1、各20 MBまでです。"
+        },
+        "video": {
+          "help": "開始画像か動画を選び、2〜10秒で100 MB以下のMP4またはMOVをアップロードします。"
+        },
+        "prompt": {
+          "help": "動き、場面、または続きの内容を任意で記述します。最大5,000文字です。"
+        },
+        "resolution": {
+          "help": "ネイティブの720P、1080P、または超解像を選択します。既定値は1080Pです。"
+        },
+        "duration": {
+          "help": "2〜15の整数を入力します。既定値は5秒です。"
+        },
+        "seed": {
+          "help": "ランダムなシードには-1を入力します。固定する場合は0〜2147483647の整数を指定します。"
+        },
+        "negative_prompt": {
+          "help": "避けたい要素を記述します。最大500文字です。"
+        },
+        "soundtrack": {
+          "help": "開始画像から生成する際に、WAVまたはMP3から口の動きやアクションを指定できます。2〜30秒、15 MBまでです。"
+        },
+        "soundtrack_source": {
+          "help": "アップロードの代わりに公開音声のURLを1件入力します。"
+        },
+        "prompt_extend": {
+          "help": "モデルにプロンプトの詳細を補わせます。既定では有効で、生成時間が延びる場合があります。"
+        },
+        "first_frame_source": {
+          "help": "アップロードの代わりに公開画像のURLを1件入力します。"
+        },
+        "last_frame_source": {
+          "help": "アップロードの代わりに公開画像のURLを1件入力します。"
+        },
+        "video_source": {
+          "help": "アップロードの代わりに公開動画のURLを1件入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Wan 2.7 이미지로 동영상 생성 및 연장",
+      "description": "첫 이미지로 동영상을 만들거나 기존 영상을 잇습니다. 마지막 프레임을 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720P": "720P",
+            "1080P": "1080P",
+            "1080P-SR": "1080P SR",
+            "1440P-SR": "1440P SR"
+          }
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "negative_prompt": {
+          "label": "부정 프롬프트"
+        },
+        "soundtrack": {
+          "label": "동작 참조 오디오"
+        },
+        "soundtrack_source": {
+          "label": "참조 오디오 URL"
+        },
+        "prompt_extend": {
+          "label": "프롬프트 확장"
+        },
+        "first_frame": {
+          "label": "첫 프레임"
+        },
+        "first_frame_source": {
+          "label": "첫 프레임 URL"
+        },
+        "last_frame": {
+          "label": "마지막 프레임"
+        },
+        "last_frame_source": {
+          "label": "마지막 프레임 URL"
+        },
+        "video": {
+          "label": "원본 동영상"
+        },
+        "video_source": {
+          "label": "원본 동영상 URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "JPEG, 알파 채널이 없는 PNG, BMP 또는 WebP를 업로드합니다. 가로와 세로는 각각 240~8,000픽셀, 긴 변과 짧은 변의 비율은 최대 8:1, 이미지당 최대 20 MB입니다."
+        },
+        "last_frame": {
+          "help": "JPEG, 알파 채널이 없는 PNG, BMP 또는 WebP를 업로드합니다. 가로와 세로는 각각 240~8,000픽셀, 긴 변과 짧은 변의 비율은 최대 8:1, 이미지당 최대 20 MB입니다."
+        },
+        "video": {
+          "help": "첫 이미지 또는 원본 동영상을 선택합니다. 2초에서 10초 길이의 100 MB 이하 MP4 또는 MOV를 업로드합니다."
+        },
+        "prompt": {
+          "help": "원하는 동작, 장면 또는 이어지는 내용을 선택적으로 설명합니다. 최대 5,000자입니다."
+        },
+        "resolution": {
+          "help": "기본 생성 해상도 720P 또는 1080P 혹은 초해상도 옵션을 선택합니다. 기본값은 1080P입니다."
+        },
+        "duration": {
+          "help": "2에서 15 사이의 정수를 입력합니다. 기본값은 5초입니다."
+        },
+        "seed": {
+          "help": "무작위 시드는 -1을 입력합니다. 고정하려면 0에서 2147483647 사이의 정수를 지정합니다."
+        },
+        "negative_prompt": {
+          "help": "피하고 싶은 요소를 설명합니다. 최대 500자입니다."
+        },
+        "soundtrack": {
+          "help": "첫 이미지로 생성할 때 WAV 또는 MP3로 입 모양이나 동작을 제어합니다. 2초에서 30초 길이, 최대 15 MB입니다."
+        },
+        "soundtrack_source": {
+          "help": "업로드 대신 공개 오디오 URL을 하나 입력합니다."
+        },
+        "prompt_extend": {
+          "help": "모델이 프롬프트의 세부 내용을 보완합니다. 기본값은 켜짐이며 생성 시간이 늘어날 수 있습니다."
+        },
+        "first_frame_source": {
+          "help": "업로드 대신 공개 이미지 URL을 하나 입력합니다."
+        },
+        "last_frame_source": {
+          "help": "업로드 대신 공개 이미지 URL을 하나 입력합니다."
+        },
+        "video_source": {
+          "help": "업로드 대신 공개 동영상 URL을 하나 입력합니다."
+        }
+      }
+    }
+  }
+}

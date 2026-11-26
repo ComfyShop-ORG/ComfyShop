@@ -1,0 +1,606 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "xai-stt-v1",
+  "name": "xAI STT v1 语音转文字",
+  "description": "从音频或视频提取文字和单词级时间戳，支持说话人区分和分声道转写。",
+  "category": "audio",
+  "fields": [
+    {
+      "name": "source_audio",
+      "kind": "audio",
+      "additionalAssetKinds": ["video"]
+    },
+    {
+      "name": "normalize_numbers",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "language",
+      "kind": "choice",
+      "optional": true,
+      "choices": [
+        "ar",
+        "cs",
+        "da",
+        "nl",
+        "en",
+        "fil",
+        "fr",
+        "de",
+        "hi",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "mk",
+        "ms",
+        "fa",
+        "pl",
+        "pt",
+        "ro",
+        "ru",
+        "es",
+        "sv",
+        "th",
+        "tr",
+        "vi"
+      ]
+    },
+    {
+      "name": "key_terms",
+      "kind": "string",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "diarize",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "keep_fillers",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "audio_format",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["auto", "pcm", "mulaw", "alaw"],
+      "default": "auto"
+    },
+    {
+      "name": "sample_rate",
+      "kind": "choice",
+      "optional": true,
+      "choices": [8000, 16000, 22050, 24000, 44100, 48000]
+    },
+    {
+      "name": "multichannel",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "channels",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "2",
+      "maximum": "8",
+      "step": "1"
+    },
+    {
+      "name": "sync_mode",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "source_audio",
+      "section": "default"
+    },
+    {
+      "fieldId": "normalize_numbers",
+      "section": "default"
+    },
+    {
+      "fieldId": "language",
+      "section": "default"
+    },
+    {
+      "fieldId": "key_terms",
+      "section": "default"
+    },
+    {
+      "fieldId": "diarize",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "keep_fillers",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "sample_rate",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "multichannel",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "channels",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "sync_mode",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "text",
+    "config": {
+      "operation": "audio",
+      "model": "xai/stt-v1",
+      "parameters": {
+        "text_normalization": "normalize_numbers",
+        "language": "language",
+        "diarize": "diarize",
+        "filler_words": "keep_fillers",
+        "audio_format": "audio_format",
+        "sample_rate": "sample_rate",
+        "multichannel": "multichannel",
+        "channels": "channels",
+        "enable_sync_mode": "sync_mode"
+      },
+      "text_arrays": {
+        "keyterm": {
+          "field": "key_terms",
+          "max_items": 100,
+          "max_item_length": 50
+        }
+      },
+      "required_when": {
+        "language": {
+          "text_normalization": true
+        },
+        "sample_rate": {
+          "audio_format": ["pcm", "mulaw", "alaw"]
+        },
+        "channels": {
+          "audio_format": ["pcm", "mulaw", "alaw"],
+          "multichannel": true
+        }
+      },
+      "media": {
+        "audio": {
+          "kind": "audio",
+          "fields": ["source_audio"],
+          "min_items": 1,
+          "content_types": [
+            "audio/aac",
+            "audio/flac",
+            "audio/mp4",
+            "audio/mpeg",
+            "audio/ogg",
+            "audio/wav",
+            "audio/webm",
+            "audio/x-matroska",
+            "video/mp4",
+            "video/webm",
+            "video/x-matroska",
+            "audio/x-pcm",
+            "audio/x-mulaw",
+            "audio/x-alaw"
+          ],
+          "max_bytes": 500000000,
+          "format": {
+            "parameter": "audio_format",
+            "content_types": {
+              "auto": [
+                "audio/aac",
+                "audio/flac",
+                "audio/mp4",
+                "audio/mpeg",
+                "audio/ogg",
+                "audio/wav",
+                "audio/webm",
+                "audio/x-matroska",
+                "video/mp4",
+                "video/webm",
+                "video/x-matroska"
+              ],
+              "pcm": "audio/x-pcm",
+              "mulaw": "audio/x-mulaw",
+              "alaw": "audio/x-alaw"
+            },
+            "default": "auto"
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "xAI STT v1 语音转文字",
+      "description": "从音频或视频提取文字和单词级时间戳，支持说话人区分和分声道转写。",
+      "fields": {
+        "source_audio": {
+          "label": "音频或视频"
+        },
+        "normalize_numbers": {
+          "label": "数字和单位规范化"
+        },
+        "language": {
+          "label": "识别语言"
+        },
+        "key_terms": {
+          "label": "识别热词"
+        },
+        "diarize": {
+          "label": "区分说话人"
+        },
+        "keep_fillers": {
+          "label": "保留口头语"
+        },
+        "audio_format": {
+          "label": "裸音频编码"
+        },
+        "sample_rate": {
+          "label": "采样率"
+        },
+        "multichannel": {
+          "label": "分声道转写"
+        },
+        "channels": {
+          "label": "声道数"
+        },
+        "sync_mode": {
+          "label": "同步返回"
+        }
+      },
+      "parameterLayout": {
+        "source_audio": {
+          "help": "上传包含音轨的音频或视频。支持 MP3、WAV、M4A、FLAC、OGG、Opus、AAC、MP4 和 MKV，也可上传裸音频。"
+        },
+        "normalize_numbers": {
+          "help": "把口述数字、货币和单位转为常用书写形式。开启后需要选择语言。"
+        },
+        "language": {
+          "help": "留空自动识别。开启数字和单位规范化时，所选语言决定书写规则。"
+        },
+        "key_terms": {
+          "help": "每行填写一个词组，最多 100 个，每个最多 50 字符。空行会跳过。"
+        },
+        "diarize": {
+          "help": "为转写词语标记说话人。默认关闭。"
+        },
+        "keep_fillers": {
+          "help": "开启后保留停顿词和语气词。默认移除。"
+        },
+        "audio_format": {
+          "help": "容器文件使用 auto。裸音频选择 PCM、G.711 μ-law 或 G.711 A-law。使用 .raw 或 .pcm、.mulaw 或 .ulaw、.alaw 对应的扩展名。"
+        },
+        "sample_rate": {
+          "help": "裸音频必填。按原件填写采样率，单位为 Hz。"
+        },
+        "multichannel": {
+          "help": "分别转写各声道，最多 8 声道。默认关闭。"
+        },
+        "channels": {
+          "help": "分声道转写裸音频时填写 2 至 8。容器文件会自动识别。"
+        },
+        "sync_mode": {
+          "help": "开启后优先从提交响应读取结果。默认关闭。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "xAI STT v1 語音轉文字",
+      "description": "從音訊或影片擷取文字和單字級時間戳記，支援辨識說話者及分聲道轉錄。",
+      "fields": {
+        "source_audio": {
+          "label": "音訊或影片"
+        },
+        "normalize_numbers": {
+          "label": "數字與單位正規化"
+        },
+        "language": {
+          "label": "辨識語言"
+        },
+        "key_terms": {
+          "label": "辨識熱詞"
+        },
+        "diarize": {
+          "label": "區分說話者"
+        },
+        "keep_fillers": {
+          "label": "保留口頭語"
+        },
+        "audio_format": {
+          "label": "裸音訊編碼"
+        },
+        "sample_rate": {
+          "label": "取樣率"
+        },
+        "multichannel": {
+          "label": "分聲道轉錄"
+        },
+        "channels": {
+          "label": "聲道數"
+        },
+        "sync_mode": {
+          "label": "同步回傳"
+        }
+      },
+      "parameterLayout": {
+        "source_audio": {
+          "help": "上傳含音軌的音訊或影片。支援 MP3、WAV、M4A、FLAC、OGG、Opus、AAC、MP4 和 MKV，也可上傳裸音訊。"
+        },
+        "normalize_numbers": {
+          "help": "將口述數字、貨幣與單位轉為常用書寫方式。開啟後需選擇語言。"
+        },
+        "language": {
+          "help": "留空自動辨識。啟用數字與單位正規化時，由所選語言決定書寫規則。"
+        },
+        "key_terms": {
+          "help": "每行填寫一個詞組，最多 100 個，每個最多 50 個字元。略過空行。"
+        },
+        "diarize": {
+          "help": "標記轉錄詞語的說話者。預設關閉。"
+        },
+        "keep_fillers": {
+          "help": "啟用後保留停頓詞與語氣詞。預設移除。"
+        },
+        "audio_format": {
+          "help": "容器檔案使用 auto。裸音訊選擇 PCM、G.711 μ-law 或 G.711 A-law。使用對應的 .raw 或 .pcm、.mulaw 或 .ulaw、.alaw 副檔名。"
+        },
+        "sample_rate": {
+          "help": "裸音訊必填。依原始檔填寫取樣率，單位為 Hz。"
+        },
+        "multichannel": {
+          "help": "分別轉錄各聲道，最多 8 聲道。預設關閉。"
+        },
+        "channels": {
+          "help": "分聲道轉錄裸音訊時填寫 2 至 8。容器檔案會自動辨識。"
+        },
+        "sync_mode": {
+          "help": "啟用後優先從提交回應讀取結果。預設關閉。"
+        }
+      }
+    },
+    "en": {
+      "name": "xAI STT v1 Speech to Text",
+      "description": "Transcribe audio or video with word-level timestamps, speaker labels, and separate channel results.",
+      "fields": {
+        "source_audio": {
+          "label": "Audio or video"
+        },
+        "normalize_numbers": {
+          "label": "Normalize numbers and units"
+        },
+        "language": {
+          "label": "Recognition language"
+        },
+        "key_terms": {
+          "label": "Key terms"
+        },
+        "diarize": {
+          "label": "Identify speakers"
+        },
+        "keep_fillers": {
+          "label": "Keep filler words"
+        },
+        "audio_format": {
+          "label": "Raw audio encoding"
+        },
+        "sample_rate": {
+          "label": "Sample rate"
+        },
+        "multichannel": {
+          "label": "Transcribe by channel"
+        },
+        "channels": {
+          "label": "Audio channels"
+        },
+        "sync_mode": {
+          "label": "Return synchronously"
+        }
+      },
+      "parameterLayout": {
+        "source_audio": {
+          "help": "Upload audio or video with an audio track. Supports MP3, WAV, M4A, FLAC, OGG, Opus, AAC, MP4, MKV, and raw audio."
+        },
+        "normalize_numbers": {
+          "help": "Format spoken numbers, currencies, and units in their written forms. Select a language when enabled."
+        },
+        "language": {
+          "help": "Leave blank for automatic detection. The selected language determines the writing rules when normalization is enabled."
+        },
+        "key_terms": {
+          "help": "Enter one term per line, up to 100 terms and 50 characters per term. Blank lines are skipped."
+        },
+        "diarize": {
+          "help": "Label words by speaker. Off by default."
+        },
+        "keep_fillers": {
+          "help": "Keep hesitations and filler words. They are removed by default."
+        },
+        "audio_format": {
+          "help": "Use auto for container files. For raw audio, choose PCM, G.711 μ-law, or G.711 A-law with a matching .raw or .pcm, .mulaw or .ulaw, or .alaw extension."
+        },
+        "sample_rate": {
+          "help": "Required for raw audio. Select the original sample rate in Hz."
+        },
+        "multichannel": {
+          "help": "Transcribe up to eight channels independently. Off by default."
+        },
+        "channels": {
+          "help": "Set 2 through 8 when transcribing raw audio by channel. Channels are detected from container files."
+        },
+        "sync_mode": {
+          "help": "Read the result from the submission response when available. Off by default."
+        }
+      }
+    },
+    "ja": {
+      "name": "xAI STT v1 音声からテキスト",
+      "description": "音声や動画を単語単位のタイムスタンプ付きで文字起こしします。話者識別とチャンネル別の文字起こしに対応します。",
+      "fields": {
+        "source_audio": {
+          "label": "音声または動画"
+        },
+        "normalize_numbers": {
+          "label": "数値と単位を正規化"
+        },
+        "language": {
+          "label": "認識言語"
+        },
+        "key_terms": {
+          "label": "認識語句"
+        },
+        "diarize": {
+          "label": "話者を識別"
+        },
+        "keep_fillers": {
+          "label": "つなぎ言葉を残す"
+        },
+        "audio_format": {
+          "label": "生音声のエンコード"
+        },
+        "sample_rate": {
+          "label": "サンプリング周波数"
+        },
+        "multichannel": {
+          "label": "チャンネル別に認識"
+        },
+        "channels": {
+          "label": "チャンネル数"
+        },
+        "sync_mode": {
+          "label": "同期で返す"
+        }
+      },
+      "parameterLayout": {
+        "source_audio": {
+          "help": "音声トラック付きの音声や動画をアップロードします。MP3、WAV、M4A、FLAC、OGG、Opus、AAC、MP4、MKV と生音声に対応します。"
+        },
+        "normalize_numbers": {
+          "help": "口頭で述べた数値、通貨、単位を一般的な表記に変換します。有効にした場合は言語を選択します。"
+        },
+        "language": {
+          "help": "空欄では自動認識します。正規化を有効にすると選択した言語の表記規則が使われます。"
+        },
+        "key_terms": {
+          "help": "1 行に 1 語句を入力します。最大 100 語句で、1 語句は 50 文字までです。空行は無視されます。"
+        },
+        "diarize": {
+          "help": "文字起こしの単語に話者ラベルを付けます。既定では無効です。"
+        },
+        "keep_fillers": {
+          "help": "有効にすると、つなぎ言葉やためらいを残します。既定では除去します。"
+        },
+        "audio_format": {
+          "help": "コンテナ形式では auto を選択します。生音声は PCM、G.711 μ-law、G.711 A-law と、それぞれ .raw または .pcm、.mulaw または .ulaw、.alaw を指定します。"
+        },
+        "sample_rate": {
+          "help": "生音声に必須です。元のサンプリング周波数を Hz で指定します。"
+        },
+        "multichannel": {
+          "help": "最大 8 チャンネルを個別に文字起こしします。既定では無効です。"
+        },
+        "channels": {
+          "help": "生音声をチャンネル別に文字起こしする場合は 2～8 を指定します。コンテナ形式では自動認識します。"
+        },
+        "sync_mode": {
+          "help": "結果が送信時の応答に含まれる場合は直接読み取ります。既定では無効です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "xAI STT v1 음성을 텍스트로 변환",
+      "description": "오디오나 영상에서 단어별 타임스탬프가 포함된 전사문을 만듭니다. 화자 및 채널을 구분할 수 있습니다.",
+      "fields": {
+        "source_audio": {
+          "label": "오디오 또는 영상"
+        },
+        "normalize_numbers": {
+          "label": "숫자와 단위 정규화"
+        },
+        "language": {
+          "label": "인식 언어"
+        },
+        "key_terms": {
+          "label": "인식할 용어"
+        },
+        "diarize": {
+          "label": "화자 구분"
+        },
+        "keep_fillers": {
+          "label": "군더더기 표현 유지"
+        },
+        "audio_format": {
+          "label": "원시 오디오 인코딩"
+        },
+        "sample_rate": {
+          "label": "샘플링 주파수"
+        },
+        "multichannel": {
+          "label": "채널별 전사"
+        },
+        "channels": {
+          "label": "오디오 채널 수"
+        },
+        "sync_mode": {
+          "label": "동기식 응답"
+        }
+      },
+      "parameterLayout": {
+        "source_audio": {
+          "help": "오디오 트랙이 포함된 오디오나 영상을 업로드하세요. MP3, WAV, M4A, FLAC, OGG, Opus, AAC, MP4, MKV 및 원시 오디오를 지원합니다."
+        },
+        "normalize_numbers": {
+          "help": "말로 표현한 숫자, 통화, 단위를 일반적인 표기로 변환합니다. 켜면 언어를 선택해야 합니다."
+        },
+        "language": {
+          "help": "비우면 언어가 자동으로 인식됩니다. 정규화를 켜면 선택된 언어의 표기 규칙을 적용합니다."
+        },
+        "key_terms": {
+          "help": "한 줄에 용어 하나를 입력하세요. 최대 100개까지 가능하며 각 용어는 최대 50자입니다. 빈 줄은 건너뜁니다."
+        },
+        "diarize": {
+          "help": "전사한 단어에 화자를 표시합니다. 기본값은 꺼짐입니다."
+        },
+        "keep_fillers": {
+          "help": "켜면 머뭇거림과 군더더기 표현을 남깁니다. 기본값은 제거입니다."
+        },
+        "audio_format": {
+          "help": "컨테이너 파일에는 auto를 사용하세요. 원시 PCM, G.711 μ-law, G.711 A-law의 확장자는 각각 .raw 또는 .pcm, .mulaw 또는 .ulaw, .alaw입니다."
+        },
+        "sample_rate": {
+          "help": "원시 오디오에 필수입니다. 원본과 같은 샘플링 주파수를 Hz 단위로 선택하세요."
+        },
+        "multichannel": {
+          "help": "채널을 최대 8개까지 개별 전사합니다. 기본값은 꺼짐입니다."
+        },
+        "channels": {
+          "help": "원시 오디오를 채널별로 전사하려면 2~8을 선택하세요. 컨테이너 파일은 채널을 자동으로 인식합니다."
+        },
+        "sync_mode": {
+          "help": "제출 응답에 결과가 포함되면 바로 읽습니다. 기본값은 꺼짐입니다."
+        }
+      }
+    }
+  }
+}

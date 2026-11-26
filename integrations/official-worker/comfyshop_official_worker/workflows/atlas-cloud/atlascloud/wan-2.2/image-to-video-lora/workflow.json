@@ -1,0 +1,526 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-atlascloud-wan-2-2-image-to-video-lora",
+  "name": "Atlas Cloud Wan 2.2 图生视频 LoRA",
+  "description": "将一张起始图转成 3 至 10 秒的视频，可调整画面动作和镜头。 可配置高噪声与低噪声 LoRA。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "480p",
+      "optional": true,
+      "choices": ["480p", "720p"]
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 5,
+      "optional": true,
+      "minimum": "3",
+      "maximum": "10",
+      "step": "1"
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    },
+    {
+      "name": "negative_prompt",
+      "optional": true,
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    },
+    {
+      "name": "high_noise_loras",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "low_noise_loras",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "loras",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "negative_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "high_noise_loras",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "low_noise_loras",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "loras",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "atlascloud/wan-2.2/image-to-video-lora",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "duration": "duration",
+        "seed": "seed",
+        "negative_prompt": "negative_prompt",
+        "high_noise_loras": "high_noise_loras",
+        "low_noise_loras": "low_noise_loras",
+        "loras": "loras"
+      },
+      "required_text": ["prompt"],
+      "omit_blank_parameters": ["negative_prompt", "high_noise_loras", "low_noise_loras", "loras"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "content_types": ["image/jpeg", "image/png", "image/bmp", "image/webp"],
+          "external_urls_only": true
+        }
+      },
+      "lora_parameters": {
+        "high_noise_loras": {
+          "max_items": 3,
+          "scale_range": [0, 4]
+        },
+        "low_noise_loras": {
+          "max_items": 3,
+          "scale_range": [0, 4]
+        },
+        "loras": {
+          "max_items": 3,
+          "scale_range": [0, 4]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Atlas Cloud Wan 2.2 图生视频 LoRA",
+      "description": "将一张起始图转成 3 至 10 秒的视频，可调整画面动作和镜头。 可配置高噪声与低噪声 LoRA。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p"
+          }
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "negative_prompt": {
+          "label": "负面提示词"
+        },
+        "first_frame": {
+          "label": "起始图"
+        },
+        "first_frame_source": {
+          "label": "起始图来源"
+        },
+        "high_noise_loras": {
+          "label": "高噪声 LoRA"
+        },
+        "low_noise_loras": {
+          "label": "低噪声 LoRA"
+        },
+        "loras": {
+          "label": "通用 LoRA"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传用于生成视频的图片。也可在高级区填入来源。"
+        },
+        "prompt": {
+          "help": "描述画面中的动作、环境变化或镜头运动。"
+        },
+        "resolution": {
+          "help": "选择 480p 或 720p。默认 480p，720p 成品会放大。"
+        },
+        "duration": {
+          "help": "输入 3 至 10 的整数。默认 5 秒。"
+        },
+        "seed": {
+          "help": "输入 -1 使用随机种子，或输入固定整数。"
+        },
+        "negative_prompt": {
+          "help": "描述希望避开的画面元素。"
+        },
+        "first_frame_source": {
+          "help": "填写一个可公开访问的起始图 URL，也可直接上传图片。"
+        },
+        "high_noise_loras": {
+          "help": "输入最多 3 项的 JSON 数组，每项填写 .safetensors 文件的 URL 或路径 path。scale 默认为 1，可填 0 至 4。留空时跳过。"
+        },
+        "low_noise_loras": {
+          "help": "输入最多 3 项的 JSON 数组，每项填写 .safetensors 文件的 URL 或路径 path。scale 默认为 1，可填 0 至 4。留空时跳过。"
+        },
+        "loras": {
+          "help": "输入最多 3 项的 JSON 数组，每项填写 .safetensors 文件的 URL 或路径 path。scale 默认为 1，可填 0 至 4。留空时跳过。 根据文件名自动决定应用阶段。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Atlas Cloud Wan 2.2 圖生影片 LoRA",
+      "description": "將一張起始圖轉成 3 至 10 秒的影片，可調整畫面動作和鏡頭。 可設定高雜訊和低雜訊 LoRA。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p"
+          }
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "negative_prompt": {
+          "label": "負面提示詞"
+        },
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "first_frame_source": {
+          "label": "起始圖來源"
+        },
+        "high_noise_loras": {
+          "label": "高雜訊 LoRA"
+        },
+        "low_noise_loras": {
+          "label": "低雜訊 LoRA"
+        },
+        "loras": {
+          "label": "通用 LoRA"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳用於產生影片的圖片。也可在進階區填入來源。"
+        },
+        "prompt": {
+          "help": "描述畫面中的動作、環境變化或運鏡。"
+        },
+        "resolution": {
+          "help": "選擇 480p 或 720p。預設 480p，720p 成品會放大。"
+        },
+        "duration": {
+          "help": "輸入 3 至 10 的整數。預設 5 秒。"
+        },
+        "seed": {
+          "help": "輸入 -1 使用隨機種子，或輸入固定整數。"
+        },
+        "negative_prompt": {
+          "help": "描述希望避免的畫面元素。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個可公開存取的起始圖 URL，也可直接上傳圖片。"
+        },
+        "high_noise_loras": {
+          "help": "輸入最多 3 項的 JSON 陣列，每項填寫 .safetensors 檔案的 URL 或路徑 path。scale 預設為 1，可填 0 至 4。空白時略過。"
+        },
+        "low_noise_loras": {
+          "help": "輸入最多 3 項的 JSON 陣列，每項填寫 .safetensors 檔案的 URL 或路徑 path。scale 預設為 1，可填 0 至 4。空白時略過。"
+        },
+        "loras": {
+          "help": "輸入最多 3 項的 JSON 陣列，每項填寫 .safetensors 檔案的 URL 或路徑 path。scale 預設為 1，可填 0 至 4。空白時略過。 依檔名自動決定套用階段。"
+        }
+      }
+    },
+    "en": {
+      "name": "Atlas Cloud Wan 2.2 Image to Video LoRA",
+      "description": "Turn an opening image into a 3- to 10-second video with motion and camera direction. Apply optional high-noise and low-noise LoRAs.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "negative_prompt": {
+          "label": "Negative prompt"
+        },
+        "first_frame": {
+          "label": "Opening image"
+        },
+        "first_frame_source": {
+          "label": "Opening image source"
+        },
+        "high_noise_loras": {
+          "label": "High-noise LoRAs"
+        },
+        "low_noise_loras": {
+          "label": "Low-noise LoRAs"
+        },
+        "loras": {
+          "label": "Generic LoRAs"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload the image to animate or enter its source under Advanced."
+        },
+        "prompt": {
+          "help": "Describe the movement, scene changes, or camera direction you want."
+        },
+        "resolution": {
+          "help": "Choose 480p or 720p. The default is 480p, and 720p is upscaled."
+        },
+        "duration": {
+          "help": "Enter a whole number from 3 to 10. The default is 5 seconds."
+        },
+        "seed": {
+          "help": "Enter -1 for a random seed or use a fixed integer."
+        },
+        "negative_prompt": {
+          "help": "Describe visual elements to avoid."
+        },
+        "first_frame_source": {
+          "help": "Enter one public URL for the opening image or upload the image directly."
+        },
+        "high_noise_loras": {
+          "help": "Enter a JSON array of up to three entries. Set path to the .safetensors URL or path. Optional scale ranges from 0 to 4 and defaults to 1. Leave blank to skip."
+        },
+        "low_noise_loras": {
+          "help": "Enter a JSON array of up to three entries. Set path to the .safetensors URL or path. Optional scale ranges from 0 to 4 and defaults to 1. Leave blank to skip."
+        },
+        "loras": {
+          "help": "Enter a JSON array of up to three entries. Set path to the .safetensors URL or path. Optional scale ranges from 0 to 4 and defaults to 1. Leave blank to skip. Selects the stage from the file name."
+        }
+      }
+    },
+    "ja": {
+      "name": "Atlas Cloud Wan 2.2 画像から動画 LoRA",
+      "description": "開始画像から、動きやカメラワークを指定した 3〜10 秒の動画を生成します。 高ノイズ用と低ノイズ用の LoRA を指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p"
+          }
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "negative_prompt": {
+          "label": "ネガティブプロンプト"
+        },
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "first_frame_source": {
+          "label": "開始画像の参照先"
+        },
+        "high_noise_loras": {
+          "label": "高ノイズ用 LoRA"
+        },
+        "low_noise_loras": {
+          "label": "低ノイズ用 LoRA"
+        },
+        "loras": {
+          "label": "汎用 LoRA"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "動きを付ける画像をアップロードするか、詳細設定で参照先を指定します。"
+        },
+        "prompt": {
+          "help": "被写体の動き、背景の変化、カメラワークを記述します。"
+        },
+        "resolution": {
+          "help": "480p または 720p を選択します。既定は 480p で、720p はアップスケールされます。"
+        },
+        "duration": {
+          "help": "3〜10 の整数を入力します。既定は 5 秒です。"
+        },
+        "seed": {
+          "help": "ランダムなシードには-1を入力します。固定する場合は整数を指定します。"
+        },
+        "negative_prompt": {
+          "help": "避けたい画面要素を記述します。"
+        },
+        "first_frame_source": {
+          "help": "公開されている開始画像の URL を一つ入力するか、画像をアップロードします。"
+        },
+        "high_noise_loras": {
+          "help": "最大 3 項目の JSON 配列を入力します。各項目の path に .safetensors の URL またはパスを指定します。scale は 0〜4 で既定は 1 です。空欄の場合は省略されます。"
+        },
+        "low_noise_loras": {
+          "help": "最大 3 項目の JSON 配列を入力します。各項目の path に .safetensors の URL またはパスを指定します。scale は 0〜4 で既定は 1 です。空欄の場合は省略されます。"
+        },
+        "loras": {
+          "help": "最大 3 項目の JSON 配列を入力します。各項目の path に .safetensors の URL またはパスを指定します。scale は 0〜4 で既定は 1 です。空欄の場合は省略されます。 ファイル名から適用段階を自動判定します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Atlas Cloud Wan 2.2 이미지로 동영상 생성 LoRA",
+      "description": "시작 이미지 한 장에서 움직임과 카메라 구도를 조정해 3~10초 동영상을 만듭니다. 고노이즈 및 저노이즈 LoRA를 설정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p"
+          }
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "negative_prompt": {
+          "label": "부정 프롬프트"
+        },
+        "first_frame": {
+          "label": "첫 이미지"
+        },
+        "first_frame_source": {
+          "label": "첫 이미지 소스"
+        },
+        "high_noise_loras": {
+          "label": "고노이즈 LoRA"
+        },
+        "low_noise_loras": {
+          "label": "저노이즈 LoRA"
+        },
+        "loras": {
+          "label": "범용 LoRA"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "움직임을 넣을 이미지를 업로드하거나 고급 설정에서 소스를 입력합니다."
+        },
+        "prompt": {
+          "help": "대상의 움직임, 장면 변화 또는 카메라 움직임을 설명하세요."
+        },
+        "resolution": {
+          "help": "480p 또는 720p를 선택하세요. 기본값은 480p이며 720p 결과는 업스케일됩니다."
+        },
+        "duration": {
+          "help": "3~10 사이의 정수를 입력하세요. 기본값은 5초입니다."
+        },
+        "seed": {
+          "help": "무작위 시드는 -1을 입력합니다. 고정하려면 정수를 지정합니다."
+        },
+        "negative_prompt": {
+          "help": "피하고 싶은 화면 요소를 설명합니다."
+        },
+        "first_frame_source": {
+          "help": "시작 이미지의 공개 URL 하나를 입력하거나 이미지를 직접 업로드하세요."
+        },
+        "high_noise_loras": {
+          "help": "최대 3개 항목의 JSON 배열을 입력하세요. 각 항목의 path에 .safetensors URL 또는 경로를 입력합니다. scale은 0~4이며 기본값은 1입니다. 비워 두면 건너뜁니다."
+        },
+        "low_noise_loras": {
+          "help": "최대 3개 항목의 JSON 배열을 입력하세요. 각 항목의 path에 .safetensors URL 또는 경로를 입력합니다. scale은 0~4이며 기본값은 1입니다. 비워 두면 건너뜁니다."
+        },
+        "loras": {
+          "help": "최대 3개 항목의 JSON 배열을 입력하세요. 각 항목의 path에 .safetensors URL 또는 경로를 입력합니다. scale은 0~4이며 기본값은 1입니다. 비워 두면 건너뜁니다. 파일 이름에 따라 적용 단계를 자동으로 선택합니다."
+        }
+      }
+    }
+  }
+}

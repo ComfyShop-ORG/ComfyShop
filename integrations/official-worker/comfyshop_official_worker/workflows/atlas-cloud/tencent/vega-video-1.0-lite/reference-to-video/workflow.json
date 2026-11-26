@@ -1,0 +1,1496 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-vega-video-1-lite-reference",
+  "name": "腾讯 Vega Video 1.0 Lite 参考生视频",
+  "description": "根据起始图、参考图、视频或音频生成 4 至 15 秒的视频。至少提供一项素材。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "A cat wearing a tiny astronaut helmet floats past glowing nebulae in deep space; cinematic, volumetric lighting, 8k.",
+      "multiline": true,
+      "maxLength": 7000
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 5,
+      "minimum": "4",
+      "maximum": "15",
+      "step": "1",
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "480P",
+      "choices": ["480P", "768P", "1080P", "2K", "4K"],
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "choices": ["16:9", "9:16", "1:1", "4:3", "3:4", "adaptive"],
+      "optional": true
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "storage_mode",
+      "kind": "choice",
+      "default": "Temporary",
+      "choices": ["Permanent", "Temporary"],
+      "optional": true
+    },
+    {
+      "name": "generate_mode",
+      "kind": "choice",
+      "default": "Standard",
+      "choices": ["Standard", "Fast", "StandardMovie"],
+      "optional": true
+    },
+    {
+      "name": "quality_mode",
+      "kind": "choice",
+      "default": "Standard",
+      "choices": ["Standard", "Fast", "SuperFast"],
+      "optional": true
+    },
+    {
+      "name": "enhance_prompt",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "moderation_mode",
+      "kind": "choice",
+      "default": "Moderation_L1",
+      "choices": ["Moderation_L0", "Moderation_L1", "Moderation_L2"],
+      "optional": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_sources",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304,
+      "optional": true
+    },
+    {
+      "name": "reference_video_1",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_2",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_3",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "video_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "reference_audio_1",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "reference_audio_2",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "reference_audio_3",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "audio_sources",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "storage_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "generate_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "quality_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enhance_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "moderation_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "tencent/vega-video-1.0-lite/reference-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "resolution": "resolution",
+        "aspect_ratio": "aspect_ratio",
+        "generate_audio": "generate_audio",
+        "storage_mode": "storage_mode",
+        "generate_mode": "generate_mode",
+        "quality_mode": "quality_mode",
+        "enhance_prompt": "enhance_prompt",
+        "moderation_mode": "moderation_mode"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 7000
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "max_bytes": 30000000,
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "allow_raw_base64": true
+        },
+        "reference_images": {
+          "kind": "image",
+          "array": true,
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4",
+            "reference_image_5",
+            "reference_image_6",
+            "reference_image_7",
+            "reference_image_8",
+            "reference_image_9"
+          ],
+          "external_sources_field": "image_sources",
+          "allow_raw_base64": true,
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "max_bytes": 30000000,
+          "count_parameter": "image",
+          "max_combined": 9
+        },
+        "reference_videos": {
+          "kind": "video",
+          "array": true,
+          "fields": ["reference_video_1", "reference_video_2", "reference_video_3"],
+          "external_sources_field": "video_sources",
+          "external_urls_only": true
+        },
+        "reference_audios": {
+          "kind": "audio",
+          "array": true,
+          "fields": ["reference_audio_1", "reference_audio_2", "reference_audio_3"],
+          "external_sources_field": "audio_sources",
+          "external_urls_only": true
+        }
+      },
+      "required_any_of": [["image", "reference_images", "reference_videos", "reference_audios"]],
+      "max_media_items": 12
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "腾讯 Vega Video 1.0 Lite 参考生视频",
+      "description": "根据起始图、参考图、视频或音频生成 4 至 15 秒的视频。至少提供一项素材。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "480P": "480P",
+            "768P": "768P",
+            "1080P": "1080P",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "adaptive": "自动"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "storage_mode": {
+          "label": "源视频存储",
+          "choiceLabels": {
+            "Permanent": "永久保留",
+            "Temporary": "临时保留"
+          }
+        },
+        "generate_mode": {
+          "label": "生成模式",
+          "choiceLabels": {
+            "Standard": "标准",
+            "Fast": "快速",
+            "StandardMovie": "电影"
+          }
+        },
+        "quality_mode": {
+          "label": "质量模式",
+          "choiceLabels": {
+            "Standard": "标准",
+            "Fast": "快速",
+            "SuperFast": "极速"
+          }
+        },
+        "enhance_prompt": {
+          "label": "提示词增强"
+        },
+        "moderation_mode": {
+          "label": "内容审核级别",
+          "choiceLabels": {
+            "Moderation_L0": "L0",
+            "Moderation_L1": "L1",
+            "Moderation_L2": "L2"
+          }
+        },
+        "first_frame": {
+          "label": "起始图"
+        },
+        "first_frame_source": {
+          "label": "起始图来源"
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        },
+        "reference_image_5": {
+          "label": "参考图 5"
+        },
+        "reference_image_6": {
+          "label": "参考图 6"
+        },
+        "reference_image_7": {
+          "label": "参考图 7"
+        },
+        "reference_image_8": {
+          "label": "参考图 8"
+        },
+        "reference_image_9": {
+          "label": "参考图 9"
+        },
+        "image_sources": {
+          "label": "参考图来源"
+        },
+        "reference_video_1": {
+          "label": "参考视频 1"
+        },
+        "reference_video_2": {
+          "label": "参考视频 2"
+        },
+        "reference_video_3": {
+          "label": "参考视频 3"
+        },
+        "video_sources": {
+          "label": "参考视频 URL"
+        },
+        "reference_audio_1": {
+          "label": "参考音频 1"
+        },
+        "reference_audio_2": {
+          "label": "参考音频 2"
+        },
+        "reference_audio_3": {
+          "label": "参考音频 3"
+        },
+        "audio_sources": {
+          "label": "参考音频 URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传起始图或在高级区填写来源。每张最多 30 MB。"
+        },
+        "reference_image_1": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 30 MB。含起始图最多 9 张。"
+        },
+        "prompt": {
+          "help": "描述主体、场景、动作和镜头。最多 7,000 字符。"
+        },
+        "duration": {
+          "help": "选择 4 至 15 秒。默认 5 秒。"
+        },
+        "resolution": {
+          "help": "选择输出分辨率。默认 480P。"
+        },
+        "aspect_ratio": {
+          "help": "选择输出宽高比，或选择自动以使用模型决定的比例。默认 16:9。"
+        },
+        "generate_audio": {
+          "help": "随视频生成配套声音。默认开启。"
+        },
+        "storage_mode": {
+          "help": "选择腾讯云点播中源视频的保留方式。默认临时保留。"
+        },
+        "generate_mode": {
+          "help": "选择腾讯生成模式。默认标准。"
+        },
+        "quality_mode": {
+          "help": "选择腾讯视频质量模式。默认标准。"
+        },
+        "enhance_prompt": {
+          "help": "由模型在生成前扩写提示词。默认关闭。"
+        },
+        "moderation_mode": {
+          "help": "选择腾讯内容审核级别。默认 L1。"
+        },
+        "first_frame_source": {
+          "help": "填写一个公开图片 URL、Base64 数据网址或纯 Base64。"
+        },
+        "reference_image_2": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 30 MB。含起始图最多 9 张。"
+        },
+        "reference_image_3": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 30 MB。含起始图最多 9 张。"
+        },
+        "reference_image_4": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 30 MB。含起始图最多 9 张。"
+        },
+        "reference_image_5": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 30 MB。含起始图最多 9 张。"
+        },
+        "reference_image_6": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 30 MB。含起始图最多 9 张。"
+        },
+        "reference_image_7": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 30 MB。含起始图最多 9 张。"
+        },
+        "reference_image_8": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 30 MB。含起始图最多 9 张。"
+        },
+        "reference_image_9": {
+          "help": "上传 JPEG、PNG 或 WebP，每张最多 30 MB。含起始图最多 9 张。"
+        },
+        "image_sources": {
+          "help": "每行填写一个公开图片 URL 或 Base64。图片含上传栏位和起始图共最多 9 张。"
+        },
+        "reference_video_1": {
+          "help": "上传参考视频。含外部视频最多 3 段。"
+        },
+        "reference_video_2": {
+          "help": "上传参考视频。含外部视频最多 3 段。"
+        },
+        "reference_video_3": {
+          "help": "上传参考视频。含外部视频最多 3 段。"
+        },
+        "video_sources": {
+          "help": "每行填写一个公开视频 URL。音视频和图片合计最多 12 项。"
+        },
+        "reference_audio_1": {
+          "help": "上传参考音频。含外部音频最多 3 段。"
+        },
+        "reference_audio_2": {
+          "help": "上传参考音频。含外部音频最多 3 段。"
+        },
+        "reference_audio_3": {
+          "help": "上传参考音频。含外部音频最多 3 段。"
+        },
+        "audio_sources": {
+          "help": "每行填写一个公开音频 URL。音视频和图片合计最多 12 项。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "騰訊 Vega Video 1.0 Lite 參考生影片",
+      "description": "根據起始圖、參考圖、影片或音訊生成 4 至 15 秒的影片。至少提供一項素材。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "480P": "480P",
+            "768P": "768P",
+            "1080P": "1080P",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "adaptive": "自動"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "storage_mode": {
+          "label": "來源影片儲存",
+          "choiceLabels": {
+            "Permanent": "永久保留",
+            "Temporary": "暫時保留"
+          }
+        },
+        "generate_mode": {
+          "label": "生成模式",
+          "choiceLabels": {
+            "Standard": "標準",
+            "Fast": "快速",
+            "StandardMovie": "電影"
+          }
+        },
+        "quality_mode": {
+          "label": "品質模式",
+          "choiceLabels": {
+            "Standard": "標準",
+            "Fast": "快速",
+            "SuperFast": "極速"
+          }
+        },
+        "enhance_prompt": {
+          "label": "提示詞增強"
+        },
+        "moderation_mode": {
+          "label": "內容審核級別",
+          "choiceLabels": {
+            "Moderation_L0": "L0",
+            "Moderation_L1": "L1",
+            "Moderation_L2": "L2"
+          }
+        },
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "first_frame_source": {
+          "label": "起始圖來源"
+        },
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "reference_image_4": {
+          "label": "參考圖 4"
+        },
+        "reference_image_5": {
+          "label": "參考圖 5"
+        },
+        "reference_image_6": {
+          "label": "參考圖 6"
+        },
+        "reference_image_7": {
+          "label": "參考圖 7"
+        },
+        "reference_image_8": {
+          "label": "參考圖 8"
+        },
+        "reference_image_9": {
+          "label": "參考圖 9"
+        },
+        "image_sources": {
+          "label": "參考圖來源"
+        },
+        "reference_video_1": {
+          "label": "參考影片 1"
+        },
+        "reference_video_2": {
+          "label": "參考影片 2"
+        },
+        "reference_video_3": {
+          "label": "參考影片 3"
+        },
+        "video_sources": {
+          "label": "參考影片 URL"
+        },
+        "reference_audio_1": {
+          "label": "參考音訊 1"
+        },
+        "reference_audio_2": {
+          "label": "參考音訊 2"
+        },
+        "reference_audio_3": {
+          "label": "參考音訊 3"
+        },
+        "audio_sources": {
+          "label": "參考音訊網址"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳起始圖或在進階區填寫來源。每張最多 30 MB。"
+        },
+        "reference_image_1": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 30 MB。含起始圖最多 9 張。"
+        },
+        "prompt": {
+          "help": "描述主體、場景、動作和鏡頭。最多 7,000 字元。"
+        },
+        "duration": {
+          "help": "選擇 4 至 15 秒。預設 5 秒。"
+        },
+        "resolution": {
+          "help": "選擇輸出解析度。預設 480P。"
+        },
+        "aspect_ratio": {
+          "help": "選擇輸出寬高比，或選擇自動讓模型決定比例。預設 16:9。"
+        },
+        "generate_audio": {
+          "help": "隨影片生成搭配的聲音。預設開啟。"
+        },
+        "storage_mode": {
+          "help": "選擇騰訊雲點播中來源影片的保留方式。預設暫時保留。"
+        },
+        "generate_mode": {
+          "help": "選擇騰訊生成模式。預設標準。"
+        },
+        "quality_mode": {
+          "help": "選擇騰訊影片品質模式。預設標準。"
+        },
+        "enhance_prompt": {
+          "help": "由模型在生成前擴寫提示詞。預設關閉。"
+        },
+        "moderation_mode": {
+          "help": "選擇騰訊內容審核級別。預設 L1。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個公開圖片 URL、Base64 資料網址或純 Base64。"
+        },
+        "reference_image_2": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 30 MB。含起始圖最多 9 張。"
+        },
+        "reference_image_3": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 30 MB。含起始圖最多 9 張。"
+        },
+        "reference_image_4": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 30 MB。含起始圖最多 9 張。"
+        },
+        "reference_image_5": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 30 MB。含起始圖最多 9 張。"
+        },
+        "reference_image_6": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 30 MB。含起始圖最多 9 張。"
+        },
+        "reference_image_7": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 30 MB。含起始圖最多 9 張。"
+        },
+        "reference_image_8": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 30 MB。含起始圖最多 9 張。"
+        },
+        "reference_image_9": {
+          "help": "上傳 JPEG、PNG 或 WebP，每張最多 30 MB。含起始圖最多 9 張。"
+        },
+        "image_sources": {
+          "help": "每行填寫一個公開圖片網址或 Base64。圖片含上傳欄位和起始圖共最多 9 張。"
+        },
+        "reference_video_1": {
+          "help": "上傳參考影片。含外部影片最多 3 段。"
+        },
+        "reference_video_2": {
+          "help": "上傳參考影片。含外部影片最多 3 段。"
+        },
+        "reference_video_3": {
+          "help": "上傳參考影片。含外部影片最多 3 段。"
+        },
+        "video_sources": {
+          "help": "每行填寫一個公開影片網址。音訊、影片和圖片合計最多 12 項。"
+        },
+        "reference_audio_1": {
+          "help": "上傳參考音訊。含外部音訊最多 3 段。"
+        },
+        "reference_audio_2": {
+          "help": "上傳參考音訊。含外部音訊最多 3 段。"
+        },
+        "reference_audio_3": {
+          "help": "上傳參考音訊。含外部音訊最多 3 段。"
+        },
+        "audio_sources": {
+          "help": "每行填寫一個公開音訊網址。音訊、影片和圖片合計最多 12 項。"
+        }
+      }
+    },
+    "en": {
+      "name": "Tencent Vega Video 1.0 Lite Reference to Video",
+      "description": "Generate a four- to fifteen-second video using a starting image, reference images, video or audio. Provide at least one input.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "480P": "480P",
+            "768P": "768P",
+            "1080P": "1080P",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "adaptive": "Adaptive"
+          }
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "storage_mode": {
+          "label": "Source video storage",
+          "choiceLabels": {
+            "Permanent": "Permanent",
+            "Temporary": "Temporary"
+          }
+        },
+        "generate_mode": {
+          "label": "Generation mode",
+          "choiceLabels": {
+            "Standard": "Standard",
+            "Fast": "Fast",
+            "StandardMovie": "Movie"
+          }
+        },
+        "quality_mode": {
+          "label": "Quality mode",
+          "choiceLabels": {
+            "Standard": "Standard",
+            "Fast": "Fast",
+            "SuperFast": "Super fast"
+          }
+        },
+        "enhance_prompt": {
+          "label": "Enhance prompt"
+        },
+        "moderation_mode": {
+          "label": "Content moderation level",
+          "choiceLabels": {
+            "Moderation_L0": "L0",
+            "Moderation_L1": "L1",
+            "Moderation_L2": "L2"
+          }
+        },
+        "first_frame": {
+          "label": "Starting image"
+        },
+        "first_frame_source": {
+          "label": "Starting image source"
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        },
+        "reference_image_5": {
+          "label": "Reference image 5"
+        },
+        "reference_image_6": {
+          "label": "Reference image 6"
+        },
+        "reference_image_7": {
+          "label": "Reference image 7"
+        },
+        "reference_image_8": {
+          "label": "Reference image 8"
+        },
+        "reference_image_9": {
+          "label": "Reference image 9"
+        },
+        "image_sources": {
+          "label": "Reference image sources"
+        },
+        "reference_video_1": {
+          "label": "Reference video 1"
+        },
+        "reference_video_2": {
+          "label": "Reference video 2"
+        },
+        "reference_video_3": {
+          "label": "Reference video 3"
+        },
+        "video_sources": {
+          "label": "Reference video URLs"
+        },
+        "reference_audio_1": {
+          "label": "Reference audio 1"
+        },
+        "reference_audio_2": {
+          "label": "Reference audio 2"
+        },
+        "reference_audio_3": {
+          "label": "Reference audio 3"
+        },
+        "audio_sources": {
+          "label": "Reference audio URLs"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload a starting image up to 30 MB or enter its source in advanced settings."
+        },
+        "reference_image_1": {
+          "help": "Upload a JPEG, PNG or WebP up to 30 MB. Use up to nine images including the starting image."
+        },
+        "prompt": {
+          "help": "Describe the subject, scene, action and camera in up to 7,000 characters."
+        },
+        "duration": {
+          "help": "Choose 4 to 15 seconds. The default is 5."
+        },
+        "resolution": {
+          "help": "Choose the output resolution. The default is 480P."
+        },
+        "aspect_ratio": {
+          "help": "Choose an output aspect ratio or let the model choose. The default is 16:9."
+        },
+        "generate_audio": {
+          "help": "Generate a soundtrack with the video. On by default."
+        },
+        "storage_mode": {
+          "help": "Choose how Tencent Cloud VOD retains the source video. The default is temporary."
+        },
+        "generate_mode": {
+          "help": "Choose the Tencent generation mode. The default is Standard."
+        },
+        "quality_mode": {
+          "help": "Choose the Tencent video quality mode. The default is Standard."
+        },
+        "enhance_prompt": {
+          "help": "Let the model expand the prompt before generation. Off by default."
+        },
+        "moderation_mode": {
+          "help": "Choose the Tencent content moderation level. The default is L1."
+        },
+        "first_frame_source": {
+          "help": "Enter one public image URL, Base64 data URL, or raw Base64 image."
+        },
+        "reference_image_2": {
+          "help": "Upload a JPEG, PNG or WebP up to 30 MB. Use up to nine images including the starting image."
+        },
+        "reference_image_3": {
+          "help": "Upload a JPEG, PNG or WebP up to 30 MB. Use up to nine images including the starting image."
+        },
+        "reference_image_4": {
+          "help": "Upload a JPEG, PNG or WebP up to 30 MB. Use up to nine images including the starting image."
+        },
+        "reference_image_5": {
+          "help": "Upload a JPEG, PNG or WebP up to 30 MB. Use up to nine images including the starting image."
+        },
+        "reference_image_6": {
+          "help": "Upload a JPEG, PNG or WebP up to 30 MB. Use up to nine images including the starting image."
+        },
+        "reference_image_7": {
+          "help": "Upload a JPEG, PNG or WebP up to 30 MB. Use up to nine images including the starting image."
+        },
+        "reference_image_8": {
+          "help": "Upload a JPEG, PNG or WebP up to 30 MB. Use up to nine images including the starting image."
+        },
+        "reference_image_9": {
+          "help": "Upload a JPEG, PNG or WebP up to 30 MB. Use up to nine images including the starting image."
+        },
+        "image_sources": {
+          "help": "Enter one public image URL or Base64 image per line. Use up to nine images including uploads and the starting image."
+        },
+        "reference_video_1": {
+          "help": "Upload a reference video. Use up to three clips including external sources."
+        },
+        "reference_video_2": {
+          "help": "Upload a reference video. Use up to three clips including external sources."
+        },
+        "reference_video_3": {
+          "help": "Upload a reference video. Use up to three clips including external sources."
+        },
+        "video_sources": {
+          "help": "Enter one public video URL per line. Use up to twelve images, videos and audio clips in total."
+        },
+        "reference_audio_1": {
+          "help": "Upload a reference audio clip. Use up to three clips including external sources."
+        },
+        "reference_audio_2": {
+          "help": "Upload a reference audio clip. Use up to three clips including external sources."
+        },
+        "reference_audio_3": {
+          "help": "Upload a reference audio clip. Use up to three clips including external sources."
+        },
+        "audio_sources": {
+          "help": "Enter one public audio URL per line. Use up to twelve images, videos and audio clips in total."
+        }
+      }
+    },
+    "ja": {
+      "name": "Tencent Vega Video 1.0 Lite 素材参照から動画",
+      "description": "開始画像、参照画像、動画または音声から 4〜15 秒の動画を生成します。素材を 1 点以上指定してください。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "動画の長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "480P": "480P",
+            "768P": "768P",
+            "1080P": "1080P",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "adaptive": "自動"
+          }
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "storage_mode": {
+          "label": "ソース動画の保存",
+          "choiceLabels": {
+            "Permanent": "永久保存",
+            "Temporary": "一時保存"
+          }
+        },
+        "generate_mode": {
+          "label": "生成モード",
+          "choiceLabels": {
+            "Standard": "標準",
+            "Fast": "高速",
+            "StandardMovie": "映画"
+          }
+        },
+        "quality_mode": {
+          "label": "品質モード",
+          "choiceLabels": {
+            "Standard": "標準",
+            "Fast": "高速",
+            "SuperFast": "超高速"
+          }
+        },
+        "enhance_prompt": {
+          "label": "プロンプト強化"
+        },
+        "moderation_mode": {
+          "label": "コンテンツ審査レベル",
+          "choiceLabels": {
+            "Moderation_L0": "L0",
+            "Moderation_L1": "L1",
+            "Moderation_L2": "L2"
+          }
+        },
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "first_frame_source": {
+          "label": "開始画像のソース"
+        },
+        "reference_image_1": {
+          "label": "参照画像 1"
+        },
+        "reference_image_2": {
+          "label": "参照画像 2"
+        },
+        "reference_image_3": {
+          "label": "参照画像 3"
+        },
+        "reference_image_4": {
+          "label": "参照画像 4"
+        },
+        "reference_image_5": {
+          "label": "参照画像 5"
+        },
+        "reference_image_6": {
+          "label": "参照画像 6"
+        },
+        "reference_image_7": {
+          "label": "参照画像 7"
+        },
+        "reference_image_8": {
+          "label": "参照画像 8"
+        },
+        "reference_image_9": {
+          "label": "参照画像 9"
+        },
+        "image_sources": {
+          "label": "参照画像のソース"
+        },
+        "reference_video_1": {
+          "label": "参照動画 1"
+        },
+        "reference_video_2": {
+          "label": "参照動画 2"
+        },
+        "reference_video_3": {
+          "label": "参照動画 3"
+        },
+        "video_sources": {
+          "label": "参照動画の URL"
+        },
+        "reference_audio_1": {
+          "label": "参照音声 1"
+        },
+        "reference_audio_2": {
+          "label": "参照音声 2"
+        },
+        "reference_audio_3": {
+          "label": "参照音声 3"
+        },
+        "audio_sources": {
+          "label": "参照音声の URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "最大 30 MB の開始画像をアップロードするか、詳細設定でソースを指定します。"
+        },
+        "reference_image_1": {
+          "help": "最大 30 MB の JPEG、PNG または WebP をアップロードします。開始画像を含めて最大 9 枚です。"
+        },
+        "prompt": {
+          "help": "被写体、場面、動き、カメラワークを 7,000 文字以内で記述します。"
+        },
+        "duration": {
+          "help": "4〜15 秒を選択します。既定は 5 秒です。"
+        },
+        "resolution": {
+          "help": "出力解像度を選択します。既定は 480P です。"
+        },
+        "aspect_ratio": {
+          "help": "出力の縦横比を選ぶか、モデルに任せます。既定は 16:9 です。"
+        },
+        "generate_audio": {
+          "help": "動画と一緒に音声を生成します。既定はオンです。"
+        },
+        "storage_mode": {
+          "help": "Tencent Cloud VOD でのソース動画の保持方法を選択します。既定は一時保存です。"
+        },
+        "generate_mode": {
+          "help": "Tencent の生成モードを選択します。既定は標準です。"
+        },
+        "quality_mode": {
+          "help": "Tencent の動画品質モードを選択します。既定は標準です。"
+        },
+        "enhance_prompt": {
+          "help": "生成前にモデルがプロンプトを補強します。既定はオフです。"
+        },
+        "moderation_mode": {
+          "help": "Tencent のコンテンツ審査レベルを選択します。既定は L1 です。"
+        },
+        "first_frame_source": {
+          "help": "公開画像 URL、Base64 データ URL、または Base64 画像を一つ入力します。"
+        },
+        "reference_image_2": {
+          "help": "最大 30 MB の JPEG、PNG または WebP をアップロードします。開始画像を含めて最大 9 枚です。"
+        },
+        "reference_image_3": {
+          "help": "最大 30 MB の JPEG、PNG または WebP をアップロードします。開始画像を含めて最大 9 枚です。"
+        },
+        "reference_image_4": {
+          "help": "最大 30 MB の JPEG、PNG または WebP をアップロードします。開始画像を含めて最大 9 枚です。"
+        },
+        "reference_image_5": {
+          "help": "最大 30 MB の JPEG、PNG または WebP をアップロードします。開始画像を含めて最大 9 枚です。"
+        },
+        "reference_image_6": {
+          "help": "最大 30 MB の JPEG、PNG または WebP をアップロードします。開始画像を含めて最大 9 枚です。"
+        },
+        "reference_image_7": {
+          "help": "最大 30 MB の JPEG、PNG または WebP をアップロードします。開始画像を含めて最大 9 枚です。"
+        },
+        "reference_image_8": {
+          "help": "最大 30 MB の JPEG、PNG または WebP をアップロードします。開始画像を含めて最大 9 枚です。"
+        },
+        "reference_image_9": {
+          "help": "最大 30 MB の JPEG、PNG または WebP をアップロードします。開始画像を含めて最大 9 枚です。"
+        },
+        "image_sources": {
+          "help": "公開画像 URL または Base64 画像を 1 行に 1 つ入力します。アップロード画像と開始画像を含めて最大 9 枚です。"
+        },
+        "reference_video_1": {
+          "help": "参照動画をアップロードします。外部ソースを含めて最大 3 本です。"
+        },
+        "reference_video_2": {
+          "help": "参照動画をアップロードします。外部ソースを含めて最大 3 本です。"
+        },
+        "reference_video_3": {
+          "help": "参照動画をアップロードします。外部ソースを含めて最大 3 本です。"
+        },
+        "video_sources": {
+          "help": "公開動画 URL を 1 行に 1 つ入力します。画像、動画、音声を合わせて最大 12 点です。"
+        },
+        "reference_audio_1": {
+          "help": "参照音声をアップロードします。外部ソースを含めて最大 3 本です。"
+        },
+        "reference_audio_2": {
+          "help": "参照音声をアップロードします。外部ソースを含めて最大 3 本です。"
+        },
+        "reference_audio_3": {
+          "help": "参照音声をアップロードします。外部ソースを含めて最大 3 本です。"
+        },
+        "audio_sources": {
+          "help": "公開音声 URL を 1 行に 1 つ入力します。画像、動画、音声を合わせて最大 12 点です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Tencent Vega Video 1.0 Lite 참조 자료에서 동영상",
+      "description": "시작 이미지, 참조 이미지, 동영상 또는 오디오로 4~15초 동영상을 생성합니다. 자료를 하나 이상 제공하세요.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "동영상 길이(초)"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "480P": "480P",
+            "768P": "768P",
+            "1080P": "1080P",
+            "2K": "2K",
+            "4K": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "adaptive": "자동"
+          }
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "storage_mode": {
+          "label": "원본 동영상 저장",
+          "choiceLabels": {
+            "Permanent": "영구 보관",
+            "Temporary": "임시 보관"
+          }
+        },
+        "generate_mode": {
+          "label": "생성 모드",
+          "choiceLabels": {
+            "Standard": "표준",
+            "Fast": "고속",
+            "StandardMovie": "영화"
+          }
+        },
+        "quality_mode": {
+          "label": "품질 모드",
+          "choiceLabels": {
+            "Standard": "표준",
+            "Fast": "고속",
+            "SuperFast": "초고속"
+          }
+        },
+        "enhance_prompt": {
+          "label": "프롬프트 강화"
+        },
+        "moderation_mode": {
+          "label": "콘텐츠 검토 수준",
+          "choiceLabels": {
+            "Moderation_L0": "L0",
+            "Moderation_L1": "L1",
+            "Moderation_L2": "L2"
+          }
+        },
+        "first_frame": {
+          "label": "시작 이미지"
+        },
+        "first_frame_source": {
+          "label": "시작 이미지 소스"
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_image_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_image_6": {
+          "label": "참조 이미지 6"
+        },
+        "reference_image_7": {
+          "label": "참조 이미지 7"
+        },
+        "reference_image_8": {
+          "label": "참조 이미지 8"
+        },
+        "reference_image_9": {
+          "label": "참조 이미지 9"
+        },
+        "image_sources": {
+          "label": "참조 이미지 소스"
+        },
+        "reference_video_1": {
+          "label": "참조 동영상 1"
+        },
+        "reference_video_2": {
+          "label": "참조 동영상 2"
+        },
+        "reference_video_3": {
+          "label": "참조 동영상 3"
+        },
+        "video_sources": {
+          "label": "참조 동영상 URL"
+        },
+        "reference_audio_1": {
+          "label": "참조 오디오 1"
+        },
+        "reference_audio_2": {
+          "label": "참조 오디오 2"
+        },
+        "reference_audio_3": {
+          "label": "참조 오디오 3"
+        },
+        "audio_sources": {
+          "label": "참조 오디오 URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "최대 30 MB의 시작 이미지를 업로드하거나 고급 설정에 소스를 입력하세요."
+        },
+        "reference_image_1": {
+          "help": "최대 30 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 시작 이미지를 포함해 최대 9장입니다."
+        },
+        "prompt": {
+          "help": "피사체, 장면, 움직임과 카메라 동작을 최대 7,000자로 설명하세요."
+        },
+        "duration": {
+          "help": "4~15초를 선택하세요. 기본값은 5초입니다."
+        },
+        "resolution": {
+          "help": "출력 해상도를 선택하세요. 기본값은 480P입니다."
+        },
+        "aspect_ratio": {
+          "help": "출력 화면 비율을 선택하거나 모델이 결정하게 하세요. 기본값은 16:9입니다."
+        },
+        "generate_audio": {
+          "help": "동영상과 함께 사운드를 생성합니다. 기본값은 켜짐입니다."
+        },
+        "storage_mode": {
+          "help": "Tencent Cloud VOD의 원본 동영상 보관 방식을 선택하세요. 기본값은 임시 보관입니다."
+        },
+        "generate_mode": {
+          "help": "Tencent 생성 모드를 선택하세요. 기본값은 표준입니다."
+        },
+        "quality_mode": {
+          "help": "Tencent 동영상 품질 모드를 선택하세요. 기본값은 표준입니다."
+        },
+        "enhance_prompt": {
+          "help": "생성하기 전에 모델이 프롬프트를 보강합니다. 기본값은 꺼짐입니다."
+        },
+        "moderation_mode": {
+          "help": "Tencent 콘텐츠 검토 수준을 선택하세요. 기본값은 L1입니다."
+        },
+        "first_frame_source": {
+          "help": "공개 이미지 URL, Base64 데이터 URL 또는 Base64 이미지 하나를 입력하세요."
+        },
+        "reference_image_2": {
+          "help": "최대 30 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 시작 이미지를 포함해 최대 9장입니다."
+        },
+        "reference_image_3": {
+          "help": "최대 30 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 시작 이미지를 포함해 최대 9장입니다."
+        },
+        "reference_image_4": {
+          "help": "최대 30 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 시작 이미지를 포함해 최대 9장입니다."
+        },
+        "reference_image_5": {
+          "help": "최대 30 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 시작 이미지를 포함해 최대 9장입니다."
+        },
+        "reference_image_6": {
+          "help": "최대 30 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 시작 이미지를 포함해 최대 9장입니다."
+        },
+        "reference_image_7": {
+          "help": "최대 30 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 시작 이미지를 포함해 최대 9장입니다."
+        },
+        "reference_image_8": {
+          "help": "최대 30 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 시작 이미지를 포함해 최대 9장입니다."
+        },
+        "reference_image_9": {
+          "help": "최대 30 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 시작 이미지를 포함해 최대 9장입니다."
+        },
+        "image_sources": {
+          "help": "한 줄에 공개 이미지 URL 또는 Base64 이미지 하나를 입력하세요. 업로드한 이미지와 시작 이미지를 포함해 최대 9장입니다."
+        },
+        "reference_video_1": {
+          "help": "참조 동영상을 업로드하세요. 외부 소스를 포함해 최대 3개입니다."
+        },
+        "reference_video_2": {
+          "help": "참조 동영상을 업로드하세요. 외부 소스를 포함해 최대 3개입니다."
+        },
+        "reference_video_3": {
+          "help": "참조 동영상을 업로드하세요. 외부 소스를 포함해 최대 3개입니다."
+        },
+        "video_sources": {
+          "help": "한 줄에 공개 동영상 URL 하나를 입력하세요. 이미지, 동영상, 오디오는 합쳐서 최대 12개입니다."
+        },
+        "reference_audio_1": {
+          "help": "참조 오디오를 업로드하세요. 외부 소스를 포함해 최대 3개입니다."
+        },
+        "reference_audio_2": {
+          "help": "참조 오디오를 업로드하세요. 외부 소스를 포함해 최대 3개입니다."
+        },
+        "reference_audio_3": {
+          "help": "참조 오디오를 업로드하세요. 외부 소스를 포함해 최대 3개입니다."
+        },
+        "audio_sources": {
+          "help": "한 줄에 공개 오디오 URL 하나를 입력하세요. 이미지, 동영상, 오디오는 합쳐서 최대 12개입니다."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,332 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-alibaba-happyhorse-1-0-image-to-video",
+  "name": "HappyHorse 1.0 图生视频",
+  "description": "用起始图生成视频，可用提示词引导动作、风格和场景。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 2500,
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1080p",
+      "optional": true,
+      "choices": ["720p", "1080p"]
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 5,
+      "optional": true,
+      "minimum": "3",
+      "maximum": "15"
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true,
+      "minimum": "-1",
+      "maximum": "2147483647"
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "alibaba/happyhorse-1.0/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "duration": "duration",
+        "seed": "seed"
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "max_bytes": 10000000,
+          "content_types": ["image/jpeg", "image/png", "image/bmp", "image/webp"],
+          "external_urls_only": true,
+          "image_bounds": {
+            "min_side": 300,
+            "max_aspect_ratio": 2.5
+          }
+        }
+      },
+      "omit_blank_parameters": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "HappyHorse 1.0 图生视频",
+      "description": "用起始图生成视频，可用提示词引导动作、风格和场景。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "first_frame": {
+          "label": "起始图"
+        },
+        "first_frame_source": {
+          "label": "起始图地址"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传 JPEG、PNG、BMP 或 WebP。短边至少 300 像素，长短边比例最多 2.5:1，每张最多 10 MB。"
+        },
+        "prompt": {
+          "help": "可选。描述画面如何运动、场景如何变化，最多 2,500 字符。"
+        },
+        "resolution": {
+          "help": "选择 720p 或 1080p。默认 1080p。"
+        },
+        "duration": {
+          "help": "输入 3 至 15 的整数，默认 5 秒。"
+        },
+        "seed": {
+          "help": "输入 -1 使用随机种子，或指定 0 至 2147483647 的整数。"
+        },
+        "first_frame_source": {
+          "help": "填写一个公开图片 URL，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "HappyHorse 1.0 圖生影片",
+      "description": "用起始圖產生影片，可用提示詞引導動作、風格與場景。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "first_frame_source": {
+          "label": "起始圖網址"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳 JPEG、PNG、BMP 或 WebP。短邊至少 300 像素，長短邊比例最多 2.5:1，每張最多 10 MB。"
+        },
+        "prompt": {
+          "help": "選填。描述畫面如何運動、場景如何變化，最多 2,500 字元。"
+        },
+        "resolution": {
+          "help": "選擇 720p 或 1080p。預設為 1080p。"
+        },
+        "duration": {
+          "help": "輸入 3 至 15 的整數，預設為 5 秒。"
+        },
+        "seed": {
+          "help": "輸入 -1 使用隨機種子，或指定 0 至 2147483647 的整數。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個公開圖片網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "HappyHorse 1.0 Image to Video",
+      "description": "Animate an opening image into a video with an optional prompt for motion, style, and scene direction.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "first_frame": {
+          "label": "Opening image"
+        },
+        "first_frame_source": {
+          "label": "Opening image URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload JPEG, PNG, BMP, or WebP. The shorter side must be at least 300 pixels, the longer side at most 2.5 times the shorter, and each image up to 10 MB."
+        },
+        "prompt": {
+          "help": "Optionally describe the motion and changes in the scene. Use up to 2,500 characters."
+        },
+        "resolution": {
+          "help": "Choose 720p or 1080p. The default is 1080p."
+        },
+        "duration": {
+          "help": "Enter a whole number from 3 to 15. The default is 5 seconds."
+        },
+        "seed": {
+          "help": "Enter -1 for a random seed or use an integer from 0 to 2147483647."
+        },
+        "first_frame_source": {
+          "help": "Enter one public image URL in place of an upload."
+        }
+      }
+    },
+    "ja": {
+      "name": "HappyHorse 1.0 画像から動画",
+      "description": "開始画像から動画を作成します。任意のプロンプトで動き、スタイル、場面を指示できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "first_frame_source": {
+          "label": "開始画像のURL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "JPEG、PNG、BMP、またはWebPをアップロードします。短辺300ピクセル以上、長辺と短辺の比は最大2.5:1、各10 MBまでです。"
+        },
+        "prompt": {
+          "help": "動きや場面の変化を任意で記述します。最大2,500文字です。"
+        },
+        "resolution": {
+          "help": "720pまたは1080pを選択します。既定値は1080pです。"
+        },
+        "duration": {
+          "help": "3〜15の整数を入力します。既定値は5秒です。"
+        },
+        "seed": {
+          "help": "ランダムなシードには-1を入力します。固定する場合は0〜2147483647の整数を指定します。"
+        },
+        "first_frame_source": {
+          "help": "アップロードの代わりに公開画像のURLを1件入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "HappyHorse 1.0 이미지로 동영상 생성",
+      "description": "첫 이미지로 동영상을 만들고 선택적인 프롬프트로 동작, 스타일과 장면을 지정합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "first_frame": {
+          "label": "첫 이미지"
+        },
+        "first_frame_source": {
+          "label": "첫 이미지 URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "JPEG, PNG, BMP 또는 WebP를 업로드합니다. 짧은 변은 300픽셀 이상이며 긴 변과 짧은 변의 비율은 최대 2.5:1, 이미지당 최대 10 MB입니다."
+        },
+        "prompt": {
+          "help": "동작과 장면 변화를 선택적으로 설명합니다. 최대 2,500자입니다."
+        },
+        "resolution": {
+          "help": "720p 또는 1080p를 선택합니다. 기본값은 1080p입니다."
+        },
+        "duration": {
+          "help": "3에서 15 사이의 정수를 입력합니다. 기본값은 5초입니다."
+        },
+        "seed": {
+          "help": "무작위 시드는 -1을 입력합니다. 고정하려면 0에서 2147483647 사이의 정수를 지정합니다."
+        },
+        "first_frame_source": {
+          "help": "업로드 대신 공개 이미지 URL을 하나 입력합니다."
+        }
+      }
+    }
+  }
+}

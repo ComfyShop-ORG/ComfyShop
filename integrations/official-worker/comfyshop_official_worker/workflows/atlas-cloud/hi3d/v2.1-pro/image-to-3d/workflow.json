@@ -1,0 +1,536 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "hi3d-v21-pro-image-to-3d",
+  "name": "HI3D v2.1 Pro 图生 3D",
+  "description": "从一张参考图或最多四个视角生成带纹理的 3D 模型，通过精细重建保留表面细节。",
+  "category": "3d",
+  "fields": [
+    {
+      "name": "reference_image",
+      "kind": "image"
+    },
+    {
+      "name": "view_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "view_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "view_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "default": "glb",
+      "choices": ["glb", "obj", "stl", "fbx", "usdz", "3mf"]
+    },
+    {
+      "name": "texture",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    },
+    {
+      "name": "view_slots",
+      "kind": "string",
+      "optional": true
+    },
+    {
+      "name": "pbr",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    },
+    {
+      "name": "shading",
+      "kind": "number",
+      "optional": true,
+      "default": 0.5,
+      "minimum": "0",
+      "maximum": "1"
+    },
+    {
+      "name": "remove_background",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    },
+    {
+      "name": "target_faces",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "100000",
+      "maximum": "5000000",
+      "step": "1"
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "reference_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "view_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "view_2",
+      "section": "default"
+    },
+    {
+      "fieldId": "view_3",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "texture",
+      "section": "default"
+    },
+    {
+      "fieldId": "view_slots",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "pbr",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "shading",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "remove_background",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "target_faces",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "3d",
+    "additionalOutputKinds": ["image"],
+    "config": {
+      "operation": "image",
+      "model": "hi3d/v2.1-pro/image-to-3d",
+      "parameters": {
+        "output_format": "output_format",
+        "should_texture": "texture",
+        "multi_images_bit": "view_slots",
+        "enable_pbr": "pbr",
+        "shading": "shading",
+        "rmbg": "remove_background",
+        "target_polycount": "target_faces"
+      },
+      "enabled_by": {
+        "enable_pbr": "should_texture",
+        "shading": "should_texture"
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "content_types": ["image/png", "image/jpeg", "image/webp"],
+          "max_bytes": 20000000,
+          "fields": ["reference_image"],
+          "min_items": 1
+        },
+        "reference_images": {
+          "kind": "image",
+          "content_types": ["image/png", "image/jpeg", "image/webp"],
+          "max_bytes": 20000000,
+          "array": true,
+          "fields": ["view_1", "view_2", "view_3"]
+        }
+      },
+      "media_bitmask": {
+        "parameter": "multi_images_bit",
+        "media": ["image", "reference_images"],
+        "width": 4
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "HI3D v2.1 Pro 图生 3D",
+      "description": "从一张参考图或最多四个视角生成带纹理的 3D 模型，通过精细重建保留表面细节。",
+      "fields": {
+        "reference_image": {
+          "label": "主参考图"
+        },
+        "view_1": {
+          "label": "补充视图 1"
+        },
+        "view_2": {
+          "label": "补充视图 2"
+        },
+        "view_3": {
+          "label": "补充视图 3"
+        },
+        "output_format": {
+          "label": "导出格式"
+        },
+        "texture": {
+          "label": "生成纹理"
+        },
+        "view_slots": {
+          "label": "视图位置编码"
+        },
+        "pbr": {
+          "label": "生成 PBR 材质"
+        },
+        "shading": {
+          "label": "去光照强度"
+        },
+        "remove_background": {
+          "label": "移除背景"
+        },
+        "target_faces": {
+          "label": "目标面数"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "上传 JPEG、PNG 或 WebP，单张最多 20 MB。"
+        },
+        "view_1": {
+          "help": "选填。同一物体的其他角度，按视图位置编码中 1 的顺序填写。"
+        },
+        "view_2": {
+          "help": "选填。同一物体的另一视角，每张最多 20 MB。"
+        },
+        "view_3": {
+          "help": "选填。最多使用主图加三张补充视图。"
+        },
+        "output_format": {
+          "help": "GLB 可以在线预览，其他格式可下载原件。默认 GLB。"
+        },
+        "texture": {
+          "help": "关闭后生成纯几何网格。默认开启。"
+        },
+        "view_slots": {
+          "help": "按前、后、左、右填写 4 位 0 或 1。多图时 1 的个数等于图片总数。留空从首位依次填充。"
+        },
+        "pbr": {
+          "help": "开启纹理时可生成金属度、粗糙度和法线贴图。默认开启。"
+        },
+        "shading": {
+          "help": "开启纹理时生效。0 保留原图光照，1 最大程度移除光照。默认 0.5。"
+        },
+        "remove_background": {
+          "help": "默认移除参考图背景。已抠图时可关闭。"
+        },
+        "target_faces": {
+          "help": "留空由模型决定。可设置 100000 至 5000000 个面。推荐 2000000 个面。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "HI3D v2.1 Pro 圖生 3D",
+      "description": "從一張參考圖或最多四個視角產生含紋理的 3D 模型，透過精細重建保留表面細節。",
+      "fields": {
+        "reference_image": {
+          "label": "主要參考圖"
+        },
+        "view_1": {
+          "label": "補充視圖 1"
+        },
+        "view_2": {
+          "label": "補充視圖 2"
+        },
+        "view_3": {
+          "label": "補充視圖 3"
+        },
+        "output_format": {
+          "label": "匯出格式"
+        },
+        "texture": {
+          "label": "產生紋理"
+        },
+        "view_slots": {
+          "label": "視圖位置編碼"
+        },
+        "pbr": {
+          "label": "產生 PBR 材質"
+        },
+        "shading": {
+          "label": "去光照強度"
+        },
+        "remove_background": {
+          "label": "移除背景"
+        },
+        "target_faces": {
+          "label": "目標面數"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "上傳 JPEG、PNG 或 WebP，單張最多 20 MB。"
+        },
+        "view_1": {
+          "help": "選填。同一物件的其他角度，依視圖位置編碼中 1 的順序填寫。"
+        },
+        "view_2": {
+          "help": "選填。同一物件的另一個視角，每張最多 20 MB。"
+        },
+        "view_3": {
+          "help": "選填。可使用主圖加上最多三張補充視圖。"
+        },
+        "output_format": {
+          "help": "GLB 可線上預覽，其他格式可下載原始檔。預設為 GLB。"
+        },
+        "texture": {
+          "help": "關閉後產生純幾何網格。預設開啟。"
+        },
+        "view_slots": {
+          "help": "依前、後、左、右填寫 4 位 0 或 1。多圖時 1 的數量等於圖片總數。留空會從首位依序填入。"
+        },
+        "pbr": {
+          "help": "開啟紋理時可產生金屬度、粗糙度和法線貼圖。預設開啟。"
+        },
+        "shading": {
+          "help": "開啟紋理時生效。0 保留原圖光照，1 盡量移除光照。預設為 0.5。"
+        },
+        "remove_background": {
+          "help": "預設移除參考圖背景。已去背時可關閉。"
+        },
+        "target_faces": {
+          "help": "留空由模型決定。可設定 100000 至 5000000 個面。建議 2000000 個面。"
+        }
+      }
+    },
+    "en": {
+      "name": "HI3D v2.1 Pro Image to 3D",
+      "description": "Generate a textured 3D model from one image or up to four views, with refined surface detail.",
+      "fields": {
+        "reference_image": {
+          "label": "Main reference image"
+        },
+        "view_1": {
+          "label": "Additional view 1"
+        },
+        "view_2": {
+          "label": "Additional view 2"
+        },
+        "view_3": {
+          "label": "Additional view 3"
+        },
+        "output_format": {
+          "label": "Export format"
+        },
+        "texture": {
+          "label": "Generate textures"
+        },
+        "view_slots": {
+          "label": "View slot mask"
+        },
+        "pbr": {
+          "label": "Generate PBR materials"
+        },
+        "shading": {
+          "label": "De-lighting strength"
+        },
+        "remove_background": {
+          "label": "Remove background"
+        },
+        "target_faces": {
+          "label": "Target face count"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "Upload JPEG, PNG, or WebP up to 20 MB per image."
+        },
+        "view_1": {
+          "help": "Optional. Use another angle of the same object. Follow the order of the 1s in the view mask."
+        },
+        "view_2": {
+          "help": "Optional. Use another angle of the same object. Each image can be up to 20 MB."
+        },
+        "view_3": {
+          "help": "Optional. Use up to three additional views alongside the main image."
+        },
+        "output_format": {
+          "help": "Preview GLB online or download other formats. The default is GLB."
+        },
+        "texture": {
+          "help": "Turn off to generate a geometry-only mesh. On by default."
+        },
+        "view_slots": {
+          "help": "Enter four 0 or 1 digits for front, back, left, and right. For multiple views, use one 1 per image. Leave blank to fill from the first slot."
+        },
+        "pbr": {
+          "help": "With textures enabled, generate metallic, roughness, and normal maps. On by default."
+        },
+        "shading": {
+          "help": "Applies with textures enabled. At 0, keep the source lighting. At 1, remove it as fully as possible. The default is 0.5."
+        },
+        "remove_background": {
+          "help": "Remove the reference image background by default. Turn off for an image with the background already removed."
+        },
+        "target_faces": {
+          "help": "Leave blank to let the model choose. Set a target of 100000 to 5000000 faces. The recommended target is 2000000 faces."
+        }
+      }
+    },
+    "ja": {
+      "name": "HI3D v2.1 Pro 画像から 3D",
+      "description": "1 枚の参照画像または最大 4 つの視点から、表面の細部を保ったテクスチャ付き 3D モデルを生成します。",
+      "fields": {
+        "reference_image": {
+          "label": "メイン参照画像"
+        },
+        "view_1": {
+          "label": "追加ビュー 1"
+        },
+        "view_2": {
+          "label": "追加ビュー 2"
+        },
+        "view_3": {
+          "label": "追加ビュー 3"
+        },
+        "output_format": {
+          "label": "書き出し形式"
+        },
+        "texture": {
+          "label": "テクスチャを生成"
+        },
+        "view_slots": {
+          "label": "ビュー位置マスク"
+        },
+        "pbr": {
+          "label": "PBR マテリアルを生成"
+        },
+        "shading": {
+          "label": "照明除去の強度"
+        },
+        "remove_background": {
+          "label": "背景を削除"
+        },
+        "target_faces": {
+          "label": "目標面数"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "JPEG、PNG、WebP を 1 枚あたり 20 MB までアップロードできます。"
+        },
+        "view_1": {
+          "help": "任意。同じ物体を別の角度から撮影した画像を、ビュー位置マスクの 1 の順に指定します。"
+        },
+        "view_2": {
+          "help": "任意。同じ物体を別の角度から撮影した画像を指定します。各画像は 20 MB までです。"
+        },
+        "view_3": {
+          "help": "任意。メイン画像に加えて最大 3 枚の追加ビューを使えます。"
+        },
+        "output_format": {
+          "help": "GLB はオンラインでプレビューできます。他の形式は元ファイルをダウンロードできます。既定値は GLB です。"
+        },
+        "texture": {
+          "help": "無効にすると形状のみのメッシュを生成します。既定では有効です。"
+        },
+        "view_slots": {
+          "help": "正面、背面、左、右の順に 0 または 1 を 4 桁入力します。複数画像では画像数と 1 の数を一致させます。空欄では先頭から順に割り当てます。"
+        },
+        "pbr": {
+          "help": "テクスチャが有効な場合にメタリック、ラフネス、法線マップを生成できます。既定では有効です。"
+        },
+        "shading": {
+          "help": "テクスチャが有効なときに適用されます。0 は元の照明を維持し、1 は可能な限り除去します。既定値は 0.5 です。"
+        },
+        "remove_background": {
+          "help": "既定では参照画像の背景を削除します。背景を削除済みの場合は無効にできます。"
+        },
+        "target_faces": {
+          "help": "空欄ではモデルが選択します。100000～5000000 面の範囲で指定できます。 推奨値は 2000000 面です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "HI3D v2.1 Pro 이미지로 3D 생성",
+      "description": "참조 이미지 한 장 또는 최대 4개 시점으로 표면의 세부 특징을 살린 텍스처 3D 모델을 생성합니다.",
+      "fields": {
+        "reference_image": {
+          "label": "기본 참조 이미지"
+        },
+        "view_1": {
+          "label": "추가 시점 1"
+        },
+        "view_2": {
+          "label": "추가 시점 2"
+        },
+        "view_3": {
+          "label": "추가 시점 3"
+        },
+        "output_format": {
+          "label": "내보내기 형식"
+        },
+        "texture": {
+          "label": "텍스처 생성"
+        },
+        "view_slots": {
+          "label": "시점 위치 마스크"
+        },
+        "pbr": {
+          "label": "PBR 소재 생성"
+        },
+        "shading": {
+          "label": "조명 제거 강도"
+        },
+        "remove_background": {
+          "label": "배경 제거"
+        },
+        "target_faces": {
+          "label": "목표 면 수"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "JPEG, PNG 또는 WebP를 이미지당 최대 20 MB까지 업로드하세요."
+        },
+        "view_1": {
+          "help": "선택 사항입니다. 같은 물체의 다른 각도 이미지를 시점 위치 마스크에서 1이 나온 순서대로 지정하세요."
+        },
+        "view_2": {
+          "help": "선택 사항입니다. 같은 물체의 다른 각도 이미지를 지정하세요. 이미지당 최대 20 MB입니다."
+        },
+        "view_3": {
+          "help": "선택 사항입니다. 기본 이미지에 추가 시점을 최대 3장 더할 수 있습니다."
+        },
+        "output_format": {
+          "help": "GLB는 온라인으로 미리 볼 수 있습니다. 다른 형식은 원본을 다운로드할 수 있습니다. 기본값은 GLB입니다."
+        },
+        "texture": {
+          "help": "끄면 형상만 포함하는 메시를 생성합니다. 기본값은 켜짐입니다."
+        },
+        "view_slots": {
+          "help": "앞, 뒤, 왼쪽, 오른쪽 순으로 0 또는 1을 네 자리 입력하세요. 여러 이미지를 사용할 때 1의 개수는 이미지 수와 같아야 합니다. 비우면 첫 슬롯부터 채웁니다."
+        },
+        "pbr": {
+          "help": "텍스처가 켜져 있으면 금속성, 거칠기, 노멀 맵을 생성할 수 있습니다. 기본값은 켜짐입니다."
+        },
+        "shading": {
+          "help": "텍스처가 켜져 있을 때 적용됩니다. 0은 원본 조명을 유지하고 1은 최대한 제거합니다. 기본값은 0.5입니다."
+        },
+        "remove_background": {
+          "help": "기본적으로 참조 이미지의 배경을 제거합니다. 이미 배경을 제거한 이미지라면 끌 수 있습니다."
+        },
+        "target_faces": {
+          "help": "비우면 모델이 결정합니다. 100000개부터 5000000개까지 지정할 수 있습니다. 권장값은 2000000개입니다."
+        }
+      }
+    }
+  }
+}

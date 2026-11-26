@@ -1,0 +1,372 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-google-gemini-omni-1-1-flash-text-to-video",
+  "name": "Gemini Omni 1.1 Flash 文生视频",
+  "description": "从文字生成带同步音频的视频，可设置时长、比例和分辨率。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 20000
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 10,
+      "optional": true,
+      "minimum": "3",
+      "maximum": "10"
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "optional": true,
+      "choices": ["16:9", "9:16"]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "optional": true,
+      "choices": ["360p", "720p", "1080p", "4k"]
+    },
+    {
+      "name": "thinking_level",
+      "kind": "choice",
+      "default": "default",
+      "optional": true,
+      "choices": ["default", "high", "low"]
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "thinking_level",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "google/gemini-omni-1.1-flash/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "thinking_level": "thinking_level",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Gemini Omni 1.1 Flash 文生视频",
+      "description": "从文字生成带同步音频的视频，可设置时长、比例和分辨率。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "aspect_ratio": {
+          "label": "画面比例"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "360p": "360p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "推理程度",
+          "choiceLabels": {
+            "default": "模型默认",
+            "high": "高",
+            "low": "低"
+          }
+        },
+        "seed": {
+          "label": "随机种子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述场景、画面风格、镜头或人物动作。最多 20,000 字符。"
+        },
+        "duration": {
+          "help": "输入 3 至 10 的整数。默认 10 秒。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9 横屏或 9:16 竖屏。"
+        },
+        "resolution": {
+          "help": "360p 用于预览，720p 为默认，1080p 和 4K 由模型放大。"
+        },
+        "thinking_level": {
+          "help": "较高的推理程度可能改善复杂任务的效果，生成耗时也可能增加。"
+        },
+        "seed": {
+          "help": "输入整数。-1 由模型随机选取种子。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Gemini Omni 1.1 Flash 文生影片",
+      "description": "從文字產生帶同步音訊的影片，可設定長度、比例與解析度。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "360p": "360p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "推理程度",
+          "choiceLabels": {
+            "default": "模型預設",
+            "high": "高",
+            "low": "低"
+          }
+        },
+        "seed": {
+          "label": "隨機種子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述場景、畫面風格、運鏡或人物動作。最多 20,000 字元。"
+        },
+        "duration": {
+          "help": "輸入 3 至 10 的整數。預設為 10 秒。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9 橫向或 9:16 直向。"
+        },
+        "resolution": {
+          "help": "360p 用於預覽，720p 為預設，1080p 和 4K 由模型放大。"
+        },
+        "thinking_level": {
+          "help": "較高的推理程度可改善複雜任務的效果，也可能增加生成時間。"
+        },
+        "seed": {
+          "help": "輸入整數。-1 由模型隨機選取種子。"
+        }
+      }
+    },
+    "en": {
+      "name": "Gemini Omni 1.1 Flash Text to Video",
+      "description": "Generate video with synchronized audio from text and set its duration, aspect ratio, and resolution.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "360p": "360p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "Thinking level",
+          "choiceLabels": {
+            "default": "Model default",
+            "high": "High",
+            "low": "Low"
+          }
+        },
+        "seed": {
+          "label": "Seed"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the scene, style, camera direction, or character actions. Use up to 20,000 characters."
+        },
+        "duration": {
+          "help": "Enter a whole number from 3 to 10. The default is 10 seconds."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9 landscape or 9:16 portrait."
+        },
+        "resolution": {
+          "help": "Use 360p for previews or the default 720p. The model upscales 1080p and 4K."
+        },
+        "thinking_level": {
+          "help": "A higher level may improve the result for complex prompts and increase generation time."
+        },
+        "seed": {
+          "help": "Enter an integer. Use -1 for a random seed."
+        }
+      }
+    },
+    "ja": {
+      "name": "Gemini Omni 1.1 Flash テキストから動画",
+      "description": "テキストから音声付き動画を生成し、長さ、比率、解像度を設定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "360p": "360p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "推論レベル",
+          "choiceLabels": {
+            "default": "モデルの既定値",
+            "high": "高",
+            "low": "低"
+          }
+        },
+        "seed": {
+          "label": "シード"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "場面、画風、カメラワーク、人物の動作を記述します。最大20,000文字です。"
+        },
+        "duration": {
+          "help": "3〜10の整数を入力します。既定値は10秒です。"
+        },
+        "aspect_ratio": {
+          "help": "横長の16:9または縦長の9:16を選択します。"
+        },
+        "resolution": {
+          "help": "プレビューは360p、既定値は720pです。1080pと4Kはモデルがアップスケールします。"
+        },
+        "thinking_level": {
+          "help": "高い設定は複雑な指示への応答を改善する場合があり、生成時間も増えることがあります。"
+        },
+        "seed": {
+          "help": "整数を入力します。-1はランダムなシードを使います。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Gemini Omni 1.1 Flash 텍스트로 동영상 생성",
+      "description": "텍스트로 동기화된 오디오가 포함된 동영상을 만들고 길이, 화면 비율, 해상도를 설정합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "360p": "360p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "추론 수준",
+          "choiceLabels": {
+            "default": "모델 기본값",
+            "high": "높음",
+            "low": "낮음"
+          }
+        },
+        "seed": {
+          "label": "시드"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "장면, 시각적 스타일, 카메라 움직임 또는 인물 동작을 설명합니다. 최대 20,000자입니다."
+        },
+        "duration": {
+          "help": "3에서 10 사이의 정수를 입력합니다. 기본값은 10초입니다."
+        },
+        "aspect_ratio": {
+          "help": "가로 16:9 또는 세로 9:16을 선택합니다."
+        },
+        "resolution": {
+          "help": "미리보기는 360p, 기본값은 720p입니다. 1080p와 4K는 모델에서 업스케일합니다."
+        },
+        "thinking_level": {
+          "help": "수준을 높이면 복잡한 지시의 결과가 개선될 수 있으며 생성 시간이 늘어날 수 있습니다."
+        },
+        "seed": {
+          "help": "정수를 입력합니다. -1은 무작위 시드를 사용합니다."
+        }
+      }
+    }
+  }
+}

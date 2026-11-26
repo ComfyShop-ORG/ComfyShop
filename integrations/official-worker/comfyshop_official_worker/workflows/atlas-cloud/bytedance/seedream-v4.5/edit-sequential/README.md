@@ -1,0 +1,38 @@
+# Seedream v4.5 连续图像编辑
+
+用提示词和可选参考图生成一组相关图片。 Atlas Cloud 模型 ID 为 `bytedance/seedream-v4.5/edit-sequential`。[官方模型 API](https://www.atlascloud.ai/models/bytedance/seedream-v4.5/edit-sequential)
+
+## Atlas 接口参数
+
+| Atlas 参数             | ComfyShop 字段                                       | 必填 | 默认值                                    | 输入约定                                 |
+| ---------------------- | ---------------------------------------------------- | ---- | ----------------------------------------- | ---------------------------------------- |
+| `model`                | `execution.config.model`                             | 是   | `bytedance/seedream-v4.5/edit-sequential` | 工作机从执行配置读取                     |
+| `prompt`               | `prompt`                                             | 是   | 无                                        | 描述整组编辑要求和所需张数               |
+| `images`               | `reference_1` 至 `reference_10`、`reference_sources` | 否   | 无                                        | 提供时为 1 至 10 项，省略时只用提示词    |
+| `size`                 | `size`                                               | 否   | `2048*2048`                               | 16 个 2K、4K 预设，使用 `宽*高` 像素格式 |
+| `max_images`           | `max_images`                                         | 否   | 1                                         | 整数 1 至 15，与提示词中的张数一致       |
+| `enable_base64_output` | `enable_base64_output`                               | 否   | false                                     | 开启后返回 Base64 图片，工作机解码保存   |
+
+工作机按编号发送上传文件，再追加文本区的公开图片地址或 Base64 data URL。文本区上限为 4 MiB。参考图最多 10 张。BytePlus 模型文档说明参考图与实际成品合计最多 15 张。[BytePlus 图像 API](https://docs.byteplus.com/en/docs/modelark/image-generation-api) · [官方 Schema](https://static.atlascloud.ai/model/schema/bytedance-seedream-v4.5-edit-sequential.json) · [官方示例数据](https://static.atlascloud.ai/model/example/bytedance-seedream-v4.5-edit-sequential.json) · [模型说明](https://static.atlascloud.ai/model/readme/bytedance-seedream-v4.5-edit-sequential.md)
+
+## API 调用
+
+使用 `Authorization: Bearer <API_KEY>`，将以下 JSON 发送到 `POST https://api.atlascloud.ai/api/v1/model/generateImage`。示例地址需替换为实际素材。静态 Schema 的路径列为 `generateVideo` 和 `result`，实际请求使用模型调用示例的 `generateImage` 与 `prediction`。[官方端点文档](https://www.atlascloud.ai/docs/more-models/bytedance/seedream-v4.5-edit-sequential/generateImage) · [官方调用示例](https://www.atlascloud.ai/models/bytedance/seedream-v4.5/edit-sequential#usage-examples)
+
+```json
+{
+  "model": "bytedance/seedream-v4.5/edit-sequential",
+  "prompt": "用同一造型生成三张灯罩设计图，分别使用奶白、陶土和墨绿，背景保持统一。",
+  "images": ["https://example.com/lamp.jpg"],
+  "size": "2048*2048",
+  "max_images": 3
+}
+```
+
+从响应取 `data.id`，轮询 `GET https://api.atlascloud.ai/api/v1/model/prediction/{id}`。工作机按 `data.outputs` 的顺序保存图片，可处理 URL 或 Base64。[预测文档](https://www.atlascloud.ai/docs/predictions)
+
+## ComfyShop 同步
+
+提示词、首张参考图、尺寸和最多生成张数位于默认区。其余参考图、素材地址和 Base64 输出位于高级区。[工作流清单与五种译文](workflow.json)
+
+从仓库根目录运行 `uv run --project integrations/official-worker --locked comfyshop-official-worker sync`。[官方工作机配置](../../../../../../../../docs/deployment.md#官方工作机)

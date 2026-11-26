@@ -1,0 +1,342 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-mj81-animate",
+  "name": "Midjourney V8.1 图生视频",
+  "description": "把一张首帧图片生成 4 段 5 秒视频，保留原图宽高比。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "optional": true,
+      "default": "gentle camera push in, cinematic"
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["480p", "720p"],
+      "optional": true,
+      "default": "480p"
+    },
+    {
+      "name": "motion",
+      "kind": "choice",
+      "choices": ["low", "high"],
+      "optional": true,
+      "default": "low"
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "motion",
+      "section": "default"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "midjourney/v8.1/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "motion": "motion",
+        "enable_base64_output": "enable_base64_output"
+      },
+      "omit_blank_parameters": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "external_urls_only": true,
+          "external_https_only": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Midjourney V8.1 图生视频",
+      "description": "把一张首帧图片生成 4 段 5 秒视频，保留原图宽高比。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "motion": {
+          "label": "运动幅度",
+          "choiceLabels": {
+            "low": "低",
+            "high": "高"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "first_frame": {
+          "label": "首帧图片"
+        },
+        "first_frame_source": {
+          "label": "首帧图片 URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传一张作为视频起点的图片。"
+        },
+        "prompt": {
+          "help": "可描述想要的主体动作、镜头运动或场景变化。"
+        },
+        "resolution": {
+          "help": "选择 480p 或 720p。720p 按 480p 的 3 倍计费。"
+        },
+        "motion": {
+          "help": "低适合轻微运动，高适合明显动作。"
+        },
+        "enable_base64_output": {
+          "help": "返回 Base64 视频，由工作机解码后保存。"
+        },
+        "first_frame_source": {
+          "help": "填写公开可访问的 HTTPS 图片地址，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Midjourney V8.1 圖生影片",
+      "description": "由一張首幀圖片生成 4 段 5 秒影片，保留原圖長寬比。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "motion": {
+          "label": "運動幅度",
+          "choiceLabels": {
+            "low": "低",
+            "high": "高"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "first_frame": {
+          "label": "首幀圖片"
+        },
+        "first_frame_source": {
+          "label": "首幀圖片 URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳一張作為影片起點的圖片。"
+        },
+        "prompt": {
+          "help": "可描述想要的主體動作、鏡頭運動或場景變化。"
+        },
+        "resolution": {
+          "help": "選擇 480p 或 720p。720p 按 480p 的 3 倍計費。"
+        },
+        "motion": {
+          "help": "低適合輕微運動，高適合明顯動作。"
+        },
+        "enable_base64_output": {
+          "help": "傳回 Base64 影片，由工作機解碼後儲存。"
+        },
+        "first_frame_source": {
+          "help": "填寫公開可存取的 HTTPS 圖片網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Midjourney V8.1 Image-to-Video",
+      "description": "Animate one first-frame image into four five-second videos at the original aspect ratio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "motion": {
+          "label": "Motion",
+          "choiceLabels": {
+            "low": "Low",
+            "high": "High"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "first_frame": {
+          "label": "First-frame image"
+        },
+        "first_frame_source": {
+          "label": "First-frame image URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload one image to use as the first frame of the videos."
+        },
+        "prompt": {
+          "help": "Describe the subject motion, camera movement, or scene changes."
+        },
+        "resolution": {
+          "help": "Choose 480p or 720p. Atlas charges three times the 480p rate for 720p."
+        },
+        "motion": {
+          "help": "Choose low for subtle movement or high for stronger action."
+        },
+        "enable_base64_output": {
+          "help": "Return Base64 video for the worker to decode and save."
+        },
+        "first_frame_source": {
+          "help": "Provide a publicly accessible HTTPS image URL or upload an image."
+        }
+      }
+    },
+    "ja": {
+      "name": "Midjourney V8.1 画像から動画",
+      "description": "開始画像の縦横比を保ち、5 秒の動画を 4 本生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "motion": {
+          "label": "動きの大きさ",
+          "choiceLabels": {
+            "low": "低",
+            "high": "高"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        },
+        "first_frame": {
+          "label": "開始フレーム画像"
+        },
+        "first_frame_source": {
+          "label": "開始フレーム画像の URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "動画の最初のフレームに使用する画像を 1 枚アップロードします。"
+        },
+        "prompt": {
+          "help": "被写体の動き、カメラワーク、場面の変化などを記述します。"
+        },
+        "resolution": {
+          "help": "480p または 720p を選びます。720p の料金は 480p の 3 倍です。"
+        },
+        "motion": {
+          "help": "控えめな動きには「低」、大きな動きには「高」を選びます。"
+        },
+        "enable_base64_output": {
+          "help": "動画を Base64 で受け取り、ワーカーがデコードして保存します。"
+        },
+        "first_frame_source": {
+          "help": "公開 HTTPS 画像の URL を入力するか、画像をアップロードします。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Midjourney V8.1 이미지로 동영상 생성",
+      "description": "첫 프레임 이미지의 가로세로 비율을 유지해 5초 동영상 4개를 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "motion": {
+          "label": "움직임 크기",
+          "choiceLabels": {
+            "low": "낮음",
+            "high": "높음"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        },
+        "first_frame": {
+          "label": "첫 프레임 이미지"
+        },
+        "first_frame_source": {
+          "label": "첫 프레임 이미지 URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "동영상의 첫 프레임에 사용할 이미지 한 장을 업로드하세요."
+        },
+        "prompt": {
+          "help": "피사체의 움직임, 카메라 움직임 또는 장면의 변화를 설명하세요."
+        },
+        "resolution": {
+          "help": "480p 또는 720p를 선택하세요. 720p 요금은 480p의 3배입니다."
+        },
+        "motion": {
+          "help": "부드러운 움직임은 낮음, 큰 움직임은 높음을 선택하세요."
+        },
+        "enable_base64_output": {
+          "help": "Base64 동영상을 받아 워커가 디코딩 후 저장합니다."
+        },
+        "first_frame_source": {
+          "help": "공개 HTTPS 이미지 URL을 입력하거나 이미지를 업로드하세요."
+        }
+      }
+    }
+  }
+}

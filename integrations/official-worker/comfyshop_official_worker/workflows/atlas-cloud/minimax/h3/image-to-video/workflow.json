@@ -1,0 +1,450 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-minimax-h3-image-to-video",
+  "name": "MiniMax H3 图生视频",
+  "description": "用首帧图片和提示词生成视频，可选尾帧固定结尾。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "choices": [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "default": 8
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["480P", "768P", "2K", "1080p-esr", "1440p-esr", "4k-esr"],
+      "default": "2K"
+    },
+    {
+      "name": "expand_prompt",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["adaptive"],
+      "default": "adaptive",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304,
+      "optional": true
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "expand_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "hidden"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "operation": "video",
+      "model": "minimax/h3/image-to-video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "resolution": "resolution",
+        "ratio": "aspect_ratio",
+        "prompt_expansion": "expand_prompt"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "content_types": ["image/png", "image/jpeg", "image/webp"],
+          "external_sources_field": "first_frame_source",
+          "allow_raw_base64": true,
+          "min_items": 1
+        },
+        "end_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "content_types": ["image/png", "image/jpeg", "image/webp"],
+          "external_sources_field": "last_frame_source",
+          "allow_raw_base64": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "MiniMax H3 图生视频",
+      "description": "用首帧图片和提示词生成视频，可选尾帧固定结尾。",
+      "fields": {
+        "first_frame": {
+          "label": "首帧图片"
+        },
+        "last_frame": {
+          "label": "尾帧图片"
+        },
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "expand_prompt": {
+          "label": "扩写提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例"
+        },
+        "first_frame_source": {
+          "label": "首帧来源"
+        },
+        "last_frame_source": {
+          "label": "尾帧来源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传视频的起始图片，支持 PNG、JPEG 和 WebP。"
+        },
+        "last_frame": {
+          "help": "上传目标结尾的图片，支持 PNG、JPEG 和 WebP。"
+        },
+        "prompt": {
+          "help": "描述视频中的动作或镜头运动。"
+        },
+        "duration_seconds": {
+          "help": "选择 4 至 15 秒。"
+        },
+        "resolution": {
+          "help": "480P、768P、2K 为原生档位，ESR 档位从 768P 增强生成。"
+        },
+        "expand_prompt": {
+          "help": "开启后使用 H3 Context-IR 扩写提示词。Atlas 对扩写另行计费。"
+        },
+        "aspect_ratio": {
+          "help": "图生视频使用自适应比例。"
+        },
+        "first_frame_source": {
+          "help": "填写公开图片 URL 或 Base64，与上传二选一。"
+        },
+        "last_frame_source": {
+          "help": "填写公开图片 URL 或 Base64，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "MiniMax H3 圖生影片",
+      "description": "用首幀圖片和提示詞生成影片，可選尾幀固定結尾。",
+      "fields": {
+        "first_frame": {
+          "label": "首幀圖片"
+        },
+        "last_frame": {
+          "label": "尾幀圖片"
+        },
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "片長（秒）"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "expand_prompt": {
+          "label": "擴寫提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例"
+        },
+        "first_frame_source": {
+          "label": "首幀來源"
+        },
+        "last_frame_source": {
+          "label": "尾幀來源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳影片的起始圖片，支援 PNG、JPEG 和 WebP。"
+        },
+        "last_frame": {
+          "help": "上傳預期結尾的圖片，支援 PNG、JPEG 和 WebP。"
+        },
+        "prompt": {
+          "help": "描述影片中的動作或鏡頭移動。"
+        },
+        "duration_seconds": {
+          "help": "選擇 4 至 15 秒。"
+        },
+        "resolution": {
+          "help": "480P、768P、2K 為原生級別，ESR 級別從 768P 增強生成。"
+        },
+        "expand_prompt": {
+          "help": "開啟後使用 H3 Context-IR 擴寫提示詞。Atlas 對擴寫另行計費。"
+        },
+        "aspect_ratio": {
+          "help": "圖生影片使用自動調整的畫面比例。"
+        },
+        "first_frame_source": {
+          "help": "填寫公開圖片 URL 或 Base64，與上傳擇一。"
+        },
+        "last_frame_source": {
+          "help": "填寫公開圖片 URL 或 Base64，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "MiniMax H3 Image-to-Video",
+      "description": "Generate video from a first frame and prompt, with an optional final frame.",
+      "fields": {
+        "first_frame": {
+          "label": "First frame"
+        },
+        "last_frame": {
+          "label": "Last frame"
+        },
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "expand_prompt": {
+          "label": "Expand prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "first_frame_source": {
+          "label": "First frame source"
+        },
+        "last_frame_source": {
+          "label": "Last frame source"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload an opening image as PNG, JPEG, or WebP."
+        },
+        "last_frame": {
+          "help": "Upload an ending image as PNG, JPEG, or WebP."
+        },
+        "prompt": {
+          "help": "Describe the action or camera movement in the video."
+        },
+        "duration_seconds": {
+          "help": "Choose a duration from 4 to 15 seconds."
+        },
+        "resolution": {
+          "help": "480P, 768P, and 2K are native. ESR tiers enhance native 768P video."
+        },
+        "expand_prompt": {
+          "help": "Expand the prompt with H3 Context-IR. Atlas bills prompt expansion separately."
+        },
+        "aspect_ratio": {
+          "help": "Image-to-video uses an adaptive aspect ratio."
+        },
+        "first_frame_source": {
+          "help": "Enter a public image URL or Base64 as an alternative to uploading."
+        },
+        "last_frame_source": {
+          "help": "Enter a public image URL or Base64 as an alternative to uploading."
+        }
+      }
+    },
+    "ja": {
+      "name": "MiniMax H3 画像から動画",
+      "description": "先頭画像とプロンプトから動画を生成します。最終フレームも指定できます。",
+      "fields": {
+        "first_frame": {
+          "label": "開始フレーム"
+        },
+        "last_frame": {
+          "label": "終了フレーム"
+        },
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "expand_prompt": {
+          "label": "プロンプトを拡張"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        },
+        "first_frame_source": {
+          "label": "先頭フレームのソース"
+        },
+        "last_frame_source": {
+          "label": "最終フレームのソース"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "開始画像を PNG、JPEG、または WebP でアップロードします。"
+        },
+        "last_frame": {
+          "help": "終了画像を PNG、JPEG、または WebP でアップロードします。"
+        },
+        "prompt": {
+          "help": "動画で起こる動作やカメラワークを指定します。"
+        },
+        "duration_seconds": {
+          "help": "4〜15 秒から選びます。"
+        },
+        "resolution": {
+          "help": "480P、768P、2K はネイティブです。ESR は 768P を画質強化します。"
+        },
+        "expand_prompt": {
+          "help": "H3 Context-IR でプロンプトを拡張します。拡張には Atlas の追加料金がかかります。"
+        },
+        "aspect_ratio": {
+          "help": "画像から動画を生成するときは縦横比を自動で調整します。"
+        },
+        "first_frame_source": {
+          "help": "アップロードの代わりに公開画像 URL または Base64 を入力します。"
+        },
+        "last_frame_source": {
+          "help": "アップロードの代わりに公開画像 URL または Base64 を入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "MiniMax H3 이미지로 동영상 생성",
+      "description": "첫 프레임 이미지와 프롬프트로 동영상을 만들고 마지막 프레임도 지정할 수 있습니다.",
+      "fields": {
+        "first_frame": {
+          "label": "첫 프레임 이미지"
+        },
+        "last_frame": {
+          "label": "마지막 프레임 이미지"
+        },
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "길이(초)"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "expand_prompt": {
+          "label": "프롬프트 확장"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "first_frame_source": {
+          "label": "첫 프레임 소스"
+        },
+        "last_frame_source": {
+          "label": "마지막 프레임 소스"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "시작 이미지를 PNG, JPEG 또는 WebP로 업로드합니다."
+        },
+        "last_frame": {
+          "help": "종료 이미지를 PNG, JPEG 또는 WebP로 업로드합니다."
+        },
+        "prompt": {
+          "help": "동영상의 동작이나 카메라 움직임을 설명합니다."
+        },
+        "duration_seconds": {
+          "help": "4초부터 15초까지 선택합니다."
+        },
+        "resolution": {
+          "help": "480P, 768P, 2K는 기본 해상도입니다. ESR은 768P의 화질을 향상합니다."
+        },
+        "expand_prompt": {
+          "help": "H3 Context-IR로 프롬프트를 확장합니다. 확장은 Atlas에서 별도로 청구됩니다."
+        },
+        "aspect_ratio": {
+          "help": "이미지로 동영상을 생성할 때는 화면 비율이 자동으로 조정됩니다."
+        },
+        "first_frame_source": {
+          "help": "업로드 대신 공개 이미지 URL이나 Base64를 입력하세요."
+        },
+        "last_frame_source": {
+          "help": "업로드 대신 공개 이미지 URL이나 Base64를 입력하세요."
+        }
+      }
+    }
+  }
+}

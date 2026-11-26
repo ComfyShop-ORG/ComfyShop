@@ -1,0 +1,1024 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "minimax-h3-image-highspeed-edit",
+  "name": "MiniMax H3-Image Highspeed 图片编辑",
+  "description": "按提示词和最多 16 张参考图生成 1 至 10 张编辑结果。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "reference_1",
+      "kind": "image"
+    },
+    {
+      "name": "reference_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_size",
+      "kind": "string",
+      "default": "auto",
+      "optional": true
+    },
+    {
+      "name": "image_count",
+      "kind": "integer",
+      "minimum": "1",
+      "maximum": "10",
+      "step": "1",
+      "default": 1,
+      "optional": true
+    },
+    {
+      "name": "reference_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_10",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_11",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_12",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_13",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_14",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_15",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_16",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "choices": ["jpeg", "png", "webp"],
+      "default": "jpeg",
+      "optional": true
+    },
+    {
+      "name": "compression_quality",
+      "kind": "integer",
+      "minimum": "0",
+      "maximum": "100",
+      "step": "1",
+      "default": 95,
+      "optional": true
+    },
+    {
+      "name": "synchronous_response",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "base64_output",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_2",
+      "section": "default"
+    },
+    {
+      "fieldId": "image_size",
+      "section": "default"
+    },
+    {
+      "fieldId": "image_count",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_10",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_11",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_12",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_13",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_14",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_15",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_16",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "compression_quality",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "synchronous_response",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "minimax/h3-image-highspeed/edit",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "image_size",
+        "num_images": "image_count",
+        "output_format": "output_format",
+        "output_compression": "compression_quality",
+        "enable_sync_mode": "synchronous_response",
+        "enable_base64_output": "base64_output"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 32000
+      },
+      "image_size_limits": {
+        "min_side": 468,
+        "max_side": 7745,
+        "min_pixels": 655360,
+        "max_pixels": 20000000,
+        "max_aspect_ratio": 3
+      },
+      "media": {
+        "reference_images": {
+          "kind": "image",
+          "array": true,
+          "min_items": 1,
+          "fields": [
+            "reference_1",
+            "reference_2",
+            "reference_3",
+            "reference_4",
+            "reference_5",
+            "reference_6",
+            "reference_7",
+            "reference_8",
+            "reference_9",
+            "reference_10",
+            "reference_11",
+            "reference_12",
+            "reference_13",
+            "reference_14",
+            "reference_15",
+            "reference_16"
+          ],
+          "content_types": ["image/png", "image/jpeg", "image/webp"],
+          "max_bytes": 67108864,
+          "image_bounds": {
+            "min_side": 128,
+            "max_side": 8192,
+            "max_aspect_ratio": 4
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "MiniMax H3-Image Highspeed 图片编辑",
+      "description": "按提示词和最多 16 张参考图生成 1 至 10 张编辑结果。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "reference_1": {
+          "label": "参考图 1"
+        },
+        "reference_2": {
+          "label": "参考图 2"
+        },
+        "image_size": {
+          "label": "图片尺寸"
+        },
+        "image_count": {
+          "label": "生成张数"
+        },
+        "reference_3": {
+          "label": "参考图 3"
+        },
+        "reference_4": {
+          "label": "参考图 4"
+        },
+        "reference_5": {
+          "label": "参考图 5"
+        },
+        "reference_6": {
+          "label": "参考图 6"
+        },
+        "reference_7": {
+          "label": "参考图 7"
+        },
+        "reference_8": {
+          "label": "参考图 8"
+        },
+        "reference_9": {
+          "label": "参考图 9"
+        },
+        "reference_10": {
+          "label": "参考图 10"
+        },
+        "reference_11": {
+          "label": "参考图 11"
+        },
+        "reference_12": {
+          "label": "参考图 12"
+        },
+        "reference_13": {
+          "label": "参考图 13"
+        },
+        "reference_14": {
+          "label": "参考图 14"
+        },
+        "reference_15": {
+          "label": "参考图 15"
+        },
+        "reference_16": {
+          "label": "参考图 16"
+        },
+        "output_format": {
+          "label": "输出格式"
+        },
+        "compression_quality": {
+          "label": "压缩质量"
+        },
+        "synchronous_response": {
+          "label": "同步返回成品"
+        },
+        "base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要修改和保留的内容。按槽位编号引用实际提交的参考图，跳过空槽。最多 32,000 个字符，模型会自动扩写。"
+        },
+        "reference_1": {
+          "help": "每张选择 PNG、JPEG 或 WebP，最多 64 MB。每边 128 至 8192 像素，长边最多为短边的 4 倍。"
+        },
+        "reference_2": {
+          "help": "按编号顺序使用实际上传的参考图。"
+        },
+        "image_size": {
+          "help": "输入 auto 或宽*高，例如 2048*2048。每边 468 至 7745 像素，总像素数 655,360 至 20,000,000，宽高比 1:3 至 3:1。auto 根据参考图和提示词选取比例。"
+        },
+        "image_count": {
+          "help": "同一提示词生成 1 至 10 张图片。"
+        },
+        "reference_3": {
+          "help": "按编号顺序使用实际上传的参考图。"
+        },
+        "reference_4": {
+          "help": "按编号顺序使用实际上传的参考图。"
+        },
+        "reference_5": {
+          "help": "按编号顺序使用实际上传的参考图。"
+        },
+        "reference_6": {
+          "help": "按编号顺序使用实际上传的参考图。"
+        },
+        "reference_7": {
+          "help": "按编号顺序使用实际上传的参考图。"
+        },
+        "reference_8": {
+          "help": "按编号顺序使用实际上传的参考图。"
+        },
+        "reference_9": {
+          "help": "按编号顺序使用实际上传的参考图。"
+        },
+        "reference_10": {
+          "help": "按编号顺序使用实际上传的参考图。"
+        },
+        "reference_11": {
+          "help": "按编号顺序使用实际上传的参考图。"
+        },
+        "reference_12": {
+          "help": "按编号顺序使用实际上传的参考图。"
+        },
+        "reference_13": {
+          "help": "按编号顺序使用实际上传的参考图。"
+        },
+        "reference_14": {
+          "help": "按编号顺序使用实际上传的参考图。"
+        },
+        "reference_15": {
+          "help": "按编号顺序使用实际上传的参考图。"
+        },
+        "reference_16": {
+          "help": "按编号顺序使用实际上传的参考图。"
+        },
+        "output_format": {
+          "help": "选择 JPEG、PNG 或 WebP。成品背景为不透明。"
+        },
+        "compression_quality": {
+          "help": "JPEG 和 WebP 的画质为 0 至 100，数值越大画质越高。PNG 使用自身的无损压缩。"
+        },
+        "synchronous_response": {
+          "help": "开启后，供应商会等待图片生成并上传完成，再在提交响应中返回结果。"
+        },
+        "base64_output": {
+          "help": "开启后，工作机解码供应商返回的 Base64 图像并保存原图。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "MiniMax H3-Image Highspeed 圖片編輯",
+      "description": "依提示詞和最多 16 張參考圖產生 1 至 10 張編輯結果。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "reference_1": {
+          "label": "參考圖 1"
+        },
+        "reference_2": {
+          "label": "參考圖 2"
+        },
+        "image_size": {
+          "label": "圖片尺寸"
+        },
+        "image_count": {
+          "label": "生成張數"
+        },
+        "reference_3": {
+          "label": "參考圖 3"
+        },
+        "reference_4": {
+          "label": "參考圖 4"
+        },
+        "reference_5": {
+          "label": "參考圖 5"
+        },
+        "reference_6": {
+          "label": "參考圖 6"
+        },
+        "reference_7": {
+          "label": "參考圖 7"
+        },
+        "reference_8": {
+          "label": "參考圖 8"
+        },
+        "reference_9": {
+          "label": "參考圖 9"
+        },
+        "reference_10": {
+          "label": "參考圖 10"
+        },
+        "reference_11": {
+          "label": "參考圖 11"
+        },
+        "reference_12": {
+          "label": "參考圖 12"
+        },
+        "reference_13": {
+          "label": "參考圖 13"
+        },
+        "reference_14": {
+          "label": "參考圖 14"
+        },
+        "reference_15": {
+          "label": "參考圖 15"
+        },
+        "reference_16": {
+          "label": "參考圖 16"
+        },
+        "output_format": {
+          "label": "輸出格式"
+        },
+        "compression_quality": {
+          "label": "壓縮品質"
+        },
+        "synchronous_response": {
+          "label": "同步回傳成品"
+        },
+        "base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要修改和保留的內容。依欄位編號引用實際提交的參考圖，跳過空欄位。最多 32,000 個字元，模型會自動擴寫。"
+        },
+        "reference_1": {
+          "help": "每張選擇 PNG、JPEG 或 WebP，最多 64 MB。每邊 128 至 8192 像素，長邊最多是短邊的 4 倍。"
+        },
+        "reference_2": {
+          "help": "依編號順序使用實際上傳的參考圖。"
+        },
+        "image_size": {
+          "help": "輸入 auto 或寬*高，例如 2048*2048。每邊 468 至 7745 像素，總像素數 655,360 至 20,000,000，寬高比 1:3 至 3:1。auto 依參考圖與提示詞選取比例。"
+        },
+        "image_count": {
+          "help": "以同一份提示詞產生 1 至 10 張圖片。"
+        },
+        "reference_3": {
+          "help": "依編號順序使用實際上傳的參考圖。"
+        },
+        "reference_4": {
+          "help": "依編號順序使用實際上傳的參考圖。"
+        },
+        "reference_5": {
+          "help": "依編號順序使用實際上傳的參考圖。"
+        },
+        "reference_6": {
+          "help": "依編號順序使用實際上傳的參考圖。"
+        },
+        "reference_7": {
+          "help": "依編號順序使用實際上傳的參考圖。"
+        },
+        "reference_8": {
+          "help": "依編號順序使用實際上傳的參考圖。"
+        },
+        "reference_9": {
+          "help": "依編號順序使用實際上傳的參考圖。"
+        },
+        "reference_10": {
+          "help": "依編號順序使用實際上傳的參考圖。"
+        },
+        "reference_11": {
+          "help": "依編號順序使用實際上傳的參考圖。"
+        },
+        "reference_12": {
+          "help": "依編號順序使用實際上傳的參考圖。"
+        },
+        "reference_13": {
+          "help": "依編號順序使用實際上傳的參考圖。"
+        },
+        "reference_14": {
+          "help": "依編號順序使用實際上傳的參考圖。"
+        },
+        "reference_15": {
+          "help": "依編號順序使用實際上傳的參考圖。"
+        },
+        "reference_16": {
+          "help": "依編號順序使用實際上傳的參考圖。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG、PNG 或 WebP。成品背景為不透明。"
+        },
+        "compression_quality": {
+          "help": "JPEG 與 WebP 的品質為 0 至 100，數值越大畫質越高。PNG 使用自身的無損壓縮。"
+        },
+        "synchronous_response": {
+          "help": "啟用後，供應商會等候圖片產生並上傳完成，再於提交回應中回傳結果。"
+        },
+        "base64_output": {
+          "help": "啟用後，工作機會解碼供應商回傳的 Base64 圖片並儲存原圖。"
+        }
+      }
+    },
+    "en": {
+      "name": "MiniMax H3-Image Highspeed Image Editing",
+      "description": "Generate one to ten edited images from a prompt and up to 16 references.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "reference_1": {
+          "label": "Reference image 1"
+        },
+        "reference_2": {
+          "label": "Reference image 2"
+        },
+        "image_size": {
+          "label": "Image size"
+        },
+        "image_count": {
+          "label": "Image count"
+        },
+        "reference_3": {
+          "label": "Reference image 3"
+        },
+        "reference_4": {
+          "label": "Reference image 4"
+        },
+        "reference_5": {
+          "label": "Reference image 5"
+        },
+        "reference_6": {
+          "label": "Reference image 6"
+        },
+        "reference_7": {
+          "label": "Reference image 7"
+        },
+        "reference_8": {
+          "label": "Reference image 8"
+        },
+        "reference_9": {
+          "label": "Reference image 9"
+        },
+        "reference_10": {
+          "label": "Reference image 10"
+        },
+        "reference_11": {
+          "label": "Reference image 11"
+        },
+        "reference_12": {
+          "label": "Reference image 12"
+        },
+        "reference_13": {
+          "label": "Reference image 13"
+        },
+        "reference_14": {
+          "label": "Reference image 14"
+        },
+        "reference_15": {
+          "label": "Reference image 15"
+        },
+        "reference_16": {
+          "label": "Reference image 16"
+        },
+        "output_format": {
+          "label": "Output format"
+        },
+        "compression_quality": {
+          "label": "Compression quality"
+        },
+        "synchronous_response": {
+          "label": "Synchronous response"
+        },
+        "base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe what to edit and preserve. Refer to the submitted images in slot order, skipping empty slots. Enter up to 32,000 characters. The model expands the prompt automatically."
+        },
+        "reference_1": {
+          "help": "Upload PNG, JPEG, or WebP up to 64 MB each. Use 128–8192 pixels per side and a long-to-short side ratio of at most 4:1."
+        },
+        "reference_2": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "image_size": {
+          "help": "Enter auto or width*height, such as 2048*2048. Each side must be 468–7745 pixels, area 655,360–20,000,000 pixels, and aspect ratio 1:3–3:1. Auto uses the references and prompt."
+        },
+        "image_count": {
+          "help": "Generate 1 to 10 variations from the same prompt."
+        },
+        "reference_3": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "reference_4": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "reference_5": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "reference_6": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "reference_7": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "reference_8": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "reference_9": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "reference_10": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "reference_11": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "reference_12": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "reference_13": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "reference_14": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "reference_15": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "reference_16": {
+          "help": "Uploaded references are used in slot order."
+        },
+        "output_format": {
+          "help": "Choose JPEG, PNG, or WebP. Outputs have opaque backgrounds."
+        },
+        "compression_quality": {
+          "help": "Set JPEG or WebP quality from 0 to 100. Higher values retain more detail. PNG uses lossless compression."
+        },
+        "synchronous_response": {
+          "help": "Wait for the provider to generate and upload the images before it returns the submission response."
+        },
+        "base64_output": {
+          "help": "The worker decodes Base64 image data from the provider and saves the original."
+        }
+      }
+    },
+    "ja": {
+      "name": "MiniMax H3-Image Highspeed 画像編集",
+      "description": "プロンプトと最大 16 枚の参照画像から、編集結果を 1〜10 枚生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "reference_1": {
+          "label": "参照画像 1"
+        },
+        "reference_2": {
+          "label": "参照画像 2"
+        },
+        "image_size": {
+          "label": "画像サイズ"
+        },
+        "image_count": {
+          "label": "生成枚数"
+        },
+        "reference_3": {
+          "label": "参照画像 3"
+        },
+        "reference_4": {
+          "label": "参照画像 4"
+        },
+        "reference_5": {
+          "label": "参照画像 5"
+        },
+        "reference_6": {
+          "label": "参照画像 6"
+        },
+        "reference_7": {
+          "label": "参照画像 7"
+        },
+        "reference_8": {
+          "label": "参照画像 8"
+        },
+        "reference_9": {
+          "label": "参照画像 9"
+        },
+        "reference_10": {
+          "label": "参照画像 10"
+        },
+        "reference_11": {
+          "label": "参照画像 11"
+        },
+        "reference_12": {
+          "label": "参照画像 12"
+        },
+        "reference_13": {
+          "label": "参照画像 13"
+        },
+        "reference_14": {
+          "label": "参照画像 14"
+        },
+        "reference_15": {
+          "label": "参照画像 15"
+        },
+        "reference_16": {
+          "label": "参照画像 16"
+        },
+        "output_format": {
+          "label": "出力形式"
+        },
+        "compression_quality": {
+          "label": "圧縮品質"
+        },
+        "synchronous_response": {
+          "label": "同期レスポンス"
+        },
+        "base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "変更する内容と残す内容を記述します。参照画像は空き枠を飛ばして番号順に指定します。最大 32,000 文字で、モデルが自動的に拡張します。"
+        },
+        "reference_1": {
+          "help": "PNG、JPEG、WebP に対応します。1 枚は 64 MB 以下、各辺は 128〜8192 ピクセルで、長辺は短辺の 4 倍以下です。"
+        },
+        "reference_2": {
+          "help": "アップロード済みの画像を番号順に使用します。"
+        },
+        "image_size": {
+          "help": "auto または 2048*2048 のように幅*高さを入力します。各辺 468〜7745 ピクセル、総画素数 655,360〜20,000,000、アスペクト比 1:3〜3:1 です。auto は参照画像とプロンプトから比率を決めます。"
+        },
+        "image_count": {
+          "help": "同じプロンプトから最大 10 枚の画像を生成します。"
+        },
+        "reference_3": {
+          "help": "アップロード済みの画像を番号順に使用します。"
+        },
+        "reference_4": {
+          "help": "アップロード済みの画像を番号順に使用します。"
+        },
+        "reference_5": {
+          "help": "アップロード済みの画像を番号順に使用します。"
+        },
+        "reference_6": {
+          "help": "アップロード済みの画像を番号順に使用します。"
+        },
+        "reference_7": {
+          "help": "アップロード済みの画像を番号順に使用します。"
+        },
+        "reference_8": {
+          "help": "アップロード済みの画像を番号順に使用します。"
+        },
+        "reference_9": {
+          "help": "アップロード済みの画像を番号順に使用します。"
+        },
+        "reference_10": {
+          "help": "アップロード済みの画像を番号順に使用します。"
+        },
+        "reference_11": {
+          "help": "アップロード済みの画像を番号順に使用します。"
+        },
+        "reference_12": {
+          "help": "アップロード済みの画像を番号順に使用します。"
+        },
+        "reference_13": {
+          "help": "アップロード済みの画像を番号順に使用します。"
+        },
+        "reference_14": {
+          "help": "アップロード済みの画像を番号順に使用します。"
+        },
+        "reference_15": {
+          "help": "アップロード済みの画像を番号順に使用します。"
+        },
+        "reference_16": {
+          "help": "アップロード済みの画像を番号順に使用します。"
+        },
+        "output_format": {
+          "help": "JPEG、PNG、WebP から選びます。背景は不透明です。"
+        },
+        "compression_quality": {
+          "help": "JPEG または WebP の品質を 0〜100 で指定します。値が高いほど画質が上がります。PNG は可逆圧縮です。"
+        },
+        "synchronous_response": {
+          "help": "プロバイダーが画像を生成してアップロードした後、送信結果に画像が返ります。"
+        },
+        "base64_output": {
+          "help": "プロバイダーが返す Base64 画像をワーカーがデコードし、元画像を保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "MiniMax H3-Image Highspeed 이미지 편집",
+      "description": "프롬프트와 최대 16장의 참조 이미지로 편집 결과를 1장부터 10장까지 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "reference_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_2": {
+          "label": "참조 이미지 2"
+        },
+        "image_size": {
+          "label": "이미지 크기"
+        },
+        "image_count": {
+          "label": "생성 장수"
+        },
+        "reference_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_6": {
+          "label": "참조 이미지 6"
+        },
+        "reference_7": {
+          "label": "참조 이미지 7"
+        },
+        "reference_8": {
+          "label": "참조 이미지 8"
+        },
+        "reference_9": {
+          "label": "참조 이미지 9"
+        },
+        "reference_10": {
+          "label": "참조 이미지 10"
+        },
+        "reference_11": {
+          "label": "참조 이미지 11"
+        },
+        "reference_12": {
+          "label": "참조 이미지 12"
+        },
+        "reference_13": {
+          "label": "참조 이미지 13"
+        },
+        "reference_14": {
+          "label": "참조 이미지 14"
+        },
+        "reference_15": {
+          "label": "참조 이미지 15"
+        },
+        "reference_16": {
+          "label": "참조 이미지 16"
+        },
+        "output_format": {
+          "label": "출력 형식"
+        },
+        "compression_quality": {
+          "label": "압축 품질"
+        },
+        "synchronous_response": {
+          "label": "동기 응답"
+        },
+        "base64_output": {
+          "label": "Base64 출력"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "수정할 내용과 유지할 내용을 설명합니다. 빈 슬롯을 건너뛰고 번호순으로 제출된 이미지를 참조합니다. 최대 32,000자까지 입력하며 모델이 자동으로 확장합니다."
+        },
+        "reference_1": {
+          "help": "PNG, JPEG, WebP를 장당 64MB 이하로 업로드합니다. 각 변은 128~8192픽셀이며 긴 변은 짧은 변의 최대 4배입니다."
+        },
+        "reference_2": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "image_size": {
+          "help": "auto 또는 2048*2048과 같이 가로*세로를 입력합니다. 각 변은 468~7745픽셀, 면적은 655,360~20,000,000픽셀, 가로세로비는 1:3~3:1입니다. auto는 참조 이미지와 프롬프트에 따라 비율을 선택합니다."
+        },
+        "image_count": {
+          "help": "같은 프롬프트로 이미지 변형을 1장부터 10장까지 생성합니다."
+        },
+        "reference_3": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_4": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_5": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_6": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_7": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_8": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_9": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_10": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_11": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_12": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_13": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_14": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_15": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "reference_16": {
+          "help": "업로드한 참조 이미지를 슬롯 번호 순으로 사용합니다."
+        },
+        "output_format": {
+          "help": "JPEG, PNG 또는 WebP를 선택합니다. 결과 배경은 불투명합니다."
+        },
+        "compression_quality": {
+          "help": "JPEG와 WebP의 품질을 0부터 100까지 설정합니다. 값이 클수록 품질이 높습니다. PNG는 무손실 압축을 사용합니다."
+        },
+        "synchronous_response": {
+          "help": "제공업체에서 생성 및 업로드가 완료된 뒤 제출 응답에 결과가 포함됩니다."
+        },
+        "base64_output": {
+          "help": "작업 머신이 제공업체의 Base64 이미지를 디코딩해 원본을 저장합니다."
+        }
+      }
+    }
+  }
+}

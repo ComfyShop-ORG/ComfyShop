@@ -1,0 +1,704 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "alibaba-qwen-audio-31-tts-plus-text-to-speech",
+  "name": "Qwen Audio 3.1 TTS Plus 文本转语音",
+  "description": "用通义的预设音色合成语音，可通过指令或 SSML 控制情绪、角色和朗读风格。",
+  "category": "audio",
+  "fields": [
+    {
+      "name": "text",
+      "kind": "string",
+      "default": "Welcome to Atlas Cloud — One API for All Media AI.",
+      "multiline": true
+    },
+    {
+      "name": "voice",
+      "kind": "choice",
+      "choices": ["longanhuan_v3.1", "longanlingxin_v3.1", "xunanchuan_v3.1", "longanfengyue_v3.1"],
+      "default": "longanhuan_v3.1"
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["mp3", "pcm", "wav", "opus"],
+      "default": "mp3"
+    },
+    {
+      "name": "sample_rate",
+      "kind": "choice",
+      "optional": true,
+      "choices": [8000, 12000, 16000, 22050, 24000, 44100, 48000],
+      "default": 22050
+    },
+    {
+      "name": "speed",
+      "kind": "number",
+      "optional": true,
+      "default": 1,
+      "minimum": "0.5",
+      "maximum": "2"
+    },
+    {
+      "name": "pitch",
+      "kind": "number",
+      "optional": true,
+      "default": 1,
+      "minimum": "0.5",
+      "maximum": "2"
+    },
+    {
+      "name": "volume",
+      "kind": "integer",
+      "optional": true,
+      "default": 50,
+      "minimum": "0",
+      "maximum": "100"
+    },
+    {
+      "name": "bit_rate",
+      "kind": "integer",
+      "optional": true
+    },
+    {
+      "name": "language_hint",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["", "zh", "en", "ja", "ko", "fr", "de", "pt", "it", "vi", "id"],
+      "default": ""
+    },
+    {
+      "name": "instruction",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "enable_ssml",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true,
+      "default": -1,
+      "minimum": "-1",
+      "maximum": "65535"
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "text",
+      "section": "default"
+    },
+    {
+      "fieldId": "voice",
+      "section": "default"
+    },
+    {
+      "fieldId": "instruction",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "sample_rate",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "speed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "pitch",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "volume",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "bit_rate",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "language_hint",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_ssml",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "audio",
+    "config": {
+      "operation": "audio",
+      "model": "alibaba/qwen-audio-3.1-tts-plus/text-to-speech",
+      "parameters": {
+        "text": "text",
+        "voice": "voice",
+        "output_format": "output_format",
+        "sample_rate": "sample_rate",
+        "speed": "speed",
+        "pitch": "pitch",
+        "volume": "volume",
+        "bit_rate": "bit_rate",
+        "instruction": "instruction",
+        "enable_ssml": "enable_ssml",
+        "seed": "seed"
+      },
+      "required_text": ["text"],
+      "text_arrays": {
+        "language_hints": {
+          "field": "language_hint",
+          "max_items": 1,
+          "max_item_length": 2
+        }
+      },
+      "enabled_by": {
+        "bit_rate": {
+          "parameter": "output_format",
+          "equals": "opus"
+        }
+      },
+      "audio_suffixes": {
+        "pcm": ".pcm",
+        "opus": ".opus"
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Qwen Audio 3.1 TTS Plus 文本转语音",
+      "description": "用通义的预设音色合成语音，可通过指令或 SSML 控制情绪、角色和朗读风格。",
+      "fields": {
+        "text": {
+          "label": "朗读文本"
+        },
+        "voice": {
+          "label": "音色",
+          "choiceLabels": {
+            "longanhuan_v3.1": "龙安欢",
+            "longanlingxin_v3.1": "龙安灵心",
+            "xunanchuan_v3.1": "许南川",
+            "longanfengyue_v3.1": "龙安风悦"
+          }
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "mp3": "MP3",
+            "pcm": "PCM",
+            "wav": "WAV",
+            "opus": "Opus"
+          }
+        },
+        "sample_rate": {
+          "label": "采样率"
+        },
+        "speed": {
+          "label": "语速"
+        },
+        "pitch": {
+          "label": "音高"
+        },
+        "volume": {
+          "label": "音量"
+        },
+        "bit_rate": {
+          "label": "Opus 码率"
+        },
+        "language_hint": {
+          "label": "语言提示",
+          "choiceLabels": {
+            "zh": "中文",
+            "en": "英语",
+            "ja": "日语",
+            "ko": "韩语",
+            "fr": "法语",
+            "de": "德语",
+            "pt": "葡萄牙语",
+            "it": "意大利语",
+            "vi": "越南语",
+            "id": "印度尼西亚语"
+          }
+        },
+        "instruction": {
+          "label": "风格指令"
+        },
+        "enable_ssml": {
+          "label": "启用 SSML"
+        },
+        "seed": {
+          "label": "随机种子"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "输入要朗读的文字。开启 SSML 后也可使用 SSML 或 LaTeX。"
+        },
+        "voice": {
+          "help": "选择当前模型的系统音色。"
+        },
+        "instruction": {
+          "help": "用自然语言指定语气、情绪、角色或朗读方式。"
+        },
+        "output_format": {
+          "help": "从 MP3、PCM、WAV 和 Opus 中选择。"
+        },
+        "sample_rate": {
+          "help": "每秒采样数，单位 Hz。"
+        },
+        "speed": {
+          "help": "1 为正常速度，可设置 0.5 至 2。"
+        },
+        "pitch": {
+          "help": "1 为原音高，可设置 0.5 至 2。"
+        },
+        "volume": {
+          "help": "音量范围为 0 至 100。"
+        },
+        "bit_rate": {
+          "help": "仅 Opus 使用，单位 kbps。"
+        },
+        "language_hint": {
+          "help": "可选一种语言。留空由模型判断。"
+        },
+        "enable_ssml": {
+          "help": "按照 SSML 标记或 LaTeX 解析朗读文本。"
+        },
+        "seed": {
+          "help": "-1 为随机，或填写 0 至 65535 的整数。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Qwen Audio 3.1 TTS Plus 文字轉語音",
+      "description": "使用通義預設音色合成語音，可透過指令或 SSML 控制情緒、角色與朗讀風格。",
+      "fields": {
+        "text": {
+          "label": "朗讀文字"
+        },
+        "voice": {
+          "label": "音色",
+          "choiceLabels": {
+            "longanhuan_v3.1": "龍安歡",
+            "longanlingxin_v3.1": "龍安靈心",
+            "xunanchuan_v3.1": "許南川",
+            "longanfengyue_v3.1": "龍安風悅"
+          }
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "mp3": "MP3",
+            "pcm": "PCM",
+            "wav": "WAV",
+            "opus": "Opus"
+          }
+        },
+        "sample_rate": {
+          "label": "取樣率"
+        },
+        "speed": {
+          "label": "語速"
+        },
+        "pitch": {
+          "label": "音高"
+        },
+        "volume": {
+          "label": "音量"
+        },
+        "bit_rate": {
+          "label": "Opus 位元率"
+        },
+        "language_hint": {
+          "label": "語言提示",
+          "choiceLabels": {
+            "zh": "中文",
+            "en": "英文",
+            "ja": "日文",
+            "ko": "韓文",
+            "fr": "法文",
+            "de": "德文",
+            "pt": "葡萄牙文",
+            "it": "義大利文",
+            "vi": "越南文",
+            "id": "印尼文"
+          }
+        },
+        "instruction": {
+          "label": "風格指令"
+        },
+        "enable_ssml": {
+          "label": "啟用 SSML"
+        },
+        "seed": {
+          "label": "隨機種子"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "輸入要朗讀的文字。啟用 SSML 後也可使用 SSML 或 LaTeX。"
+        },
+        "voice": {
+          "help": "選擇目前模型的系統音色。"
+        },
+        "instruction": {
+          "help": "以自然語言指定語氣、情緒、角色或朗讀方式。"
+        },
+        "output_format": {
+          "help": "從 MP3、PCM、WAV 和 Opus 中選擇。"
+        },
+        "sample_rate": {
+          "help": "每秒取樣數，單位為 Hz。"
+        },
+        "speed": {
+          "help": "1 為正常速度，可設定 0.5 至 2。"
+        },
+        "pitch": {
+          "help": "1 為原始音高，可設定 0.5 至 2。"
+        },
+        "volume": {
+          "help": "音量範圍為 0 至 100。"
+        },
+        "bit_rate": {
+          "help": "只有 Opus 使用，單位為 kbps。"
+        },
+        "language_hint": {
+          "help": "可選一種語言。留空時由模型判斷。"
+        },
+        "enable_ssml": {
+          "help": "依照 SSML 標記或 LaTeX 解析朗讀文字。"
+        },
+        "seed": {
+          "help": "-1 代表隨機，或填入 0 至 65535 的整數。"
+        }
+      }
+    },
+    "en": {
+      "name": "Qwen Audio 3.1 TTS Plus Text to Speech",
+      "description": "Synthesize speech with Qwen voices. Use instructions or SSML to guide emotion, character, and delivery.",
+      "fields": {
+        "text": {
+          "label": "Text to read"
+        },
+        "voice": {
+          "label": "Voice",
+          "choiceLabels": {
+            "longanhuan_v3.1": "Long An Huan",
+            "longanlingxin_v3.1": "Long An Lingxin",
+            "xunanchuan_v3.1": "Xu Nanchuan",
+            "longanfengyue_v3.1": "Long An Fengyue"
+          }
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "mp3": "MP3",
+            "pcm": "PCM",
+            "wav": "WAV",
+            "opus": "Opus"
+          }
+        },
+        "sample_rate": {
+          "label": "Sample rate"
+        },
+        "speed": {
+          "label": "Speech speed"
+        },
+        "pitch": {
+          "label": "Pitch"
+        },
+        "volume": {
+          "label": "Volume"
+        },
+        "bit_rate": {
+          "label": "Opus bitrate"
+        },
+        "language_hint": {
+          "label": "Language hint",
+          "choiceLabels": {
+            "zh": "Chinese",
+            "en": "English",
+            "ja": "Japanese",
+            "ko": "Korean",
+            "fr": "French",
+            "de": "German",
+            "pt": "Portuguese",
+            "it": "Italian",
+            "vi": "Vietnamese",
+            "id": "Indonesian"
+          }
+        },
+        "instruction": {
+          "label": "Style instruction"
+        },
+        "enable_ssml": {
+          "label": "Enable SSML"
+        },
+        "seed": {
+          "label": "Seed"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "Enter the text to synthesize. Enable SSML for SSML or LaTeX input."
+        },
+        "voice": {
+          "help": "Select one of this model’s built-in voices."
+        },
+        "instruction": {
+          "help": "Describe the tone, emotion, character, or speaking style in natural language."
+        },
+        "output_format": {
+          "help": "Choose MP3, PCM, WAV, or Opus."
+        },
+        "sample_rate": {
+          "help": "Samples per second in Hz."
+        },
+        "speed": {
+          "help": "1 is normal speed. Set a multiplier from 0.5 to 2."
+        },
+        "pitch": {
+          "help": "1 keeps the original pitch. Set a multiplier from 0.5 to 2."
+        },
+        "volume": {
+          "help": "Set the volume from 0 to 100."
+        },
+        "bit_rate": {
+          "help": "Used for Opus only. Enter a bitrate in kbps."
+        },
+        "language_hint": {
+          "help": "Choose one language or leave blank for automatic detection."
+        },
+        "enable_ssml": {
+          "help": "Parse the text as SSML markup or LaTeX."
+        },
+        "seed": {
+          "help": "Use -1 for a random seed or enter an integer from 0 to 65535."
+        }
+      }
+    },
+    "ja": {
+      "name": "Qwen Audio 3.1 TTS Plus テキスト読み上げ",
+      "description": "Qwen の音色で音声を合成します。指示や SSML で感情、役柄、読み上げスタイルを調整できます。",
+      "fields": {
+        "text": {
+          "label": "読み上げテキスト"
+        },
+        "voice": {
+          "label": "音色",
+          "choiceLabels": {
+            "longanhuan_v3.1": "龍安歓",
+            "longanlingxin_v3.1": "龍安霊心",
+            "xunanchuan_v3.1": "許南川",
+            "longanfengyue_v3.1": "龍安風悦"
+          }
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "mp3": "MP3",
+            "pcm": "PCM",
+            "wav": "WAV",
+            "opus": "Opus"
+          }
+        },
+        "sample_rate": {
+          "label": "サンプルレート"
+        },
+        "speed": {
+          "label": "読み上げ速度"
+        },
+        "pitch": {
+          "label": "ピッチ"
+        },
+        "volume": {
+          "label": "音量"
+        },
+        "bit_rate": {
+          "label": "Opus ビットレート"
+        },
+        "language_hint": {
+          "label": "言語のヒント",
+          "choiceLabels": {
+            "zh": "中国語",
+            "en": "英語",
+            "ja": "日本語",
+            "ko": "韓国語",
+            "fr": "フランス語",
+            "de": "ドイツ語",
+            "pt": "ポルトガル語",
+            "it": "イタリア語",
+            "vi": "ベトナム語",
+            "id": "インドネシア語"
+          }
+        },
+        "instruction": {
+          "label": "話し方の指示"
+        },
+        "enable_ssml": {
+          "label": "SSML を有効にする"
+        },
+        "seed": {
+          "label": "シード"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "合成するテキストを入力します。SSML を有効にすると、SSML や LaTeX も使えます。"
+        },
+        "voice": {
+          "help": "このモデルに用意された音色を選びます。"
+        },
+        "instruction": {
+          "help": "口調、感情、役柄、話し方を自然な文章で指定します。"
+        },
+        "output_format": {
+          "help": "MP3、PCM、WAV、Opus から選びます。"
+        },
+        "sample_rate": {
+          "help": "1 秒あたりのサンプル数を Hz で指定します。"
+        },
+        "speed": {
+          "help": "標準は 1 です。0.5 から 2 まで指定できます。"
+        },
+        "pitch": {
+          "help": "1 で元の高さを維持します。0.5 から 2 まで指定できます。"
+        },
+        "volume": {
+          "help": "0 から 100 まで指定できます。"
+        },
+        "bit_rate": {
+          "help": "Opus の場合のみ使います。単位は kbps です。"
+        },
+        "language_hint": {
+          "help": "言語を 1 つ選べます。未設定の場合は自動で判定します。"
+        },
+        "enable_ssml": {
+          "help": "テキストを SSML マークアップまたは LaTeX として解釈します。"
+        },
+        "seed": {
+          "help": "-1 ならランダムです。0 から 65535 の整数も指定できます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Qwen Audio 3.1 TTS Plus 텍스트 음성 변환",
+      "description": "Qwen 음색으로 음성을 합성합니다. 지시문이나 SSML로 감정, 역할, 읽는 방식을 조절할 수 있습니다.",
+      "fields": {
+        "text": {
+          "label": "읽을 텍스트"
+        },
+        "voice": {
+          "label": "음색",
+          "choiceLabels": {
+            "longanhuan_v3.1": "룽안환",
+            "longanlingxin_v3.1": "룽안링신",
+            "xunanchuan_v3.1": "쉬난촨",
+            "longanfengyue_v3.1": "룽안펑웨"
+          }
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "mp3": "MP3",
+            "pcm": "PCM",
+            "wav": "WAV",
+            "opus": "Opus"
+          }
+        },
+        "sample_rate": {
+          "label": "샘플레이트"
+        },
+        "speed": {
+          "label": "말하기 속도"
+        },
+        "pitch": {
+          "label": "음높이"
+        },
+        "volume": {
+          "label": "음량"
+        },
+        "bit_rate": {
+          "label": "Opus 비트레이트"
+        },
+        "language_hint": {
+          "label": "언어 힌트",
+          "choiceLabels": {
+            "zh": "중국어",
+            "en": "영어",
+            "ja": "일본어",
+            "ko": "한국어",
+            "fr": "프랑스어",
+            "de": "독일어",
+            "pt": "포르투갈어",
+            "it": "이탈리아어",
+            "vi": "베트남어",
+            "id": "인도네시아어"
+          }
+        },
+        "instruction": {
+          "label": "말하기 스타일 지시"
+        },
+        "enable_ssml": {
+          "label": "SSML 사용"
+        },
+        "seed": {
+          "label": "시드"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "합성할 내용을 입력하세요. SSML을 켜면 SSML이나 LaTeX도 사용할 수 있습니다."
+        },
+        "voice": {
+          "help": "현재 모델이 제공하는 음색을 선택하세요."
+        },
+        "instruction": {
+          "help": "말투, 감정, 역할이나 말하는 방식을 자연어로 설명하세요."
+        },
+        "output_format": {
+          "help": "MP3, PCM, WAV, Opus 중에서 선택하세요."
+        },
+        "sample_rate": {
+          "help": "초당 샘플 수를 Hz로 지정하세요."
+        },
+        "speed": {
+          "help": "1은 기본 속도입니다. 0.5부터 2까지 지정할 수 있습니다."
+        },
+        "pitch": {
+          "help": "1은 기본 음높이입니다. 0.5부터 2까지 지정할 수 있습니다."
+        },
+        "volume": {
+          "help": "0부터 100까지 지정할 수 있습니다."
+        },
+        "bit_rate": {
+          "help": "Opus에서만 사용됩니다. 단위는 kbps입니다."
+        },
+        "language_hint": {
+          "help": "언어를 하나 선택하세요. 비워 두면 자동으로 감지합니다."
+        },
+        "enable_ssml": {
+          "help": "텍스트를 SSML 마크업이나 LaTeX로 해석합니다."
+        },
+        "seed": {
+          "help": "무작위는 -1입니다. 0부터 65535까지의 정수도 지정할 수 있습니다."
+        }
+      }
+    }
+  }
+}

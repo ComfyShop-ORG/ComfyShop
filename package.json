@@ -1,0 +1,49 @@
+{
+  "name": "comfyshop",
+  "private": true,
+  "packageManager": "pnpm@12.21.0",
+  "engines": {
+    "node": "^22.13.0 || >=24"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @comfyshop/tokens build && node tooling/dev.mjs",
+    "dev:api": "uv run --package comfyshop-api fastapi dev apps/api/src/comfyshop_api/main.py --host 0.0.0.0 --port 8688",
+    "worker": "uv run --package comfyshop-worker python -m comfyshop_worker",
+    "db:migrate": "uv run --package comfyshop-api alembic -c apps/api/alembic.ini upgrade head",
+    "start": "pnpm db:migrate && uv run --package comfyshop-api fastapi run apps/api/src/comfyshop_api/main.py --host 0.0.0.0 --port 8688",
+    "api:generate": "uv run --package comfyshop-api python tooling/export-openapi.py && openapi-typescript packages/api-client/openapi.json --default-non-nullable false -o packages/api-client/src/schema.d.ts && prettier --write packages/api-client/src/schema.d.ts packages/api-client/src/runtime-contract.ts packages/api-client/openapi.json && uv run --package comfyshop-api ruff format integrations/skills/comfyshop/scripts/comfyshop.py",
+    "build": "turbo run build && node tooling/stage-web.mjs",
+    "check": "node packages/tokens/build.mjs --check && tsc --noEmit && eslint . --max-warnings 0 && pyright --warnings && node tooling/verify-boundaries.mjs && knip --no-progress && uv run --all-packages ruff check --no-cache apps/api libs integrations tooling && uv run --all-packages vulture && node tooling/check-styles.mjs css && node tooling/check-styles.mjs tokens",
+    "check:infra": "actionlint && hadolint Dockerfile && shellcheck tooling/docker-entrypoint.sh integrations/comfyui/standalone/start.sh integrations/comfyui/standalone/start.command",
+    "check:duplicates": "jscpd --config .jscpd.json",
+    "check:deps": "osv-scanner scan source --lockfile=pnpm-lock.yaml --lockfile=uv.lock",
+    "check:secrets": "gitleaks git --config .gitleaks.toml --redact=100 --no-banner --verbose --log-opts=--all .",
+    "check:secrets:staged": "gitleaks git --config .gitleaks.toml --redact=100 --no-banner --verbose --staged .",
+    "test": "node --experimental-strip-types --test 'packages/*/src/**/*.test.ts' 'apps/web/src/**/*.test.ts' 'tooling/**/*.test.mjs' && pnpm --filter @comfyshop/web test && pnpm test:python",
+    "test:python": "turbo run build --filter=@comfyshop/web && uv run --all-packages pytest",
+    "test:browser": "pnpm test:python apps/api/tests/test_result_browser.py apps/api/tests/test_languages_browser.py",
+    "tokens": "pnpm --filter @comfyshop/tokens build",
+    "format": "prettier --write . && uv run --all-packages ruff format apps/api libs integrations tooling/*.py",
+    "format:check": "prettier --check . && uv run --all-packages ruff format --check apps/api libs integrations tooling/*.py"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "25.0.3",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "10.15.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "17.14.0",
+    "knip": "6.45.1",
+    "openapi-typescript": "7.13.0",
+    "postcss": "8.5.33",
+    "postcss-value-parser": "4.2.0",
+    "prettier": "3.10.1",
+    "purgecss": "9.1.0",
+    "pyright": "1.1.414",
+    "turbo": "2.11.11",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.73.0"
+  }
+}

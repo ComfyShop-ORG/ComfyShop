@@ -1,0 +1,603 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-atlascloud-studio-product-visuals",
+  "name": "Atlas Cloud Studio 商品视觉广告",
+  "description": "用商品照片生成主图、详情页或宣传海报，可指定模特照片。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "product_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "model_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "user_prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "optional": false
+    },
+    {
+      "name": "visual_type",
+      "kind": "choice",
+      "default": "product_hero",
+      "choices": ["product_hero", "product_detail", "promo_poster", ""],
+      "optional": true
+    },
+    {
+      "name": "ratio",
+      "kind": "choice",
+      "default": "9:16",
+      "choices": ["1:1", "3:4", "4:3", "16:9", "9:16"],
+      "optional": true
+    },
+    {
+      "name": "product_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "model_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "count",
+      "kind": "choice",
+      "default": 1,
+      "choices": [1, 2, 3, 4],
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "2k",
+      "choices": ["1k", "2k", "4k"],
+      "optional": true
+    },
+    {
+      "name": "format",
+      "kind": "choice",
+      "default": "png",
+      "choices": ["png", "jpeg"],
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "product_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "model_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "user_prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "visual_type",
+      "section": "default"
+    },
+    {
+      "fieldId": "ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "product_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "model_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "count",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "format",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "atlascloud/studio/product-visuals",
+      "operation": "image",
+      "parameters": {
+        "user_prompt": "user_prompt",
+        "visual_type": "visual_type",
+        "ratio": "ratio",
+        "count": "count",
+        "resolution": "resolution",
+        "format": "format"
+      },
+      "media": {
+        "product_image": {
+          "kind": "image",
+          "fields": ["product_image"],
+          "external_sources_field": "product_source",
+          "external_urls_only": true,
+          "min_items": 1,
+          "max_bytes": 10000000
+        },
+        "model_image": {
+          "kind": "image",
+          "fields": ["model_image"],
+          "external_sources_field": "model_source",
+          "external_urls_only": true,
+          "max_bytes": 10000000
+        }
+      },
+      "omit_blank_parameters": ["visual_type"],
+      "required_text": ["user_prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Atlas Cloud Studio 商品视觉广告",
+      "description": "用商品照片生成主图、详情页或宣传海报，可指定模特照片。",
+      "fields": {
+        "product_image": {
+          "label": "商品图"
+        },
+        "model_image": {
+          "label": "模特图"
+        },
+        "user_prompt": {
+          "label": "创作指令"
+        },
+        "visual_type": {
+          "label": "视觉类型",
+          "choiceLabels": {
+            "product_hero": "商品主图",
+            "product_detail": "商品详情页",
+            "promo_poster": "宣传海报",
+            "": "自动判断"
+          }
+        },
+        "ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "16:9": "16:9",
+            "9:16": "9:16"
+          }
+        },
+        "product_source": {
+          "label": "商品图 URL"
+        },
+        "model_source": {
+          "label": "模特图 URL"
+        },
+        "count": {
+          "label": "出图张数"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "format": {
+          "label": "成品格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "product_image": {
+          "help": "上传商品图，最多 10 MB。也可填写公开 URL。"
+        },
+        "model_image": {
+          "help": "可上传一张模特图保持人物一致，最多 10 MB。"
+        },
+        "user_prompt": {
+          "help": "描述品牌、商品亮点和想要的风格。"
+        },
+        "visual_type": {
+          "help": "选择成品样式。默认商品主图，也可让 Atlas 根据商品判断。"
+        },
+        "ratio": {
+          "help": "选择输出宽高比。默认 9:16。"
+        },
+        "product_source": {
+          "help": "填写一个可公开访问的商品图 URL。"
+        },
+        "model_source": {
+          "help": "填写一个可公开访问的模特图片 URL。"
+        },
+        "count": {
+          "help": "选择 1 至 4 张。默认 1 张。"
+        },
+        "resolution": {
+          "help": "选择 1K、2K 或 4K。默认 2K。实际尺寸随比例变化，3:4 与 4:3 没有中间像素档，1:1 上限为 2048 像素。"
+        },
+        "format": {
+          "help": "选择 PNG 或 JPEG。默认 PNG。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Atlas Cloud Studio 商品視覺廣告",
+      "description": "用商品照片生成主圖、詳情頁或宣傳海報，可指定模特兒照片。",
+      "fields": {
+        "product_image": {
+          "label": "商品圖"
+        },
+        "model_image": {
+          "label": "模特兒圖"
+        },
+        "user_prompt": {
+          "label": "創作指令"
+        },
+        "visual_type": {
+          "label": "視覺類型",
+          "choiceLabels": {
+            "product_hero": "商品主圖",
+            "product_detail": "商品詳情頁",
+            "promo_poster": "宣傳海報",
+            "": "自動判斷"
+          }
+        },
+        "ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "16:9": "16:9",
+            "9:16": "9:16"
+          }
+        },
+        "product_source": {
+          "label": "商品圖 URL"
+        },
+        "model_source": {
+          "label": "模特兒圖 URL"
+        },
+        "count": {
+          "label": "出圖張數"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "format": {
+          "label": "成品格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "product_image": {
+          "help": "上傳商品圖，最多 10 MB。也可填寫公開 URL。"
+        },
+        "model_image": {
+          "help": "可上傳一張模特兒圖保持人物一致，最多 10 MB。"
+        },
+        "user_prompt": {
+          "help": "描述品牌、商品亮點和想要的風格。"
+        },
+        "visual_type": {
+          "help": "選擇成品樣式。預設商品主圖，也可讓 Atlas 依商品判斷。"
+        },
+        "ratio": {
+          "help": "選擇輸出寬高比。預設 9:16。"
+        },
+        "product_source": {
+          "help": "填寫一個可公開存取的商品圖 URL。"
+        },
+        "model_source": {
+          "help": "填寫一個可公開存取的模特兒圖片 URL。"
+        },
+        "count": {
+          "help": "選擇 1 至 4 張。預設 1 張。"
+        },
+        "resolution": {
+          "help": "選擇 1K、2K 或 4K。預設 2K。實際尺寸依比例而異，3:4 與 4:3 沒有中間像素級距，1:1 上限為 2048 像素。"
+        },
+        "format": {
+          "help": "選擇 PNG 或 JPEG。預設 PNG。"
+        }
+      }
+    },
+    "en": {
+      "name": "Atlas Cloud Studio Image Ads",
+      "description": "Create a product hero image, detail-page graphic, or promotional poster from a product photo. A model photo is optional.",
+      "fields": {
+        "product_image": {
+          "label": "Product image"
+        },
+        "model_image": {
+          "label": "Model image"
+        },
+        "user_prompt": {
+          "label": "Creative instructions"
+        },
+        "visual_type": {
+          "label": "Visual type",
+          "choiceLabels": {
+            "product_hero": "Product hero",
+            "product_detail": "Product detail page",
+            "promo_poster": "Promotional poster",
+            "": "Automatic"
+          }
+        },
+        "ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "16:9": "16:9",
+            "9:16": "9:16"
+          }
+        },
+        "product_source": {
+          "label": "Product image URL"
+        },
+        "model_source": {
+          "label": "Model image URL"
+        },
+        "count": {
+          "label": "Image count"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "product_image": {
+          "help": "Upload a product image up to 10 MB, or enter its public URL."
+        },
+        "model_image": {
+          "help": "Optionally upload a model photo up to 10 MB to keep the person consistent."
+        },
+        "user_prompt": {
+          "help": "Describe the brand, product highlights, and visual style."
+        },
+        "visual_type": {
+          "help": "Choose the output style. The default is Product hero. Atlas can also select the style based on the product."
+        },
+        "ratio": {
+          "help": "Choose an aspect ratio. The default is 9:16."
+        },
+        "product_source": {
+          "help": "Enter one public product image URL."
+        },
+        "model_source": {
+          "help": "Enter one public model image URL."
+        },
+        "count": {
+          "help": "Choose one to four images. The default is one."
+        },
+        "resolution": {
+          "help": "Choose 1K, 2K, or 4K. The default is 2K. Actual size depends on the ratio. 3:4 and 4:3 have no middle pixel tier, and 1:1 is capped at 2048 pixels."
+        },
+        "format": {
+          "help": "Choose PNG or JPEG. The default is PNG."
+        }
+      }
+    },
+    "ja": {
+      "name": "Atlas Cloud Studio 商品広告画像",
+      "description": "商品写真からメイン画像、商品詳細ページ、宣伝ポスターを生成します。モデル写真も指定できます。",
+      "fields": {
+        "product_image": {
+          "label": "商品画像"
+        },
+        "model_image": {
+          "label": "モデル画像"
+        },
+        "user_prompt": {
+          "label": "制作指示"
+        },
+        "visual_type": {
+          "label": "ビジュアルの種類",
+          "choiceLabels": {
+            "product_hero": "商品メイン画像",
+            "product_detail": "商品詳細ページ",
+            "promo_poster": "宣伝ポスター",
+            "": "自動選択"
+          }
+        },
+        "ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "16:9": "16:9",
+            "9:16": "9:16"
+          }
+        },
+        "product_source": {
+          "label": "商品画像の URL"
+        },
+        "model_source": {
+          "label": "モデル画像の URL"
+        },
+        "count": {
+          "label": "画像の枚数"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "product_image": {
+          "help": "最大 10 MB の商品画像をアップロードするか、公開 URL を入力します。"
+        },
+        "model_image": {
+          "help": "人物を統一する場合、最大 10 MB のモデル画像を指定できます。"
+        },
+        "user_prompt": {
+          "help": "ブランド、商品の特徴、希望する画風を記述します。"
+        },
+        "visual_type": {
+          "help": "出力スタイルを選択します。既定は商品メイン画像です。Atlas に自動選択させることもできます。"
+        },
+        "ratio": {
+          "help": "アスペクト比を選択します。既定は 9:16 です。"
+        },
+        "product_source": {
+          "help": "公開されている商品画像の URL を一つ入力します。"
+        },
+        "model_source": {
+          "help": "公開されているモデル画像の URL を一つ入力します。"
+        },
+        "count": {
+          "help": "1〜4 枚から選択します。既定は 1 枚です。"
+        },
+        "resolution": {
+          "help": "1K、2K、4K から選択します。既定は 2K です。実際のサイズは比率によって異なり、3:4 と 4:3 に中間のピクセル段階はなく、1:1 は最大 2048 ピクセルです。"
+        },
+        "format": {
+          "help": "PNG または JPEG を選択します。既定は PNG です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Atlas Cloud Studio 상품 광고 이미지",
+      "description": "상품 사진으로 대표 이미지, 상품 상세 페이지 또는 홍보 포스터를 만듭니다. 모델 사진을 지정할 수 있습니다.",
+      "fields": {
+        "product_image": {
+          "label": "상품 이미지"
+        },
+        "model_image": {
+          "label": "모델 이미지"
+        },
+        "user_prompt": {
+          "label": "제작 지시"
+        },
+        "visual_type": {
+          "label": "비주얼 유형",
+          "choiceLabels": {
+            "product_hero": "상품 대표 이미지",
+            "product_detail": "상품 상세 페이지",
+            "promo_poster": "홍보 포스터",
+            "": "자동 선택"
+          }
+        },
+        "ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "16:9": "16:9",
+            "9:16": "9:16"
+          }
+        },
+        "product_source": {
+          "label": "상품 이미지 URL"
+        },
+        "model_source": {
+          "label": "모델 이미지 URL"
+        },
+        "count": {
+          "label": "이미지 수"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "product_image": {
+          "help": "최대 10MB의 상품 이미지를 업로드하거나 공개 URL을 입력하세요."
+        },
+        "model_image": {
+          "help": "인물을 일관되게 유지하려면 최대 10MB의 모델 사진을 업로드하세요."
+        },
+        "user_prompt": {
+          "help": "브랜드, 상품 특징, 원하는 스타일을 설명하세요."
+        },
+        "visual_type": {
+          "help": "출력 스타일을 선택하세요. 기본값은 상품 대표 이미지이며 Atlas가 자동으로 선택할 수도 있습니다."
+        },
+        "ratio": {
+          "help": "화면 비율을 선택하세요. 기본값은 9:16입니다."
+        },
+        "product_source": {
+          "help": "공개 상품 이미지 URL을 하나 입력하세요."
+        },
+        "model_source": {
+          "help": "공개 모델 이미지 URL을 하나 입력하세요."
+        },
+        "count": {
+          "help": "1~4장을 선택하세요. 기본값은 1장입니다."
+        },
+        "resolution": {
+          "help": "1K, 2K 또는 4K를 선택하세요. 기본값은 2K입니다. 실제 크기는 비율에 따라 달라지며 3:4와 4:3에는 중간 픽셀 단계가 없고 1:1은 최대 2048픽셀입니다."
+        },
+        "format": {
+          "help": "PNG 또는 JPEG를 선택하세요. 기본값은 PNG입니다."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,474 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-zimage-lora",
+  "name": "Z-Image Turbo LoRA 文生图",
+  "description": "根据提示词生成图片，可混合最多三个 LoRA 权重。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "size",
+      "kind": "string",
+      "default": "1024*1024",
+      "optional": true
+    },
+    {
+      "name": "loras",
+      "kind": "string",
+      "multiline": true,
+      "optional": true,
+      "default": "[]"
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    },
+    {
+      "name": "num_inference_steps",
+      "kind": "integer",
+      "minimum": "1",
+      "optional": true,
+      "default": 9
+    },
+    {
+      "name": "guidance_scale",
+      "kind": "number",
+      "optional": true,
+      "default": 1
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "default": "png",
+      "choices": ["png", "jpeg", "webp"],
+      "optional": true
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "loras",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "num_inference_steps",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "guidance_scale",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "z-image/turbo-lora",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "loras": "loras",
+        "seed": "seed",
+        "num_inference_steps": "num_inference_steps",
+        "guidance_scale": "guidance_scale",
+        "output_format": "output_format",
+        "enable_sync_mode": "enable_sync_mode",
+        "enable_base64_output": "enable_base64_output"
+      },
+      "required_text": ["prompt"],
+      "image_size_limits": {
+        "min_side": 1,
+        "max_side": 1536,
+        "allow_auto": false
+      },
+      "omit_blank_parameters": ["loras"],
+      "lora_parameters": {
+        "loras": {
+          "max_items": 3,
+          "scale_range": [0, 4]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Z-Image Turbo LoRA 文生图",
+      "description": "根据提示词生成图片，可混合最多三个 LoRA 权重。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "输出尺寸"
+        },
+        "loras": {
+          "label": "LoRA 权重"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "num_inference_steps": {
+          "label": "推理步数"
+        },
+        "guidance_scale": {
+          "label": "提示词引导强度"
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述场景、画面风格和图片中的文字。"
+        },
+        "size": {
+          "help": "输入宽*高，每边最多 1,536 像素，默认 1024*1024。"
+        },
+        "loras": {
+          "help": "填写 JSON 数组，最多 3 项。每项填 path（权重 ID 或 .safetensors URL），可选 scale 为 0 至 4，默认 1。"
+        },
+        "seed": {
+          "help": "-1 为随机。指定整数可重用种子。"
+        },
+        "num_inference_steps": {
+          "help": "填写大于等于 1 的整数，默认 9。"
+        },
+        "guidance_scale": {
+          "help": "填写引导强度，默认 1。"
+        },
+        "output_format": {
+          "help": "选择 PNG、JPEG 或 WebP，默认 PNG。"
+        },
+        "enable_sync_mode": {
+          "help": "等待成品上传后由提交请求直接返回结果。"
+        },
+        "enable_base64_output": {
+          "help": "以 Base64 返回图片，工作机解码后保存。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Z-Image Turbo LoRA 文生圖",
+      "description": "依提示詞生成圖片，可混合最多三個 LoRA 權重。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "輸出尺寸"
+        },
+        "loras": {
+          "label": "LoRA 權重"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "num_inference_steps": {
+          "label": "推論步數"
+        },
+        "guidance_scale": {
+          "label": "提示詞引導強度"
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步傳回"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述場景、畫面風格和圖片裡的文字。"
+        },
+        "size": {
+          "help": "輸入寬*高，每邊最多 1,536 像素，預設 1024*1024。"
+        },
+        "loras": {
+          "help": "填寫 JSON 陣列，最多 3 項。每項填入 path（權重 ID 或 .safetensors 網址），可選的 scale 為 0 至 4，預設 1。"
+        },
+        "seed": {
+          "help": "-1 為隨機。指定整數可沿用種子。"
+        },
+        "num_inference_steps": {
+          "help": "填寫大於或等於 1 的整數，預設 9。"
+        },
+        "guidance_scale": {
+          "help": "填寫引導強度，預設 1。"
+        },
+        "output_format": {
+          "help": "選擇 PNG、JPEG 或 WebP，預設 PNG。"
+        },
+        "enable_sync_mode": {
+          "help": "等待成品上傳完成後，由提交請求直接傳回結果。"
+        },
+        "enable_base64_output": {
+          "help": "以 Base64 傳回圖片，工作機解碼後儲存。"
+        }
+      }
+    },
+    "en": {
+      "name": "Z-Image Turbo LoRA Text-to-Image",
+      "description": "Generate images from a prompt and combine up to three LoRA weights.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Output size"
+        },
+        "loras": {
+          "label": "LoRA weights"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "num_inference_steps": {
+          "label": "Inference steps"
+        },
+        "guidance_scale": {
+          "label": "Prompt guidance scale"
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "Synchronous response"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the scene, visual style, and any text in the image."
+        },
+        "size": {
+          "help": "Enter width*height, up to 1,536 pixels per side. The default is 1024*1024."
+        },
+        "loras": {
+          "help": "Enter a JSON array with up to three items. Each needs path (a weights ID or .safetensors URL). Optional scale ranges from 0 to 4 and defaults to 1."
+        },
+        "seed": {
+          "help": "Use -1 for a random seed, or enter an integer to reuse a seed."
+        },
+        "num_inference_steps": {
+          "help": "Enter an integer of at least 1. The default is 9."
+        },
+        "guidance_scale": {
+          "help": "Enter the guidance scale. The default is 1."
+        },
+        "output_format": {
+          "help": "Choose PNG, JPEG, or WebP. The default is PNG."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for upload and return the completed output in the submission response."
+        },
+        "enable_base64_output": {
+          "help": "Return the image as Base64. The worker decodes and saves it."
+        }
+      }
+    },
+    "ja": {
+      "name": "Z-Image Turbo LoRA テキストから画像",
+      "description": "プロンプトから画像を生成し、LoRA の重みを最大 3 件組み合わせます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "出力サイズ"
+        },
+        "loras": {
+          "label": "LoRA の重み"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "num_inference_steps": {
+          "label": "推論ステップ数"
+        },
+        "guidance_scale": {
+          "label": "プロンプトの反映強度"
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "場面、画風、画像内の文字を記述します。"
+        },
+        "size": {
+          "help": "幅*高さを各辺 1,536 ピクセル以下で入力します。既定値は 1024*1024 です。"
+        },
+        "loras": {
+          "help": "最大 3 件の JSON 配列を入力します。各項目には path（重みの ID または .safetensors の URL）が必要です。scale は省略でき、0〜4、既定値は 1 です。"
+        },
+        "seed": {
+          "help": "-1 はランダムです。整数を指定するとシードを再利用できます。"
+        },
+        "num_inference_steps": {
+          "help": "1 以上の整数を入力します。既定値は 9 です。"
+        },
+        "guidance_scale": {
+          "help": "反映強度を入力します。既定値は 1 です。"
+        },
+        "output_format": {
+          "help": "PNG、JPEG、WebP のいずれかを選びます。既定値は PNG です。"
+        },
+        "enable_sync_mode": {
+          "help": "生成とアップロードを待ち、送信リクエストの応答で結果を返します。"
+        },
+        "enable_base64_output": {
+          "help": "画像を Base64 で返し、ワーカーで復号して保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Z-Image Turbo LoRA 텍스트로 이미지 생성",
+      "description": "프롬프트로 이미지를 생성하고 LoRA 가중치를 최대 3개 조합합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "출력 크기"
+        },
+        "loras": {
+          "label": "LoRA 가중치"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "num_inference_steps": {
+          "label": "추론 단계"
+        },
+        "guidance_scale": {
+          "label": "프롬프트 반영 강도"
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "동기 응답"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "장면, 이미지 스타일, 이미지에 넣을 글자를 설명하세요."
+        },
+        "size": {
+          "help": "각 변이 최대 1,536픽셀인 너비*높이를 입력하세요. 기본값은 1024*1024입니다."
+        },
+        "loras": {
+          "help": "최대 3개 항목의 JSON 배열을 입력하세요. 각 항목에는 path(가중치 ID 또는 .safetensors URL)가 필요합니다. 선택 항목 scale은 0~4이며 기본값은 1입니다."
+        },
+        "seed": {
+          "help": "-1은 무작위입니다. 같은 시드를 사용하려면 정수를 입력하세요."
+        },
+        "num_inference_steps": {
+          "help": "1 이상의 정수를 입력하세요. 기본값은 9입니다."
+        },
+        "guidance_scale": {
+          "help": "반영 강도를 입력하세요. 기본값은 1입니다."
+        },
+        "output_format": {
+          "help": "PNG, JPEG, WebP 중에서 선택하세요. 기본값은 PNG입니다."
+        },
+        "enable_sync_mode": {
+          "help": "결과 업로드를 기다려 요청 응답에서 결과를 바로 반환합니다."
+        },
+        "enable_base64_output": {
+          "help": "이미지를 Base64로 반환하고 작업 머신이 디코딩하여 저장합니다."
+        }
+      }
+    }
+  }
+}

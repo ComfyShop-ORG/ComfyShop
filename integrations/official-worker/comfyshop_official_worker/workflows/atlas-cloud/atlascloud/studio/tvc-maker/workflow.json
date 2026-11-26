@@ -1,0 +1,597 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-atlascloud-studio-tvc-maker",
+  "name": "Atlas Cloud Studio 品牌广告片",
+  "description": "用商品照片和品牌信息生成广告片，可选择模特照片、时长和画面比例。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "product_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "model_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "user_prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "optional": false
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["480p", "720p", "1080p", "720p-esr", "1080p-esr", "1440p-esr", "4k-esr"],
+      "optional": true
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 10,
+      "optional": true,
+      "choices": [
+        4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+        28, 29, 30
+      ]
+    },
+    {
+      "name": "count",
+      "kind": "choice",
+      "default": 1,
+      "choices": [1, 2],
+      "optional": true
+    },
+    {
+      "name": "product_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "choices": ["16:9", "9:16", "1:1", "3:4", "4:3"],
+      "optional": true
+    },
+    {
+      "name": "generate_audio",
+      "kind": "choice",
+      "default": "yes",
+      "choices": ["yes", "no"],
+      "optional": true
+    },
+    {
+      "name": "model_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "product_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "model_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "user_prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "count",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "product_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "model_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "atlascloud/studio/tvc-maker",
+      "operation": "video",
+      "parameters": {
+        "user_prompt": "user_prompt",
+        "resolution": "resolution",
+        "duration": "duration",
+        "count": "count",
+        "ratio": "ratio",
+        "generate_audio": "generate_audio"
+      },
+      "media": {
+        "product_image": {
+          "kind": "image",
+          "fields": ["product_image"],
+          "external_sources_field": "product_source",
+          "external_urls_only": true,
+          "min_items": 1,
+          "array": true,
+          "max_bytes": 10000000
+        },
+        "model_image": {
+          "kind": "image",
+          "fields": ["model_image"],
+          "external_sources_field": "model_source",
+          "external_urls_only": true,
+          "array": true,
+          "max_bytes": 10000000
+        }
+      },
+      "required_text": ["user_prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Atlas Cloud Studio 品牌广告片",
+      "description": "用商品照片和品牌信息生成广告片，可选择模特照片、时长和画面比例。",
+      "fields": {
+        "product_image": {
+          "label": "商品图"
+        },
+        "model_image": {
+          "label": "模特图"
+        },
+        "user_prompt": {
+          "label": "创作指令"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p",
+            "1080p": "1080p 原生",
+            "720p-esr": "720p 超分",
+            "1080p-esr": "1080p 超分",
+            "1440p-esr": "1440p 超分",
+            "4k-esr": "4K 超分"
+          }
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "count": {
+          "label": "视频数量"
+        },
+        "product_source": {
+          "label": "商品图 URL"
+        },
+        "ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3"
+          }
+        },
+        "generate_audio": {
+          "label": "同期声",
+          "choiceLabels": {
+            "yes": "生成",
+            "no": "关闭"
+          }
+        },
+        "model_source": {
+          "label": "模特图 URL"
+        }
+      },
+      "parameterLayout": {
+        "product_image": {
+          "help": "上传一张商品图，最多 10 MB。商品的包装、材质与文字以此为准。"
+        },
+        "model_image": {
+          "help": "可上传一张模特图，最多 10 MB。留空时由 Atlas 根据品牌调性设计角色。"
+        },
+        "user_prompt": {
+          "help": "描述品牌、卖点、目标人群与期望调性。"
+        },
+        "resolution": {
+          "help": "选择原生或超分档位。默认 720p。1080p 为直接渲染，1080p 超分为生成后放大。"
+        },
+        "duration": {
+          "help": "选择 4 至 30 秒。默认 10 秒。"
+        },
+        "ratio": {
+          "help": "选择宽高比，默认 16:9。竖屏可用 9:16。"
+        },
+        "generate_audio": {
+          "help": "选择是否生成环境声与配乐。默认开启。"
+        },
+        "count": {
+          "help": "选择 1 或 2 条。默认 1 条。"
+        },
+        "product_source": {
+          "help": "填写一个可公开访问的商品图片 URL。"
+        },
+        "model_source": {
+          "help": "填写一个可公开访问的模特图片 URL。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Atlas Cloud Studio 品牌廣告片",
+      "description": "用商品照片和品牌資訊生成廣告片，可選擇模特兒照片、長度和畫面比例。",
+      "fields": {
+        "product_image": {
+          "label": "商品圖"
+        },
+        "model_image": {
+          "label": "模特兒圖"
+        },
+        "user_prompt": {
+          "label": "創作指令"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p",
+            "1080p": "1080p 原生",
+            "720p-esr": "720p 超解析度",
+            "1080p-esr": "1080p 超解析度",
+            "1440p-esr": "1440p 超解析度",
+            "4k-esr": "4K 超解析度"
+          }
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "count": {
+          "label": "影片數量"
+        },
+        "product_source": {
+          "label": "商品圖 URL"
+        },
+        "ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3"
+          }
+        },
+        "generate_audio": {
+          "label": "同步聲音",
+          "choiceLabels": {
+            "yes": "生成",
+            "no": "關閉"
+          }
+        },
+        "model_source": {
+          "label": "模特兒圖 URL"
+        }
+      },
+      "parameterLayout": {
+        "product_image": {
+          "help": "上傳一張商品圖，最多 10 MB。商品的包裝、材質與文字以此為準。"
+        },
+        "model_image": {
+          "help": "可上傳一張模特兒圖，最多 10 MB。空白時由 Atlas 依品牌調性設計角色。"
+        },
+        "user_prompt": {
+          "help": "描述品牌、賣點、目標人群與期望調性。"
+        },
+        "resolution": {
+          "help": "選擇原生或超解析度級距。預設 720p。1080p 為直接渲染，1080p 超解析度為生成後放大。"
+        },
+        "duration": {
+          "help": "選擇 4 至 30 秒。預設 10 秒。"
+        },
+        "ratio": {
+          "help": "選擇寬高比，預設 16:9。直式可用 9:16。"
+        },
+        "generate_audio": {
+          "help": "選擇是否生成環境聲和配樂。預設開啟。"
+        },
+        "count": {
+          "help": "選擇 1 或 2 部。預設 1 部。"
+        },
+        "product_source": {
+          "help": "填寫一個可公開存取的商品圖片 URL。"
+        },
+        "model_source": {
+          "help": "填寫一個可公開存取的模特兒圖片 URL。"
+        }
+      }
+    },
+    "en": {
+      "name": "Atlas Cloud Studio TVC Maker",
+      "description": "Create a brand commercial from a product image and a creative brief, with optional casting, duration, and framing.",
+      "fields": {
+        "product_image": {
+          "label": "Product image"
+        },
+        "model_image": {
+          "label": "Model image"
+        },
+        "user_prompt": {
+          "label": "Creative instructions"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p",
+            "1080p": "1080p native",
+            "720p-esr": "720p upscaled",
+            "1080p-esr": "1080p upscaled",
+            "1440p-esr": "1440p upscaled",
+            "4k-esr": "4K upscaled"
+          }
+        },
+        "duration": {
+          "label": "Output duration (seconds)"
+        },
+        "count": {
+          "label": "Video count"
+        },
+        "product_source": {
+          "label": "Product image URL"
+        },
+        "ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3"
+          }
+        },
+        "generate_audio": {
+          "label": "Generated sound",
+          "choiceLabels": {
+            "yes": "Generate",
+            "no": "Off"
+          }
+        },
+        "model_source": {
+          "label": "Model image URL"
+        }
+      },
+      "parameterLayout": {
+        "product_image": {
+          "help": "Upload one product image up to 10 MB. It guides packaging, materials, and visible lettering."
+        },
+        "model_image": {
+          "help": "Optionally upload one model photo up to 10 MB. Atlas creates a character to suit the brand when omitted."
+        },
+        "user_prompt": {
+          "help": "Describe the brand, selling points, target audience, and desired tone."
+        },
+        "resolution": {
+          "help": "Choose a native or upscaled tier. The default is 720p. Native 1080p renders directly and the upscaled option enlarges the generated video."
+        },
+        "duration": {
+          "help": "Choose 4 to 30 seconds. The default is 10 seconds."
+        },
+        "ratio": {
+          "help": "Choose a width-to-height ratio. The default is 16:9. Use 9:16 for portrait video."
+        },
+        "generate_audio": {
+          "help": "Choose whether to add ambience and music. Enabled by default."
+        },
+        "count": {
+          "help": "Choose one or two videos. The default is one."
+        },
+        "product_source": {
+          "help": "Enter one public product image URL."
+        },
+        "model_source": {
+          "help": "Enter one public model image URL."
+        }
+      }
+    },
+    "ja": {
+      "name": "Atlas Cloud Studio ブランド CM 制作",
+      "description": "商品画像とブランドの情報から、出演者、長さ、画面比率を指定した広告動画を制作します。",
+      "fields": {
+        "product_image": {
+          "label": "商品画像"
+        },
+        "model_image": {
+          "label": "モデル画像"
+        },
+        "user_prompt": {
+          "label": "制作指示"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p",
+            "1080p": "1080p ネイティブ",
+            "720p-esr": "720p アップスケール",
+            "1080p-esr": "1080p アップスケール",
+            "1440p-esr": "1440p アップスケール",
+            "4k-esr": "4K アップスケール"
+          }
+        },
+        "duration": {
+          "label": "出力の長さ（秒）"
+        },
+        "count": {
+          "label": "動画の本数"
+        },
+        "product_source": {
+          "label": "商品画像の URL"
+        },
+        "ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3"
+          }
+        },
+        "generate_audio": {
+          "label": "音声生成",
+          "choiceLabels": {
+            "yes": "生成する",
+            "no": "オフ"
+          }
+        },
+        "model_source": {
+          "label": "モデル画像の URL"
+        }
+      },
+      "parameterLayout": {
+        "product_image": {
+          "help": "商品画像を一枚、最大 10 MB までアップロードします。包装、素材、文字の基準になります。"
+        },
+        "model_image": {
+          "help": "最大 10 MB のモデル写真を一枚指定できます。省略すると、Atlas がブランドに合う出演者を生成します。"
+        },
+        "user_prompt": {
+          "help": "ブランド、商品の特徴、対象顧客、希望する雰囲気を記述します。"
+        },
+        "resolution": {
+          "help": "ネイティブまたはアップスケールを選択します。既定は 720p です。ネイティブの 1080p は直接描画し、アップスケールでは生成後に拡大します。"
+        },
+        "duration": {
+          "help": "4〜30 秒から選択します。既定は 10 秒です。"
+        },
+        "ratio": {
+          "help": "幅と高さの比率を選択します。既定は 16:9 です。縦向きには 9:16 を使用できます。"
+        },
+        "generate_audio": {
+          "help": "環境音や音楽の生成を選択します。既定はオンです。"
+        },
+        "count": {
+          "help": "1 本または 2 本を選択します。既定は 1 本です。"
+        },
+        "product_source": {
+          "help": "公開された商品画像の URL を一つ入力します。"
+        },
+        "model_source": {
+          "help": "公開されたモデル画像の URL を一つ入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Atlas Cloud Studio 브랜드 광고 영상",
+      "description": "상품 사진과 브랜드 정보로 광고 영상을 만들고 모델 사진, 길이, 화면 비율을 지정할 수 있습니다.",
+      "fields": {
+        "product_image": {
+          "label": "상품 이미지"
+        },
+        "model_image": {
+          "label": "모델 이미지"
+        },
+        "user_prompt": {
+          "label": "제작 지시"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p",
+            "1080p": "1080p 기본",
+            "720p-esr": "720p 업스케일",
+            "1080p-esr": "1080p 업스케일",
+            "1440p-esr": "1440p 업스케일",
+            "4k-esr": "4K 업스케일"
+          }
+        },
+        "duration": {
+          "label": "결과 길이(초)"
+        },
+        "count": {
+          "label": "동영상 수"
+        },
+        "product_source": {
+          "label": "상품 이미지 URL"
+        },
+        "ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "4:3": "4:3"
+          }
+        },
+        "generate_audio": {
+          "label": "동시음 생성",
+          "choiceLabels": {
+            "yes": "생성",
+            "no": "끄기"
+          }
+        },
+        "model_source": {
+          "label": "모델 이미지 URL"
+        }
+      },
+      "parameterLayout": {
+        "product_image": {
+          "help": "최대 10MB의 상품 사진 한 장을 업로드하세요. 포장, 소재, 글자를 표현하는 기준이 됩니다."
+        },
+        "model_image": {
+          "help": "최대 10MB의 모델 사진 한 장을 선택할 수 있습니다. 비워 두면 Atlas가 브랜드 분위기에 맞춰 등장인물을 생성합니다."
+        },
+        "user_prompt": {
+          "help": "브랜드, 상품 특징, 대상 고객, 원하는 분위기를 설명하세요."
+        },
+        "resolution": {
+          "help": "기본 또는 업스케일 해상도를 선택하세요. 기본값은 720p입니다. 기본 1080p는 직접 렌더링하며 업스케일은 생성 후 크기를 늘립니다."
+        },
+        "duration": {
+          "help": "4~30초를 선택하세요. 기본값은 10초입니다."
+        },
+        "ratio": {
+          "help": "너비와 높이의 비율을 선택하세요. 기본값은 16:9이며 세로 영상은 9:16을 사용할 수 있습니다."
+        },
+        "generate_audio": {
+          "help": "배경음과 음악을 생성할지 선택하세요. 기본값은 켜짐입니다."
+        },
+        "count": {
+          "help": "영상 1개 또는 2개를 선택하세요. 기본값은 1개입니다."
+        },
+        "product_source": {
+          "help": "공개 상품 이미지 URL을 하나 입력하세요."
+        },
+        "model_source": {
+          "help": "공개 모델 이미지 URL을 하나 입력하세요."
+        }
+      }
+    }
+  }
+}

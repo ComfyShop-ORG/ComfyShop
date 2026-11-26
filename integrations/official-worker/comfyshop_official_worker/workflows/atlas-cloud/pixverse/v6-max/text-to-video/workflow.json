@@ -1,0 +1,318 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-pix6max-text",
+  "name": "PixVerse V6 Max 文生视频",
+  "description": "根据文字生成 1 至 15 秒的视频，可生成随画面同步的音频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "",
+      "maxLength": 5000
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "choices": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "optional": true,
+      "default": 5
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["16:9", "9:16", "1:1", "4:3", "3:4", "2:3", "3:2", "21:9"],
+      "optional": true,
+      "default": "16:9"
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["360p", "540p", "720p", "1080p"],
+      "optional": true,
+      "default": "720p"
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "pixverse/v6-max/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "generate_audio": "generate_audio",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 5000
+      },
+      "prediction_endpoint": "result"
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "PixVerse V6 Max 文生视频",
+      "description": "根据文字生成 1 至 15 秒的视频，可生成随画面同步的音频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "时长（秒）"
+        },
+        "aspect_ratio": {
+          "label": "宽高比"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "generate_audio": {
+          "label": "生成同步音频"
+        },
+        "seed": {
+          "label": "随机种子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、动作和场景，最多 5,000 字符。"
+        },
+        "duration_seconds": {
+          "help": "选择 1 至 15 秒，默认 5 秒。"
+        },
+        "aspect_ratio": {
+          "help": "设置成品视频的宽高比。"
+        },
+        "resolution": {
+          "help": "选择 360p、540p、720p 或 1080p。"
+        },
+        "generate_audio": {
+          "help": "跟随画面生成同步声音。"
+        },
+        "seed": {
+          "help": "填入整数以复用生成条件。留空时由 Atlas 选取。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "PixVerse V6 Max 文生影片",
+      "description": "依文字生成 1 至 15 秒的影片，可生成與畫面同步的音訊。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "時長（秒）"
+        },
+        "aspect_ratio": {
+          "label": "長寬比"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "generate_audio": {
+          "label": "生成同步音訊"
+        },
+        "seed": {
+          "label": "隨機種子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、動作與場景，最多 5,000 個字元。"
+        },
+        "duration_seconds": {
+          "help": "選擇 1 至 15 秒，預設 5 秒。"
+        },
+        "aspect_ratio": {
+          "help": "設定成品影片的長寬比。"
+        },
+        "resolution": {
+          "help": "選擇 360p、540p、720p 或 1080p。"
+        },
+        "generate_audio": {
+          "help": "跟隨畫面生成同步聲音。"
+        },
+        "seed": {
+          "help": "填入整數以重複使用生成條件。留空時由 Atlas 選取。"
+        }
+      }
+    },
+    "en": {
+      "name": "PixVerse V6 Max Text-to-Video",
+      "description": "Generate a one- to fifteen-second video from text with optional synchronized audio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "generate_audio": {
+          "label": "Generate synchronized audio"
+        },
+        "seed": {
+          "label": "Seed"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, motion, and scene in up to 5,000 characters."
+        },
+        "duration_seconds": {
+          "help": "Choose 1 to 15 seconds. The default is 5 seconds."
+        },
+        "aspect_ratio": {
+          "help": "Set the width-to-height ratio of the video."
+        },
+        "resolution": {
+          "help": "Choose 360p, 540p, 720p, or 1080p."
+        },
+        "generate_audio": {
+          "help": "Generate sound that matches the video."
+        },
+        "seed": {
+          "help": "Provide an integer to reuse the seed across requests. Leave blank for Atlas to choose."
+        }
+      }
+    },
+    "ja": {
+      "name": "PixVerse V6 Max テキストから動画",
+      "description": "テキストから 1〜15 秒の動画を生成します。映像に同期した音声も生成できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "長さ（秒）"
+        },
+        "aspect_ratio": {
+          "label": "縦横比"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "generate_audio": {
+          "label": "同期音声を生成"
+        },
+        "seed": {
+          "label": "シード"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、動き、場面を 5,000 文字以内で記述します。"
+        },
+        "duration_seconds": {
+          "help": "1〜15 秒から選びます。既定値は 5 秒です。"
+        },
+        "aspect_ratio": {
+          "help": "動画の横幅と高さの比率を設定します。"
+        },
+        "resolution": {
+          "help": "360p、540p、720p、1080p から選びます。"
+        },
+        "generate_audio": {
+          "help": "映像に合った音声を生成します。"
+        },
+        "seed": {
+          "help": "同じシードを使うには整数を指定します。空欄の場合は Atlas が選びます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "PixVerse V6 Max 텍스트로 동영상 생성",
+      "description": "텍스트로 1~15초 동영상을 생성합니다. 영상에 맞춰 동기화된 오디오를 생성할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "길이(초)"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "generate_audio": {
+          "label": "동기화 오디오 생성"
+        },
+        "seed": {
+          "label": "시드"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 움직임, 장면을 최대 5,000자로 설명하세요."
+        },
+        "duration_seconds": {
+          "help": "1~15초를 선택하세요. 기본값은 5초입니다."
+        },
+        "aspect_ratio": {
+          "help": "동영상의 가로세로 비율을 설정합니다."
+        },
+        "resolution": {
+          "help": "360p, 540p, 720p, 1080p 중 선택하세요."
+        },
+        "generate_audio": {
+          "help": "영상에 어울리는 소리를 생성합니다."
+        },
+        "seed": {
+          "help": "같은 시드를 다시 사용하려면 정수를 입력하세요. 비워 두면 Atlas가 선택합니다."
+        }
+      }
+    }
+  }
+}

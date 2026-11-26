@@ -1,0 +1,195 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-mj81-bg",
+  "name": "Midjourney V8.1 去除背景",
+  "description": "去除图片背景，输出保留主体的透明 PNG。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "input_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "input_image_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "input_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "input_image_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "midjourney/v8.1/remove-background",
+      "operation": "image",
+      "parameters": {
+        "enable_base64_output": "enable_base64_output"
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["input_image"],
+          "external_sources_field": "input_image_source",
+          "min_items": 1,
+          "external_urls_only": true,
+          "external_https_only": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Midjourney V8.1 去除背景",
+      "description": "去除图片背景，输出保留主体的透明 PNG。",
+      "fields": {
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "input_image": {
+          "label": "原图"
+        },
+        "input_image_source": {
+          "label": "原图 URL"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "上传一张需要去除背景的图片。"
+        },
+        "enable_base64_output": {
+          "help": "开启后，Atlas 以 Base64 返回图片，由工作机解码保存。"
+        },
+        "input_image_source": {
+          "help": "填写公开可访问的 HTTPS 图片地址，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Midjourney V8.1 移除背景",
+      "description": "移除圖片背景，輸出保留主體的透明 PNG。",
+      "fields": {
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "input_image": {
+          "label": "原圖"
+        },
+        "input_image_source": {
+          "label": "原圖 URL"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "上傳一張要移除背景的圖片。"
+        },
+        "enable_base64_output": {
+          "help": "開啟後，Atlas 以 Base64 傳回圖片，由工作機解碼儲存。"
+        },
+        "input_image_source": {
+          "help": "填寫公開可存取的 HTTPS 圖片網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Midjourney V8.1 Remove Background",
+      "description": "Remove the background from an image and save the subject as a transparent PNG.",
+      "fields": {
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "input_image": {
+          "label": "Original image"
+        },
+        "input_image_source": {
+          "label": "Original image URL"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "Upload one image to remove its background."
+        },
+        "enable_base64_output": {
+          "help": "Return images as Base64 for the worker to decode and save."
+        },
+        "input_image_source": {
+          "help": "Provide a publicly accessible HTTPS image URL or upload an image."
+        }
+      }
+    },
+    "ja": {
+      "name": "Midjourney V8.1 背景削除",
+      "description": "画像の背景を削除し、被写体を残した透過 PNG を出力します。",
+      "fields": {
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        },
+        "input_image": {
+          "label": "元画像"
+        },
+        "input_image_source": {
+          "label": "元画像の URL"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "背景を削除したい画像を 1 枚アップロードします。"
+        },
+        "enable_base64_output": {
+          "help": "画像を Base64 で受け取り、ワーカーがデコードして保存します。"
+        },
+        "input_image_source": {
+          "help": "公開 HTTPS 画像の URL を入力するか、画像をアップロードします。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Midjourney V8.1 배경 제거",
+      "description": "이미지의 배경을 제거하고 피사체가 남은 투명 PNG를 출력합니다.",
+      "fields": {
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        },
+        "input_image": {
+          "label": "원본 이미지"
+        },
+        "input_image_source": {
+          "label": "원본 이미지 URL"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "배경을 제거할 이미지 한 장을 업로드하세요."
+        },
+        "enable_base64_output": {
+          "help": "Base64 이미지 데이터를 받아 워커가 디코딩 후 저장합니다."
+        },
+        "input_image_source": {
+          "help": "공개 HTTPS 이미지 URL을 입력하거나 이미지를 업로드하세요."
+        }
+      }
+    }
+  }
+}

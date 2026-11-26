@@ -1,0 +1,483 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-alibaba-wan-2-7-text-to-video",
+  "name": "Wan 2.7 文生视频",
+  "description": "根据提示词生成最多 15 秒的视频，可选配乐与超分辨率。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 5000
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1080P",
+      "optional": true,
+      "choices": ["720P", "1080P", "1080P-SR", "1440P-SR"]
+    },
+    {
+      "name": "ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "optional": true,
+      "choices": ["16:9", "9:16", "1:1", "4:3", "3:4"]
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 5,
+      "optional": true,
+      "minimum": "2",
+      "maximum": "15"
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true,
+      "minimum": "-1",
+      "maximum": "2147483647"
+    },
+    {
+      "name": "negative_prompt",
+      "optional": true,
+      "kind": "string",
+      "multiline": true,
+      "maxLength": 500,
+      "default": ""
+    },
+    {
+      "name": "soundtrack",
+      "optional": true,
+      "kind": "audio"
+    },
+    {
+      "name": "soundtrack_source",
+      "optional": true,
+      "kind": "string",
+      "default": ""
+    },
+    {
+      "name": "prompt_extend",
+      "optional": true,
+      "kind": "boolean",
+      "default": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "negative_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "soundtrack",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "soundtrack_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "prompt_extend",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "alibaba/wan-2.7/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "ratio": "ratio",
+        "duration": "duration",
+        "seed": "seed",
+        "negative_prompt": "negative_prompt",
+        "prompt_extend": "prompt_extend"
+      },
+      "required_text": ["prompt"],
+      "omit_blank_parameters": ["negative_prompt"],
+      "media": {
+        "audio": {
+          "kind": "audio",
+          "fields": ["soundtrack"],
+          "content_types": ["audio/wav", "audio/mpeg"],
+          "max_bytes": 15000000,
+          "min_duration_ms": 2000,
+          "max_duration_ms": 30000,
+          "external_urls_only": true,
+          "external_sources_field": "soundtrack_source"
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Wan 2.7 文生视频",
+      "description": "根据提示词生成最多 15 秒的视频，可选配乐与超分辨率。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720P": "720P",
+            "1080P": "1080P",
+            "1080P-SR": "1080P SR",
+            "1440P-SR": "1440P SR"
+          }
+        },
+        "ratio": {
+          "label": "画面比例"
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "negative_prompt": {
+          "label": "负面提示词"
+        },
+        "soundtrack": {
+          "label": "配乐"
+        },
+        "soundtrack_source": {
+          "label": "配乐地址"
+        },
+        "prompt_extend": {
+          "label": "扩写提示词"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述需要的画面、动作和运镜。最多 5,000 字符。"
+        },
+        "resolution": {
+          "help": "选择 720P 或 1080P 原生输出，也可选超分辨率。默认 1080P。"
+        },
+        "ratio": {
+          "help": "从五种画面比例中选择，默认 16:9。"
+        },
+        "duration": {
+          "help": "输入 2 至 15 的整数，默认 5 秒。"
+        },
+        "seed": {
+          "help": "输入 -1 使用随机种子，或指定 0 至 2147483647 的整数。"
+        },
+        "negative_prompt": {
+          "help": "描述希望避免的元素，最多 500 字符。"
+        },
+        "soundtrack": {
+          "help": "上传 WAV 或 MP3，时长 2 至 30 秒，最大 15 MB。"
+        },
+        "soundtrack_source": {
+          "help": "填写一个公开音频 URL，与上传二选一。"
+        },
+        "prompt_extend": {
+          "help": "让模型补充提示词细节。默认开启，生成时间可能增加。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Wan 2.7 文生影片",
+      "description": "依提示詞產生最多 15 秒的影片，可選配樂與超解析度。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720P": "720P",
+            "1080P": "1080P",
+            "1080P-SR": "1080P SR",
+            "1440P-SR": "1440P SR"
+          }
+        },
+        "ratio": {
+          "label": "畫面比例"
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "negative_prompt": {
+          "label": "負面提示詞"
+        },
+        "soundtrack": {
+          "label": "配樂"
+        },
+        "soundtrack_source": {
+          "label": "配樂網址"
+        },
+        "prompt_extend": {
+          "label": "擴寫提示詞"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述所需的畫面、動作與運鏡。最多 5,000 字元。"
+        },
+        "resolution": {
+          "help": "選擇 720P 或 1080P 原生輸出，也可選超解析度。預設為 1080P。"
+        },
+        "ratio": {
+          "help": "從五種畫面比例中選擇，預設為 16:9。"
+        },
+        "duration": {
+          "help": "輸入 2 至 15 的整數，預設為 5 秒。"
+        },
+        "seed": {
+          "help": "輸入 -1 使用隨機種子，或指定 0 至 2147483647 的整數。"
+        },
+        "negative_prompt": {
+          "help": "描述想避免的元素，最多 500 字元。"
+        },
+        "soundtrack": {
+          "help": "上傳 WAV 或 MP3，長度 2 至 30 秒，最大 15 MB。"
+        },
+        "soundtrack_source": {
+          "help": "填寫一個公開音訊網址，與上傳擇一。"
+        },
+        "prompt_extend": {
+          "help": "讓模型補充提示詞細節。預設為開啟，生成時間可能增加。"
+        }
+      }
+    },
+    "en": {
+      "name": "Wan 2.7 Text to Video",
+      "description": "Generate up to 15 seconds of video from a prompt, with optional soundtrack and super-resolution.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720P": "720P",
+            "1080P": "1080P",
+            "1080P-SR": "1080P SR",
+            "1440P-SR": "1440P SR"
+          }
+        },
+        "ratio": {
+          "label": "Aspect ratio"
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "negative_prompt": {
+          "label": "Negative prompt"
+        },
+        "soundtrack": {
+          "label": "Soundtrack"
+        },
+        "soundtrack_source": {
+          "label": "Soundtrack URL"
+        },
+        "prompt_extend": {
+          "label": "Extend prompt"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the scene, motion, and camera direction. Use up to 5,000 characters."
+        },
+        "resolution": {
+          "help": "Choose native 720P or 1080P, or a super-resolution option. The default is 1080P."
+        },
+        "ratio": {
+          "help": "Choose from five aspect ratios. The default is 16:9."
+        },
+        "duration": {
+          "help": "Enter a whole number from 2 to 15. The default is 5 seconds."
+        },
+        "seed": {
+          "help": "Enter -1 for a random seed or use an integer from 0 to 2147483647."
+        },
+        "negative_prompt": {
+          "help": "Describe elements to avoid. Use up to 500 characters."
+        },
+        "soundtrack": {
+          "help": "Upload a WAV or MP3 from 2 to 30 seconds, up to 15 MB."
+        },
+        "soundtrack_source": {
+          "help": "Enter one public audio URL in place of an upload."
+        },
+        "prompt_extend": {
+          "help": "Let the model add details to the prompt. On by default and may increase generation time."
+        }
+      }
+    },
+    "ja": {
+      "name": "Wan 2.7 テキストから動画",
+      "description": "プロンプトから最大15秒の動画を生成します。音声トラックと超解像を任意で設定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720P": "720P",
+            "1080P": "1080P",
+            "1080P-SR": "1080P SR",
+            "1440P-SR": "1440P SR"
+          }
+        },
+        "ratio": {
+          "label": "アスペクト比"
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "negative_prompt": {
+          "label": "ネガティブプロンプト"
+        },
+        "soundtrack": {
+          "label": "音声トラック"
+        },
+        "soundtrack_source": {
+          "label": "音声トラックのURL"
+        },
+        "prompt_extend": {
+          "label": "プロンプトを拡張"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "場面、動き、カメラワークを記述します。最大5,000文字です。"
+        },
+        "resolution": {
+          "help": "ネイティブの720P、1080P、または超解像を選択します。既定値は1080Pです。"
+        },
+        "ratio": {
+          "help": "5種類の比率から選択します。既定値は16:9です。"
+        },
+        "duration": {
+          "help": "2〜15の整数を入力します。既定値は5秒です。"
+        },
+        "seed": {
+          "help": "ランダムなシードには-1を入力します。固定する場合は0〜2147483647の整数を指定します。"
+        },
+        "negative_prompt": {
+          "help": "避けたい要素を記述します。最大500文字です。"
+        },
+        "soundtrack": {
+          "help": "2〜30秒で15 MB以下のWAVまたはMP3をアップロードします。"
+        },
+        "soundtrack_source": {
+          "help": "アップロードの代わりに公開音声のURLを1件入力します。"
+        },
+        "prompt_extend": {
+          "help": "モデルにプロンプトの詳細を補わせます。既定では有効で、生成時間が延びる場合があります。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Wan 2.7 텍스트로 동영상 생성",
+      "description": "프롬프트로 최대 15초 동영상을 만들고 사운드트랙과 초해상도를 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720P": "720P",
+            "1080P": "1080P",
+            "1080P-SR": "1080P SR",
+            "1440P-SR": "1440P SR"
+          }
+        },
+        "ratio": {
+          "label": "화면 비율"
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "negative_prompt": {
+          "label": "부정 프롬프트"
+        },
+        "soundtrack": {
+          "label": "사운드트랙"
+        },
+        "soundtrack_source": {
+          "label": "사운드트랙 URL"
+        },
+        "prompt_extend": {
+          "label": "프롬프트 확장"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "장면, 동작, 카메라 움직임을 설명합니다. 최대 5,000자입니다."
+        },
+        "resolution": {
+          "help": "기본 생성 해상도 720P 또는 1080P 혹은 초해상도 옵션을 선택합니다. 기본값은 1080P입니다."
+        },
+        "ratio": {
+          "help": "다섯 가지 화면 비율 중에 선택합니다. 기본값은 16:9입니다."
+        },
+        "duration": {
+          "help": "2에서 15 사이의 정수를 입력합니다. 기본값은 5초입니다."
+        },
+        "seed": {
+          "help": "무작위 시드는 -1을 입력합니다. 고정하려면 0에서 2147483647 사이의 정수를 지정합니다."
+        },
+        "negative_prompt": {
+          "help": "피하고 싶은 요소를 설명합니다. 최대 500자입니다."
+        },
+        "soundtrack": {
+          "help": "2초에서 30초 길이의 15 MB 이하 WAV 또는 MP3를 업로드합니다."
+        },
+        "soundtrack_source": {
+          "help": "업로드 대신 공개 오디오 URL을 하나 입력합니다."
+        },
+        "prompt_extend": {
+          "help": "모델이 프롬프트의 세부 내용을 보완합니다. 기본값은 켜짐이며 생성 시간이 늘어날 수 있습니다."
+        }
+      }
+    }
+  }
+}

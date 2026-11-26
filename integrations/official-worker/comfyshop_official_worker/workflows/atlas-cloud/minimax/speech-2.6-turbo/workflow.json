@@ -1,0 +1,535 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "minimax-speech-26-turbo",
+  "name": "MiniMax Speech 2.6 Turbo 文本转语音",
+  "description": "将文本快速合成为语音，可选择音色、情绪和输出音质。",
+  "category": "audio",
+  "fields": [
+    {
+      "name": "text",
+      "kind": "string",
+      "multiline": true,
+      "default": "Welcome to Atlas Cloud — One API for All Media AI."
+    },
+    {
+      "name": "voice",
+      "kind": "choice",
+      "choices": [
+        "English_expressive_narrator",
+        "English_radiant_girl",
+        "English_magnetic_voiced_man",
+        "English_compelling_lady1",
+        "English_Aussie_Bloke",
+        "English_captivating_female1",
+        "English_Upbeat_Woman",
+        "English_Trustworth_Man",
+        "English_CalmWoman",
+        "English_UpsetGirl",
+        "English_Gentle-voiced_man",
+        "English_Whispering_girl",
+        "English_Diligent_Man",
+        "English_Graceful_Lady",
+        "English_ReservedYoungMan"
+      ],
+      "default": "English_expressive_narrator",
+      "optional": true
+    },
+    {
+      "name": "language",
+      "kind": "choice",
+      "choices": [
+        "auto",
+        "English",
+        "Chinese",
+        "Chinese,Yue",
+        "Japanese",
+        "Korean",
+        "Spanish",
+        "French",
+        "Portuguese",
+        "German",
+        "Italian",
+        "Arabic",
+        "Russian",
+        "Indonesian",
+        "Thai",
+        "Vietnamese"
+      ],
+      "default": "auto",
+      "optional": true
+    },
+    {
+      "name": "speed",
+      "kind": "number",
+      "minimum": "0.5",
+      "maximum": "2",
+      "default": 1,
+      "optional": true
+    },
+    {
+      "name": "volume",
+      "kind": "number",
+      "minimum": "0",
+      "maximum": "10",
+      "default": 1,
+      "optional": true
+    },
+    {
+      "name": "pitch",
+      "kind": "integer",
+      "minimum": "-12",
+      "maximum": "12",
+      "step": "1",
+      "default": 0,
+      "optional": true
+    },
+    {
+      "name": "emotion",
+      "kind": "choice",
+      "choices": [
+        "auto",
+        "happy",
+        "sad",
+        "angry",
+        "fearful",
+        "disgusted",
+        "surprised",
+        "calm",
+        "fluent",
+        "neutral"
+      ],
+      "default": "auto",
+      "optional": true
+    },
+    {
+      "name": "format",
+      "kind": "choice",
+      "choices": ["mp3", "wav", "flac"],
+      "default": "mp3",
+      "optional": true
+    },
+    {
+      "name": "sample_rate",
+      "kind": "choice",
+      "choices": [8000, 16000, 22050, 24000, 32000, 44100],
+      "default": 32000,
+      "optional": true
+    },
+    {
+      "name": "bitrate",
+      "kind": "choice",
+      "choices": [32000, 64000, 128000, 256000],
+      "default": 128000,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "text",
+      "section": "default"
+    },
+    {
+      "fieldId": "voice",
+      "section": "default"
+    },
+    {
+      "fieldId": "language",
+      "section": "default"
+    },
+    {
+      "fieldId": "speed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "volume",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "pitch",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "emotion",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "sample_rate",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "bitrate",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "audio",
+    "config": {
+      "operation": "audio",
+      "model": "minimax/speech-2.6-turbo",
+      "parameters": {
+        "text": "text",
+        "voice": "voice",
+        "language_boost": "language",
+        "speed": "speed",
+        "vol": "volume",
+        "pitch": "pitch",
+        "emotion": "emotion",
+        "format": "format",
+        "sample_rate": "sample_rate",
+        "bitrate": "bitrate"
+      },
+      "required_text": ["text"],
+      "text_max_lengths": {
+        "text": 10000
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "MiniMax Speech 2.6 Turbo 文本转语音",
+      "description": "将文本快速合成为语音，可选择音色、情绪和输出音质。",
+      "fields": {
+        "text": {
+          "label": "朗读文本"
+        },
+        "voice": {
+          "label": "音色"
+        },
+        "language": {
+          "label": "语言提示"
+        },
+        "speed": {
+          "label": "语速"
+        },
+        "volume": {
+          "label": "音量"
+        },
+        "pitch": {
+          "label": "音高"
+        },
+        "emotion": {
+          "label": "情绪"
+        },
+        "format": {
+          "label": "成品格式"
+        },
+        "sample_rate": {
+          "label": "采样率"
+        },
+        "bitrate": {
+          "label": "音频码率"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "最多 10000 字符。"
+        },
+        "voice": {
+          "help": "选择 MiniMax 的系统音色。"
+        },
+        "language": {
+          "help": "默认 auto 自动识别，Chinese,Yue 为粤语提示。"
+        },
+        "speed": {
+          "help": "可设置 0.5 至 2 倍速，默认为 1。"
+        },
+        "volume": {
+          "help": "可设置 0 至 10，默认为 1。"
+        },
+        "pitch": {
+          "help": "可设置 -12 至 12，默认为 0。"
+        },
+        "emotion": {
+          "help": "默认 auto，以文本内容推断情绪。"
+        },
+        "format": {
+          "help": "导出 MP3、WAV 或 FLAC。默认 MP3。"
+        },
+        "sample_rate": {
+          "help": "选择输出采样率，默认为 32000 Hz。"
+        },
+        "bitrate": {
+          "help": "选择每秒音频位数，默认为 128000 bit/s。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "MiniMax Speech 2.6 Turbo 文字轉語音",
+      "description": "將文字快速合成語音，可選擇音色、情緒和輸出音質。",
+      "fields": {
+        "text": {
+          "label": "朗讀文字"
+        },
+        "voice": {
+          "label": "音色"
+        },
+        "language": {
+          "label": "語言提示"
+        },
+        "speed": {
+          "label": "語速"
+        },
+        "volume": {
+          "label": "音量"
+        },
+        "pitch": {
+          "label": "音高"
+        },
+        "emotion": {
+          "label": "情緒"
+        },
+        "format": {
+          "label": "成品格式"
+        },
+        "sample_rate": {
+          "label": "取樣率"
+        },
+        "bitrate": {
+          "label": "音訊位元率"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "最多 10000 個字元。"
+        },
+        "voice": {
+          "help": "選擇 MiniMax 的系統音色。"
+        },
+        "language": {
+          "help": "預設 auto 自動辨識，Chinese,Yue 為粵語提示。"
+        },
+        "speed": {
+          "help": "可設定 0.5 至 2 倍速，預設為 1。"
+        },
+        "volume": {
+          "help": "可設定 0 至 10，預設為 1。"
+        },
+        "pitch": {
+          "help": "可設定 -12 至 12，預設為 0。"
+        },
+        "emotion": {
+          "help": "預設 auto，依文字內容推斷情緒。"
+        },
+        "format": {
+          "help": "匯出 MP3、WAV 或 FLAC。預設為 MP3。"
+        },
+        "sample_rate": {
+          "help": "選擇輸出取樣率，預設為 32000 Hz。"
+        },
+        "bitrate": {
+          "help": "選擇每秒音訊位元數，預設為 128000 bit/s。"
+        }
+      }
+    },
+    "en": {
+      "name": "MiniMax Speech 2.6 Turbo Text to Speech",
+      "description": "Quickly synthesize speech from text with selectable voices, emotions, and audio settings.",
+      "fields": {
+        "text": {
+          "label": "Text to read"
+        },
+        "voice": {
+          "label": "Voice"
+        },
+        "language": {
+          "label": "Language hint"
+        },
+        "speed": {
+          "label": "Speech speed"
+        },
+        "volume": {
+          "label": "Volume"
+        },
+        "pitch": {
+          "label": "Pitch"
+        },
+        "emotion": {
+          "label": "Emotion"
+        },
+        "format": {
+          "label": "Output format"
+        },
+        "sample_rate": {
+          "label": "Sample rate"
+        },
+        "bitrate": {
+          "label": "Audio bitrate"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "Enter up to 10,000 characters."
+        },
+        "voice": {
+          "help": "Select a MiniMax system voice."
+        },
+        "language": {
+          "help": "The default is auto for detection. Chinese,Yue is a Cantonese hint."
+        },
+        "speed": {
+          "help": "Set playback speed from 0.5× to 2×. The default is 1×."
+        },
+        "volume": {
+          "help": "Set volume from 0 to 10. The default is 1."
+        },
+        "pitch": {
+          "help": "Set pitch from -12 to 12. The default is 0."
+        },
+        "emotion": {
+          "help": "The default is auto, which infers emotion from the text."
+        },
+        "format": {
+          "help": "Export MP3, WAV, or FLAC. The default is MP3."
+        },
+        "sample_rate": {
+          "help": "Select the output sample rate. The default is 32000 Hz."
+        },
+        "bitrate": {
+          "help": "Select the number of audio bits per second. The default is 128000 bit/s."
+        }
+      }
+    },
+    "ja": {
+      "name": "MiniMax Speech 2.6 Turbo テキスト読み上げ",
+      "description": "テキストから音声をすばやく合成します。音色、感情、出力音質を選べます。",
+      "fields": {
+        "text": {
+          "label": "読み上げるテキスト"
+        },
+        "voice": {
+          "label": "音色"
+        },
+        "language": {
+          "label": "言語ヒント"
+        },
+        "speed": {
+          "label": "話速"
+        },
+        "volume": {
+          "label": "音量"
+        },
+        "pitch": {
+          "label": "ピッチ"
+        },
+        "emotion": {
+          "label": "感情"
+        },
+        "format": {
+          "label": "出力形式"
+        },
+        "sample_rate": {
+          "label": "サンプリング周波数"
+        },
+        "bitrate": {
+          "label": "音声ビットレート"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "10000 文字まで入力できます。"
+        },
+        "voice": {
+          "help": "MiniMax のプリセット音色を選択します。"
+        },
+        "language": {
+          "help": "既定値の auto では自動認識します。Chinese,Yue は広東語のヒントです。"
+        },
+        "speed": {
+          "help": "0.5～2 倍速を指定します。既定値は 1 倍です。"
+        },
+        "volume": {
+          "help": "0～10 の範囲で指定します。既定値は 1 です。"
+        },
+        "pitch": {
+          "help": "-12～12 の範囲で指定します。既定値は 0 です。"
+        },
+        "emotion": {
+          "help": "既定値の auto ではテキストから感情を推定します。"
+        },
+        "format": {
+          "help": "MP3、WAV、FLAC で出力できます。既定値は MP3 です。"
+        },
+        "sample_rate": {
+          "help": "出力のサンプリング周波数を選択します。既定値は 32000 Hz です。"
+        },
+        "bitrate": {
+          "help": "1 秒あたりの音声ビット数を選択します。既定値は 128000 bit/s です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "MiniMax Speech 2.6 Turbo 텍스트 음성 변환",
+      "description": "텍스트를 빠르게 음성으로 합성합니다. 음색, 감정, 출력 음질을 선택할 수 있습니다.",
+      "fields": {
+        "text": {
+          "label": "읽을 텍스트"
+        },
+        "voice": {
+          "label": "음색"
+        },
+        "language": {
+          "label": "언어 힌트"
+        },
+        "speed": {
+          "label": "말하기 속도"
+        },
+        "volume": {
+          "label": "음량"
+        },
+        "pitch": {
+          "label": "음높이"
+        },
+        "emotion": {
+          "label": "감정"
+        },
+        "format": {
+          "label": "출력 형식"
+        },
+        "sample_rate": {
+          "label": "샘플링 주파수"
+        },
+        "bitrate": {
+          "label": "오디오 비트 전송률"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "최대 10000자까지 입력할 수 있습니다."
+        },
+        "voice": {
+          "help": "MiniMax의 시스템 음색을 선택하세요."
+        },
+        "language": {
+          "help": "기본값 auto는 언어를 자동으로 인식합니다. Chinese,Yue는 광둥어 힌트입니다."
+        },
+        "speed": {
+          "help": "0.5~2배속을 설정합니다. 기본값은 1배속입니다."
+        },
+        "volume": {
+          "help": "0~10까지 설정합니다. 기본값은 1입니다."
+        },
+        "pitch": {
+          "help": "-12~12까지 설정합니다. 기본값은 0입니다."
+        },
+        "emotion": {
+          "help": "기본값 auto는 텍스트에서 감정을 판단합니다."
+        },
+        "format": {
+          "help": "MP3, WAV 또는 FLAC으로 내보냅니다. 기본값은 MP3입니다."
+        },
+        "sample_rate": {
+          "help": "출력 샘플링 주파수를 선택합니다. 기본값은 32000 Hz입니다."
+        },
+        "bitrate": {
+          "help": "오디오의 초당 비트 수를 선택합니다. 기본값은 128000 bit/s입니다."
+        }
+      }
+    }
+  }
+}

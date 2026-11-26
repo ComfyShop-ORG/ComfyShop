@@ -1,0 +1,203 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "kwaivgi-kling-v40-custom-voice",
+  "name": "可灵 4.0 自定义音色",
+  "description": "从语音样本或已有可灵视频创建音色，获得可试听的音频和可复用的音色 ID。",
+  "category": "audio",
+  "fields": [
+    {
+      "name": "voice_name",
+      "kind": "string",
+      "default": "My Voice",
+      "maxLength": 20
+    },
+    {
+      "name": "audio",
+      "kind": "audio",
+      "additionalAssetKinds": ["video"],
+      "optional": true
+    },
+    {
+      "name": "video_id",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "voice_name",
+      "section": "default"
+    },
+    {
+      "fieldId": "audio",
+      "section": "default"
+    },
+    {
+      "fieldId": "video_id",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "audio",
+    "additionalOutputKinds": ["text"],
+    "config": {
+      "operation": "audio",
+      "model": "kwaivgi/kling-v4.0/custom-voice",
+      "parameters": {
+        "voice_name": "voice_name",
+        "video_id": "video_id"
+      },
+      "required_text": ["voice_name"],
+      "text_max_lengths": {
+        "voice_name": 20
+      },
+      "media": {
+        "audio": {
+          "kind": "audio",
+          "fields": ["audio"],
+          "content_types": ["audio/mpeg", "audio/wav", "audio/mp4", "video/mp4"],
+          "max_bytes": 50000000,
+          "min_duration_ms": 5000,
+          "max_duration_ms": 30000
+        }
+      },
+      "required_one_of": [["audio", "video_id"]],
+      "return_voice_result": true
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 4.0 自定义音色",
+      "description": "从语音样本或已有可灵视频创建音色，获得可试听的音频和可复用的音色 ID。",
+      "fields": {
+        "voice_name": {
+          "label": "音色名称"
+        },
+        "audio": {
+          "label": "语音样本"
+        },
+        "video_id": {
+          "label": "已有视频 ID"
+        }
+      },
+      "parameterLayout": {
+        "voice_name": {
+          "help": "给新音色起名，最多 20 个字符。"
+        },
+        "audio": {
+          "help": "上传 5 至 30 秒的单人清晰语音。支持 MP3、WAV、MP4 和 MOV，文件最多 50 MB。"
+        },
+        "video_id": {
+          "help": "填写带声音的可灵 V2.6、数字人或口型同步生成视频的 ID。填写此项时，语音样本留空。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 4.0 自訂音色",
+      "description": "從語音樣本或現有可靈影片建立音色，取得試聽音訊和可重複使用的音色 ID。",
+      "fields": {
+        "voice_name": {
+          "label": "音色名稱"
+        },
+        "audio": {
+          "label": "語音樣本"
+        },
+        "video_id": {
+          "label": "現有影片 ID"
+        }
+      },
+      "parameterLayout": {
+        "voice_name": {
+          "help": "替新音色命名，最多 20 個字元。"
+        },
+        "audio": {
+          "help": "上傳 5 至 30 秒的清晰單人語音。支援 MP3、WAV、MP4 和 MOV，檔案最多 50 MB。"
+        },
+        "video_id": {
+          "help": "輸入有聲的可靈 V2.6、數位人或對嘴同步生成影片的 ID。填寫此項時，語音樣本留空。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling 4.0 Custom Voice",
+      "description": "Create a reusable voice from a speech sample or a compatible Kling video and save its ID and audition audio.",
+      "fields": {
+        "voice_name": {
+          "label": "Voice name"
+        },
+        "audio": {
+          "label": "Speech sample"
+        },
+        "video_id": {
+          "label": "Existing video ID"
+        }
+      },
+      "parameterLayout": {
+        "voice_name": {
+          "help": "Name the new voice using up to 20 characters."
+        },
+        "audio": {
+          "help": "Upload 5 to 30 seconds of clear speech from one speaker. Use MP3, WAV, MP4, or MOV up to 50 MB."
+        },
+        "video_id": {
+          "help": "Use the ID of a Kling V2.6 video with sound, an Avatar video, or a Lip-Sync video. Leave the speech sample empty when using this ID."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling 4.0 カスタム音色",
+      "description": "音声サンプルや対応する Kling 動画から音色を作成し、再利用できる音色 ID と試聴音声を保存します。",
+      "fields": {
+        "voice_name": {
+          "label": "音色名"
+        },
+        "audio": {
+          "label": "音声サンプル"
+        },
+        "video_id": {
+          "label": "既存の動画 ID"
+        }
+      },
+      "parameterLayout": {
+        "voice_name": {
+          "help": "新しい音色に 20 文字以内の名前を付けます。"
+        },
+        "audio": {
+          "help": "話者 1 人の明瞭な音声を 5〜30 秒アップロードします。MP3、WAV、MP4、MOV に対応し、50 MB まで使えます。"
+        },
+        "video_id": {
+          "help": "音声付きの Kling V2.6、Avatar、または Lip-Sync で生成した動画の ID を入力します。この場合は音声サンプルを空欄にします。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling 4.0 맞춤 음색",
+      "description": "음성 샘플이나 호환되는 Kling 동영상으로 음색을 만들고 다시 쓸 수 있는 음색 ID와 미리 듣기 오디오를 저장합니다.",
+      "fields": {
+        "voice_name": {
+          "label": "음색 이름"
+        },
+        "audio": {
+          "label": "음성 샘플"
+        },
+        "video_id": {
+          "label": "기존 동영상 ID"
+        }
+      },
+      "parameterLayout": {
+        "voice_name": {
+          "help": "새 음색의 이름을 20자 이내로 입력하세요."
+        },
+        "audio": {
+          "help": "한 사람이 또렷하게 말한 5~30초 분량을 업로드하세요. MP3, WAV, MP4 또는 MOV를 최대 50 MB까지 사용할 수 있습니다."
+        },
+        "video_id": {
+          "help": "소리가 포함된 Kling V2.6, Avatar 또는 Lip-Sync에서 생성한 동영상의 ID를 입력하세요. 이 경우 음성 샘플을 비워 두세요."
+        }
+      }
+    }
+  }
+}

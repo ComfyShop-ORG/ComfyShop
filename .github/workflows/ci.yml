@@ -1,0 +1,101 @@
+# 与本地提交前的检查相同：pnpm check、format:check、check:infra、test、build，另加契约和迁移的一致性检查。
+# 语法兼容 GitHub Actions 与 Gitea/Forgejo Actions，后两者需要已注册的 runner。
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: comfyshop_test
+          POSTGRES_PASSWORD: comfyshop-ci
+        ports:
+          - '127.0.0.1::5432'
+        options: >-
+          --health-cmd "pg_isready -U postgres -d comfyshop_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure temporary data directory
+        run: echo "COMFYSHOP_DATA_DIR=$RUNNER_TEMP/comfyshop-data" >> "$GITHUB_ENV"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+
+      - name: Install pnpm, uv and media tools
+        run: |
+          corepack enable
+          python -m pip install --disable-pip-version-check uv==0.11.23
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ffmpeg
+
+      - name: Install workflow, Dockerfile and shell linters
+        run: |
+          bin="$RUNNER_TEMP/linters"
+          mkdir -p "$bin" && cd "$bin"
+          release=https://github.com
+          curl -fsSLO "$release/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz"
+          curl -fsSLO "$release/hadolint/hadolint/releases/download/v2.15.1/hadolint-linux-x86_64"
+          curl -fsSLO "$release/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.linux.x86_64.tar.xz"
+          sha256sum -c - <<'EOF'
+          8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8  actionlint_1.7.12_linux_amd64.tar.gz
+          c7187db94eeeeca956519a6af171adc31453941a1e777961f6e680f697c8c507  hadolint-linux-x86_64
+          8c3be12b05d5c177a04c29e3c78ce89ac86f1595681cab149b65b97c4e227198  shellcheck-v0.11.0.linux.x86_64.tar.xz
+          EOF
+          tar -xzf actionlint_1.7.12_linux_amd64.tar.gz actionlint
+          tar -xJf shellcheck-v0.11.0.linux.x86_64.tar.xz --strip-components=1 shellcheck-v0.11.0/shellcheck
+          install -m 0755 hadolint-linux-x86_64 hadolint
+          echo "$bin" >> "$GITHUB_PATH"
+
+      - name: Install dependencies
+        run: |
+          pnpm install --frozen-lockfile
+          uv sync --all-packages --locked
+
+      - name: Static checks
+        run: pnpm check
+
+      - name: Formatting
+        run: pnpm format:check
+
+      - name: Workflow, Dockerfile and shell checks
+        run: pnpm check:infra
+
+      - name: Install headless Chromium
+        run: uv run --all-packages playwright install --with-deps --only-shell chromium
+
+      - name: Tests
+        env:
+          COMFYSHOP_TEST_POSTGRES_URL: ${{ secrets.COMFYSHOP_TEST_POSTGRES_URL || format('postgresql+psycopg://postgres:comfyshop-ci@127.0.0.1:{0}/comfyshop_test', job.services.postgres.ports['5432']) }}
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+
+      - name: Generated API contract is current
+        run: |
+          pnpm api:generate
+          git diff --exit-code -- packages/api-client
+
+      - name: Models match migrations
+        run: |
+          pnpm db:migrate
+          uv run --package comfyshop-api alembic -c apps/api/alembic.ini check

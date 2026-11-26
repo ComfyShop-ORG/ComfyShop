@@ -1,0 +1,224 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlascloud-image-upscaler",
+  "name": "Atlas Cloud 图片放大",
+  "description": "将图片放大至最多 4 倍，保留原图构图并增强纹理。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "image",
+      "kind": "image"
+    },
+    {
+      "name": "outscale",
+      "kind": "number",
+      "optional": true,
+      "default": 1,
+      "minimum": "1",
+      "maximum": "4"
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "default": "jpeg",
+      "choices": ["jpeg", "png", "webp", "jpg"]
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "image",
+      "section": "default"
+    },
+    {
+      "fieldId": "outscale",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "operation": "image",
+      "model": "atlascloud/image-upscaler",
+      "parameters": {
+        "outscale": "outscale",
+        "output_format": "output_format"
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["image"],
+          "min_items": 1
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Atlas Cloud 图片放大",
+      "description": "将图片放大至最多 4 倍，保留原图构图并增强纹理。",
+      "fields": {
+        "image": {
+          "label": "原图"
+        },
+        "outscale": {
+          "label": "放大倍数"
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG",
+            "webp": "WebP",
+            "jpg": "JPG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "上传一张要放大的图片。"
+        },
+        "outscale": {
+          "help": "可填 1 至 4 的数值，默认 1。"
+        },
+        "output_format": {
+          "help": "选择 JPEG、PNG、WebP 或 JPG。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Atlas Cloud 圖片放大",
+      "description": "將圖片放大至最多 4 倍，保留原圖構圖並強化紋理。",
+      "fields": {
+        "image": {
+          "label": "原圖"
+        },
+        "outscale": {
+          "label": "放大倍率"
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG",
+            "webp": "WebP",
+            "jpg": "JPG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "上傳一張要放大的圖片。"
+        },
+        "outscale": {
+          "help": "可填 1 至 4 的數值，預設為 1。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG、PNG、WebP 或 JPG。"
+        }
+      }
+    },
+    "en": {
+      "name": "Atlas Cloud Image Upscaler",
+      "description": "Enlarge an image up to 4× while preserving its composition and enhancing textures.",
+      "fields": {
+        "image": {
+          "label": "Source image"
+        },
+        "outscale": {
+          "label": "Scale"
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG",
+            "webp": "WebP",
+            "jpg": "JPG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "Upload one image to upscale."
+        },
+        "outscale": {
+          "help": "Enter a multiplier from 1 to 4. The default is 1."
+        },
+        "output_format": {
+          "help": "Choose JPEG, PNG, WebP, or JPG."
+        }
+      }
+    },
+    "ja": {
+      "name": "Atlas Cloud 画像拡大",
+      "description": "画像を最大 4 倍に拡大し、元の構図を保ちながら質感を補います。",
+      "fields": {
+        "image": {
+          "label": "元の画像"
+        },
+        "outscale": {
+          "label": "拡大倍率"
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG",
+            "webp": "WebP",
+            "jpg": "JPG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "拡大する画像を 1 枚アップロードします。"
+        },
+        "outscale": {
+          "help": "1〜4 の倍率を入力します。既定値は 1 です。"
+        },
+        "output_format": {
+          "help": "JPEG、PNG、WebP、JPG のいずれかを選びます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Atlas Cloud 이미지 확대",
+      "description": "이미지를 최대 4배로 확대하면서 구도를 유지하고 질감을 개선합니다.",
+      "fields": {
+        "image": {
+          "label": "원본 이미지"
+        },
+        "outscale": {
+          "label": "확대 배율"
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG",
+            "webp": "WebP",
+            "jpg": "JPG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "확대할 이미지 한 장을 업로드하세요."
+        },
+        "outscale": {
+          "help": "1부터 4까지의 배율을 입력하세요. 기본값은 1입니다."
+        },
+        "output_format": {
+          "help": "JPEG, PNG, WebP 또는 JPG를 선택하세요."
+        }
+      }
+    }
+  }
+}

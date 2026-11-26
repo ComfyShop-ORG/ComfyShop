@@ -1,0 +1,34 @@
+x-official-client: &official-client
+  image: comfyshop-official-worker:local
+  init: true
+  depends_on:
+    app:
+      condition: service_healthy
+  environment: &official-environment
+    COMFYSHOP_SERVER_URL: http://app:8688
+    COMFYSHOP_WORKER_SERVICE_TOKENS__OFFICIAL: ${COMFYSHOP_WORKER_SERVICE_TOKENS__OFFICIAL:-}
+    COMFYSHOP_WORKER_LOG_LEVEL: ${COMFYSHOP_WORKER_LOG_LEVEL:-INFO}
+
+services:
+  official-worker:
+    <<: *official-client
+    profiles: [official]
+    build:
+      context: ../..
+      dockerfile: integrations/official-worker/Dockerfile
+    restart: unless-stopped
+    environment:
+      <<: *official-environment
+      ATLAS_CLOUD_API_KEY: ${ATLAS_CLOUD_API_KEY:-}
+      COMFYSHOP_OFFICIAL_WORKER_MAX_CONCURRENCY: ${COMFYSHOP_OFFICIAL_WORKER_MAX_CONCURRENCY:-4}
+      COMFYSHOP_OFFICIAL_WORKER_QUOTE_PORT: 8690
+
+  official-init:
+    <<: *official-client
+    profiles: [official-init]
+    entrypoint: [comfyshop-official-worker, sync, --init-owner, --draft]
+    command: []
+    environment:
+      <<: *official-environment
+      COMFYSHOP_OFFICIAL_OWNER: ${COMFYSHOP_OFFICIAL_OWNER:-}
+      COMFYSHOP_OFFICIAL_OWNER_PASSWORD: ${COMFYSHOP_OFFICIAL_OWNER_PASSWORD:-}

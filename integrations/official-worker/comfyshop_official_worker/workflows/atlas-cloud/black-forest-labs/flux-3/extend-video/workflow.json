@@ -1,0 +1,520 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-flux3-extend-video",
+  "name": "FLUX 3 视频延长",
+  "description": "从源视频的最后几帧继续生成 5 至 20 秒，可补充动作和声音描述。",
+  "category": "video_tool",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "optional": true,
+      "default": "auto",
+      "choices": ["auto", "21:9", "2:1", "16:9", "4:3", "1:1", "3:4", "9:16"]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "optional": true,
+      "default": "720p",
+      "choices": ["720p", "1080p"]
+    },
+    {
+      "name": "safety_tolerance",
+      "kind": "integer",
+      "default": 2,
+      "minimum": "0",
+      "maximum": "4",
+      "optional": true
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "optional": true,
+      "default": 5,
+      "choices": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "0"
+    },
+    {
+      "name": "source_video",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "video_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "source_video",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "safety_tolerance",
+      "section": "advanced",
+      "control": "slider"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "black-forest-labs/flux-3/extend-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "safety_tolerance": "safety_tolerance",
+        "duration": "duration_seconds",
+        "generate_audio": "generate_audio",
+        "seed": "seed"
+      },
+      "omit_blank_parameters": ["prompt", "seed"],
+      "media": {
+        "video_url": {
+          "kind": "video",
+          "fields": ["source_video"],
+          "external_sources_field": "video_source",
+          "external_urls_only": true,
+          "content_types": ["video/mp4"],
+          "max_duration_ms": 14999,
+          "min_items": 1,
+          "max_bytes": 49999999
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "FLUX 3 视频延长",
+      "description": "从源视频的最后几帧继续生成 5 至 20 秒，可补充动作和声音描述。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "auto": "自动",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "safety_tolerance": {
+          "label": "内容审核容忍度"
+        },
+        "duration_seconds": {
+          "label": "续写时长（秒）"
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "source_video": {
+          "label": "源视频"
+        },
+        "video_source": {
+          "label": "源视频 URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上传短于 15 秒、小于 50 MB 的 MP4。"
+        },
+        "prompt": {
+          "help": "可描述最后一帧之后的动作、场景和声音。"
+        },
+        "aspect_ratio": {
+          "help": "自动时沿用源视频比例。"
+        },
+        "resolution": {
+          "help": "选择 720p 或 1080p。"
+        },
+        "duration_seconds": {
+          "help": "选择额外生成 5 至 20 秒，默认 5 秒。"
+        },
+        "safety_tolerance": {
+          "help": "选择 0 至 4，0 最严格，默认 2。"
+        },
+        "generate_audio": {
+          "help": "开启后随视频生成同步语音、音效和环境声。关闭后生成静音视频。"
+        },
+        "seed": {
+          "help": "填写非负整数以重用种子，留空由模型选择。"
+        },
+        "video_source": {
+          "help": "填写一个公开 MP4 地址，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "FLUX 3 影片延長",
+      "description": "從來源影片的最後幾幀繼續生成 5 至 20 秒，可補充動作和聲音描述。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "auto": "自動",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "safety_tolerance": {
+          "label": "內容審查容忍度"
+        },
+        "duration_seconds": {
+          "label": "續寫長度（秒）"
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "source_video": {
+          "label": "來源影片"
+        },
+        "video_source": {
+          "label": "來源影片 URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上傳短於 15 秒、小於 50 MB 的 MP4。"
+        },
+        "prompt": {
+          "help": "可描述最後一幀之後的動作、場景和聲音。"
+        },
+        "aspect_ratio": {
+          "help": "自動時沿用來源影片比例。"
+        },
+        "resolution": {
+          "help": "選擇 720p 或 1080p。"
+        },
+        "duration_seconds": {
+          "help": "選擇額外生成 5 至 20 秒，預設 5 秒。"
+        },
+        "safety_tolerance": {
+          "help": "選擇 0 至 4，0 最嚴格，預設 2。"
+        },
+        "generate_audio": {
+          "help": "開啟後隨影片生成同步語音、音效和環境聲。關閉後生成靜音影片。"
+        },
+        "seed": {
+          "help": "填寫非負整數以重用種子，留空由模型選擇。"
+        },
+        "video_source": {
+          "help": "填寫一個公開 MP4 網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "FLUX 3 Video Extension",
+      "description": "Continue from the source clip’s final frames for 5–20 seconds, with optional motion and sound instructions.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "auto": "Automatic",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "safety_tolerance": {
+          "label": "Moderation tolerance"
+        },
+        "duration_seconds": {
+          "label": "Extension duration (seconds)"
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "seed": {
+          "label": "Random seed"
+        },
+        "source_video": {
+          "label": "Source video"
+        },
+        "video_source": {
+          "label": "Source video URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "Upload an MP4 shorter than 15 seconds and smaller than 50 MB."
+        },
+        "prompt": {
+          "help": "Optionally describe the action, scene, or sound after the final frame."
+        },
+        "aspect_ratio": {
+          "help": "Automatic keeps the proportions of the source video."
+        },
+        "resolution": {
+          "help": "Choose 720p or 1080p."
+        },
+        "duration_seconds": {
+          "help": "Choose 5 to 20 additional seconds. The default is 5."
+        },
+        "safety_tolerance": {
+          "help": "Choose 0 to 4. Zero is strictest, and 2 is the default."
+        },
+        "generate_audio": {
+          "help": "Generate synchronized speech, sound effects, and ambience. Turn off for a silent clip."
+        },
+        "seed": {
+          "help": "Enter a nonnegative integer to reuse a seed or leave blank for the model to choose."
+        },
+        "video_source": {
+          "help": "Enter one public MP4 URL as an alternative to uploading."
+        }
+      }
+    },
+    "ja": {
+      "name": "FLUX 3 動画の延長",
+      "description": "元動画の末尾から 5〜20 秒を生成します。動きや音声の指示を加えられます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "auto": "自動",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "safety_tolerance": {
+          "label": "コンテンツ審査の許容度"
+        },
+        "duration_seconds": {
+          "label": "延長時間（秒）"
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "seed": {
+          "label": "シード値"
+        },
+        "source_video": {
+          "label": "元動画"
+        },
+        "video_source": {
+          "label": "元動画 URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "15 秒未満かつ 50 MB 未満の MP4 をアップロードします。"
+        },
+        "prompt": {
+          "help": "最終フレームに続く動き、場面、音声を記述できます。"
+        },
+        "aspect_ratio": {
+          "help": "自動では元動画の縦横比を維持します。"
+        },
+        "resolution": {
+          "help": "720p または 1080p を選びます。"
+        },
+        "duration_seconds": {
+          "help": "追加する 5〜20 秒を選びます。既定値は 5 秒です。"
+        },
+        "safety_tolerance": {
+          "help": "0〜4 を選びます。最も厳しい値は 0 で、既定値は 2 です。"
+        },
+        "generate_audio": {
+          "help": "動画に同期する音声、効果音、環境音を生成します。オフにすると無音になります。"
+        },
+        "seed": {
+          "help": "シードを再利用するには非負の整数を入力します。空欄ではモデルが決定します。"
+        },
+        "video_source": {
+          "help": "アップロードの代わりに公開 MP4 URL を 1 つ入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "FLUX 3 동영상 연장",
+      "description": "원본의 마지막 프레임부터 5~20초를 생성합니다. 동작과 소리를 추가로 설명할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "auto": "자동",
+            "21:9": "21:9",
+            "2:1": "2:1",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "safety_tolerance": {
+          "label": "콘텐츠 검토 허용 수준"
+        },
+        "duration_seconds": {
+          "label": "연장 길이(초)"
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "seed": {
+          "label": "랜덤 시드"
+        },
+        "source_video": {
+          "label": "원본 동영상"
+        },
+        "video_source": {
+          "label": "원본 동영상 URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "15초 미만이고 50 MB 미만인 MP4를 업로드하세요."
+        },
+        "prompt": {
+          "help": "마지막 프레임 이후의 동작, 장면, 소리를 선택적으로 설명하세요."
+        },
+        "aspect_ratio": {
+          "help": "자동은 원본 동영상의 화면 비율을 유지합니다."
+        },
+        "resolution": {
+          "help": "720p 또는 1080p를 선택하세요."
+        },
+        "duration_seconds": {
+          "help": "추가할 5~20초를 선택하세요. 기본값은 5초입니다."
+        },
+        "safety_tolerance": {
+          "help": "0~4를 선택하세요. 0이 가장 엄격하며 기본값은 2입니다."
+        },
+        "generate_audio": {
+          "help": "동기화된 음성, 효과음, 주변 소리를 생성합니다. 끄면 소리 없는 동영상을 만듭니다."
+        },
+        "seed": {
+          "help": "시드를 재사용하려면 음이 아닌 정수를 입력하세요. 비워 두면 모델이 선택합니다."
+        },
+        "video_source": {
+          "help": "업로드 대신 공개 MP4 URL을 하나 입력하세요."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,646 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "tencent-image-upscaler",
+  "name": "腾讯云图片超分",
+  "description": "用腾讯云 MPS 增强单张图片，可按倍数、等比适配或固定像素尺寸处理。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "image",
+      "kind": "image"
+    },
+    {
+      "name": "type",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["standard", "super", "ultra", "fidelity"],
+      "default": "ultra"
+    },
+    {
+      "name": "mode",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["percent", "aspect", "fixed"],
+      "default": "percent"
+    },
+    {
+      "name": "percent",
+      "kind": "number",
+      "optional": true,
+      "default": 2,
+      "minimum": "1",
+      "maximum": "10",
+      "step": "0.1"
+    },
+    {
+      "name": "width",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "1"
+    },
+    {
+      "name": "height",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "1"
+    },
+    {
+      "name": "long_side",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "1"
+    },
+    {
+      "name": "short_side",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "1"
+    },
+    {
+      "name": "encode_format",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["JPEG", "PNG", "WEBP", "BMP"],
+      "default": "JPEG"
+    },
+    {
+      "name": "encode_quality",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "1",
+      "maximum": "100",
+      "default": 80
+    },
+    {
+      "name": "output_dir",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "image",
+      "section": "default"
+    },
+    {
+      "fieldId": "type",
+      "section": "default"
+    },
+    {
+      "fieldId": "mode",
+      "section": "default"
+    },
+    {
+      "fieldId": "percent",
+      "section": "default"
+    },
+    {
+      "fieldId": "width",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "height",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "long_side",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "short_side",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "encode_format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "encode_quality",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "output_dir",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "operation": "image",
+      "model": "tencent/image/upscaler",
+      "prediction_endpoint": "result",
+      "parameters": {
+        "type": "type",
+        "mode": "mode",
+        "percent": "percent",
+        "width": "width",
+        "height": "height",
+        "long_side": "long_side",
+        "short_side": "short_side",
+        "encode_format": "encode_format",
+        "encode_quality": "encode_quality",
+        "output_dir": "output_dir"
+      },
+      "media": {
+        "image_url": {
+          "kind": "image",
+          "fields": ["image"],
+          "min_items": 1,
+          "content_types": ["image/jpeg", "image/png"]
+        }
+      },
+      "omit_blank_parameters": ["output_dir"],
+      "required_when": {
+        "percent": {
+          "mode": ["percent"]
+        }
+      },
+      "enabled_by": {
+        "percent": {
+          "parameter": "mode",
+          "equals": "percent"
+        },
+        "width": {
+          "parameter": "mode",
+          "equals": ["aspect", "fixed"]
+        },
+        "height": {
+          "parameter": "mode",
+          "equals": ["aspect", "fixed"]
+        },
+        "long_side": {
+          "parameter": "mode",
+          "equals": ["aspect", "fixed"]
+        },
+        "short_side": {
+          "parameter": "mode",
+          "equals": ["aspect", "fixed"]
+        },
+        "encode_quality": {
+          "parameter": "encode_format",
+          "equals": ["JPEG", "WEBP"]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "腾讯云图片超分",
+      "description": "用腾讯云 MPS 增强单张图片，可按倍数、等比适配或固定像素尺寸处理。",
+      "fields": {
+        "image": {
+          "label": "原图"
+        },
+        "type": {
+          "label": "超分类型",
+          "choiceLabels": {
+            "standard": "标准",
+            "super": "AIGC",
+            "ultra": "细节增强",
+            "fidelity": "高保真"
+          }
+        },
+        "mode": {
+          "label": "缩放方式",
+          "choiceLabels": {
+            "percent": "按倍数",
+            "aspect": "等比适配",
+            "fixed": "固定尺寸"
+          }
+        },
+        "percent": {
+          "label": "放大倍数"
+        },
+        "width": {
+          "label": "目标宽度"
+        },
+        "height": {
+          "label": "目标高度"
+        },
+        "long_side": {
+          "label": "目标长边"
+        },
+        "short_side": {
+          "label": "目标短边"
+        },
+        "encode_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "JPEG": "JPEG",
+            "PNG": "PNG",
+            "WEBP": "WebP",
+            "BMP": "BMP"
+          }
+        },
+        "encode_quality": {
+          "label": "编码质量"
+        },
+        "output_dir": {
+          "label": "COS 输出目录"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "上传 JPEG 或 PNG 图片。"
+        },
+        "type": {
+          "help": "标准模式适合通用图片，AIGC 适合生成图片，细节增强侧重纹理，高保真适合商品图。"
+        },
+        "mode": {
+          "help": "可选择按倍数、等比适配或固定尺寸。"
+        },
+        "percent": {
+          "help": "按倍数模式使用。1 至 10 倍，默认 2，步长 0.1。"
+        },
+        "width": {
+          "help": "等比适配或固定尺寸使用，单位像素。"
+        },
+        "height": {
+          "help": "等比适配或固定尺寸使用，单位像素。"
+        },
+        "long_side": {
+          "help": "等比适配或固定尺寸使用，可用长短边指定尺寸，单位像素。"
+        },
+        "short_side": {
+          "help": "等比适配或固定尺寸使用，可用长短边指定尺寸，单位像素。"
+        },
+        "encode_format": {
+          "help": "选择 JPEG、PNG、WebP 或 BMP。"
+        },
+        "encode_quality": {
+          "help": "有损格式使用，1 至 100，默认 80。"
+        },
+        "output_dir": {
+          "help": "填写腾讯云 COS 输出目录。留空自动分配。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "騰訊雲圖片超解析",
+      "description": "使用騰訊雲 MPS 強化單張圖片，可按倍率、等比配合或固定像素尺寸處理。",
+      "fields": {
+        "image": {
+          "label": "原圖"
+        },
+        "type": {
+          "label": "超解析類型",
+          "choiceLabels": {
+            "standard": "標準",
+            "super": "AIGC",
+            "ultra": "細節強化",
+            "fidelity": "高保真"
+          }
+        },
+        "mode": {
+          "label": "縮放方式",
+          "choiceLabels": {
+            "percent": "依倍率",
+            "aspect": "等比配合",
+            "fixed": "固定尺寸"
+          }
+        },
+        "percent": {
+          "label": "放大倍率"
+        },
+        "width": {
+          "label": "目標寬度"
+        },
+        "height": {
+          "label": "目標高度"
+        },
+        "long_side": {
+          "label": "目標長邊"
+        },
+        "short_side": {
+          "label": "目標短邊"
+        },
+        "encode_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "JPEG": "JPEG",
+            "PNG": "PNG",
+            "WEBP": "WebP",
+            "BMP": "BMP"
+          }
+        },
+        "encode_quality": {
+          "label": "編碼品質"
+        },
+        "output_dir": {
+          "label": "COS 輸出目錄"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "上傳 JPEG 或 PNG 圖片。"
+        },
+        "type": {
+          "help": "標準適合一般圖片，AIGC 適合生成圖片，細節強化著重紋理，高保真適合商品圖。"
+        },
+        "mode": {
+          "help": "可選依倍率、等比配合或固定尺寸。"
+        },
+        "percent": {
+          "help": "按倍率模式使用。1 至 10 倍，預設為 2，步進 0.1。"
+        },
+        "width": {
+          "help": "等比配合或固定尺寸時使用，單位為像素。"
+        },
+        "height": {
+          "help": "等比配合或固定尺寸時使用，單位為像素。"
+        },
+        "long_side": {
+          "help": "等比配合或固定尺寸時使用，可用長短邊指定尺寸，單位為像素。"
+        },
+        "short_side": {
+          "help": "等比配合或固定尺寸時使用，可用長短邊指定尺寸，單位為像素。"
+        },
+        "encode_format": {
+          "help": "選擇 JPEG、PNG、WebP 或 BMP。"
+        },
+        "encode_quality": {
+          "help": "有損格式使用，1 至 100，預設為 80。"
+        },
+        "output_dir": {
+          "help": "填入騰訊雲 COS 輸出目錄。留空時自動分配。"
+        }
+      }
+    },
+    "en": {
+      "name": "Tencent Image Upscaler",
+      "description": "Enhance a single image with Tencent Cloud MPS by scale factor, proportional fitting, or fixed pixel dimensions.",
+      "fields": {
+        "image": {
+          "label": "Source image"
+        },
+        "type": {
+          "label": "Enhancement type",
+          "choiceLabels": {
+            "standard": "Standard",
+            "super": "AIGC",
+            "ultra": "Detail enhancement",
+            "fidelity": "High fidelity"
+          }
+        },
+        "mode": {
+          "label": "Scaling mode",
+          "choiceLabels": {
+            "percent": "Scale by factor",
+            "aspect": "Fit proportionally",
+            "fixed": "Fixed dimensions"
+          }
+        },
+        "percent": {
+          "label": "Scale factor"
+        },
+        "width": {
+          "label": "Target width"
+        },
+        "height": {
+          "label": "Target height"
+        },
+        "long_side": {
+          "label": "Target long side"
+        },
+        "short_side": {
+          "label": "Target short side"
+        },
+        "encode_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "JPEG": "JPEG",
+            "PNG": "PNG",
+            "WEBP": "WebP",
+            "BMP": "BMP"
+          }
+        },
+        "encode_quality": {
+          "label": "Encoding quality"
+        },
+        "output_dir": {
+          "label": "COS output directory"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "Upload a JPEG or PNG image."
+        },
+        "type": {
+          "help": "Choose standard for general use, AIGC for generated images, detail enhancement for texture, or fidelity for product imagery."
+        },
+        "mode": {
+          "help": "Scale by factor, fit proportionally, or use fixed dimensions."
+        },
+        "percent": {
+          "help": "Used in factor mode. Enter 1 to 10 in increments of 0.1. The default is 2."
+        },
+        "width": {
+          "help": "Used for proportional fitting or fixed dimensions, in pixels."
+        },
+        "height": {
+          "help": "Used for proportional fitting or fixed dimensions, in pixels."
+        },
+        "long_side": {
+          "help": "Use long and short sides as an alternative size in fit or fixed mode. Enter pixels."
+        },
+        "short_side": {
+          "help": "Use long and short sides as an alternative size in fit or fixed mode. Enter pixels."
+        },
+        "encode_format": {
+          "help": "Choose JPEG, PNG, WebP, or BMP."
+        },
+        "encode_quality": {
+          "help": "Used for lossy formats, from 1 to 100. The default is 80."
+        },
+        "output_dir": {
+          "help": "Enter a Tencent Cloud COS output directory or leave it empty for automatic allocation."
+        }
+      }
+    },
+    "ja": {
+      "name": "Tencent Cloud 画像の超解像",
+      "description": "Tencent Cloud MPS で画像を強調します。倍率、縦横比を維持するサイズ指定、固定寸法から選べます。",
+      "fields": {
+        "image": {
+          "label": "元の画像"
+        },
+        "type": {
+          "label": "超解像の種類",
+          "choiceLabels": {
+            "standard": "標準",
+            "super": "AIGC",
+            "ultra": "ディテール強調",
+            "fidelity": "高忠実度"
+          }
+        },
+        "mode": {
+          "label": "拡大方式",
+          "choiceLabels": {
+            "percent": "倍率指定",
+            "aspect": "縦横比を維持",
+            "fixed": "固定寸法"
+          }
+        },
+        "percent": {
+          "label": "拡大倍率"
+        },
+        "width": {
+          "label": "目標の幅"
+        },
+        "height": {
+          "label": "目標の高さ"
+        },
+        "long_side": {
+          "label": "目標の長辺"
+        },
+        "short_side": {
+          "label": "目標の短辺"
+        },
+        "encode_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "JPEG": "JPEG",
+            "PNG": "PNG",
+            "WEBP": "WebP",
+            "BMP": "BMP"
+          }
+        },
+        "encode_quality": {
+          "label": "エンコード品質"
+        },
+        "output_dir": {
+          "label": "COS 出力ディレクトリ"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "JPEG または PNG をアップロードします。"
+        },
+        "type": {
+          "help": "汎用は標準、生成画像は AIGC、質感はディテール強調、商品画像は高忠実度を選びます。"
+        },
+        "mode": {
+          "help": "倍率、縦横比を維持するサイズ指定、固定寸法から選べます。"
+        },
+        "percent": {
+          "help": "倍率モードで使います。1〜10 を 0.1 刻みで入力します。既定値は 2 です。"
+        },
+        "width": {
+          "help": "縦横比を維持する場合や固定寸法で使います。単位はピクセルです。"
+        },
+        "height": {
+          "help": "縦横比を維持する場合や固定寸法で使います。単位はピクセルです。"
+        },
+        "long_side": {
+          "help": "縦横比を維持する場合や固定寸法で、長辺と短辺をピクセルで指定できます。"
+        },
+        "short_side": {
+          "help": "縦横比を維持する場合や固定寸法で、長辺と短辺をピクセルで指定できます。"
+        },
+        "encode_format": {
+          "help": "JPEG、PNG、WebP、BMP から選びます。"
+        },
+        "encode_quality": {
+          "help": "非可逆形式で使います。1〜100 で既定値は 80 です。"
+        },
+        "output_dir": {
+          "help": "Tencent Cloud COS の出力ディレクトリを指定できます。空欄なら自動で割り当てます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Tencent Cloud 이미지 초해상도",
+      "description": "Tencent Cloud MPS로 이미지 한 장을 선명하게 개선합니다. 배율, 비율 유지 또는 고정 크기를 선택할 수 있습니다.",
+      "fields": {
+        "image": {
+          "label": "원본 이미지"
+        },
+        "type": {
+          "label": "초해상도 유형",
+          "choiceLabels": {
+            "standard": "표준",
+            "super": "AIGC",
+            "ultra": "세부 묘사 강화",
+            "fidelity": "고충실도"
+          }
+        },
+        "mode": {
+          "label": "크기 조정 방식",
+          "choiceLabels": {
+            "percent": "배율",
+            "aspect": "비율 유지",
+            "fixed": "고정 크기"
+          }
+        },
+        "percent": {
+          "label": "확대 배율"
+        },
+        "width": {
+          "label": "목표 너비"
+        },
+        "height": {
+          "label": "목표 높이"
+        },
+        "long_side": {
+          "label": "목표 긴 변"
+        },
+        "short_side": {
+          "label": "목표 짧은 변"
+        },
+        "encode_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "JPEG": "JPEG",
+            "PNG": "PNG",
+            "WEBP": "WebP",
+            "BMP": "BMP"
+          }
+        },
+        "encode_quality": {
+          "label": "인코딩 품질"
+        },
+        "output_dir": {
+          "label": "COS 출력 디렉터리"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "JPEG 또는 PNG 이미지를 업로드하세요."
+        },
+        "type": {
+          "help": "일반 이미지는 표준, 생성 이미지는 AIGC, 질감은 세부 묘사 강화, 상품 이미지는 고충실도를 선택하세요."
+        },
+        "mode": {
+          "help": "배율, 비율 유지 또는 고정 크기를 선택하세요."
+        },
+        "percent": {
+          "help": "배율 모드에서 사용합니다. 1부터 10까지 0.1 단위로 입력하세요. 기본값은 2입니다."
+        },
+        "width": {
+          "help": "비율 유지 또는 고정 크기에서 픽셀 단위로 지정하세요."
+        },
+        "height": {
+          "help": "비율 유지 또는 고정 크기에서 픽셀 단위로 지정하세요."
+        },
+        "long_side": {
+          "help": "비율 유지 또는 고정 크기에서 긴 변과 짧은 변을 픽셀 단위로 지정할 수 있습니다."
+        },
+        "short_side": {
+          "help": "비율 유지 또는 고정 크기에서 긴 변과 짧은 변을 픽셀 단위로 지정할 수 있습니다."
+        },
+        "encode_format": {
+          "help": "JPEG, PNG, WebP 또는 BMP를 선택하세요."
+        },
+        "encode_quality": {
+          "help": "손실 형식에서 사용합니다. 1부터 100까지 지정할 수 있으며 기본값은 80입니다."
+        },
+        "output_dir": {
+          "help": "Tencent Cloud COS 출력 디렉터리입니다. 비워 두면 자동으로 할당됩니다."
+        }
+      }
+    }
+  }
+}

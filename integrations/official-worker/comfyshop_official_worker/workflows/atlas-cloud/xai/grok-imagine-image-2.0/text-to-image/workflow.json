@@ -1,0 +1,373 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-grok-image2-text-to-image",
+  "name": "Grok Imagine Image 2.0 文生图",
+  "description": "用文字生成一到四张图，可选 1K 或 2K 以及多种画面比例。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "A collage of London landmarks in a stenciled street-art style.",
+      "multiline": true,
+      "maxLength": 8000
+    },
+    {
+      "name": "num_images",
+      "kind": "choice",
+      "default": 1,
+      "choices": [1, 2, 3, 4],
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "1:1",
+      "choices": [
+        "1:1",
+        "3:4",
+        "4:3",
+        "9:16",
+        "16:9",
+        "2:3",
+        "3:2",
+        "9:19.5",
+        "19.5:9",
+        "9:20",
+        "20:9",
+        "1:2",
+        "2:1"
+      ],
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1k",
+      "choices": ["1k", "2k"],
+      "optional": true
+    },
+    {
+      "name": "quality",
+      "kind": "choice",
+      "default": "medium",
+      "choices": ["low", "medium"],
+      "optional": true
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "num_images",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "quality",
+      "section": "default"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "xai/grok-imagine-image-2.0/text-to-image",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "num_images": "num_images",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "enable_base64_output": "enable_base64_output",
+        "quality": "quality"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 8000
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Grok Imagine Image 2.0 文生图",
+      "description": "用文字生成一到四张图，可选 1K 或 2K 以及多种画面比例。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "num_images": {
+          "label": "出图数量"
+        },
+        "aspect_ratio": {
+          "label": "画面比例"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K"
+          }
+        },
+        "quality": {
+          "label": "渲染质量",
+          "choiceLabels": {
+            "low": "低",
+            "medium": "中等"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 输出"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述想要生成的主体、场景、构图和风格。 最多 8,000 字符。"
+        },
+        "num_images": {
+          "help": "选择 1 至 4 张。Atlas 按张计费。"
+        },
+        "aspect_ratio": {
+          "help": "选择输出图片的宽高比。"
+        },
+        "resolution": {
+          "help": "选择 1K 或 2K。方形图片标称 1,024 或 2,048 像素。"
+        },
+        "quality": {
+          "help": "低质量更快，适合预览。默认中等质量，用于成品。"
+        },
+        "enable_base64_output": {
+          "help": "让 Atlas 返回 Base64 图像数据，工作机解码后保存图片。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Grok Imagine Image 2.0 文生圖",
+      "description": "用文字生成一到四張圖，可選 1K 或 2K 以及多種畫面比例。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "num_images": {
+          "label": "出圖數量"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K"
+          }
+        },
+        "quality": {
+          "label": "渲染品質",
+          "choiceLabels": {
+            "low": "低",
+            "medium": "中等"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 輸出"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述想要生成的主體、場景、構圖和風格。 最多 8,000 字元。"
+        },
+        "num_images": {
+          "help": "選擇 1 至 4 張。Atlas 按張計費。"
+        },
+        "aspect_ratio": {
+          "help": "選擇輸出圖片的寬高比。"
+        },
+        "resolution": {
+          "help": "選擇 1K 或 2K。方形圖片標稱 1,024 或 2,048 像素。"
+        },
+        "quality": {
+          "help": "低品質較快，適合預覽。預設中等品質，用於成品。"
+        },
+        "enable_base64_output": {
+          "help": "讓 Atlas 回傳 Base64 圖片資料，工作機解碼後儲存圖片。"
+        }
+      }
+    },
+    "en": {
+      "name": "Grok Imagine Image 2.0 Text-to-Image",
+      "description": "Generate one to four images from a text prompt, with 1K or 2K resolution and a choice of aspect ratios.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "num_images": {
+          "label": "Image count"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K"
+          }
+        },
+        "quality": {
+          "label": "Rendering quality",
+          "choiceLabels": {
+            "low": "Low",
+            "medium": "Medium"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, scene, composition, and style. Use up to 8,000 characters."
+        },
+        "num_images": {
+          "help": "Choose 1 to 4 images. Atlas bills each image separately."
+        },
+        "aspect_ratio": {
+          "help": "Choose the width-to-height ratio of the output."
+        },
+        "resolution": {
+          "help": "Choose 1K or 2K. For square images, the nominal side is 1,024 or 2,048 pixels."
+        },
+        "quality": {
+          "help": "Low is faster for previews. Medium is the default for final images."
+        },
+        "enable_base64_output": {
+          "help": "Ask Atlas to return Base64 image data for the worker to decode and save."
+        }
+      }
+    },
+    "ja": {
+      "name": "Grok Imagine Image 2.0 テキストから画像",
+      "description": "プロンプトから 1〜4 枚の画像を生成します。解像度を 1K または 2K に設定し、縦横比を指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "num_images": {
+          "label": "生成枚数"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K"
+          }
+        },
+        "quality": {
+          "label": "レンダリング品質",
+          "choiceLabels": {
+            "low": "低",
+            "medium": "中"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、構図、スタイルを記述します。 最大 8,000 文字です。"
+        },
+        "num_images": {
+          "help": "1〜4 枚を選びます。Atlas は画像ごとに課金します。"
+        },
+        "aspect_ratio": {
+          "help": "出力画像の縦横比を選びます。"
+        },
+        "resolution": {
+          "help": "1K または 2K を選びます。正方形画像の公称辺長は 1,024 または 2,048 ピクセルです。"
+        },
+        "quality": {
+          "help": "低品質はプレビュー向けの高速設定です。完成画像には既定の中品質を使用できます。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas が返す Base64 画像データをワーカーでデコードして保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Grok Imagine Image 2.0 텍스트로 이미지 생성",
+      "description": "프롬프트에서 이미지를 한 장에서 네 장까지 만듭니다. 1K 또는 2K 해상도와 화면 비율을 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "num_images": {
+          "label": "이미지 수"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K"
+          }
+        },
+        "quality": {
+          "label": "렌더링 품질",
+          "choiceLabels": {
+            "low": "낮음",
+            "medium": "중간"
+          }
+        },
+        "enable_base64_output": {
+          "label": "Base64 출력"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 장면, 구도, 스타일을 설명하세요. 최대 8,000자입니다."
+        },
+        "num_images": {
+          "help": "1~4장을 선택하세요. Atlas는 이미지마다 요금을 부과합니다."
+        },
+        "aspect_ratio": {
+          "help": "출력 이미지의 가로세로 비율을 선택하세요."
+        },
+        "resolution": {
+          "help": "1K 또는 2K를 선택하세요. 정사각형 이미지의 기준 변 길이는 1,024 또는 2,048픽셀입니다."
+        },
+        "quality": {
+          "help": "낮음은 미리 보기에 적합한 빠른 설정입니다. 최종 이미지에는 기본값인 중간을 사용할 수 있습니다."
+        },
+        "enable_base64_output": {
+          "help": "Atlas에서 Base64 이미지 데이터를 받아 작업기가 디코딩하고 저장합니다."
+        }
+      }
+    }
+  }
+}

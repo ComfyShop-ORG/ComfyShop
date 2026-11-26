@@ -1,0 +1,316 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-zimage",
+  "name": "Z-Image Turbo 文生图",
+  "description": "根据中文或英文提示词快速生成图片，可选择提示词改写。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "size",
+      "kind": "string",
+      "default": "1024*1536",
+      "optional": true
+    },
+    {
+      "name": "prompt_extend",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt_extend",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "z-image/turbo",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "prompt_extend": "prompt_extend",
+        "seed": "seed",
+        "enable_sync_mode": "enable_sync_mode",
+        "enable_base64_output": "enable_base64_output"
+      },
+      "required_text": ["prompt"],
+      "image_size_limits": {
+        "min_side": 512,
+        "max_side": 2048,
+        "allow_auto": false
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Z-Image Turbo 文生图",
+      "description": "根据中文或英文提示词快速生成图片，可选择提示词改写。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "输出尺寸"
+        },
+        "prompt_extend": {
+          "label": "改写提示词"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述场景、画面风格和图片中的文字。"
+        },
+        "size": {
+          "help": "输入宽*高，每边 512 至 2,048 像素，默认 1024*1536。"
+        },
+        "prompt_extend": {
+          "help": "开启后由模型扩充提示词，Atlas 按改写模式计费。"
+        },
+        "seed": {
+          "help": "-1 为随机。指定整数可重用种子。"
+        },
+        "enable_sync_mode": {
+          "help": "等待成品上传后由提交请求直接返回结果。"
+        },
+        "enable_base64_output": {
+          "help": "以 Base64 返回图片，工作机解码后保存。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Z-Image Turbo 文生圖",
+      "description": "依中文或英文提示詞快速生成圖片，可選擇改寫提示詞。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "輸出尺寸"
+        },
+        "prompt_extend": {
+          "label": "改寫提示詞"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "enable_sync_mode": {
+          "label": "同步傳回"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述場景、畫面風格和圖片裡的文字。"
+        },
+        "size": {
+          "help": "輸入寬*高，每邊 512 至 2,048 像素，預設 1024*1536。"
+        },
+        "prompt_extend": {
+          "help": "開啟後由模型擴充提示詞，Atlas 依改寫模式計費。"
+        },
+        "seed": {
+          "help": "-1 為隨機。指定整數可沿用種子。"
+        },
+        "enable_sync_mode": {
+          "help": "等待成品上傳完成後，由提交請求直接傳回結果。"
+        },
+        "enable_base64_output": {
+          "help": "以 Base64 傳回圖片，工作機解碼後儲存。"
+        }
+      }
+    },
+    "en": {
+      "name": "Z-Image Turbo Text-to-Image",
+      "description": "Generate images quickly from Chinese or English prompts, with optional prompt rewriting.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Output size"
+        },
+        "prompt_extend": {
+          "label": "Rewrite prompt"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "enable_sync_mode": {
+          "label": "Synchronous response"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the scene, visual style, and any text in the image."
+        },
+        "size": {
+          "help": "Enter width*height, with each side between 512 and 2,048 pixels. The default is 1024*1536."
+        },
+        "prompt_extend": {
+          "help": "Let the model expand the prompt. Atlas charges the prompt-rewriting rate when enabled."
+        },
+        "seed": {
+          "help": "Use -1 for a random seed, or enter an integer to reuse a seed."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for upload and return the completed output in the submission response."
+        },
+        "enable_base64_output": {
+          "help": "Return the image as Base64. The worker decodes and saves it."
+        }
+      }
+    },
+    "ja": {
+      "name": "Z-Image Turbo テキストから画像",
+      "description": "中国語または英語のプロンプトから画像をすばやく生成します。プロンプトの書き換えを選べます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "出力サイズ"
+        },
+        "prompt_extend": {
+          "label": "プロンプトを書き換える"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "場面、画風、画像内の文字を記述します。"
+        },
+        "size": {
+          "help": "幅*高さを各辺 512〜2,048 ピクセルで入力します。既定値は 1024*1536 です。"
+        },
+        "prompt_extend": {
+          "help": "モデルがプロンプトを補足します。有効時は Atlas の書き換え料金が適用されます。"
+        },
+        "seed": {
+          "help": "-1 はランダムです。整数を指定するとシードを再利用できます。"
+        },
+        "enable_sync_mode": {
+          "help": "生成とアップロードを待ち、送信リクエストの応答で結果を返します。"
+        },
+        "enable_base64_output": {
+          "help": "画像を Base64 で返し、ワーカーで復号して保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Z-Image Turbo 텍스트로 이미지 생성",
+      "description": "중국어나 영어 프롬프트로 이미지를 빠르게 생성하고 프롬프트 재작성 여부를 선택합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "출력 크기"
+        },
+        "prompt_extend": {
+          "label": "프롬프트 재작성"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "enable_sync_mode": {
+          "label": "동기 응답"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "장면, 이미지 스타일, 이미지에 넣을 글자를 설명하세요."
+        },
+        "size": {
+          "help": "각 변이 512~2,048픽셀인 너비*높이를 입력하세요. 기본값은 1024*1536입니다."
+        },
+        "prompt_extend": {
+          "help": "모델이 프롬프트를 보강합니다. 켜면 Atlas 재작성 요금이 적용됩니다."
+        },
+        "seed": {
+          "help": "-1은 무작위입니다. 같은 시드를 사용하려면 정수를 입력하세요."
+        },
+        "enable_sync_mode": {
+          "help": "결과 업로드를 기다려 요청 응답에서 결과를 바로 반환합니다."
+        },
+        "enable_base64_output": {
+          "help": "이미지를 Base64로 반환하고 작업 머신이 디코딩하여 저장합니다."
+        }
+      }
+    }
+  }
+}

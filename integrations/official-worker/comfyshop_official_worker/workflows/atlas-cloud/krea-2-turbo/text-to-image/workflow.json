@@ -1,0 +1,398 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-krea-turbo",
+  "name": "Krea 2 Turbo 文生图",
+  "description": "根据提示词快速生成一至四张图片，支持预设和自定义尺寸。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "size_preset",
+      "kind": "choice",
+      "choices": [
+        "square_hd",
+        "square",
+        "portrait_3_4",
+        "portrait_9_16",
+        "landscape_4_3",
+        "landscape_16_9"
+      ],
+      "optional": true,
+      "default": "square_hd"
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "default": "png",
+      "optional": true,
+      "choices": ["png", "jpeg"]
+    },
+    {
+      "name": "num_images",
+      "kind": "integer",
+      "minimum": "1",
+      "maximum": "4",
+      "optional": true,
+      "default": 1
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true
+    },
+    {
+      "name": "custom_size",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size_preset",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "num_images",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "custom_size",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "krea-2-turbo/text-to-image",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "image_size": "size_preset",
+        "output_format": "output_format",
+        "num_images": "num_images",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "parameter_overrides": {
+        "image_size": "custom_size"
+      },
+      "image_size_limits": {
+        "parameter": "image_size",
+        "min_side": 1,
+        "max_side": 2048,
+        "preset_sizes": [
+          "square_hd",
+          "square",
+          "portrait_3_4",
+          "portrait_9_16",
+          "landscape_4_3",
+          "landscape_16_9"
+        ],
+        "separator": "x",
+        "allow_auto": false
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Krea 2 Turbo 文生图",
+      "description": "根据提示词快速生成一至四张图片，支持预设和自定义尺寸。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size_preset": {
+          "label": "尺寸预设",
+          "choiceLabels": {
+            "square_hd": "高清方图（1024×1024）",
+            "square": "方图（512×512）",
+            "portrait_3_4": "竖屏 3:4",
+            "portrait_9_16": "竖屏 9:16",
+            "landscape_4_3": "横屏 4:3",
+            "landscape_16_9": "横屏 16:9"
+          }
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "num_images": {
+          "label": "生成数量"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "custom_size": {
+          "label": "自定义尺寸"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要生成的画面、构图与风格。"
+        },
+        "size_preset": {
+          "help": "选择尺寸预设，默认高清方图。可在高级参数中填写自定义尺寸。"
+        },
+        "output_format": {
+          "help": "选择 PNG 或 JPEG，默认 PNG。"
+        },
+        "num_images": {
+          "help": "每次生成 1 至 4 张，默认 1 张。"
+        },
+        "seed": {
+          "help": "留空时随机选择，也可填写整数复用种子。"
+        },
+        "custom_size": {
+          "help": "填写宽x高，例如 1024x768。支持至 2048×2048 像素。留空时使用尺寸预设。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Krea 2 Turbo 文生圖",
+      "description": "依提示詞快速生成一至四張圖片，支援預設或自訂尺寸。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size_preset": {
+          "label": "尺寸預設",
+          "choiceLabels": {
+            "square_hd": "高畫質方形（1024×1024）",
+            "square": "方形（512×512）",
+            "portrait_3_4": "直式 3:4",
+            "portrait_9_16": "直式 9:16",
+            "landscape_4_3": "橫式 4:3",
+            "landscape_16_9": "橫式 16:9"
+          }
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "num_images": {
+          "label": "生成數量"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "custom_size": {
+          "label": "自訂尺寸"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要生成的畫面、構圖及風格。"
+        },
+        "size_preset": {
+          "help": "選擇尺寸預設，預設為高畫質方形。可在進階參數中填寫自訂尺寸。"
+        },
+        "output_format": {
+          "help": "選擇 PNG 或 JPEG，預設 PNG。"
+        },
+        "num_images": {
+          "help": "每次生成 1 至 4 張，預設 1 張。"
+        },
+        "seed": {
+          "help": "留空時隨機選擇，也可填寫整數沿用種子。"
+        },
+        "custom_size": {
+          "help": "填寫寬x高，例如 1024x768。支援至 2048×2048 像素。留空時使用尺寸預設。"
+        }
+      }
+    },
+    "en": {
+      "name": "Krea 2 Turbo Text-to-Image",
+      "description": "Generate one to four images from a prompt, with preset or custom dimensions.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size_preset": {
+          "label": "Size preset",
+          "choiceLabels": {
+            "square_hd": "Square HD (1024×1024)",
+            "square": "Square (512×512)",
+            "portrait_3_4": "Portrait 3:4",
+            "portrait_9_16": "Portrait 9:16",
+            "landscape_4_3": "Landscape 4:3",
+            "landscape_16_9": "Landscape 16:9"
+          }
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "num_images": {
+          "label": "Image count"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "custom_size": {
+          "label": "Custom size"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the image, composition, and style."
+        },
+        "size_preset": {
+          "help": "Choose a size preset. The default is Square HD. Enter a custom size under Advanced to override it."
+        },
+        "output_format": {
+          "help": "Choose PNG or JPEG. The default is PNG."
+        },
+        "num_images": {
+          "help": "Generate one to four images. The default is one."
+        },
+        "seed": {
+          "help": "Leave blank for a random seed, or enter an integer to reuse a seed."
+        },
+        "custom_size": {
+          "help": "Enter widthxheight, for example 1024x768, up to 2048×2048 pixels. Leave blank to use the preset."
+        }
+      }
+    },
+    "ja": {
+      "name": "Krea 2 Turbo テキストから画像",
+      "description": "プロンプトから画像を 1〜4 枚生成します。プリセットとカスタムサイズを選べます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size_preset": {
+          "label": "サイズプリセット",
+          "choiceLabels": {
+            "square_hd": "高解像度の正方形（1024×1024）",
+            "square": "正方形（512×512）",
+            "portrait_3_4": "縦長 3:4",
+            "portrait_9_16": "縦長 9:16",
+            "landscape_4_3": "横長 4:3",
+            "landscape_16_9": "横長 16:9"
+          }
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "num_images": {
+          "label": "生成枚数"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "custom_size": {
+          "label": "カスタムサイズ"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "生成する画像、構図、スタイルを記述します。"
+        },
+        "size_preset": {
+          "help": "サイズのプリセットを選びます。既定値は高解像度の正方形です。詳細設定でカスタムサイズを指定できます。"
+        },
+        "output_format": {
+          "help": "PNG または JPEG を選びます。既定値は PNG です。"
+        },
+        "num_images": {
+          "help": "1〜4 枚を生成します。既定値は 1 枚です。"
+        },
+        "seed": {
+          "help": "空欄ならランダムです。シードを固定する場合は整数を入力します。"
+        },
+        "custom_size": {
+          "help": "1024x768 のように幅x高さを入力します。最大 2048×2048 ピクセルです。空欄ならプリセットを使用します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Krea 2 Turbo 텍스트로 이미지 생성",
+      "description": "프롬프트로 이미지를 1~4장 생성하고 사전 설정 또는 맞춤 크기를 선택합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size_preset": {
+          "label": "크기 사전 설정",
+          "choiceLabels": {
+            "square_hd": "고해상도 정사각형(1024×1024)",
+            "square": "정사각형(512×512)",
+            "portrait_3_4": "세로 3:4",
+            "portrait_9_16": "세로 9:16",
+            "landscape_4_3": "가로 4:3",
+            "landscape_16_9": "가로 16:9"
+          }
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        },
+        "num_images": {
+          "label": "생성 수량"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "custom_size": {
+          "label": "맞춤 크기"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "생성할 이미지의 구도와 스타일을 설명하세요."
+        },
+        "size_preset": {
+          "help": "크기 사전 설정을 선택하세요. 기본값은 고해상도 정사각형입니다. 고급 설정에서 맞춤 크기를 입력할 수 있습니다."
+        },
+        "output_format": {
+          "help": "PNG 또는 JPEG를 선택하세요. 기본값은 PNG입니다."
+        },
+        "num_images": {
+          "help": "한 번에 1~4장을 생성합니다. 기본값은 1장입니다."
+        },
+        "seed": {
+          "help": "비워 두면 무작위입니다. 시드를 고정하려면 정수를 입력하세요."
+        },
+        "custom_size": {
+          "help": "1024x768과 같이 너비x높이를 입력하세요. 최대 2048×2048픽셀입니다. 비우면 사전 설정을 사용합니다."
+        }
+      }
+    }
+  }
+}

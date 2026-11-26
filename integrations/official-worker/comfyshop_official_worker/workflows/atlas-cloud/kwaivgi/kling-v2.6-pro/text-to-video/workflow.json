@@ -1,0 +1,257 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kwaivgi-kling-v2-6-pro-text-to-video",
+  "name": "可灵 2.6 专业版文生视频",
+  "description": "用文字生成 5 或 10 秒的视频，可同时生成对白、环境声和音效。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "optional": false
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "1:1",
+      "optional": true,
+      "choices": ["1:1", "9:16", "16:9"]
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 5,
+      "optional": true,
+      "choices": [5, 10]
+    },
+    {
+      "name": "sound",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "sound",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "kwaivgi/kling-v2.6-pro/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "aspect_ratio": "aspect_ratio",
+        "sound": "sound"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 2.6 专业版文生视频",
+      "description": "用文字生成 5 或 10 秒的视频，可同时生成对白、环境声和音效。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "sound": {
+          "label": "生成声音"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、场景、动作和镜头。可在提示词中说明所需对白和声音。"
+        },
+        "aspect_ratio": {
+          "help": "选择 1:1、9:16 或 16:9。默认 1:1。"
+        },
+        "duration": {
+          "help": "选择 5 或 10 秒。默认 5 秒。"
+        },
+        "sound": {
+          "help": "开启后生成同步声音。默认开启。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 2.6 專業版文生影片",
+      "description": "用文字生成 5 或 10 秒的影片，可同時生成對白、環境聲和音效。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "sound": {
+          "label": "生成聲音"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、場景、動作和運鏡。可在提示詞中說明需要的對白和聲音。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 1:1、9:16 或 16:9。預設 1:1。"
+        },
+        "duration": {
+          "help": "選擇 5 或 10 秒。預設 5 秒。"
+        },
+        "sound": {
+          "help": "開啟後生成同步聲音。預設開啟。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling 2.6 Pro Text to Video",
+      "description": "Create a 5- or 10-second video from text with optional synchronized dialogue, ambience, and sound effects.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "sound": {
+          "label": "Generate audio"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, setting, movement, and camera direction. Include any dialogue or sound cues in the prompt."
+        },
+        "aspect_ratio": {
+          "help": "Choose 1:1, 9:16, or 16:9. The default is 1:1."
+        },
+        "duration": {
+          "help": "Choose 5 or 10 seconds. The default is 5."
+        },
+        "sound": {
+          "help": "Generate synchronized sound. On by default."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling 2.6 Pro テキストから動画生成",
+      "description": "台詞、環境音、効果音を同期させた 5 秒または 10 秒の動画をテキストから生成できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "sound": {
+          "label": "音声生成"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、動き、カメラワークを記述します。台詞や音声の指示もプロンプトに追加できます。"
+        },
+        "aspect_ratio": {
+          "help": "1:1、9:16、16:9 から選択します。既定は 1:1 です。"
+        },
+        "duration": {
+          "help": "5 秒または 10 秒を選択します。既定は 5 秒です。"
+        },
+        "sound": {
+          "help": "有効にすると同期した音声を生成します。既定はオンです。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling 2.6 Pro 텍스트 동영상 생성",
+      "description": "텍스트에서 5초 또는 10초 동영상을 만들고 대사, 배경음, 효과음을 함께 생성할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "sound": {
+          "label": "오디오 생성"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 배경, 움직임과 카메라 구도를 설명하세요. 필요한 대사나 소리 지시도 프롬프트에 넣을 수 있습니다."
+        },
+        "aspect_ratio": {
+          "help": "1:1, 9:16 또는 16:9를 선택하세요. 기본값은 1:1입니다."
+        },
+        "duration": {
+          "help": "5초 또는 10초를 선택하세요. 기본값은 5초입니다."
+        },
+        "sound": {
+          "help": "켜면 영상에 맞는 소리를 생성합니다. 기본값은 켜짐입니다."
+        }
+      }
+    }
+  }
+}

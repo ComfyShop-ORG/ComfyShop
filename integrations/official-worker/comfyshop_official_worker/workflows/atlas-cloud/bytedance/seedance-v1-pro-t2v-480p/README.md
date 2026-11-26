@@ -1,0 +1,39 @@
+# Seedance v1 Pro 480p 文生视频
+
+根据文字生成固定 480p 的视频，时长可选 2 至 12 秒。 Atlas Cloud 模型 ID 为 `bytedance/seedance-v1-pro-t2v-480p`。[官方模型 API](https://www.atlascloud.ai/models/bytedance/seedance-v1-pro-t2v-480p)
+
+## Atlas 接口参数
+
+| Atlas 参数     | ComfyShop 字段           | 必填 | 默认值                               | 输入约定                                        |
+| -------------- | ------------------------ | ---- | ------------------------------------ | ----------------------------------------------- |
+| `model`        | `execution.config.model` | 是   | `bytedance/seedance-v1-pro-t2v-480p` | 工作机从执行配置读取                            |
+| `prompt`       | `prompt`                 | 是   | 官方示例                             | 描述视频主体、场景、动作和运镜，最多 2,000 字符 |
+| `aspect_ratio` | `aspect_ratio`           | 否   | `16:9`                               | `21:9`、`16:9`、`4:3`、`1:1`、`3:4`、`9:16`     |
+| `duration`     | `duration`               | 否   | 5                                    | 2 至 12 秒的整数                                |
+| `seed`         | `seed`                   | 否   | -1                                   | 整数，-1 使用随机种子                           |
+
+480p 由模型 ID 指定。静态 Schema 还列有旧的 `result` 路径，当前模型 API 示例使用 `prediction` 轮询。[火山方舟 Seedance 接口说明](https://docs.volcengine.com/docs/ark/create-video-generation-task-api?lang=zh)
+
+[官方 Schema](https://static.atlascloud.ai/model/schema/bytedance-seedance-v1-pro-t2v-480p.json) · [官方示例数据](https://static.atlascloud.ai/model/example/bytedance-seedance-v1-pro-t2v-480p.json) · [模型说明](https://static.atlascloud.ai/model/readme/bytedance-seedance-v1-pro-t2v-480p.md)
+
+## API 调用
+
+使用 `Authorization: Bearer <API_KEY>`，将以下 JSON 发送到 `POST https://api.atlascloud.ai/api/v1/model/generateVideo`。[官方端点文档](https://www.atlascloud.ai/docs/more-models/bytedance/seedance-v1-pro-t2v-480p/generateVideo) · [官方调用示例](https://www.atlascloud.ai/models/bytedance/seedance-v1-pro-t2v-480p#usage-examples)
+
+```json
+{
+  "model": "bytedance/seedance-v1-pro-t2v-480p",
+  "prompt": "像素画风的清晨城市，镜头沿街道缓缓上升，掠过电车和屋顶。",
+  "aspect_ratio": "16:9",
+  "duration": 5,
+  "seed": -1
+}
+```
+
+从响应取 `data.id` 或顶层 `id`，轮询 `GET https://api.atlascloud.ai/api/v1/model/prediction/{id}`。工作机按成品数组顺序保存视频，读取预测接口的 `outputs` 或此模型 Schema 的 `output`。[预测文档](https://www.atlascloud.ai/docs/predictions)
+
+## ComfyShop 同步
+
+提示词、画面比例和成品时长位于默认区。种子位于高级区。 [工作流清单与五种译文](workflow.json)
+
+从仓库根目录运行 `uv run --project integrations/official-worker --locked comfyshop-official-worker sync`。[官方工作机配置](../../../../../../../docs/deployment.md#官方工作机)

@@ -1,0 +1,234 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "tencent-hunyuan3d-rapid-text-to-3d",
+  "name": "Hunyuan 3D Rapid 文生 3D",
+  "description": "根据提示词生成 3D 模型，可选择输出格式和材质。",
+  "category": "3d",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "choices": ["GLB", "OBJ", "USDZ", "FBX", "STL", "MP4"],
+      "default": "GLB",
+      "optional": true
+    },
+    {
+      "name": "pbr",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "include_geometry",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "pbr",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "include_geometry",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "3d",
+    "additionalOutputKinds": ["image", "video"],
+    "config": {
+      "operation": "image",
+      "model": "tencent/hunyuan3d-rapid/text-to-3d",
+      "parameters": {
+        "prompt": "prompt",
+        "format": "output_format",
+        "enable_pbr": "pbr",
+        "enable_geometry": "include_geometry"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 1024
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Hunyuan 3D Rapid 文生 3D",
+      "description": "根据提示词生成 3D 模型，可选择输出格式和材质。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "output_format": {
+          "label": "输出格式"
+        },
+        "pbr": {
+          "label": "生成 PBR 材质"
+        },
+        "include_geometry": {
+          "label": "附加纯几何模型"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述物体的形状、材质和颜色，最多 1024 个字符。"
+        },
+        "output_format": {
+          "help": "选择 GLB、OBJ、USDZ、FBX、STL 或 MP4。GLB 可在线预览，MP4 可播放。"
+        },
+        "pbr": {
+          "help": "生成金属度、粗糙度和法线贴图。"
+        },
+        "include_geometry": {
+          "help": "额外输出一份不带纹理的 GLB 网格。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Hunyuan 3D Rapid 文字生成 3D",
+      "description": "根據提示詞產生 3D 模型，可選擇輸出格式與材質。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "output_format": {
+          "label": "輸出格式"
+        },
+        "pbr": {
+          "label": "產生 PBR 材質"
+        },
+        "include_geometry": {
+          "label": "附加純幾何模型"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述物體的形狀、材質與顏色，最多 1024 個字元。"
+        },
+        "output_format": {
+          "help": "選擇 GLB、OBJ、USDZ、FBX、STL 或 MP4。GLB 可線上預覽，MP4 可播放。"
+        },
+        "pbr": {
+          "help": "產生金屬度、粗糙度和法線貼圖。"
+        },
+        "include_geometry": {
+          "help": "額外輸出一份沒有紋理的 GLB 網格。"
+        }
+      }
+    },
+    "en": {
+      "name": "Hunyuan 3D Rapid Text-to-3D",
+      "description": "Generate a 3D model from a prompt with controls for format and materials.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "output_format": {
+          "label": "Output format"
+        },
+        "pbr": {
+          "label": "Generate PBR maps"
+        },
+        "include_geometry": {
+          "label": "Include geometry-only model"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the object's shape, material, and color in up to 1024 characters."
+        },
+        "output_format": {
+          "help": "Choose GLB, OBJ, USDZ, FBX, STL, or MP4. Preview GLB and play MP4 online."
+        },
+        "pbr": {
+          "help": "Generate metallic, roughness, and normal maps."
+        },
+        "include_geometry": {
+          "help": "Include an additional untextured GLB mesh."
+        }
+      }
+    },
+    "ja": {
+      "name": "Hunyuan 3D Rapid テキストから 3D モデルを生成",
+      "description": "プロンプトから 3D モデルを生成します。出力形式とマテリアルを設定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "output_format": {
+          "label": "出力形式"
+        },
+        "pbr": {
+          "label": "PBR マップを生成"
+        },
+        "include_geometry": {
+          "label": "形状のみのモデルも出力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "物体の形状、素材、色を 1024 文字以内で記述します。"
+        },
+        "output_format": {
+          "help": "GLB、OBJ、USDZ、FBX、STL、MP4 から選びます。GLB はプレビュー、MP4 は再生ができます。"
+        },
+        "pbr": {
+          "help": "メタリック、粗さ、法線マップを生成します。"
+        },
+        "include_geometry": {
+          "help": "テクスチャなしの GLB メッシュを追加で出力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Hunyuan 3D Rapid 텍스트로 3D 모델 생성",
+      "description": "프롬프트로 3D 모델을 생성합니다. 내보내기 형식과 재질을 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "output_format": {
+          "label": "출력 형식"
+        },
+        "pbr": {
+          "label": "PBR 맵 생성"
+        },
+        "include_geometry": {
+          "label": "기하 전용 모델 포함"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "물체의 형태, 재질, 색상을 최대 1024자로 설명합니다."
+        },
+        "output_format": {
+          "help": "GLB, OBJ, USDZ, FBX, STL, MP4 중 하나를 선택합니다. GLB는 미리 보고 MP4는 재생할 수 있습니다."
+        },
+        "pbr": {
+          "help": "금속성, 거칠기, 노멀 맵을 생성합니다."
+        },
+        "include_geometry": {
+          "help": "텍스처가 없는 GLB 메시를 추가로 내보냅니다."
+        }
+      }
+    }
+  }
+}

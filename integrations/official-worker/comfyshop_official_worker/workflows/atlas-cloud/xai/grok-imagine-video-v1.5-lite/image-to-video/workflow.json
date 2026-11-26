@@ -1,0 +1,426 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-grok-video15-lite-image-to-video",
+  "name": "Grok Imagine Video v1.5 Lite 图生视频",
+  "description": "从一张起始图和动作提示词生成 1 至 15 秒的视频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "The girl slowly turns toward the camera and smiles as wind moves through her hair, soft cinematic lighting.",
+      "multiline": true
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "integer",
+      "default": 8,
+      "minimum": "1",
+      "maximum": "15",
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["480p", "720p", "1080p"],
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "auto",
+      "choices": ["auto", "16:9", "9:16", "1:1", "4:3", "3:4", "3:2", "2:3", "21:9", "5:2"],
+      "optional": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "xai/grok-imagine-video-v1.5-lite/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "resolution": "resolution",
+        "aspect_ratio": "aspect_ratio",
+        "generate_audio": "generate_audio"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "allow_raw_base64": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Grok Imagine Video v1.5 Lite 图生视频",
+      "description": "从一张起始图和动作提示词生成 1 至 15 秒的视频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "成品时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "auto": "自动",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "21:9": "21:9",
+            "5:2": "5:2"
+          }
+        },
+        "first_frame": {
+          "label": "起始图"
+        },
+        "first_frame_source": {
+          "label": "起始图来源"
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传 JPEG、PNG 或 WebP，用作视频的第一帧。"
+        },
+        "prompt": {
+          "help": "描述起始图中的动作、镜头和希望听到的声音。"
+        },
+        "duration_seconds": {
+          "help": "选择 1 至 15 秒，默认 8 秒。"
+        },
+        "resolution": {
+          "help": "选择 480p、720p 或由 720p 放大的 1080p。"
+        },
+        "aspect_ratio": {
+          "help": "自动时匹配起始图比例。指定其他比例会拉伸画面。"
+        },
+        "first_frame_source": {
+          "help": "填写一个公开图片 URL 或 Base64，与上传二选一。"
+        },
+        "generate_audio": {
+          "help": "开启后随视频生成同步语音、音效和环境声。关闭后生成静音视频。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Grok Imagine Video v1.5 Lite 圖生影片",
+      "description": "從一張起始圖和動作提示詞生成 1 至 15 秒的影片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "成品長度（秒）"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "auto": "自動",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "21:9": "21:9",
+            "5:2": "5:2"
+          }
+        },
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "first_frame_source": {
+          "label": "起始圖來源"
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳 JPEG、PNG 或 WebP，作為影片的第一幀。"
+        },
+        "prompt": {
+          "help": "描述起始圖中的動作、鏡頭和想聽到的聲音。"
+        },
+        "duration_seconds": {
+          "help": "選擇 1 至 15 秒，預設 8 秒。"
+        },
+        "resolution": {
+          "help": "選擇 480p、720p 或由 720p 放大的 1080p。"
+        },
+        "aspect_ratio": {
+          "help": "自動時符合起始圖比例。指定其他比例會拉伸畫面。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個公開圖片 URL 或 Base64，與上傳擇一。"
+        },
+        "generate_audio": {
+          "help": "開啟後隨影片生成同步語音、音效和環境聲。關閉後生成靜音影片。"
+        }
+      }
+    },
+    "en": {
+      "name": "Grok Imagine Video v1.5 Lite Image-to-Video",
+      "description": "Generate a 1–15 second video from a starting image and a motion prompt.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "auto": "Automatic",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "21:9": "21:9",
+            "5:2": "5:2"
+          }
+        },
+        "first_frame": {
+          "label": "Starting image"
+        },
+        "first_frame_source": {
+          "label": "Starting image source"
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload a JPEG, PNG, or WebP as the first video frame."
+        },
+        "prompt": {
+          "help": "Describe the motion, camera, and desired sound from the starting image."
+        },
+        "duration_seconds": {
+          "help": "Choose 1 to 15 seconds. The default is 8 seconds."
+        },
+        "resolution": {
+          "help": "Choose 480p, 720p, or 1080p upscaled from 720p."
+        },
+        "aspect_ratio": {
+          "help": "Automatic matches the starting image's aspect ratio. A different ratio stretches the image."
+        },
+        "first_frame_source": {
+          "help": "Enter a public image URL or Base64 instead of uploading."
+        },
+        "generate_audio": {
+          "help": "Generate synchronized speech, sound effects, and ambience. Turn off for a silent clip."
+        }
+      }
+    },
+    "ja": {
+      "name": "Grok Imagine Video v1.5 Lite 画像から動画",
+      "description": "開始画像と動きのプロンプトから 1〜15 秒の動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "動画の長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "auto": "自動",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "21:9": "21:9",
+            "5:2": "5:2"
+          }
+        },
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "first_frame_source": {
+          "label": "開始画像のソース"
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "動画の先頭フレームとして JPEG、PNG、または WebP をアップロードします。"
+        },
+        "prompt": {
+          "help": "開始画像からの動き、カメラ、希望する音声を記述します。"
+        },
+        "duration_seconds": {
+          "help": "1〜15 秒を選びます。既定値は 8 秒です。"
+        },
+        "resolution": {
+          "help": "480p、720p、または 720p をアップスケールした 1080p を選べます。"
+        },
+        "aspect_ratio": {
+          "help": "自動は開始画像の縦横比に合わせます。比率を変えると画像が引き伸ばされます。"
+        },
+        "first_frame_source": {
+          "help": "アップロードの代わりに公開画像 URL または Base64 を入力します。"
+        },
+        "generate_audio": {
+          "help": "動画に同期する音声、効果音、環境音を生成します。オフにすると無音になります。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Grok Imagine Video v1.5 Lite 이미지로 동영상 생성",
+      "description": "시작 이미지와 동작 프롬프트로 1~15초 동영상을 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "동영상 길이(초)"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "auto": "자동",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1",
+            "4:3": "4:3",
+            "3:4": "3:4",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "21:9": "21:9",
+            "5:2": "5:2"
+          }
+        },
+        "first_frame": {
+          "label": "시작 이미지"
+        },
+        "first_frame_source": {
+          "label": "시작 이미지 소스"
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "동영상의 첫 프레임으로 JPEG, PNG 또는 WebP를 업로드하세요."
+        },
+        "prompt": {
+          "help": "시작 이미지의 움직임, 카메라와 원하는 소리를 설명하세요."
+        },
+        "duration_seconds": {
+          "help": "1~15초를 선택하세요. 기본값은 8초입니다."
+        },
+        "resolution": {
+          "help": "480p, 720p 또는 720p에서 업스케일한 1080p를 선택하세요."
+        },
+        "aspect_ratio": {
+          "help": "자동은 시작 이미지의 비율을 따릅니다. 비율을 바꾸면 이미지가 늘어납니다."
+        },
+        "first_frame_source": {
+          "help": "업로드 대신 공개 이미지 URL이나 Base64를 입력하세요."
+        },
+        "generate_audio": {
+          "help": "동기화된 음성, 효과음, 주변 소리를 생성합니다. 끄면 소리 없는 동영상을 만듭니다."
+        }
+      }
+    }
+  }
+}

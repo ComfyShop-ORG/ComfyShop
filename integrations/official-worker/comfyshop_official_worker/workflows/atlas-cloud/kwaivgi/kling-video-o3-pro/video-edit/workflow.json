@@ -1,0 +1,506 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kwaivgi-kling-video-o3-pro-video-edit",
+  "name": "可灵 O3 专业版视频编辑",
+  "description": "用文字指令编辑原视频，可用参考图引导画面，也可指定已有音色。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "source_video",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 2500
+    },
+    {
+      "name": "reference_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "video_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "reference_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "voice_ids",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "keep_original_sound",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "source_video",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "voice_ids",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "keep_original_sound",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "kwaivgi/kling-video-o3-pro/video-edit",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "keep_original_sound": "keep_original_sound"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 2500
+      },
+      "text_arrays": {
+        "voice_ids": {
+          "field": "voice_ids",
+          "max_items": 3
+        }
+      },
+      "media": {
+        "video": {
+          "kind": "video",
+          "fields": ["source_video"],
+          "external_sources_field": "video_source",
+          "external_urls_only": true,
+          "min_items": 1,
+          "content_types": ["video/mp4", "video/quicktime"],
+          "max_bytes": 200000000,
+          "min_duration_ms": 3000,
+          "max_duration_ms": 15500,
+          "image_bounds": {
+            "min_side": 700,
+            "max_side": 4553,
+            "max_pixels": 8294400,
+            "aspect_ratio_range": [0.4, 2]
+          }
+        },
+        "images": {
+          "kind": "image",
+          "fields": ["reference_1", "reference_2", "reference_3", "reference_4"],
+          "array": true,
+          "external_sources_field": "reference_sources",
+          "external_urls_only": true,
+          "content_types": ["image/jpeg", "image/png"],
+          "max_bytes": 50000000,
+          "image_bounds": {
+            "min_side": 300,
+            "max_aspect_ratio": 2.5
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 O3 专业版视频编辑",
+      "description": "用文字指令编辑原视频，可用参考图引导画面，也可指定已有音色。",
+      "fields": {
+        "source_video": {
+          "label": "原视频"
+        },
+        "prompt": {
+          "label": "编辑指令"
+        },
+        "reference_1": {
+          "label": "参考图 1"
+        },
+        "reference_2": {
+          "label": "参考图 2"
+        },
+        "reference_3": {
+          "label": "参考图 3"
+        },
+        "reference_4": {
+          "label": "参考图 4"
+        },
+        "video_source": {
+          "label": "原视频 URL"
+        },
+        "reference_sources": {
+          "label": "参考图 URL"
+        },
+        "voice_ids": {
+          "label": "音色 ID"
+        },
+        "keep_original_sound": {
+          "label": "保留原声"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上传 3 至 15.5 秒的 MP4 或 MOV，最多 200 MB。每边 700 至 4,553 像素，面积最多 8,294,400 像素，宽高比 0.4 至 2，24 至 60 帧每秒。"
+        },
+        "prompt": {
+          "help": "描述想添加、替换或修改的内容，最多 2,500 字符。使用 <<<video_1>>>、<<<image_1>>> 等引用素材。"
+        },
+        "reference_1": {
+          "help": "上传 JPEG 或 PNG，最多 50 MB，每边至少 300 像素，宽高比 1:2.5 至 2.5:1。"
+        },
+        "reference_2": {
+          "help": "上传 JPEG 或 PNG，最多 50 MB，每边至少 300 像素，宽高比 1:2.5 至 2.5:1。"
+        },
+        "reference_3": {
+          "help": "上传 JPEG 或 PNG，最多 50 MB，每边至少 300 像素，宽高比 1:2.5 至 2.5:1。"
+        },
+        "reference_4": {
+          "help": "上传 JPEG 或 PNG，最多 50 MB，每边至少 300 像素，宽高比 1:2.5 至 2.5:1。"
+        },
+        "video_source": {
+          "help": "填写公开的 MP4 或 MOV 直链，作为上传的替代来源。"
+        },
+        "reference_sources": {
+          "help": "每行填写一个可公开访问的图片 URL。与已上传的参考图合计最多 4 张。"
+        },
+        "voice_ids": {
+          "help": "每行填写一个可灵已有或预设的音色 ID，最多 3 个。用 <<<voice_1>>> 或 @voice_1 等按顺序引用。"
+        },
+        "keep_original_sound": {
+          "help": "默认保留原视频音轨。关闭后移除原音轨。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 O3 專業版影片編輯",
+      "description": "用文字指令編輯原始影片，可用參考圖引導畫面，也可指定既有音色。",
+      "fields": {
+        "source_video": {
+          "label": "原始影片"
+        },
+        "prompt": {
+          "label": "編輯指令"
+        },
+        "reference_1": {
+          "label": "參考圖 1"
+        },
+        "reference_2": {
+          "label": "參考圖 2"
+        },
+        "reference_3": {
+          "label": "參考圖 3"
+        },
+        "reference_4": {
+          "label": "參考圖 4"
+        },
+        "video_source": {
+          "label": "原始影片 URL"
+        },
+        "reference_sources": {
+          "label": "參考圖 URL"
+        },
+        "voice_ids": {
+          "label": "音色 ID"
+        },
+        "keep_original_sound": {
+          "label": "保留原聲"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上傳 3 至 15.5 秒的 MP4 或 MOV，最多 200 MB。每邊 700 至 4,553 像素，面積最多 8,294,400 像素，寬高比 0.4 至 2，每秒 24 至 60 幀。"
+        },
+        "prompt": {
+          "help": "描述想新增、替換或修改的內容，最多 2,500 字元。使用 <<<video_1>>>、<<<image_1>>> 等引用素材。"
+        },
+        "reference_1": {
+          "help": "上傳 JPEG 或 PNG，最多 50 MB，每邊至少 300 像素，寬高比 1:2.5 至 2.5:1。"
+        },
+        "reference_2": {
+          "help": "上傳 JPEG 或 PNG，最多 50 MB，每邊至少 300 像素，寬高比 1:2.5 至 2.5:1。"
+        },
+        "reference_3": {
+          "help": "上傳 JPEG 或 PNG，最多 50 MB，每邊至少 300 像素，寬高比 1:2.5 至 2.5:1。"
+        },
+        "reference_4": {
+          "help": "上傳 JPEG 或 PNG，最多 50 MB，每邊至少 300 像素，寬高比 1:2.5 至 2.5:1。"
+        },
+        "video_source": {
+          "help": "填寫公開的 MP4 或 MOV 直接連結，作為上傳的替代來源。"
+        },
+        "reference_sources": {
+          "help": "每行填寫一個可公開存取的圖片 URL。與已上傳的參考圖合計最多 4 張。"
+        },
+        "voice_ids": {
+          "help": "每行填寫一個可靈既有或預設音色 ID，最多 3 個。用 <<<voice_1>>> 或 @voice_1 等依序引用。"
+        },
+        "keep_original_sound": {
+          "help": "預設保留原始影片音軌。關閉後移除原始音軌。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling O3 Pro Video Edit",
+      "description": "Edit footage with text instructions and optional reference images or existing voice IDs.",
+      "fields": {
+        "source_video": {
+          "label": "Source video"
+        },
+        "prompt": {
+          "label": "Edit instructions"
+        },
+        "reference_1": {
+          "label": "Reference image 1"
+        },
+        "reference_2": {
+          "label": "Reference image 2"
+        },
+        "reference_3": {
+          "label": "Reference image 3"
+        },
+        "reference_4": {
+          "label": "Reference image 4"
+        },
+        "video_source": {
+          "label": "Source video URL"
+        },
+        "reference_sources": {
+          "label": "Reference image URLs"
+        },
+        "voice_ids": {
+          "label": "Voice IDs"
+        },
+        "keep_original_sound": {
+          "label": "Keep original audio"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "Upload a 3- to 15.5-second MP4 or MOV up to 200 MB. Use 700 to 4,553 pixels per side, at most 8,294,400 total pixels, a width-to-height ratio of 0.4 to 2, and 24 to 60 fps."
+        },
+        "prompt": {
+          "help": "Describe additions, replacements, or edits in up to 2,500 characters. Use <<<video_1>>>, <<<image_1>>>, and other input references."
+        },
+        "reference_1": {
+          "help": "Upload a JPEG or PNG up to 50 MB. Each side must be at least 300 pixels with a ratio from 1:2.5 to 2.5:1."
+        },
+        "reference_2": {
+          "help": "Upload a JPEG or PNG up to 50 MB. Each side must be at least 300 pixels with a ratio from 1:2.5 to 2.5:1."
+        },
+        "reference_3": {
+          "help": "Upload a JPEG or PNG up to 50 MB. Each side must be at least 300 pixels with a ratio from 1:2.5 to 2.5:1."
+        },
+        "reference_4": {
+          "help": "Upload a JPEG or PNG up to 50 MB. Each side must be at least 300 pixels with a ratio from 1:2.5 to 2.5:1."
+        },
+        "video_source": {
+          "help": "Enter one public direct MP4 or MOV URL in place of an upload."
+        },
+        "reference_sources": {
+          "help": "Enter one public image URL per line. Together with uploaded references, use up to four images."
+        },
+        "voice_ids": {
+          "help": "Enter up to three existing or preset Kling voice IDs, one per line. Refer to them in order with <<<voice_1>>> or @voice_1."
+        },
+        "keep_original_sound": {
+          "help": "Keep the source video's audio track by default. Turn this off to remove it."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling O3 Pro 動画編集",
+      "description": "テキストの指示で元動画を編集します。参照画像や既存の音声 ID も指定できます。",
+      "fields": {
+        "source_video": {
+          "label": "元動画"
+        },
+        "prompt": {
+          "label": "編集指示"
+        },
+        "reference_1": {
+          "label": "参照画像 1"
+        },
+        "reference_2": {
+          "label": "参照画像 2"
+        },
+        "reference_3": {
+          "label": "参照画像 3"
+        },
+        "reference_4": {
+          "label": "参照画像 4"
+        },
+        "video_source": {
+          "label": "元動画の URL"
+        },
+        "reference_sources": {
+          "label": "参照画像の URL"
+        },
+        "voice_ids": {
+          "label": "音声 ID"
+        },
+        "keep_original_sound": {
+          "label": "元の音声を保持"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "3〜15.5 秒、最大 200 MB の MP4 または MOV をアップロードします。各辺 700〜4,553 ピクセル、総画素数 8,294,400 以下、幅と高さの比率 0.4〜2、毎秒 24〜60 フレームです。"
+        },
+        "prompt": {
+          "help": "追加、差し替え、変更する内容を 2,500 文字以内で指定します。素材は <<<video_1>>>、<<<image_1>>> などで参照します。"
+        },
+        "reference_1": {
+          "help": "各辺 300 ピクセル以上、比率 1:2.5〜2.5:1、最大 50 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_2": {
+          "help": "各辺 300 ピクセル以上、比率 1:2.5〜2.5:1、最大 50 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_3": {
+          "help": "各辺 300 ピクセル以上、比率 1:2.5〜2.5:1、最大 50 MB の JPEG または PNG をアップロードします。"
+        },
+        "reference_4": {
+          "help": "各辺 300 ピクセル以上、比率 1:2.5〜2.5:1、最大 50 MB の JPEG または PNG をアップロードします。"
+        },
+        "video_source": {
+          "help": "アップロードの代わりに、公開された MP4 または MOV の直接 URL を入力します。"
+        },
+        "reference_sources": {
+          "help": "公開画像の URL を一行に一つ入力します。アップロード画像との合計は最大 4 枚です。"
+        },
+        "voice_ids": {
+          "help": "既存またはプリセットの Kling 音声 ID を一行に一つ、最大 3 個入力します。<<<voice_1>>> または @voice_1 で順に参照します。"
+        },
+        "keep_original_sound": {
+          "help": "既定では元動画の音声を保持します。オフにすると元の音声を除去します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling O3 Pro 동영상 편집",
+      "description": "텍스트 지시로 원본 영상을 편집하고 참조 이미지나 기존 음성 ID를 지정할 수 있습니다.",
+      "fields": {
+        "source_video": {
+          "label": "원본 동영상"
+        },
+        "prompt": {
+          "label": "편집 지시"
+        },
+        "reference_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_4": {
+          "label": "참조 이미지 4"
+        },
+        "video_source": {
+          "label": "원본 동영상 URL"
+        },
+        "reference_sources": {
+          "label": "참조 이미지 URL"
+        },
+        "voice_ids": {
+          "label": "음성 ID"
+        },
+        "keep_original_sound": {
+          "label": "원본 오디오 유지"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "3~15.5초, 최대 200MB의 MP4 또는 MOV를 업로드하세요. 각 변은 700~4,553픽셀, 전체는 최대 8,294,400픽셀, 가로세로 비율은 0.4~2, 프레임은 초당 24~60입니다."
+        },
+        "prompt": {
+          "help": "추가하거나 교체할 내용 또는 바꿀 내용을 최대 2,500자로 설명하세요. <<<video_1>>>, <<<image_1>>> 등으로 소재를 참조합니다."
+        },
+        "reference_1": {
+          "help": "각 변이 300픽셀 이상이고 비율이 1:2.5~2.5:1인 최대 50MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_2": {
+          "help": "각 변이 300픽셀 이상이고 비율이 1:2.5~2.5:1인 최대 50MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_3": {
+          "help": "각 변이 300픽셀 이상이고 비율이 1:2.5~2.5:1인 최대 50MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "reference_4": {
+          "help": "각 변이 300픽셀 이상이고 비율이 1:2.5~2.5:1인 최대 50MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "video_source": {
+          "help": "업로드 대신 공개 MP4 또는 MOV의 직접 URL을 하나 입력하세요."
+        },
+        "reference_sources": {
+          "help": "한 줄에 공개 이미지 URL을 하나씩 입력하세요. 업로드한 이미지와 합해 최대 4장입니다."
+        },
+        "voice_ids": {
+          "help": "기존 또는 프리셋 Kling 음성 ID를 한 줄에 하나씩 최대 3개 입력하세요. <<<voice_1>>> 또는 @voice_1 등으로 순서대로 참조합니다."
+        },
+        "keep_original_sound": {
+          "help": "기본값은 원본 동영상의 오디오 유지입니다. 끄면 원본 오디오 트랙을 제거합니다."
+        }
+      }
+    }
+  }
+}

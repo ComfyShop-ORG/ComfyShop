@@ -1,0 +1,393 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-google-veo3-1-lite-image-to-video",
+  "name": "Veo 3.1 Lite 图生视频",
+  "description": "让一张起始图动起来，生成带同步音频的 720p 或 1080p 视频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 8,
+      "optional": true,
+      "choices": [4, 6, 8]
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "optional": true,
+      "choices": ["16:9", "9:16"]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "optional": true,
+      "choices": ["720p", "1080p"]
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "google/veo3.1-lite/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "choice_bounds": {
+        "duration": {
+          "parameter": "resolution",
+          "ranges": {
+            "1080p": [8, 8]
+          }
+        }
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "max_bytes": 8000000,
+          "content_types": ["image/png", "image/jpeg"],
+          "allow_raw_base64": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Veo 3.1 Lite 图生视频",
+      "description": "让一张起始图动起来，生成带同步音频的 720p 或 1080p 视频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "aspect_ratio": {
+          "label": "画面比例"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "first_frame": {
+          "label": "起始图"
+        },
+        "first_frame_source": {
+          "label": "起始图来源"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、场景和镜头。用引号标出对白，可描述音效和环境声。"
+        },
+        "first_frame": {
+          "help": "上传 PNG 或 JPEG 图片，最多 8 MB。也可在高级区填写素材来源。"
+        },
+        "duration": {
+          "help": "720p 时选择 4、6 或 8 秒。1080p 时使用 8 秒。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9 横屏或 9:16 竖屏。"
+        },
+        "resolution": {
+          "help": "选择 720p 或 1080p。默认 720p，1080p 仅支持 8 秒。"
+        },
+        "seed": {
+          "help": "输入整数。-1 由模型随机选取种子。"
+        },
+        "first_frame_source": {
+          "help": "填写一个公开图片 URL、Base64 数据网址或一行原始 Base64，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Veo 3.1 Lite 圖生影片",
+      "description": "讓一張起始圖動起來，產生有同步音訊的 720p 或 1080p 影片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "first_frame_source": {
+          "label": "起始圖來源"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、場景與運鏡。以引號標示對白，可描述音效與環境聲。"
+        },
+        "first_frame": {
+          "help": "上傳 PNG 或 JPEG 圖片，最多 8 MB。也可在進階區填寫素材來源。"
+        },
+        "duration": {
+          "help": "720p 時選擇 4、6 或 8 秒。1080p 時使用 8 秒。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9 橫向或 9:16 直向。"
+        },
+        "resolution": {
+          "help": "選擇 720p 或 1080p。預設為 720p，1080p 僅支援 8 秒。"
+        },
+        "seed": {
+          "help": "輸入整數。-1 由模型隨機選取種子。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個公開圖片網址、Base64 資料網址或一行原始 Base64，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Veo 3.1 Lite Image to Video",
+      "description": "Animate an opening image into a 720p or 1080p video with synchronized audio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "first_frame": {
+          "label": "Opening image"
+        },
+        "first_frame_source": {
+          "label": "Opening image source"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, scene, and camera. Quote spoken dialogue and describe sound effects or ambience."
+        },
+        "first_frame": {
+          "help": "Upload a PNG or JPEG up to 8 MB, or enter the image source under Advanced."
+        },
+        "duration": {
+          "help": "Choose 4, 6, or 8 seconds at 720p. Use 8 seconds at 1080p."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9 landscape or 9:16 portrait."
+        },
+        "resolution": {
+          "help": "Choose 720p or 1080p. The default is 720p. 1080p requires 8 seconds."
+        },
+        "seed": {
+          "help": "Enter an integer. Use -1 for a random seed."
+        },
+        "first_frame_source": {
+          "help": "Enter one public image URL, Base64 data URL, or single line of raw Base64 in place of an upload."
+        }
+      }
+    },
+    "ja": {
+      "name": "Veo 3.1 Lite 画像から動画",
+      "description": "開始画像を動かし、音声付きの720pまたは1080p動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "first_frame_source": {
+          "label": "開始画像の参照先"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、カメラを記述します。台詞は引用符で囲み、効果音や環境音も指定できます。"
+        },
+        "first_frame": {
+          "help": "8 MB以下のPNGまたはJPEGをアップロードするか、詳細設定で参照先を指定します。"
+        },
+        "duration": {
+          "help": "720pは4秒、6秒、8秒から選択します。1080pは8秒です。"
+        },
+        "aspect_ratio": {
+          "help": "横長の16:9または縦長の9:16を選択します。"
+        },
+        "resolution": {
+          "help": "720pまたは1080pを選択します。既定値は720pで、1080pは8秒です。"
+        },
+        "seed": {
+          "help": "整数を入力します。-1はランダムなシードを使います。"
+        },
+        "first_frame_source": {
+          "help": "アップロードの代わりに公開画像のURL、Base64データURL、または1行の生のBase64を入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Veo 3.1 Lite 이미지로 동영상 생성",
+      "description": "첫 이미지에 움직임을 넣어 동기화된 오디오가 포함된 720p 또는 1080p 동영상을 만듭니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p"
+          }
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "first_frame": {
+          "label": "첫 이미지"
+        },
+        "first_frame_source": {
+          "label": "첫 이미지 소스"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 장면, 카메라 움직임을 설명합니다. 대사는 따옴표로 묶고 효과음과 배경음을 지정합니다."
+        },
+        "first_frame": {
+          "help": "8 MB 이하의 PNG 또는 JPEG를 업로드하거나 고급 설정에서 이미지 소스를 입력합니다."
+        },
+        "duration": {
+          "help": "720p에서는 4초, 6초, 8초 중에 선택합니다. 1080p에서는 8초를 사용합니다."
+        },
+        "aspect_ratio": {
+          "help": "가로 16:9 또는 세로 9:16을 선택합니다."
+        },
+        "resolution": {
+          "help": "720p 또는 1080p를 선택합니다. 기본값은 720p이며 1080p는 8초를 사용합니다."
+        },
+        "seed": {
+          "help": "정수를 입력합니다. -1은 무작위 시드를 사용합니다."
+        },
+        "first_frame_source": {
+          "help": "업로드 대신 공개 이미지 URL, Base64 데이터 URL 또는 한 줄의 원시 Base64를 입력합니다."
+        }
+      }
+    }
+  }
+}

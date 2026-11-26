@@ -1,0 +1,427 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "seedream-v50-flash-layer-decomposition",
+  "name": "Seedream v5.0 Flash 图层拆分",
+  "description": "快速把一张图片拆成底图和最多 16 张透明 PNG 图层，保留图层的顺序与坐标。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_source",
+      "kind": "string",
+      "optional": true,
+      "multiline": true,
+      "default": "",
+      "maxLength": 4194304
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "optional": true,
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "size",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["auto", "1K", "1.5K", "2K"],
+      "default": "auto"
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["jpeg", "png"],
+      "default": "jpeg"
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "image",
+      "section": "default"
+    },
+    {
+      "fieldId": "image_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "additionalOutputKinds": ["text"],
+    "config": {
+      "operation": "image",
+      "model": "bytedance/seedream-v5.0-flash/layer-decomposition",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "output_format": "output_format",
+        "enable_sync_mode": "enable_sync_mode",
+        "enable_base64_output": "enable_base64_output"
+      },
+      "omit_blank_parameters": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["image"],
+          "min_items": 1,
+          "external_sources_field": "image_source",
+          "content_types": [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "image/bmp",
+            "image/tiff",
+            "image/gif"
+          ],
+          "max_bytes": 30000000,
+          "image_bounds": {
+            "min_pixels": 262144,
+            "max_pixels": 36000000,
+            "max_aspect_ratio": 16
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seedream v5.0 Flash 图层拆分",
+      "description": "快速把一张图片拆成底图和最多 16 张透明 PNG 图层，保留图层的顺序与坐标。",
+      "fields": {
+        "image": {
+          "label": "原图"
+        },
+        "image_source": {
+          "label": "原图地址或 Base64"
+        },
+        "prompt": {
+          "label": "拆分说明"
+        },
+        "size": {
+          "label": "输出尺寸档位",
+          "choiceLabels": {
+            "auto": "自动",
+            "1K": "1K",
+            "1.5K": "1.5K",
+            "2K": "2K"
+          }
+        },
+        "output_format": {
+          "label": "底图格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "上传一张图片，最多 30 MB。总像素为 512×512 至 6000×6000，宽高比为 1:16 至 16:1。"
+        },
+        "image_source": {
+          "help": "填一个公开 HTTP(S) 图片地址或 Base64 data URL。使用此项时，请留空上传槽位。TIFF 可通过此方式提供。"
+        },
+        "prompt": {
+          "help": "可描述要拆出的元素，或用 <bbox>x1 y1 x2 y2</bbox> 指定区域。坐标为 0 至 1000，以左上角为原点。留空自动拆分。"
+        },
+        "size": {
+          "help": "自动模式参考原图尺寸，输出控制在 1K 至 2K 之间。"
+        },
+        "output_format": {
+          "help": "选择 JPEG 或 PNG 底图，拆出的图层采用透明 PNG。"
+        },
+        "enable_sync_mode": {
+          "help": "等待 Atlas 完成后在提交响应中取结果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以内联 Base64 返回成品，工作机解码后保存。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seedream v5.0 Flash 圖層拆分",
+      "description": "快速把一張圖片拆成底圖和最多 16 張透明 PNG 圖層，保留圖層的順序與座標。",
+      "fields": {
+        "image": {
+          "label": "原圖"
+        },
+        "image_source": {
+          "label": "原圖網址或 Base64"
+        },
+        "prompt": {
+          "label": "拆分說明"
+        },
+        "size": {
+          "label": "輸出尺寸等級",
+          "choiceLabels": {
+            "auto": "自動",
+            "1K": "1K",
+            "1.5K": "1.5K",
+            "2K": "2K"
+          }
+        },
+        "output_format": {
+          "label": "底圖格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步回傳"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "上傳一張圖片，最多 30 MB。總像素為 512×512 至 6000×6000，寬高比為 1:16 至 16:1。"
+        },
+        "image_source": {
+          "help": "填入一個公開 HTTP(S) 圖片網址或 Base64 data URL。使用此項時請留空上傳欄位。TIFF 可透過此方式提供。"
+        },
+        "prompt": {
+          "help": "可描述要拆出的元素，或用 <bbox>x1 y1 x2 y2</bbox> 指定區域。座標為 0 至 1000，以左上角為原點。留空自動拆分。"
+        },
+        "size": {
+          "help": "自動模式參考原圖尺寸，輸出控制在 1K 至 2K 之間。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG 或 PNG 底圖，拆出的圖層採用透明 PNG。"
+        },
+        "enable_sync_mode": {
+          "help": "等 Atlas 完成後，從提交回應取得結果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以內嵌 Base64 回傳成品，工作機解碼後儲存。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seedream v5.0 Flash Layer Decomposition",
+      "description": "Quickly split one image into a base and up to 16 transparent PNG layers, with stacking order and coordinates.",
+      "fields": {
+        "image": {
+          "label": "Source image"
+        },
+        "image_source": {
+          "label": "Source URL or Base64"
+        },
+        "prompt": {
+          "label": "Layer instructions"
+        },
+        "size": {
+          "label": "Output size tier",
+          "choiceLabels": {
+            "auto": "Auto",
+            "1K": "1K",
+            "1.5K": "1.5K",
+            "2K": "2K"
+          }
+        },
+        "output_format": {
+          "label": "Base image format",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "Wait for result"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "Upload one image up to 30 MB. Total pixels must range from 512×512 to 6000×6000 with an aspect ratio of 1:16 to 16:1."
+        },
+        "image_source": {
+          "help": "Enter one public HTTP(S) URL or Base64 data URL. Leave the upload slot empty when using this field. TIFF is supported through this field."
+        },
+        "prompt": {
+          "help": "Describe elements to split, or target a region with <bbox>x1 y1 x2 y2</bbox>. Coordinates range from 0 to 1000 with a top-left origin. Leave blank for automatic decomposition."
+        },
+        "size": {
+          "help": "Auto follows the source size within the 1K to 2K range."
+        },
+        "output_format": {
+          "help": "Choose JPEG or PNG for the base. The separated layers use transparent PNG."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for Atlas to return a finished result in the submit response."
+        },
+        "enable_base64_output": {
+          "help": "Request inline Base64 and let the work machine decode and save the images."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seedream v5.0 Flash レイヤー分解",
+      "description": "1 枚の原画像をベース画像と最大 16 枚の透過 PNG レイヤーに分け、重ね順と座標を保存します。",
+      "fields": {
+        "image": {
+          "label": "元の画像"
+        },
+        "image_source": {
+          "label": "元画像の URL または Base64"
+        },
+        "prompt": {
+          "label": "分解の指示"
+        },
+        "size": {
+          "label": "出力サイズの区分",
+          "choiceLabels": {
+            "auto": "自動",
+            "1K": "1K",
+            "1.5K": "1.5K",
+            "2K": "2K"
+          }
+        },
+        "output_format": {
+          "label": "ベース画像の形式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "30 MB 以内の画像を 1 枚アップロードします。総画素数は 512×512〜6000×6000、縦横比は 1:16〜16:1 です。"
+        },
+        "image_source": {
+          "help": "公開 HTTP(S) URL または Base64 data URL を 1 つ入力します。この項目を使う場合はアップロードを空欄にします。TIFF も指定できます。"
+        },
+        "prompt": {
+          "help": "分解する要素を記述するか、<bbox>x1 y1 x2 y2</bbox> で指定します。座標は左上が原点で 0〜1000 です。空欄なら自動で分解します。"
+        },
+        "size": {
+          "help": "自動は元の画像を基に 1K〜2K の範囲で決めます。"
+        },
+        "output_format": {
+          "help": "ベース画像を JPEG または PNG にします。分解したレイヤーは透過 PNG です。"
+        },
+        "enable_sync_mode": {
+          "help": "Atlas の完了を待ち、送信時の応答で結果を取得します。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas にインラインの Base64 を求めます。ワーカーが復号して保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seedream v5.0 Flash 레이어 분리",
+      "description": "이미지 한 장을 바탕 이미지와 투명 PNG 레이어 최대 16장으로 빠르게 분리하고 순서와 좌표를 저장합니다.",
+      "fields": {
+        "image": {
+          "label": "원본 이미지"
+        },
+        "image_source": {
+          "label": "원본 URL 또는 Base64"
+        },
+        "prompt": {
+          "label": "레이어 분리 지시"
+        },
+        "size": {
+          "label": "출력 크기 단계",
+          "choiceLabels": {
+            "auto": "자동",
+            "1K": "1K",
+            "1.5K": "1.5K",
+            "2K": "2K"
+          }
+        },
+        "output_format": {
+          "label": "바탕 이미지 형식",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "결과 기다리기"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "최대 30 MB인 이미지를 한 장 올리세요. 전체 픽셀 수는 512×512~6000×6000, 화면비는 1:16~16:1입니다."
+        },
+        "image_source": {
+          "help": "공개 HTTP(S) URL 또는 Base64 data URL을 하나 입력하세요. 이 항목을 쓰려면 업로드를 비워 두세요. TIFF도 지정할 수 있습니다."
+        },
+        "prompt": {
+          "help": "분리할 요소를 설명하거나 <bbox>x1 y1 x2 y2</bbox>로 영역을 지정하세요. 왼쪽 위가 원점이며 좌표는 0~1000입니다. 비워 두면 자동으로 분리합니다."
+        },
+        "size": {
+          "help": "자동은 원본 크기를 따라 1K에서 2K 범위로 출력합니다."
+        },
+        "output_format": {
+          "help": "바탕 이미지의 JPEG 또는 PNG를 선택하세요. 분리된 레이어는 투명 PNG입니다."
+        },
+        "enable_sync_mode": {
+          "help": "Atlas 생성이 완료되면 제출 응답에서 결과를 받습니다."
+        },
+        "enable_base64_output": {
+          "help": "Atlas에 인라인 Base64를 요청하고 작업 머신에서 디코딩해 저장합니다."
+        }
+      }
+    }
+  }
+}

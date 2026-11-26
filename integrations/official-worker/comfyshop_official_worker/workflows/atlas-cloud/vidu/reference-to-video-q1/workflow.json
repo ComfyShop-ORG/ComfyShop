@@ -1,0 +1,628 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-vidu-q1-legacy-reference",
+  "name": "Vidu Q1 参考生视频",
+  "description": "用参考图生成视频，保持画面中人物和物体的外观。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "A character takes two natural steps in front of the camera and then strikes some poses",
+      "multiline": true,
+      "maxLength": 1500
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["16:9", "9:16", "1:1"],
+      "default": "16:9",
+      "optional": true
+    },
+    {
+      "name": "movement_amplitude",
+      "kind": "choice",
+      "default": "auto",
+      "choices": ["auto", "small", "medium", "large"],
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": 0,
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "image_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "reference_image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_7",
+      "kind": "image",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "movement_amplitude",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_7",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "vidu/reference-to-video-q1",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "movement_amplitude": "movement_amplitude",
+        "seed": "seed",
+        "aspect_ratio": "aspect_ratio"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 1500
+      },
+      "media": {
+        "images": {
+          "kind": "image",
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4",
+            "reference_image_5",
+            "reference_image_6",
+            "reference_image_7"
+          ],
+          "external_sources_field": "image_sources",
+          "min_items": 1,
+          "max_bytes": 50000000,
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "image_bounds": {
+            "min_side": 128,
+            "max_aspect_ratio_exclusive": 4
+          },
+          "array": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Vidu Q1 参考生视频",
+      "description": "用参考图生成视频，保持画面中人物和物体的外观。",
+      "fields": {
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "movement_amplitude": {
+          "label": "动作幅度",
+          "choiceLabels": {
+            "auto": "自动",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "image_sources": {
+          "label": "参考图来源"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        },
+        "reference_image_5": {
+          "label": "参考图 5"
+        },
+        "reference_image_6": {
+          "label": "参考图 6"
+        },
+        "reference_image_7": {
+          "label": "参考图 7"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "上传 JPEG、PNG 或 WebP，最多 50 MB。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "prompt": {
+          "help": "描述主体动作、镜头和场景，最多 1,500 字符。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9、9:16 或 1:1。默认 16:9。"
+        },
+        "movement_amplitude": {
+          "help": "控制画面中主体的动作幅度，默认自动。"
+        },
+        "seed": {
+          "help": "默认 0，使用随机种子。填写整数以指定种子。"
+        },
+        "reference_image_2": {
+          "help": "上传 JPEG、PNG 或 WebP，最多 50 MB。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "reference_image_3": {
+          "help": "上传 JPEG、PNG 或 WebP，最多 50 MB。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "image_sources": {
+          "help": "每行填写一个公开图片 URL 或带媒体类型的 Base64 数据网址，和上传图片合计一至七张。"
+        },
+        "reference_image_4": {
+          "help": "上传 JPEG、PNG 或 WebP，最多 50 MB。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "reference_image_5": {
+          "help": "上传 JPEG、PNG 或 WebP，最多 50 MB。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "reference_image_6": {
+          "help": "上传 JPEG、PNG 或 WebP，最多 50 MB。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        },
+        "reference_image_7": {
+          "help": "上传 JPEG、PNG 或 WebP，最多 50 MB。每边至少 128 像素，宽高比大于 1:4 且小于 4:1。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Vidu Q1 參考生影片",
+      "description": "使用參考圖生成影片，保持畫面中人物和物件的外觀。",
+      "fields": {
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "movement_amplitude": {
+          "label": "動作幅度",
+          "choiceLabels": {
+            "auto": "自動",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "image_sources": {
+          "label": "參考圖來源"
+        },
+        "reference_image_4": {
+          "label": "參考圖 4"
+        },
+        "reference_image_5": {
+          "label": "參考圖 5"
+        },
+        "reference_image_6": {
+          "label": "參考圖 6"
+        },
+        "reference_image_7": {
+          "label": "參考圖 7"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "上傳 JPEG、PNG 或 WebP，最多 50 MB。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "prompt": {
+          "help": "描述主體動作、鏡頭和場景，最多 1,500 字元。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9、9:16 或 1:1。預設 16:9。"
+        },
+        "movement_amplitude": {
+          "help": "控制畫面中主體的動作幅度，預設自動。"
+        },
+        "seed": {
+          "help": "預設 0，使用隨機種子。填寫整數可指定種子。"
+        },
+        "reference_image_2": {
+          "help": "上傳 JPEG、PNG 或 WebP，最多 50 MB。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "reference_image_3": {
+          "help": "上傳 JPEG、PNG 或 WebP，最多 50 MB。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "image_sources": {
+          "help": "每行填寫一個公開圖片網址或帶媒體類型的 Base64 資料網址，和上傳圖片合計一至七張。"
+        },
+        "reference_image_4": {
+          "help": "上傳 JPEG、PNG 或 WebP，最多 50 MB。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "reference_image_5": {
+          "help": "上傳 JPEG、PNG 或 WebP，最多 50 MB。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "reference_image_6": {
+          "help": "上傳 JPEG、PNG 或 WebP，最多 50 MB。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        },
+        "reference_image_7": {
+          "help": "上傳 JPEG、PNG 或 WebP，最多 50 MB。每邊至少 128 像素，寬高比大於 1:4 且小於 4:1。"
+        }
+      }
+    },
+    "en": {
+      "name": "Vidu Q1 Reference to Video",
+      "description": "Generate a video from reference images while preserving the appearance of people and objects.",
+      "fields": {
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "movement_amplitude": {
+          "label": "Motion amplitude",
+          "choiceLabels": {
+            "auto": "Auto",
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large"
+          }
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "image_sources": {
+          "label": "Reference image sources"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        },
+        "reference_image_5": {
+          "label": "Reference image 5"
+        },
+        "reference_image_6": {
+          "label": "Reference image 6"
+        },
+        "reference_image_7": {
+          "label": "Reference image 7"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "prompt": {
+          "help": "Describe the movement, camera and scene in up to 1,500 characters."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9, 9:16 or 1:1. The default is 16:9."
+        },
+        "movement_amplitude": {
+          "help": "Choose how much objects in the frame move. Auto is the default."
+        },
+        "seed": {
+          "help": "The default of 0 uses a random seed. Enter an integer to specify a seed."
+        },
+        "reference_image_2": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "reference_image_3": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "image_sources": {
+          "help": "Enter one public image URL or a Base64 data URL with its image type per line. Use one to seven images in total, including uploads."
+        },
+        "reference_image_4": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "reference_image_5": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "reference_image_6": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        },
+        "reference_image_7": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB. Each side must be at least 128 px, with an aspect ratio greater than 1:4 and less than 4:1."
+        }
+      }
+    },
+    "ja": {
+      "name": "Vidu Q1 参照画像から動画",
+      "description": "参照画像の人物や物体の見た目を保ちながら動画を生成します。",
+      "fields": {
+        "reference_image_1": {
+          "label": "参照画像 1"
+        },
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "movement_amplitude": {
+          "label": "動きの大きさ",
+          "choiceLabels": {
+            "auto": "自動",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "reference_image_2": {
+          "label": "参照画像 2"
+        },
+        "reference_image_3": {
+          "label": "参照画像 3"
+        },
+        "image_sources": {
+          "label": "参照画像のソース"
+        },
+        "reference_image_4": {
+          "label": "参照画像 4"
+        },
+        "reference_image_5": {
+          "label": "参照画像 5"
+        },
+        "reference_image_6": {
+          "label": "参照画像 6"
+        },
+        "reference_image_7": {
+          "label": "参照画像 7"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "prompt": {
+          "help": "被写体の動き、カメラワーク、シーンを 1,500 文字以内で記述します。"
+        },
+        "aspect_ratio": {
+          "help": "16:9、9:16 または 1:1 を選択します。既定は 16:9 です。"
+        },
+        "movement_amplitude": {
+          "help": "画面内の被写体の動きの大きさを選択します。既定は自動です。"
+        },
+        "seed": {
+          "help": "既定値の 0 はシードをランダムに選びます。整数を入力してシードを指定できます。"
+        },
+        "reference_image_2": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "reference_image_3": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "image_sources": {
+          "help": "公開画像 URL または画像のメディアタイプを指定した Base64 データ URL を 1 行に 1 つ入力します。アップロード分を含めて 1〜7 枚です。"
+        },
+        "reference_image_4": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "reference_image_5": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "reference_image_6": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "reference_image_7": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。各辺 128 ピクセル以上で、縦横比は 1:4 より大きく 4:1 未満です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Vidu Q1 참조 이미지에서 동영상",
+      "description": "참조 이미지의 인물과 사물의 모양을 유지하면서 동영상을 생성합니다.",
+      "fields": {
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "movement_amplitude": {
+          "label": "움직임 크기",
+          "choiceLabels": {
+            "auto": "자동",
+            "small": "작게",
+            "medium": "보통",
+            "large": "크게"
+          }
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "image_sources": {
+          "label": "참조 이미지 소스"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_image_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_image_6": {
+          "label": "참조 이미지 6"
+        },
+        "reference_image_7": {
+          "label": "참조 이미지 7"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "prompt": {
+          "help": "움직임, 카메라, 장면을 최대 1,500자로 설명하세요."
+        },
+        "aspect_ratio": {
+          "help": "16:9, 9:16 또는 1:1을 선택하세요. 기본값은 16:9입니다."
+        },
+        "movement_amplitude": {
+          "help": "화면 속 피사체의 움직임 크기를 선택하세요. 기본값은 자동입니다."
+        },
+        "seed": {
+          "help": "기본값 0은 무작위 시드를 사용합니다. 정수를 입력하여 시드를 정할 수 있습니다."
+        },
+        "reference_image_2": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "reference_image_3": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "image_sources": {
+          "help": "한 줄에 공개 이미지 URL 또는 이미지 미디어 유형이 포함된 Base64 데이터 URL 하나를 입력하세요. 업로드한 이미지를 포함해 총 1~7장입니다."
+        },
+        "reference_image_4": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "reference_image_5": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "reference_image_6": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "reference_image_7": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 각 변은 128픽셀 이상이며 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        }
+      }
+    }
+  }
+}

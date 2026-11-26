@@ -1,0 +1,242 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "bytedance-seed3d-v20-image-to-3d",
+  "name": "Seed3D 2.0 图生 3D",
+  "description": "从一张参考图生成带 PBR 材质的 3D 网格，可选择细分等级和文件格式。",
+  "category": "3d",
+  "fields": [
+    {
+      "name": "reference_image",
+      "kind": "image"
+    },
+    {
+      "name": "file_format",
+      "kind": "choice",
+      "choices": ["glb", "obj", "usd", "usdz"],
+      "default": "glb",
+      "optional": true
+    },
+    {
+      "name": "subdivision_level",
+      "kind": "choice",
+      "choices": ["high", "medium", "low"],
+      "default": "medium",
+      "optional": true
+    },
+    {
+      "name": "base64_output",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "reference_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "file_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "subdivision_level",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "3d",
+    "config": {
+      "operation": "image",
+      "model": "bytedance/seed3d-v2.0/image-to-3d",
+      "base64_output_format": "zip",
+      "parameters": {
+        "subdivision_level": "subdivision_level",
+        "file_format": "file_format",
+        "enable_base64_output": "base64_output"
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "encoding": "base64",
+          "fields": ["reference_image"],
+          "min_items": 1,
+          "content_types": ["image/jpeg", "image/png", "image/webp", "image/bmp"],
+          "image_bounds": {
+            "max_pixels": 16777215,
+            "max_aspect_ratio_exclusive": 2.5
+          },
+          "max_bytes": 10000000
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seed3D 2.0 图生 3D",
+      "description": "从一张参考图生成带 PBR 材质的 3D 网格，可选择细分等级和文件格式。",
+      "fields": {
+        "reference_image": {
+          "label": "参考图片"
+        },
+        "file_format": {
+          "label": "文件格式"
+        },
+        "subdivision_level": {
+          "label": "细分等级"
+        },
+        "base64_output": {
+          "label": "Base64 返回"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "上传 JPEG、PNG、WebP 或 BMP。最大 10 MB，像素总数低于 4096 × 4096，宽高比须大于 0.4 且小于 2.5。"
+        },
+        "file_format": {
+          "help": "选择 ZIP 中的模型文件格式。默认 GLB。"
+        },
+        "subdivision_level": {
+          "help": "high 约为 100 万面，medium 约为 50 万面，low 约为 10 万面。默认 medium。"
+        },
+        "base64_output": {
+          "help": "开启后由工作机解码 Base64 并保存 ZIP 原件。默认关闭。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seed3D 2.0 圖生 3D",
+      "description": "從一張參考圖產生含 PBR 材質的 3D 網格，可選擇細分等級和檔案格式。",
+      "fields": {
+        "reference_image": {
+          "label": "參考圖片"
+        },
+        "file_format": {
+          "label": "檔案格式"
+        },
+        "subdivision_level": {
+          "label": "細分等級"
+        },
+        "base64_output": {
+          "label": "Base64 回傳"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "上傳 JPEG、PNG、WebP 或 BMP。最大 10 MB，總像素數須低於 4096 × 4096，長寬比須大於 0.4 且小於 2.5。"
+        },
+        "file_format": {
+          "help": "選擇 ZIP 內的模型檔案格式。預設為 GLB。"
+        },
+        "subdivision_level": {
+          "help": "high 約為 100 萬面，medium 約為 50 萬面，low 約為 10 萬面。預設為 medium。"
+        },
+        "base64_output": {
+          "help": "啟用後由工作機解碼 Base64 並儲存 ZIP 原始檔。預設關閉。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seed3D 2.0 Image to 3D",
+      "description": "Generate a 3D mesh with PBR materials from one reference image. Select the subdivision level and file format.",
+      "fields": {
+        "reference_image": {
+          "label": "Reference image"
+        },
+        "file_format": {
+          "label": "File format"
+        },
+        "subdivision_level": {
+          "label": "Subdivision level"
+        },
+        "base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "Upload JPEG, PNG, WebP, or BMP up to 10 MB. The image must have fewer than 4096 × 4096 pixels and a width-to-height ratio strictly between 0.4 and 2.5."
+        },
+        "file_format": {
+          "help": "Select the model format inside the ZIP archive. The default is GLB."
+        },
+        "subdivision_level": {
+          "help": "high targets 1 million faces, medium 500,000, and low 100,000. The default is medium."
+        },
+        "base64_output": {
+          "help": "The work machine decodes the Base64 result and stores the original ZIP. Off by default."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seed3D 2.0 画像から 3D",
+      "description": "1 枚の参照画像から PBR マテリアル付きの 3D メッシュを生成します。分割レベルとファイル形式を選べます。",
+      "fields": {
+        "reference_image": {
+          "label": "参照画像"
+        },
+        "file_format": {
+          "label": "ファイル形式"
+        },
+        "subdivision_level": {
+          "label": "分割レベル"
+        },
+        "base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "JPEG、PNG、WebP、BMP を 10 MB までアップロードできます。総画素数は 4096 × 4096 未満、横幅と高さの比率は 0.4 より大きく 2.5 未満です。"
+        },
+        "file_format": {
+          "help": "ZIP に含めるモデルの形式を選択します。既定値は GLB です。"
+        },
+        "subdivision_level": {
+          "help": "high は約 100 万面、medium は約 50 万面、low は約 10 万面です。既定値は medium です。"
+        },
+        "base64_output": {
+          "help": "有効にすると、ワーカーが Base64 をデコードして元の ZIP を保存します。既定では無効です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seed3D 2.0 이미지로 3D 생성",
+      "description": "참조 이미지 한 장으로 PBR 소재를 적용한 3D 메시를 만듭니다. 세분화 수준과 파일 형식을 선택할 수 있습니다.",
+      "fields": {
+        "reference_image": {
+          "label": "참조 이미지"
+        },
+        "file_format": {
+          "label": "파일 형식"
+        },
+        "subdivision_level": {
+          "label": "세분화 수준"
+        },
+        "base64_output": {
+          "label": "Base64 출력"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "JPEG, PNG, WebP 또는 BMP를 최대 10 MB까지 업로드할 수 있습니다. 총 픽셀 수가 4096 × 4096 미만이고 가로세로 비율이 0.4보다 크고 2.5보다 작아야 합니다."
+        },
+        "file_format": {
+          "help": "ZIP에 담을 모델 형식을 선택합니다. 기본값은 GLB입니다."
+        },
+        "subdivision_level": {
+          "help": "high는 약 100만 면, medium은 약 50만 면, low는 약 10만 면을 생성합니다. 기본값은 medium입니다."
+        },
+        "base64_output": {
+          "help": "켜면 작업 머신이 Base64를 디코딩하여 원본 ZIP을 저장합니다. 기본값은 꺼짐입니다."
+        }
+      }
+    }
+  }
+}

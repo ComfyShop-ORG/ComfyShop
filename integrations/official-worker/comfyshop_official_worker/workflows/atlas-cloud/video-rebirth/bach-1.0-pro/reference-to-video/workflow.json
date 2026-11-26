@@ -1,0 +1,1110 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-bach-ref",
+  "name": "Bach 1.0 Pro 参考生视频",
+  "description": "用参考图、视频和音频引导生成 5 至 16 秒的视频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "Use @Video1 as motion reference and @Audio1 as audio reference.",
+      "maxLength": 6500
+    },
+    {
+      "kind": "image",
+      "name": "reference_image_1",
+      "optional": true
+    },
+    {
+      "kind": "image",
+      "name": "reference_image_2",
+      "optional": true
+    },
+    {
+      "kind": "image",
+      "name": "reference_image_3",
+      "optional": true
+    },
+    {
+      "kind": "image",
+      "name": "reference_image_4",
+      "optional": true
+    },
+    {
+      "kind": "image",
+      "name": "reference_image_5",
+      "optional": true
+    },
+    {
+      "kind": "image",
+      "name": "reference_image_6",
+      "optional": true
+    },
+    {
+      "kind": "image",
+      "name": "reference_image_7",
+      "optional": true
+    },
+    {
+      "kind": "image",
+      "name": "reference_image_8",
+      "optional": true
+    },
+    {
+      "kind": "image",
+      "name": "reference_image_9",
+      "optional": true
+    },
+    {
+      "kind": "video",
+      "name": "reference_video_1",
+      "optional": true
+    },
+    {
+      "kind": "video",
+      "name": "reference_video_2",
+      "optional": true
+    },
+    {
+      "kind": "video",
+      "name": "reference_video_3",
+      "optional": true
+    },
+    {
+      "kind": "audio",
+      "name": "reference_audio_1",
+      "optional": true
+    },
+    {
+      "kind": "audio",
+      "name": "reference_audio_2",
+      "optional": true
+    },
+    {
+      "kind": "audio",
+      "name": "reference_audio_3",
+      "optional": true
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "minimum": "5",
+      "maximum": "16",
+      "optional": true,
+      "default": 5
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["1080p", "4k"],
+      "optional": true,
+      "default": "1080p"
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["16:9", "9:16", "4:3", "3:4", "21:9", "1:1"],
+      "optional": true,
+      "default": "16:9"
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "minimum": "1",
+      "maximum": "100000",
+      "optional": true
+    },
+    {
+      "kind": "string",
+      "name": "image_sources",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "kind": "string",
+      "name": "video_sources",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "kind": "string",
+      "name": "audio_sources",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_video_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_audio_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_audio_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "video-rebirth/bach-1.0-pro/reference-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "resolution": "resolution",
+        "aspect_ratio": "aspect_ratio",
+        "generate_audio": "generate_audio",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 6500
+      },
+      "media": {
+        "reference_images": {
+          "kind": "image",
+          "array": true,
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4",
+            "reference_image_5",
+            "reference_image_6",
+            "reference_image_7",
+            "reference_image_8",
+            "reference_image_9"
+          ],
+          "external_sources_field": "image_sources",
+          "allow_raw_base64": true,
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "max_bytes": 10000000,
+          "image_bounds": {
+            "min_side": 320,
+            "max_side": 6000,
+            "aspect_ratio_range": [0.25, 4]
+          }
+        },
+        "reference_videos": {
+          "kind": "video",
+          "array": true,
+          "fields": ["reference_video_1", "reference_video_2", "reference_video_3"],
+          "external_sources_field": "video_sources",
+          "external_https_only": true,
+          "external_urls_only": true,
+          "content_types": ["video/mp4", "video/quicktime"],
+          "max_bytes": 30000000,
+          "min_duration_ms": 2000,
+          "max_duration_ms": 15000,
+          "max_total_duration_ms": 15000,
+          "image_bounds": {
+            "min_side": 320,
+            "max_side": 6000,
+            "aspect_ratio_range": [0.25, 4]
+          }
+        },
+        "reference_audios": {
+          "kind": "audio",
+          "array": true,
+          "fields": ["reference_audio_1", "reference_audio_2", "reference_audio_3"],
+          "external_sources_field": "audio_sources",
+          "external_https_only": true,
+          "external_urls_only": true,
+          "content_types": ["audio/wav", "audio/wave", "audio/x-wav", "audio/mpeg", "audio/mp3"],
+          "max_bytes": 15000000,
+          "min_duration_ms": 2000,
+          "max_duration_ms": 15000,
+          "max_total_duration_ms": 15000
+        }
+      },
+      "required_any_of": [["reference_images", "reference_videos"]],
+      "max_media_items": 12
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Bach 1.0 Pro 参考生视频",
+      "description": "用参考图、视频和音频引导生成 5 至 16 秒的视频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        },
+        "reference_image_5": {
+          "label": "参考图 5"
+        },
+        "reference_image_6": {
+          "label": "参考图 6"
+        },
+        "reference_image_7": {
+          "label": "参考图 7"
+        },
+        "reference_image_8": {
+          "label": "参考图 8"
+        },
+        "reference_image_9": {
+          "label": "参考图 9"
+        },
+        "reference_video_1": {
+          "label": "参考视频 1"
+        },
+        "reference_video_2": {
+          "label": "参考视频 2"
+        },
+        "reference_video_3": {
+          "label": "参考视频 3"
+        },
+        "reference_audio_1": {
+          "label": "参考音频 1"
+        },
+        "reference_audio_2": {
+          "label": "参考音频 2"
+        },
+        "reference_audio_3": {
+          "label": "参考音频 3"
+        },
+        "duration": {
+          "label": "时长"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "宽高比"
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "image_sources": {
+          "label": "参考图来源"
+        },
+        "video_sources": {
+          "label": "参考视频来源"
+        },
+        "audio_sources": {
+          "label": "参考音频来源"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "使用 @Image1、@Video1、@Audio1 引用各类素材，编号按该类发送顺序计算。最多 6,500 字符。 至少提供一张参考图或一段参考视频。全部素材合计最多 12 项。上传素材先于手动填写的来源。"
+        },
+        "reference_image_1": {
+          "help": "提供 JPEG、PNG 或 WebP，每边 320 至 6,000 像素，宽高比 1:4 至 4:1，每张最多 10 MB。"
+        },
+        "reference_image_2": {
+          "help": "提供 JPEG、PNG 或 WebP，每边 320 至 6,000 像素，宽高比 1:4 至 4:1，每张最多 10 MB。"
+        },
+        "reference_image_3": {
+          "help": "提供 JPEG、PNG 或 WebP，每边 320 至 6,000 像素，宽高比 1:4 至 4:1，每张最多 10 MB。"
+        },
+        "reference_image_4": {
+          "help": "提供 JPEG、PNG 或 WebP，每边 320 至 6,000 像素，宽高比 1:4 至 4:1，每张最多 10 MB。"
+        },
+        "reference_image_5": {
+          "help": "提供 JPEG、PNG 或 WebP，每边 320 至 6,000 像素，宽高比 1:4 至 4:1，每张最多 10 MB。"
+        },
+        "reference_image_6": {
+          "help": "提供 JPEG、PNG 或 WebP，每边 320 至 6,000 像素，宽高比 1:4 至 4:1，每张最多 10 MB。"
+        },
+        "reference_image_7": {
+          "help": "提供 JPEG、PNG 或 WebP，每边 320 至 6,000 像素，宽高比 1:4 至 4:1，每张最多 10 MB。"
+        },
+        "reference_image_8": {
+          "help": "提供 JPEG、PNG 或 WebP，每边 320 至 6,000 像素，宽高比 1:4 至 4:1，每张最多 10 MB。"
+        },
+        "reference_image_9": {
+          "help": "提供 JPEG、PNG 或 WebP，每边 320 至 6,000 像素，宽高比 1:4 至 4:1，每张最多 10 MB。"
+        },
+        "reference_video_1": {
+          "help": "提供 H.264 或 H.265 的 MP4 或 MOV，每边 320 至 6,000 像素，宽高比 1:4 至 4:1。每段 2 至 15 秒，合计最多 15 秒，每段最多 30 MB。"
+        },
+        "reference_video_2": {
+          "help": "提供 H.264 或 H.265 的 MP4 或 MOV，每边 320 至 6,000 像素，宽高比 1:4 至 4:1。每段 2 至 15 秒，合计最多 15 秒，每段最多 30 MB。"
+        },
+        "reference_video_3": {
+          "help": "提供 H.264 或 H.265 的 MP4 或 MOV，每边 320 至 6,000 像素，宽高比 1:4 至 4:1。每段 2 至 15 秒，合计最多 15 秒，每段最多 30 MB。"
+        },
+        "reference_audio_1": {
+          "help": "提供 WAV 或 MP3。每段 2 至 15 秒，合计最多 15 秒，每段最多 15 MB。需同时提供参考图或视频。"
+        },
+        "reference_audio_2": {
+          "help": "提供 WAV 或 MP3。每段 2 至 15 秒，合计最多 15 秒，每段最多 15 MB。需同时提供参考图或视频。"
+        },
+        "reference_audio_3": {
+          "help": "提供 WAV 或 MP3。每段 2 至 15 秒，合计最多 15 秒，每段最多 15 MB。需同时提供参考图或视频。"
+        },
+        "duration": {
+          "help": "输入 5 至 16 的整数秒数，默认 5 秒。"
+        },
+        "resolution": {
+          "help": "选择 1080p 或 4K，默认 1080p。"
+        },
+        "aspect_ratio": {
+          "help": "按宽:高选择输出比例，默认 16:9。"
+        },
+        "generate_audio": {
+          "help": "保留模型生成的音轨。关闭后输出静音视频。"
+        },
+        "seed": {
+          "help": "输入 1 至 100,000 的整数可重用种子。留空时随机选择。"
+        },
+        "image_sources": {
+          "help": "每行一个公开图片 URL、Base64 数据 URI 或原始 Base64。"
+        },
+        "video_sources": {
+          "help": "每行一个公开 HTTPS 地址。"
+        },
+        "audio_sources": {
+          "help": "每行一个公开 HTTPS 地址。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Bach 1.0 Pro 參考生影片",
+      "description": "使用參考圖片、影片和音訊引導生成 5 至 16 秒的影片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "reference_image_1": {
+          "label": "參考圖片 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖片 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖片 3"
+        },
+        "reference_image_4": {
+          "label": "參考圖片 4"
+        },
+        "reference_image_5": {
+          "label": "參考圖片 5"
+        },
+        "reference_image_6": {
+          "label": "參考圖片 6"
+        },
+        "reference_image_7": {
+          "label": "參考圖片 7"
+        },
+        "reference_image_8": {
+          "label": "參考圖片 8"
+        },
+        "reference_image_9": {
+          "label": "參考圖片 9"
+        },
+        "reference_video_1": {
+          "label": "參考影片 1"
+        },
+        "reference_video_2": {
+          "label": "參考影片 2"
+        },
+        "reference_video_3": {
+          "label": "參考影片 3"
+        },
+        "reference_audio_1": {
+          "label": "參考音訊 1"
+        },
+        "reference_audio_2": {
+          "label": "參考音訊 2"
+        },
+        "reference_audio_3": {
+          "label": "參考音訊 3"
+        },
+        "duration": {
+          "label": "長度"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "寬高比"
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "image_sources": {
+          "label": "參考圖片來源"
+        },
+        "video_sources": {
+          "label": "參考影片來源"
+        },
+        "audio_sources": {
+          "label": "參考音訊來源"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "使用 @Image1、@Video1、@Audio1 引用各類素材，依該類傳送順序編號。最多 6,500 個字元。 至少提供一張參考圖片或一段參考影片。全部素材合計最多 12 項。上傳素材排在手動填寫的來源之前。"
+        },
+        "reference_image_1": {
+          "help": "提供 JPEG、PNG 或 WebP，每邊 320 至 6,000 像素，寬高比 1:4 至 4:1，每張最多 10 MB。"
+        },
+        "reference_image_2": {
+          "help": "提供 JPEG、PNG 或 WebP，每邊 320 至 6,000 像素，寬高比 1:4 至 4:1，每張最多 10 MB。"
+        },
+        "reference_image_3": {
+          "help": "提供 JPEG、PNG 或 WebP，每邊 320 至 6,000 像素，寬高比 1:4 至 4:1，每張最多 10 MB。"
+        },
+        "reference_image_4": {
+          "help": "提供 JPEG、PNG 或 WebP，每邊 320 至 6,000 像素，寬高比 1:4 至 4:1，每張最多 10 MB。"
+        },
+        "reference_image_5": {
+          "help": "提供 JPEG、PNG 或 WebP，每邊 320 至 6,000 像素，寬高比 1:4 至 4:1，每張最多 10 MB。"
+        },
+        "reference_image_6": {
+          "help": "提供 JPEG、PNG 或 WebP，每邊 320 至 6,000 像素，寬高比 1:4 至 4:1，每張最多 10 MB。"
+        },
+        "reference_image_7": {
+          "help": "提供 JPEG、PNG 或 WebP，每邊 320 至 6,000 像素，寬高比 1:4 至 4:1，每張最多 10 MB。"
+        },
+        "reference_image_8": {
+          "help": "提供 JPEG、PNG 或 WebP，每邊 320 至 6,000 像素，寬高比 1:4 至 4:1，每張最多 10 MB。"
+        },
+        "reference_image_9": {
+          "help": "提供 JPEG、PNG 或 WebP，每邊 320 至 6,000 像素，寬高比 1:4 至 4:1，每張最多 10 MB。"
+        },
+        "reference_video_1": {
+          "help": "提供 H.264 或 H.265 的 MP4 或 MOV，每邊 320 至 6,000 像素，寬高比 1:4 至 4:1。每段 2 至 15 秒，合計最多 15 秒，每段最多 30 MB。"
+        },
+        "reference_video_2": {
+          "help": "提供 H.264 或 H.265 的 MP4 或 MOV，每邊 320 至 6,000 像素，寬高比 1:4 至 4:1。每段 2 至 15 秒，合計最多 15 秒，每段最多 30 MB。"
+        },
+        "reference_video_3": {
+          "help": "提供 H.264 或 H.265 的 MP4 或 MOV，每邊 320 至 6,000 像素，寬高比 1:4 至 4:1。每段 2 至 15 秒，合計最多 15 秒，每段最多 30 MB。"
+        },
+        "reference_audio_1": {
+          "help": "提供 WAV 或 MP3。每段 2 至 15 秒，合計最多 15 秒，每段最多 15 MB。需同時提供參考圖片或影片。"
+        },
+        "reference_audio_2": {
+          "help": "提供 WAV 或 MP3。每段 2 至 15 秒，合計最多 15 秒，每段最多 15 MB。需同時提供參考圖片或影片。"
+        },
+        "reference_audio_3": {
+          "help": "提供 WAV 或 MP3。每段 2 至 15 秒，合計最多 15 秒，每段最多 15 MB。需同時提供參考圖片或影片。"
+        },
+        "duration": {
+          "help": "輸入 5 至 16 的整數秒數，預設 5 秒。"
+        },
+        "resolution": {
+          "help": "選擇 1080p 或 4K，預設 1080p。"
+        },
+        "aspect_ratio": {
+          "help": "依寬:高選擇輸出比例，預設 16:9。"
+        },
+        "generate_audio": {
+          "help": "保留模型生成的音軌。關閉後輸出無聲影片。"
+        },
+        "seed": {
+          "help": "輸入 1 至 100,000 的整數可沿用種子。留空時隨機選擇。"
+        },
+        "image_sources": {
+          "help": "每行一個公開圖片網址、Base64 資料 URI 或原始 Base64。"
+        },
+        "video_sources": {
+          "help": "每行一個公開 HTTPS 網址。"
+        },
+        "audio_sources": {
+          "help": "每行一個公開 HTTPS 網址。"
+        }
+      }
+    },
+    "en": {
+      "name": "Bach 1.0 Pro Reference-to-Video",
+      "description": "Guide a 5- to 16-second video with reference images, video, and audio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        },
+        "reference_image_5": {
+          "label": "Reference image 5"
+        },
+        "reference_image_6": {
+          "label": "Reference image 6"
+        },
+        "reference_image_7": {
+          "label": "Reference image 7"
+        },
+        "reference_image_8": {
+          "label": "Reference image 8"
+        },
+        "reference_image_9": {
+          "label": "Reference image 9"
+        },
+        "reference_video_1": {
+          "label": "Reference video 1"
+        },
+        "reference_video_2": {
+          "label": "Reference video 2"
+        },
+        "reference_video_3": {
+          "label": "Reference video 3"
+        },
+        "reference_audio_1": {
+          "label": "Reference audio 1"
+        },
+        "reference_audio_2": {
+          "label": "Reference audio 2"
+        },
+        "reference_audio_3": {
+          "label": "Reference audio 3"
+        },
+        "duration": {
+          "label": "Duration"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "image_sources": {
+          "label": "Reference image sources"
+        },
+        "video_sources": {
+          "label": "Reference video sources"
+        },
+        "audio_sources": {
+          "label": "Reference audio sources"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Refer to inputs as @Image1, @Video1, or @Audio1, numbered in submission order within each type. Use up to 6,500 characters. Provide at least one image or video reference and up to 12 references in total. Uploaded files precede entries from the source field."
+        },
+        "reference_image_1": {
+          "help": "Use JPEG, PNG, or WebP, 320 to 6,000 pixels per side, 1:4 to 4:1 aspect ratio, and up to 10 MB per image."
+        },
+        "reference_image_2": {
+          "help": "Use JPEG, PNG, or WebP, 320 to 6,000 pixels per side, 1:4 to 4:1 aspect ratio, and up to 10 MB per image."
+        },
+        "reference_image_3": {
+          "help": "Use JPEG, PNG, or WebP, 320 to 6,000 pixels per side, 1:4 to 4:1 aspect ratio, and up to 10 MB per image."
+        },
+        "reference_image_4": {
+          "help": "Use JPEG, PNG, or WebP, 320 to 6,000 pixels per side, 1:4 to 4:1 aspect ratio, and up to 10 MB per image."
+        },
+        "reference_image_5": {
+          "help": "Use JPEG, PNG, or WebP, 320 to 6,000 pixels per side, 1:4 to 4:1 aspect ratio, and up to 10 MB per image."
+        },
+        "reference_image_6": {
+          "help": "Use JPEG, PNG, or WebP, 320 to 6,000 pixels per side, 1:4 to 4:1 aspect ratio, and up to 10 MB per image."
+        },
+        "reference_image_7": {
+          "help": "Use JPEG, PNG, or WebP, 320 to 6,000 pixels per side, 1:4 to 4:1 aspect ratio, and up to 10 MB per image."
+        },
+        "reference_image_8": {
+          "help": "Use JPEG, PNG, or WebP, 320 to 6,000 pixels per side, 1:4 to 4:1 aspect ratio, and up to 10 MB per image."
+        },
+        "reference_image_9": {
+          "help": "Use JPEG, PNG, or WebP, 320 to 6,000 pixels per side, 1:4 to 4:1 aspect ratio, and up to 10 MB per image."
+        },
+        "reference_video_1": {
+          "help": "Use H.264 or H.265 MP4 or MOV, 320 to 6,000 pixels per side and 1:4 to 4:1 aspect ratio. Each clip is 2 to 15 seconds and up to 30 MB, with up to 15 seconds total."
+        },
+        "reference_video_2": {
+          "help": "Use H.264 or H.265 MP4 or MOV, 320 to 6,000 pixels per side and 1:4 to 4:1 aspect ratio. Each clip is 2 to 15 seconds and up to 30 MB, with up to 15 seconds total."
+        },
+        "reference_video_3": {
+          "help": "Use H.264 or H.265 MP4 or MOV, 320 to 6,000 pixels per side and 1:4 to 4:1 aspect ratio. Each clip is 2 to 15 seconds and up to 30 MB, with up to 15 seconds total."
+        },
+        "reference_audio_1": {
+          "help": "Use WAV or MP3. Each clip is 2 to 15 seconds and up to 15 MB, with up to 15 seconds total. Include a reference image or video."
+        },
+        "reference_audio_2": {
+          "help": "Use WAV or MP3. Each clip is 2 to 15 seconds and up to 15 MB, with up to 15 seconds total. Include a reference image or video."
+        },
+        "reference_audio_3": {
+          "help": "Use WAV or MP3. Each clip is 2 to 15 seconds and up to 15 MB, with up to 15 seconds total. Include a reference image or video."
+        },
+        "duration": {
+          "help": "Enter a whole number of seconds from 5 to 16. The default is 5."
+        },
+        "resolution": {
+          "help": "Choose 1080p or 4K. The default is 1080p."
+        },
+        "aspect_ratio": {
+          "help": "Select the output width-to-height ratio. The default is 16:9."
+        },
+        "generate_audio": {
+          "help": "Keep the generated soundtrack. Turn off for a silent video."
+        },
+        "seed": {
+          "help": "Enter an integer from 1 to 100,000 to reuse a seed, or leave blank for a random one."
+        },
+        "image_sources": {
+          "help": "Enter one public image URL, Base64 data URI, or raw Base64 value per line."
+        },
+        "video_sources": {
+          "help": "Enter one public HTTPS URL per line."
+        },
+        "audio_sources": {
+          "help": "Enter one public HTTPS URL per line."
+        }
+      }
+    },
+    "ja": {
+      "name": "Bach 1.0 Pro 参照素材から動画",
+      "description": "参照画像、動画、音声を使って 5〜16 秒の動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "reference_image_1": {
+          "label": "参照画像 1"
+        },
+        "reference_image_2": {
+          "label": "参照画像 2"
+        },
+        "reference_image_3": {
+          "label": "参照画像 3"
+        },
+        "reference_image_4": {
+          "label": "参照画像 4"
+        },
+        "reference_image_5": {
+          "label": "参照画像 5"
+        },
+        "reference_image_6": {
+          "label": "参照画像 6"
+        },
+        "reference_image_7": {
+          "label": "参照画像 7"
+        },
+        "reference_image_8": {
+          "label": "参照画像 8"
+        },
+        "reference_image_9": {
+          "label": "参照画像 9"
+        },
+        "reference_video_1": {
+          "label": "参照動画 1"
+        },
+        "reference_video_2": {
+          "label": "参照動画 2"
+        },
+        "reference_video_3": {
+          "label": "参照動画 3"
+        },
+        "reference_audio_1": {
+          "label": "参照音声 1"
+        },
+        "reference_audio_2": {
+          "label": "参照音声 2"
+        },
+        "reference_audio_3": {
+          "label": "参照音声 3"
+        },
+        "duration": {
+          "label": "長さ"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "image_sources": {
+          "label": "参照画像の入力元"
+        },
+        "video_sources": {
+          "label": "参照動画の入力元"
+        },
+        "audio_sources": {
+          "label": "参照音声の入力元"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "素材の種類ごとに送信順で番号を付け、@Image1、@Video1、@Audio1 の形式で参照します。6,500 文字まで入力できます。 参照画像か動画が 1 件以上必要です。素材は合計 12 件まで指定できます。アップロードした素材は入力元欄の素材より先に送信されます。"
+        },
+        "reference_image_1": {
+          "help": "JPEG、PNG、WebP のいずれかを指定します。各辺 320〜6,000 ピクセル、アスペクト比 1:4〜4:1、1 枚 10 MB 以下です。"
+        },
+        "reference_image_2": {
+          "help": "JPEG、PNG、WebP のいずれかを指定します。各辺 320〜6,000 ピクセル、アスペクト比 1:4〜4:1、1 枚 10 MB 以下です。"
+        },
+        "reference_image_3": {
+          "help": "JPEG、PNG、WebP のいずれかを指定します。各辺 320〜6,000 ピクセル、アスペクト比 1:4〜4:1、1 枚 10 MB 以下です。"
+        },
+        "reference_image_4": {
+          "help": "JPEG、PNG、WebP のいずれかを指定します。各辺 320〜6,000 ピクセル、アスペクト比 1:4〜4:1、1 枚 10 MB 以下です。"
+        },
+        "reference_image_5": {
+          "help": "JPEG、PNG、WebP のいずれかを指定します。各辺 320〜6,000 ピクセル、アスペクト比 1:4〜4:1、1 枚 10 MB 以下です。"
+        },
+        "reference_image_6": {
+          "help": "JPEG、PNG、WebP のいずれかを指定します。各辺 320〜6,000 ピクセル、アスペクト比 1:4〜4:1、1 枚 10 MB 以下です。"
+        },
+        "reference_image_7": {
+          "help": "JPEG、PNG、WebP のいずれかを指定します。各辺 320〜6,000 ピクセル、アスペクト比 1:4〜4:1、1 枚 10 MB 以下です。"
+        },
+        "reference_image_8": {
+          "help": "JPEG、PNG、WebP のいずれかを指定します。各辺 320〜6,000 ピクセル、アスペクト比 1:4〜4:1、1 枚 10 MB 以下です。"
+        },
+        "reference_image_9": {
+          "help": "JPEG、PNG、WebP のいずれかを指定します。各辺 320〜6,000 ピクセル、アスペクト比 1:4〜4:1、1 枚 10 MB 以下です。"
+        },
+        "reference_video_1": {
+          "help": "H.264 または H.265 の MP4、MOV を指定します。各辺 320〜6,000 ピクセル、比率 1:4〜4:1、1 本 2〜15 秒で 30 MB 以下、合計 15 秒までです。"
+        },
+        "reference_video_2": {
+          "help": "H.264 または H.265 の MP4、MOV を指定します。各辺 320〜6,000 ピクセル、比率 1:4〜4:1、1 本 2〜15 秒で 30 MB 以下、合計 15 秒までです。"
+        },
+        "reference_video_3": {
+          "help": "H.264 または H.265 の MP4、MOV を指定します。各辺 320〜6,000 ピクセル、比率 1:4〜4:1、1 本 2〜15 秒で 30 MB 以下、合計 15 秒までです。"
+        },
+        "reference_audio_1": {
+          "help": "WAV または MP3 を指定します。1 本 2〜15 秒で 15 MB 以下、合計 15 秒までです。参照画像または動画も指定します。"
+        },
+        "reference_audio_2": {
+          "help": "WAV または MP3 を指定します。1 本 2〜15 秒で 15 MB 以下、合計 15 秒までです。参照画像または動画も指定します。"
+        },
+        "reference_audio_3": {
+          "help": "WAV または MP3 を指定します。1 本 2〜15 秒で 15 MB 以下、合計 15 秒までです。参照画像または動画も指定します。"
+        },
+        "duration": {
+          "help": "5〜16 秒の整数を入力します。既定値は 5 秒です。"
+        },
+        "resolution": {
+          "help": "1080p または 4K を選びます。既定値は 1080p です。"
+        },
+        "aspect_ratio": {
+          "help": "出力の幅と高さの比率を選びます。既定値は 16:9 です。"
+        },
+        "generate_audio": {
+          "help": "生成された音声を保持します。オフにすると無音になります。"
+        },
+        "seed": {
+          "help": "固定する場合は 1〜100,000 の整数を入力します。空欄の場合はランダムです。"
+        },
+        "image_sources": {
+          "help": "公開画像 URL、Base64 データ URI、または Base64 文字列を 1 行に 1 件入力します。"
+        },
+        "video_sources": {
+          "help": "公開 HTTPS URL を 1 行に 1 件入力します。"
+        },
+        "audio_sources": {
+          "help": "公開 HTTPS URL を 1 行に 1 件入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Bach 1.0 Pro 참조 자료로 동영상 생성",
+      "description": "참조 이미지, 동영상, 오디오를 사용하여 5~16초 동영상을 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_image_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_image_6": {
+          "label": "참조 이미지 6"
+        },
+        "reference_image_7": {
+          "label": "참조 이미지 7"
+        },
+        "reference_image_8": {
+          "label": "참조 이미지 8"
+        },
+        "reference_image_9": {
+          "label": "참조 이미지 9"
+        },
+        "reference_video_1": {
+          "label": "참조 동영상 1"
+        },
+        "reference_video_2": {
+          "label": "참조 동영상 2"
+        },
+        "reference_video_3": {
+          "label": "참조 동영상 3"
+        },
+        "reference_audio_1": {
+          "label": "참조 오디오 1"
+        },
+        "reference_audio_2": {
+          "label": "참조 오디오 2"
+        },
+        "reference_audio_3": {
+          "label": "참조 오디오 3"
+        },
+        "duration": {
+          "label": "길이"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "aspect_ratio": {
+          "label": "가로세로 비율"
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "image_sources": {
+          "label": "참조 이미지 출처"
+        },
+        "video_sources": {
+          "label": "참조 동영상 출처"
+        },
+        "audio_sources": {
+          "label": "참조 오디오 출처"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "유형별 전송 순서에 따라 @Image1, @Video1, @Audio1 형식으로 참조하세요. 최대 6,500자까지 입력할 수 있습니다. 이미지나 동영상 참조를 하나 이상 제공하세요. 전체 참조는 최대 12개입니다. 업로드한 자료가 직접 입력한 출처보다 먼저 전송됩니다."
+        },
+        "reference_image_1": {
+          "help": "JPEG, PNG, WebP를 사용하세요. 각 변은 320~6,000픽셀, 가로세로 비율은 1:4~4:1이며 장당 최대 10 MB입니다."
+        },
+        "reference_image_2": {
+          "help": "JPEG, PNG, WebP를 사용하세요. 각 변은 320~6,000픽셀, 가로세로 비율은 1:4~4:1이며 장당 최대 10 MB입니다."
+        },
+        "reference_image_3": {
+          "help": "JPEG, PNG, WebP를 사용하세요. 각 변은 320~6,000픽셀, 가로세로 비율은 1:4~4:1이며 장당 최대 10 MB입니다."
+        },
+        "reference_image_4": {
+          "help": "JPEG, PNG, WebP를 사용하세요. 각 변은 320~6,000픽셀, 가로세로 비율은 1:4~4:1이며 장당 최대 10 MB입니다."
+        },
+        "reference_image_5": {
+          "help": "JPEG, PNG, WebP를 사용하세요. 각 변은 320~6,000픽셀, 가로세로 비율은 1:4~4:1이며 장당 최대 10 MB입니다."
+        },
+        "reference_image_6": {
+          "help": "JPEG, PNG, WebP를 사용하세요. 각 변은 320~6,000픽셀, 가로세로 비율은 1:4~4:1이며 장당 최대 10 MB입니다."
+        },
+        "reference_image_7": {
+          "help": "JPEG, PNG, WebP를 사용하세요. 각 변은 320~6,000픽셀, 가로세로 비율은 1:4~4:1이며 장당 최대 10 MB입니다."
+        },
+        "reference_image_8": {
+          "help": "JPEG, PNG, WebP를 사용하세요. 각 변은 320~6,000픽셀, 가로세로 비율은 1:4~4:1이며 장당 최대 10 MB입니다."
+        },
+        "reference_image_9": {
+          "help": "JPEG, PNG, WebP를 사용하세요. 각 변은 320~6,000픽셀, 가로세로 비율은 1:4~4:1이며 장당 최대 10 MB입니다."
+        },
+        "reference_video_1": {
+          "help": "H.264 또는 H.265 MP4나 MOV를 사용하세요. 각 변은 320~6,000픽셀, 비율은 1:4~4:1입니다. 파일당 2~15초, 최대 30 MB이며 합계는 15초 이하입니다."
+        },
+        "reference_video_2": {
+          "help": "H.264 또는 H.265 MP4나 MOV를 사용하세요. 각 변은 320~6,000픽셀, 비율은 1:4~4:1입니다. 파일당 2~15초, 최대 30 MB이며 합계는 15초 이하입니다."
+        },
+        "reference_video_3": {
+          "help": "H.264 또는 H.265 MP4나 MOV를 사용하세요. 각 변은 320~6,000픽셀, 비율은 1:4~4:1입니다. 파일당 2~15초, 최대 30 MB이며 합계는 15초 이하입니다."
+        },
+        "reference_audio_1": {
+          "help": "WAV나 MP3를 사용하세요. 파일당 2~15초, 최대 15 MB이며 합계는 15초 이하입니다. 참조 이미지나 동영상도 함께 제공하세요."
+        },
+        "reference_audio_2": {
+          "help": "WAV나 MP3를 사용하세요. 파일당 2~15초, 최대 15 MB이며 합계는 15초 이하입니다. 참조 이미지나 동영상도 함께 제공하세요."
+        },
+        "reference_audio_3": {
+          "help": "WAV나 MP3를 사용하세요. 파일당 2~15초, 최대 15 MB이며 합계는 15초 이하입니다. 참조 이미지나 동영상도 함께 제공하세요."
+        },
+        "duration": {
+          "help": "5~16 사이의 정수 초를 입력하세요. 기본값은 5초입니다."
+        },
+        "resolution": {
+          "help": "1080p 또는 4K를 선택하세요. 기본값은 1080p입니다."
+        },
+        "aspect_ratio": {
+          "help": "출력의 가로세로 비율을 선택하세요. 기본값은 16:9입니다."
+        },
+        "generate_audio": {
+          "help": "생성된 오디오를 유지합니다. 끄면 소리 없는 동영상이 만들어집니다."
+        },
+        "seed": {
+          "help": "시드를 고정하려면 1~100,000 사이의 정수를 입력하세요. 비워 두면 무작위로 선택됩니다."
+        },
+        "image_sources": {
+          "help": "줄마다 공개 이미지 URL, Base64 데이터 URI 또는 Base64 문자열을 하나씩 입력하세요."
+        },
+        "video_sources": {
+          "help": "줄마다 공개 HTTPS URL을 하나씩 입력하세요."
+        },
+        "audio_sources": {
+          "help": "줄마다 공개 HTTPS URL을 하나씩 입력하세요."
+        }
+      }
+    }
+  }
+}

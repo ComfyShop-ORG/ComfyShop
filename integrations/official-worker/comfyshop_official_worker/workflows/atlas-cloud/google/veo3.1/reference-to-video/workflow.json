@@ -1,0 +1,521 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-google-veo3-1-reference-to-video",
+  "name": "Veo 3.1 参考生视频",
+  "description": "用一至三张参考图和提示词生成 8 秒视频，保持主体一致。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 8,
+      "optional": true,
+      "choices": [8]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "optional": true,
+      "choices": ["720p", "1080p", "4k"]
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true
+    },
+    {
+      "name": "generate_audio",
+      "optional": true,
+      "kind": "boolean",
+      "default": false
+    },
+    {
+      "name": "negative_prompt",
+      "optional": true,
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "hidden"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "negative_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "google/veo3.1/reference-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "resolution": "resolution",
+        "seed": "seed",
+        "generate_audio": "generate_audio",
+        "negative_prompt": "negative_prompt"
+      },
+      "required_text": ["prompt"],
+      "choice_bounds": {
+        "duration": {
+          "parameter": "resolution",
+          "ranges": {
+            "1080p": [8, 8],
+            "4k": [8, 8]
+          }
+        }
+      },
+      "omit_blank_parameters": ["negative_prompt"],
+      "media": {
+        "images": {
+          "kind": "image",
+          "fields": ["reference_image_1", "reference_image_2", "reference_image_3"],
+          "array": true,
+          "min_items": 1,
+          "max_bytes": 50000000,
+          "image_bounds": {
+            "min_side": 128
+          },
+          "content_types": ["image/png", "image/jpeg", "image/webp"],
+          "external_sources_field": "reference_image_sources"
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Veo 3.1 参考生视频",
+      "description": "用一至三张参考图和提示词生成 8 秒视频，保持主体一致。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "negative_prompt": {
+          "label": "负面提示词"
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_sources": {
+          "label": "参考图来源"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述参考图中的主体，以及目标场景、动作和镜头。至少提供一张参考图。"
+        },
+        "reference_image_1": {
+          "help": "上传 PNG、JPEG 或 WebP，宽高至少 128 像素，每张最多 50 MB。"
+        },
+        "duration": {
+          "help": "此接口固定生成 8 秒视频。"
+        },
+        "resolution": {
+          "help": "选择 720p、1080p 或 4K。默认 720p。"
+        },
+        "seed": {
+          "help": "可填写一个整数。留空由 Atlas 选择。"
+        },
+        "generate_audio": {
+          "help": "同时生成与视频匹配的音频，默认关闭。"
+        },
+        "negative_prompt": {
+          "help": "描述画面中要避开的物体、风格或元素。"
+        },
+        "reference_image_2": {
+          "help": "上传 PNG、JPEG 或 WebP，宽高至少 128 像素，每张最多 50 MB。"
+        },
+        "reference_image_3": {
+          "help": "上传 PNG、JPEG 或 WebP，宽高至少 128 像素，每张最多 50 MB。"
+        },
+        "reference_image_sources": {
+          "help": "每行填写一个公开图片 URL 或带媒体类型的 Base64 数据网址。地址追加到上传之后，合计一至三张。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Veo 3.1 參考生成影片",
+      "description": "用一至三張參考圖與提示詞產生 8 秒影片，維持主體一致。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "negative_prompt": {
+          "label": "負面提示詞"
+        },
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "reference_image_sources": {
+          "label": "參考圖來源"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述參考圖中的主體與目標場景、動作及運鏡。至少提供一張參考圖。"
+        },
+        "reference_image_1": {
+          "help": "上傳 PNG、JPEG 或 WebP，寬高至少 128 像素，每張最多 50 MB。"
+        },
+        "duration": {
+          "help": "此介面固定產生 8 秒影片。"
+        },
+        "resolution": {
+          "help": "選擇 720p、1080p 或 4K。預設為 720p。"
+        },
+        "seed": {
+          "help": "可填寫一個整數。留空由 Atlas 選擇。"
+        },
+        "generate_audio": {
+          "help": "同時產生與影片搭配的音訊，預設為關閉。"
+        },
+        "negative_prompt": {
+          "help": "描述畫面中想避免的物件、風格或元素。"
+        },
+        "reference_image_2": {
+          "help": "上傳 PNG、JPEG 或 WebP，寬高至少 128 像素，每張最多 50 MB。"
+        },
+        "reference_image_3": {
+          "help": "上傳 PNG、JPEG 或 WebP，寬高至少 128 像素，每張最多 50 MB。"
+        },
+        "reference_image_sources": {
+          "help": "每行填寫一個公開圖片網址或含媒體類型的 Base64 資料網址。依序加到上傳檔案後，合計一至三張。"
+        }
+      }
+    },
+    "en": {
+      "name": "Veo 3.1 Reference to Video",
+      "description": "Generate an 8-second video from one to three reference images and a prompt to keep the subject consistent.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "negative_prompt": {
+          "label": "Negative prompt"
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_sources": {
+          "label": "Reference image sources"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subjects in the references, the target scene, action, and camera direction. Provide at least one image."
+        },
+        "reference_image_1": {
+          "help": "Upload a PNG, JPEG, or WebP. Both dimensions must be at least 128 pixels and each image can be up to 50 MB."
+        },
+        "duration": {
+          "help": "This endpoint generates 8-second videos."
+        },
+        "resolution": {
+          "help": "Choose 720p, 1080p, or 4K. The default is 720p."
+        },
+        "seed": {
+          "help": "Enter an optional integer. Leave it blank to let Atlas choose."
+        },
+        "generate_audio": {
+          "help": "Generate audio that matches the video. Off by default."
+        },
+        "negative_prompt": {
+          "help": "Describe objects, looks, or elements to avoid."
+        },
+        "reference_image_2": {
+          "help": "Upload a PNG, JPEG, or WebP. Both dimensions must be at least 128 pixels and each image can be up to 50 MB."
+        },
+        "reference_image_3": {
+          "help": "Upload a PNG, JPEG, or WebP. Both dimensions must be at least 128 pixels and each image can be up to 50 MB."
+        },
+        "reference_image_sources": {
+          "help": "Enter one public image URL or Base64 data URL with a media type per line. They follow uploads, with one to three images total."
+        }
+      }
+    },
+    "ja": {
+      "name": "Veo 3.1 参照画像から動画",
+      "description": "1〜3枚の参照画像とプロンプトを使い、被写体の一貫性を保った8秒の動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "negative_prompt": {
+          "label": "ネガティブプロンプト"
+        },
+        "reference_image_1": {
+          "label": "参照画像 1"
+        },
+        "reference_image_2": {
+          "label": "参照画像 2"
+        },
+        "reference_image_3": {
+          "label": "参照画像 3"
+        },
+        "reference_image_sources": {
+          "label": "参照画像の参照先"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "参照画像の被写体、目標の場面、動作、カメラワークを記述します。画像を少なくとも1枚指定します。"
+        },
+        "reference_image_1": {
+          "help": "PNG、JPEG、またはWebPをアップロードします。縦横とも128ピクセル以上で、各50 MBまでです。"
+        },
+        "duration": {
+          "help": "このエンドポイントは8秒の動画を生成します。"
+        },
+        "resolution": {
+          "help": "720p、1080p、または4Kを選択します。既定値は720pです。"
+        },
+        "seed": {
+          "help": "任意の整数を入力できます。空欄の場合はAtlasが選択します。"
+        },
+        "generate_audio": {
+          "help": "動画に合わせた音声を生成します。既定では無効です。"
+        },
+        "negative_prompt": {
+          "help": "避けたい物体、画風、要素などを記述します。"
+        },
+        "reference_image_2": {
+          "help": "PNG、JPEG、またはWebPをアップロードします。縦横とも128ピクセル以上で、各50 MBまでです。"
+        },
+        "reference_image_3": {
+          "help": "PNG、JPEG、またはWebPをアップロードします。縦横とも128ピクセル以上で、各50 MBまでです。"
+        },
+        "reference_image_sources": {
+          "help": "公開画像のURL、またはメディアタイプ付きのBase64データURLを1行に1件入力します。アップロード済みの画像の後に追加され、合計1〜3枚です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Veo 3.1 참조 이미지로 동영상 생성",
+      "description": "한 장에서 세 장의 참조 이미지와 프롬프트로 피사체의 일관성을 유지하는 8초 동영상을 만듭니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "negative_prompt": {
+          "label": "부정 프롬프트"
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_sources": {
+          "label": "참조 이미지 소스"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "참조 이미지의 피사체와 원하는 장면, 동작, 카메라 움직임을 설명합니다. 이미지를 한 장 이상 제공합니다."
+        },
+        "reference_image_1": {
+          "help": "PNG, JPEG 또는 WebP를 업로드합니다. 가로와 세로가 각각 128픽셀 이상이어야 하며 이미지당 최대 50 MB입니다."
+        },
+        "duration": {
+          "help": "이 엔드포인트는 8초 길이의 동영상을 생성합니다."
+        },
+        "resolution": {
+          "help": "720p, 1080p 또는 4K를 선택합니다. 기본값은 720p입니다."
+        },
+        "seed": {
+          "help": "정수를 입력할 수 있습니다. 비워 두면 Atlas가 선택합니다."
+        },
+        "generate_audio": {
+          "help": "동영상에 맞는 오디오를 생성합니다. 기본값은 꺼짐입니다."
+        },
+        "negative_prompt": {
+          "help": "피하고 싶은 사물, 스타일 또는 요소를 설명합니다."
+        },
+        "reference_image_2": {
+          "help": "PNG, JPEG 또는 WebP를 업로드합니다. 가로와 세로가 각각 128픽셀 이상이어야 하며 이미지당 최대 50 MB입니다."
+        },
+        "reference_image_3": {
+          "help": "PNG, JPEG 또는 WebP를 업로드합니다. 가로와 세로가 각각 128픽셀 이상이어야 하며 이미지당 최대 50 MB입니다."
+        },
+        "reference_image_sources": {
+          "help": "공개 이미지 URL 또는 미디어 유형을 포함한 Base64 데이터 URL을 한 줄에 하나씩 입력합니다. 업로드 뒤에 추가되며 합계는 한 장에서 세 장입니다."
+        }
+      }
+    }
+  }
+}

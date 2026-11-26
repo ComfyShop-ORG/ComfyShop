@@ -1,0 +1,332 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-luma-ray32-text",
+  "name": "Luma Ray 3.2 文生视频",
+  "description": "根据提示词生成 5 秒或 10 秒视频。5 秒视频可选无缝循环或 HDR。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "A majestic eagle soaring through golden clouds at sunset, slow cinematic dolly-in, warm light."
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "choices": [5, 10],
+      "optional": true,
+      "default": 5
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["540p", "720p", "1080p"],
+      "optional": true,
+      "default": "720p"
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["16:9", "9:16", "1:1", "4:3", "3:4", "21:9", "9:21"],
+      "optional": true,
+      "default": "16:9"
+    },
+    {
+      "name": "loop",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "hdr",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "loop",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "hdr",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "luma/ray-3.2/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "resolution": "resolution",
+        "aspect_ratio": "aspect_ratio",
+        "loop": "loop",
+        "hdr": "hdr"
+      },
+      "required_text": ["prompt"],
+      "forbidden_combinations": [
+        {
+          "loop": true,
+          "duration": [10]
+        },
+        {
+          "loop": true,
+          "hdr": true
+        },
+        {
+          "hdr": true,
+          "duration": [10]
+        },
+        {
+          "hdr": true,
+          "resolution": ["540p"]
+        }
+      ]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Luma Ray 3.2 文生视频",
+      "description": "根据提示词生成 5 秒或 10 秒视频。5 秒视频可选无缝循环或 HDR。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "aspect_ratio": {
+          "label": "宽高比"
+        },
+        "loop": {
+          "label": "无缝循环"
+        },
+        "hdr": {
+          "label": "HDR"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、动作、场景和镜头运动。"
+        },
+        "duration_seconds": {
+          "help": "选择 5 或 10 秒，默认 5 秒。"
+        },
+        "resolution": {
+          "help": "选择 540p、720p 或 1080p。"
+        },
+        "aspect_ratio": {
+          "help": "选择视频宽高比，默认横向 16:9。"
+        },
+        "loop": {
+          "help": "用于 5 秒标准动态范围视频。"
+        },
+        "hdr": {
+          "help": "使用 5 秒及 720p 或 1080p，需要 Atlas 上游账户具备 HDR 权限。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Luma Ray 3.2 文生影片",
+      "description": "依提示詞生成 5 秒或 10 秒影片。5 秒影片可選無縫循環或 HDR。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "時長（秒）"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "aspect_ratio": {
+          "label": "長寬比"
+        },
+        "loop": {
+          "label": "無縫循環"
+        },
+        "hdr": {
+          "label": "HDR"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、動作、場景與鏡頭運動。"
+        },
+        "duration_seconds": {
+          "help": "選擇 5 或 10 秒，預設 5 秒。"
+        },
+        "resolution": {
+          "help": "選擇 540p、720p 或 1080p。"
+        },
+        "aspect_ratio": {
+          "help": "選擇影片長寬比，預設橫向 16:9。"
+        },
+        "loop": {
+          "help": "用於 5 秒標準動態範圍影片。"
+        },
+        "hdr": {
+          "help": "使用 5 秒及 720p 或 1080p，需要 Atlas 上游帳戶具備 HDR 權限。"
+        }
+      }
+    },
+    "en": {
+      "name": "Luma Ray 3.2 Text-to-Video",
+      "description": "Generate a 5- or 10-second video from a prompt. Five-second clips can use seamless looping or HDR.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "loop": {
+          "label": "Seamless loop"
+        },
+        "hdr": {
+          "label": "HDR"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, action, scene, and camera movement."
+        },
+        "duration_seconds": {
+          "help": "Choose 5 or 10 seconds. The default is 5."
+        },
+        "resolution": {
+          "help": "Choose 540p, 720p, or 1080p."
+        },
+        "aspect_ratio": {
+          "help": "Choose the video aspect ratio. The default is landscape 16:9."
+        },
+        "loop": {
+          "help": "Use with five-second standard dynamic range clips."
+        },
+        "hdr": {
+          "help": "Use with five-second 720p or 1080p clips. The upstream Atlas account requires HDR access."
+        }
+      }
+    },
+    "ja": {
+      "name": "Luma Ray 3.2 テキストから動画",
+      "description": "プロンプトから 5 秒または 10 秒の動画を生成します。5 秒ではシームレスループか HDR を選べます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "aspect_ratio": {
+          "label": "縦横比"
+        },
+        "loop": {
+          "label": "シームレスループ"
+        },
+        "hdr": {
+          "label": "HDR"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、動き、場面、カメラワークを記述します。"
+        },
+        "duration_seconds": {
+          "help": "5 秒または 10 秒から選びます。既定値は 5 秒です。"
+        },
+        "resolution": {
+          "help": "540p、720p、1080p から選びます。"
+        },
+        "aspect_ratio": {
+          "help": "動画の縦横比を選びます。既定値は横向きの 16:9 です。"
+        },
+        "loop": {
+          "help": "5 秒の標準ダイナミックレンジ動画に使用します。"
+        },
+        "hdr": {
+          "help": "5 秒、720p または 1080p で使います。Atlas の上流アカウントに HDR 権限が必要です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Luma Ray 3.2 텍스트로 동영상 생성",
+      "description": "프롬프트로 5초 또는 10초 동영상을 생성합니다. 5초 영상은 자연스러운 반복 또는 HDR을 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "길이(초)"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "loop": {
+          "label": "자연스러운 반복"
+        },
+        "hdr": {
+          "label": "HDR"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 움직임, 장면과 카메라 움직임을 설명하세요."
+        },
+        "duration_seconds": {
+          "help": "5초 또는 10초를 선택하세요. 기본값은 5초입니다."
+        },
+        "resolution": {
+          "help": "540p, 720p, 1080p 중 선택하세요."
+        },
+        "aspect_ratio": {
+          "help": "동영상의 가로세로 비율을 선택하세요. 기본값은 가로형 16:9입니다."
+        },
+        "loop": {
+          "help": "표준 동적 범위의 5초 동영상에 사용합니다."
+        },
+        "hdr": {
+          "help": "720p 또는 1080p의 5초 동영상에 사용합니다. Atlas 상위 계정에 HDR 권한이 필요합니다."
+        }
+      }
+    }
+  }
+}

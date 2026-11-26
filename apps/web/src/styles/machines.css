@@ -1,0 +1,225 @@
+/* 工作机列表、详情与连接弹框。 */
+.section-heading {
+  margin-bottom: var(--space-4);
+}
+.section-heading h1 {
+  margin: 0;
+  font-size: var(--font-xl);
+  font-weight: var(--font-medium);
+}
+.machine-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2);
+}
+.machine-item {
+  display: flex;
+  gap: var(--space-5);
+  align-items: center;
+  padding: var(--space-5);
+  background: var(--color-surface);
+  font-size: var(--font-sm);
+}
+.machine-icon {
+  flex-shrink: 0;
+  width: var(--space-6);
+  height: var(--space-6);
+  color: var(--color-subtle);
+}
+.machine-icon > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.machine-identity {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-1);
+  flex: 1;
+  min-width: 0;
+}
+.machine-heading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+.machine-name {
+  min-width: 0;
+}
+.machine-name > span,
+.machine-identity > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.machine-states {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+}
+.machine-online {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-success);
+}
+.machine-state {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  .machine-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: var(--space-3);
+    padding: var(--space-4);
+  }
+  .machine-identity > span {
+    display: none;
+  }
+  .machine-states {
+    grid-row: 2;
+    grid-column: 2 / -1;
+    gap: var(--space-3);
+  }
+  .machine-actions {
+    grid-area: 1 / 3;
+  }
+}
+.compact-dialog-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.compact-dialog-heading h2 {
+  margin: 0;
+  font-size: var(--font-lg);
+  font-weight: var(--font-medium);
+}
+.machine-details-dialog {
+  display: grid;
+  gap: var(--space-5);
+  overflow-wrap: anywhere;
+}
+.machine-details-dialog p {
+  margin: 0;
+}
+.machine-current-task {
+  display: grid;
+  gap: var(--space-3);
+}
+.machine-current-task > .ui-button {
+  justify-self: start;
+}
+.machine-link-icon {
+  width: var(--size-dialog-icon);
+  height: var(--size-dialog-icon);
+  color: var(--color-accent);
+}
+/* 接入代码按字符逐个核对，使用等宽字体并加大字距。 */
+.machine-link-code.ui-input {
+  font-family: var(--font-mono);
+  --ui-input-font-size: var(--font-lg);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.machine-form {
+  display: grid;
+  gap: var(--space-5);
+}
+.machine-setup,
+.machine-setup-panel {
+  display: grid;
+  gap: var(--space-4);
+}
+.machine-setup-panel {
+  padding-top: var(--space-3);
+}
+.machine-setup p,
+.machine-launchers,
+.machine-launchers dd {
+  margin: 0;
+}
+.machine-launchers {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--space-1) var(--space-4);
+  font-size: var(--font-sm);
+}
+.machine-setup .form-hint a {
+  text-decoration: underline;
+}
+.machine-setup-footer,
+.machine-setup-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.machine-setup-footer,
+.machine-setup-actions {
+  flex-wrap: wrap;
+}
+.machine-setup-footer {
+  justify-content: space-between;
+}
+.machine-key .ui-input {
+  font-family: var(--font-mono);
+}
+.confirm-content {
+  display: grid;
+  gap: var(--space-4);
+}
+.confirm-content > p {
+  margin: 0;
+}
+.confirm-content :is(h2, p) {
+  overflow-wrap: anywhere;
+}
+.machine-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: var(--space-4);
+  background: var(--color-raised);
+  font-size: var(--font-sm);
+  overflow-wrap: anywhere;
+}
+.machine-facts-device {
+  grid-column: 1 / -1;
+}
+.machine-facts dt {
+  color: var(--color-muted);
+}
+.machine-facts dd {
+  margin: var(--space-1) 0 0;
+}
+.machine-link-space {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+}
+.machine-link-space dd {
+  justify-self: end;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+}
+.machine-link-space button {
+  max-width: 100%;
+}
+.machine-link-space button span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.machine-link-space button svg {
+  flex-shrink: 0;
+}
+.machine-link-warning {
+  margin: 0;
+  color: var(--color-warning);
+  font-size: var(--font-sm);
+}

@@ -1,0 +1,361 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "minimax-h3-fast-image-to-video",
+  "name": "MiniMax H3 Fast 图生视频",
+  "description": "用提示词生成 480P 视频，可提供首帧和尾帧控制画面的起点与结尾。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "choices": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "default": 8
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["480P"],
+      "default": "480P"
+    },
+    {
+      "name": "expand_prompt",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["adaptive"],
+      "default": "adaptive",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "hidden"
+    },
+    {
+      "fieldId": "expand_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "hidden"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "operation": "video",
+      "model": "minimax/h3-fast/image-to-video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "resolution": "resolution",
+        "ratio": "aspect_ratio",
+        "prompt_expansion": "expand_prompt"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "content_types": ["image/png", "image/jpeg", "image/webp"]
+        },
+        "end_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "content_types": ["image/png", "image/jpeg", "image/webp"]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "MiniMax H3 Fast 图生视频",
+      "description": "用提示词生成 480P 视频，可提供首帧和尾帧控制画面的起点与结尾。",
+      "fields": {
+        "first_frame": {
+          "label": "首帧图片"
+        },
+        "last_frame": {
+          "label": "尾帧图片"
+        },
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "expand_prompt": {
+          "label": "扩写提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传视频的起始图片，支持 PNG、JPEG 和 WebP。"
+        },
+        "last_frame": {
+          "help": "上传目标结尾的图片，支持 PNG、JPEG 和 WebP。"
+        },
+        "prompt": {
+          "help": "描述视频中的动作或镜头运动。"
+        },
+        "duration_seconds": {
+          "help": "选择 5 至 15 秒。"
+        },
+        "resolution": {
+          "help": "仅支持 480P。"
+        },
+        "expand_prompt": {
+          "help": "开启后先扩写提示词，再生成视频。"
+        },
+        "aspect_ratio": {
+          "help": "图生视频使用自适应比例。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "MiniMax H3 Fast 圖生影片",
+      "description": "用提示詞生成 480P 影片，可提供首幀和尾幀控制畫面的起點與結尾。",
+      "fields": {
+        "first_frame": {
+          "label": "首幀圖片"
+        },
+        "last_frame": {
+          "label": "尾幀圖片"
+        },
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "片長（秒）"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "expand_prompt": {
+          "label": "擴寫提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳影片的起始圖片，支援 PNG、JPEG 和 WebP。"
+        },
+        "last_frame": {
+          "help": "上傳預期結尾的圖片，支援 PNG、JPEG 和 WebP。"
+        },
+        "prompt": {
+          "help": "描述影片中的動作或鏡頭移動。"
+        },
+        "duration_seconds": {
+          "help": "選擇 5 至 15 秒。"
+        },
+        "resolution": {
+          "help": "僅支援 480P。"
+        },
+        "expand_prompt": {
+          "help": "啟用後先擴寫提示詞，再產生影片。"
+        },
+        "aspect_ratio": {
+          "help": "圖生影片使用自動調整的畫面比例。"
+        }
+      }
+    },
+    "en": {
+      "name": "MiniMax H3 Fast Image-to-Video",
+      "description": "Generate 480P video from a prompt. Add an opening image and an ending image to guide the shot.",
+      "fields": {
+        "first_frame": {
+          "label": "First frame"
+        },
+        "last_frame": {
+          "label": "Last frame"
+        },
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "expand_prompt": {
+          "label": "Expand prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload an opening image as PNG, JPEG, or WebP."
+        },
+        "last_frame": {
+          "help": "Upload an ending image as PNG, JPEG, or WebP."
+        },
+        "prompt": {
+          "help": "Describe the action or camera movement in the video."
+        },
+        "duration_seconds": {
+          "help": "Choose 5 to 15 seconds."
+        },
+        "resolution": {
+          "help": "This model produces 480P video."
+        },
+        "expand_prompt": {
+          "help": "Expand the prompt before generating the video."
+        },
+        "aspect_ratio": {
+          "help": "Image-to-video uses an adaptive aspect ratio."
+        }
+      }
+    },
+    "ja": {
+      "name": "MiniMax H3 Fast 画像から動画",
+      "description": "プロンプトから 480P の動画を生成します。開始画像と終了画像で動画の始まりと終わりを指定できます。",
+      "fields": {
+        "first_frame": {
+          "label": "開始フレーム"
+        },
+        "last_frame": {
+          "label": "終了フレーム"
+        },
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "expand_prompt": {
+          "label": "プロンプトを拡張"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "開始画像を PNG、JPEG、または WebP でアップロードします。"
+        },
+        "last_frame": {
+          "help": "終了画像を PNG、JPEG、または WebP でアップロードします。"
+        },
+        "prompt": {
+          "help": "動画で起こる動作やカメラワークを指定します。"
+        },
+        "duration_seconds": {
+          "help": "5～15秒から選択します。"
+        },
+        "resolution": {
+          "help": "解像度は 480P です。"
+        },
+        "expand_prompt": {
+          "help": "動画を生成する前にプロンプトを拡張します。"
+        },
+        "aspect_ratio": {
+          "help": "画像から動画を生成するときは縦横比を自動で調整します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "MiniMax H3 Fast 이미지로 동영상 생성",
+      "description": "프롬프트로 480P 동영상을 생성합니다. 첫 이미지와 마지막 이미지로 동영상의 시작과 끝을 지정할 수 있습니다.",
+      "fields": {
+        "first_frame": {
+          "label": "첫 프레임 이미지"
+        },
+        "last_frame": {
+          "label": "마지막 프레임 이미지"
+        },
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "길이(초)"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "expand_prompt": {
+          "label": "프롬프트 확장"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "시작 이미지를 PNG, JPEG 또는 WebP로 업로드합니다."
+        },
+        "last_frame": {
+          "help": "종료 이미지를 PNG, JPEG 또는 WebP로 업로드합니다."
+        },
+        "prompt": {
+          "help": "동영상의 동작이나 카메라 움직임을 설명합니다."
+        },
+        "duration_seconds": {
+          "help": "5초에서 15초 사이로 선택합니다."
+        },
+        "resolution": {
+          "help": "480P만 지원합니다."
+        },
+        "expand_prompt": {
+          "help": "동영상을 생성하기 전에 프롬프트를 확장합니다."
+        },
+        "aspect_ratio": {
+          "help": "이미지로 동영상을 생성할 때는 화면 비율이 자동으로 조정됩니다."
+        }
+      }
+    }
+  }
+}

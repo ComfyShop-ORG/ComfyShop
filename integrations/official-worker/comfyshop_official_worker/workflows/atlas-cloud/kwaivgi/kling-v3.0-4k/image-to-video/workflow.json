@@ -1,0 +1,506 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kwaivgi-kling-v3-0-4k-image-to-video",
+  "name": "可灵 3.0 4K 图生视频",
+  "description": "用起始图生成 4K 视频。可指定结束帧、编排多个镜头，并用主体引用保持人物或物体一致。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 2500
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 5,
+      "choices": [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "optional": true
+    },
+    {
+      "name": "multi_shot",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "multi_prompt",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "elements",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "sound",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "multi_shot",
+      "section": "default"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "multi_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "elements",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "sound",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "kwaivgi/kling-v3.0-4k/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "multi_shot": "multi_shot",
+        "sound": "sound"
+      },
+      "omit_blank_parameters": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 2500
+      },
+      "kling_storyboard_field": "multi_prompt",
+      "kling_elements": {
+        "field": "elements",
+        "max_items": 3
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "external_urls_only": true,
+          "max_bytes": 50000000,
+          "content_types": ["image/jpeg", "image/png"],
+          "image_bounds": {
+            "min_side": 300,
+            "max_aspect_ratio": 2.5
+          },
+          "min_items": 1
+        },
+        "end_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "external_sources_field": "last_frame_source",
+          "external_urls_only": true,
+          "max_bytes": 50000000,
+          "content_types": ["image/jpeg", "image/png"],
+          "image_bounds": {
+            "min_side": 300
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 3.0 4K 图生视频",
+      "description": "用起始图生成 4K 视频。可指定结束帧、编排多个镜头，并用主体引用保持人物或物体一致。",
+      "fields": {
+        "first_frame": {
+          "label": "起始图"
+        },
+        "last_frame": {
+          "label": "结束图"
+        },
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "multi_shot": {
+          "label": "多镜头"
+        },
+        "first_frame_source": {
+          "label": "起始图 URL"
+        },
+        "last_frame_source": {
+          "label": "结束图 URL"
+        },
+        "multi_prompt": {
+          "label": "分镜方案"
+        },
+        "elements": {
+          "label": "主体引用"
+        },
+        "sound": {
+          "label": "生成声音"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传 JPEG 或 PNG。每边至少 300 像素，宽高比为 1:2.5 至 2.5:1，最多 50 MB。"
+        },
+        "last_frame": {
+          "help": "可上传结束图控制过渡。JPEG 或 PNG，每边至少 300 像素，最多 50 MB。"
+        },
+        "prompt": {
+          "help": "描述动作和运镜，最多 2,500 字符。未提供自定义分镜时必填，主体引用写作 <<<element_1>>>。"
+        },
+        "duration": {
+          "help": "选择 3 至 15 秒的整数时长。默认 5 秒。"
+        },
+        "multi_shot": {
+          "help": "开启后可在高级参数输入自定义分镜。留空时模型根据提示词自动分镜。"
+        },
+        "first_frame_source": {
+          "help": "填写一个可公开访问的起始图 URL，替代上传。"
+        },
+        "last_frame_source": {
+          "help": "填写一个可公开访问的结束图 URL，替代上传。"
+        },
+        "multi_prompt": {
+          "help": "开启多镜头后可填 1 至 6 项 JSON 数组。每项填写 prompt（最多 512 字符）和 duration（至少 1 秒的整数），各项时长之和须等于总时长。"
+        },
+        "elements": {
+          "help": "可填最多 3 项的 JSON 数组。填写已有主体的 element_id，或用 element_name、reference_type 和素材 URL 新建主体。按数组顺序在提示词中引用。"
+        },
+        "sound": {
+          "help": "开启后生成同步声音。默认开启。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 3.0 4K 圖生影片",
+      "description": "用起始圖生成 4K 影片。可指定結束影格、編排多個鏡頭，並透過主體引用保持人物或物件一致。",
+      "fields": {
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "last_frame": {
+          "label": "結束圖"
+        },
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "multi_shot": {
+          "label": "多鏡頭"
+        },
+        "first_frame_source": {
+          "label": "起始圖 URL"
+        },
+        "last_frame_source": {
+          "label": "結束圖 URL"
+        },
+        "multi_prompt": {
+          "label": "分鏡方案"
+        },
+        "elements": {
+          "label": "主體引用"
+        },
+        "sound": {
+          "label": "生成聲音"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳 JPEG 或 PNG。每邊至少 300 像素，寬高比為 1:2.5 至 2.5:1，最多 50 MB。"
+        },
+        "last_frame": {
+          "help": "可上傳結束圖控制轉場。JPEG 或 PNG，每邊至少 300 像素，最多 50 MB。"
+        },
+        "prompt": {
+          "help": "描述動作和運鏡，最多 2,500 字元。未提供自訂分鏡時必填，主體引用寫作 <<<element_1>>>。"
+        },
+        "duration": {
+          "help": "選擇 3 至 15 秒的整數長度。預設 5 秒。"
+        },
+        "multi_shot": {
+          "help": "開啟後可在進階參數輸入自訂分鏡。空白時模型依提示詞自動分鏡。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個可公開存取的起始圖 URL，替代上傳。"
+        },
+        "last_frame_source": {
+          "help": "填寫一個可公開存取的結束圖 URL，替代上傳。"
+        },
+        "multi_prompt": {
+          "help": "開啟多鏡頭後可填入 1 至 6 項的 JSON 陣列。每項包含 prompt（最多 512 字元）和 duration（至少 1 秒的整數），各項長度總和須等於影片長度。"
+        },
+        "elements": {
+          "help": "可填最多 3 項的 JSON 陣列。填寫既有主體的 element_id，或透過 element_name、reference_type 和素材 URL 建立新主體。依陣列順序在提示詞中引用。"
+        },
+        "sound": {
+          "help": "開啟後生成同步聲音。預設開啟。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling 3.0 4K Image to Video",
+      "description": "Animate an opening image at 4K with an optional closing frame, multi-shot direction, and subject references.",
+      "fields": {
+        "first_frame": {
+          "label": "Opening image"
+        },
+        "last_frame": {
+          "label": "Closing image"
+        },
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "multi_shot": {
+          "label": "Multiple shots"
+        },
+        "first_frame_source": {
+          "label": "Opening image URL"
+        },
+        "last_frame_source": {
+          "label": "Closing image URL"
+        },
+        "multi_prompt": {
+          "label": "Storyboard"
+        },
+        "elements": {
+          "label": "Subject references"
+        },
+        "sound": {
+          "label": "Generate audio"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload a JPEG or PNG up to 50 MB. Each side must be at least 300 pixels, with a ratio from 1:2.5 to 2.5:1."
+        },
+        "last_frame": {
+          "help": "Optionally upload a closing frame to guide the transition. Use JPEG or PNG up to 50 MB, with each side at least 300 pixels."
+        },
+        "prompt": {
+          "help": "Describe movement and camera direction in up to 2,500 characters. Required without custom shots. Use <<<element_1>>> to refer to a subject."
+        },
+        "duration": {
+          "help": "Choose a whole number from 3 to 15. The default is 5."
+        },
+        "multi_shot": {
+          "help": "Enable to enter a custom storyboard under Advanced. Leave it blank to split the prompt into shots automatically."
+        },
+        "first_frame_source": {
+          "help": "Enter one public opening image URL in place of an upload."
+        },
+        "last_frame_source": {
+          "help": "Enter one public closing image URL in place of an upload."
+        },
+        "multi_prompt": {
+          "help": "With multiple shots enabled, enter a JSON array of one to six shots. Each needs a prompt of up to 512 characters and a whole-number duration of at least one second. Durations must add up to the total."
+        },
+        "elements": {
+          "help": "Enter a JSON array of up to three entries. Supply an existing element_id or create a subject with element_name, reference_type, and media URLs. Mention subjects in array order."
+        },
+        "sound": {
+          "help": "Generate synchronized sound. On by default."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling 3.0 4K 画像から動画生成",
+      "description": "開始画像から 4K 動画を生成します。終了フレーム、複数ショット、人物や物体を統一する参照素材を指定できます。",
+      "fields": {
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "last_frame": {
+          "label": "終了画像"
+        },
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "multi_shot": {
+          "label": "複数ショット"
+        },
+        "first_frame_source": {
+          "label": "開始画像の URL"
+        },
+        "last_frame_source": {
+          "label": "終了画像の URL"
+        },
+        "multi_prompt": {
+          "label": "ショット構成"
+        },
+        "elements": {
+          "label": "主体参照"
+        },
+        "sound": {
+          "label": "音声生成"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "各辺 300 ピクセル以上、比率 1:2.5〜2.5:1、最大 50 MB の JPEG または PNG をアップロードします。"
+        },
+        "last_frame": {
+          "help": "遷移を指定する終了画像をアップロードできます。各辺 300 ピクセル以上、最大 50 MB の JPEG または PNG を使用します。"
+        },
+        "prompt": {
+          "help": "動きやカメラワークを 2,500 文字以内で記述します。ショットを指定しない場合は必須です。主体の参照には <<<element_1>>> を使います。"
+        },
+        "duration": {
+          "help": "3〜15 秒の整数から選択します。既定は 5 秒です。"
+        },
+        "multi_shot": {
+          "help": "詳細設定でショット構成を入力できます。空欄の場合、Atlas はプロンプトに沿って自動でショットを分割します。"
+        },
+        "first_frame_source": {
+          "help": "アップロードの代わりに、公開された開始画像の URL を一つ入力します。"
+        },
+        "last_frame_source": {
+          "help": "アップロードの代わりに、公開された終了画像の URL を一つ入力します。"
+        },
+        "multi_prompt": {
+          "help": "複数ショットをオンにし、1〜6 項目の JSON 配列を入力します。各項目に prompt（512 文字以内）と duration（1 秒以上の整数）を指定します。合計は動画の長さと一致させます。"
+        },
+        "elements": {
+          "help": "最大 3 項目の JSON 配列を入力します。既存の element_id か、element_name、reference_type、素材 URL で新規の主体を指定します。配列の順番で参照できます。"
+        },
+        "sound": {
+          "help": "有効にすると同期した音声を生成します。既定はオンです。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling 3.0 4K 이미지 동영상 생성",
+      "description": "시작 이미지로 4K 동영상을 만듭니다. 끝 이미지, 여러 숏, 인물이나 물체를 유지할 참조 소재를 지정할 수 있습니다.",
+      "fields": {
+        "first_frame": {
+          "label": "시작 이미지"
+        },
+        "last_frame": {
+          "label": "끝 이미지"
+        },
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "multi_shot": {
+          "label": "여러 숏"
+        },
+        "first_frame_source": {
+          "label": "시작 이미지 URL"
+        },
+        "last_frame_source": {
+          "label": "끝 이미지 URL"
+        },
+        "multi_prompt": {
+          "label": "스토리보드"
+        },
+        "elements": {
+          "label": "피사체 참조"
+        },
+        "sound": {
+          "label": "오디오 생성"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "각 변이 300픽셀 이상이고 가로세로 비율이 1:2.5~2.5:1인 최대 50MB의 JPEG 또는 PNG를 업로드하세요."
+        },
+        "last_frame": {
+          "help": "장면 전환을 위한 끝 이미지를 선택할 수 있습니다. 각 변이 300픽셀 이상인 최대 50MB의 JPEG 또는 PNG를 사용하세요."
+        },
+        "prompt": {
+          "help": "움직임과 카메라 구도를 최대 2,500자로 설명하세요. 개별 숏을 지정하지 않으면 필수입니다. <<<element_1>>>로 피사체를 참조할 수 있습니다."
+        },
+        "duration": {
+          "help": "3~15초 사이의 정수를 선택하세요. 기본값은 5초입니다."
+        },
+        "multi_shot": {
+          "help": "켜면 고급 설정에서 숏을 지정할 수 있습니다. 비우면 프롬프트에 맞게 숏을 자동으로 나눕니다."
+        },
+        "first_frame_source": {
+          "help": "업로드 대신 공개된 시작 이미지 URL을 하나 입력하세요."
+        },
+        "last_frame_source": {
+          "help": "업로드 대신 공개된 끝 이미지 URL을 하나 입력하세요."
+        },
+        "multi_prompt": {
+          "help": "여러 숏을 켠 뒤 1~6개 항목의 JSON 배열을 입력하세요. 각 항목에 prompt(최대 512자)와 duration(1초 이상의 정수)을 입력합니다. 길이의 합은 전체 영상 길이와 같아야 합니다."
+        },
+        "elements": {
+          "help": "최대 3개 항목의 JSON 배열을 입력하세요. 기존 element_id를 쓰거나 element_name, reference_type, 소재 URL로 새 피사체를 만듭니다. 배열 순서로 참조하세요."
+        },
+        "sound": {
+          "help": "켜면 영상에 맞는 소리를 생성합니다. 기본값은 켜짐입니다."
+        }
+      }
+    }
+  }
+}

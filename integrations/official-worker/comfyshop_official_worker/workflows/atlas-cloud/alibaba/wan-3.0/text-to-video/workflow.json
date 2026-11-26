@@ -1,0 +1,402 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-alibaba-wan-3-0-text-to-video",
+  "name": "Wan 3.0 文生视频",
+  "description": "根据提示词生成视频，可设置时长、画面比例、音频和最高 4K ESR。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 20000
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1080p",
+      "optional": true,
+      "choices": ["1080p", "720p", "480p", "720p-esr", "1080p-esr", "1440p-esr", "4k-esr"]
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 5,
+      "optional": true,
+      "choices": [
+        -1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+        26, 27, 28, 29, 30
+      ]
+    },
+    {
+      "name": "ratio",
+      "kind": "choice",
+      "default": "adaptive",
+      "optional": true,
+      "choices": ["adaptive", "16:9", "4:3", "1:1", "3:4", "9:16"]
+    },
+    {
+      "name": "audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "alibaba/wan-3.0/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "duration": "duration",
+        "ratio": "ratio",
+        "audio": "audio",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Wan 3.0 文生视频",
+      "description": "根据提示词生成视频，可设置时长、画面比例、音频和最高 4K ESR。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "720p": "720p",
+            "480p": "480p",
+            "720p-esr": "720p ESR",
+            "1080p-esr": "1080p ESR",
+            "1440p-esr": "1440p ESR",
+            "4k-esr": "4K ESR"
+          }
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "adaptive": "自动",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "audio": {
+          "label": "生成音频"
+        },
+        "seed": {
+          "label": "随机种子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、场景、动作与运镜。最多 20,000 字符。"
+        },
+        "resolution": {
+          "help": "原生分辨率为 480p、720p 或 1080p。带 ESR 的选项由模型放大。"
+        },
+        "duration": {
+          "help": "选择 2 至 30 秒。选择 -1 时由模型决定。默认 5 秒。"
+        },
+        "ratio": {
+          "help": "选择固定比例，或让模型根据提示词选择。"
+        },
+        "audio": {
+          "help": "控制成品是否包含音轨，默认开启。"
+        },
+        "seed": {
+          "help": "留空由模型决定。输入 -1 使用随机种子，或填写一个固定整数。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Wan 3.0 文生影片",
+      "description": "依提示詞產生影片，可設定長度、畫面比例、音訊與最高 4K ESR。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "720p": "720p",
+            "480p": "480p",
+            "720p-esr": "720p ESR",
+            "1080p-esr": "1080p ESR",
+            "1440p-esr": "1440p ESR",
+            "4k-esr": "4K ESR"
+          }
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "adaptive": "自動",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "audio": {
+          "label": "生成音訊"
+        },
+        "seed": {
+          "label": "隨機種子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、場景、動作與運鏡。最多 20,000 字元。"
+        },
+        "resolution": {
+          "help": "原生解析度為 480p、720p 或 1080p。帶有 ESR 的選項由模型放大。"
+        },
+        "duration": {
+          "help": "選擇 2 至 30 秒。選擇 -1 時交由模型決定。預設為 5 秒。"
+        },
+        "ratio": {
+          "help": "選擇固定比例，或讓模型依提示詞選擇。"
+        },
+        "audio": {
+          "help": "控制成片是否包含音軌，預設為開啟。"
+        },
+        "seed": {
+          "help": "留空由模型決定。輸入 -1 使用隨機種子，或填寫固定整數。"
+        }
+      }
+    },
+    "en": {
+      "name": "Wan 3.0 Text to Video",
+      "description": "Generate a video from a prompt and set the duration, aspect ratio, audio, and resolution up to 4K ESR.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "720p": "720p",
+            "480p": "480p",
+            "720p-esr": "720p ESR",
+            "1080p-esr": "1080p ESR",
+            "1440p-esr": "1440p ESR",
+            "4k-esr": "4K ESR"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "adaptive": "Automatic",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "audio": {
+          "label": "Generate audio"
+        },
+        "seed": {
+          "label": "Seed"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, scene, action, and camera direction. Use up to 20,000 characters."
+        },
+        "resolution": {
+          "help": "Native options are 480p, 720p, and 1080p. ESR options are upscaled."
+        },
+        "duration": {
+          "help": "Choose 2 to 30 seconds or select -1 to let the model decide. The default is 5 seconds."
+        },
+        "ratio": {
+          "help": "Choose a fixed ratio or let the model select one from the prompt."
+        },
+        "audio": {
+          "help": "Include an audio track in the result. On by default."
+        },
+        "seed": {
+          "help": "Leave blank to let the model choose. Enter -1 for a random seed or an integer for a fixed seed."
+        }
+      }
+    },
+    "ja": {
+      "name": "Wan 3.0 テキストから動画",
+      "description": "プロンプトから動画を生成し、長さ、比率、音声、最大4K ESRの解像度を設定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "720p": "720p",
+            "480p": "480p",
+            "720p-esr": "720p ESR",
+            "1080p-esr": "1080p ESR",
+            "1440p-esr": "1440p ESR",
+            "4k-esr": "4K ESR"
+          }
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "adaptive": "自動",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "audio": {
+          "label": "音声を生成"
+        },
+        "seed": {
+          "label": "シード"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、動き、カメラワークを記述します。最大20,000文字です。"
+        },
+        "resolution": {
+          "help": "ネイティブ解像度は480p、720p、1080pです。ESRの選択肢ではアップスケールします。"
+        },
+        "duration": {
+          "help": "2〜30秒から選択します。-1を選ぶとモデルが長さを決定します。既定値は5秒です。"
+        },
+        "ratio": {
+          "help": "固定の比率を選択するか、プロンプトに合わせてモデルに任せます。"
+        },
+        "audio": {
+          "help": "動画に音声トラックを追加します。既定では有効です。"
+        },
+        "seed": {
+          "help": "空欄の場合はモデルが選択します。ランダムなら-1、固定するには整数を入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Wan 3.0 텍스트로 동영상 생성",
+      "description": "프롬프트로 동영상을 만들고 길이, 화면 비율, 오디오와 최대 4K ESR 해상도를 설정합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "720p": "720p",
+            "480p": "480p",
+            "720p-esr": "720p ESR",
+            "1080p-esr": "1080p ESR",
+            "1440p-esr": "1440p ESR",
+            "4k-esr": "4K ESR"
+          }
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "adaptive": "자동",
+            "16:9": "16:9",
+            "4:3": "4:3",
+            "1:1": "1:1",
+            "3:4": "3:4",
+            "9:16": "9:16"
+          }
+        },
+        "audio": {
+          "label": "오디오 생성"
+        },
+        "seed": {
+          "label": "시드"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 장면, 동작, 카메라 움직임을 설명합니다. 최대 20,000자입니다."
+        },
+        "resolution": {
+          "help": "기본 생성 해상도는 480p, 720p, 1080p입니다. ESR 옵션은 업스케일을 적용합니다."
+        },
+        "duration": {
+          "help": "2초에서 30초 중 선택하거나 -1로 모델에 맡깁니다. 기본값은 5초입니다."
+        },
+        "ratio": {
+          "help": "고정 비율을 선택하거나 모델이 프롬프트에 맞춰 선택하도록 합니다."
+        },
+        "audio": {
+          "help": "동영상에 오디오 트랙을 포함합니다. 기본값은 켜짐입니다."
+        },
+        "seed": {
+          "help": "비워 두면 모델이 선택합니다. 무작위를 사용하려면 -1, 고정하려면 정수를 입력합니다."
+        }
+      }
+    }
+  }
+}

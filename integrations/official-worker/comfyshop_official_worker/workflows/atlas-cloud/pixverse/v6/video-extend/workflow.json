@@ -1,0 +1,322 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-pix6-extend",
+  "name": "PixVerse V6 视频延长",
+  "description": "根据提示词续接原视频，生成 1 至 15 秒的新内容。",
+  "category": "video_tool",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "",
+      "maxLength": 5000
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "choices": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "default": 5
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["360p", "540p", "720p", "1080p"],
+      "default": "720p"
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true
+    },
+    {
+      "name": "source_video",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "source_video_url",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "source_video",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "source_video_url",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "pixverse/v6/video-extend",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "seed": "seed",
+        "quality": "resolution"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 5000
+      },
+      "prediction_endpoint": "result",
+      "media": {
+        "video": {
+          "kind": "video",
+          "fields": ["source_video"],
+          "external_sources_field": "source_video_url",
+          "external_urls_only": true,
+          "min_items": 1,
+          "content_types": ["video/mp4", "video/quicktime", "video/webm"]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "PixVerse V6 视频延长",
+      "description": "根据提示词续接原视频，生成 1 至 15 秒的新内容。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "时长（秒）"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "source_video": {
+          "label": "原视频"
+        },
+        "source_video_url": {
+          "label": "原视频 URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上传一个 MP4、MOV 或 WebM 视频。"
+        },
+        "prompt": {
+          "help": "描述视频末尾之后的动作或场景，最多 5,000 字符。"
+        },
+        "duration_seconds": {
+          "help": "选择 1 至 15 秒，默认 5 秒。"
+        },
+        "resolution": {
+          "help": "选择 360p、540p、720p 或 1080p。"
+        },
+        "seed": {
+          "help": "填入整数以复用生成条件。留空时由 Atlas 选取。"
+        },
+        "source_video_url": {
+          "help": "填写公开可访问的视频地址，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "PixVerse V6 影片延長",
+      "description": "依提示詞續接原影片，生成 1 至 15 秒的新內容。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "時長（秒）"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "source_video": {
+          "label": "原影片"
+        },
+        "source_video_url": {
+          "label": "原影片 URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上傳一個 MP4、MOV 或 WebM 影片。"
+        },
+        "prompt": {
+          "help": "描述影片結尾之後的動作或場景，最多 5,000 個字元。"
+        },
+        "duration_seconds": {
+          "help": "選擇 1 至 15 秒，預設 5 秒。"
+        },
+        "resolution": {
+          "help": "選擇 360p、540p、720p 或 1080p。"
+        },
+        "seed": {
+          "help": "填入整數以重複使用生成條件。留空時由 Atlas 選取。"
+        },
+        "source_video_url": {
+          "help": "填寫公開可存取的影片網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "PixVerse V6 Video Extend",
+      "description": "Continue a source video with one to fifteen seconds of new content guided by a text prompt.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "source_video": {
+          "label": "Source video"
+        },
+        "source_video_url": {
+          "label": "Source video URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "Upload one MP4, MOV, or WebM video."
+        },
+        "prompt": {
+          "help": "Describe what happens after the video ends in up to 5,000 characters."
+        },
+        "duration_seconds": {
+          "help": "Choose 1 to 15 seconds. The default is 5 seconds."
+        },
+        "resolution": {
+          "help": "Choose 360p, 540p, 720p, or 1080p."
+        },
+        "seed": {
+          "help": "Provide an integer to reuse the seed across requests. Leave blank for Atlas to choose."
+        },
+        "source_video_url": {
+          "help": "Provide a publicly accessible video URL or upload a video."
+        }
+      }
+    },
+    "ja": {
+      "name": "PixVerse V6 動画延長",
+      "description": "元動画の続きとして、プロンプトから 1〜15 秒の新しい映像を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "長さ（秒）"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "source_video": {
+          "label": "元動画"
+        },
+        "source_video_url": {
+          "label": "元動画の URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "MP4、MOV、WebM の動画を 1 本アップロードします。"
+        },
+        "prompt": {
+          "help": "動画の続きに起こる動きや場面を 5,000 文字以内で記述します。"
+        },
+        "duration_seconds": {
+          "help": "1〜15 秒から選びます。既定値は 5 秒です。"
+        },
+        "resolution": {
+          "help": "360p、540p、720p、1080p から選びます。"
+        },
+        "seed": {
+          "help": "同じシードを使うには整数を指定します。空欄の場合は Atlas が選びます。"
+        },
+        "source_video_url": {
+          "help": "公開動画の URL を入力するか、動画をアップロードします。"
+        }
+      }
+    },
+    "ko": {
+      "name": "PixVerse V6 동영상 연장",
+      "description": "원본 동영상에 이어지는 새 콘텐츠를 프롬프트로 1~15초 생성합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "길이(초)"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "source_video": {
+          "label": "원본 동영상"
+        },
+        "source_video_url": {
+          "label": "원본 동영상 URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "MP4, MOV 또는 WebM 동영상 하나를 업로드하세요."
+        },
+        "prompt": {
+          "help": "영상이 끝난 뒤 이어질 동작이나 장면을 최대 5,000자로 설명하세요."
+        },
+        "duration_seconds": {
+          "help": "1~15초를 선택하세요. 기본값은 5초입니다."
+        },
+        "resolution": {
+          "help": "360p, 540p, 720p, 1080p 중 선택하세요."
+        },
+        "seed": {
+          "help": "같은 시드를 다시 사용하려면 정수를 입력하세요. 비워 두면 Atlas가 선택합니다."
+        },
+        "source_video_url": {
+          "help": "공개 동영상 URL을 입력하거나 동영상을 업로드하세요."
+        }
+      }
+    }
+  }
+}

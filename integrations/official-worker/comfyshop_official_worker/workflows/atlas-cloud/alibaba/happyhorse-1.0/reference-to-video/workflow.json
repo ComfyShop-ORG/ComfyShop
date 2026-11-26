@@ -1,0 +1,696 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-alibaba-happyhorse-1-0-reference-to-video",
+  "name": "HappyHorse 1.0 参考生视频",
+  "description": "用一至九张参考图和提示词引导视频中的主体、场景或风格。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 2500
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1080p",
+      "optional": true,
+      "choices": ["720p", "1080p"]
+    },
+    {
+      "name": "ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "optional": true,
+      "choices": ["16:9", "9:16", "1:1", "4:3", "3:4"]
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 5,
+      "optional": true,
+      "minimum": "3",
+      "maximum": "15"
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true,
+      "minimum": "-1",
+      "maximum": "2147483647"
+    },
+    {
+      "name": "reference_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "alibaba/happyhorse-1.0/reference-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "ratio": "ratio",
+        "duration": "duration",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "images": {
+          "kind": "image",
+          "fields": [
+            "reference_1",
+            "reference_2",
+            "reference_3",
+            "reference_4",
+            "reference_5",
+            "reference_6",
+            "reference_7",
+            "reference_8",
+            "reference_9"
+          ],
+          "array": true,
+          "min_items": 1,
+          "content_types": ["image/jpeg", "image/png", "image/bmp", "image/webp"],
+          "external_sources_field": "reference_sources",
+          "max_bytes": 10000000,
+          "image_bounds": {
+            "min_side": 400,
+            "max_aspect_ratio": 2.5
+          },
+          "external_urls_only": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "HappyHorse 1.0 参考生视频",
+      "description": "用一至九张参考图和提示词引导视频中的主体、场景或风格。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "ratio": {
+          "label": "画面比例"
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "reference_1": {
+          "label": "参考图 1"
+        },
+        "reference_2": {
+          "label": "参考图 2"
+        },
+        "reference_3": {
+          "label": "参考图 3"
+        },
+        "reference_4": {
+          "label": "参考图 4"
+        },
+        "reference_5": {
+          "label": "参考图 5"
+        },
+        "reference_6": {
+          "label": "参考图 6"
+        },
+        "reference_7": {
+          "label": "参考图 7"
+        },
+        "reference_8": {
+          "label": "参考图 8"
+        },
+        "reference_9": {
+          "label": "参考图 9"
+        },
+        "reference_sources": {
+          "label": "参考图地址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述目标画面和各张参考图的用途。最多 2,500 字符。"
+        },
+        "reference_1": {
+          "help": "上传 JPEG、PNG、BMP 或 WebP。短边至少 400 像素，长短边比例最多 2.5:1，每张最多 10 MB。"
+        },
+        "resolution": {
+          "help": "选择 720p 或 1080p。默认 1080p。"
+        },
+        "ratio": {
+          "help": "从五种画面比例中选择，默认 16:9。"
+        },
+        "duration": {
+          "help": "输入 3 至 15 的整数，默认 5 秒。"
+        },
+        "seed": {
+          "help": "输入 -1 使用随机种子，或指定 0 至 2147483647 的整数。"
+        },
+        "reference_2": {
+          "help": "上传 JPEG、PNG、BMP 或 WebP。短边至少 400 像素，长短边比例最多 2.5:1，每张最多 10 MB。"
+        },
+        "reference_3": {
+          "help": "上传 JPEG、PNG、BMP 或 WebP。短边至少 400 像素，长短边比例最多 2.5:1，每张最多 10 MB。"
+        },
+        "reference_4": {
+          "help": "上传 JPEG、PNG、BMP 或 WebP。短边至少 400 像素，长短边比例最多 2.5:1，每张最多 10 MB。"
+        },
+        "reference_5": {
+          "help": "上传 JPEG、PNG、BMP 或 WebP。短边至少 400 像素，长短边比例最多 2.5:1，每张最多 10 MB。"
+        },
+        "reference_6": {
+          "help": "上传 JPEG、PNG、BMP 或 WebP。短边至少 400 像素，长短边比例最多 2.5:1，每张最多 10 MB。"
+        },
+        "reference_7": {
+          "help": "上传 JPEG、PNG、BMP 或 WebP。短边至少 400 像素，长短边比例最多 2.5:1，每张最多 10 MB。"
+        },
+        "reference_8": {
+          "help": "上传 JPEG、PNG、BMP 或 WebP。短边至少 400 像素，长短边比例最多 2.5:1，每张最多 10 MB。"
+        },
+        "reference_9": {
+          "help": "上传 JPEG、PNG、BMP 或 WebP。短边至少 400 像素，长短边比例最多 2.5:1，每张最多 10 MB。"
+        },
+        "reference_sources": {
+          "help": "每行填写一个公开图片 URL。上传和地址合计一至九张。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "HappyHorse 1.0 參考生成影片",
+      "description": "用一至九張參考圖與提示詞引導影片中的主體、場景或風格。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "ratio": {
+          "label": "畫面比例"
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "reference_1": {
+          "label": "參考圖 1"
+        },
+        "reference_2": {
+          "label": "參考圖 2"
+        },
+        "reference_3": {
+          "label": "參考圖 3"
+        },
+        "reference_4": {
+          "label": "參考圖 4"
+        },
+        "reference_5": {
+          "label": "參考圖 5"
+        },
+        "reference_6": {
+          "label": "參考圖 6"
+        },
+        "reference_7": {
+          "label": "參考圖 7"
+        },
+        "reference_8": {
+          "label": "參考圖 8"
+        },
+        "reference_9": {
+          "label": "參考圖 9"
+        },
+        "reference_sources": {
+          "label": "參考圖網址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述目標畫面及各張參考圖的用途。最多 2,500 字元。"
+        },
+        "reference_1": {
+          "help": "上傳 JPEG、PNG、BMP 或 WebP。短邊至少 400 像素，長短邊比例最多 2.5:1，每張最多 10 MB。"
+        },
+        "resolution": {
+          "help": "選擇 720p 或 1080p。預設為 1080p。"
+        },
+        "ratio": {
+          "help": "從五種畫面比例中選擇，預設為 16:9。"
+        },
+        "duration": {
+          "help": "輸入 3 至 15 的整數，預設為 5 秒。"
+        },
+        "seed": {
+          "help": "輸入 -1 使用隨機種子，或指定 0 至 2147483647 的整數。"
+        },
+        "reference_2": {
+          "help": "上傳 JPEG、PNG、BMP 或 WebP。短邊至少 400 像素，長短邊比例最多 2.5:1，每張最多 10 MB。"
+        },
+        "reference_3": {
+          "help": "上傳 JPEG、PNG、BMP 或 WebP。短邊至少 400 像素，長短邊比例最多 2.5:1，每張最多 10 MB。"
+        },
+        "reference_4": {
+          "help": "上傳 JPEG、PNG、BMP 或 WebP。短邊至少 400 像素，長短邊比例最多 2.5:1，每張最多 10 MB。"
+        },
+        "reference_5": {
+          "help": "上傳 JPEG、PNG、BMP 或 WebP。短邊至少 400 像素，長短邊比例最多 2.5:1，每張最多 10 MB。"
+        },
+        "reference_6": {
+          "help": "上傳 JPEG、PNG、BMP 或 WebP。短邊至少 400 像素，長短邊比例最多 2.5:1，每張最多 10 MB。"
+        },
+        "reference_7": {
+          "help": "上傳 JPEG、PNG、BMP 或 WebP。短邊至少 400 像素，長短邊比例最多 2.5:1，每張最多 10 MB。"
+        },
+        "reference_8": {
+          "help": "上傳 JPEG、PNG、BMP 或 WebP。短邊至少 400 像素，長短邊比例最多 2.5:1，每張最多 10 MB。"
+        },
+        "reference_9": {
+          "help": "上傳 JPEG、PNG、BMP 或 WebP。短邊至少 400 像素，長短邊比例最多 2.5:1，每張最多 10 MB。"
+        },
+        "reference_sources": {
+          "help": "每行填寫一個公開圖片網址。上傳與網址合計一至九張。"
+        }
+      }
+    },
+    "en": {
+      "name": "HappyHorse 1.0 Reference to Video",
+      "description": "Guide the subject, scene, or style of the video with one to nine reference images and a prompt.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "ratio": {
+          "label": "Aspect ratio"
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "reference_1": {
+          "label": "Reference image 1"
+        },
+        "reference_2": {
+          "label": "Reference image 2"
+        },
+        "reference_3": {
+          "label": "Reference image 3"
+        },
+        "reference_4": {
+          "label": "Reference image 4"
+        },
+        "reference_5": {
+          "label": "Reference image 5"
+        },
+        "reference_6": {
+          "label": "Reference image 6"
+        },
+        "reference_7": {
+          "label": "Reference image 7"
+        },
+        "reference_8": {
+          "label": "Reference image 8"
+        },
+        "reference_9": {
+          "label": "Reference image 9"
+        },
+        "reference_sources": {
+          "label": "Reference image URLs"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the desired video and how to use the images. Use up to 2,500 characters."
+        },
+        "reference_1": {
+          "help": "Upload JPEG, PNG, BMP, or WebP. The shorter side must be at least 400 pixels and 40% of the longer side. Each image can be up to 10 MB."
+        },
+        "resolution": {
+          "help": "Choose 720p or 1080p. The default is 1080p."
+        },
+        "ratio": {
+          "help": "Choose from five aspect ratios. The default is 16:9."
+        },
+        "duration": {
+          "help": "Enter a whole number from 3 to 15. The default is 5 seconds."
+        },
+        "seed": {
+          "help": "Enter -1 for a random seed or use an integer from 0 to 2147483647."
+        },
+        "reference_2": {
+          "help": "Upload JPEG, PNG, BMP, or WebP. The shorter side must be at least 400 pixels and 40% of the longer side. Each image can be up to 10 MB."
+        },
+        "reference_3": {
+          "help": "Upload JPEG, PNG, BMP, or WebP. The shorter side must be at least 400 pixels and 40% of the longer side. Each image can be up to 10 MB."
+        },
+        "reference_4": {
+          "help": "Upload JPEG, PNG, BMP, or WebP. The shorter side must be at least 400 pixels and 40% of the longer side. Each image can be up to 10 MB."
+        },
+        "reference_5": {
+          "help": "Upload JPEG, PNG, BMP, or WebP. The shorter side must be at least 400 pixels and 40% of the longer side. Each image can be up to 10 MB."
+        },
+        "reference_6": {
+          "help": "Upload JPEG, PNG, BMP, or WebP. The shorter side must be at least 400 pixels and 40% of the longer side. Each image can be up to 10 MB."
+        },
+        "reference_7": {
+          "help": "Upload JPEG, PNG, BMP, or WebP. The shorter side must be at least 400 pixels and 40% of the longer side. Each image can be up to 10 MB."
+        },
+        "reference_8": {
+          "help": "Upload JPEG, PNG, BMP, or WebP. The shorter side must be at least 400 pixels and 40% of the longer side. Each image can be up to 10 MB."
+        },
+        "reference_9": {
+          "help": "Upload JPEG, PNG, BMP, or WebP. The shorter side must be at least 400 pixels and 40% of the longer side. Each image can be up to 10 MB."
+        },
+        "reference_sources": {
+          "help": "Enter one public image URL per line. Provide one to nine images across uploads and URLs."
+        }
+      }
+    },
+    "ja": {
+      "name": "HappyHorse 1.0 参照画像から動画",
+      "description": "1〜9枚の参照画像とプロンプトで、動画の被写体、場面、スタイルを指定します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "ratio": {
+          "label": "アスペクト比"
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "reference_1": {
+          "label": "参考画像 1"
+        },
+        "reference_2": {
+          "label": "参考画像 2"
+        },
+        "reference_3": {
+          "label": "参考画像 3"
+        },
+        "reference_4": {
+          "label": "参考画像 4"
+        },
+        "reference_5": {
+          "label": "参考画像 5"
+        },
+        "reference_6": {
+          "label": "参考画像 6"
+        },
+        "reference_7": {
+          "label": "参考画像 7"
+        },
+        "reference_8": {
+          "label": "参考画像 8"
+        },
+        "reference_9": {
+          "label": "参考画像 9"
+        },
+        "reference_sources": {
+          "label": "参照画像のURL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "希望する動画と各参照画像の使い方を記述します。最大2,500文字です。"
+        },
+        "reference_1": {
+          "help": "JPEG、PNG、BMP、またはWebPをアップロードします。短辺は400ピクセル以上かつ長辺の40%以上で、各10 MBまでです。"
+        },
+        "resolution": {
+          "help": "720pまたは1080pを選択します。既定値は1080pです。"
+        },
+        "ratio": {
+          "help": "5種類の比率から選択します。既定値は16:9です。"
+        },
+        "duration": {
+          "help": "3〜15の整数を入力します。既定値は5秒です。"
+        },
+        "seed": {
+          "help": "ランダムなシードには-1を入力します。固定する場合は0〜2147483647の整数を指定します。"
+        },
+        "reference_2": {
+          "help": "JPEG、PNG、BMP、またはWebPをアップロードします。短辺は400ピクセル以上かつ長辺の40%以上で、各10 MBまでです。"
+        },
+        "reference_3": {
+          "help": "JPEG、PNG、BMP、またはWebPをアップロードします。短辺は400ピクセル以上かつ長辺の40%以上で、各10 MBまでです。"
+        },
+        "reference_4": {
+          "help": "JPEG、PNG、BMP、またはWebPをアップロードします。短辺は400ピクセル以上かつ長辺の40%以上で、各10 MBまでです。"
+        },
+        "reference_5": {
+          "help": "JPEG、PNG、BMP、またはWebPをアップロードします。短辺は400ピクセル以上かつ長辺の40%以上で、各10 MBまでです。"
+        },
+        "reference_6": {
+          "help": "JPEG、PNG、BMP、またはWebPをアップロードします。短辺は400ピクセル以上かつ長辺の40%以上で、各10 MBまでです。"
+        },
+        "reference_7": {
+          "help": "JPEG、PNG、BMP、またはWebPをアップロードします。短辺は400ピクセル以上かつ長辺の40%以上で、各10 MBまでです。"
+        },
+        "reference_8": {
+          "help": "JPEG、PNG、BMP、またはWebPをアップロードします。短辺は400ピクセル以上かつ長辺の40%以上で、各10 MBまでです。"
+        },
+        "reference_9": {
+          "help": "JPEG、PNG、BMP、またはWebPをアップロードします。短辺は400ピクセル以上かつ長辺の40%以上で、各10 MBまでです。"
+        },
+        "reference_sources": {
+          "help": "公開画像のURLを1行に1件入力します。アップロード分と合わせて1〜9枚です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "HappyHorse 1.0 참조 이미지로 동영상 생성",
+      "description": "참조 이미지 한 장에서 아홉 장과 프롬프트로 동영상의 피사체, 장면 또는 스타일을 지정합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "ratio": {
+          "label": "화면 비율"
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "reference_1": {
+          "label": "참고 이미지 1"
+        },
+        "reference_2": {
+          "label": "참고 이미지 2"
+        },
+        "reference_3": {
+          "label": "참고 이미지 3"
+        },
+        "reference_4": {
+          "label": "참고 이미지 4"
+        },
+        "reference_5": {
+          "label": "참고 이미지 5"
+        },
+        "reference_6": {
+          "label": "참고 이미지 6"
+        },
+        "reference_7": {
+          "label": "참고 이미지 7"
+        },
+        "reference_8": {
+          "label": "참고 이미지 8"
+        },
+        "reference_9": {
+          "label": "참고 이미지 9"
+        },
+        "reference_sources": {
+          "label": "참조 이미지 URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "원하는 동영상과 각 참조 이미지의 용도를 설명합니다. 최대 2,500자입니다."
+        },
+        "reference_1": {
+          "help": "JPEG, PNG, BMP 또는 WebP를 업로드합니다. 짧은 변은 400픽셀 이상이면서 긴 변의 40% 이상이어야 하며 이미지당 최대 10 MB입니다."
+        },
+        "resolution": {
+          "help": "720p 또는 1080p를 선택합니다. 기본값은 1080p입니다."
+        },
+        "ratio": {
+          "help": "다섯 가지 화면 비율 중에 선택합니다. 기본값은 16:9입니다."
+        },
+        "duration": {
+          "help": "3에서 15 사이의 정수를 입력합니다. 기본값은 5초입니다."
+        },
+        "seed": {
+          "help": "무작위 시드는 -1을 입력합니다. 고정하려면 0에서 2147483647 사이의 정수를 지정합니다."
+        },
+        "reference_2": {
+          "help": "JPEG, PNG, BMP 또는 WebP를 업로드합니다. 짧은 변은 400픽셀 이상이면서 긴 변의 40% 이상이어야 하며 이미지당 최대 10 MB입니다."
+        },
+        "reference_3": {
+          "help": "JPEG, PNG, BMP 또는 WebP를 업로드합니다. 짧은 변은 400픽셀 이상이면서 긴 변의 40% 이상이어야 하며 이미지당 최대 10 MB입니다."
+        },
+        "reference_4": {
+          "help": "JPEG, PNG, BMP 또는 WebP를 업로드합니다. 짧은 변은 400픽셀 이상이면서 긴 변의 40% 이상이어야 하며 이미지당 최대 10 MB입니다."
+        },
+        "reference_5": {
+          "help": "JPEG, PNG, BMP 또는 WebP를 업로드합니다. 짧은 변은 400픽셀 이상이면서 긴 변의 40% 이상이어야 하며 이미지당 최대 10 MB입니다."
+        },
+        "reference_6": {
+          "help": "JPEG, PNG, BMP 또는 WebP를 업로드합니다. 짧은 변은 400픽셀 이상이면서 긴 변의 40% 이상이어야 하며 이미지당 최대 10 MB입니다."
+        },
+        "reference_7": {
+          "help": "JPEG, PNG, BMP 또는 WebP를 업로드합니다. 짧은 변은 400픽셀 이상이면서 긴 변의 40% 이상이어야 하며 이미지당 최대 10 MB입니다."
+        },
+        "reference_8": {
+          "help": "JPEG, PNG, BMP 또는 WebP를 업로드합니다. 짧은 변은 400픽셀 이상이면서 긴 변의 40% 이상이어야 하며 이미지당 최대 10 MB입니다."
+        },
+        "reference_9": {
+          "help": "JPEG, PNG, BMP 또는 WebP를 업로드합니다. 짧은 변은 400픽셀 이상이면서 긴 변의 40% 이상이어야 하며 이미지당 최대 10 MB입니다."
+        },
+        "reference_sources": {
+          "help": "공개 이미지 URL을 한 줄에 하나씩 입력합니다. 업로드와 URL을 합쳐 한 장에서 아홉 장입니다."
+        }
+      }
+    }
+  }
+}

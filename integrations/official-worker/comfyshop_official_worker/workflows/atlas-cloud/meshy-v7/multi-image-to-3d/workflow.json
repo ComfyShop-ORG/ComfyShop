@@ -1,0 +1,1476 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "meshy-v7-multi-image-to-3d",
+  "name": "Meshy v7 多图生 3D",
+  "description": "用同一物体的多角度图片生成 3D 模型，可调整纹理、重拓扑和导出格式。",
+  "category": "3d",
+  "fields": [
+    {
+      "name": "reference_1",
+      "kind": "image"
+    },
+    {
+      "name": "reference_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "textured",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "detailed_geometry",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "pbr",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "texture_resolution",
+      "kind": "choice",
+      "choices": ["2k", "4k", "8k"],
+      "default": "2k",
+      "optional": true
+    },
+    {
+      "name": "texture_prompt",
+      "kind": "string",
+      "multiline": true,
+      "optional": true
+    },
+    {
+      "name": "enhance_input",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "remove_baked_lighting",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "remesh",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "topology",
+      "kind": "choice",
+      "choices": ["triangle", "quad"],
+      "default": "triangle",
+      "optional": true
+    },
+    {
+      "name": "face_target",
+      "kind": "integer",
+      "minimum": "100",
+      "maximum": "300000",
+      "step": "1",
+      "default": 30000,
+      "optional": true
+    },
+    {
+      "name": "decimation_level",
+      "kind": "choice",
+      "choices": [1, 2, 3, 4],
+      "optional": true
+    },
+    {
+      "name": "include_original_mesh",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "pose",
+      "kind": "choice",
+      "choices": ["", "a-pose", "t-pose"],
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "real_world_scale",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "origin",
+      "kind": "choice",
+      "choices": ["bottom", "center"],
+      "default": "bottom",
+      "optional": true
+    },
+    {
+      "name": "transparent_preview",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "additional_previews",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "moderation",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "texture_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "texture_reference_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "texture_reference_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "texture_reference_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "texture_reference_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "export_glb",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "export_obj",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "export_fbx",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "export_stl",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "export_usdz",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "export_3mf",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "reference_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_2",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "textured",
+      "section": "default"
+    },
+    {
+      "fieldId": "detailed_geometry",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "pbr",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "texture_resolution",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "texture_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enhance_input",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "remove_baked_lighting",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "remesh",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "topology",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "face_target",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "decimation_level",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "include_original_mesh",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "pose",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "real_world_scale",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "origin",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "transparent_preview",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "additional_previews",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "moderation",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "texture_image",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "texture_reference_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "texture_reference_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "texture_reference_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "texture_reference_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "export_glb",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "export_obj",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "export_fbx",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "export_stl",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "export_usdz",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "export_3mf",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "3d",
+    "additionalOutputKinds": ["image"],
+    "config": {
+      "operation": "image",
+      "model": "meshy-v7/multi-image-to-3d",
+      "parameters": {
+        "should_texture": "textured",
+        "ultra_mode": "detailed_geometry",
+        "enable_pbr": "pbr",
+        "texture_resolution": "texture_resolution",
+        "texture_prompt": "texture_prompt",
+        "image_enhancement": "enhance_input",
+        "remove_lighting": "remove_baked_lighting",
+        "should_remesh": "remesh",
+        "topology": "topology",
+        "target_polycount": "face_target",
+        "decimation_mode": "decimation_level",
+        "save_pre_remeshed_model": "include_original_mesh",
+        "pose_mode": "pose",
+        "auto_size": "real_world_scale",
+        "origin_at": "origin",
+        "alpha_thumbnail": "transparent_preview",
+        "multi_view_thumbnails": "additional_previews",
+        "moderation": "moderation"
+      },
+      "text_max_lengths": {
+        "texture_prompt": 800
+      },
+      "media": {
+        "reference_images": {
+          "kind": "image",
+          "array": true,
+          "min_items": 1,
+          "fields": ["reference_1", "reference_2", "reference_3", "reference_4"],
+          "content_types": ["image/png", "image/jpeg"]
+        },
+        "texture_image": {
+          "kind": "image",
+          "fields": ["texture_image"],
+          "content_types": ["image/png", "image/jpeg"]
+        },
+        "texture_images": {
+          "kind": "image",
+          "array": true,
+          "fields": [
+            "texture_reference_1",
+            "texture_reference_2",
+            "texture_reference_3",
+            "texture_reference_4"
+          ],
+          "content_types": ["image/png", "image/jpeg"]
+        }
+      },
+      "choice_arrays": {
+        "target_formats": {
+          "min_items": 1,
+          "options": [
+            {
+              "value": "glb",
+              "field": "export_glb"
+            },
+            {
+              "value": "obj",
+              "field": "export_obj"
+            },
+            {
+              "value": "fbx",
+              "field": "export_fbx"
+            },
+            {
+              "value": "stl",
+              "field": "export_stl"
+            },
+            {
+              "value": "usdz",
+              "field": "export_usdz"
+            },
+            {
+              "value": "3mf",
+              "field": "export_3mf"
+            }
+          ]
+        }
+      },
+      "enabled_by": {
+        "enable_pbr": "should_texture",
+        "texture_resolution": "should_texture",
+        "texture_prompt": "should_texture",
+        "texture_image": "should_texture",
+        "texture_images": "should_texture",
+        "remove_lighting": "should_texture",
+        "topology": "should_remesh",
+        "target_polycount": "should_remesh",
+        "decimation_mode": "should_remesh",
+        "save_pre_remeshed_model": "should_remesh",
+        "origin_at": "auto_size"
+      },
+      "mutually_exclusive": [
+        ["texture_images", "texture_image"],
+        ["texture_images", "texture_prompt"]
+      ]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Meshy v7 多图生 3D",
+      "description": "用同一物体的多角度图片生成 3D 模型，可调整纹理、重拓扑和导出格式。",
+      "fields": {
+        "reference_1": {
+          "label": "几何参考图 1"
+        },
+        "reference_2": {
+          "label": "几何参考图 2"
+        },
+        "reference_3": {
+          "label": "几何参考图 3"
+        },
+        "reference_4": {
+          "label": "几何参考图 4"
+        },
+        "textured": {
+          "label": "生成纹理"
+        },
+        "detailed_geometry": {
+          "label": "精细几何"
+        },
+        "pbr": {
+          "label": "生成 PBR 材质"
+        },
+        "texture_resolution": {
+          "label": "纹理分辨率"
+        },
+        "texture_prompt": {
+          "label": "纹理提示词"
+        },
+        "enhance_input": {
+          "label": "增强参考图"
+        },
+        "remove_baked_lighting": {
+          "label": "去除纹理光照"
+        },
+        "remesh": {
+          "label": "重新拓扑"
+        },
+        "topology": {
+          "label": "网格拓扑"
+        },
+        "face_target": {
+          "label": "目标面数"
+        },
+        "decimation_level": {
+          "label": "减面级别"
+        },
+        "include_original_mesh": {
+          "label": "保留重拓扑前模型"
+        },
+        "pose": {
+          "label": "角色姿态"
+        },
+        "real_world_scale": {
+          "label": "按实物尺寸缩放"
+        },
+        "origin": {
+          "label": "模型原点"
+        },
+        "transparent_preview": {
+          "label": "透明背景预览"
+        },
+        "additional_previews": {
+          "label": "多视角预览"
+        },
+        "moderation": {
+          "label": "内容审核"
+        },
+        "texture_image": {
+          "label": "纹理单图"
+        },
+        "texture_reference_1": {
+          "label": "纹理参考图 1"
+        },
+        "texture_reference_2": {
+          "label": "纹理参考图 2"
+        },
+        "texture_reference_3": {
+          "label": "纹理参考图 3"
+        },
+        "texture_reference_4": {
+          "label": "纹理参考图 4"
+        },
+        "export_glb": {
+          "label": "导出 GLB"
+        },
+        "export_obj": {
+          "label": "导出 OBJ"
+        },
+        "export_fbx": {
+          "label": "导出 FBX"
+        },
+        "export_stl": {
+          "label": "导出 STL"
+        },
+        "export_usdz": {
+          "label": "导出 USDZ"
+        },
+        "export_3mf": {
+          "label": "导出 3MF"
+        }
+      },
+      "parameterLayout": {
+        "reference_1": {
+          "help": "上传同一物体的不同角度。第一个槽位为主视图，支持 PNG 和 JPEG。"
+        },
+        "reference_2": {
+          "help": "上传同一物体的不同角度。第一个槽位为主视图，支持 PNG 和 JPEG。"
+        },
+        "reference_3": {
+          "help": "上传同一物体的不同角度。第一个槽位为主视图，支持 PNG 和 JPEG。"
+        },
+        "reference_4": {
+          "help": "上传同一物体的不同角度。第一个槽位为主视图，支持 PNG 和 JPEG。"
+        },
+        "textured": {
+          "help": "为模型生成表面纹理。关闭后使用未贴图的网格。"
+        },
+        "detailed_geometry": {
+          "help": "启用高精度几何，保留更细的表面细节。"
+        },
+        "pbr": {
+          "help": "启用纹理后，同时生成金属度、粗糙度和法线贴图。"
+        },
+        "texture_resolution": {
+          "help": "基础色贴图尺寸可选 2K、4K 或 8K。"
+        },
+        "texture_prompt": {
+          "help": "描述表面材质，最多 800 字符。该文字会优先于单图纹理。多图纹理参考请单独使用。"
+        },
+        "enhance_input": {
+          "help": "生成前处理参考图以改善重建。关闭时使用原始画面。"
+        },
+        "remove_baked_lighting": {
+          "help": "去除基础色贴图中已有的高光和阴影。"
+        },
+        "remesh": {
+          "help": "开启后可以指定拓扑、目标面数和减面级别。"
+        },
+        "topology": {
+          "help": "重新拓扑时选择三角面或以四边面为主的网格。"
+        },
+        "face_target": {
+          "help": "重新拓扑时的目标面数，100 至 300000。减面级别优先。"
+        },
+        "decimation_level": {
+          "help": "重新拓扑时自适应减面。1、2、3、4 分别对应极高、高、中、低面数。"
+        },
+        "include_original_mesh": {
+          "help": "重新拓扑时额外输出原始 GLB。"
+        },
+        "pose": {
+          "help": "可将角色设为 A 姿或 T 姿。未设置时保留原姿态。"
+        },
+        "real_world_scale": {
+          "help": "估算物体的实际高度，再按该尺寸缩放。"
+        },
+        "origin": {
+          "help": "自动缩放时把原点放在底部或中心。"
+        },
+        "transparent_preview": {
+          "help": "额外返回一张透明背景预览图。"
+        },
+        "additional_previews": {
+          "help": "额外渲染右侧、背面和左侧。"
+        },
+        "moderation": {
+          "help": "生成前检查源图和纹理提示词。"
+        },
+        "texture_image": {
+          "help": "用单张 PNG 或 JPEG 指定表面纹理。提供纹理提示词时以文字为准。多图纹理参考请单独使用。"
+        },
+        "texture_reference_1": {
+          "help": "最多 4 张 PNG 或 JPEG，第一张为主视图。使用此组时请清空纹理单图和纹理提示词。"
+        },
+        "texture_reference_2": {
+          "help": "最多 4 张 PNG 或 JPEG，第一张为主视图。使用此组时请清空纹理单图和纹理提示词。"
+        },
+        "texture_reference_3": {
+          "help": "最多 4 张 PNG 或 JPEG，第一张为主视图。使用此组时请清空纹理单图和纹理提示词。"
+        },
+        "texture_reference_4": {
+          "help": "最多 4 张 PNG 或 JPEG，第一张为主视图。使用此组时请清空纹理单图和纹理提示词。"
+        },
+        "export_glb": {
+          "help": "选择要返回的 3D 文件格式，至少启用一种。GLB 支持在线预览。"
+        },
+        "export_obj": {
+          "help": "选择要返回的 3D 文件格式，至少启用一种。GLB 支持在线预览。"
+        },
+        "export_fbx": {
+          "help": "选择要返回的 3D 文件格式，至少启用一种。GLB 支持在线预览。"
+        },
+        "export_stl": {
+          "help": "选择要返回的 3D 文件格式，至少启用一种。GLB 支持在线预览。"
+        },
+        "export_usdz": {
+          "help": "选择要返回的 3D 文件格式，至少启用一种。GLB 支持在线预览。"
+        },
+        "export_3mf": {
+          "help": "选择要返回的 3D 文件格式，至少启用一种。GLB 支持在线预览。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Meshy v7 多圖生成 3D",
+      "description": "用同一物體的多角度圖片產生 3D 模型，可調整紋理、重拓撲和匯出格式。",
+      "fields": {
+        "reference_1": {
+          "label": "幾何參考圖 1"
+        },
+        "reference_2": {
+          "label": "幾何參考圖 2"
+        },
+        "reference_3": {
+          "label": "幾何參考圖 3"
+        },
+        "reference_4": {
+          "label": "幾何參考圖 4"
+        },
+        "textured": {
+          "label": "產生紋理"
+        },
+        "detailed_geometry": {
+          "label": "精細幾何"
+        },
+        "pbr": {
+          "label": "產生 PBR 材質"
+        },
+        "texture_resolution": {
+          "label": "紋理解析度"
+        },
+        "texture_prompt": {
+          "label": "紋理提示詞"
+        },
+        "enhance_input": {
+          "label": "增強參考圖"
+        },
+        "remove_baked_lighting": {
+          "label": "移除紋理光照"
+        },
+        "remesh": {
+          "label": "重新拓撲"
+        },
+        "topology": {
+          "label": "網格拓撲"
+        },
+        "face_target": {
+          "label": "目標面數"
+        },
+        "decimation_level": {
+          "label": "減面等級"
+        },
+        "include_original_mesh": {
+          "label": "保留重拓撲前模型"
+        },
+        "pose": {
+          "label": "角色姿勢"
+        },
+        "real_world_scale": {
+          "label": "依實物尺寸縮放"
+        },
+        "origin": {
+          "label": "模型原點"
+        },
+        "transparent_preview": {
+          "label": "透明背景預覽"
+        },
+        "additional_previews": {
+          "label": "多視角預覽"
+        },
+        "moderation": {
+          "label": "內容審核"
+        },
+        "texture_image": {
+          "label": "紋理單圖"
+        },
+        "texture_reference_1": {
+          "label": "紋理參考圖 1"
+        },
+        "texture_reference_2": {
+          "label": "紋理參考圖 2"
+        },
+        "texture_reference_3": {
+          "label": "紋理參考圖 3"
+        },
+        "texture_reference_4": {
+          "label": "紋理參考圖 4"
+        },
+        "export_glb": {
+          "label": "匯出 GLB"
+        },
+        "export_obj": {
+          "label": "匯出 OBJ"
+        },
+        "export_fbx": {
+          "label": "匯出 FBX"
+        },
+        "export_stl": {
+          "label": "匯出 STL"
+        },
+        "export_usdz": {
+          "label": "匯出 USDZ"
+        },
+        "export_3mf": {
+          "label": "匯出 3MF"
+        }
+      },
+      "parameterLayout": {
+        "reference_1": {
+          "help": "上傳同一物體的不同角度。第一個欄位為主要視圖，支援 PNG 和 JPEG。"
+        },
+        "reference_2": {
+          "help": "上傳同一物體的不同角度。第一個欄位為主要視圖，支援 PNG 和 JPEG。"
+        },
+        "reference_3": {
+          "help": "上傳同一物體的不同角度。第一個欄位為主要視圖，支援 PNG 和 JPEG。"
+        },
+        "reference_4": {
+          "help": "上傳同一物體的不同角度。第一個欄位為主要視圖，支援 PNG 和 JPEG。"
+        },
+        "textured": {
+          "help": "為模型產生表面紋理。關閉後使用未貼圖的網格。"
+        },
+        "detailed_geometry": {
+          "help": "啟用高精度幾何，保留更細緻的表面細節。"
+        },
+        "pbr": {
+          "help": "啟用紋理後，同時產生金屬度、粗糙度和法線貼圖。"
+        },
+        "texture_resolution": {
+          "help": "基礎色貼圖尺寸可選 2K、4K 或 8K。"
+        },
+        "texture_prompt": {
+          "help": "描述表面材質，最多 800 字元。文字優先於單圖紋理。請單獨使用多圖紋理參考。"
+        },
+        "enhance_input": {
+          "help": "生成前處理參考圖以改善重建。關閉時使用原始畫面。"
+        },
+        "remove_baked_lighting": {
+          "help": "移除基礎色貼圖中既有的高光和陰影。"
+        },
+        "remesh": {
+          "help": "啟用後可指定拓撲、目標面數和減面等級。"
+        },
+        "topology": {
+          "help": "重新拓撲時選擇三角面或以四邊面為主的網格。"
+        },
+        "face_target": {
+          "help": "重新拓撲時的目標面數，100 至 300000。減面等級優先。"
+        },
+        "decimation_level": {
+          "help": "重新拓撲時自適應減面。1、2、3、4 分別對應極高、高、中、低面數。"
+        },
+        "include_original_mesh": {
+          "help": "重新拓撲時額外輸出原始 GLB。"
+        },
+        "pose": {
+          "help": "可將角色設為 A 姿或 T 姿。未設定時保留原姿勢。"
+        },
+        "real_world_scale": {
+          "help": "估算物體的實際高度，再依該尺寸縮放。"
+        },
+        "origin": {
+          "help": "自動縮放時將原點放在底部或中心。"
+        },
+        "transparent_preview": {
+          "help": "額外回傳一張透明背景預覽圖。"
+        },
+        "additional_previews": {
+          "help": "額外渲染右側、背面和左側。"
+        },
+        "moderation": {
+          "help": "生成前檢查來源圖片及紋理提示詞。"
+        },
+        "texture_image": {
+          "help": "用單張 PNG 或 JPEG 指定表面紋理。提供紋理提示詞時以文字為準。請單獨使用多圖紋理參考。"
+        },
+        "texture_reference_1": {
+          "help": "最多 4 張 PNG 或 JPEG，第一張為主要視圖。使用此組時請清除紋理單圖和紋理提示詞。"
+        },
+        "texture_reference_2": {
+          "help": "最多 4 張 PNG 或 JPEG，第一張為主要視圖。使用此組時請清除紋理單圖和紋理提示詞。"
+        },
+        "texture_reference_3": {
+          "help": "最多 4 張 PNG 或 JPEG，第一張為主要視圖。使用此組時請清除紋理單圖和紋理提示詞。"
+        },
+        "texture_reference_4": {
+          "help": "最多 4 張 PNG 或 JPEG，第一張為主要視圖。使用此組時請清除紋理單圖和紋理提示詞。"
+        },
+        "export_glb": {
+          "help": "選擇要回傳的 3D 檔案格式，至少啟用一種。GLB 支援線上預覽。"
+        },
+        "export_obj": {
+          "help": "選擇要回傳的 3D 檔案格式，至少啟用一種。GLB 支援線上預覽。"
+        },
+        "export_fbx": {
+          "help": "選擇要回傳的 3D 檔案格式，至少啟用一種。GLB 支援線上預覽。"
+        },
+        "export_stl": {
+          "help": "選擇要回傳的 3D 檔案格式，至少啟用一種。GLB 支援線上預覽。"
+        },
+        "export_usdz": {
+          "help": "選擇要回傳的 3D 檔案格式，至少啟用一種。GLB 支援線上預覽。"
+        },
+        "export_3mf": {
+          "help": "選擇要回傳的 3D 檔案格式，至少啟用一種。GLB 支援線上預覽。"
+        }
+      }
+    },
+    "en": {
+      "name": "Meshy v7 Multi-Image-to-3D",
+      "description": "Reconstruct a 3D model from multiple views of one object with controls for texturing, remeshing, and export.",
+      "fields": {
+        "reference_1": {
+          "label": "Geometry reference 1"
+        },
+        "reference_2": {
+          "label": "Geometry reference 2"
+        },
+        "reference_3": {
+          "label": "Geometry reference 3"
+        },
+        "reference_4": {
+          "label": "Geometry reference 4"
+        },
+        "textured": {
+          "label": "Generate textures"
+        },
+        "detailed_geometry": {
+          "label": "Detailed geometry"
+        },
+        "pbr": {
+          "label": "Generate PBR maps"
+        },
+        "texture_resolution": {
+          "label": "Texture resolution"
+        },
+        "texture_prompt": {
+          "label": "Texture prompt"
+        },
+        "enhance_input": {
+          "label": "Enhance source images"
+        },
+        "remove_baked_lighting": {
+          "label": "Remove baked lighting"
+        },
+        "remesh": {
+          "label": "Remesh"
+        },
+        "topology": {
+          "label": "Mesh topology"
+        },
+        "face_target": {
+          "label": "Target face count"
+        },
+        "decimation_level": {
+          "label": "Decimation level"
+        },
+        "include_original_mesh": {
+          "label": "Keep original mesh"
+        },
+        "pose": {
+          "label": "Character pose"
+        },
+        "real_world_scale": {
+          "label": "Scale to real-world size"
+        },
+        "origin": {
+          "label": "Model origin"
+        },
+        "transparent_preview": {
+          "label": "Transparent preview"
+        },
+        "additional_previews": {
+          "label": "Multi-view previews"
+        },
+        "moderation": {
+          "label": "Content moderation"
+        },
+        "texture_image": {
+          "label": "Single texture image"
+        },
+        "texture_reference_1": {
+          "label": "Texture reference 1"
+        },
+        "texture_reference_2": {
+          "label": "Texture reference 2"
+        },
+        "texture_reference_3": {
+          "label": "Texture reference 3"
+        },
+        "texture_reference_4": {
+          "label": "Texture reference 4"
+        },
+        "export_glb": {
+          "label": "Export GLB"
+        },
+        "export_obj": {
+          "label": "Export OBJ"
+        },
+        "export_fbx": {
+          "label": "Export FBX"
+        },
+        "export_stl": {
+          "label": "Export STL"
+        },
+        "export_usdz": {
+          "label": "Export USDZ"
+        },
+        "export_3mf": {
+          "label": "Export 3MF"
+        }
+      },
+      "parameterLayout": {
+        "reference_1": {
+          "help": "Upload different views of the same object. The first slot is the primary view. Use PNG or JPEG."
+        },
+        "reference_2": {
+          "help": "Upload different views of the same object. The first slot is the primary view. Use PNG or JPEG."
+        },
+        "reference_3": {
+          "help": "Upload different views of the same object. The first slot is the primary view. Use PNG or JPEG."
+        },
+        "reference_4": {
+          "help": "Upload different views of the same object. The first slot is the primary view. Use PNG or JPEG."
+        },
+        "textured": {
+          "help": "Generate surface textures. Turn off for an untextured mesh."
+        },
+        "detailed_geometry": {
+          "help": "Use higher-fidelity geometry for finer surface detail."
+        },
+        "pbr": {
+          "help": "With texturing enabled, include metallic, roughness, and normal maps."
+        },
+        "texture_resolution": {
+          "help": "Choose a 2K, 4K, or 8K base color map."
+        },
+        "texture_prompt": {
+          "help": "Describe the surface material in up to 800 characters. This takes priority over a single texture image. Use multi-image references separately."
+        },
+        "enhance_input": {
+          "help": "Process the input images to improve reconstruction. Turn off to preserve their appearance."
+        },
+        "remove_baked_lighting": {
+          "help": "Remove highlights and shadows from the base color texture."
+        },
+        "remesh": {
+          "help": "Enable remeshing to control topology and face count."
+        },
+        "topology": {
+          "help": "Choose a triangle or quad-dominant mesh when remeshing."
+        },
+        "face_target": {
+          "help": "Set 100 to 300000 faces while remeshing. A decimation level takes priority."
+        },
+        "decimation_level": {
+          "help": "Adaptively simplify when remeshing. Levels 1, 2, 3, and 4 target ultra, high, medium, and low face counts."
+        },
+        "include_original_mesh": {
+          "help": "Include the original GLB when remeshing."
+        },
+        "pose": {
+          "help": "Choose an A-pose or T-pose. Leave unset to keep the original pose."
+        },
+        "real_world_scale": {
+          "help": "Estimate the object's height and scale the model accordingly."
+        },
+        "origin": {
+          "help": "Place the origin at the bottom or center when auto-scaling."
+        },
+        "transparent_preview": {
+          "help": "Include an additional transparent-background preview."
+        },
+        "additional_previews": {
+          "help": "Include rendered previews of the right, back, and left sides."
+        },
+        "moderation": {
+          "help": "Check source images and the texture prompt before generation."
+        },
+        "texture_image": {
+          "help": "Guide the surface with a PNG or JPEG. A texture prompt takes priority. Use the multi-image texture group separately."
+        },
+        "texture_reference_1": {
+          "help": "Use up to four PNG or JPEG views. The first is primary. Clear the single texture image and texture prompt when using this group."
+        },
+        "texture_reference_2": {
+          "help": "Use up to four PNG or JPEG views. The first is primary. Clear the single texture image and texture prompt when using this group."
+        },
+        "texture_reference_3": {
+          "help": "Use up to four PNG or JPEG views. The first is primary. Clear the single texture image and texture prompt when using this group."
+        },
+        "texture_reference_4": {
+          "help": "Use up to four PNG or JPEG views. The first is primary. Clear the single texture image and texture prompt when using this group."
+        },
+        "export_glb": {
+          "help": "Choose at least one 3D file format. GLB is available for online preview."
+        },
+        "export_obj": {
+          "help": "Choose at least one 3D file format. GLB is available for online preview."
+        },
+        "export_fbx": {
+          "help": "Choose at least one 3D file format. GLB is available for online preview."
+        },
+        "export_stl": {
+          "help": "Choose at least one 3D file format. GLB is available for online preview."
+        },
+        "export_usdz": {
+          "help": "Choose at least one 3D file format. GLB is available for online preview."
+        },
+        "export_3mf": {
+          "help": "Choose at least one 3D file format. GLB is available for online preview."
+        }
+      }
+    },
+    "ja": {
+      "name": "Meshy v7 複数画像から 3D モデルを生成",
+      "description": "同じ物体を複数の角度から撮った画像で 3D モデルを生成します。テクスチャ、リメッシュ、出力形式を設定できます。",
+      "fields": {
+        "reference_1": {
+          "label": "形状の参照画像 1"
+        },
+        "reference_2": {
+          "label": "形状の参照画像 2"
+        },
+        "reference_3": {
+          "label": "形状の参照画像 3"
+        },
+        "reference_4": {
+          "label": "形状の参照画像 4"
+        },
+        "textured": {
+          "label": "テクスチャを生成"
+        },
+        "detailed_geometry": {
+          "label": "高精細な形状"
+        },
+        "pbr": {
+          "label": "PBR マップを生成"
+        },
+        "texture_resolution": {
+          "label": "テクスチャ解像度"
+        },
+        "texture_prompt": {
+          "label": "テクスチャのプロンプト"
+        },
+        "enhance_input": {
+          "label": "参照画像を補正"
+        },
+        "remove_baked_lighting": {
+          "label": "焼き込まれた照明を除去"
+        },
+        "remesh": {
+          "label": "リメッシュ"
+        },
+        "topology": {
+          "label": "メッシュトポロジー"
+        },
+        "face_target": {
+          "label": "目標面数"
+        },
+        "decimation_level": {
+          "label": "簡略化レベル"
+        },
+        "include_original_mesh": {
+          "label": "元のメッシュを保持"
+        },
+        "pose": {
+          "label": "キャラクターポーズ"
+        },
+        "real_world_scale": {
+          "label": "実寸に合わせて拡縮"
+        },
+        "origin": {
+          "label": "モデルの原点"
+        },
+        "transparent_preview": {
+          "label": "透明背景のプレビュー"
+        },
+        "additional_previews": {
+          "label": "複数視点のプレビュー"
+        },
+        "moderation": {
+          "label": "コンテンツの確認"
+        },
+        "texture_image": {
+          "label": "単一テクスチャ画像"
+        },
+        "texture_reference_1": {
+          "label": "テクスチャの参照画像 1"
+        },
+        "texture_reference_2": {
+          "label": "テクスチャの参照画像 2"
+        },
+        "texture_reference_3": {
+          "label": "テクスチャの参照画像 3"
+        },
+        "texture_reference_4": {
+          "label": "テクスチャの参照画像 4"
+        },
+        "export_glb": {
+          "label": "出力 GLB"
+        },
+        "export_obj": {
+          "label": "出力 OBJ"
+        },
+        "export_fbx": {
+          "label": "出力 FBX"
+        },
+        "export_stl": {
+          "label": "出力 STL"
+        },
+        "export_usdz": {
+          "label": "出力 USDZ"
+        },
+        "export_3mf": {
+          "label": "出力 3MF"
+        }
+      },
+      "parameterLayout": {
+        "reference_1": {
+          "help": "同じ物体を異なる角度から撮影した PNG または JPEG をアップロードします。最初の画像が主視点です。"
+        },
+        "reference_2": {
+          "help": "同じ物体を異なる角度から撮影した PNG または JPEG をアップロードします。最初の画像が主視点です。"
+        },
+        "reference_3": {
+          "help": "同じ物体を異なる角度から撮影した PNG または JPEG をアップロードします。最初の画像が主視点です。"
+        },
+        "reference_4": {
+          "help": "同じ物体を異なる角度から撮影した PNG または JPEG をアップロードします。最初の画像が主視点です。"
+        },
+        "textured": {
+          "help": "モデルに表面テクスチャを生成します。無効にするとテクスチャなしのメッシュになります。"
+        },
+        "detailed_geometry": {
+          "help": "高精細な形状を用い、表面の細部を表現します。"
+        },
+        "pbr": {
+          "help": "テクスチャが有効な場合にメタリック、粗さ、法線マップを追加します。"
+        },
+        "texture_resolution": {
+          "help": "ベースカラーのサイズを 2K、4K、8K から選びます。"
+        },
+        "texture_prompt": {
+          "help": "表面の材質を 800 文字以内で記述します。単一画像より優先されます。複数の参照画像は単独で使います。"
+        },
+        "enhance_input": {
+          "help": "参照画像を前処理します。無効にすると元の外観を使います。"
+        },
+        "remove_baked_lighting": {
+          "help": "ベースカラーのハイライトと影を取り除きます。"
+        },
+        "remesh": {
+          "help": "有効にするとトポロジーや面数を設定できます。"
+        },
+        "topology": {
+          "help": "リメッシュ時に三角形または四角形主体のメッシュを選びます。"
+        },
+        "face_target": {
+          "help": "リメッシュ時の面数を 100〜300000 に設定します。簡略化レベルが優先されます。"
+        },
+        "decimation_level": {
+          "help": "リメッシュで適応的に面数を減らします。1、2、3、4 は順に非常に多い、多い、中程度、少ない面数です。"
+        },
+        "include_original_mesh": {
+          "help": "リメッシュ時に元の GLB も出力します。"
+        },
+        "pose": {
+          "help": "A ポーズまたは T ポーズを選べます。未設定では元のポーズを維持します。"
+        },
+        "real_world_scale": {
+          "help": "物体の実際の高さを推定してモデルを拡縮します。"
+        },
+        "origin": {
+          "help": "自動拡縮時に底面または中心に原点を置きます。"
+        },
+        "transparent_preview": {
+          "help": "透明背景のプレビューを追加します。"
+        },
+        "additional_previews": {
+          "help": "右側、背面、左側のプレビューを追加します。"
+        },
+        "moderation": {
+          "help": "生成前に参照画像とテクスチャのプロンプトを確認します。"
+        },
+        "texture_image": {
+          "help": "PNG または JPEG で表面を指定します。テクスチャのプロンプトが優先されます。複数のテクスチャ参照は単独で使います。"
+        },
+        "texture_reference_1": {
+          "help": "PNG または JPEG を最大 4 枚使えます。最初が主視点です。この組を使うときは単一画像とプロンプトを空にします。"
+        },
+        "texture_reference_2": {
+          "help": "PNG または JPEG を最大 4 枚使えます。最初が主視点です。この組を使うときは単一画像とプロンプトを空にします。"
+        },
+        "texture_reference_3": {
+          "help": "PNG または JPEG を最大 4 枚使えます。最初が主視点です。この組を使うときは単一画像とプロンプトを空にします。"
+        },
+        "texture_reference_4": {
+          "help": "PNG または JPEG を最大 4 枚使えます。最初が主視点です。この組を使うときは単一画像とプロンプトを空にします。"
+        },
+        "export_glb": {
+          "help": "3D の出力形式を 1 つ以上選びます。GLB はオンラインでプレビューできます。"
+        },
+        "export_obj": {
+          "help": "3D の出力形式を 1 つ以上選びます。GLB はオンラインでプレビューできます。"
+        },
+        "export_fbx": {
+          "help": "3D の出力形式を 1 つ以上選びます。GLB はオンラインでプレビューできます。"
+        },
+        "export_stl": {
+          "help": "3D の出力形式を 1 つ以上選びます。GLB はオンラインでプレビューできます。"
+        },
+        "export_usdz": {
+          "help": "3D の出力形式を 1 つ以上選びます。GLB はオンラインでプレビューできます。"
+        },
+        "export_3mf": {
+          "help": "3D の出力形式を 1 つ以上選びます。GLB はオンラインでプレビューできます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Meshy v7 여러 이미지로 3D 모델 생성",
+      "description": "같은 물체의 여러 각도 이미지를 사용해 3D 모델을 생성합니다. 텍스처, 리메시, 내보내기 형식을 제어할 수 있습니다.",
+      "fields": {
+        "reference_1": {
+          "label": "기하 참조 이미지 1"
+        },
+        "reference_2": {
+          "label": "기하 참조 이미지 2"
+        },
+        "reference_3": {
+          "label": "기하 참조 이미지 3"
+        },
+        "reference_4": {
+          "label": "기하 참조 이미지 4"
+        },
+        "textured": {
+          "label": "텍스처 생성"
+        },
+        "detailed_geometry": {
+          "label": "정밀 기하"
+        },
+        "pbr": {
+          "label": "PBR 맵 생성"
+        },
+        "texture_resolution": {
+          "label": "텍스처 해상도"
+        },
+        "texture_prompt": {
+          "label": "텍스처 프롬프트"
+        },
+        "enhance_input": {
+          "label": "참조 이미지 개선"
+        },
+        "remove_baked_lighting": {
+          "label": "텍스처 조명 제거"
+        },
+        "remesh": {
+          "label": "리메시"
+        },
+        "topology": {
+          "label": "메시 토폴로지"
+        },
+        "face_target": {
+          "label": "목표 면 수"
+        },
+        "decimation_level": {
+          "label": "단순화 수준"
+        },
+        "include_original_mesh": {
+          "label": "원본 메시 유지"
+        },
+        "pose": {
+          "label": "캐릭터 자세"
+        },
+        "real_world_scale": {
+          "label": "실물 크기로 조정"
+        },
+        "origin": {
+          "label": "모델 원점"
+        },
+        "transparent_preview": {
+          "label": "투명 배경 미리 보기"
+        },
+        "additional_previews": {
+          "label": "다중 시점 미리 보기"
+        },
+        "moderation": {
+          "label": "콘텐츠 검토"
+        },
+        "texture_image": {
+          "label": "단일 텍스처 이미지"
+        },
+        "texture_reference_1": {
+          "label": "텍스처 참조 이미지 1"
+        },
+        "texture_reference_2": {
+          "label": "텍스처 참조 이미지 2"
+        },
+        "texture_reference_3": {
+          "label": "텍스처 참조 이미지 3"
+        },
+        "texture_reference_4": {
+          "label": "텍스처 참조 이미지 4"
+        },
+        "export_glb": {
+          "label": "내보내기 GLB"
+        },
+        "export_obj": {
+          "label": "내보내기 OBJ"
+        },
+        "export_fbx": {
+          "label": "내보내기 FBX"
+        },
+        "export_stl": {
+          "label": "내보내기 STL"
+        },
+        "export_usdz": {
+          "label": "내보내기 USDZ"
+        },
+        "export_3mf": {
+          "label": "내보내기 3MF"
+        }
+      },
+      "parameterLayout": {
+        "reference_1": {
+          "help": "같은 물체의 서로 다른 각도를 PNG 또는 JPEG로 업로드합니다. 첫 슬롯은 주 시점입니다."
+        },
+        "reference_2": {
+          "help": "같은 물체의 서로 다른 각도를 PNG 또는 JPEG로 업로드합니다. 첫 슬롯은 주 시점입니다."
+        },
+        "reference_3": {
+          "help": "같은 물체의 서로 다른 각도를 PNG 또는 JPEG로 업로드합니다. 첫 슬롯은 주 시점입니다."
+        },
+        "reference_4": {
+          "help": "같은 물체의 서로 다른 각도를 PNG 또는 JPEG로 업로드합니다. 첫 슬롯은 주 시점입니다."
+        },
+        "textured": {
+          "help": "모델의 표면 텍스처를 생성합니다. 끄면 텍스처가 없는 메시를 사용합니다."
+        },
+        "detailed_geometry": {
+          "help": "더 정밀한 기하를 사용해 표면의 세부를 표현합니다."
+        },
+        "pbr": {
+          "help": "텍스처가 활성화되면 금속성, 거칠기, 노멀 맵도 생성합니다."
+        },
+        "texture_resolution": {
+          "help": "기본 색상 맵을 2K, 4K, 8K 중에서 선택합니다."
+        },
+        "texture_prompt": {
+          "help": "표면 재질을 최대 800자로 설명합니다. 단일 참조 이미지보다 우선합니다. 여러 이미지 참조는 별도로 사용합니다."
+        },
+        "enhance_input": {
+          "help": "참조 이미지를 전처리합니다. 끄면 원본 외관을 사용합니다."
+        },
+        "remove_baked_lighting": {
+          "help": "기본 색상 텍스처에서 하이라이트와 그림자를 지웁니다."
+        },
+        "remesh": {
+          "help": "활성화하면 토폴로지와 면의 수를 조절할 수 있습니다."
+        },
+        "topology": {
+          "help": "리메시할 때 삼각형 또는 사각형 위주의 메시를 선택합니다."
+        },
+        "face_target": {
+          "help": "리메시에서 100~300000개의 면을 지정합니다. 단순화 수준이 우선합니다."
+        },
+        "decimation_level": {
+          "help": "리메시할 때 면 수를 적응형으로 줄입니다. 1, 2, 3, 4는 매우 높음, 높음, 중간, 낮음을 뜻합니다."
+        },
+        "include_original_mesh": {
+          "help": "리메시할 때 기존 GLB도 함께 내보냅니다."
+        },
+        "pose": {
+          "help": "A 자세 또는 T 자세를 선택합니다. 미설정 시 원본 자세를 유지합니다."
+        },
+        "real_world_scale": {
+          "help": "실제 높이를 추정해 모델 크기를 맞춥니다."
+        },
+        "origin": {
+          "help": "자동 크기 조정 시 바닥이나 중앙에 원점을 둡니다."
+        },
+        "transparent_preview": {
+          "help": "투명 배경의 미리 보기 이미지를 추가합니다."
+        },
+        "additional_previews": {
+          "help": "오른쪽, 뒤쪽, 왼쪽 미리 보기를 추가합니다."
+        },
+        "moderation": {
+          "help": "생성 전에 참조 이미지와 텍스처 프롬프트를 검토합니다."
+        },
+        "texture_image": {
+          "help": "PNG 또는 JPEG 한 장으로 표면을 지정합니다. 텍스처 프롬프트가 우선합니다. 여러 이미지 참조는 별도로 사용합니다."
+        },
+        "texture_reference_1": {
+          "help": "PNG 또는 JPEG를 최대 4장 사용합니다. 첫 슬롯이 주 시점입니다. 이 그룹을 사용하려면 단일 이미지와 프롬프트를 비워 둡니다."
+        },
+        "texture_reference_2": {
+          "help": "PNG 또는 JPEG를 최대 4장 사용합니다. 첫 슬롯이 주 시점입니다. 이 그룹을 사용하려면 단일 이미지와 프롬프트를 비워 둡니다."
+        },
+        "texture_reference_3": {
+          "help": "PNG 또는 JPEG를 최대 4장 사용합니다. 첫 슬롯이 주 시점입니다. 이 그룹을 사용하려면 단일 이미지와 프롬프트를 비워 둡니다."
+        },
+        "texture_reference_4": {
+          "help": "PNG 또는 JPEG를 최대 4장 사용합니다. 첫 슬롯이 주 시점입니다. 이 그룹을 사용하려면 단일 이미지와 프롬프트를 비워 둡니다."
+        },
+        "export_glb": {
+          "help": "3D 파일 형식을 하나 이상 선택합니다. GLB는 온라인에서 미리 볼 수 있습니다."
+        },
+        "export_obj": {
+          "help": "3D 파일 형식을 하나 이상 선택합니다. GLB는 온라인에서 미리 볼 수 있습니다."
+        },
+        "export_fbx": {
+          "help": "3D 파일 형식을 하나 이상 선택합니다. GLB는 온라인에서 미리 볼 수 있습니다."
+        },
+        "export_stl": {
+          "help": "3D 파일 형식을 하나 이상 선택합니다. GLB는 온라인에서 미리 볼 수 있습니다."
+        },
+        "export_usdz": {
+          "help": "3D 파일 형식을 하나 이상 선택합니다. GLB는 온라인에서 미리 볼 수 있습니다."
+        },
+        "export_3mf": {
+          "help": "3D 파일 형식을 하나 이상 선택합니다. GLB는 온라인에서 미리 볼 수 있습니다."
+        }
+      }
+    }
+  }
+}

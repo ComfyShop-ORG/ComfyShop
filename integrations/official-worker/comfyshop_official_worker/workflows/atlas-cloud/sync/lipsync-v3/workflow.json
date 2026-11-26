@@ -1,0 +1,328 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-sync-lips",
+  "name": "Sync Lipsync v3 视频对口型",
+  "description": "用新音频重做原视频的口型，可选择音视频时长不同时的处理方式。",
+  "category": "video_tool",
+  "fields": [
+    {
+      "name": "source_video",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "driving_audio",
+      "kind": "audio",
+      "optional": true
+    },
+    {
+      "name": "sync_mode",
+      "kind": "choice",
+      "default": "cut_off",
+      "choices": ["cut_off", "loop", "bounce", "silence", "remap"]
+    },
+    {
+      "name": "video_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "audio_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "source_video",
+      "section": "default"
+    },
+    {
+      "fieldId": "driving_audio",
+      "section": "default"
+    },
+    {
+      "fieldId": "sync_mode",
+      "section": "default"
+    },
+    {
+      "fieldId": "video_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "sync/lipsync-v3",
+      "operation": "video",
+      "parameters": {
+        "sync_mode": "sync_mode"
+      },
+      "prediction_endpoint": "result",
+      "media": {
+        "video_url": {
+          "kind": "video",
+          "fields": ["source_video"],
+          "min_items": 1,
+          "external_sources_field": "video_source",
+          "allow_raw_base64": true,
+          "content_types": ["video/mp4", "video/quicktime", "video/webm"]
+        },
+        "audio_url": {
+          "kind": "audio",
+          "fields": ["driving_audio"],
+          "min_items": 1,
+          "external_sources_field": "audio_source",
+          "allow_raw_base64": true,
+          "content_types": [
+            "audio/wav",
+            "audio/wave",
+            "audio/x-wav",
+            "audio/mpeg",
+            "audio/mp3",
+            "audio/mp4"
+          ]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Sync Lipsync v3 视频对口型",
+      "description": "用新音频重做原视频的口型，可选择音视频时长不同时的处理方式。",
+      "fields": {
+        "source_video": {
+          "label": "原视频"
+        },
+        "driving_audio": {
+          "label": "驱动音频"
+        },
+        "sync_mode": {
+          "label": "时长对齐方式",
+          "choiceLabels": {
+            "cut_off": "裁剪到较短时长",
+            "loop": "循环视频",
+            "bounce": "来回播放",
+            "silence": "静音补齐",
+            "remap": "重映射时间"
+          }
+        },
+        "video_source": {
+          "label": "原视频来源"
+        },
+        "audio_source": {
+          "label": "驱动音频来源"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上传需要重新对口型的 MP4、MOV 或 WebM 视频。"
+        },
+        "driving_audio": {
+          "help": "上传驱动口型的 WAV、MP3 或 M4A 音频。"
+        },
+        "sync_mode": {
+          "help": "选择裁剪到较短时长、循环视频、来回播放、以静音补齐或重映射时间。"
+        },
+        "video_source": {
+          "help": "填写公开视频地址、Base64 数据 URI 或原始 Base64，或上传视频。"
+        },
+        "audio_source": {
+          "help": "填写公开音频地址、Base64 数据 URI 或原始 Base64，或上传音频。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Sync Lipsync v3 影片對嘴",
+      "description": "使用新音訊重新配對原影片的嘴型，可選擇音訊與影片長度不同時的處理方式。",
+      "fields": {
+        "source_video": {
+          "label": "原影片"
+        },
+        "driving_audio": {
+          "label": "驅動音訊"
+        },
+        "sync_mode": {
+          "label": "長度對齊方式",
+          "choiceLabels": {
+            "cut_off": "裁剪至較短長度",
+            "loop": "循環影片",
+            "bounce": "來回播放",
+            "silence": "靜音補齊",
+            "remap": "重映射時間"
+          }
+        },
+        "video_source": {
+          "label": "原影片來源"
+        },
+        "audio_source": {
+          "label": "驅動音訊來源"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上傳需要重新對嘴的 MP4、MOV 或 WebM 影片。"
+        },
+        "driving_audio": {
+          "help": "上傳驅動嘴型的 WAV、MP3 或 M4A 音訊。"
+        },
+        "sync_mode": {
+          "help": "選擇裁剪至較短長度、循環影片、來回播放、以靜音補齊或重映射時間。"
+        },
+        "video_source": {
+          "help": "填寫公開影片網址、Base64 資料 URI 或原始 Base64，或上傳影片。"
+        },
+        "audio_source": {
+          "help": "填寫公開音訊網址、Base64 資料 URI 或原始 Base64，或上傳音訊。"
+        }
+      }
+    },
+    "en": {
+      "name": "Sync Lipsync v3 Video Lip Sync",
+      "description": "Match a video to a new audio track and choose how to handle different clip lengths.",
+      "fields": {
+        "source_video": {
+          "label": "Source video"
+        },
+        "driving_audio": {
+          "label": "Driving audio"
+        },
+        "sync_mode": {
+          "label": "Duration alignment",
+          "choiceLabels": {
+            "cut_off": "Trim to shorter clip",
+            "loop": "Loop video",
+            "bounce": "Bounce video",
+            "silence": "Pad with silence",
+            "remap": "Remap time"
+          }
+        },
+        "video_source": {
+          "label": "Source video input"
+        },
+        "audio_source": {
+          "label": "Driving audio input"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "Upload an MP4, MOV, or WebM video to lip-sync."
+        },
+        "driving_audio": {
+          "help": "Upload WAV, MP3, or M4A audio for the new speech."
+        },
+        "sync_mode": {
+          "help": "Trim to the shorter clip, loop or bounce the video, pad with silence, or remap time."
+        },
+        "video_source": {
+          "help": "Enter a public video URL, Base64 data URI, or raw Base64, or upload a video."
+        },
+        "audio_source": {
+          "help": "Enter a public audio URL, Base64 data URI, or raw Base64, or upload audio."
+        }
+      }
+    },
+    "ja": {
+      "name": "Sync Lipsync v3 動画のリップシンク",
+      "description": "既存の動画の口の動きを新しい音声に合わせます。動画と音声の長さが異なる場合の処理を選べます。",
+      "fields": {
+        "source_video": {
+          "label": "元の動画"
+        },
+        "driving_audio": {
+          "label": "使用する音声"
+        },
+        "sync_mode": {
+          "label": "長さの合わせ方",
+          "choiceLabels": {
+            "cut_off": "短い方に合わせる",
+            "loop": "動画をループする",
+            "bounce": "動画を往復再生する",
+            "silence": "無音を追加する",
+            "remap": "時間を再調整する"
+          }
+        },
+        "video_source": {
+          "label": "元の動画の入力元"
+        },
+        "audio_source": {
+          "label": "音声の入力元"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "リップシンクする MP4、MOV、WebM の動画をアップロードします。"
+        },
+        "driving_audio": {
+          "help": "新しい音声として WAV、MP3、M4A をアップロードします。"
+        },
+        "sync_mode": {
+          "help": "短い方に合わせてトリミングする、動画をループ・往復再生する、無音を追加する、時間を調整する、のいずれかを選びます。"
+        },
+        "video_source": {
+          "help": "公開動画 URL、Base64 データ URI、Base64 文字列のいずれかを入力するか、動画をアップロードします。"
+        },
+        "audio_source": {
+          "help": "公開音声 URL、Base64 データ URI、Base64 文字列のいずれかを入力するか、音声をアップロードします。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Sync Lipsync v3 동영상 입 모양 동기화",
+      "description": "새 오디오에 기존 영상의 입 모양을 맞추고 두 파일의 길이가 다를 때 처리 방식을 선택합니다.",
+      "fields": {
+        "source_video": {
+          "label": "원본 동영상"
+        },
+        "driving_audio": {
+          "label": "입 모양을 맞출 오디오"
+        },
+        "sync_mode": {
+          "label": "길이 맞춤 방식",
+          "choiceLabels": {
+            "cut_off": "짧은 클립에 맞추기",
+            "loop": "동영상 반복",
+            "bounce": "동영상 왕복 재생",
+            "silence": "무음으로 채우기",
+            "remap": "재생 시간 재조정"
+          }
+        },
+        "video_source": {
+          "label": "원본 동영상 출처"
+        },
+        "audio_source": {
+          "label": "오디오 출처"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "입 모양을 맞출 MP4, MOV 또는 WebM 영상을 업로드하세요."
+        },
+        "driving_audio": {
+          "help": "새 음성으로 WAV, MP3 또는 M4A 파일을 업로드하세요."
+        },
+        "sync_mode": {
+          "help": "짧은 클립에 맞춰 자르기, 반복, 왕복 재생, 무음 채우기, 시간 재조정 중에서 선택하세요."
+        },
+        "video_source": {
+          "help": "공개 동영상 URL, Base64 데이터 URI, Base64 문자열 중 하나를 입력하거나 영상을 업로드하세요."
+        },
+        "audio_source": {
+          "help": "공개 오디오 URL, Base64 데이터 URI, Base64 문자열 중 하나를 입력하거나 오디오를 업로드하세요."
+        }
+      }
+    }
+  }
+}

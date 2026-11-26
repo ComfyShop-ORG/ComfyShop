@@ -1,0 +1,607 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-atlascloud-studio-image-clone",
+  "name": "Atlas Cloud Studio 图像复刻",
+  "description": "把自己的商品放入参考图的场景。可沿用原图构图与光线，也可参照风格重新创作。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "product_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "user_prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "visual_type",
+      "kind": "choice",
+      "default": "Reference Clone",
+      "choices": ["Reference Clone", "Exact Clone"],
+      "optional": true
+    },
+    {
+      "name": "ratio",
+      "kind": "choice",
+      "default": "3:4",
+      "choices": ["1:1", "2:3", "3:2", "3:4", "4:3", "16:9", "9:16", "21:9"],
+      "optional": true
+    },
+    {
+      "name": "product_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "reference_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "count",
+      "kind": "choice",
+      "default": 1,
+      "choices": [1, 2, 3, 4],
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "2k",
+      "choices": ["1k", "2k", "4k"],
+      "optional": true
+    },
+    {
+      "name": "format",
+      "kind": "choice",
+      "default": "png",
+      "choices": ["png", "jpeg"],
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "product_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "user_prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "visual_type",
+      "section": "default"
+    },
+    {
+      "fieldId": "ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "product_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "count",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "format",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "atlascloud/studio/image-clone",
+      "operation": "image",
+      "parameters": {
+        "user_prompt": "user_prompt",
+        "visual_type": "visual_type",
+        "ratio": "ratio",
+        "count": "count",
+        "resolution": "resolution",
+        "format": "format"
+      },
+      "required_text": ["user_prompt"],
+      "media": {
+        "product_image": {
+          "kind": "image",
+          "fields": ["product_image"],
+          "external_sources_field": "product_source",
+          "external_urls_only": true,
+          "min_items": 1,
+          "max_bytes": 10000000
+        },
+        "reference_image": {
+          "kind": "image",
+          "fields": ["reference_image"],
+          "external_sources_field": "reference_source",
+          "external_urls_only": true,
+          "min_items": 1,
+          "max_bytes": 10000000
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Atlas Cloud Studio 图像复刻",
+      "description": "把自己的商品放入参考图的场景。可沿用原图构图与光线，也可参照风格重新创作。",
+      "fields": {
+        "product_image": {
+          "label": "商品图"
+        },
+        "reference_image": {
+          "label": "参考图"
+        },
+        "user_prompt": {
+          "label": "创作指令"
+        },
+        "visual_type": {
+          "label": "复刻模式",
+          "choiceLabels": {
+            "Reference Clone": "参考复刻",
+            "Exact Clone": "完全一致"
+          }
+        },
+        "ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "1:1": "1:1",
+            "2:3": "2:3",
+            "3:2": "3:2",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "21:9": "21:9"
+          }
+        },
+        "product_source": {
+          "label": "商品图 URL"
+        },
+        "reference_source": {
+          "label": "参考图 URL"
+        },
+        "count": {
+          "label": "出图张数"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "format": {
+          "label": "成品格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "product_image": {
+          "help": "上传商品图，最多 10 MB。也可填写公开 URL。"
+        },
+        "reference_image": {
+          "help": "上传想参考的图片，最多 10 MB。也可填写公开 URL。"
+        },
+        "user_prompt": {
+          "help": "描述商品和想保留或调整的画面元素。"
+        },
+        "visual_type": {
+          "help": "参考复刻会根据参考图风格创作。完全一致会沿用构图、光线和背景并替换商品。"
+        },
+        "ratio": {
+          "help": "选择输出宽高比。默认 3:4。"
+        },
+        "product_source": {
+          "help": "填写一个可公开访问的商品图 URL。"
+        },
+        "reference_source": {
+          "help": "填写一个可公开访问的参考图 URL。"
+        },
+        "count": {
+          "help": "选择 1 至 4 张。默认 1 张。"
+        },
+        "resolution": {
+          "help": "选择 1K、2K 或 4K。默认 2K。"
+        },
+        "format": {
+          "help": "选择 PNG 或 JPEG。默认 PNG。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Atlas Cloud Studio 圖像復刻",
+      "description": "將自己的商品放入參考圖的場景。可沿用構圖與光線，或依參考風格重新創作。",
+      "fields": {
+        "product_image": {
+          "label": "商品圖"
+        },
+        "reference_image": {
+          "label": "參考圖"
+        },
+        "user_prompt": {
+          "label": "創作指令"
+        },
+        "visual_type": {
+          "label": "復刻模式",
+          "choiceLabels": {
+            "Reference Clone": "參考復刻",
+            "Exact Clone": "完全一致"
+          }
+        },
+        "ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "1:1": "1:1",
+            "2:3": "2:3",
+            "3:2": "3:2",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "21:9": "21:9"
+          }
+        },
+        "product_source": {
+          "label": "商品圖 URL"
+        },
+        "reference_source": {
+          "label": "參考圖 URL"
+        },
+        "count": {
+          "label": "出圖張數"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "format": {
+          "label": "成品格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "product_image": {
+          "help": "上傳商品圖，最多 10 MB。也可填寫公開 URL。"
+        },
+        "reference_image": {
+          "help": "上傳想參考的圖片，最多 10 MB。也可填寫公開 URL。"
+        },
+        "user_prompt": {
+          "help": "描述商品和想保留或調整的畫面元素。"
+        },
+        "visual_type": {
+          "help": "參考復刻會依參考圖風格創作。完全一致會沿用構圖、光線和背景並替換商品。"
+        },
+        "ratio": {
+          "help": "選擇輸出寬高比。預設 3:4。"
+        },
+        "product_source": {
+          "help": "填寫一個可公開存取的商品圖 URL。"
+        },
+        "reference_source": {
+          "help": "填寫一個可公開存取的參考圖 URL。"
+        },
+        "count": {
+          "help": "選擇 1 至 4 張。預設 1 張。"
+        },
+        "resolution": {
+          "help": "選擇 1K、2K 或 4K。預設 2K。"
+        },
+        "format": {
+          "help": "選擇 PNG 或 JPEG。預設 PNG。"
+        }
+      }
+    },
+    "en": {
+      "name": "Atlas Cloud Studio Image Clone",
+      "description": "Place your product into a reference scene. Keep the original composition and lighting or create a new image inspired by its style.",
+      "fields": {
+        "product_image": {
+          "label": "Product image"
+        },
+        "reference_image": {
+          "label": "Reference image"
+        },
+        "user_prompt": {
+          "label": "Creative instructions"
+        },
+        "visual_type": {
+          "label": "Clone mode",
+          "choiceLabels": {
+            "Reference Clone": "Reference Clone",
+            "Exact Clone": "Exact Clone"
+          }
+        },
+        "ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "1:1": "1:1",
+            "2:3": "2:3",
+            "3:2": "3:2",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "21:9": "21:9"
+          }
+        },
+        "product_source": {
+          "label": "Product image URL"
+        },
+        "reference_source": {
+          "label": "Reference image URL"
+        },
+        "count": {
+          "label": "Image count"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "product_image": {
+          "help": "Upload a product image up to 10 MB, or enter its public URL."
+        },
+        "reference_image": {
+          "help": "Upload a reference image up to 10 MB, or enter its public URL."
+        },
+        "user_prompt": {
+          "help": "Describe the product and which elements to keep or change."
+        },
+        "visual_type": {
+          "help": "Reference Clone takes style cues from the reference. Exact Clone keeps its layout, lighting, and background while swapping in the product."
+        },
+        "ratio": {
+          "help": "Choose the width-to-height ratio. The default is 3:4."
+        },
+        "product_source": {
+          "help": "Enter one public product image URL."
+        },
+        "reference_source": {
+          "help": "Enter one public reference image URL."
+        },
+        "count": {
+          "help": "Choose one to four images. The default is one."
+        },
+        "resolution": {
+          "help": "Choose 1K, 2K, or 4K. The default is 2K."
+        },
+        "format": {
+          "help": "Choose PNG or JPEG. The default is PNG."
+        }
+      }
+    },
+    "ja": {
+      "name": "Atlas Cloud Studio 画像リクリエーション",
+      "description": "商品を参照画像の場面に配置します。元の構図や照明を保つか、スタイルを参考に新しく作成できます。",
+      "fields": {
+        "product_image": {
+          "label": "商品画像"
+        },
+        "reference_image": {
+          "label": "参照画像"
+        },
+        "user_prompt": {
+          "label": "制作指示"
+        },
+        "visual_type": {
+          "label": "再現モード",
+          "choiceLabels": {
+            "Reference Clone": "スタイル参照",
+            "Exact Clone": "構図再現"
+          }
+        },
+        "ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "1:1": "1:1",
+            "2:3": "2:3",
+            "3:2": "3:2",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "21:9": "21:9"
+          }
+        },
+        "product_source": {
+          "label": "商品画像の URL"
+        },
+        "reference_source": {
+          "label": "参照画像の URL"
+        },
+        "count": {
+          "label": "画像の枚数"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "product_image": {
+          "help": "最大 10 MB の商品画像をアップロードするか、公開 URL を入力します。"
+        },
+        "reference_image": {
+          "help": "最大 10 MB の参照画像をアップロードするか、公開 URL を入力します。"
+        },
+        "user_prompt": {
+          "help": "商品と、残したい要素や変更したい要素を指定します。"
+        },
+        "visual_type": {
+          "help": "スタイル参照は参照画像の画風をもとに作成します。構図再現は配置、照明、背景を保ち、商品を差し替えます。"
+        },
+        "ratio": {
+          "help": "幅と高さの比率を選択します。既定は 3:4 です。"
+        },
+        "product_source": {
+          "help": "公開されている商品画像の URL を一つ入力します。"
+        },
+        "reference_source": {
+          "help": "公開されている参照画像の URL を一つ入力します。"
+        },
+        "count": {
+          "help": "1〜4 枚から選択します。既定は 1 枚です。"
+        },
+        "resolution": {
+          "help": "1K、2K、4K から選択します。既定は 2K です。"
+        },
+        "format": {
+          "help": "PNG または JPEG を選択します。既定は PNG です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Atlas Cloud Studio 이미지 재현",
+      "description": "참조 이미지의 장면에 내 상품을 배치합니다. 원본 구도와 조명을 유지하거나 스타일을 참고해 새롭게 만들 수 있습니다.",
+      "fields": {
+        "product_image": {
+          "label": "상품 이미지"
+        },
+        "reference_image": {
+          "label": "참조 이미지"
+        },
+        "user_prompt": {
+          "label": "제작 지시"
+        },
+        "visual_type": {
+          "label": "재현 모드",
+          "choiceLabels": {
+            "Reference Clone": "스타일 재현",
+            "Exact Clone": "구도 재현"
+          }
+        },
+        "ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "1:1": "1:1",
+            "2:3": "2:3",
+            "3:2": "3:2",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "21:9": "21:9"
+          }
+        },
+        "product_source": {
+          "label": "상품 이미지 URL"
+        },
+        "reference_source": {
+          "label": "참조 이미지 URL"
+        },
+        "count": {
+          "label": "이미지 수"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "product_image": {
+          "help": "최대 10MB의 상품 이미지를 업로드하거나 공개 URL을 입력하세요."
+        },
+        "reference_image": {
+          "help": "최대 10MB의 참조 이미지를 업로드하거나 공개 URL을 입력하세요."
+        },
+        "user_prompt": {
+          "help": "상품과 유지하거나 바꿀 요소를 설명하세요."
+        },
+        "visual_type": {
+          "help": "스타일 재현은 참조 이미지의 스타일을 활용합니다. 구도 재현은 배치와 조명, 배경을 유지하고 상품을 교체합니다."
+        },
+        "ratio": {
+          "help": "너비와 높이의 비율을 선택하세요. 기본값은 3:4입니다."
+        },
+        "product_source": {
+          "help": "공개 상품 이미지 URL을 하나 입력하세요."
+        },
+        "reference_source": {
+          "help": "공개 참조 이미지 URL을 하나 입력하세요."
+        },
+        "count": {
+          "help": "1~4장을 선택하세요. 기본값은 1장입니다."
+        },
+        "resolution": {
+          "help": "1K, 2K 또는 4K를 선택하세요. 기본값은 2K입니다."
+        },
+        "format": {
+          "help": "PNG 또는 JPEG를 선택하세요. 기본값은 PNG입니다."
+        }
+      }
+    }
+  }
+}

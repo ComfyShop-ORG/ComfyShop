@@ -1,0 +1,325 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "minimax-music-26",
+  "name": "MiniMax Music 2.6 音乐生成",
+  "description": "根据风格描述和歌词生成歌曲，也可选择纯音乐。",
+  "category": "audio",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "upbeat electronic pop, bright female vocal, catchy hook, energetic, 120bpm"
+    },
+    {
+      "name": "lyrics",
+      "kind": "string",
+      "optional": true,
+      "multiline": true,
+      "default": "[Verse]\nA small lantern flickers by the sea\n[Chorus]\nWe follow the harbor lights back home"
+    },
+    {
+      "name": "instrumental",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "format",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["mp3", "wav", "pcm"],
+      "default": "mp3"
+    },
+    {
+      "name": "sample_rate",
+      "kind": "choice",
+      "optional": true,
+      "choices": [16000, 24000, 32000, 44100],
+      "default": 44100
+    },
+    {
+      "name": "bitrate",
+      "kind": "choice",
+      "optional": true,
+      "choices": [32000, 64000, 128000, 256000],
+      "default": 256000
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "lyrics",
+      "section": "default"
+    },
+    {
+      "fieldId": "instrumental",
+      "section": "default"
+    },
+    {
+      "fieldId": "format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "sample_rate",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "bitrate",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "audio",
+    "config": {
+      "operation": "audio",
+      "model": "minimax/music-2.6",
+      "parameters": {
+        "prompt": "prompt",
+        "lyrics": "lyrics",
+        "is_instrumental": "instrumental",
+        "format": "format",
+        "sample_rate": "sample_rate",
+        "bitrate": "bitrate"
+      },
+      "text_max_lengths": {
+        "prompt": 2000,
+        "lyrics": 3500
+      },
+      "enabled_by": {
+        "lyrics": {
+          "parameter": "is_instrumental",
+          "equals": false
+        }
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "MiniMax Music 2.6 音乐生成",
+      "description": "根据风格描述和歌词生成歌曲，也可选择纯音乐。",
+      "fields": {
+        "prompt": {
+          "label": "音乐描述"
+        },
+        "lyrics": {
+          "label": "歌词"
+        },
+        "instrumental": {
+          "label": "纯音乐"
+        },
+        "format": {
+          "label": "输出格式"
+        },
+        "sample_rate": {
+          "label": "采样率"
+        },
+        "bitrate": {
+          "label": "音频码率"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述风格、节奏、乐器和人声，最多 2000 字符。"
+        },
+        "lyrics": {
+          "help": "最多 3500 字符，每行一句。用 [Verse]、[Chorus] 等标签安排段落。选择纯音乐时留空。"
+        },
+        "instrumental": {
+          "help": "仅生成乐器演奏。默认关闭。"
+        },
+        "format": {
+          "help": "支持 MP3、WAV 和 PCM，默认 MP3。"
+        },
+        "sample_rate": {
+          "help": "选择成品采样率，默认 44100 Hz。"
+        },
+        "bitrate": {
+          "help": "选择每秒音频位数，默认 256000 bit/s。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "MiniMax Music 2.6 音樂生成",
+      "description": "根據風格描述與歌詞產生歌曲，也可選擇純音樂。",
+      "fields": {
+        "prompt": {
+          "label": "音樂描述"
+        },
+        "lyrics": {
+          "label": "歌詞"
+        },
+        "instrumental": {
+          "label": "純音樂"
+        },
+        "format": {
+          "label": "輸出格式"
+        },
+        "sample_rate": {
+          "label": "取樣率"
+        },
+        "bitrate": {
+          "label": "音訊位元率"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述風格、節奏、樂器與人聲，最多 2000 個字元。"
+        },
+        "lyrics": {
+          "help": "最多 3500 個字元，每行一句。使用 [Verse]、[Chorus] 等標籤安排段落。選擇純音樂時留空。"
+        },
+        "instrumental": {
+          "help": "僅產生樂器演奏。預設關閉。"
+        },
+        "format": {
+          "help": "支援 MP3、WAV 和 PCM，預設為 MP3。"
+        },
+        "sample_rate": {
+          "help": "選擇成品取樣率，預設為 44100 Hz。"
+        },
+        "bitrate": {
+          "help": "選擇每秒音訊位元數，預設為 256000 bit/s。"
+        }
+      }
+    },
+    "en": {
+      "name": "MiniMax Music 2.6 Music Generation",
+      "description": "Generate vocal songs or instrumental music from a style description and lyrics.",
+      "fields": {
+        "prompt": {
+          "label": "Musical description"
+        },
+        "lyrics": {
+          "label": "Lyrics"
+        },
+        "instrumental": {
+          "label": "Instrumental"
+        },
+        "format": {
+          "label": "Output format"
+        },
+        "sample_rate": {
+          "label": "Sample rate"
+        },
+        "bitrate": {
+          "label": "Audio bitrate"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the style, tempo, instruments, and vocals in up to 2000 characters."
+        },
+        "lyrics": {
+          "help": "Enter up to 3500 characters. Use [Verse] and [Chorus] on their own lines to arrange sections. Leave blank for instrumental music."
+        },
+        "instrumental": {
+          "help": "Generate instrumental music. Off by default."
+        },
+        "format": {
+          "help": "Export MP3, WAV, or PCM. The default is MP3."
+        },
+        "sample_rate": {
+          "help": "Select the output sample rate. The default is 44100 Hz."
+        },
+        "bitrate": {
+          "help": "Select the number of audio bits per second. The default is 256000 bit/s."
+        }
+      }
+    },
+    "ja": {
+      "name": "MiniMax Music 2.6 音楽生成",
+      "description": "曲調の説明と歌詞から、歌付きの楽曲やインストゥルメンタルを生成します。",
+      "fields": {
+        "prompt": {
+          "label": "曲の説明"
+        },
+        "lyrics": {
+          "label": "歌詞"
+        },
+        "instrumental": {
+          "label": "インストゥルメンタル"
+        },
+        "format": {
+          "label": "出力形式"
+        },
+        "sample_rate": {
+          "label": "サンプリング周波数"
+        },
+        "bitrate": {
+          "label": "音声ビットレート"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "曲調、テンポ、楽器、歌声を 2000 文字まで入力します。"
+        },
+        "lyrics": {
+          "help": "3500 文字まで入力できます。[Verse] や [Chorus] を単独の行に置いて構成を指定します。インストゥルメンタルの場合は空欄にします。"
+        },
+        "instrumental": {
+          "help": "楽器演奏を生成します。既定では無効です。"
+        },
+        "format": {
+          "help": "MP3、WAV、PCM に対応します。既定値は MP3 です。"
+        },
+        "sample_rate": {
+          "help": "出力のサンプリング周波数を選択します。既定値は 44100 Hz です。"
+        },
+        "bitrate": {
+          "help": "1 秒あたりの音声ビット数を選択します。既定値は 256000 bit/s です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "MiniMax Music 2.6 음악 생성",
+      "description": "장르와 분위기 설명, 가사로 보컬이 있는 노래나 연주곡을 만듭니다.",
+      "fields": {
+        "prompt": {
+          "label": "음악 설명"
+        },
+        "lyrics": {
+          "label": "가사"
+        },
+        "instrumental": {
+          "label": "연주곡"
+        },
+        "format": {
+          "label": "출력 형식"
+        },
+        "sample_rate": {
+          "label": "샘플링 주파수"
+        },
+        "bitrate": {
+          "label": "오디오 비트 전송률"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "장르, 템포, 악기, 보컬을 최대 2000자로 설명하세요."
+        },
+        "lyrics": {
+          "help": "최대 3500자까지 입력하세요. [Verse]와 [Chorus]를 한 줄씩 넣어 구성을 지정하세요. 연주곡에는 비워 두세요."
+        },
+        "instrumental": {
+          "help": "악기 연주를 생성합니다. 기본값은 꺼짐입니다."
+        },
+        "format": {
+          "help": "MP3, WAV, PCM을 지원합니다. 기본값은 MP3입니다."
+        },
+        "sample_rate": {
+          "help": "출력 샘플링 주파수를 선택하세요. 기본값은 44100 Hz입니다."
+        },
+        "bitrate": {
+          "help": "오디오의 초당 비트 수를 선택합니다. 기본값은 256000 bit/s입니다."
+        }
+      }
+    }
+  }
+}

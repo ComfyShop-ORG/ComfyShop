@@ -1,0 +1,565 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-hidream-text",
+  "name": "HiDream O1 1.5 文生图",
+  "description": "根据提示词生成图片，也可提供参考图引导构图或主体。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 2500
+    },
+    {
+      "name": "size_preset",
+      "kind": "choice",
+      "choices": [
+        "square_hd",
+        "square",
+        "portrait_4_3",
+        "portrait_16_9",
+        "landscape_4_3",
+        "landscape_16_9"
+      ],
+      "optional": true,
+      "default": "landscape_4_3"
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "default": "png",
+      "choices": ["png", "jpeg", "webp"]
+    },
+    {
+      "name": "num_inference_steps",
+      "kind": "integer",
+      "minimum": "1",
+      "maximum": "50",
+      "optional": true,
+      "default": 50
+    },
+    {
+      "name": "guidance_scale",
+      "kind": "number",
+      "minimum": "1",
+      "maximum": "20",
+      "optional": true,
+      "default": 5
+    },
+    {
+      "kind": "image",
+      "name": "reference_image_1",
+      "optional": true
+    },
+    {
+      "kind": "image",
+      "name": "reference_image_2",
+      "optional": true
+    },
+    {
+      "kind": "image",
+      "name": "reference_image_3",
+      "optional": true
+    },
+    {
+      "kind": "image",
+      "name": "reference_image_4",
+      "optional": true
+    },
+    {
+      "name": "image_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size_preset",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "num_inference_steps",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "guidance_scale",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "hidream-o1-1.5/text-to-image",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "image_size": "size_preset",
+        "output_format": "output_format",
+        "num_inference_steps": "num_inference_steps",
+        "guidance_scale": "guidance_scale"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 2500
+      },
+      "media": {
+        "reference_image_urls": {
+          "kind": "image",
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4"
+          ],
+          "array": true,
+          "external_sources_field": "image_sources",
+          "allow_additional_sources": true,
+          "external_urls_only": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "HiDream O1 1.5 文生图",
+      "description": "根据提示词生成图片，也可提供参考图引导构图或主体。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size_preset": {
+          "label": "尺寸预设",
+          "choiceLabels": {
+            "square_hd": "高清方图（1024×1024）",
+            "square": "方图（512×512）",
+            "portrait_4_3": "竖屏 4:3 预设",
+            "portrait_16_9": "竖屏 16:9 预设",
+            "landscape_4_3": "横屏 4:3",
+            "landscape_16_9": "横屏 16:9"
+          }
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP"
+          }
+        },
+        "num_inference_steps": {
+          "label": "推理步数"
+        },
+        "guidance_scale": {
+          "label": "提示词引导强度"
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        },
+        "image_sources": {
+          "label": "参考图来源"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要生成的图片，最多 2,500 字符。"
+        },
+        "size_preset": {
+          "help": "选择输出尺寸预设，默认横屏 4:3。"
+        },
+        "output_format": {
+          "help": "选择 PNG、JPEG 或 WebP，默认 PNG。"
+        },
+        "num_inference_steps": {
+          "help": "1 至 50，默认 50。较大的值需要更长生成时间。"
+        },
+        "guidance_scale": {
+          "help": "1 至 20，默认 5。数值越大，越贴近提示词。"
+        },
+        "reference_image_1": {
+          "help": "可选。单张图用于编辑，多张图用于保持主体一致。"
+        },
+        "reference_image_2": {
+          "help": "可选。单张图用于编辑，多张图用于保持主体一致。"
+        },
+        "reference_image_3": {
+          "help": "可选。单张图用于编辑，多张图用于保持主体一致。"
+        },
+        "reference_image_4": {
+          "help": "可选。单张图用于编辑，多张图用于保持主体一致。"
+        },
+        "image_sources": {
+          "help": "每行输入一个可公开访问的 HTTP(S) 图片 URL。按上传顺序发送图片，再追加这里填写的 URL。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "HiDream O1 1.5 文生圖",
+      "description": "依提示詞生成圖片，也可提供參考圖片引導構圖或主體。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size_preset": {
+          "label": "尺寸預設",
+          "choiceLabels": {
+            "square_hd": "高畫質方形（1024×1024）",
+            "square": "方形（512×512）",
+            "portrait_4_3": "直式 4:3 預設",
+            "portrait_16_9": "直式 16:9 預設",
+            "landscape_4_3": "橫式 4:3",
+            "landscape_16_9": "橫式 16:9"
+          }
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP"
+          }
+        },
+        "num_inference_steps": {
+          "label": "推論步數"
+        },
+        "guidance_scale": {
+          "label": "提示詞引導強度"
+        },
+        "reference_image_1": {
+          "label": "參考圖片 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖片 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖片 3"
+        },
+        "reference_image_4": {
+          "label": "參考圖片 4"
+        },
+        "image_sources": {
+          "label": "參考圖片來源"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要生成的圖片，最多 2,500 個字元。"
+        },
+        "size_preset": {
+          "help": "選擇輸出尺寸預設，預設橫式 4:3。"
+        },
+        "output_format": {
+          "help": "選擇 PNG、JPEG 或 WebP，預設 PNG。"
+        },
+        "num_inference_steps": {
+          "help": "1 至 50，預設 50。較大的值需要更長生成時間。"
+        },
+        "guidance_scale": {
+          "help": "1 至 20，預設 5。數值越大，越貼近提示詞。"
+        },
+        "reference_image_1": {
+          "help": "選填。單張用於編輯，多張用於維持主體一致。"
+        },
+        "reference_image_2": {
+          "help": "選填。單張用於編輯，多張用於維持主體一致。"
+        },
+        "reference_image_3": {
+          "help": "選填。單張用於編輯，多張用於維持主體一致。"
+        },
+        "reference_image_4": {
+          "help": "選填。單張用於編輯，多張用於維持主體一致。"
+        },
+        "image_sources": {
+          "help": "每行輸入一個可公開存取的 HTTP(S) 圖片網址。先依上傳順序送出圖片，再附加這裡填寫的網址。"
+        }
+      }
+    },
+    "en": {
+      "name": "HiDream O1 1.5 Text-to-Image",
+      "description": "Generate images from a prompt, with optional references to guide composition or subject.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size_preset": {
+          "label": "Size preset",
+          "choiceLabels": {
+            "square_hd": "Square HD (1024×1024)",
+            "square": "Square (512×512)",
+            "portrait_4_3": "Portrait 4:3 preset",
+            "portrait_16_9": "Portrait 16:9 preset",
+            "landscape_4_3": "Landscape 4:3",
+            "landscape_16_9": "Landscape 16:9"
+          }
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP"
+          }
+        },
+        "num_inference_steps": {
+          "label": "Inference steps"
+        },
+        "guidance_scale": {
+          "label": "Prompt guidance scale"
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        },
+        "image_sources": {
+          "label": "Reference image sources"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the image in up to 2,500 characters."
+        },
+        "size_preset": {
+          "help": "Choose an output size preset. The default is landscape 4:3."
+        },
+        "output_format": {
+          "help": "Choose PNG, JPEG, or WebP. The default is PNG."
+        },
+        "num_inference_steps": {
+          "help": "Enter 1 to 50. The default is 50. Higher values take longer."
+        },
+        "guidance_scale": {
+          "help": "Enter 1 to 20. The default is 5. Higher values follow the prompt more closely."
+        },
+        "reference_image_1": {
+          "help": "Optional. Use one image to edit it, or multiple images for subject consistency."
+        },
+        "reference_image_2": {
+          "help": "Optional. Use one image to edit it, or multiple images for subject consistency."
+        },
+        "reference_image_3": {
+          "help": "Optional. Use one image to edit it, or multiple images for subject consistency."
+        },
+        "reference_image_4": {
+          "help": "Optional. Use one image to edit it, or multiple images for subject consistency."
+        },
+        "image_sources": {
+          "help": "Enter one public HTTP(S) image URL per line. Uploaded images are sent first, followed by these URLs."
+        }
+      }
+    },
+    "ja": {
+      "name": "HiDream O1 1.5 テキストから画像",
+      "description": "プロンプトから画像を生成します。構図や被写体の参照画像を追加できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size_preset": {
+          "label": "サイズプリセット",
+          "choiceLabels": {
+            "square_hd": "高解像度の正方形（1024×1024）",
+            "square": "正方形（512×512）",
+            "portrait_4_3": "縦長 4:3 プリセット",
+            "portrait_16_9": "縦長 16:9 プリセット",
+            "landscape_4_3": "横長 4:3",
+            "landscape_16_9": "横長 16:9"
+          }
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP"
+          }
+        },
+        "num_inference_steps": {
+          "label": "推論ステップ数"
+        },
+        "guidance_scale": {
+          "label": "プロンプトの反映強度"
+        },
+        "reference_image_1": {
+          "label": "参照画像 1"
+        },
+        "reference_image_2": {
+          "label": "参照画像 2"
+        },
+        "reference_image_3": {
+          "label": "参照画像 3"
+        },
+        "reference_image_4": {
+          "label": "参照画像 4"
+        },
+        "image_sources": {
+          "label": "参照画像の入力元"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "生成する画像を 2,500 文字以内で記述します。"
+        },
+        "size_preset": {
+          "help": "出力サイズのプリセットを選びます。既定値は横長 4:3 です。"
+        },
+        "output_format": {
+          "help": "PNG、JPEG、WebP のいずれかを選びます。既定値は PNG です。"
+        },
+        "num_inference_steps": {
+          "help": "1〜50 を入力します。既定値は 50 です。値が大きいと処理時間が長くなります。"
+        },
+        "guidance_scale": {
+          "help": "1〜20 を入力します。既定値は 5 です。値が大きいほど、プロンプトに忠実になります。"
+        },
+        "reference_image_1": {
+          "help": "任意です。1 枚なら編集、複数なら被写体の一貫性を保つために使います。"
+        },
+        "reference_image_2": {
+          "help": "任意です。1 枚なら編集、複数なら被写体の一貫性を保つために使います。"
+        },
+        "reference_image_3": {
+          "help": "任意です。1 枚なら編集、複数なら被写体の一貫性を保つために使います。"
+        },
+        "reference_image_4": {
+          "help": "任意です。1 枚なら編集、複数なら被写体の一貫性を保つために使います。"
+        },
+        "image_sources": {
+          "help": "公開 HTTP(S) の画像 URL を 1 行に 1 件入力します。アップロードした画像の後に、これらの URL を送信します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "HiDream O1 1.5 텍스트로 이미지 생성",
+      "description": "프롬프트로 이미지를 생성하고 참조 이미지로 구도나 피사체를 지정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size_preset": {
+          "label": "크기 사전 설정",
+          "choiceLabels": {
+            "square_hd": "고해상도 정사각형(1024×1024)",
+            "square": "정사각형(512×512)",
+            "portrait_4_3": "세로 4:3 사전 설정",
+            "portrait_16_9": "세로 16:9 사전 설정",
+            "landscape_4_3": "가로 4:3",
+            "landscape_16_9": "가로 16:9"
+          }
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG",
+            "webp": "WebP"
+          }
+        },
+        "num_inference_steps": {
+          "label": "추론 단계"
+        },
+        "guidance_scale": {
+          "label": "프롬프트 반영 강도"
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        },
+        "image_sources": {
+          "label": "참조 이미지 출처"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "생성할 이미지를 최대 2,500자까지 설명하세요."
+        },
+        "size_preset": {
+          "help": "출력 크기 사전 설정을 선택하세요. 기본값은 가로 4:3입니다."
+        },
+        "output_format": {
+          "help": "PNG, JPEG, WebP 중에서 선택하세요. 기본값은 PNG입니다."
+        },
+        "num_inference_steps": {
+          "help": "1~50을 입력하세요. 기본값은 50입니다. 값이 높으면 처리 시간이 길어집니다."
+        },
+        "guidance_scale": {
+          "help": "1~20을 입력하세요. 기본값은 5입니다. 값이 높을수록 프롬프트에 가깝게 생성합니다."
+        },
+        "reference_image_1": {
+          "help": "선택 사항입니다. 한 장으로 편집하고 여러 장으로 피사체의 일관성을 유지할 수 있습니다."
+        },
+        "reference_image_2": {
+          "help": "선택 사항입니다. 한 장으로 편집하고 여러 장으로 피사체의 일관성을 유지할 수 있습니다."
+        },
+        "reference_image_3": {
+          "help": "선택 사항입니다. 한 장으로 편집하고 여러 장으로 피사체의 일관성을 유지할 수 있습니다."
+        },
+        "reference_image_4": {
+          "help": "선택 사항입니다. 한 장으로 편집하고 여러 장으로 피사체의 일관성을 유지할 수 있습니다."
+        },
+        "image_sources": {
+          "help": "줄마다 공개 HTTP(S) 이미지 URL을 하나씩 입력하세요. 업로드한 이미지 뒤에 URL을 추가하여 전송합니다."
+        }
+      }
+    }
+  }
+}

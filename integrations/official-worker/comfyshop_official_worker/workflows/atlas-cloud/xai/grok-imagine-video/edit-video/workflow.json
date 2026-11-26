@@ -1,0 +1,196 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-grok-video-edit",
+  "name": "Grok Imagine Video 视频编辑",
+  "description": "按文字指示编辑一段 MP4，保留原视频长度。",
+  "category": "video_tool",
+  "fields": [
+    {
+      "name": "source_video",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "video_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "source_video",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "video_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "xai/grok-imagine-video/edit-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "video_url": {
+          "kind": "video",
+          "fields": ["source_video"],
+          "external_sources_field": "video_source",
+          "external_urls_only": true,
+          "content_types": ["video/mp4"],
+          "max_duration_ms": 8700,
+          "min_items": 1
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Grok Imagine Video 视频编辑",
+      "description": "按文字指示编辑一段 MP4，保留原视频长度。",
+      "fields": {
+        "source_video": {
+          "label": "源视频"
+        },
+        "prompt": {
+          "label": "编辑指令"
+        },
+        "video_source": {
+          "label": "源视频 URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上传不超过 8.7 秒的 MP4。"
+        },
+        "prompt": {
+          "help": "描述需要修改的主体、光线或风格。"
+        },
+        "video_source": {
+          "help": "填写一个公开 MP4 地址，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Grok Imagine Video 影片編輯",
+      "description": "按文字指示編輯一段 MP4，保留原影片長度。",
+      "fields": {
+        "source_video": {
+          "label": "來源影片"
+        },
+        "prompt": {
+          "label": "編輯指令"
+        },
+        "video_source": {
+          "label": "來源影片 URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "上傳不超過 8.7 秒的 MP4。"
+        },
+        "prompt": {
+          "help": "描述需要修改的主體、光線或風格。"
+        },
+        "video_source": {
+          "help": "填寫一個公開 MP4 網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Grok Imagine Video Editing",
+      "description": "Edit an MP4 from written instructions and keep its original duration.",
+      "fields": {
+        "source_video": {
+          "label": "Source video"
+        },
+        "prompt": {
+          "label": "Editing instruction"
+        },
+        "video_source": {
+          "label": "Source video URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "Upload an MP4 of up to 8.7 seconds."
+        },
+        "prompt": {
+          "help": "Describe which subject, lighting, or style to change."
+        },
+        "video_source": {
+          "help": "Enter one public MP4 URL as an alternative to uploading."
+        }
+      }
+    },
+    "ja": {
+      "name": "Grok Imagine Video 動画編集",
+      "description": "テキスト指示で MP4 を編集し、元の動画の長さを維持します。",
+      "fields": {
+        "source_video": {
+          "label": "元動画"
+        },
+        "prompt": {
+          "label": "編集指示"
+        },
+        "video_source": {
+          "label": "元動画 URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "8.7 秒以内の MP4 をアップロードします。"
+        },
+        "prompt": {
+          "help": "変更する被写体、照明、スタイルを記述します。"
+        },
+        "video_source": {
+          "help": "アップロードの代わりに公開 MP4 URL を 1 つ入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Grok Imagine Video 동영상 편집",
+      "description": "텍스트 지시로 MP4 동영상을 편집하고 원래 길이를 유지합니다.",
+      "fields": {
+        "source_video": {
+          "label": "원본 동영상"
+        },
+        "prompt": {
+          "label": "편집 지시"
+        },
+        "video_source": {
+          "label": "원본 동영상 URL"
+        }
+      },
+      "parameterLayout": {
+        "source_video": {
+          "help": "8.7초 이하의 MP4를 업로드하세요."
+        },
+        "prompt": {
+          "help": "변경할 피사체, 조명 또는 스타일을 설명하세요."
+        },
+        "video_source": {
+          "help": "업로드 대신 공개 MP4 URL을 하나 입력하세요."
+        }
+      }
+    }
+  }
+}

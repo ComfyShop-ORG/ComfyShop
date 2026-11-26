@@ -1,0 +1,561 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "tripo-h31-text-to-3d",
+  "name": "Tripo H3.1 文生 3D",
+  "description": "根据文字描述生成带纹理的 3D 模型，可调整几何精度、材质和网格拓扑。",
+  "category": "3d",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "negative_prompt",
+      "kind": "string",
+      "multiline": true,
+      "optional": true
+    },
+    {
+      "name": "texture",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "pbr",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "texture_quality",
+      "kind": "choice",
+      "choices": ["standard", "detailed"],
+      "default": "standard",
+      "optional": true
+    },
+    {
+      "name": "geometry_quality",
+      "kind": "choice",
+      "choices": ["standard", "detailed"],
+      "default": "standard",
+      "optional": true
+    },
+    {
+      "name": "face_limit",
+      "kind": "integer",
+      "minimum": "1000",
+      "maximum": "2000000",
+      "optional": true
+    },
+    {
+      "name": "model_seed",
+      "kind": "integer",
+      "optional": true
+    },
+    {
+      "name": "image_seed",
+      "kind": "integer",
+      "optional": true
+    },
+    {
+      "name": "texture_seed",
+      "kind": "integer",
+      "optional": true
+    },
+    {
+      "name": "auto_size",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "quad",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "negative_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "texture",
+      "section": "default"
+    },
+    {
+      "fieldId": "pbr",
+      "section": "default"
+    },
+    {
+      "fieldId": "texture_quality",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "geometry_quality",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "face_limit",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "model_seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "texture_seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "auto_size",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "quad",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "3d",
+    "additionalOutputKinds": ["image"],
+    "config": {
+      "operation": "image",
+      "model": "tripo-h3.1/text-to-3d",
+      "parameters": {
+        "prompt": "prompt",
+        "negative_prompt": "negative_prompt",
+        "texture": "texture",
+        "pbr": "pbr",
+        "texture_quality": "texture_quality",
+        "geometry_quality": "geometry_quality",
+        "face_limit": "face_limit",
+        "model_seed": "model_seed",
+        "image_seed": "image_seed",
+        "texture_seed": "texture_seed",
+        "auto_size": "auto_size",
+        "quad": "quad"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 1024
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Tripo H3.1 文生 3D",
+      "description": "根据文字描述生成带纹理的 3D 模型，可调整几何精度、材质和网格拓扑。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "negative_prompt": {
+          "label": "负向提示词"
+        },
+        "texture": {
+          "label": "生成纹理"
+        },
+        "pbr": {
+          "label": "生成 PBR 材质"
+        },
+        "texture_quality": {
+          "label": "纹理质量"
+        },
+        "geometry_quality": {
+          "label": "几何质量"
+        },
+        "face_limit": {
+          "label": "目标面数"
+        },
+        "model_seed": {
+          "label": "几何种子"
+        },
+        "image_seed": {
+          "label": "概念图种子"
+        },
+        "texture_seed": {
+          "label": "纹理种子"
+        },
+        "auto_size": {
+          "label": "按实物尺寸缩放"
+        },
+        "quad": {
+          "label": "四边面网格"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要生成的物体、形状和材质，最多 1024 个字符。"
+        },
+        "negative_prompt": {
+          "help": "描述希望在模型中避免的特征。"
+        },
+        "texture": {
+          "help": "为网格生成纹理。"
+        },
+        "pbr": {
+          "help": "生成基于物理的渲染材质。"
+        },
+        "texture_quality": {
+          "help": "选择标准或精细纹理。"
+        },
+        "geometry_quality": {
+          "help": "选择标准或精细几何结构。"
+        },
+        "face_limit": {
+          "help": "输入 1000 至 2000000 个面。初始为空，由模型自适应决定。"
+        },
+        "model_seed": {
+          "help": "指定用于复现几何的整数种子。"
+        },
+        "image_seed": {
+          "help": "指定用于复现文字生成概念图步骤的整数种子。"
+        },
+        "texture_seed": {
+          "help": "指定用于复现纹理的整数种子。"
+        },
+        "auto_size": {
+          "help": "自动将模型缩放到以米为单位的实物尺寸。"
+        },
+        "quad": {
+          "help": "开启时生成四边面网格，交付可下载的 FBX。默认交付可预览的 GLB。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Tripo H3.1 文字生成 3D",
+      "description": "根據文字描述產生帶紋理的 3D 模型，可調整幾何精度、材質與網格拓撲。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "negative_prompt": {
+          "label": "負向提示詞"
+        },
+        "texture": {
+          "label": "產生紋理"
+        },
+        "pbr": {
+          "label": "產生 PBR 材質"
+        },
+        "texture_quality": {
+          "label": "紋理品質"
+        },
+        "geometry_quality": {
+          "label": "幾何品質"
+        },
+        "face_limit": {
+          "label": "目標面數"
+        },
+        "model_seed": {
+          "label": "幾何種子"
+        },
+        "image_seed": {
+          "label": "概念圖種子"
+        },
+        "texture_seed": {
+          "label": "紋理種子"
+        },
+        "auto_size": {
+          "label": "按實物尺寸縮放"
+        },
+        "quad": {
+          "label": "四邊面網格"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要產生的物體、形狀與材質，最多 1024 個字元。"
+        },
+        "negative_prompt": {
+          "help": "描述希望在模型中避免的特徵。"
+        },
+        "texture": {
+          "help": "為網格產生紋理。"
+        },
+        "pbr": {
+          "help": "產生基於物理的渲染材質。"
+        },
+        "texture_quality": {
+          "help": "選擇標準或精細紋理。"
+        },
+        "geometry_quality": {
+          "help": "選擇標準或精細幾何結構。"
+        },
+        "face_limit": {
+          "help": "輸入 1000 至 2000000 個面。預設為空，由模型自動決定。"
+        },
+        "model_seed": {
+          "help": "指定可重現幾何結構的整數種子。"
+        },
+        "image_seed": {
+          "help": "指定用於重現文字生成概念圖步驟的整數種子。"
+        },
+        "texture_seed": {
+          "help": "指定可重現紋理的整數種子。"
+        },
+        "auto_size": {
+          "help": "自動將模型縮放到以公尺為單位的實物尺寸。"
+        },
+        "quad": {
+          "help": "啟用後產生四邊面網格並提供 FBX 下載。預設輸出為可預覽的 GLB。"
+        }
+      }
+    },
+    "en": {
+      "name": "Tripo H3.1 Text-to-3D",
+      "description": "Generate a textured 3D model from text with controls for geometry quality, materials, and mesh topology.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "negative_prompt": {
+          "label": "Negative prompt"
+        },
+        "texture": {
+          "label": "Generate texture"
+        },
+        "pbr": {
+          "label": "Generate PBR materials"
+        },
+        "texture_quality": {
+          "label": "Texture quality"
+        },
+        "geometry_quality": {
+          "label": "Geometry quality"
+        },
+        "face_limit": {
+          "label": "Target face count"
+        },
+        "model_seed": {
+          "label": "Geometry seed"
+        },
+        "image_seed": {
+          "label": "Concept image seed"
+        },
+        "texture_seed": {
+          "label": "Texture seed"
+        },
+        "auto_size": {
+          "label": "Scale to real-world size"
+        },
+        "quad": {
+          "label": "Quad topology"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the object, shape, and material in up to 1024 characters."
+        },
+        "negative_prompt": {
+          "help": "Describe features to avoid in the generated model."
+        },
+        "texture": {
+          "help": "Generate a texture for the mesh."
+        },
+        "pbr": {
+          "help": "Generate physically based materials."
+        },
+        "texture_quality": {
+          "help": "Choose standard or detailed textures."
+        },
+        "geometry_quality": {
+          "help": "Choose standard or detailed geometry."
+        },
+        "face_limit": {
+          "help": "Enter 1,000 to 2,000,000 faces. The model picks a count when the field is unset."
+        },
+        "model_seed": {
+          "help": "Use an integer seed to reproduce geometry."
+        },
+        "image_seed": {
+          "help": "Set an integer seed to reproduce the text-to-image step."
+        },
+        "texture_seed": {
+          "help": "Use an integer seed to reproduce textures."
+        },
+        "auto_size": {
+          "help": "Scale the model automatically to real-world dimensions in meters."
+        },
+        "quad": {
+          "help": "Enable quad topology to get a downloadable FBX file. The default GLB supports preview."
+        }
+      }
+    },
+    "ja": {
+      "name": "Tripo H3.1 テキストから 3D モデルを生成",
+      "description": "テキストからテクスチャ付きの 3D モデルを生成します。形状の品質、マテリアル、メッシュの構造を設定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "negative_prompt": {
+          "label": "ネガティブプロンプト"
+        },
+        "texture": {
+          "label": "テクスチャを生成"
+        },
+        "pbr": {
+          "label": "PBR マテリアルを生成"
+        },
+        "texture_quality": {
+          "label": "テクスチャ品質"
+        },
+        "geometry_quality": {
+          "label": "形状の品質"
+        },
+        "face_limit": {
+          "label": "目標面数"
+        },
+        "model_seed": {
+          "label": "形状のシード"
+        },
+        "image_seed": {
+          "label": "コンセプト画像のシード"
+        },
+        "texture_seed": {
+          "label": "テクスチャのシード"
+        },
+        "auto_size": {
+          "label": "実寸に合わせる"
+        },
+        "quad": {
+          "label": "四角形メッシュ"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "物体、形状、素材を 1024 文字以内で記述します。"
+        },
+        "negative_prompt": {
+          "help": "モデルに含めたくない特徴を記述します。"
+        },
+        "texture": {
+          "help": "メッシュのテクスチャを生成します。"
+        },
+        "pbr": {
+          "help": "物理ベースレンダリング用のマテリアルを生成します。"
+        },
+        "texture_quality": {
+          "help": "標準または詳細なテクスチャを選択します。"
+        },
+        "geometry_quality": {
+          "help": "標準または詳細な形状を選択します。"
+        },
+        "face_limit": {
+          "help": "1000～2000000面を指定します。初期状態ではモデルが自動で決めます。"
+        },
+        "model_seed": {
+          "help": "形状を再現するための整数シードを指定します。"
+        },
+        "image_seed": {
+          "help": "テキストからコンセプト画像を生成する工程を再現する整数シードを指定します。"
+        },
+        "texture_seed": {
+          "help": "テクスチャを再現するための整数シードを指定します。"
+        },
+        "auto_size": {
+          "help": "メートルを単位として自動的に実寸に合わせます。"
+        },
+        "quad": {
+          "help": "有効にすると四角形メッシュをFBXでダウンロードできます。既定のGLBはプレビューできます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Tripo H3.1 텍스트로 3D 모델 생성",
+      "description": "텍스트로 텍스처가 있는 3D 모델을 생성합니다. 기하 품질, 재질, 메시 토폴로지를 설정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "negative_prompt": {
+          "label": "부정 프롬프트"
+        },
+        "texture": {
+          "label": "텍스처 생성"
+        },
+        "pbr": {
+          "label": "PBR 재질 생성"
+        },
+        "texture_quality": {
+          "label": "텍스처 품질"
+        },
+        "geometry_quality": {
+          "label": "형상 품질"
+        },
+        "face_limit": {
+          "label": "목표 면 개수"
+        },
+        "model_seed": {
+          "label": "형상 시드"
+        },
+        "image_seed": {
+          "label": "콘셉트 이미지 시드"
+        },
+        "texture_seed": {
+          "label": "텍스처 시드"
+        },
+        "auto_size": {
+          "label": "실제 크기로 조절"
+        },
+        "quad": {
+          "label": "사각형 메시"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "만들 물체, 형태, 재질을 최대 1024자로 설명합니다."
+        },
+        "negative_prompt": {
+          "help": "생성할 모델에서 피할 특징을 설명합니다."
+        },
+        "texture": {
+          "help": "메시의 텍스처를 생성합니다."
+        },
+        "pbr": {
+          "help": "물리 기반 렌더링 재질을 생성합니다."
+        },
+        "texture_quality": {
+          "help": "표준 또는 고품질 텍스처를 선택합니다."
+        },
+        "geometry_quality": {
+          "help": "표준 또는 고품질 형상을 선택합니다."
+        },
+        "face_limit": {
+          "help": "1,000~2,000,000개의 면을 지정합니다. 초기에는 모델이 면 개수를 자동으로 선택합니다."
+        },
+        "model_seed": {
+          "help": "형상을 재현할 정수 시드를 지정합니다."
+        },
+        "image_seed": {
+          "help": "텍스트에서 콘셉트 이미지를 생성하는 단계를 재현할 정수 시드를 지정합니다."
+        },
+        "texture_seed": {
+          "help": "텍스처를 재현할 정수 시드를 지정합니다."
+        },
+        "auto_size": {
+          "help": "미터 단위의 실제 크기에 자동으로 맞춥니다."
+        },
+        "quad": {
+          "help": "켜면 사각형 메시를 FBX로 내려받을 수 있습니다. 기본 GLB는 미리보기를 지원합니다."
+        }
+      }
+    }
+  }
+}

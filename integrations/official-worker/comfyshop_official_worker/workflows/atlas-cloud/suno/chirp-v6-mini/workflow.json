@@ -1,0 +1,741 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "suno-mini-v6",
+  "name": "Suno Chirp v6 Mini 音乐生成",
+  "description": "快速生成歌曲草稿和短片配乐。可描述音乐或输入歌词，每次返回两个音轨和歌曲封面。",
+  "category": "audio",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "Late-night city lo-fi piano with the sound of rain",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 3000
+    },
+    {
+      "name": "custom",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "instrumental",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "variety",
+      "kind": "choice",
+      "choices": ["", "off", "normal", "high", "extra", "max"],
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "vocal_gender",
+      "kind": "choice",
+      "choices": ["", "Male", "Female"],
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "title",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "maxLength": 200
+    },
+    {
+      "name": "style",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "maxLength": 500
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "10",
+      "maximum": "360"
+    },
+    {
+      "name": "negative_tags",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "maxLength": 500
+    },
+    {
+      "name": "auto_lyrics",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "style_weight",
+      "kind": "number",
+      "optional": true,
+      "minimum": "0",
+      "maximum": "1"
+    },
+    {
+      "name": "weirdness_constraint",
+      "kind": "number",
+      "optional": true,
+      "minimum": "0",
+      "maximum": "1"
+    },
+    {
+      "name": "audio_weight",
+      "kind": "number",
+      "optional": true,
+      "minimum": "0",
+      "maximum": "1"
+    },
+    {
+      "name": "persona_id",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "custom",
+      "section": "default"
+    },
+    {
+      "fieldId": "instrumental",
+      "section": "default"
+    },
+    {
+      "fieldId": "variety",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "vocal_gender",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "title",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "style",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "duration",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "negative_tags",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "auto_lyrics",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "style_weight",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "weirdness_constraint",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "audio_weight",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "persona_id",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "audio",
+    "additionalOutputKinds": ["image"],
+    "config": {
+      "operation": "audio",
+      "model": "suno/chirp-v6-mini",
+      "parameters": {
+        "prompt": "prompt",
+        "custom": "custom",
+        "instrumental": "instrumental",
+        "variety": "variety",
+        "vocal_gender": "vocal_gender",
+        "title": "title",
+        "style": "style",
+        "duration": "duration",
+        "negative_tags": "negative_tags",
+        "auto_lyrics": "auto_lyrics",
+        "style_weight": "style_weight",
+        "weirdness_constraint": "weirdness_constraint",
+        "audio_weight": "audio_weight",
+        "persona_id": "persona_id"
+      },
+      "omit_blank_parameters": [
+        "vocal_gender",
+        "variety",
+        "title",
+        "style",
+        "negative_tags",
+        "persona_id",
+        "prompt"
+      ],
+      "text_max_lengths": {
+        "prompt": 3000,
+        "title": 200,
+        "style": 500,
+        "negative_tags": 500
+      },
+      "required_when": {
+        "prompt": [
+          {
+            "custom": false
+          },
+          {
+            "instrumental": false
+          }
+        ]
+      },
+      "enabled_by": {
+        "title": "custom",
+        "style": "custom",
+        "duration": "custom",
+        "negative_tags": "custom",
+        "auto_lyrics": "custom",
+        "style_weight": "custom",
+        "weirdness_constraint": "custom",
+        "audio_weight": "custom",
+        "persona_id": "custom"
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Suno Chirp v6 Mini 音乐生成",
+      "description": "快速生成歌曲草稿和短片配乐。可描述音乐或输入歌词，每次返回两个音轨和歌曲封面。",
+      "fields": {
+        "prompt": {
+          "label": "歌曲描述或歌词"
+        },
+        "custom": {
+          "label": "自定义模式"
+        },
+        "instrumental": {
+          "label": "纯音乐"
+        },
+        "variety": {
+          "label": "演绎变化",
+          "choiceLabels": {
+            "off": "保守",
+            "normal": "常规",
+            "high": "高",
+            "extra": "更高",
+            "max": "最高"
+          }
+        },
+        "vocal_gender": {
+          "label": "人声音色",
+          "choiceLabels": {
+            "Male": "男声",
+            "Female": "女声"
+          }
+        },
+        "title": {
+          "label": "歌曲标题"
+        },
+        "style": {
+          "label": "风格标签"
+        },
+        "duration": {
+          "label": "目标时长"
+        },
+        "negative_tags": {
+          "label": "排除标签"
+        },
+        "auto_lyrics": {
+          "label": "改写歌词"
+        },
+        "style_weight": {
+          "label": "风格权重"
+        },
+        "weirdness_constraint": {
+          "label": "创意程度"
+        },
+        "audio_weight": {
+          "label": "参考音频权重"
+        },
+        "persona_id": {
+          "label": "声音角色 ID"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "灵感模式下描述曲风、情绪或主题。自定义模式下输入歌词。最多 3000 字符，自定义纯音乐可留空。"
+        },
+        "custom": {
+          "help": "用自定义模式输入歌词，并设置曲名、风格、时长等参数。"
+        },
+        "instrumental": {
+          "help": "只生成乐器演奏。"
+        },
+        "variety": {
+          "help": "调节两个演绎版本偏离常规写法的程度。"
+        },
+        "vocal_gender": {
+          "help": "选择男声或女声。"
+        },
+        "title": {
+          "help": "仅自定义模式使用，最多 200 字符。"
+        },
+        "style": {
+          "help": "仅自定义模式使用，可写逗号分隔的风格标签，最多 500 字符。"
+        },
+        "duration": {
+          "help": "仅自定义模式使用。10 至 360 秒，成品时长可能略有变化。"
+        },
+        "negative_tags": {
+          "help": "仅自定义模式使用，填写要避免的风格，最多 500 字符。"
+        },
+        "auto_lyrics": {
+          "help": "仅自定义模式使用，允许模型改写输入的歌词。"
+        },
+        "style_weight": {
+          "help": "仅自定义模式使用，0 至 1。调节模型贴合所选风格的程度。"
+        },
+        "weirdness_constraint": {
+          "help": "仅自定义模式使用，0 至 1。值越高越倾向不常见的演绎。"
+        },
+        "audio_weight": {
+          "help": "仅自定义模式使用，0 至 1。"
+        },
+        "persona_id": {
+          "help": "仅自定义模式使用，填写已有的声音角色 ID。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Suno Chirp v6 Mini 音樂生成",
+      "description": "快速生成歌曲草稿與短片配樂。可描述音樂或輸入歌詞，每次回傳兩個音軌和歌曲封面。",
+      "fields": {
+        "prompt": {
+          "label": "歌曲描述或歌詞"
+        },
+        "custom": {
+          "label": "自訂模式"
+        },
+        "instrumental": {
+          "label": "純音樂"
+        },
+        "variety": {
+          "label": "演繹變化",
+          "choiceLabels": {
+            "off": "保守",
+            "normal": "一般",
+            "high": "高",
+            "extra": "更高",
+            "max": "最高"
+          }
+        },
+        "vocal_gender": {
+          "label": "人聲類型",
+          "choiceLabels": {
+            "Male": "男聲",
+            "Female": "女聲"
+          }
+        },
+        "title": {
+          "label": "歌曲標題"
+        },
+        "style": {
+          "label": "風格標籤"
+        },
+        "duration": {
+          "label": "目標長度"
+        },
+        "negative_tags": {
+          "label": "排除標籤"
+        },
+        "auto_lyrics": {
+          "label": "改寫歌詞"
+        },
+        "style_weight": {
+          "label": "風格權重"
+        },
+        "weirdness_constraint": {
+          "label": "創意程度"
+        },
+        "audio_weight": {
+          "label": "參考音訊權重"
+        },
+        "persona_id": {
+          "label": "聲音角色 ID"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "靈感模式下描述曲風、情緒或主題。自訂模式下輸入歌詞。最多 3000 個字元，自訂純音樂可留空。"
+        },
+        "custom": {
+          "help": "用自訂模式輸入歌詞，並設定曲名、風格、長度等參數。"
+        },
+        "instrumental": {
+          "help": "只產生樂器演奏。"
+        },
+        "variety": {
+          "help": "調整兩個版本偏離常規寫法的程度。"
+        },
+        "vocal_gender": {
+          "help": "選擇男聲或女聲。"
+        },
+        "title": {
+          "help": "只有自訂模式使用，最多 200 個字元。"
+        },
+        "style": {
+          "help": "只有自訂模式使用，可輸入以逗號分隔的風格標籤，最多 500 個字元。"
+        },
+        "duration": {
+          "help": "只有自訂模式使用。10 至 360 秒，成品長度可能略有不同。"
+        },
+        "negative_tags": {
+          "help": "只有自訂模式使用，填入要避免的風格，最多 500 個字元。"
+        },
+        "auto_lyrics": {
+          "help": "只有自訂模式使用，允許模型改寫輸入的歌詞。"
+        },
+        "style_weight": {
+          "help": "只有自訂模式使用，0 至 1。調整模型貼近所選風格的程度。"
+        },
+        "weirdness_constraint": {
+          "help": "只有自訂模式使用，0 至 1。值越高越可能採用少見的演繹。"
+        },
+        "audio_weight": {
+          "help": "只有自訂模式使用，0 至 1。"
+        },
+        "persona_id": {
+          "help": "只有自訂模式使用，填入現有的聲音角色 ID。"
+        }
+      }
+    },
+    "en": {
+      "name": "Suno Chirp v6 Mini Music Generation",
+      "description": "Generate song drafts and short-form soundtracks from a description or lyrics. Each generation returns two tracks and cover art.",
+      "fields": {
+        "prompt": {
+          "label": "Song description or lyrics"
+        },
+        "custom": {
+          "label": "Custom mode"
+        },
+        "instrumental": {
+          "label": "Instrumental"
+        },
+        "variety": {
+          "label": "Take variety",
+          "choiceLabels": {
+            "off": "Conservative",
+            "normal": "Standard",
+            "high": "High",
+            "extra": "Extra",
+            "max": "Maximum"
+          }
+        },
+        "vocal_gender": {
+          "label": "Vocal gender",
+          "choiceLabels": {
+            "Male": "Male",
+            "Female": "Female"
+          }
+        },
+        "title": {
+          "label": "Song title"
+        },
+        "style": {
+          "label": "Style tags"
+        },
+        "duration": {
+          "label": "Target duration"
+        },
+        "negative_tags": {
+          "label": "Excluded tags"
+        },
+        "auto_lyrics": {
+          "label": "Rewrite lyrics"
+        },
+        "style_weight": {
+          "label": "Style weight"
+        },
+        "weirdness_constraint": {
+          "label": "Creativity"
+        },
+        "audio_weight": {
+          "label": "Reference audio weight"
+        },
+        "persona_id": {
+          "label": "Voice persona ID"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the genre, mood, or theme in inspiration mode. Enter lyrics in custom mode. Use up to 3,000 characters. Custom instrumental requests may leave this empty."
+        },
+        "custom": {
+          "help": "Use custom mode for lyrics, a song title, style, duration, and related settings."
+        },
+        "instrumental": {
+          "help": "Generate an instrumental track without vocals."
+        },
+        "variety": {
+          "help": "Control how far the two takes can depart from a conventional interpretation."
+        },
+        "vocal_gender": {
+          "help": "Choose a male or female vocal."
+        },
+        "title": {
+          "help": "Custom mode only. Enter up to 200 characters."
+        },
+        "style": {
+          "help": "Custom mode only. Enter comma-separated style tags, up to 500 characters."
+        },
+        "duration": {
+          "help": "Custom mode only. Enter 10 to 360 seconds. The finished duration may vary slightly."
+        },
+        "negative_tags": {
+          "help": "Custom mode only. List styles to avoid, up to 500 characters."
+        },
+        "auto_lyrics": {
+          "help": "Custom mode only. Let the model rewrite the supplied lyrics."
+        },
+        "style_weight": {
+          "help": "Custom mode only. Set adherence to the supplied style from 0 to 1."
+        },
+        "weirdness_constraint": {
+          "help": "Custom mode only. Higher values from 0 to 1 encourage more unusual takes."
+        },
+        "audio_weight": {
+          "help": "Custom mode only. Set a weight from 0 to 1."
+        },
+        "persona_id": {
+          "help": "Custom mode only. Enter an existing voice persona ID."
+        }
+      }
+    },
+    "ja": {
+      "name": "Suno Chirp v6 Mini 音楽生成",
+      "description": "曲の説明や歌詞から、曲の下書きや短い映像の音楽をすばやく作ります。1 回で 2 曲とカバー画像を返します。",
+      "fields": {
+        "prompt": {
+          "label": "曲の説明または歌詞"
+        },
+        "custom": {
+          "label": "カスタムモード"
+        },
+        "instrumental": {
+          "label": "インストゥルメンタル"
+        },
+        "variety": {
+          "label": "アレンジの変化",
+          "choiceLabels": {
+            "off": "定番",
+            "normal": "標準",
+            "high": "高め",
+            "extra": "さらに高い",
+            "max": "最大"
+          }
+        },
+        "vocal_gender": {
+          "label": "ボーカルの種類",
+          "choiceLabels": {
+            "Male": "男性",
+            "Female": "女性"
+          }
+        },
+        "title": {
+          "label": "曲名"
+        },
+        "style": {
+          "label": "スタイルタグ"
+        },
+        "duration": {
+          "label": "目標の長さ"
+        },
+        "negative_tags": {
+          "label": "除外タグ"
+        },
+        "auto_lyrics": {
+          "label": "歌詞を書き換える"
+        },
+        "style_weight": {
+          "label": "スタイルの重み"
+        },
+        "weirdness_constraint": {
+          "label": "創作の自由度"
+        },
+        "audio_weight": {
+          "label": "参照音声の重み"
+        },
+        "persona_id": {
+          "label": "音声ペルソナ ID"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "インスピレーションモードではジャンルや雰囲気、テーマを説明します。カスタムモードでは歌詞を入力します。3000 文字まで。カスタムのインストゥルメンタルでは空欄にできます。"
+        },
+        "custom": {
+          "help": "カスタムモードで歌詞、曲名、スタイル、長さなどを指定します。"
+        },
+        "instrumental": {
+          "help": "ボーカルなしの楽器演奏を生成します。"
+        },
+        "variety": {
+          "help": "2 曲のアレンジが定番からどれだけ離れるかを調整します。"
+        },
+        "vocal_gender": {
+          "help": "男性または女性のボーカルを選びます。"
+        },
+        "title": {
+          "help": "カスタムモードのみ。200 文字まで指定できます。"
+        },
+        "style": {
+          "help": "カスタムモードのみ。カンマ区切りのスタイルタグを 500 文字まで入力できます。"
+        },
+        "duration": {
+          "help": "カスタムモードのみ。10〜360 秒を指定します。完成した曲の長さには多少の差が出る場合があります。"
+        },
+        "negative_tags": {
+          "help": "カスタムモードのみ。避けたいスタイルを 500 文字まで指定できます。"
+        },
+        "auto_lyrics": {
+          "help": "カスタムモードのみ。入力した歌詞の書き換えをモデルに任せます。"
+        },
+        "style_weight": {
+          "help": "カスタムモードのみ。指定スタイルに沿う度合いを 0〜1 で設定します。"
+        },
+        "weirdness_constraint": {
+          "help": "カスタムモードのみ。0〜1 で、大きい値ほど個性的なアレンジになります。"
+        },
+        "audio_weight": {
+          "help": "カスタムモードのみ。0〜1 で指定します。"
+        },
+        "persona_id": {
+          "help": "カスタムモードのみ。既存の音声ペルソナ ID を入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Suno Chirp v6 Mini 음악 생성",
+      "description": "설명이나 가사로 곡의 초안과 짧은 영상의 배경음악을 빠르게 만듭니다. 한 번에 트랙 두 개와 커버 이미지를 반환합니다.",
+      "fields": {
+        "prompt": {
+          "label": "곡 설명 또는 가사"
+        },
+        "custom": {
+          "label": "사용자 지정 모드"
+        },
+        "instrumental": {
+          "label": "연주곡"
+        },
+        "variety": {
+          "label": "편곡 다양성",
+          "choiceLabels": {
+            "off": "보수적",
+            "normal": "일반",
+            "high": "높음",
+            "extra": "더 높음",
+            "max": "최대"
+          }
+        },
+        "vocal_gender": {
+          "label": "보컬 유형",
+          "choiceLabels": {
+            "Male": "남성",
+            "Female": "여성"
+          }
+        },
+        "title": {
+          "label": "곡 제목"
+        },
+        "style": {
+          "label": "스타일 태그"
+        },
+        "duration": {
+          "label": "목표 길이"
+        },
+        "negative_tags": {
+          "label": "제외 태그"
+        },
+        "auto_lyrics": {
+          "label": "가사 다시 쓰기"
+        },
+        "style_weight": {
+          "label": "스타일 가중치"
+        },
+        "weirdness_constraint": {
+          "label": "창의성"
+        },
+        "audio_weight": {
+          "label": "참조 오디오 가중치"
+        },
+        "persona_id": {
+          "label": "음성 페르소나 ID"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "영감 모드에서는 장르, 분위기, 주제를 설명하세요. 사용자 지정 모드에서는 가사를 입력하세요. 최대 3000자이며, 사용자 지정 연주곡에서는 비워 둘 수 있습니다."
+        },
+        "custom": {
+          "help": "가사, 제목, 스타일, 길이 등을 지정하려면 사용자 지정 모드를 사용하세요."
+        },
+        "instrumental": {
+          "help": "보컬 없이 악기 연주만 생성합니다."
+        },
+        "variety": {
+          "help": "두 버전의 편곡이 일반적인 해석에서 얼마나 달라지는지 조절합니다."
+        },
+        "vocal_gender": {
+          "help": "남성 또는 여성 보컬을 선택하세요."
+        },
+        "title": {
+          "help": "사용자 지정 모드에서만 사용되며 최대 200자입니다."
+        },
+        "style": {
+          "help": "사용자 지정 모드에서 쉼표로 구분한 스타일 태그를 최대 500자까지 입력하세요."
+        },
+        "duration": {
+          "help": "사용자 지정 모드에서만 사용됩니다. 10~360초를 입력하세요. 실제 길이는 조금 달라질 수 있습니다."
+        },
+        "negative_tags": {
+          "help": "사용자 지정 모드에서 제외할 스타일을 최대 500자까지 입력하세요."
+        },
+        "auto_lyrics": {
+          "help": "사용자 지정 모드에서 모델이 입력한 가사를 다시 쓰도록 허용합니다."
+        },
+        "style_weight": {
+          "help": "사용자 지정 모드에서 스타일 준수 정도를 0~1로 지정하세요."
+        },
+        "weirdness_constraint": {
+          "help": "사용자 지정 모드에서만 사용됩니다. 0~1 사이의 값이 높을수록 독특한 편곡을 만듭니다."
+        },
+        "audio_weight": {
+          "help": "사용자 지정 모드에서만 사용됩니다. 0~1 사이의 값을 지정하세요."
+        },
+        "persona_id": {
+          "help": "사용자 지정 모드에서 기존 음성 페르소나 ID를 입력하세요."
+        }
+      }
+    }
+  }
+}

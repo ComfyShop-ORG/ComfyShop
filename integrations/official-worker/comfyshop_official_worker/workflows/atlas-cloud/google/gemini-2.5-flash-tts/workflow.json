@@ -1,0 +1,179 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "google-gemini-25-flash-tts",
+  "name": "Gemini 2.5 Flash 文生语音",
+  "description": "把文本转成语音，可选择预设音色并通过文字指示语气和语速。",
+  "category": "audio",
+  "fields": [
+    {
+      "name": "text",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "voice",
+      "kind": "choice",
+      "choices": [
+        "Kore",
+        "Achernar",
+        "Achird",
+        "Algenib",
+        "Algieba",
+        "Alnilam",
+        "Aoede",
+        "Autonoe",
+        "Callirrhoe",
+        "Charon",
+        "Despina",
+        "Enceladus",
+        "Erinome",
+        "Fenrir",
+        "Gacrux",
+        "Iapetus",
+        "Laomedeia",
+        "Leda",
+        "Orus",
+        "Pulcherrima",
+        "Puck",
+        "Rasalgethi",
+        "Sadachbia",
+        "Sadaltager",
+        "Schedar",
+        "Sulafat",
+        "Umbriel",
+        "Vindemiatrix",
+        "Zephyr",
+        "Zubenelgenubi"
+      ],
+      "default": "Kore",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "text",
+      "section": "default"
+    },
+    {
+      "fieldId": "voice",
+      "section": "default"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "audio",
+    "config": {
+      "operation": "audio",
+      "model": "google/gemini-2.5-flash-tts",
+      "parameters": {
+        "text": "text",
+        "voice": "voice"
+      },
+      "required_text": ["text"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Gemini 2.5 Flash 文生语音",
+      "description": "把文本转成语音，可选择预设音色并通过文字指示语气和语速。",
+      "fields": {
+        "text": {
+          "label": "朗读文本"
+        },
+        "voice": {
+          "label": "音色"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "输入要朗读的内容。可以用自然语言描述口音、语气和节奏。"
+        },
+        "voice": {
+          "help": "选择 Google 提供的预设音色，默认为 Kore。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Gemini 2.5 Flash 文生語音",
+      "description": "將文字轉成語音，可選擇預設音色並以文字指示語氣和語速。",
+      "fields": {
+        "text": {
+          "label": "朗讀文字"
+        },
+        "voice": {
+          "label": "音色"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "輸入要朗讀的內容。可以用自然語言描述口音、語氣和節奏。"
+        },
+        "voice": {
+          "help": "選擇 Google 提供的預設音色，預設為 Kore。"
+        }
+      }
+    },
+    "en": {
+      "name": "Gemini 2.5 Flash Text-to-Speech",
+      "description": "Turn text into speech with a preset voice. Describe the tone, accent, or pace in the text.",
+      "fields": {
+        "text": {
+          "label": "Text to read"
+        },
+        "voice": {
+          "label": "Voice"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "Enter the text to synthesize. Use plain-language instructions to shape the accent, tone, or pace."
+        },
+        "voice": {
+          "help": "Choose a preset Google voice. The default is Kore."
+        }
+      }
+    },
+    "ja": {
+      "name": "Gemini 2.5 Flash テキスト読み上げ",
+      "description": "テキストから音声を生成します。プリセットの声を選択し、話し方や速度を文章で指定できます。",
+      "fields": {
+        "text": {
+          "label": "読み上げるテキスト"
+        },
+        "voice": {
+          "label": "音声"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "読み上げる内容を入力します。アクセント、口調、話す速さを自然な文章で指定できます。"
+        },
+        "voice": {
+          "help": "Google のプリセット音声から選択します。既定は Kore です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Gemini 2.5 Flash 텍스트 음성 변환",
+      "description": "텍스트를 음성으로 변환합니다. 기본 제공 음성을 선택하고 문장으로 말투나 속도를 지정할 수 있습니다.",
+      "fields": {
+        "text": {
+          "label": "읽을 텍스트"
+        },
+        "voice": {
+          "label": "음성"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "읽을 내용을 입력합니다. 말투, 억양, 속도를 자연어로 지정할 수 있습니다."
+        },
+        "voice": {
+          "help": "Google의 기본 제공 음성을 선택합니다. 기본값은 Kore입니다."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,552 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-google-gemini-omni-1-1-flash-image-to-video",
+  "name": "Gemini Omni 1.1 Flash 图生视频",
+  "description": "用起始图、提示词和可选的结束图生成带音频的视频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 20000
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 10,
+      "optional": true,
+      "minimum": "3",
+      "maximum": "10"
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "optional": true,
+      "choices": ["16:9", "9:16"]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "optional": true,
+      "choices": ["360p", "720p", "1080p", "4k"]
+    },
+    {
+      "name": "thinking_level",
+      "kind": "choice",
+      "default": "default",
+      "optional": true,
+      "choices": ["default", "high", "low"]
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "thinking_level",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "google/gemini-omni-1.1-flash/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "thinking_level": "thinking_level",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "max_bytes": 20000000,
+          "content_types": ["image/png", "image/jpeg", "image/webp"]
+        },
+        "last_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "external_sources_field": "last_frame_source",
+          "min_items": 0,
+          "max_bytes": 20000000,
+          "content_types": ["image/png", "image/jpeg", "image/webp"]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Gemini Omni 1.1 Flash 图生视频",
+      "description": "用起始图、提示词和可选的结束图生成带音频的视频。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "aspect_ratio": {
+          "label": "画面比例"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "360p": "360p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "推理程度",
+          "choiceLabels": {
+            "default": "模型默认",
+            "high": "高",
+            "low": "低"
+          }
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "first_frame": {
+          "label": "起始帧"
+        },
+        "last_frame": {
+          "label": "结束帧"
+        },
+        "first_frame_source": {
+          "label": "起始帧来源"
+        },
+        "last_frame_source": {
+          "label": "结束帧来源"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述场景、画面风格、镜头或人物动作。最多 20,000 字符。"
+        },
+        "first_frame": {
+          "help": "上传起始图或在高级区填写其地址。支持 PNG、JPEG、WebP，每张最多 20 MB。"
+        },
+        "last_frame": {
+          "help": "可选。用于指定成片的最后一帧，文件限制与起始帧相同。"
+        },
+        "duration": {
+          "help": "输入 3 至 10 的整数。默认 10 秒。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9 横屏或 9:16 竖屏。"
+        },
+        "resolution": {
+          "help": "360p 用于预览，720p 为默认，1080p 和 4K 由模型放大。"
+        },
+        "thinking_level": {
+          "help": "较高的推理程度可能改善复杂任务的效果，生成耗时也可能增加。"
+        },
+        "seed": {
+          "help": "输入整数。-1 由模型随机选取种子。"
+        },
+        "first_frame_source": {
+          "help": "填写一个公开图片 URL 或 Base64 数据网址，与上传二选一。"
+        },
+        "last_frame_source": {
+          "help": "填写一个公开图片 URL 或 Base64 数据网址，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Gemini Omni 1.1 Flash 圖生影片",
+      "description": "以起始圖、提示詞與選填的結尾圖產生有聲影片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "360p": "360p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "推理程度",
+          "choiceLabels": {
+            "default": "模型預設",
+            "high": "高",
+            "low": "低"
+          }
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "first_frame": {
+          "label": "起始影格"
+        },
+        "last_frame": {
+          "label": "結尾影格"
+        },
+        "first_frame_source": {
+          "label": "起始影格來源"
+        },
+        "last_frame_source": {
+          "label": "結尾影格來源"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述場景、畫面風格、運鏡或人物動作。最多 20,000 字元。"
+        },
+        "first_frame": {
+          "help": "上傳起始圖或在進階區填寫網址。支援 PNG、JPEG、WebP，每張最多 20 MB。"
+        },
+        "last_frame": {
+          "help": "選填，用於指定影片的最後一格。檔案限制與起始影格相同。"
+        },
+        "duration": {
+          "help": "輸入 3 至 10 的整數。預設為 10 秒。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9 橫向或 9:16 直向。"
+        },
+        "resolution": {
+          "help": "360p 用於預覽，720p 為預設，1080p 和 4K 由模型放大。"
+        },
+        "thinking_level": {
+          "help": "較高的推理程度可改善複雜任務的效果，也可能增加生成時間。"
+        },
+        "seed": {
+          "help": "輸入整數。-1 由模型隨機選取種子。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個公開圖片網址或 Base64 資料網址，與上傳擇一。"
+        },
+        "last_frame_source": {
+          "help": "填寫一個公開圖片網址或 Base64 資料網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Gemini Omni 1.1 Flash Image to Video",
+      "description": "Animate an opening image with a prompt and an optional closing image in a video with audio.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "360p": "360p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "Thinking level",
+          "choiceLabels": {
+            "default": "Model default",
+            "high": "High",
+            "low": "Low"
+          }
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "first_frame": {
+          "label": "First frame"
+        },
+        "last_frame": {
+          "label": "Last frame"
+        },
+        "first_frame_source": {
+          "label": "First frame source"
+        },
+        "last_frame_source": {
+          "label": "Last frame source"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the scene, style, camera direction, or character actions. Use up to 20,000 characters."
+        },
+        "first_frame": {
+          "help": "Upload an opening image or enter its source under Advanced. PNG, JPEG, and WebP are accepted, up to 20 MB each."
+        },
+        "last_frame": {
+          "help": "Optionally set the closing frame. It uses the same file limits as the first frame."
+        },
+        "duration": {
+          "help": "Enter a whole number from 3 to 10. The default is 10 seconds."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9 landscape or 9:16 portrait."
+        },
+        "resolution": {
+          "help": "Use 360p for previews or the default 720p. The model upscales 1080p and 4K."
+        },
+        "thinking_level": {
+          "help": "A higher level may improve the result for complex prompts and increase generation time."
+        },
+        "seed": {
+          "help": "Enter an integer. Use -1 for a random seed."
+        },
+        "first_frame_source": {
+          "help": "Enter one public image URL or Base64 data URL in place of an upload."
+        },
+        "last_frame_source": {
+          "help": "Enter one public image URL or Base64 data URL in place of an upload."
+        }
+      }
+    },
+    "ja": {
+      "name": "Gemini Omni 1.1 Flash 画像から動画",
+      "description": "開始画像、プロンプト、任意の終了画像から音声付き動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "360p": "360p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "推論レベル",
+          "choiceLabels": {
+            "default": "モデルの既定値",
+            "high": "高",
+            "low": "低"
+          }
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "first_frame": {
+          "label": "開始フレーム"
+        },
+        "last_frame": {
+          "label": "終了フレーム"
+        },
+        "first_frame_source": {
+          "label": "開始フレームの参照先"
+        },
+        "last_frame_source": {
+          "label": "終了フレームの参照先"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "場面、画風、カメラワーク、人物の動作を記述します。最大20,000文字です。"
+        },
+        "first_frame": {
+          "help": "開始画像をアップロードするか、詳細設定で参照先を指定します。PNG、JPEG、WebPに対応し、各20 MBまでです。"
+        },
+        "last_frame": {
+          "help": "任意で最後のフレームを指定します。ファイル制限は開始フレームと同じです。"
+        },
+        "duration": {
+          "help": "3〜10の整数を入力します。既定値は10秒です。"
+        },
+        "aspect_ratio": {
+          "help": "横長の16:9または縦長の9:16を選択します。"
+        },
+        "resolution": {
+          "help": "プレビューは360p、既定値は720pです。1080pと4Kはモデルがアップスケールします。"
+        },
+        "thinking_level": {
+          "help": "高い設定は複雑な指示への応答を改善する場合があり、生成時間も増えることがあります。"
+        },
+        "seed": {
+          "help": "整数を入力します。-1はランダムなシードを使います。"
+        },
+        "first_frame_source": {
+          "help": "アップロードの代わりに公開画像のURLまたはBase64データURLを1件入力します。"
+        },
+        "last_frame_source": {
+          "help": "アップロードの代わりに公開画像のURLまたはBase64データURLを1件入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Gemini Omni 1.1 Flash 이미지로 동영상 생성",
+      "description": "첫 이미지와 프롬프트, 선택적인 마지막 이미지로 오디오가 포함된 동영상을 만듭니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "360p": "360p",
+            "720p": "720p",
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "추론 수준",
+          "choiceLabels": {
+            "default": "모델 기본값",
+            "high": "높음",
+            "low": "낮음"
+          }
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "first_frame": {
+          "label": "첫 프레임"
+        },
+        "last_frame": {
+          "label": "마지막 프레임"
+        },
+        "first_frame_source": {
+          "label": "첫 프레임 소스"
+        },
+        "last_frame_source": {
+          "label": "마지막 프레임 소스"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "장면, 시각적 스타일, 카메라 움직임 또는 인물 동작을 설명합니다. 최대 20,000자입니다."
+        },
+        "first_frame": {
+          "help": "첫 이미지를 업로드하거나 고급 설정에서 소스를 입력합니다. PNG, JPEG, WebP 형식이며 각각 최대 20 MB입니다."
+        },
+        "last_frame": {
+          "help": "선택적으로 영상의 마지막 프레임을 지정합니다. 파일 제한은 첫 프레임과 같습니다."
+        },
+        "duration": {
+          "help": "3에서 10 사이의 정수를 입력합니다. 기본값은 10초입니다."
+        },
+        "aspect_ratio": {
+          "help": "가로 16:9 또는 세로 9:16을 선택합니다."
+        },
+        "resolution": {
+          "help": "미리보기는 360p, 기본값은 720p입니다. 1080p와 4K는 모델에서 업스케일합니다."
+        },
+        "thinking_level": {
+          "help": "수준을 높이면 복잡한 지시의 결과가 개선될 수 있으며 생성 시간이 늘어날 수 있습니다."
+        },
+        "seed": {
+          "help": "정수를 입력합니다. -1은 무작위 시드를 사용합니다."
+        },
+        "first_frame_source": {
+          "help": "업로드 대신 공개 이미지 URL 또는 Base64 데이터 URL을 하나 입력합니다."
+        },
+        "last_frame_source": {
+          "help": "업로드 대신 공개 이미지 URL 또는 Base64 데이터 URL을 하나 입력합니다."
+        }
+      }
+    }
+  }
+}

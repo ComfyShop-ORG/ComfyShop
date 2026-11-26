@@ -1,0 +1,1741 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-pixc1-art-refs",
+  "name": "PixVerse C1 参考图生成视频",
+  "description": "用 1 至 7 张参考图片和提示词生成视频，可指定主体或背景。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "",
+      "maxLength": 5000
+    },
+    {
+      "name": "duration_seconds",
+      "kind": "choice",
+      "choices": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "optional": true,
+      "default": 5
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "choices": ["16:9", "9:16", "1:1", "4:3", "3:4", "2:3", "3:2", "21:9"],
+      "optional": true,
+      "default": "16:9"
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "choices": ["360p", "540p", "720p", "1080p"],
+      "optional": true,
+      "default": "720p"
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_1_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "reference_type_1",
+      "kind": "choice",
+      "optional": true,
+      "default": "",
+      "choices": ["", "subject", "background"]
+    },
+    {
+      "name": "reference_name_1",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "maxLength": 30
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "reference_type_2",
+      "kind": "choice",
+      "optional": true,
+      "default": "",
+      "choices": ["", "subject", "background"]
+    },
+    {
+      "name": "reference_name_2",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "maxLength": 30
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "reference_type_3",
+      "kind": "choice",
+      "optional": true,
+      "default": "",
+      "choices": ["", "subject", "background"]
+    },
+    {
+      "name": "reference_name_3",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "maxLength": 30
+    },
+    {
+      "name": "reference_image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_4_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "reference_type_4",
+      "kind": "choice",
+      "optional": true,
+      "default": "",
+      "choices": ["", "subject", "background"]
+    },
+    {
+      "name": "reference_name_4",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "maxLength": 30
+    },
+    {
+      "name": "reference_image_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_5_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "reference_type_5",
+      "kind": "choice",
+      "optional": true,
+      "default": "",
+      "choices": ["", "subject", "background"]
+    },
+    {
+      "name": "reference_name_5",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "maxLength": 30
+    },
+    {
+      "name": "reference_image_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_6_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "reference_type_6",
+      "kind": "choice",
+      "optional": true,
+      "default": "",
+      "choices": ["", "subject", "background"]
+    },
+    {
+      "name": "reference_name_6",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "maxLength": 30
+    },
+    {
+      "name": "reference_image_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_7_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "reference_type_7",
+      "kind": "choice",
+      "optional": true,
+      "default": "",
+      "choices": ["", "subject", "background"]
+    },
+    {
+      "name": "reference_name_7",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "maxLength": 30
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration_seconds",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_1_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_type_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_name_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_2_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_type_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_name_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_type_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_name_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_type_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_name_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_5_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_type_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_name_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_6_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_type_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_name_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_7_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_type_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_name_7",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "pixverse/c1/reference-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration_seconds",
+        "aspect_ratio": "aspect_ratio",
+        "seed": "seed",
+        "quality": "resolution",
+        "sound": "generate_audio"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 5000
+      },
+      "prediction_endpoint": "result",
+      "request_max_bytes": 20000000,
+      "reference_arrays": {
+        "images": {
+          "slots": [
+            {
+              "kind": "image",
+              "fields": ["reference_image_1"],
+              "external_sources_field": "reference_image_1_source",
+              "reference_type_field": "reference_type_1",
+              "reference_name_field": "reference_name_1",
+              "max_bytes": 20000000,
+              "content_types": ["image/png", "image/jpeg", "image/webp"],
+              "allow_raw_base64": true,
+              "image_bounds": {
+                "min_side": 300,
+                "max_aspect_ratio": 2.5
+              }
+            },
+            {
+              "kind": "image",
+              "fields": ["reference_image_2"],
+              "external_sources_field": "reference_image_2_source",
+              "reference_type_field": "reference_type_2",
+              "reference_name_field": "reference_name_2",
+              "max_bytes": 20000000,
+              "content_types": ["image/png", "image/jpeg", "image/webp"],
+              "allow_raw_base64": true,
+              "image_bounds": {
+                "min_side": 300,
+                "max_aspect_ratio": 2.5
+              }
+            },
+            {
+              "kind": "image",
+              "fields": ["reference_image_3"],
+              "external_sources_field": "reference_image_3_source",
+              "reference_type_field": "reference_type_3",
+              "reference_name_field": "reference_name_3",
+              "max_bytes": 20000000,
+              "content_types": ["image/png", "image/jpeg", "image/webp"],
+              "allow_raw_base64": true,
+              "image_bounds": {
+                "min_side": 300,
+                "max_aspect_ratio": 2.5
+              }
+            },
+            {
+              "kind": "image",
+              "fields": ["reference_image_4"],
+              "external_sources_field": "reference_image_4_source",
+              "reference_type_field": "reference_type_4",
+              "reference_name_field": "reference_name_4",
+              "max_bytes": 20000000,
+              "content_types": ["image/png", "image/jpeg", "image/webp"],
+              "allow_raw_base64": true,
+              "image_bounds": {
+                "min_side": 300,
+                "max_aspect_ratio": 2.5
+              }
+            },
+            {
+              "kind": "image",
+              "fields": ["reference_image_5"],
+              "external_sources_field": "reference_image_5_source",
+              "reference_type_field": "reference_type_5",
+              "reference_name_field": "reference_name_5",
+              "max_bytes": 20000000,
+              "content_types": ["image/png", "image/jpeg", "image/webp"],
+              "allow_raw_base64": true,
+              "image_bounds": {
+                "min_side": 300,
+                "max_aspect_ratio": 2.5
+              }
+            },
+            {
+              "kind": "image",
+              "fields": ["reference_image_6"],
+              "external_sources_field": "reference_image_6_source",
+              "reference_type_field": "reference_type_6",
+              "reference_name_field": "reference_name_6",
+              "max_bytes": 20000000,
+              "content_types": ["image/png", "image/jpeg", "image/webp"],
+              "allow_raw_base64": true,
+              "image_bounds": {
+                "min_side": 300,
+                "max_aspect_ratio": 2.5
+              }
+            },
+            {
+              "kind": "image",
+              "fields": ["reference_image_7"],
+              "external_sources_field": "reference_image_7_source",
+              "reference_type_field": "reference_type_7",
+              "reference_name_field": "reference_name_7",
+              "max_bytes": 20000000,
+              "content_types": ["image/png", "image/jpeg", "image/webp"],
+              "allow_raw_base64": true,
+              "image_bounds": {
+                "min_side": 300,
+                "max_aspect_ratio": 2.5
+              }
+            }
+          ],
+          "reference_types": ["subject", "background"],
+          "name_max_bytes": 30
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "PixVerse C1 参考图生成视频",
+      "description": "用 1 至 7 张参考图片和提示词生成视频，可指定主体或背景。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration_seconds": {
+          "label": "时长（秒）"
+        },
+        "aspect_ratio": {
+          "label": "宽高比"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "generate_audio": {
+          "label": "生成同步音频"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_1_source": {
+          "label": "参考图来源 1"
+        },
+        "reference_type_1": {
+          "label": "引用类型 1",
+          "choiceLabels": {
+            "": "未设置",
+            "subject": "主体",
+            "background": "背景"
+          }
+        },
+        "reference_name_1": {
+          "label": "引用名称 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_2_source": {
+          "label": "参考图来源 2"
+        },
+        "reference_type_2": {
+          "label": "引用类型 2",
+          "choiceLabels": {
+            "": "未设置",
+            "subject": "主体",
+            "background": "背景"
+          }
+        },
+        "reference_name_2": {
+          "label": "引用名称 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_3_source": {
+          "label": "参考图来源 3"
+        },
+        "reference_type_3": {
+          "label": "引用类型 3",
+          "choiceLabels": {
+            "": "未设置",
+            "subject": "主体",
+            "background": "背景"
+          }
+        },
+        "reference_name_3": {
+          "label": "引用名称 3"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        },
+        "reference_image_4_source": {
+          "label": "参考图来源 4"
+        },
+        "reference_type_4": {
+          "label": "引用类型 4",
+          "choiceLabels": {
+            "": "未设置",
+            "subject": "主体",
+            "background": "背景"
+          }
+        },
+        "reference_name_4": {
+          "label": "引用名称 4"
+        },
+        "reference_image_5": {
+          "label": "参考图 5"
+        },
+        "reference_image_5_source": {
+          "label": "参考图来源 5"
+        },
+        "reference_type_5": {
+          "label": "引用类型 5",
+          "choiceLabels": {
+            "": "未设置",
+            "subject": "主体",
+            "background": "背景"
+          }
+        },
+        "reference_name_5": {
+          "label": "引用名称 5"
+        },
+        "reference_image_6": {
+          "label": "参考图 6"
+        },
+        "reference_image_6_source": {
+          "label": "参考图来源 6"
+        },
+        "reference_type_6": {
+          "label": "引用类型 6",
+          "choiceLabels": {
+            "": "未设置",
+            "subject": "主体",
+            "background": "背景"
+          }
+        },
+        "reference_name_6": {
+          "label": "引用名称 6"
+        },
+        "reference_image_7": {
+          "label": "参考图 7"
+        },
+        "reference_image_7_source": {
+          "label": "参考图来源 7"
+        },
+        "reference_type_7": {
+          "label": "引用类型 7",
+          "choiceLabels": {
+            "": "未设置",
+            "subject": "主体",
+            "background": "背景"
+          }
+        },
+        "reference_name_7": {
+          "label": "引用名称 7"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "上传 PNG、JPEG 或 WebP。每张不超过 20 MB，短边至少 300 像素，宽高比介于 1:2.5 与 2.5:1。"
+        },
+        "reference_image_2": {
+          "help": "上传 PNG、JPEG 或 WebP。每张不超过 20 MB，短边至少 300 像素，宽高比介于 1:2.5 与 2.5:1。"
+        },
+        "prompt": {
+          "help": "描述主体、动作和场景，最多 5,000 字符。"
+        },
+        "duration_seconds": {
+          "help": "选择 1 至 15 秒，默认 5 秒。"
+        },
+        "aspect_ratio": {
+          "help": "设置成品视频的宽高比。"
+        },
+        "resolution": {
+          "help": "选择 360p、540p、720p 或 1080p。"
+        },
+        "generate_audio": {
+          "help": "跟随画面生成同步声音。"
+        },
+        "seed": {
+          "help": "填入整数以复用生成条件。留空时由 Atlas 选取。"
+        },
+        "reference_image_1_source": {
+          "help": "填写公开图片 URL、Base64 Data URI 或原始 Base64，与上传二选一。"
+        },
+        "reference_type_1": {
+          "help": "可以指定这张图片用作主体或背景。"
+        },
+        "reference_name_1": {
+          "help": "最多 30 个 UTF-8 字节。可在提示词中用 @名称引用，例如 @场景。"
+        },
+        "reference_image_2_source": {
+          "help": "填写公开图片 URL、Base64 Data URI 或原始 Base64，与上传二选一。"
+        },
+        "reference_type_2": {
+          "help": "可以指定这张图片用作主体或背景。"
+        },
+        "reference_name_2": {
+          "help": "最多 30 个 UTF-8 字节。可在提示词中用 @名称引用，例如 @场景。"
+        },
+        "reference_image_3": {
+          "help": "上传 PNG、JPEG 或 WebP。每张不超过 20 MB，短边至少 300 像素，宽高比介于 1:2.5 与 2.5:1。"
+        },
+        "reference_image_3_source": {
+          "help": "填写公开图片 URL、Base64 Data URI 或原始 Base64，与上传二选一。"
+        },
+        "reference_type_3": {
+          "help": "可以指定这张图片用作主体或背景。"
+        },
+        "reference_name_3": {
+          "help": "最多 30 个 UTF-8 字节。可在提示词中用 @名称引用，例如 @场景。"
+        },
+        "reference_image_4": {
+          "help": "上传 PNG、JPEG 或 WebP。每张不超过 20 MB，短边至少 300 像素，宽高比介于 1:2.5 与 2.5:1。"
+        },
+        "reference_image_4_source": {
+          "help": "填写公开图片 URL、Base64 Data URI 或原始 Base64，与上传二选一。"
+        },
+        "reference_type_4": {
+          "help": "可以指定这张图片用作主体或背景。"
+        },
+        "reference_name_4": {
+          "help": "最多 30 个 UTF-8 字节。可在提示词中用 @名称引用，例如 @场景。"
+        },
+        "reference_image_5": {
+          "help": "上传 PNG、JPEG 或 WebP。每张不超过 20 MB，短边至少 300 像素，宽高比介于 1:2.5 与 2.5:1。"
+        },
+        "reference_image_5_source": {
+          "help": "填写公开图片 URL、Base64 Data URI 或原始 Base64，与上传二选一。"
+        },
+        "reference_type_5": {
+          "help": "可以指定这张图片用作主体或背景。"
+        },
+        "reference_name_5": {
+          "help": "最多 30 个 UTF-8 字节。可在提示词中用 @名称引用，例如 @场景。"
+        },
+        "reference_image_6": {
+          "help": "上传 PNG、JPEG 或 WebP。每张不超过 20 MB，短边至少 300 像素，宽高比介于 1:2.5 与 2.5:1。"
+        },
+        "reference_image_6_source": {
+          "help": "填写公开图片 URL、Base64 Data URI 或原始 Base64，与上传二选一。"
+        },
+        "reference_type_6": {
+          "help": "可以指定这张图片用作主体或背景。"
+        },
+        "reference_name_6": {
+          "help": "最多 30 个 UTF-8 字节。可在提示词中用 @名称引用，例如 @场景。"
+        },
+        "reference_image_7": {
+          "help": "上传 PNG、JPEG 或 WebP。每张不超过 20 MB，短边至少 300 像素，宽高比介于 1:2.5 与 2.5:1。"
+        },
+        "reference_image_7_source": {
+          "help": "填写公开图片 URL、Base64 Data URI 或原始 Base64，与上传二选一。"
+        },
+        "reference_type_7": {
+          "help": "可以指定这张图片用作主体或背景。"
+        },
+        "reference_name_7": {
+          "help": "最多 30 个 UTF-8 字节。可在提示词中用 @名称引用，例如 @场景。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "PixVerse C1 參考圖生成影片",
+      "description": "使用 1 至 7 張參考圖片與提示詞生成影片，可指定主體或背景。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration_seconds": {
+          "label": "時長（秒）"
+        },
+        "aspect_ratio": {
+          "label": "長寬比"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "generate_audio": {
+          "label": "生成同步音訊"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "reference_image_1_source": {
+          "label": "參考圖來源 1"
+        },
+        "reference_type_1": {
+          "label": "引用類型 1",
+          "choiceLabels": {
+            "": "未設定",
+            "subject": "主體",
+            "background": "背景"
+          }
+        },
+        "reference_name_1": {
+          "label": "引用名稱 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_2_source": {
+          "label": "參考圖來源 2"
+        },
+        "reference_type_2": {
+          "label": "引用類型 2",
+          "choiceLabels": {
+            "": "未設定",
+            "subject": "主體",
+            "background": "背景"
+          }
+        },
+        "reference_name_2": {
+          "label": "引用名稱 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "reference_image_3_source": {
+          "label": "參考圖來源 3"
+        },
+        "reference_type_3": {
+          "label": "引用類型 3",
+          "choiceLabels": {
+            "": "未設定",
+            "subject": "主體",
+            "background": "背景"
+          }
+        },
+        "reference_name_3": {
+          "label": "引用名稱 3"
+        },
+        "reference_image_4": {
+          "label": "參考圖 4"
+        },
+        "reference_image_4_source": {
+          "label": "參考圖來源 4"
+        },
+        "reference_type_4": {
+          "label": "引用類型 4",
+          "choiceLabels": {
+            "": "未設定",
+            "subject": "主體",
+            "background": "背景"
+          }
+        },
+        "reference_name_4": {
+          "label": "引用名稱 4"
+        },
+        "reference_image_5": {
+          "label": "參考圖 5"
+        },
+        "reference_image_5_source": {
+          "label": "參考圖來源 5"
+        },
+        "reference_type_5": {
+          "label": "引用類型 5",
+          "choiceLabels": {
+            "": "未設定",
+            "subject": "主體",
+            "background": "背景"
+          }
+        },
+        "reference_name_5": {
+          "label": "引用名稱 5"
+        },
+        "reference_image_6": {
+          "label": "參考圖 6"
+        },
+        "reference_image_6_source": {
+          "label": "參考圖來源 6"
+        },
+        "reference_type_6": {
+          "label": "引用類型 6",
+          "choiceLabels": {
+            "": "未設定",
+            "subject": "主體",
+            "background": "背景"
+          }
+        },
+        "reference_name_6": {
+          "label": "引用名稱 6"
+        },
+        "reference_image_7": {
+          "label": "參考圖 7"
+        },
+        "reference_image_7_source": {
+          "label": "參考圖來源 7"
+        },
+        "reference_type_7": {
+          "label": "引用類型 7",
+          "choiceLabels": {
+            "": "未設定",
+            "subject": "主體",
+            "background": "背景"
+          }
+        },
+        "reference_name_7": {
+          "label": "引用名稱 7"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "上傳 PNG、JPEG 或 WebP。每張不超過 20 MB，短邊至少 300 像素，長寬比介於 1:2.5 與 2.5:1。"
+        },
+        "reference_image_2": {
+          "help": "上傳 PNG、JPEG 或 WebP。每張不超過 20 MB，短邊至少 300 像素，長寬比介於 1:2.5 與 2.5:1。"
+        },
+        "prompt": {
+          "help": "描述主體、動作與場景，最多 5,000 個字元。"
+        },
+        "duration_seconds": {
+          "help": "選擇 1 至 15 秒，預設 5 秒。"
+        },
+        "aspect_ratio": {
+          "help": "設定成品影片的長寬比。"
+        },
+        "resolution": {
+          "help": "選擇 360p、540p、720p 或 1080p。"
+        },
+        "generate_audio": {
+          "help": "跟隨畫面生成同步聲音。"
+        },
+        "seed": {
+          "help": "填入整數以重複使用生成條件。留空時由 Atlas 選取。"
+        },
+        "reference_image_1_source": {
+          "help": "填寫公開圖片網址、Base64 Data URI 或原始 Base64，與上傳擇一。"
+        },
+        "reference_type_1": {
+          "help": "可指定這張圖片用作主體或背景。"
+        },
+        "reference_name_1": {
+          "help": "最多 30 個 UTF-8 位元組。可在提示詞中用 @名稱引用，例如 @場景。"
+        },
+        "reference_image_2_source": {
+          "help": "填寫公開圖片網址、Base64 Data URI 或原始 Base64，與上傳擇一。"
+        },
+        "reference_type_2": {
+          "help": "可指定這張圖片用作主體或背景。"
+        },
+        "reference_name_2": {
+          "help": "最多 30 個 UTF-8 位元組。可在提示詞中用 @名稱引用，例如 @場景。"
+        },
+        "reference_image_3": {
+          "help": "上傳 PNG、JPEG 或 WebP。每張不超過 20 MB，短邊至少 300 像素，長寬比介於 1:2.5 與 2.5:1。"
+        },
+        "reference_image_3_source": {
+          "help": "填寫公開圖片網址、Base64 Data URI 或原始 Base64，與上傳擇一。"
+        },
+        "reference_type_3": {
+          "help": "可指定這張圖片用作主體或背景。"
+        },
+        "reference_name_3": {
+          "help": "最多 30 個 UTF-8 位元組。可在提示詞中用 @名稱引用，例如 @場景。"
+        },
+        "reference_image_4": {
+          "help": "上傳 PNG、JPEG 或 WebP。每張不超過 20 MB，短邊至少 300 像素，長寬比介於 1:2.5 與 2.5:1。"
+        },
+        "reference_image_4_source": {
+          "help": "填寫公開圖片網址、Base64 Data URI 或原始 Base64，與上傳擇一。"
+        },
+        "reference_type_4": {
+          "help": "可指定這張圖片用作主體或背景。"
+        },
+        "reference_name_4": {
+          "help": "最多 30 個 UTF-8 位元組。可在提示詞中用 @名稱引用，例如 @場景。"
+        },
+        "reference_image_5": {
+          "help": "上傳 PNG、JPEG 或 WebP。每張不超過 20 MB，短邊至少 300 像素，長寬比介於 1:2.5 與 2.5:1。"
+        },
+        "reference_image_5_source": {
+          "help": "填寫公開圖片網址、Base64 Data URI 或原始 Base64，與上傳擇一。"
+        },
+        "reference_type_5": {
+          "help": "可指定這張圖片用作主體或背景。"
+        },
+        "reference_name_5": {
+          "help": "最多 30 個 UTF-8 位元組。可在提示詞中用 @名稱引用，例如 @場景。"
+        },
+        "reference_image_6": {
+          "help": "上傳 PNG、JPEG 或 WebP。每張不超過 20 MB，短邊至少 300 像素，長寬比介於 1:2.5 與 2.5:1。"
+        },
+        "reference_image_6_source": {
+          "help": "填寫公開圖片網址、Base64 Data URI 或原始 Base64，與上傳擇一。"
+        },
+        "reference_type_6": {
+          "help": "可指定這張圖片用作主體或背景。"
+        },
+        "reference_name_6": {
+          "help": "最多 30 個 UTF-8 位元組。可在提示詞中用 @名稱引用，例如 @場景。"
+        },
+        "reference_image_7": {
+          "help": "上傳 PNG、JPEG 或 WebP。每張不超過 20 MB，短邊至少 300 像素，長寬比介於 1:2.5 與 2.5:1。"
+        },
+        "reference_image_7_source": {
+          "help": "填寫公開圖片網址、Base64 Data URI 或原始 Base64，與上傳擇一。"
+        },
+        "reference_type_7": {
+          "help": "可指定這張圖片用作主體或背景。"
+        },
+        "reference_name_7": {
+          "help": "最多 30 個 UTF-8 位元組。可在提示詞中用 @名稱引用，例如 @場景。"
+        }
+      }
+    },
+    "en": {
+      "name": "PixVerse C1 Reference-to-Video",
+      "description": "Generate a video from a prompt and one to seven reference images. Assign references to a subject or background.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration_seconds": {
+          "label": "Duration (seconds)"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "generate_audio": {
+          "label": "Generate synchronized audio"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_1_source": {
+          "label": "Reference image source 1"
+        },
+        "reference_type_1": {
+          "label": "Reference type 1",
+          "choiceLabels": {
+            "": "Unset",
+            "subject": "Subject",
+            "background": "Background"
+          }
+        },
+        "reference_name_1": {
+          "label": "Reference name 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_2_source": {
+          "label": "Reference image source 2"
+        },
+        "reference_type_2": {
+          "label": "Reference type 2",
+          "choiceLabels": {
+            "": "Unset",
+            "subject": "Subject",
+            "background": "Background"
+          }
+        },
+        "reference_name_2": {
+          "label": "Reference name 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_3_source": {
+          "label": "Reference image source 3"
+        },
+        "reference_type_3": {
+          "label": "Reference type 3",
+          "choiceLabels": {
+            "": "Unset",
+            "subject": "Subject",
+            "background": "Background"
+          }
+        },
+        "reference_name_3": {
+          "label": "Reference name 3"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        },
+        "reference_image_4_source": {
+          "label": "Reference image source 4"
+        },
+        "reference_type_4": {
+          "label": "Reference type 4",
+          "choiceLabels": {
+            "": "Unset",
+            "subject": "Subject",
+            "background": "Background"
+          }
+        },
+        "reference_name_4": {
+          "label": "Reference name 4"
+        },
+        "reference_image_5": {
+          "label": "Reference image 5"
+        },
+        "reference_image_5_source": {
+          "label": "Reference image source 5"
+        },
+        "reference_type_5": {
+          "label": "Reference type 5",
+          "choiceLabels": {
+            "": "Unset",
+            "subject": "Subject",
+            "background": "Background"
+          }
+        },
+        "reference_name_5": {
+          "label": "Reference name 5"
+        },
+        "reference_image_6": {
+          "label": "Reference image 6"
+        },
+        "reference_image_6_source": {
+          "label": "Reference image source 6"
+        },
+        "reference_type_6": {
+          "label": "Reference type 6",
+          "choiceLabels": {
+            "": "Unset",
+            "subject": "Subject",
+            "background": "Background"
+          }
+        },
+        "reference_name_6": {
+          "label": "Reference name 6"
+        },
+        "reference_image_7": {
+          "label": "Reference image 7"
+        },
+        "reference_image_7_source": {
+          "label": "Reference image source 7"
+        },
+        "reference_type_7": {
+          "label": "Reference type 7",
+          "choiceLabels": {
+            "": "Unset",
+            "subject": "Subject",
+            "background": "Background"
+          }
+        },
+        "reference_name_7": {
+          "label": "Reference name 7"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "Upload PNG, JPEG, or WebP, up to 20 MB each. The short side must be at least 300 pixels and the aspect ratio must be from 1:2.5 to 2.5:1."
+        },
+        "reference_image_2": {
+          "help": "Upload PNG, JPEG, or WebP, up to 20 MB each. The short side must be at least 300 pixels and the aspect ratio must be from 1:2.5 to 2.5:1."
+        },
+        "prompt": {
+          "help": "Describe the subject, motion, and scene in up to 5,000 characters."
+        },
+        "duration_seconds": {
+          "help": "Choose 1 to 15 seconds. The default is 5 seconds."
+        },
+        "aspect_ratio": {
+          "help": "Set the width-to-height ratio of the video."
+        },
+        "resolution": {
+          "help": "Choose 360p, 540p, 720p, or 1080p."
+        },
+        "generate_audio": {
+          "help": "Generate sound that matches the video."
+        },
+        "seed": {
+          "help": "Provide an integer to reuse the seed across requests. Leave blank for Atlas to choose."
+        },
+        "reference_image_1_source": {
+          "help": "Provide a public image URL, Base64 data URI, or raw Base64, or upload an image."
+        },
+        "reference_type_1": {
+          "help": "Use this image for a subject or a background."
+        },
+        "reference_name_1": {
+          "help": "Use up to 30 UTF-8 bytes. Mention the image in your prompt with its name, for example @scene."
+        },
+        "reference_image_2_source": {
+          "help": "Provide a public image URL, Base64 data URI, or raw Base64, or upload an image."
+        },
+        "reference_type_2": {
+          "help": "Use this image for a subject or a background."
+        },
+        "reference_name_2": {
+          "help": "Use up to 30 UTF-8 bytes. Mention the image in your prompt with its name, for example @scene."
+        },
+        "reference_image_3": {
+          "help": "Upload PNG, JPEG, or WebP, up to 20 MB each. The short side must be at least 300 pixels and the aspect ratio must be from 1:2.5 to 2.5:1."
+        },
+        "reference_image_3_source": {
+          "help": "Provide a public image URL, Base64 data URI, or raw Base64, or upload an image."
+        },
+        "reference_type_3": {
+          "help": "Use this image for a subject or a background."
+        },
+        "reference_name_3": {
+          "help": "Use up to 30 UTF-8 bytes. Mention the image in your prompt with its name, for example @scene."
+        },
+        "reference_image_4": {
+          "help": "Upload PNG, JPEG, or WebP, up to 20 MB each. The short side must be at least 300 pixels and the aspect ratio must be from 1:2.5 to 2.5:1."
+        },
+        "reference_image_4_source": {
+          "help": "Provide a public image URL, Base64 data URI, or raw Base64, or upload an image."
+        },
+        "reference_type_4": {
+          "help": "Use this image for a subject or a background."
+        },
+        "reference_name_4": {
+          "help": "Use up to 30 UTF-8 bytes. Mention the image in your prompt with its name, for example @scene."
+        },
+        "reference_image_5": {
+          "help": "Upload PNG, JPEG, or WebP, up to 20 MB each. The short side must be at least 300 pixels and the aspect ratio must be from 1:2.5 to 2.5:1."
+        },
+        "reference_image_5_source": {
+          "help": "Provide a public image URL, Base64 data URI, or raw Base64, or upload an image."
+        },
+        "reference_type_5": {
+          "help": "Use this image for a subject or a background."
+        },
+        "reference_name_5": {
+          "help": "Use up to 30 UTF-8 bytes. Mention the image in your prompt with its name, for example @scene."
+        },
+        "reference_image_6": {
+          "help": "Upload PNG, JPEG, or WebP, up to 20 MB each. The short side must be at least 300 pixels and the aspect ratio must be from 1:2.5 to 2.5:1."
+        },
+        "reference_image_6_source": {
+          "help": "Provide a public image URL, Base64 data URI, or raw Base64, or upload an image."
+        },
+        "reference_type_6": {
+          "help": "Use this image for a subject or a background."
+        },
+        "reference_name_6": {
+          "help": "Use up to 30 UTF-8 bytes. Mention the image in your prompt with its name, for example @scene."
+        },
+        "reference_image_7": {
+          "help": "Upload PNG, JPEG, or WebP, up to 20 MB each. The short side must be at least 300 pixels and the aspect ratio must be from 1:2.5 to 2.5:1."
+        },
+        "reference_image_7_source": {
+          "help": "Provide a public image URL, Base64 data URI, or raw Base64, or upload an image."
+        },
+        "reference_type_7": {
+          "help": "Use this image for a subject or a background."
+        },
+        "reference_name_7": {
+          "help": "Use up to 30 UTF-8 bytes. Mention the image in your prompt with its name, for example @scene."
+        }
+      }
+    },
+    "ja": {
+      "name": "PixVerse C1 参照画像から動画",
+      "description": "参照画像 1〜7 枚とプロンプトから動画を生成します。被写体や背景を指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration_seconds": {
+          "label": "長さ（秒）"
+        },
+        "aspect_ratio": {
+          "label": "縦横比"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "generate_audio": {
+          "label": "同期音声を生成"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "reference_image_1": {
+          "label": "参照画像 1"
+        },
+        "reference_image_1_source": {
+          "label": "参照画像の入力元 1"
+        },
+        "reference_type_1": {
+          "label": "参照タイプ 1",
+          "choiceLabels": {
+            "": "未設定",
+            "subject": "被写体",
+            "background": "背景"
+          }
+        },
+        "reference_name_1": {
+          "label": "参照名 1"
+        },
+        "reference_image_2": {
+          "label": "参照画像 2"
+        },
+        "reference_image_2_source": {
+          "label": "参照画像の入力元 2"
+        },
+        "reference_type_2": {
+          "label": "参照タイプ 2",
+          "choiceLabels": {
+            "": "未設定",
+            "subject": "被写体",
+            "background": "背景"
+          }
+        },
+        "reference_name_2": {
+          "label": "参照名 2"
+        },
+        "reference_image_3": {
+          "label": "参照画像 3"
+        },
+        "reference_image_3_source": {
+          "label": "参照画像の入力元 3"
+        },
+        "reference_type_3": {
+          "label": "参照タイプ 3",
+          "choiceLabels": {
+            "": "未設定",
+            "subject": "被写体",
+            "background": "背景"
+          }
+        },
+        "reference_name_3": {
+          "label": "参照名 3"
+        },
+        "reference_image_4": {
+          "label": "参照画像 4"
+        },
+        "reference_image_4_source": {
+          "label": "参照画像の入力元 4"
+        },
+        "reference_type_4": {
+          "label": "参照タイプ 4",
+          "choiceLabels": {
+            "": "未設定",
+            "subject": "被写体",
+            "background": "背景"
+          }
+        },
+        "reference_name_4": {
+          "label": "参照名 4"
+        },
+        "reference_image_5": {
+          "label": "参照画像 5"
+        },
+        "reference_image_5_source": {
+          "label": "参照画像の入力元 5"
+        },
+        "reference_type_5": {
+          "label": "参照タイプ 5",
+          "choiceLabels": {
+            "": "未設定",
+            "subject": "被写体",
+            "background": "背景"
+          }
+        },
+        "reference_name_5": {
+          "label": "参照名 5"
+        },
+        "reference_image_6": {
+          "label": "参照画像 6"
+        },
+        "reference_image_6_source": {
+          "label": "参照画像の入力元 6"
+        },
+        "reference_type_6": {
+          "label": "参照タイプ 6",
+          "choiceLabels": {
+            "": "未設定",
+            "subject": "被写体",
+            "background": "背景"
+          }
+        },
+        "reference_name_6": {
+          "label": "参照名 6"
+        },
+        "reference_image_7": {
+          "label": "参照画像 7"
+        },
+        "reference_image_7_source": {
+          "label": "参照画像の入力元 7"
+        },
+        "reference_type_7": {
+          "label": "参照タイプ 7",
+          "choiceLabels": {
+            "": "未設定",
+            "subject": "被写体",
+            "background": "背景"
+          }
+        },
+        "reference_name_7": {
+          "label": "参照名 7"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "PNG、JPEG、WebP をアップロードします。画像は各 20 MB 以下、短辺は 300 ピクセル以上、縦横比は 1:2.5〜2.5:1 です。"
+        },
+        "reference_image_2": {
+          "help": "PNG、JPEG、WebP をアップロードします。画像は各 20 MB 以下、短辺は 300 ピクセル以上、縦横比は 1:2.5〜2.5:1 です。"
+        },
+        "prompt": {
+          "help": "被写体、動き、場面を 5,000 文字以内で記述します。"
+        },
+        "duration_seconds": {
+          "help": "1〜15 秒から選びます。既定値は 5 秒です。"
+        },
+        "aspect_ratio": {
+          "help": "動画の横幅と高さの比率を設定します。"
+        },
+        "resolution": {
+          "help": "360p、540p、720p、1080p から選びます。"
+        },
+        "generate_audio": {
+          "help": "映像に合った音声を生成します。"
+        },
+        "seed": {
+          "help": "同じシードを使うには整数を指定します。空欄の場合は Atlas が選びます。"
+        },
+        "reference_image_1_source": {
+          "help": "公開画像 URL、Base64 Data URI、Base64 文字列の入力、または画像のアップロードを選びます。"
+        },
+        "reference_type_1": {
+          "help": "この画像を被写体または背景として指定できます。"
+        },
+        "reference_name_1": {
+          "help": "UTF-8 で 30 バイトまで入力できます。プロンプトで @背景 のように参照名を使えます。"
+        },
+        "reference_image_2_source": {
+          "help": "公開画像 URL、Base64 Data URI、Base64 文字列の入力、または画像のアップロードを選びます。"
+        },
+        "reference_type_2": {
+          "help": "この画像を被写体または背景として指定できます。"
+        },
+        "reference_name_2": {
+          "help": "UTF-8 で 30 バイトまで入力できます。プロンプトで @背景 のように参照名を使えます。"
+        },
+        "reference_image_3": {
+          "help": "PNG、JPEG、WebP をアップロードします。画像は各 20 MB 以下、短辺は 300 ピクセル以上、縦横比は 1:2.5〜2.5:1 です。"
+        },
+        "reference_image_3_source": {
+          "help": "公開画像 URL、Base64 Data URI、Base64 文字列の入力、または画像のアップロードを選びます。"
+        },
+        "reference_type_3": {
+          "help": "この画像を被写体または背景として指定できます。"
+        },
+        "reference_name_3": {
+          "help": "UTF-8 で 30 バイトまで入力できます。プロンプトで @背景 のように参照名を使えます。"
+        },
+        "reference_image_4": {
+          "help": "PNG、JPEG、WebP をアップロードします。画像は各 20 MB 以下、短辺は 300 ピクセル以上、縦横比は 1:2.5〜2.5:1 です。"
+        },
+        "reference_image_4_source": {
+          "help": "公開画像 URL、Base64 Data URI、Base64 文字列の入力、または画像のアップロードを選びます。"
+        },
+        "reference_type_4": {
+          "help": "この画像を被写体または背景として指定できます。"
+        },
+        "reference_name_4": {
+          "help": "UTF-8 で 30 バイトまで入力できます。プロンプトで @背景 のように参照名を使えます。"
+        },
+        "reference_image_5": {
+          "help": "PNG、JPEG、WebP をアップロードします。画像は各 20 MB 以下、短辺は 300 ピクセル以上、縦横比は 1:2.5〜2.5:1 です。"
+        },
+        "reference_image_5_source": {
+          "help": "公開画像 URL、Base64 Data URI、Base64 文字列の入力、または画像のアップロードを選びます。"
+        },
+        "reference_type_5": {
+          "help": "この画像を被写体または背景として指定できます。"
+        },
+        "reference_name_5": {
+          "help": "UTF-8 で 30 バイトまで入力できます。プロンプトで @背景 のように参照名を使えます。"
+        },
+        "reference_image_6": {
+          "help": "PNG、JPEG、WebP をアップロードします。画像は各 20 MB 以下、短辺は 300 ピクセル以上、縦横比は 1:2.5〜2.5:1 です。"
+        },
+        "reference_image_6_source": {
+          "help": "公開画像 URL、Base64 Data URI、Base64 文字列の入力、または画像のアップロードを選びます。"
+        },
+        "reference_type_6": {
+          "help": "この画像を被写体または背景として指定できます。"
+        },
+        "reference_name_6": {
+          "help": "UTF-8 で 30 バイトまで入力できます。プロンプトで @背景 のように参照名を使えます。"
+        },
+        "reference_image_7": {
+          "help": "PNG、JPEG、WebP をアップロードします。画像は各 20 MB 以下、短辺は 300 ピクセル以上、縦横比は 1:2.5〜2.5:1 です。"
+        },
+        "reference_image_7_source": {
+          "help": "公開画像 URL、Base64 Data URI、Base64 文字列の入力、または画像のアップロードを選びます。"
+        },
+        "reference_type_7": {
+          "help": "この画像を被写体または背景として指定できます。"
+        },
+        "reference_name_7": {
+          "help": "UTF-8 で 30 バイトまで入力できます。プロンプトで @背景 のように参照名を使えます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "PixVerse C1 참조 이미지로 동영상 생성",
+      "description": "참조 이미지 1~7장과 프롬프트로 동영상을 생성합니다. 피사체 또는 배경을 지정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration_seconds": {
+          "label": "길이(초)"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "generate_audio": {
+          "label": "동기화 오디오 생성"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_1_source": {
+          "label": "참조 이미지 소스 1"
+        },
+        "reference_type_1": {
+          "label": "참조 유형 1",
+          "choiceLabels": {
+            "": "미설정",
+            "subject": "피사체",
+            "background": "배경"
+          }
+        },
+        "reference_name_1": {
+          "label": "참조 이름 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_2_source": {
+          "label": "참조 이미지 소스 2"
+        },
+        "reference_type_2": {
+          "label": "참조 유형 2",
+          "choiceLabels": {
+            "": "미설정",
+            "subject": "피사체",
+            "background": "배경"
+          }
+        },
+        "reference_name_2": {
+          "label": "참조 이름 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_3_source": {
+          "label": "참조 이미지 소스 3"
+        },
+        "reference_type_3": {
+          "label": "참조 유형 3",
+          "choiceLabels": {
+            "": "미설정",
+            "subject": "피사체",
+            "background": "배경"
+          }
+        },
+        "reference_name_3": {
+          "label": "참조 이름 3"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_image_4_source": {
+          "label": "참조 이미지 소스 4"
+        },
+        "reference_type_4": {
+          "label": "참조 유형 4",
+          "choiceLabels": {
+            "": "미설정",
+            "subject": "피사체",
+            "background": "배경"
+          }
+        },
+        "reference_name_4": {
+          "label": "참조 이름 4"
+        },
+        "reference_image_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_image_5_source": {
+          "label": "참조 이미지 소스 5"
+        },
+        "reference_type_5": {
+          "label": "참조 유형 5",
+          "choiceLabels": {
+            "": "미설정",
+            "subject": "피사체",
+            "background": "배경"
+          }
+        },
+        "reference_name_5": {
+          "label": "참조 이름 5"
+        },
+        "reference_image_6": {
+          "label": "참조 이미지 6"
+        },
+        "reference_image_6_source": {
+          "label": "참조 이미지 소스 6"
+        },
+        "reference_type_6": {
+          "label": "참조 유형 6",
+          "choiceLabels": {
+            "": "미설정",
+            "subject": "피사체",
+            "background": "배경"
+          }
+        },
+        "reference_name_6": {
+          "label": "참조 이름 6"
+        },
+        "reference_image_7": {
+          "label": "참조 이미지 7"
+        },
+        "reference_image_7_source": {
+          "label": "참조 이미지 소스 7"
+        },
+        "reference_type_7": {
+          "label": "참조 유형 7",
+          "choiceLabels": {
+            "": "미설정",
+            "subject": "피사체",
+            "background": "배경"
+          }
+        },
+        "reference_name_7": {
+          "label": "참조 이름 7"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "PNG, JPEG, WebP를 한 장당 20 MB 이하로 업로드하세요. 짧은 변은 300픽셀 이상, 가로세로 비율은 1:2.5~2.5:1이어야 합니다."
+        },
+        "reference_image_2": {
+          "help": "PNG, JPEG, WebP를 한 장당 20 MB 이하로 업로드하세요. 짧은 변은 300픽셀 이상, 가로세로 비율은 1:2.5~2.5:1이어야 합니다."
+        },
+        "prompt": {
+          "help": "피사체, 움직임, 장면을 최대 5,000자로 설명하세요."
+        },
+        "duration_seconds": {
+          "help": "1~15초를 선택하세요. 기본값은 5초입니다."
+        },
+        "aspect_ratio": {
+          "help": "동영상의 가로세로 비율을 설정합니다."
+        },
+        "resolution": {
+          "help": "360p, 540p, 720p, 1080p 중 선택하세요."
+        },
+        "generate_audio": {
+          "help": "영상에 어울리는 소리를 생성합니다."
+        },
+        "seed": {
+          "help": "같은 시드를 다시 사용하려면 정수를 입력하세요. 비워 두면 Atlas가 선택합니다."
+        },
+        "reference_image_1_source": {
+          "help": "공개 이미지 URL, Base64 Data URI, Base64 문자열을 입력하거나 이미지를 업로드하세요."
+        },
+        "reference_type_1": {
+          "help": "이 이미지를 피사체 또는 배경으로 지정할 수 있습니다."
+        },
+        "reference_name_1": {
+          "help": "최대 UTF-8 30바이트입니다. 프롬프트에 @배경처럼 이름을 넣을 수 있습니다."
+        },
+        "reference_image_2_source": {
+          "help": "공개 이미지 URL, Base64 Data URI, Base64 문자열을 입력하거나 이미지를 업로드하세요."
+        },
+        "reference_type_2": {
+          "help": "이 이미지를 피사체 또는 배경으로 지정할 수 있습니다."
+        },
+        "reference_name_2": {
+          "help": "최대 UTF-8 30바이트입니다. 프롬프트에 @배경처럼 이름을 넣을 수 있습니다."
+        },
+        "reference_image_3": {
+          "help": "PNG, JPEG, WebP를 한 장당 20 MB 이하로 업로드하세요. 짧은 변은 300픽셀 이상, 가로세로 비율은 1:2.5~2.5:1이어야 합니다."
+        },
+        "reference_image_3_source": {
+          "help": "공개 이미지 URL, Base64 Data URI, Base64 문자열을 입력하거나 이미지를 업로드하세요."
+        },
+        "reference_type_3": {
+          "help": "이 이미지를 피사체 또는 배경으로 지정할 수 있습니다."
+        },
+        "reference_name_3": {
+          "help": "최대 UTF-8 30바이트입니다. 프롬프트에 @배경처럼 이름을 넣을 수 있습니다."
+        },
+        "reference_image_4": {
+          "help": "PNG, JPEG, WebP를 한 장당 20 MB 이하로 업로드하세요. 짧은 변은 300픽셀 이상, 가로세로 비율은 1:2.5~2.5:1이어야 합니다."
+        },
+        "reference_image_4_source": {
+          "help": "공개 이미지 URL, Base64 Data URI, Base64 문자열을 입력하거나 이미지를 업로드하세요."
+        },
+        "reference_type_4": {
+          "help": "이 이미지를 피사체 또는 배경으로 지정할 수 있습니다."
+        },
+        "reference_name_4": {
+          "help": "최대 UTF-8 30바이트입니다. 프롬프트에 @배경처럼 이름을 넣을 수 있습니다."
+        },
+        "reference_image_5": {
+          "help": "PNG, JPEG, WebP를 한 장당 20 MB 이하로 업로드하세요. 짧은 변은 300픽셀 이상, 가로세로 비율은 1:2.5~2.5:1이어야 합니다."
+        },
+        "reference_image_5_source": {
+          "help": "공개 이미지 URL, Base64 Data URI, Base64 문자열을 입력하거나 이미지를 업로드하세요."
+        },
+        "reference_type_5": {
+          "help": "이 이미지를 피사체 또는 배경으로 지정할 수 있습니다."
+        },
+        "reference_name_5": {
+          "help": "최대 UTF-8 30바이트입니다. 프롬프트에 @배경처럼 이름을 넣을 수 있습니다."
+        },
+        "reference_image_6": {
+          "help": "PNG, JPEG, WebP를 한 장당 20 MB 이하로 업로드하세요. 짧은 변은 300픽셀 이상, 가로세로 비율은 1:2.5~2.5:1이어야 합니다."
+        },
+        "reference_image_6_source": {
+          "help": "공개 이미지 URL, Base64 Data URI, Base64 문자열을 입력하거나 이미지를 업로드하세요."
+        },
+        "reference_type_6": {
+          "help": "이 이미지를 피사체 또는 배경으로 지정할 수 있습니다."
+        },
+        "reference_name_6": {
+          "help": "최대 UTF-8 30바이트입니다. 프롬프트에 @배경처럼 이름을 넣을 수 있습니다."
+        },
+        "reference_image_7": {
+          "help": "PNG, JPEG, WebP를 한 장당 20 MB 이하로 업로드하세요. 짧은 변은 300픽셀 이상, 가로세로 비율은 1:2.5~2.5:1이어야 합니다."
+        },
+        "reference_image_7_source": {
+          "help": "공개 이미지 URL, Base64 Data URI, Base64 문자열을 입력하거나 이미지를 업로드하세요."
+        },
+        "reference_type_7": {
+          "help": "이 이미지를 피사체 또는 배경으로 지정할 수 있습니다."
+        },
+        "reference_name_7": {
+          "help": "최대 UTF-8 30바이트입니다. 프롬프트에 @배경처럼 이름을 넣을 수 있습니다."
+        }
+      }
+    }
+  }
+}

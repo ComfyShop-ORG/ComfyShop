@@ -1,0 +1,471 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "minimax-music-30",
+  "name": "MiniMax Music 3.0 音乐生成",
+  "description": "结合音乐描述和歌词生成歌曲。可自动编写歌词，也可生成纯音乐。",
+  "category": "audio",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "optional": true,
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "lyrics",
+      "kind": "string",
+      "optional": true,
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "instrumental",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "automatic_lyrics",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "format",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["mp3", "wav", "pcm"],
+      "default": "mp3"
+    },
+    {
+      "name": "sample_rate",
+      "kind": "choice",
+      "optional": true,
+      "choices": [16000, 24000, 32000, 44100],
+      "default": 44100
+    },
+    {
+      "name": "bitrate",
+      "kind": "choice",
+      "optional": true,
+      "choices": [32000, 64000, 128000, 256000],
+      "default": 256000
+    },
+    {
+      "name": "sync_mode",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "lyrics",
+      "section": "default"
+    },
+    {
+      "fieldId": "instrumental",
+      "section": "default"
+    },
+    {
+      "fieldId": "automatic_lyrics",
+      "section": "default"
+    },
+    {
+      "fieldId": "format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "sample_rate",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "bitrate",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "audio",
+    "config": {
+      "operation": "audio",
+      "model": "minimax/music-3.0",
+      "parameters": {
+        "prompt": "prompt",
+        "lyrics": "lyrics",
+        "is_instrumental": "instrumental",
+        "lyrics_optimizer": "automatic_lyrics",
+        "format": "format",
+        "sample_rate": "sample_rate",
+        "bitrate": "bitrate",
+        "enable_sync_mode": "sync_mode",
+        "enable_base64_output": "base64_output"
+      },
+      "text_max_lengths": {
+        "prompt": 2000,
+        "lyrics": 3500
+      },
+      "enabled_by": {
+        "lyrics": {
+          "parameter": "is_instrumental",
+          "equals": false
+        },
+        "lyrics_optimizer": {
+          "parameter": "is_instrumental",
+          "equals": false
+        },
+        "bitrate": {
+          "parameter": "format",
+          "equals": "mp3"
+        }
+      },
+      "required_when": {
+        "prompt": [
+          {
+            "is_instrumental": true
+          },
+          {
+            "lyrics_optimizer": true
+          }
+        ],
+        "lyrics": {
+          "is_instrumental": false,
+          "lyrics_optimizer": false
+        }
+      },
+      "mutually_exclusive": [["lyrics", "lyrics_optimizer"]]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "MiniMax Music 3.0 音乐生成",
+      "description": "结合音乐描述和歌词生成歌曲。可自动编写歌词，也可生成纯音乐。",
+      "fields": {
+        "prompt": {
+          "label": "音乐描述"
+        },
+        "lyrics": {
+          "label": "歌词"
+        },
+        "instrumental": {
+          "label": "纯音乐"
+        },
+        "automatic_lyrics": {
+          "label": "自动写歌词"
+        },
+        "format": {
+          "label": "输出格式"
+        },
+        "sample_rate": {
+          "label": "采样率"
+        },
+        "bitrate": {
+          "label": "MP3 码率"
+        },
+        "sync_mode": {
+          "label": "同步返回"
+        },
+        "base64_output": {
+          "label": "Base64 返回"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述风格、节奏、乐器和人声，最多 2000 字符。纯音乐和自动写歌词时必填。"
+        },
+        "lyrics": {
+          "help": "最多 3500 字符，每行一句。用 [Verse]、[Chorus] 等标签安排段落。纯音乐或自动写歌词时留空。"
+        },
+        "instrumental": {
+          "help": "仅生成乐器演奏。开启后填写音乐描述。默认关闭。"
+        },
+        "automatic_lyrics": {
+          "help": "根据音乐描述写歌词。开启后清空歌词，并关闭纯音乐。默认关闭。"
+        },
+        "format": {
+          "help": "支持 MP3、WAV 和 PCM，默认 MP3。"
+        },
+        "sample_rate": {
+          "help": "选择成品采样率，默认 44100 Hz。"
+        },
+        "bitrate": {
+          "help": "只用于 MP3，默认 256000 bit/s。"
+        },
+        "sync_mode": {
+          "help": "开启后优先读取提交响应中的生成结果。默认关闭。"
+        },
+        "base64_output": {
+          "help": "开启后工作机解码返回的音频。默认通过链接取得成品。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "MiniMax Music 3.0 音樂生成",
+      "description": "結合音樂描述與歌詞產生歌曲。可自動撰寫歌詞，也可產生純音樂。",
+      "fields": {
+        "prompt": {
+          "label": "音樂描述"
+        },
+        "lyrics": {
+          "label": "歌詞"
+        },
+        "instrumental": {
+          "label": "純音樂"
+        },
+        "automatic_lyrics": {
+          "label": "自動寫歌詞"
+        },
+        "format": {
+          "label": "輸出格式"
+        },
+        "sample_rate": {
+          "label": "取樣率"
+        },
+        "bitrate": {
+          "label": "MP3 位元率"
+        },
+        "sync_mode": {
+          "label": "同步回傳"
+        },
+        "base64_output": {
+          "label": "Base64 回傳"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述風格、節奏、樂器與人聲，最多 2000 個字元。純音樂與自動寫歌詞時必填。"
+        },
+        "lyrics": {
+          "help": "最多 3500 個字元，每行一句。可用 [Verse]、[Chorus] 等標籤安排段落。純音樂或自動寫歌詞時留空。"
+        },
+        "instrumental": {
+          "help": "僅產生樂器演奏。啟用後填寫音樂描述。預設關閉。"
+        },
+        "automatic_lyrics": {
+          "help": "根據音樂描述撰寫歌詞。啟用後清空歌詞並關閉純音樂。預設關閉。"
+        },
+        "format": {
+          "help": "支援 MP3、WAV 和 PCM，預設為 MP3。"
+        },
+        "sample_rate": {
+          "help": "選擇成品取樣率，預設為 44100 Hz。"
+        },
+        "bitrate": {
+          "help": "僅用於 MP3，預設為 256000 bit/s。"
+        },
+        "sync_mode": {
+          "help": "啟用後優先讀取提交回應中的生成結果。預設關閉。"
+        },
+        "base64_output": {
+          "help": "啟用後工作機解碼回傳的音訊。預設透過連結取得成品。"
+        }
+      }
+    },
+    "en": {
+      "name": "MiniMax Music 3.0 Music Generation",
+      "description": "Create songs from a musical description and lyrics. Generate lyrics automatically or make an instrumental track.",
+      "fields": {
+        "prompt": {
+          "label": "Musical description"
+        },
+        "lyrics": {
+          "label": "Lyrics"
+        },
+        "instrumental": {
+          "label": "Instrumental"
+        },
+        "automatic_lyrics": {
+          "label": "Write lyrics automatically"
+        },
+        "format": {
+          "label": "Output format"
+        },
+        "sample_rate": {
+          "label": "Sample rate"
+        },
+        "bitrate": {
+          "label": "MP3 bitrate"
+        },
+        "sync_mode": {
+          "label": "Return synchronously"
+        },
+        "base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the style, tempo, instruments, and vocals in up to 2000 characters. Required for instrumental tracks and automatic lyrics."
+        },
+        "lyrics": {
+          "help": "Enter up to 3500 characters, one lyric line at a time. Use tags such as [Verse] and [Chorus] to arrange sections. Leave blank for instrumental tracks or automatic lyrics."
+        },
+        "instrumental": {
+          "help": "Generate instrumental music. Enter a musical description when enabled. Off by default."
+        },
+        "automatic_lyrics": {
+          "help": "Write lyrics from the musical description. Clear Lyrics and turn off Instrumental to use this option. Off by default."
+        },
+        "format": {
+          "help": "Export MP3, WAV, or PCM. The default is MP3."
+        },
+        "sample_rate": {
+          "help": "Select the output sample rate. The default is 44100 Hz."
+        },
+        "bitrate": {
+          "help": "Applies to MP3. The default is 256000 bit/s."
+        },
+        "sync_mode": {
+          "help": "Read the result from the submission response when available. Off by default."
+        },
+        "base64_output": {
+          "help": "The work machine decodes the returned audio. By default, it downloads audio from a link."
+        }
+      }
+    },
+    "ja": {
+      "name": "MiniMax Music 3.0 音楽生成",
+      "description": "曲の説明と歌詞から楽曲を生成します。歌詞の自動作成やインストゥルメンタルにも対応します。",
+      "fields": {
+        "prompt": {
+          "label": "曲の説明"
+        },
+        "lyrics": {
+          "label": "歌詞"
+        },
+        "instrumental": {
+          "label": "インストゥルメンタル"
+        },
+        "automatic_lyrics": {
+          "label": "歌詞を自動作成"
+        },
+        "format": {
+          "label": "出力形式"
+        },
+        "sample_rate": {
+          "label": "サンプリング周波数"
+        },
+        "bitrate": {
+          "label": "MP3 ビットレート"
+        },
+        "sync_mode": {
+          "label": "同期で返す"
+        },
+        "base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "曲調、テンポ、楽器、歌声を 2000 文字まで記述します。インストゥルメンタルまたは歌詞の自動作成には必須です。"
+        },
+        "lyrics": {
+          "help": "3500 文字まで、1 行ずつ入力します。[Verse] や [Chorus] などで構成を指定します。インストゥルメンタルまたは歌詞の自動作成では空欄にします。"
+        },
+        "instrumental": {
+          "help": "楽器演奏を生成します。有効にした場合は曲の説明を入力します。既定では無効です。"
+        },
+        "automatic_lyrics": {
+          "help": "曲の説明から歌詞を作成します。歌詞を空欄にし、インストゥルメンタルを無効にします。既定では無効です。"
+        },
+        "format": {
+          "help": "MP3、WAV、PCM に対応します。既定値は MP3 です。"
+        },
+        "sample_rate": {
+          "help": "出力のサンプリング周波数を選択します。既定値は 44100 Hz です。"
+        },
+        "bitrate": {
+          "help": "MP3 のみに適用されます。既定値は 256000 bit/s です。"
+        },
+        "sync_mode": {
+          "help": "送信時の応答に結果が含まれる場合は直接読み取ります。既定では無効です。"
+        },
+        "base64_output": {
+          "help": "有効にするとワーカーが返された音声をデコードします。既定ではリンクから取得します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "MiniMax Music 3.0 음악 생성",
+      "description": "음악 설명과 가사로 노래를 만듭니다. 가사를 자동으로 쓰거나 연주곡을 만들 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "음악 설명"
+        },
+        "lyrics": {
+          "label": "가사"
+        },
+        "instrumental": {
+          "label": "연주곡"
+        },
+        "automatic_lyrics": {
+          "label": "가사 자동 작성"
+        },
+        "format": {
+          "label": "출력 형식"
+        },
+        "sample_rate": {
+          "label": "샘플링 주파수"
+        },
+        "bitrate": {
+          "label": "MP3 비트 전송률"
+        },
+        "sync_mode": {
+          "label": "동기식 응답"
+        },
+        "base64_output": {
+          "label": "Base64 출력"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "장르, 템포, 악기, 보컬을 최대 2000자로 설명하세요. 연주곡과 가사 자동 작성에는 필수입니다."
+        },
+        "lyrics": {
+          "help": "최대 3500자까지 한 줄씩 입력하세요. [Verse], [Chorus] 등으로 구성을 지정하세요. 연주곡이나 가사 자동 작성에는 비워 두세요."
+        },
+        "instrumental": {
+          "help": "악기 연주를 생성합니다. 켜면 음악 설명을 입력해야 합니다. 기본값은 꺼짐입니다."
+        },
+        "automatic_lyrics": {
+          "help": "음악 설명으로 가사를 작성합니다. 가사를 비우고 연주곡을 끄세요. 기본값은 꺼짐입니다."
+        },
+        "format": {
+          "help": "MP3, WAV, PCM을 지원합니다. 기본값은 MP3입니다."
+        },
+        "sample_rate": {
+          "help": "출력 샘플링 주파수를 선택하세요. 기본값은 44100 Hz입니다."
+        },
+        "bitrate": {
+          "help": "MP3에만 적용됩니다. 기본값은 256000 bit/s입니다."
+        },
+        "sync_mode": {
+          "help": "제출 응답에 결과가 포함되면 바로 읽습니다. 기본값은 꺼짐입니다."
+        },
+        "base64_output": {
+          "help": "켜면 작업 머신이 반환된 오디오를 디코딩합니다. 기본적으로 링크에서 오디오를 받습니다."
+        }
+      }
+    }
+  }
+}

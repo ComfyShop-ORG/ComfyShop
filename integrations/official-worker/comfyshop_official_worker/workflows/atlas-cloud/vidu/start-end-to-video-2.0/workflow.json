@@ -1,0 +1,442 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-vidu-2-start-end-to-video",
+  "name": "Vidu 2.0 首尾帧生视频",
+  "description": "用起始图和结束图生成 4 秒或 8 秒的过渡视频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "the iron man transform into the sport car ",
+      "multiline": true,
+      "maxLength": 1500
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 4,
+      "choices": [4, 8],
+      "optional": true
+    },
+    {
+      "name": "movement_amplitude",
+      "kind": "choice",
+      "default": "auto",
+      "choices": ["auto", "small", "medium", "large"],
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": 0,
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "movement_amplitude",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "vidu/start-end-to-video-2.0",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "movement_amplitude": "movement_amplitude",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 1500
+      },
+      "media": {
+        "images": {
+          "kind": "image",
+          "fields": ["first_frame", "last_frame"],
+          "min_items": 2,
+          "max_bytes": 50000000,
+          "content_types": ["image/jpeg", "image/png", "image/webp"],
+          "image_bounds": {
+            "max_aspect_ratio_exclusive": 4
+          },
+          "array": true,
+          "ordered_source_fields": ["first_frame_source", "last_frame_source"],
+          "pixel_count_ratio": [0.8, 1.25]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Vidu 2.0 首尾帧生视频",
+      "description": "用起始图和结束图生成 4 秒或 8 秒的过渡视频。",
+      "fields": {
+        "first_frame": {
+          "label": "起始图"
+        },
+        "last_frame": {
+          "label": "结束图"
+        },
+        "prompt": {
+          "label": "提示词"
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "movement_amplitude": {
+          "label": "动作幅度",
+          "choiceLabels": {
+            "auto": "自动",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "first_frame_source": {
+          "label": "起始图来源"
+        },
+        "last_frame_source": {
+          "label": "结束图来源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传 JPEG、PNG 或 WebP，最多 50 MB，宽高比大于 1:4 且小于 4:1。"
+        },
+        "last_frame": {
+          "help": "上传 JPEG、PNG 或 WebP，最多 50 MB，宽高比大于 1:4 且小于 4:1。 起始图与结束图的像素总数之比须在 0.8 至 1.25 之间。"
+        },
+        "prompt": {
+          "help": "描述主体动作、镜头和场景，最多 1,500 字符。"
+        },
+        "duration": {
+          "help": "选择 4 秒或 8 秒，默认 4 秒。"
+        },
+        "movement_amplitude": {
+          "help": "控制画面中主体的动作幅度，默认自动。"
+        },
+        "seed": {
+          "help": "默认 0，使用随机种子。填写整数以指定种子。"
+        },
+        "first_frame_source": {
+          "help": "使用一个公开图片 URL 或带媒体类型的 Base64 数据网址。"
+        },
+        "last_frame_source": {
+          "help": "使用一个公开图片 URL 或带媒体类型的 Base64 数据网址。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Vidu 2.0 首尾影格生影片",
+      "description": "使用起始圖和結束圖生成 4 秒或 8 秒的過渡影片。",
+      "fields": {
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "last_frame": {
+          "label": "結束圖"
+        },
+        "prompt": {
+          "label": "提示詞"
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "movement_amplitude": {
+          "label": "動作幅度",
+          "choiceLabels": {
+            "auto": "自動",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "first_frame_source": {
+          "label": "起始圖來源"
+        },
+        "last_frame_source": {
+          "label": "結束圖來源"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳 JPEG、PNG 或 WebP，最多 50 MB，寬高比大於 1:4 且小於 4:1。"
+        },
+        "last_frame": {
+          "help": "上傳 JPEG、PNG 或 WebP，最多 50 MB，寬高比大於 1:4 且小於 4:1。 起始圖與結束圖的像素總數之比須在 0.8 至 1.25 之間。"
+        },
+        "prompt": {
+          "help": "描述主體動作、鏡頭和場景，最多 1,500 字元。"
+        },
+        "duration": {
+          "help": "選擇 4 秒或 8 秒，預設 4 秒。"
+        },
+        "movement_amplitude": {
+          "help": "控制畫面中主體的動作幅度，預設自動。"
+        },
+        "seed": {
+          "help": "預設 0，使用隨機種子。填寫整數可指定種子。"
+        },
+        "first_frame_source": {
+          "help": "使用一個公開圖片網址或帶媒體類型的 Base64 資料網址。"
+        },
+        "last_frame_source": {
+          "help": "使用一個公開圖片網址或帶媒體類型的 Base64 資料網址。"
+        }
+      }
+    },
+    "en": {
+      "name": "Vidu 2.0 First and Last Frames to Video",
+      "description": "Create a 4- or 8-second transition between a starting image and an ending image.",
+      "fields": {
+        "first_frame": {
+          "label": "Starting image"
+        },
+        "last_frame": {
+          "label": "Ending image"
+        },
+        "prompt": {
+          "label": "Prompt"
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "movement_amplitude": {
+          "label": "Motion amplitude",
+          "choiceLabels": {
+            "auto": "Auto",
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large"
+          }
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "first_frame_source": {
+          "label": "Starting image source"
+        },
+        "last_frame_source": {
+          "label": "Ending image source"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB. Its aspect ratio must be greater than 1:4 and less than 4:1."
+        },
+        "last_frame": {
+          "help": "Upload a JPEG, PNG or WebP up to 50 MB. Its aspect ratio must be greater than 1:4 and less than 4:1. The starting image's pixel count divided by the ending image's must be between 0.8 and 1.25."
+        },
+        "prompt": {
+          "help": "Describe the movement, camera and scene in up to 1,500 characters."
+        },
+        "duration": {
+          "help": "Choose 4 or 8 seconds. The default is 4."
+        },
+        "movement_amplitude": {
+          "help": "Choose how much objects in the frame move. Auto is the default."
+        },
+        "seed": {
+          "help": "The default of 0 uses a random seed. Enter an integer to specify a seed."
+        },
+        "first_frame_source": {
+          "help": "Enter one public image URL or a Base64 data URL with its image type."
+        },
+        "last_frame_source": {
+          "help": "Enter one public image URL or a Base64 data URL with its image type."
+        }
+      }
+    },
+    "ja": {
+      "name": "Vidu 2.0 開始・終了画像から動画",
+      "description": "開始画像と終了画像をつないで、4 秒または 8 秒の動画を生成します。",
+      "fields": {
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "last_frame": {
+          "label": "終了画像"
+        },
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "duration": {
+          "label": "動画の長さ（秒）"
+        },
+        "movement_amplitude": {
+          "label": "動きの大きさ",
+          "choiceLabels": {
+            "auto": "自動",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "first_frame_source": {
+          "label": "開始画像のソース"
+        },
+        "last_frame_source": {
+          "label": "終了画像のソース"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "最大 50 MB の JPEG、PNG または WebP をアップロードします。縦横比は 1:4 より大きく 4:1 未満です。"
+        },
+        "last_frame": {
+          "help": "最大 50 MB の 縦横比は 1:4 より大きく 4:1 未満です。 JPEG、PNG または WebP をアップロードします。開始画像と終了画像の総画素数の比は 0.8〜1.25 です。"
+        },
+        "prompt": {
+          "help": "被写体の動き、カメラワーク、シーンを 1,500 文字以内で記述します。"
+        },
+        "duration": {
+          "help": "4 秒または 8 秒を選択します。既定は 4 秒です。"
+        },
+        "movement_amplitude": {
+          "help": "画面内の被写体の動きの大きさを選択します。既定は自動です。"
+        },
+        "seed": {
+          "help": "既定値の 0 はシードをランダムに選びます。整数を入力してシードを指定できます。"
+        },
+        "first_frame_source": {
+          "help": "公開画像 URL または画像のメディアタイプを指定した Base64 データ URL を 1 つ入力します。"
+        },
+        "last_frame_source": {
+          "help": "公開画像 URL または画像のメディアタイプを指定した Base64 データ URL を 1 つ入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Vidu 2.0 시작·끝 이미지에서 동영상",
+      "description": "시작 이미지와 마지막 이미지 사이를 연결하는 4초 또는 8초 동영상을 생성합니다.",
+      "fields": {
+        "first_frame": {
+          "label": "시작 이미지"
+        },
+        "last_frame": {
+          "label": "마지막 이미지"
+        },
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "duration": {
+          "label": "동영상 길이(초)"
+        },
+        "movement_amplitude": {
+          "label": "움직임 크기",
+          "choiceLabels": {
+            "auto": "자동",
+            "small": "작게",
+            "medium": "보통",
+            "large": "크게"
+          }
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "first_frame_source": {
+          "label": "시작 이미지 소스"
+        },
+        "last_frame_source": {
+          "label": "마지막 이미지 소스"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "최대 50 MB의 JPEG, PNG 또는 WebP를 업로드하세요. 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다."
+        },
+        "last_frame": {
+          "help": "최대 50 MB의 화면 비율은 1:4보다 크고 4:1보다 작아야 합니다. JPEG, PNG 또는 WebP를 업로드하세요. 시작 이미지와 마지막 이미지의 총 픽셀 수 비율은 0.8~1.25여야 합니다."
+        },
+        "prompt": {
+          "help": "움직임, 카메라, 장면을 최대 1,500자로 설명하세요."
+        },
+        "duration": {
+          "help": "4초 또는 8초를 선택하세요. 기본값은 4초입니다."
+        },
+        "movement_amplitude": {
+          "help": "화면 속 피사체의 움직임 크기를 선택하세요. 기본값은 자동입니다."
+        },
+        "seed": {
+          "help": "기본값 0은 무작위 시드를 사용합니다. 정수를 입력하여 시드를 정할 수 있습니다."
+        },
+        "first_frame_source": {
+          "help": "공개 이미지 URL 또는 이미지 미디어 유형이 포함된 Base64 데이터 URL 하나를 입력하세요."
+        },
+        "last_frame_source": {
+          "help": "공개 이미지 URL 또는 이미지 미디어 유형이 포함된 Base64 데이터 URL 하나를 입력하세요."
+        }
+      }
+    }
+  }
+}

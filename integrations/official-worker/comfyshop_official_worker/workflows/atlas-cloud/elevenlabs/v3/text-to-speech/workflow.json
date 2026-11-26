@@ -1,0 +1,468 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "elevenlabs-v3-text-to-speech",
+  "name": "ElevenLabs v3 文本转语音",
+  "description": "从文本生成语音，可选择预设音色、语言和发音稳定性。",
+  "category": "audio",
+  "fields": [
+    {
+      "name": "text",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 5000
+    },
+    {
+      "name": "voice",
+      "kind": "choice",
+      "optional": true,
+      "choices": [
+        "hpp4J3VqNfWAUOO0d1Us",
+        "CwhRBWXzGAHq8TQ4Fs17",
+        "EXAVITQu4vr4xnSDxMaL",
+        "FGY2WhTYpPnrIDTdsKH5",
+        "IKne3meq5aSn9XLyUdCD",
+        "JBFqnCBsd6RMkjVDRZzb",
+        "N2lVS1w4EtoT3dr4eOWO",
+        "SAz9YHcvj6GT2YYXdXww",
+        "SOYHLrjzK2X1ezoPC6cr",
+        "TX3LPaxmHKxFdv7VOQHJ",
+        "Xb7hH8MSUJpSbSDYk0k2",
+        "XrExE9yKIg1WjnnlVkGX",
+        "bIHbv24MWmeRgasZH58o",
+        "cgSgspJ2msm6clMCkdW9",
+        "cjVigY5qzO86Huf0OWal",
+        "iP95p4xoKVk53GoZ742B",
+        "nPczCjzI2devNBz1zQrb",
+        "onwK4e9ZLuTAKqWW03F9",
+        "pFZP5JQG7iQjIQuC4Bku",
+        "pNInz6obpgDQGcFmaJgB",
+        "pqHfZKP75CvOlQylNhV4"
+      ],
+      "default": "hpp4J3VqNfWAUOO0d1Us"
+    },
+    {
+      "name": "language",
+      "kind": "string",
+      "optional": true,
+      "default": null
+    },
+    {
+      "name": "stability",
+      "kind": "number",
+      "optional": true,
+      "minimum": "0",
+      "maximum": "1",
+      "default": 0.5
+    },
+    {
+      "name": "normalization",
+      "kind": "choice",
+      "optional": true,
+      "choices": ["auto", "on", "off"],
+      "default": "auto"
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "text",
+      "section": "default"
+    },
+    {
+      "fieldId": "voice",
+      "section": "default"
+    },
+    {
+      "fieldId": "language",
+      "section": "default"
+    },
+    {
+      "fieldId": "stability",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "normalization",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "audio",
+    "config": {
+      "operation": "audio",
+      "model": "elevenlabs/v3/text-to-speech",
+      "parameters": {
+        "text": "text",
+        "voice": "voice",
+        "language_code": "language",
+        "stability": "stability",
+        "apply_text_normalization": "normalization"
+      },
+      "required_text": ["text"],
+      "text_max_lengths": {
+        "text": 5000
+      },
+      "choice_constraints": {
+        "language_code": {
+          "parameter": "voice",
+          "values": {
+            "IKne3meq5aSn9XLyUdCD": "zh",
+            "SAz9YHcvj6GT2YYXdXww": "zh",
+            "JBFqnCBsd6RMkjVDRZzb": "ja",
+            "Xb7hH8MSUJpSbSDYk0k2": "ja",
+            "XrExE9yKIg1WjnnlVkGX": "it",
+            "FGY2WhTYpPnrIDTdsKH5": "fr",
+            "cjVigY5qzO86Huf0OWal": "fr",
+            "TX3LPaxmHKxFdv7VOQHJ": "de",
+            "bIHbv24MWmeRgasZH58o": "es",
+            "hpp4J3VqNfWAUOO0d1Us": "en-US",
+            "CwhRBWXzGAHq8TQ4Fs17": "en-US",
+            "EXAVITQu4vr4xnSDxMaL": "en-US",
+            "N2lVS1w4EtoT3dr4eOWO": "en-US",
+            "SOYHLrjzK2X1ezoPC6cr": "en-US",
+            "cgSgspJ2msm6clMCkdW9": "en-US",
+            "iP95p4xoKVk53GoZ742B": "en-US",
+            "nPczCjzI2devNBz1zQrb": "en-US",
+            "onwK4e9ZLuTAKqWW03F9": "en-US",
+            "pFZP5JQG7iQjIQuC4Bku": "en-US",
+            "pNInz6obpgDQGcFmaJgB": "en-US",
+            "pqHfZKP75CvOlQylNhV4": "en-US"
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "ElevenLabs v3 文本转语音",
+      "description": "从文本生成语音，可选择预设音色、语言和发音稳定性。",
+      "fields": {
+        "text": {
+          "label": "朗读文本"
+        },
+        "voice": {
+          "label": "音色",
+          "choiceLabels": {
+            "hpp4J3VqNfWAUOO0d1Us": "Bella · 英语（美国）",
+            "CwhRBWXzGAHq8TQ4Fs17": "Roger · 英语（美国）",
+            "EXAVITQu4vr4xnSDxMaL": "Sarah · 英语（美国）",
+            "FGY2WhTYpPnrIDTdsKH5": "Laura · 法语",
+            "IKne3meq5aSn9XLyUdCD": "Charlie · 中文",
+            "JBFqnCBsd6RMkjVDRZzb": "George · 日语",
+            "N2lVS1w4EtoT3dr4eOWO": "Callum · 英语（美国）",
+            "SAz9YHcvj6GT2YYXdXww": "River · 中文",
+            "SOYHLrjzK2X1ezoPC6cr": "Harry · 英语（美国）",
+            "TX3LPaxmHKxFdv7VOQHJ": "Liam · 德语",
+            "Xb7hH8MSUJpSbSDYk0k2": "Alice · 日语",
+            "XrExE9yKIg1WjnnlVkGX": "Matilda · 意大利语",
+            "bIHbv24MWmeRgasZH58o": "Will · 西班牙语",
+            "cgSgspJ2msm6clMCkdW9": "Jessica · 英语（美国）",
+            "cjVigY5qzO86Huf0OWal": "Eric · 法语",
+            "iP95p4xoKVk53GoZ742B": "Chris · 英语（美国）",
+            "nPczCjzI2devNBz1zQrb": "Brian · 英语（美国）",
+            "onwK4e9ZLuTAKqWW03F9": "Daniel · 英语（美国）",
+            "pFZP5JQG7iQjIQuC4Bku": "Lily · 英语（美国）",
+            "pNInz6obpgDQGcFmaJgB": "Adam · 英语（美国）",
+            "pqHfZKP75CvOlQylNhV4": "Bill · 英语（美国）"
+          }
+        },
+        "language": {
+          "label": "语言代码"
+        },
+        "stability": {
+          "label": "稳定性"
+        },
+        "normalization": {
+          "label": "文本规范化",
+          "choiceLabels": {
+            "auto": "自动",
+            "on": "开启",
+            "off": "关闭"
+          }
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "输入 1 至 5000 字符。"
+        },
+        "voice": {
+          "help": "选择一个官方预设。每个名称对应一个音色 ID。"
+        },
+        "language": {
+          "help": "留空由供应商推断。填写时使用所选音色在 Schema 中对应的代码。"
+        },
+        "stability": {
+          "help": "选择 0 至 1，默认 0.5。较高值让发音更稳定。"
+        },
+        "normalization": {
+          "help": "可选择自动、开启或关闭。规范化可把数字等内容转换为便于朗读的形式。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "ElevenLabs v3 文字轉語音",
+      "description": "從文字產生語音，可選擇預設音色、語言與發音穩定性。",
+      "fields": {
+        "text": {
+          "label": "朗讀文字"
+        },
+        "voice": {
+          "label": "音色",
+          "choiceLabels": {
+            "hpp4J3VqNfWAUOO0d1Us": "Bella · 英語（美國）",
+            "CwhRBWXzGAHq8TQ4Fs17": "Roger · 英語（美國）",
+            "EXAVITQu4vr4xnSDxMaL": "Sarah · 英語（美國）",
+            "FGY2WhTYpPnrIDTdsKH5": "Laura · 法語",
+            "IKne3meq5aSn9XLyUdCD": "Charlie · 中文",
+            "JBFqnCBsd6RMkjVDRZzb": "George · 日語",
+            "N2lVS1w4EtoT3dr4eOWO": "Callum · 英語（美國）",
+            "SAz9YHcvj6GT2YYXdXww": "River · 中文",
+            "SOYHLrjzK2X1ezoPC6cr": "Harry · 英語（美國）",
+            "TX3LPaxmHKxFdv7VOQHJ": "Liam · 德語",
+            "Xb7hH8MSUJpSbSDYk0k2": "Alice · 日語",
+            "XrExE9yKIg1WjnnlVkGX": "Matilda · 義大利語",
+            "bIHbv24MWmeRgasZH58o": "Will · 西班牙語",
+            "cgSgspJ2msm6clMCkdW9": "Jessica · 英語（美國）",
+            "cjVigY5qzO86Huf0OWal": "Eric · 法語",
+            "iP95p4xoKVk53GoZ742B": "Chris · 英語（美國）",
+            "nPczCjzI2devNBz1zQrb": "Brian · 英語（美國）",
+            "onwK4e9ZLuTAKqWW03F9": "Daniel · 英語（美國）",
+            "pFZP5JQG7iQjIQuC4Bku": "Lily · 英語（美國）",
+            "pNInz6obpgDQGcFmaJgB": "Adam · 英語（美國）",
+            "pqHfZKP75CvOlQylNhV4": "Bill · 英語（美國）"
+          }
+        },
+        "language": {
+          "label": "語言代碼"
+        },
+        "stability": {
+          "label": "穩定性"
+        },
+        "normalization": {
+          "label": "文字正規化",
+          "choiceLabels": {
+            "auto": "自動",
+            "on": "開啟",
+            "off": "關閉"
+          }
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "輸入 1 至 5000 個字元。"
+        },
+        "voice": {
+          "help": "選擇官方預設。每個名稱對應一個音色 ID。"
+        },
+        "language": {
+          "help": "留空由供應商推斷。填寫時使用所選音色在 Schema 中對應的代碼。"
+        },
+        "stability": {
+          "help": "選擇 0 至 1，預設為 0.5。數值較高時發音更穩定。"
+        },
+        "normalization": {
+          "help": "可選擇自動、開啟或關閉。正規化可以將數字等內容轉為適合朗讀的形式。"
+        }
+      }
+    },
+    "en": {
+      "name": "ElevenLabs v3 Text to Speech",
+      "description": "Generate speech from text with preset voices, language control, and adjustable stability.",
+      "fields": {
+        "text": {
+          "label": "Text to read"
+        },
+        "voice": {
+          "label": "Voice",
+          "choiceLabels": {
+            "hpp4J3VqNfWAUOO0d1Us": "Bella · English (US)",
+            "CwhRBWXzGAHq8TQ4Fs17": "Roger · English (US)",
+            "EXAVITQu4vr4xnSDxMaL": "Sarah · English (US)",
+            "FGY2WhTYpPnrIDTdsKH5": "Laura · French",
+            "IKne3meq5aSn9XLyUdCD": "Charlie · Chinese",
+            "JBFqnCBsd6RMkjVDRZzb": "George · Japanese",
+            "N2lVS1w4EtoT3dr4eOWO": "Callum · English (US)",
+            "SAz9YHcvj6GT2YYXdXww": "River · Chinese",
+            "SOYHLrjzK2X1ezoPC6cr": "Harry · English (US)",
+            "TX3LPaxmHKxFdv7VOQHJ": "Liam · German",
+            "Xb7hH8MSUJpSbSDYk0k2": "Alice · Japanese",
+            "XrExE9yKIg1WjnnlVkGX": "Matilda · Italian",
+            "bIHbv24MWmeRgasZH58o": "Will · Spanish",
+            "cgSgspJ2msm6clMCkdW9": "Jessica · English (US)",
+            "cjVigY5qzO86Huf0OWal": "Eric · French",
+            "iP95p4xoKVk53GoZ742B": "Chris · English (US)",
+            "nPczCjzI2devNBz1zQrb": "Brian · English (US)",
+            "onwK4e9ZLuTAKqWW03F9": "Daniel · English (US)",
+            "pFZP5JQG7iQjIQuC4Bku": "Lily · English (US)",
+            "pNInz6obpgDQGcFmaJgB": "Adam · English (US)",
+            "pqHfZKP75CvOlQylNhV4": "Bill · English (US)"
+          }
+        },
+        "language": {
+          "label": "Language code"
+        },
+        "stability": {
+          "label": "Stability"
+        },
+        "normalization": {
+          "label": "Text normalization",
+          "choiceLabels": {
+            "auto": "Automatic",
+            "on": "On",
+            "off": "Off"
+          }
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "Enter 1 to 5000 characters."
+        },
+        "voice": {
+          "help": "Select an official preset. Each name corresponds to a voice ID."
+        },
+        "language": {
+          "help": "Leave blank for the provider to infer the language. Use the voice's documented code when specifying one."
+        },
+        "stability": {
+          "help": "Select from 0 to 1. Higher values make pronunciation more stable. The default is 0.5."
+        },
+        "normalization": {
+          "help": "Choose automatic, on, or off. Normalization prepares numbers and similar text for speech."
+        }
+      }
+    },
+    "ja": {
+      "name": "ElevenLabs v3 テキスト読み上げ",
+      "description": "テキストから音声を生成します。プリセット音色、言語と安定性を選べます。",
+      "fields": {
+        "text": {
+          "label": "読み上げるテキスト"
+        },
+        "voice": {
+          "label": "音色",
+          "choiceLabels": {
+            "hpp4J3VqNfWAUOO0d1Us": "Bella · 英語（米国）",
+            "CwhRBWXzGAHq8TQ4Fs17": "Roger · 英語（米国）",
+            "EXAVITQu4vr4xnSDxMaL": "Sarah · 英語（米国）",
+            "FGY2WhTYpPnrIDTdsKH5": "Laura · フランス語",
+            "IKne3meq5aSn9XLyUdCD": "Charlie · 中国語",
+            "JBFqnCBsd6RMkjVDRZzb": "George · 日本語",
+            "N2lVS1w4EtoT3dr4eOWO": "Callum · 英語（米国）",
+            "SAz9YHcvj6GT2YYXdXww": "River · 中国語",
+            "SOYHLrjzK2X1ezoPC6cr": "Harry · 英語（米国）",
+            "TX3LPaxmHKxFdv7VOQHJ": "Liam · ドイツ語",
+            "Xb7hH8MSUJpSbSDYk0k2": "Alice · 日本語",
+            "XrExE9yKIg1WjnnlVkGX": "Matilda · イタリア語",
+            "bIHbv24MWmeRgasZH58o": "Will · スペイン語",
+            "cgSgspJ2msm6clMCkdW9": "Jessica · 英語（米国）",
+            "cjVigY5qzO86Huf0OWal": "Eric · フランス語",
+            "iP95p4xoKVk53GoZ742B": "Chris · 英語（米国）",
+            "nPczCjzI2devNBz1zQrb": "Brian · 英語（米国）",
+            "onwK4e9ZLuTAKqWW03F9": "Daniel · 英語（米国）",
+            "pFZP5JQG7iQjIQuC4Bku": "Lily · 英語（米国）",
+            "pNInz6obpgDQGcFmaJgB": "Adam · 英語（米国）",
+            "pqHfZKP75CvOlQylNhV4": "Bill · 英語（米国）"
+          }
+        },
+        "language": {
+          "label": "言語コード"
+        },
+        "stability": {
+          "label": "安定性"
+        },
+        "normalization": {
+          "label": "テキストの正規化",
+          "choiceLabels": {
+            "auto": "自動",
+            "on": "有効",
+            "off": "無効"
+          }
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "1～5000 文字を入力します。"
+        },
+        "voice": {
+          "help": "公式プリセットを選択します。各名前は音色 ID に対応します。"
+        },
+        "language": {
+          "help": "空欄ではプロバイダーが言語を判断します。指定する場合は選択した音色に対応するコードを使います。"
+        },
+        "stability": {
+          "help": "0～1 の範囲を指定します。値が高いほど発音が安定します。既定値は 0.5 です。"
+        },
+        "normalization": {
+          "help": "自動、有効、無効を選べます。正規化は数値などを読み上げやすい形にします。"
+        }
+      }
+    },
+    "ko": {
+      "name": "ElevenLabs v3 텍스트 음성 변환",
+      "description": "텍스트에서 음성을 만듭니다. 사전 설정 음색, 언어, 발음 안정성을 선택할 수 있습니다.",
+      "fields": {
+        "text": {
+          "label": "읽을 텍스트"
+        },
+        "voice": {
+          "label": "음색",
+          "choiceLabels": {
+            "hpp4J3VqNfWAUOO0d1Us": "Bella · 영어(미국)",
+            "CwhRBWXzGAHq8TQ4Fs17": "Roger · 영어(미국)",
+            "EXAVITQu4vr4xnSDxMaL": "Sarah · 영어(미국)",
+            "FGY2WhTYpPnrIDTdsKH5": "Laura · 프랑스어",
+            "IKne3meq5aSn9XLyUdCD": "Charlie · 중국어",
+            "JBFqnCBsd6RMkjVDRZzb": "George · 일본어",
+            "N2lVS1w4EtoT3dr4eOWO": "Callum · 영어(미국)",
+            "SAz9YHcvj6GT2YYXdXww": "River · 중국어",
+            "SOYHLrjzK2X1ezoPC6cr": "Harry · 영어(미국)",
+            "TX3LPaxmHKxFdv7VOQHJ": "Liam · 독일어",
+            "Xb7hH8MSUJpSbSDYk0k2": "Alice · 일본어",
+            "XrExE9yKIg1WjnnlVkGX": "Matilda · 이탈리아어",
+            "bIHbv24MWmeRgasZH58o": "Will · 스페인어",
+            "cgSgspJ2msm6clMCkdW9": "Jessica · 영어(미국)",
+            "cjVigY5qzO86Huf0OWal": "Eric · 프랑스어",
+            "iP95p4xoKVk53GoZ742B": "Chris · 영어(미국)",
+            "nPczCjzI2devNBz1zQrb": "Brian · 영어(미국)",
+            "onwK4e9ZLuTAKqWW03F9": "Daniel · 영어(미국)",
+            "pFZP5JQG7iQjIQuC4Bku": "Lily · 영어(미국)",
+            "pNInz6obpgDQGcFmaJgB": "Adam · 영어(미국)",
+            "pqHfZKP75CvOlQylNhV4": "Bill · 영어(미국)"
+          }
+        },
+        "language": {
+          "label": "언어 코드"
+        },
+        "stability": {
+          "label": "안정성"
+        },
+        "normalization": {
+          "label": "텍스트 정규화",
+          "choiceLabels": {
+            "auto": "자동",
+            "on": "켜짐",
+            "off": "꺼짐"
+          }
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "1~5000자를 입력하세요."
+        },
+        "voice": {
+          "help": "공식 사전 설정을 선택하세요. 각 이름은 음색 ID에 대응합니다."
+        },
+        "language": {
+          "help": "비우면 공급업체가 언어를 추정합니다. 지정하는 경우 선택한 음색의 문서에 있는 코드를 사용하세요."
+        },
+        "stability": {
+          "help": "0~1 범위에서 설정하세요. 값이 높을수록 발음이 안정적입니다. 기본값은 0.5입니다."
+        },
+        "normalization": {
+          "help": "자동, 켜짐, 꺼짐을 선택할 수 있습니다. 정규화는 숫자 등을 읽기 쉬운 형태로 변환합니다."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1140 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kwaivgi-kling-v4-0-flash-video-edit",
+  "name": "可灵 4.0 Flash 视频编辑",
+  "description": "用文字、图片、视频和主体参考编辑已有片段，可保留原声或生成同步音频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "Turn the scene into a snowy winter evening while keeping the subject and camera motion of @video_1 unchanged.",
+      "multiline": true,
+      "maxLength": 26000
+    },
+    {
+      "name": "source_video",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 5,
+      "minimum": "3",
+      "maximum": "20",
+      "step": "1",
+      "optional": true
+    },
+    {
+      "name": "audio_mode",
+      "kind": "choice",
+      "default": "native",
+      "choices": ["native", "original"],
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["720p"],
+      "optional": true
+    },
+    {
+      "name": "video_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "image_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "reference_video_sources",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "elements",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "voice_ids",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_10",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_video_1",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_2",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_3",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "reference_video_4",
+      "kind": "video",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "source_video",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default",
+      "control": "slider"
+    },
+    {
+      "fieldId": "audio_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "hidden"
+    },
+    {
+      "fieldId": "video_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "image_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "elements",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "voice_ids",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_image_10",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_video_4",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "kwaivgi/kling-v4.0-flash/video-edit",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "audio_mode": "audio_mode",
+        "resolution": "resolution"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 26000
+      },
+      "kling_max_total_inputs": 15,
+      "kling_elements": {
+        "field": "elements",
+        "max_items": 7,
+        "max_video_subjects": 3,
+        "require_reference_type": true,
+        "max_images_per_subject": 3,
+        "max_videos_per_subject": 1,
+        "max_name_length": 20,
+        "max_description_length": 100,
+        "allow_frontal_only": true,
+        "allow_bound_voice": true
+      },
+      "text_arrays": {
+        "voice_ids": {
+          "field": "voice_ids",
+          "max_items": 3
+        }
+      },
+      "media": {
+        "video": {
+          "kind": "video",
+          "content_types": ["video/mp4", "video/quicktime"],
+          "external_urls_only": true,
+          "max_bytes": 300000000,
+          "min_duration_ms": 3000,
+          "max_duration_ms": 20000,
+          "image_bounds": {
+            "min_side": 700,
+            "max_side": 4553
+          },
+          "fields": ["source_video"],
+          "external_sources_field": "video_source",
+          "min_items": 1
+        },
+        "reference_images": {
+          "kind": "image",
+          "array": true,
+          "fields": [
+            "reference_image_1",
+            "reference_image_2",
+            "reference_image_3",
+            "reference_image_4",
+            "reference_image_5",
+            "reference_image_6",
+            "reference_image_7",
+            "reference_image_8",
+            "reference_image_9",
+            "reference_image_10"
+          ],
+          "external_sources_field": "image_sources",
+          "allow_raw_base64": true,
+          "content_types": ["image/jpeg", "image/png", "image/gif", "image/webp", "image/bmp"]
+        },
+        "reference_videos": {
+          "kind": "video",
+          "content_types": ["video/mp4", "video/quicktime"],
+          "external_urls_only": true,
+          "max_bytes": 300000000,
+          "min_duration_ms": 3000,
+          "max_duration_ms": 20000,
+          "image_bounds": {
+            "min_side": 700,
+            "max_side": 4553
+          },
+          "array": true,
+          "fields": [
+            "reference_video_1",
+            "reference_video_2",
+            "reference_video_3",
+            "reference_video_4"
+          ],
+          "external_sources_field": "reference_video_sources",
+          "max_total_duration_ms": 20000
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 4.0 Flash 视频编辑",
+      "description": "用文字、图片、视频和主体参考编辑已有片段，可保留原声或生成同步音频。",
+      "fields": {
+        "prompt": {
+          "label": "编辑指令"
+        },
+        "source_video": {
+          "label": "原视频"
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "audio_mode": {
+          "label": "音频模式",
+          "choiceLabels": {
+            "native": "生成同期声",
+            "original": "保留原声"
+          }
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "720p": "720p"
+          }
+        },
+        "video_source": {
+          "label": "原视频 URL"
+        },
+        "image_sources": {
+          "label": "参考图来源"
+        },
+        "reference_video_sources": {
+          "label": "参考视频 URL"
+        },
+        "elements": {
+          "label": "主体引用"
+        },
+        "voice_ids": {
+          "label": "音色 ID"
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_4": {
+          "label": "参考图 4"
+        },
+        "reference_image_5": {
+          "label": "参考图 5"
+        },
+        "reference_image_6": {
+          "label": "参考图 6"
+        },
+        "reference_image_7": {
+          "label": "参考图 7"
+        },
+        "reference_image_8": {
+          "label": "参考图 8"
+        },
+        "reference_image_9": {
+          "label": "参考图 9"
+        },
+        "reference_image_10": {
+          "label": "参考图 10"
+        },
+        "reference_video_1": {
+          "label": "参考视频 1"
+        },
+        "reference_video_2": {
+          "label": "参考视频 2"
+        },
+        "reference_video_3": {
+          "label": "参考视频 3"
+        },
+        "reference_video_4": {
+          "label": "参考视频 4"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述需要修改的内容。英文最多 26,000 字符，非英文最多 11,000。用 @video_1 引用原视频，用 @image_N、@video_N、@element_N 和 @voice_N 引用其他素材。"
+        },
+        "source_video": {
+          "help": "上传 3 至 20 秒的 MP4 或 MOV，最多 300 MB，每边 700 至 4,553 像素。提示词中用 @video_1 引用。"
+        },
+        "duration": {
+          "help": "选择 3 至 20 秒。默认 5 秒。"
+        },
+        "audio_mode": {
+          "help": "选择生成同步音频或保留原视频的声音。默认生成同步音频。"
+        },
+        "resolution": {
+          "help": "Flash 视频编辑固定输出 720p。"
+        },
+        "video_source": {
+          "help": "填写一个可公开访问的 MP4 或 MOV 直链。"
+        },
+        "image_sources": {
+          "help": "每行填写一个公开图片 URL、Base64 数据网址或纯 Base64。与上传合计最多 10 张。"
+        },
+        "reference_video_sources": {
+          "help": "每行填写一个公开 MP4 或 MOV 直链。与上传合计最多 4 条，从 @video_2 开始编号。"
+        },
+        "elements": {
+          "help": "填写最多 7 项的 JSON 数组，视频主体最多 3 项。使用已有主体 ID 或新建图片、视频主体。新建图片人物可绑定 element_voice_id。"
+        },
+        "voice_ids": {
+          "help": "每行一个可灵音色 ID，最多 3 个。用 @voice_N 按顺序引用。"
+        },
+        "reference_image_1": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_2": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_3": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_4": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_5": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_6": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_7": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_8": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_9": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_image_10": {
+          "help": "上传主角、场景或风格参考图。"
+        },
+        "reference_video_1": {
+          "help": "上传 MP4 或 MOV，每条 3 至 20 秒、最多 300 MB，每边 700 至 4,553 像素。参考视频合计最多 20 秒。"
+        },
+        "reference_video_2": {
+          "help": "上传 MP4 或 MOV，每条 3 至 20 秒、最多 300 MB，每边 700 至 4,553 像素。参考视频合计最多 20 秒。"
+        },
+        "reference_video_3": {
+          "help": "上传 MP4 或 MOV，每条 3 至 20 秒、最多 300 MB，每边 700 至 4,553 像素。参考视频合计最多 20 秒。"
+        },
+        "reference_video_4": {
+          "help": "上传 MP4 或 MOV，每条 3 至 20 秒、最多 300 MB，每边 700 至 4,553 像素。参考视频合计最多 20 秒。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 4.0 Flash 影片編輯",
+      "description": "用文字、圖片、影片和主體參考編輯既有片段，可保留原聲或生成同步音訊。",
+      "fields": {
+        "prompt": {
+          "label": "編輯指令"
+        },
+        "source_video": {
+          "label": "原始影片"
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "audio_mode": {
+          "label": "音訊模式",
+          "choiceLabels": {
+            "native": "生成同步聲音",
+            "original": "保留原聲"
+          }
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "720p": "720p"
+          }
+        },
+        "video_source": {
+          "label": "原始影片 URL"
+        },
+        "image_sources": {
+          "label": "參考圖來源"
+        },
+        "reference_video_sources": {
+          "label": "參考影片 URL"
+        },
+        "elements": {
+          "label": "主體引用"
+        },
+        "voice_ids": {
+          "label": "音色 ID"
+        },
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "reference_image_4": {
+          "label": "參考圖 4"
+        },
+        "reference_image_5": {
+          "label": "參考圖 5"
+        },
+        "reference_image_6": {
+          "label": "參考圖 6"
+        },
+        "reference_image_7": {
+          "label": "參考圖 7"
+        },
+        "reference_image_8": {
+          "label": "參考圖 8"
+        },
+        "reference_image_9": {
+          "label": "參考圖 9"
+        },
+        "reference_image_10": {
+          "label": "參考圖 10"
+        },
+        "reference_video_1": {
+          "label": "參考影片 1"
+        },
+        "reference_video_2": {
+          "label": "參考影片 2"
+        },
+        "reference_video_3": {
+          "label": "參考影片 3"
+        },
+        "reference_video_4": {
+          "label": "參考影片 4"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述需要修改的內容。英文最多 26,000 字元，非英文最多 11,000。用 @video_1 引用原始影片，其他素材使用 @image_N、@video_N、@element_N 和 @voice_N。"
+        },
+        "source_video": {
+          "help": "上傳 3 至 20 秒的 MP4 或 MOV，最多 300 MB，每邊 700 至 4,553 像素。提示詞中用 @video_1 引用。"
+        },
+        "duration": {
+          "help": "選擇 3 至 20 秒。預設 5 秒。"
+        },
+        "audio_mode": {
+          "help": "選擇生成同步音訊或保留原始影片聲音。預設生成同步音訊。"
+        },
+        "resolution": {
+          "help": "Flash 影片編輯固定輸出 720p。"
+        },
+        "video_source": {
+          "help": "填寫一個可公開存取的 MP4 或 MOV 直接連結。"
+        },
+        "image_sources": {
+          "help": "每行填寫一個公開圖片 URL、Base64 資料網址或純 Base64。與上傳合計最多 10 張。"
+        },
+        "reference_video_sources": {
+          "help": "每行填寫一個公開 MP4 或 MOV 直接連結。與上傳合計最多 4 部，從 @video_2 開始編號。"
+        },
+        "elements": {
+          "help": "填寫最多 7 項的 JSON 陣列，影片主體最多 3 項。使用既有主體 ID 或建立圖片、影片主體。新建圖片人物可綁定 element_voice_id。"
+        },
+        "voice_ids": {
+          "help": "每行一個可靈音色 ID，最多 3 個。用 @voice_N 依序引用。"
+        },
+        "reference_image_1": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_2": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_3": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_4": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_5": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_6": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_7": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_8": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_9": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_image_10": {
+          "help": "上傳主角、場景或風格參考圖。"
+        },
+        "reference_video_1": {
+          "help": "上傳 MP4 或 MOV，每部 3 至 20 秒、最多 300 MB，每邊 700 至 4,553 像素。參考影片合計最多 20 秒。"
+        },
+        "reference_video_2": {
+          "help": "上傳 MP4 或 MOV，每部 3 至 20 秒、最多 300 MB，每邊 700 至 4,553 像素。參考影片合計最多 20 秒。"
+        },
+        "reference_video_3": {
+          "help": "上傳 MP4 或 MOV，每部 3 至 20 秒、最多 300 MB，每邊 700 至 4,553 像素。參考影片合計最多 20 秒。"
+        },
+        "reference_video_4": {
+          "help": "上傳 MP4 或 MOV，每部 3 至 20 秒、最多 300 MB，每邊 700 至 4,553 像素。參考影片合計最多 20 秒。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling 4.0 Flash Video Edit",
+      "description": "Edit an existing clip with text, image, video, and subject references. Generate synchronized audio or keep the original track.",
+      "fields": {
+        "prompt": {
+          "label": "Edit instructions"
+        },
+        "source_video": {
+          "label": "Source video"
+        },
+        "duration": {
+          "label": "Output duration (seconds)"
+        },
+        "audio_mode": {
+          "label": "Audio mode",
+          "choiceLabels": {
+            "native": "Generate audio",
+            "original": "Keep original audio"
+          }
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "720p": "720p"
+          }
+        },
+        "video_source": {
+          "label": "Source video URL"
+        },
+        "image_sources": {
+          "label": "Reference image sources"
+        },
+        "reference_video_sources": {
+          "label": "Reference video URLs"
+        },
+        "elements": {
+          "label": "Subject references"
+        },
+        "voice_ids": {
+          "label": "Voice IDs"
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_4": {
+          "label": "Reference image 4"
+        },
+        "reference_image_5": {
+          "label": "Reference image 5"
+        },
+        "reference_image_6": {
+          "label": "Reference image 6"
+        },
+        "reference_image_7": {
+          "label": "Reference image 7"
+        },
+        "reference_image_8": {
+          "label": "Reference image 8"
+        },
+        "reference_image_9": {
+          "label": "Reference image 9"
+        },
+        "reference_image_10": {
+          "label": "Reference image 10"
+        },
+        "reference_video_1": {
+          "label": "Reference video 1"
+        },
+        "reference_video_2": {
+          "label": "Reference video 2"
+        },
+        "reference_video_3": {
+          "label": "Reference video 3"
+        },
+        "reference_video_4": {
+          "label": "Reference video 4"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the changes. Use up to 26,000 English characters or 11,000 non-English characters. Use @video_1 for the source and @image_N, @video_N, @element_N, and @voice_N for other references."
+        },
+        "source_video": {
+          "help": "Upload a 3- to 20-second MP4 or MOV up to 300 MB, with 700 to 4,553 pixels per side. Refer to it as @video_1."
+        },
+        "duration": {
+          "help": "Choose 3 to 20 seconds. The default is 5."
+        },
+        "audio_mode": {
+          "help": "Generate synchronized audio or keep the source video's original audio. Generated audio is the default."
+        },
+        "resolution": {
+          "help": "Flash video editing outputs at 720p."
+        },
+        "video_source": {
+          "help": "Enter one public direct MP4 or MOV URL."
+        },
+        "image_sources": {
+          "help": "Enter one public image URL, Base64 data URL, or raw Base64 image per line. Use up to ten images across uploads and sources."
+        },
+        "reference_video_sources": {
+          "help": "Enter one public MP4 or MOV direct URL per line. There can be up to four with uploads, numbered from @video_2."
+        },
+        "elements": {
+          "help": "Enter a JSON array of up to seven subjects, with up to three video subjects. Use an existing ID or define a new image or video subject. A new image character can bind an element_voice_id."
+        },
+        "voice_ids": {
+          "help": "Enter up to three Kling voice IDs, one per line. Refer to them in order with @voice_N."
+        },
+        "reference_image_1": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_2": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_3": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_4": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_5": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_6": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_7": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_8": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_9": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_image_10": {
+          "help": "Upload an image to guide a subject, scene, or style."
+        },
+        "reference_video_1": {
+          "help": "Upload an MP4 or MOV. Each can be 3 to 20 seconds, up to 300 MB, with 700 to 4,553 pixels per side. Reference videos last up to 20 seconds in total."
+        },
+        "reference_video_2": {
+          "help": "Upload an MP4 or MOV. Each can be 3 to 20 seconds, up to 300 MB, with 700 to 4,553 pixels per side. Reference videos last up to 20 seconds in total."
+        },
+        "reference_video_3": {
+          "help": "Upload an MP4 or MOV. Each can be 3 to 20 seconds, up to 300 MB, with 700 to 4,553 pixels per side. Reference videos last up to 20 seconds in total."
+        },
+        "reference_video_4": {
+          "help": "Upload an MP4 or MOV. Each can be 3 to 20 seconds, up to 300 MB, with 700 to 4,553 pixels per side. Reference videos last up to 20 seconds in total."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling 4.0 Flash 動画編集",
+      "description": "テキスト、画像、動画、主体を参照して動画を編集します。同期音声の生成や元の音声の保持もできます。",
+      "fields": {
+        "prompt": {
+          "label": "編集指示"
+        },
+        "source_video": {
+          "label": "元動画"
+        },
+        "duration": {
+          "label": "出力の長さ（秒）"
+        },
+        "audio_mode": {
+          "label": "音声モード",
+          "choiceLabels": {
+            "native": "同期音声を生成",
+            "original": "元の音声を保持"
+          }
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "720p": "720p"
+          }
+        },
+        "video_source": {
+          "label": "元動画の URL"
+        },
+        "image_sources": {
+          "label": "参照画像のソース"
+        },
+        "reference_video_sources": {
+          "label": "参照動画の URL"
+        },
+        "elements": {
+          "label": "主体参照"
+        },
+        "voice_ids": {
+          "label": "音声 ID"
+        },
+        "reference_image_1": {
+          "label": "参照画像 1"
+        },
+        "reference_image_2": {
+          "label": "参照画像 2"
+        },
+        "reference_image_3": {
+          "label": "参照画像 3"
+        },
+        "reference_image_4": {
+          "label": "参照画像 4"
+        },
+        "reference_image_5": {
+          "label": "参照画像 5"
+        },
+        "reference_image_6": {
+          "label": "参照画像 6"
+        },
+        "reference_image_7": {
+          "label": "参照画像 7"
+        },
+        "reference_image_8": {
+          "label": "参照画像 8"
+        },
+        "reference_image_9": {
+          "label": "参照画像 9"
+        },
+        "reference_image_10": {
+          "label": "参照画像 10"
+        },
+        "reference_video_1": {
+          "label": "参照動画 1"
+        },
+        "reference_video_2": {
+          "label": "参照動画 2"
+        },
+        "reference_video_3": {
+          "label": "参照動画 3"
+        },
+        "reference_video_4": {
+          "label": "参照動画 4"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "変更箇所を指定します。英語は 26,000 文字、その他の言語は 11,000 文字以内です。元動画は @video_1、その他の素材は @image_N、@video_N、@element_N、@voice_N で参照します。"
+        },
+        "source_video": {
+          "help": "3〜20 秒、最大 300 MB、各辺 700〜4,553 ピクセルの MP4 または MOV をアップロードします。@video_1 で参照できます。"
+        },
+        "duration": {
+          "help": "3〜20 秒を選択します。既定は 5 秒です。"
+        },
+        "audio_mode": {
+          "help": "同期音声を生成するか、元動画の音声を保持します。既定は同期音声の生成です。"
+        },
+        "resolution": {
+          "help": "Flash の動画編集の出力は 720p 固定です。"
+        },
+        "video_source": {
+          "help": "公開された MP4 または MOV の直接 URL を一つ入力します。"
+        },
+        "image_sources": {
+          "help": "公開 URL、Base64 データ URL、または Base64 画像を一行に一つ入力します。アップロードを含めて最大 10 枚です。"
+        },
+        "reference_video_sources": {
+          "help": "公開された MP4 または MOV の直接 URL を一行に一つ入力します。アップロードを含めて最大 4 本で、@video_2 から番号が付きます。"
+        },
+        "elements": {
+          "help": "最大 7 件の JSON 配列を入力します。動画主体は最大 3 件です。既存の ID、または新しい画像・動画主体を指定します。新規の人物画像主体には element_voice_id を設定できます。"
+        },
+        "voice_ids": {
+          "help": "Kling の音声 ID を一行に一つ、最大 3 件入力します。@voice_N で順に参照します。"
+        },
+        "reference_image_1": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_2": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_3": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_4": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_5": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_6": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_7": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_8": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_9": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_image_10": {
+          "help": "主体、場面、画風の参照画像をアップロードします。"
+        },
+        "reference_video_1": {
+          "help": "各動画が 3〜20 秒、最大 300 MB、各辺 700〜4,553 ピクセルの MP4 または MOV をアップロードします。参照動画の合計は最長 20 秒です。"
+        },
+        "reference_video_2": {
+          "help": "各動画が 3〜20 秒、最大 300 MB、各辺 700〜4,553 ピクセルの MP4 または MOV をアップロードします。参照動画の合計は最長 20 秒です。"
+        },
+        "reference_video_3": {
+          "help": "各動画が 3〜20 秒、最大 300 MB、各辺 700〜4,553 ピクセルの MP4 または MOV をアップロードします。参照動画の合計は最長 20 秒です。"
+        },
+        "reference_video_4": {
+          "help": "各動画が 3〜20 秒、最大 300 MB、各辺 700〜4,553 ピクセルの MP4 または MOV をアップロードします。参照動画の合計は最長 20 秒です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling 4.0 Flash 동영상 편집",
+      "description": "텍스트, 이미지, 영상, 피사체를 참고해 기존 영상을 편집하고 동기화된 오디오를 생성하거나 원본 오디오를 유지합니다.",
+      "fields": {
+        "prompt": {
+          "label": "편집 지시"
+        },
+        "source_video": {
+          "label": "원본 동영상"
+        },
+        "duration": {
+          "label": "결과 길이(초)"
+        },
+        "audio_mode": {
+          "label": "오디오 모드",
+          "choiceLabels": {
+            "native": "동기화 오디오 생성",
+            "original": "원본 오디오 유지"
+          }
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "720p": "720p"
+          }
+        },
+        "video_source": {
+          "label": "원본 동영상 URL"
+        },
+        "image_sources": {
+          "label": "참조 이미지 소스"
+        },
+        "reference_video_sources": {
+          "label": "참조 동영상 URL"
+        },
+        "elements": {
+          "label": "피사체 참조"
+        },
+        "voice_ids": {
+          "label": "음성 ID"
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_4": {
+          "label": "참조 이미지 4"
+        },
+        "reference_image_5": {
+          "label": "참조 이미지 5"
+        },
+        "reference_image_6": {
+          "label": "참조 이미지 6"
+        },
+        "reference_image_7": {
+          "label": "참조 이미지 7"
+        },
+        "reference_image_8": {
+          "label": "참조 이미지 8"
+        },
+        "reference_image_9": {
+          "label": "참조 이미지 9"
+        },
+        "reference_image_10": {
+          "label": "참조 이미지 10"
+        },
+        "reference_video_1": {
+          "label": "참조 동영상 1"
+        },
+        "reference_video_2": {
+          "label": "참조 동영상 2"
+        },
+        "reference_video_3": {
+          "label": "참조 동영상 3"
+        },
+        "reference_video_4": {
+          "label": "참조 동영상 4"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "수정할 내용을 설명하세요. 영어는 최대 26,000자, 그 외 언어는 최대 11,000자입니다. 원본은 @video_1, 다른 소재는 @image_N, @video_N, @element_N, @voice_N으로 참조하세요."
+        },
+        "source_video": {
+          "help": "3~20초, 최대 300MB, 각 변 700~4,553픽셀인 MP4 또는 MOV를 업로드하세요. @video_1로 참조합니다."
+        },
+        "duration": {
+          "help": "3~20초를 선택하세요. 기본값은 5초입니다."
+        },
+        "audio_mode": {
+          "help": "동기화 오디오를 만들거나 원본 영상의 소리를 유지하세요. 기본값은 동기화 오디오 생성입니다."
+        },
+        "resolution": {
+          "help": "Flash 동영상 편집은 720p로 출력합니다."
+        },
+        "video_source": {
+          "help": "공개 MP4 또는 MOV의 직접 URL을 하나 입력하세요."
+        },
+        "image_sources": {
+          "help": "공개 URL, Base64 데이터 URL 또는 Base64 이미지를 한 줄에 하나씩 입력하세요. 업로드를 포함해 최대 10장입니다."
+        },
+        "reference_video_sources": {
+          "help": "공개 MP4 또는 MOV 직접 URL을 한 줄에 하나씩 입력하세요. 업로드까지 최대 4개이며 @video_2부터 번호가 붙습니다."
+        },
+        "elements": {
+          "help": "최대 7개의 피사체를 JSON 배열로 입력하세요. 영상 피사체는 최대 3개입니다. 기존 ID를 쓰거나 새 이미지·영상 피사체를 만듭니다. 새 이미지 인물에 element_voice_id를 연결할 수 있습니다."
+        },
+        "voice_ids": {
+          "help": "Kling 음성 ID를 한 줄에 하나씩 최대 3개 입력하세요. @voice_N으로 순서대로 참조합니다."
+        },
+        "reference_image_1": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_2": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_3": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_4": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_5": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_6": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_7": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_8": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_9": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_image_10": {
+          "help": "피사체, 장면 또는 스타일을 참고할 이미지를 업로드하세요."
+        },
+        "reference_video_1": {
+          "help": "각 영상이 3~20초, 최대 300MB, 각 변 700~4,553픽셀인 MP4 또는 MOV를 업로드하세요. 참조 영상의 길이 합은 최대 20초입니다."
+        },
+        "reference_video_2": {
+          "help": "각 영상이 3~20초, 최대 300MB, 각 변 700~4,553픽셀인 MP4 또는 MOV를 업로드하세요. 참조 영상의 길이 합은 최대 20초입니다."
+        },
+        "reference_video_3": {
+          "help": "각 영상이 3~20초, 최대 300MB, 각 변 700~4,553픽셀인 MP4 또는 MOV를 업로드하세요. 참조 영상의 길이 합은 최대 20초입니다."
+        },
+        "reference_video_4": {
+          "help": "각 영상이 3~20초, 최대 300MB, 각 변 700~4,553픽셀인 MP4 또는 MOV를 업로드하세요. 참조 영상의 길이 합은 최대 20초입니다."
+        }
+      }
+    }
+  }
+}

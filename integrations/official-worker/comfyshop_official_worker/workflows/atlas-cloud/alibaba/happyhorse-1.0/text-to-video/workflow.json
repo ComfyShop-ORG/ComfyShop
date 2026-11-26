@@ -1,0 +1,277 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-alibaba-happyhorse-1-0-text-to-video",
+  "name": "HappyHorse 1.0 文生视频",
+  "description": "用提示词生成视频，可选择分辨率、画面比例与时长。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 2500
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1080p",
+      "optional": true,
+      "choices": ["720p", "1080p"]
+    },
+    {
+      "name": "ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "optional": true,
+      "choices": ["16:9", "9:16", "1:1", "4:3", "3:4"]
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 5,
+      "optional": true,
+      "minimum": "3",
+      "maximum": "15"
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true,
+      "minimum": "-1",
+      "maximum": "2147483647"
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "alibaba/happyhorse-1.0/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "ratio": "ratio",
+        "duration": "duration",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "HappyHorse 1.0 文生视频",
+      "description": "用提示词生成视频，可选择分辨率、画面比例与时长。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "resolution": {
+          "label": "分辨率"
+        },
+        "ratio": {
+          "label": "画面比例"
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "seed": {
+          "label": "随机种子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述需要的画面、动作和运镜。最多 2,500 字符。"
+        },
+        "resolution": {
+          "help": "选择 720p 或 1080p。默认 1080p。"
+        },
+        "ratio": {
+          "help": "从五种画面比例中选择，默认 16:9。"
+        },
+        "duration": {
+          "help": "输入 3 至 15 的整数，默认 5 秒。"
+        },
+        "seed": {
+          "help": "输入 -1 使用随机种子，或指定 0 至 2147483647 的整数。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "HappyHorse 1.0 文生影片",
+      "description": "用提示詞產生影片，可選擇解析度、畫面比例與長度。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "resolution": {
+          "label": "解析度"
+        },
+        "ratio": {
+          "label": "畫面比例"
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "seed": {
+          "label": "隨機種子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述所需的畫面、動作與運鏡。最多 2,500 字元。"
+        },
+        "resolution": {
+          "help": "選擇 720p 或 1080p。預設為 1080p。"
+        },
+        "ratio": {
+          "help": "從五種畫面比例中選擇，預設為 16:9。"
+        },
+        "duration": {
+          "help": "輸入 3 至 15 的整數，預設為 5 秒。"
+        },
+        "seed": {
+          "help": "輸入 -1 使用隨機種子，或指定 0 至 2147483647 的整數。"
+        }
+      }
+    },
+    "en": {
+      "name": "HappyHorse 1.0 Text to Video",
+      "description": "Generate video from a prompt with settings for resolution, aspect ratio, and duration.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "resolution": {
+          "label": "Resolution"
+        },
+        "ratio": {
+          "label": "Aspect ratio"
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "seed": {
+          "label": "Seed"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the scene, action, and camera direction. Use up to 2,500 characters."
+        },
+        "resolution": {
+          "help": "Choose 720p or 1080p. The default is 1080p."
+        },
+        "ratio": {
+          "help": "Choose from five aspect ratios. The default is 16:9."
+        },
+        "duration": {
+          "help": "Enter a whole number from 3 to 15. The default is 5 seconds."
+        },
+        "seed": {
+          "help": "Enter -1 for a random seed or use an integer from 0 to 2147483647."
+        }
+      }
+    },
+    "ja": {
+      "name": "HappyHorse 1.0 テキストから動画",
+      "description": "プロンプトから動画を生成し、解像度、アスペクト比、長さを設定します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "resolution": {
+          "label": "解像度"
+        },
+        "ratio": {
+          "label": "アスペクト比"
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "seed": {
+          "label": "シード"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "場面、動き、カメラワークを記述します。最大2,500文字です。"
+        },
+        "resolution": {
+          "help": "720pまたは1080pを選択します。既定値は1080pです。"
+        },
+        "ratio": {
+          "help": "5種類の比率から選択します。既定値は16:9です。"
+        },
+        "duration": {
+          "help": "3〜15の整数を入力します。既定値は5秒です。"
+        },
+        "seed": {
+          "help": "ランダムなシードには-1を入力します。固定する場合は0〜2147483647の整数を指定します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "HappyHorse 1.0 텍스트로 동영상 생성",
+      "description": "프롬프트로 동영상을 만들고 해상도, 화면 비율과 길이를 설정합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "resolution": {
+          "label": "해상도"
+        },
+        "ratio": {
+          "label": "화면 비율"
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "seed": {
+          "label": "시드"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "장면, 동작, 카메라 움직임을 설명합니다. 최대 2,500자입니다."
+        },
+        "resolution": {
+          "help": "720p 또는 1080p를 선택합니다. 기본값은 1080p입니다."
+        },
+        "ratio": {
+          "help": "다섯 가지 화면 비율 중에 선택합니다. 기본값은 16:9입니다."
+        },
+        "duration": {
+          "help": "3에서 15 사이의 정수를 입력합니다. 기본값은 5초입니다."
+        },
+        "seed": {
+          "help": "무작위 시드는 -1을 입력합니다. 고정하려면 0에서 2147483647 사이의 정수를 지정합니다."
+        }
+      }
+    }
+  }
+}

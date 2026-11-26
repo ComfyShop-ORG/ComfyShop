@@ -1,0 +1,311 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-seedance-25-draft-complete",
+  "name": "Seedance 2.5 草稿转正式版",
+  "description": "使用七天内生成的 Seedance 2.5 草稿 ID 渲染正式视频。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "draft_id",
+      "kind": "string",
+      "default": ""
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1080p",
+      "choices": ["1080p", "4k"]
+    },
+    {
+      "name": "video_format",
+      "kind": "choice",
+      "default": "mp4",
+      "choices": ["mp4", "mov"],
+      "optional": true
+    },
+    {
+      "name": "add_watermark",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "include_last_frame",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "draft_id",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "video_format",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "add_watermark",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "include_last_frame",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "additionalOutputKinds": ["image"],
+    "config": {
+      "model": "bytedance/seedance-2.5/draft-complete",
+      "operation": "video",
+      "parameters": {
+        "draft_id": "draft_id",
+        "resolution": "resolution",
+        "output_format": "video_format",
+        "watermark": "add_watermark",
+        "return_last_frame": "include_last_frame"
+      },
+      "required_text": ["draft_id"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Seedance 2.5 草稿转正式版",
+      "description": "使用七天内生成的 Seedance 2.5 草稿 ID 渲染正式视频。",
+      "fields": {
+        "draft_id": {
+          "label": "草稿 ID"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "video_format": {
+          "label": "视频容器",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "mov": "MOV"
+          }
+        },
+        "add_watermark": {
+          "label": "添加水印"
+        },
+        "include_last_frame": {
+          "label": "导出尾帧"
+        }
+      },
+      "parameterLayout": {
+        "draft_id": {
+          "help": "粘贴草稿成品 TXT 中的 ID，沿用草稿的提示词、输入素材、时长、画面比例和音频设置。"
+        },
+        "resolution": {
+          "help": "选择原生 1080p 或 4K。"
+        },
+        "video_format": {
+          "help": "选择 MP4 或 MOV。MOV 使用 YUV 4:4:4 以保留色彩细节。"
+        },
+        "add_watermark": {
+          "help": "为输出视频添加水印。"
+        },
+        "include_last_frame": {
+          "help": "将输出视频的最后一帧另存为图片。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Seedance 2.5 草稿轉正式版",
+      "description": "使用七天內生成的 Seedance 2.5 草稿 ID 渲染正式影片。",
+      "fields": {
+        "draft_id": {
+          "label": "草稿 ID"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "video_format": {
+          "label": "影片容器",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "mov": "MOV"
+          }
+        },
+        "add_watermark": {
+          "label": "加入浮水印"
+        },
+        "include_last_frame": {
+          "label": "匯出尾幀"
+        }
+      },
+      "parameterLayout": {
+        "draft_id": {
+          "help": "貼上草稿成品 TXT 中的 ID，沿用草稿的提示詞、素材、長度、畫面比例和音訊設定。"
+        },
+        "resolution": {
+          "help": "選擇原生 1080p 或 4K。"
+        },
+        "video_format": {
+          "help": "選擇 MP4 或 MOV。MOV 使用 YUV 4:4:4 以保留色彩細節。"
+        },
+        "add_watermark": {
+          "help": "為輸出影片加入浮水印。"
+        },
+        "include_last_frame": {
+          "help": "將輸出影片的最後一幀另存為圖片。"
+        }
+      }
+    },
+    "en": {
+      "name": "Seedance 2.5 Draft Completion",
+      "description": "Render a completed Seedance 2.5 draft as a full-quality video within seven days.",
+      "fields": {
+        "draft_id": {
+          "label": "Draft ID"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "video_format": {
+          "label": "Video container",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "mov": "MOV"
+          }
+        },
+        "add_watermark": {
+          "label": "Add watermark"
+        },
+        "include_last_frame": {
+          "label": "Export last frame"
+        }
+      },
+      "parameterLayout": {
+        "draft_id": {
+          "help": "Paste the ID from the draft's TXT artifact. The final inherits the draft's prompt, inputs, duration, aspect ratio, and audio settings."
+        },
+        "resolution": {
+          "help": "Choose native 1080p or 4K."
+        },
+        "video_format": {
+          "help": "Choose MP4 or MOV. MOV uses YUV 4:4:4 to preserve color detail."
+        },
+        "add_watermark": {
+          "help": "Add a watermark to the output video."
+        },
+        "include_last_frame": {
+          "help": "Save the final video frame as a separate image."
+        }
+      }
+    },
+    "ja": {
+      "name": "Seedance 2.5 下書きから完成版",
+      "description": "作成後 7 日以内の Seedance 2.5 下書き ID から完成版をレンダリングします。",
+      "fields": {
+        "draft_id": {
+          "label": "下書き ID"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "video_format": {
+          "label": "動画コンテナ",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "mov": "MOV"
+          }
+        },
+        "add_watermark": {
+          "label": "透かしを追加"
+        },
+        "include_last_frame": {
+          "label": "最終フレームを書き出す"
+        }
+      },
+      "parameterLayout": {
+        "draft_id": {
+          "help": "下書きの TXT ファイルから ID を貼り付けます。元のプロンプト、素材、長さ、縦横比、音声設定を引き継ぎます。"
+        },
+        "resolution": {
+          "help": "ネイティブの 1080p または 4K を選びます。"
+        },
+        "video_format": {
+          "help": "MP4 または MOV を選びます。MOV は YUV 4:4:4 で色のディテールを保ちます。"
+        },
+        "add_watermark": {
+          "help": "出力動画に透かしを追加します。"
+        },
+        "include_last_frame": {
+          "help": "動画の最後のフレームを別の画像として保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Seedance 2.5 초안에서 최종본 생성",
+      "description": "7일 이내에 생성한 Seedance 2.5 초안 ID로 최종 동영상을 렌더링합니다.",
+      "fields": {
+        "draft_id": {
+          "label": "초안 ID"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "4k": "4K"
+          }
+        },
+        "video_format": {
+          "label": "동영상 컨테이너",
+          "choiceLabels": {
+            "mp4": "MP4",
+            "mov": "MOV"
+          }
+        },
+        "add_watermark": {
+          "label": "워터마크 추가"
+        },
+        "include_last_frame": {
+          "label": "마지막 프레임 내보내기"
+        }
+      },
+      "parameterLayout": {
+        "draft_id": {
+          "help": "초안의 TXT 파일에 있는 ID를 붙여 넣으세요. 프롬프트, 입력 자료, 길이, 화면 비율, 오디오 설정을 그대로 사용합니다."
+        },
+        "resolution": {
+          "help": "기본 1080p 또는 4K를 선택하세요."
+        },
+        "video_format": {
+          "help": "MP4 또는 MOV를 선택하세요. MOV는 YUV 4:4:4를 사용해 색상 디테일을 보존합니다."
+        },
+        "add_watermark": {
+          "help": "출력 동영상에 워터마크를 추가합니다."
+        },
+        "include_last_frame": {
+          "help": "동영상의 마지막 프레임을 별도의 이미지로 저장합니다."
+        }
+      }
+    }
+  }
+}

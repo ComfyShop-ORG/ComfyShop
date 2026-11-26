@@ -1,0 +1,8 @@
+{
+  "name": "@comfyshop/api-client",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

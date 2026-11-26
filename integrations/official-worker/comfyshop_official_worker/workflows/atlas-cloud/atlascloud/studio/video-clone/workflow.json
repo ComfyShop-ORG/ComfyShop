@@ -1,0 +1,539 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-atlascloud-studio-video-clone",
+  "name": "Atlas Cloud Studio 视频复刻",
+  "description": "以参考视频的节奏、构图和运镜为模板，替换为自己的商品，并可提供模特图。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "reference_video",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "product_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "model_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "user_prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "optional": true
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "720p",
+      "choices": ["480p", "720p", "720p-esr", "1080p-esr", "1440p-esr", "4k-esr"],
+      "optional": true
+    },
+    {
+      "name": "duration",
+      "kind": "integer",
+      "default": 8,
+      "minimum": "2",
+      "maximum": "30",
+      "step": "1",
+      "optional": true
+    },
+    {
+      "name": "count",
+      "kind": "choice",
+      "default": 1,
+      "choices": [1, 2, 3, 4],
+      "optional": true
+    },
+    {
+      "name": "video_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "product_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "model_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "reference_video",
+      "section": "default"
+    },
+    {
+      "fieldId": "product_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "model_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "user_prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "count",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "product_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "model_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "atlascloud/studio/video-clone",
+      "operation": "video",
+      "parameters": {
+        "user_prompt": "user_prompt",
+        "resolution": "resolution",
+        "duration": "duration",
+        "count": "count"
+      },
+      "omit_blank_parameters": ["user_prompt"],
+      "media": {
+        "reference_video": {
+          "kind": "video",
+          "fields": ["reference_video"],
+          "external_sources_field": "video_source",
+          "external_urls_only": true,
+          "min_items": 1,
+          "content_types": ["video/mp4", "video/quicktime"],
+          "min_duration_ms": 2000,
+          "max_duration_ms": 30000
+        },
+        "product_image": {
+          "kind": "image",
+          "fields": ["product_image"],
+          "external_sources_field": "product_source",
+          "external_urls_only": true,
+          "min_items": 1,
+          "array": true
+        },
+        "model_image": {
+          "kind": "image",
+          "fields": ["model_image"],
+          "external_sources_field": "model_source",
+          "external_urls_only": true,
+          "array": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Atlas Cloud Studio 视频复刻",
+      "description": "以参考视频的节奏、构图和运镜为模板，替换为自己的商品，并可提供模特图。",
+      "fields": {
+        "reference_video": {
+          "label": "参考视频"
+        },
+        "product_image": {
+          "label": "商品图"
+        },
+        "model_image": {
+          "label": "模特图"
+        },
+        "user_prompt": {
+          "label": "调整说明"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p",
+            "720p-esr": "720p 超分",
+            "1080p-esr": "1080p 超分",
+            "1440p-esr": "1440p 超分",
+            "4k-esr": "4K 超分"
+          }
+        },
+        "duration": {
+          "label": "参考视频时长（秒）"
+        },
+        "count": {
+          "label": "视频数量"
+        },
+        "video_source": {
+          "label": "参考视频 URL"
+        },
+        "product_source": {
+          "label": "商品图 URL"
+        },
+        "model_source": {
+          "label": "模特图 URL"
+        }
+      },
+      "parameterLayout": {
+        "reference_video": {
+          "help": "上传 2 至 30 秒的 MP4 或 MOV 视频，或在高级参数填写公开视频 URL。"
+        },
+        "product_image": {
+          "help": "上传要放入视频的商品照片，也可填写图片 URL。"
+        },
+        "model_image": {
+          "help": "参考视频有人物时，可指定替换人物的图片。"
+        },
+        "user_prompt": {
+          "help": "可简要描述场景或氛围需要微调的地方。"
+        },
+        "resolution": {
+          "help": "选择原生分辨率或超分选项。默认 720p。"
+        },
+        "duration": {
+          "help": "填写参考视频的实际时长整数，用于计价。默认 8 秒，成品时长随参考视频。"
+        },
+        "count": {
+          "help": "选择 1 至 4 条。默认 1 条。"
+        },
+        "video_source": {
+          "help": "填写一个可公开访问的 MP4 或 MOV 直链。"
+        },
+        "product_source": {
+          "help": "填写一个可公开访问的商品图片 URL。"
+        },
+        "model_source": {
+          "help": "填写一个可公开访问的模特图片 URL。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Atlas Cloud Studio 影片復刻",
+      "description": "以參考影片的節奏、構圖和運鏡作為版型，換成自己的商品，也可提供模特兒圖。",
+      "fields": {
+        "reference_video": {
+          "label": "參考影片"
+        },
+        "product_image": {
+          "label": "商品圖"
+        },
+        "model_image": {
+          "label": "模特兒圖"
+        },
+        "user_prompt": {
+          "label": "調整說明"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p",
+            "720p-esr": "720p 超解析度",
+            "1080p-esr": "1080p 超解析度",
+            "1440p-esr": "1440p 超解析度",
+            "4k-esr": "4K 超解析度"
+          }
+        },
+        "duration": {
+          "label": "參考影片長度（秒）"
+        },
+        "count": {
+          "label": "影片數量"
+        },
+        "video_source": {
+          "label": "參考影片 URL"
+        },
+        "product_source": {
+          "label": "商品圖 URL"
+        },
+        "model_source": {
+          "label": "模特兒圖 URL"
+        }
+      },
+      "parameterLayout": {
+        "reference_video": {
+          "help": "上傳 2 至 30 秒的 MP4 或 MOV 影片，或在進階參數填寫公開影片 URL。"
+        },
+        "product_image": {
+          "help": "上傳要放入影片的商品照片，也可填寫圖片 URL。"
+        },
+        "model_image": {
+          "help": "參考影片有人物時，可指定替換人物的圖片。"
+        },
+        "user_prompt": {
+          "help": "可簡述場景或氛圍需要微調之處。"
+        },
+        "resolution": {
+          "help": "選擇原生解析度或超解析度選項。預設 720p。"
+        },
+        "duration": {
+          "help": "填寫參考影片的實際長度整數，用於計價。預設 8 秒，成品長度依參考影片。"
+        },
+        "count": {
+          "help": "選擇 1 至 4 部。預設 1 部。"
+        },
+        "video_source": {
+          "help": "填寫一個可公開存取的 MP4 或 MOV 直接連結。"
+        },
+        "product_source": {
+          "help": "填寫一個可公開存取的商品圖片 URL。"
+        },
+        "model_source": {
+          "help": "填寫一個可公開存取的模特兒圖片 URL。"
+        }
+      }
+    },
+    "en": {
+      "name": "Atlas Cloud Studio Template Video Clone",
+      "description": "Replace the product in a reference video while preserving its pacing, composition, and camera moves. A model photo is optional.",
+      "fields": {
+        "reference_video": {
+          "label": "Reference video"
+        },
+        "product_image": {
+          "label": "Product image"
+        },
+        "model_image": {
+          "label": "Model image"
+        },
+        "user_prompt": {
+          "label": "Adjustment notes"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p",
+            "720p-esr": "720p upscaled",
+            "1080p-esr": "1080p upscaled",
+            "1440p-esr": "1440p upscaled",
+            "4k-esr": "4K upscaled"
+          }
+        },
+        "duration": {
+          "label": "Reference duration (seconds)"
+        },
+        "count": {
+          "label": "Video count"
+        },
+        "video_source": {
+          "label": "Reference video URL"
+        },
+        "product_source": {
+          "label": "Product image URL"
+        },
+        "model_source": {
+          "label": "Model image URL"
+        }
+      },
+      "parameterLayout": {
+        "reference_video": {
+          "help": "Upload a 2- to 30-second MP4 or MOV, or enter a public video URL under Advanced."
+        },
+        "product_image": {
+          "help": "Upload the product photo to place in the video, or enter its image URL."
+        },
+        "model_image": {
+          "help": "If the reference has a person, optionally supply an image of the replacement person."
+        },
+        "user_prompt": {
+          "help": "Briefly describe any changes to the scene or mood."
+        },
+        "resolution": {
+          "help": "Choose a native or upscaled resolution. The default is 720p."
+        },
+        "duration": {
+          "help": "Enter the actual reference duration as a whole number for pricing. The default is 8 seconds. The output follows the reference video."
+        },
+        "count": {
+          "help": "Choose one to four videos. The default is one."
+        },
+        "video_source": {
+          "help": "Enter one public direct URL to an MP4 or MOV file."
+        },
+        "product_source": {
+          "help": "Enter one public product image URL."
+        },
+        "model_source": {
+          "help": "Enter one public model image URL."
+        }
+      }
+    },
+    "ja": {
+      "name": "Atlas Cloud Studio 動画リクリエーション",
+      "description": "参照動画の構図、テンポ、カメラワークを使い、商品を差し替えます。モデル画像も指定できます。",
+      "fields": {
+        "reference_video": {
+          "label": "参照動画"
+        },
+        "product_image": {
+          "label": "商品画像"
+        },
+        "model_image": {
+          "label": "モデル画像"
+        },
+        "user_prompt": {
+          "label": "調整指示"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p",
+            "720p-esr": "720p アップスケール",
+            "1080p-esr": "1080p アップスケール",
+            "1440p-esr": "1440p アップスケール",
+            "4k-esr": "4K アップスケール"
+          }
+        },
+        "duration": {
+          "label": "参照動画の長さ（秒）"
+        },
+        "count": {
+          "label": "動画の本数"
+        },
+        "video_source": {
+          "label": "参照動画の URL"
+        },
+        "product_source": {
+          "label": "商品画像の URL"
+        },
+        "model_source": {
+          "label": "モデル画像の URL"
+        }
+      },
+      "parameterLayout": {
+        "reference_video": {
+          "help": "2〜30 秒の MP4 または MOV をアップロードするか、詳細設定で公開動画 URL を入力します。"
+        },
+        "product_image": {
+          "help": "動画に配置する商品画像をアップロードするか、画像の URL を入力します。"
+        },
+        "model_image": {
+          "help": "参照動画に人物がいるときは、差し替える人物の画像を指定できます。"
+        },
+        "user_prompt": {
+          "help": "場面や雰囲気の調整を簡潔に指定できます。"
+        },
+        "resolution": {
+          "help": "ネイティブ解像度またはアップスケールを選択します。既定は 720p です。"
+        },
+        "duration": {
+          "help": "料金計算用に参照動画の長さを秒単位の整数で入力します。既定は 8 秒で、出力の長さは参照動画に従います。"
+        },
+        "count": {
+          "help": "1〜4 本から選択します。既定は 1 本です。"
+        },
+        "video_source": {
+          "help": "公開された MP4 または MOV の直接 URL を一つ入力します。"
+        },
+        "product_source": {
+          "help": "公開された商品画像の URL を一つ入力します。"
+        },
+        "model_source": {
+          "help": "公開されたモデル画像の URL を一つ入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Atlas Cloud Studio 템플릿 동영상 재현",
+      "description": "참조 동영상의 속도, 구도, 카메라 움직임을 따라 내 상품으로 바꾸고 모델 이미지를 지정할 수 있습니다.",
+      "fields": {
+        "reference_video": {
+          "label": "참조 동영상"
+        },
+        "product_image": {
+          "label": "상품 이미지"
+        },
+        "model_image": {
+          "label": "모델 이미지"
+        },
+        "user_prompt": {
+          "label": "조정 지시"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "480p": "480p",
+            "720p": "720p",
+            "720p-esr": "720p 업스케일",
+            "1080p-esr": "1080p 업스케일",
+            "1440p-esr": "1440p 업스케일",
+            "4k-esr": "4K 업스케일"
+          }
+        },
+        "duration": {
+          "label": "참조 동영상 길이(초)"
+        },
+        "count": {
+          "label": "동영상 수"
+        },
+        "video_source": {
+          "label": "참조 동영상 URL"
+        },
+        "product_source": {
+          "label": "상품 이미지 URL"
+        },
+        "model_source": {
+          "label": "모델 이미지 URL"
+        }
+      },
+      "parameterLayout": {
+        "reference_video": {
+          "help": "2~30초의 MP4 또는 MOV를 업로드하거나 고급 설정에 공개 동영상 URL을 입력하세요."
+        },
+        "product_image": {
+          "help": "동영상에 넣을 상품 사진을 업로드하거나 이미지 URL을 입력하세요."
+        },
+        "model_image": {
+          "help": "참조 동영상에 인물이 있으면 교체할 인물 이미지를 지정할 수 있습니다."
+        },
+        "user_prompt": {
+          "help": "장면이나 분위기에서 바꿀 부분을 간단히 설명하세요."
+        },
+        "resolution": {
+          "help": "기본 또는 업스케일 해상도를 선택하세요. 기본값은 720p입니다."
+        },
+        "duration": {
+          "help": "가격 계산에 사용할 실제 참조 동영상 길이를 정수로 입력하세요. 기본값은 8초이며, 결과 길이는 참조 동영상을 따릅니다."
+        },
+        "count": {
+          "help": "1~4개를 선택하세요. 기본값은 1개입니다."
+        },
+        "video_source": {
+          "help": "공개 MP4 또는 MOV의 직접 URL을 하나 입력하세요."
+        },
+        "product_source": {
+          "help": "공개 상품 이미지 URL을 하나 입력하세요."
+        },
+        "model_source": {
+          "help": "공개 모델 이미지 URL을 하나 입력하세요."
+        }
+      }
+    }
+  }
+}

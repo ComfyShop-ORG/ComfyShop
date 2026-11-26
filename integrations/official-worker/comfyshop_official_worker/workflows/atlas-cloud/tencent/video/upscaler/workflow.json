@@ -1,0 +1,464 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "tencent-video-upscaler",
+  "name": "腾讯云视频超分",
+  "description": "使用腾讯云 MPS 提升视频清晰度，可选择实拍、动漫、老片修复等模板。",
+  "category": "video_tool",
+  "fields": [
+    {
+      "name": "video",
+      "kind": "video"
+    },
+    {
+      "name": "template",
+      "kind": "choice",
+      "optional": true,
+      "default": "anime-enhance-4k",
+      "choices": [
+        "live-action-enhance-720p",
+        "live-action-enhance-1080p",
+        "live-action-enhance-2k",
+        "live-action-enhance-4k",
+        "anime-enhance-720p",
+        "anime-enhance-1080p",
+        "anime-enhance-2k",
+        "anime-enhance-4k",
+        "restore-720p",
+        "restore-1080p",
+        "restore-2k",
+        "restore-4k",
+        "live-action-smallface-720p",
+        "live-action-smallface-1080p",
+        "live-action-smallface-2k",
+        "live-action-smallface-4k",
+        "anime-smallface-720p",
+        "anime-smallface-1080p",
+        "anime-smallface-2k",
+        "anime-smallface-4k",
+        "seedance2-enhance-720p",
+        "seedance2-enhance-1080p",
+        "seedance2-enhance-2k",
+        "seedance2-enhance-4k"
+      ]
+    },
+    {
+      "name": "short",
+      "kind": "integer",
+      "optional": true,
+      "default": 0,
+      "minimum": "0",
+      "maximum": "2160"
+    },
+    {
+      "name": "fps",
+      "kind": "integer",
+      "optional": true,
+      "minimum": "1"
+    },
+    {
+      "name": "keep_metadata",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "video",
+      "section": "default"
+    },
+    {
+      "fieldId": "template",
+      "section": "default"
+    },
+    {
+      "fieldId": "short",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "fps",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "keep_metadata",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "operation": "video",
+      "model": "tencent/video/upscaler",
+      "prediction_endpoint": "result",
+      "parameters": {
+        "template": "template",
+        "short": "short",
+        "fps": "fps",
+        "keep_metadata": "keep_metadata"
+      },
+      "media": {
+        "video_url": {
+          "kind": "video",
+          "fields": ["video"],
+          "min_items": 1
+        }
+      },
+      "choice_bounds": {
+        "short": {
+          "parameter": "template",
+          "ranges": {
+            "live-action-enhance-720p": [0, 720],
+            "live-action-enhance-1080p": [721, 1080],
+            "live-action-enhance-2k": [1081, 1440],
+            "live-action-enhance-4k": [1441, 2160],
+            "anime-enhance-720p": [0, 720],
+            "anime-enhance-1080p": [721, 1080],
+            "anime-enhance-2k": [1081, 1440],
+            "anime-enhance-4k": [1441, 2160],
+            "restore-720p": [0, 720],
+            "restore-1080p": [721, 1080],
+            "restore-2k": [1081, 1440],
+            "restore-4k": [1441, 2160],
+            "live-action-smallface-720p": [0, 720],
+            "live-action-smallface-1080p": [721, 1080],
+            "live-action-smallface-2k": [1081, 1440],
+            "live-action-smallface-4k": [1441, 2160],
+            "anime-smallface-720p": [0, 720],
+            "anime-smallface-1080p": [721, 1080],
+            "anime-smallface-2k": [1081, 1440],
+            "anime-smallface-4k": [1441, 2160],
+            "seedance2-enhance-720p": [0, 720],
+            "seedance2-enhance-1080p": [721, 1080],
+            "seedance2-enhance-2k": [1081, 1440],
+            "seedance2-enhance-4k": [1441, 2160]
+          },
+          "exceptions": [0]
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "腾讯云视频超分",
+      "description": "使用腾讯云 MPS 提升视频清晰度，可选择实拍、动漫、老片修复等模板。",
+      "fields": {
+        "video": {
+          "label": "原视频"
+        },
+        "template": {
+          "label": "增强模板",
+          "choiceLabels": {
+            "live-action-enhance-720p": "实拍增强 · 720p",
+            "live-action-enhance-1080p": "实拍增强 · 1080p",
+            "live-action-enhance-2k": "实拍增强 · 2K",
+            "live-action-enhance-4k": "实拍增强 · 4K",
+            "anime-enhance-720p": "动漫增强 · 720p",
+            "anime-enhance-1080p": "动漫增强 · 1080p",
+            "anime-enhance-2k": "动漫增强 · 2K",
+            "anime-enhance-4k": "动漫增强 · 4K",
+            "restore-720p": "老片和低画质修复 · 720p",
+            "restore-1080p": "老片和低画质修复 · 1080p",
+            "restore-2k": "老片和低画质修复 · 2K",
+            "restore-4k": "老片和低画质修复 · 4K",
+            "live-action-smallface-720p": "实拍远景小脸优化 · 720p",
+            "live-action-smallface-1080p": "实拍远景小脸优化 · 1080p",
+            "live-action-smallface-2k": "实拍远景小脸优化 · 2K",
+            "live-action-smallface-4k": "实拍远景小脸优化 · 4K",
+            "anime-smallface-720p": "动漫远景小脸优化 · 720p",
+            "anime-smallface-1080p": "动漫远景小脸优化 · 1080p",
+            "anime-smallface-2k": "动漫远景小脸优化 · 2K",
+            "anime-smallface-4k": "动漫远景小脸优化 · 4K",
+            "seedance2-enhance-720p": "Seedance 2 增强 · 720p",
+            "seedance2-enhance-1080p": "Seedance 2 增强 · 1080p",
+            "seedance2-enhance-2k": "Seedance 2 增强 · 2K",
+            "seedance2-enhance-4k": "Seedance 2 增强 · 4K"
+          }
+        },
+        "short": {
+          "label": "输出短边"
+        },
+        "fps": {
+          "label": "目标帧率"
+        },
+        "keep_metadata": {
+          "label": "保留元数据"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "上传一段要增强的视频。"
+        },
+        "template": {
+          "help": "选择场景与分辨率档位。默认动漫增强 4K。"
+        },
+        "short": {
+          "help": "0 保留源分辨率。填写其他整数时，720p 为 1 至 720，1080p 为 721 至 1080，2K 为 1081 至 1440，4K 为 1441 至 2160 像素。"
+        },
+        "fps": {
+          "help": "填写大于等于 1 的整数。留空保留原帧率。"
+        },
+        "keep_metadata": {
+          "help": "保留来源视频的媒体元数据。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "騰訊雲影片超解析",
+      "description": "使用騰訊雲 MPS 提升影片清晰度，可選實拍、動畫與老片修復等範本。",
+      "fields": {
+        "video": {
+          "label": "原始影片"
+        },
+        "template": {
+          "label": "強化範本",
+          "choiceLabels": {
+            "live-action-enhance-720p": "實拍強化 · 720p",
+            "live-action-enhance-1080p": "實拍強化 · 1080p",
+            "live-action-enhance-2k": "實拍強化 · 2K",
+            "live-action-enhance-4k": "實拍強化 · 4K",
+            "anime-enhance-720p": "動畫強化 · 720p",
+            "anime-enhance-1080p": "動畫強化 · 1080p",
+            "anime-enhance-2k": "動畫強化 · 2K",
+            "anime-enhance-4k": "動畫強化 · 4K",
+            "restore-720p": "老片與低畫質修復 · 720p",
+            "restore-1080p": "老片與低畫質修復 · 1080p",
+            "restore-2k": "老片與低畫質修復 · 2K",
+            "restore-4k": "老片與低畫質修復 · 4K",
+            "live-action-smallface-720p": "實拍遠景小臉最佳化 · 720p",
+            "live-action-smallface-1080p": "實拍遠景小臉最佳化 · 1080p",
+            "live-action-smallface-2k": "實拍遠景小臉最佳化 · 2K",
+            "live-action-smallface-4k": "實拍遠景小臉最佳化 · 4K",
+            "anime-smallface-720p": "動畫遠景小臉最佳化 · 720p",
+            "anime-smallface-1080p": "動畫遠景小臉最佳化 · 1080p",
+            "anime-smallface-2k": "動畫遠景小臉最佳化 · 2K",
+            "anime-smallface-4k": "動畫遠景小臉最佳化 · 4K",
+            "seedance2-enhance-720p": "Seedance 2 強化 · 720p",
+            "seedance2-enhance-1080p": "Seedance 2 強化 · 1080p",
+            "seedance2-enhance-2k": "Seedance 2 強化 · 2K",
+            "seedance2-enhance-4k": "Seedance 2 強化 · 4K"
+          }
+        },
+        "short": {
+          "label": "輸出短邊"
+        },
+        "fps": {
+          "label": "目標影格率"
+        },
+        "keep_metadata": {
+          "label": "保留中繼資料"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "上傳一段要強化的影片。"
+        },
+        "template": {
+          "help": "選擇場景與解析度等級。預設為動畫強化 4K。"
+        },
+        "short": {
+          "help": "0 保留原始解析度。填入其他整數時，720p 為 1 至 720，1080p 為 721 至 1080，2K 為 1081 至 1440，4K 為 1441 至 2160 像素。"
+        },
+        "fps": {
+          "help": "填入至少為 1 的整數。留空保留原影格率。"
+        },
+        "keep_metadata": {
+          "help": "保留來源影片的媒體中繼資料。"
+        }
+      }
+    },
+    "en": {
+      "name": "Tencent Video Upscaler",
+      "description": "Enhance video with Tencent Cloud MPS templates for live action, animation, restoration, and other footage.",
+      "fields": {
+        "video": {
+          "label": "Source video"
+        },
+        "template": {
+          "label": "Enhancement template",
+          "choiceLabels": {
+            "live-action-enhance-720p": "Live-action enhancement · 720p",
+            "live-action-enhance-1080p": "Live-action enhancement · 1080p",
+            "live-action-enhance-2k": "Live-action enhancement · 2K",
+            "live-action-enhance-4k": "Live-action enhancement · 4K",
+            "anime-enhance-720p": "Anime enhancement · 720p",
+            "anime-enhance-1080p": "Anime enhancement · 1080p",
+            "anime-enhance-2k": "Anime enhancement · 2K",
+            "anime-enhance-4k": "Anime enhancement · 4K",
+            "restore-720p": "Old or low-quality footage restoration · 720p",
+            "restore-1080p": "Old or low-quality footage restoration · 1080p",
+            "restore-2k": "Old or low-quality footage restoration · 2K",
+            "restore-4k": "Old or low-quality footage restoration · 4K",
+            "live-action-smallface-720p": "Distant faces in live action · 720p",
+            "live-action-smallface-1080p": "Distant faces in live action · 1080p",
+            "live-action-smallface-2k": "Distant faces in live action · 2K",
+            "live-action-smallface-4k": "Distant faces in live action · 4K",
+            "anime-smallface-720p": "Distant faces in animation · 720p",
+            "anime-smallface-1080p": "Distant faces in animation · 1080p",
+            "anime-smallface-2k": "Distant faces in animation · 2K",
+            "anime-smallface-4k": "Distant faces in animation · 4K",
+            "seedance2-enhance-720p": "Seedance 2 enhancement · 720p",
+            "seedance2-enhance-1080p": "Seedance 2 enhancement · 1080p",
+            "seedance2-enhance-2k": "Seedance 2 enhancement · 2K",
+            "seedance2-enhance-4k": "Seedance 2 enhancement · 4K"
+          }
+        },
+        "short": {
+          "label": "Output short edge"
+        },
+        "fps": {
+          "label": "Target frame rate"
+        },
+        "keep_metadata": {
+          "label": "Preserve metadata"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "Upload one video to enhance."
+        },
+        "template": {
+          "help": "Choose a scene and resolution tier. Anime enhancement at 4K is the default."
+        },
+        "short": {
+          "help": "Use 0 to keep the source resolution. For a custom short edge, use 1–720 px for 720p, 721–1080 for 1080p, 1081–1440 for 2K, or 1441–2160 for 4K."
+        },
+        "fps": {
+          "help": "Enter a positive integer or leave blank to preserve the source frame rate."
+        },
+        "keep_metadata": {
+          "help": "Preserve the source video’s metadata."
+        }
+      }
+    },
+    "ja": {
+      "name": "Tencent Cloud 動画の超解像",
+      "description": "Tencent Cloud MPS で実写、アニメ、古い映像などをテンプレートに沿って鮮明にします。",
+      "fields": {
+        "video": {
+          "label": "元の動画"
+        },
+        "template": {
+          "label": "強調テンプレート",
+          "choiceLabels": {
+            "live-action-enhance-720p": "実写の強調 · 720p",
+            "live-action-enhance-1080p": "実写の強調 · 1080p",
+            "live-action-enhance-2k": "実写の強調 · 2K",
+            "live-action-enhance-4k": "実写の強調 · 4K",
+            "anime-enhance-720p": "アニメの強調 · 720p",
+            "anime-enhance-1080p": "アニメの強調 · 1080p",
+            "anime-enhance-2k": "アニメの強調 · 2K",
+            "anime-enhance-4k": "アニメの強調 · 4K",
+            "restore-720p": "古い映像・低画質の修復 · 720p",
+            "restore-1080p": "古い映像・低画質の修復 · 1080p",
+            "restore-2k": "古い映像・低画質の修復 · 2K",
+            "restore-4k": "古い映像・低画質の修復 · 4K",
+            "live-action-smallface-720p": "実写の遠景の顔を強調 · 720p",
+            "live-action-smallface-1080p": "実写の遠景の顔を強調 · 1080p",
+            "live-action-smallface-2k": "実写の遠景の顔を強調 · 2K",
+            "live-action-smallface-4k": "実写の遠景の顔を強調 · 4K",
+            "anime-smallface-720p": "アニメの遠景の顔を強調 · 720p",
+            "anime-smallface-1080p": "アニメの遠景の顔を強調 · 1080p",
+            "anime-smallface-2k": "アニメの遠景の顔を強調 · 2K",
+            "anime-smallface-4k": "アニメの遠景の顔を強調 · 4K",
+            "seedance2-enhance-720p": "Seedance 2 の強調 · 720p",
+            "seedance2-enhance-1080p": "Seedance 2 の強調 · 1080p",
+            "seedance2-enhance-2k": "Seedance 2 の強調 · 2K",
+            "seedance2-enhance-4k": "Seedance 2 の強調 · 4K"
+          }
+        },
+        "short": {
+          "label": "出力の短辺"
+        },
+        "fps": {
+          "label": "目標フレームレート"
+        },
+        "keep_metadata": {
+          "label": "メタデータを保持"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "強調する動画を 1 本アップロードします。"
+        },
+        "template": {
+          "help": "シーンと解像度を選びます。既定値はアニメ強調の 4K です。"
+        },
+        "short": {
+          "help": "0 なら元の解像度を維持します。720p は 1〜720、1080p は 721〜1080、2K は 1081〜1440、4K は 1441〜2160 ピクセルを指定します。"
+        },
+        "fps": {
+          "help": "1 以上の整数を入力します。空欄なら元のフレームレートを維持します。"
+        },
+        "keep_metadata": {
+          "help": "元の動画のメタデータを保持します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Tencent Cloud 동영상 초해상도",
+      "description": "Tencent Cloud MPS의 실사, 애니메이션, 오래된 영상 복원 등의 템플릿으로 화질을 개선합니다.",
+      "fields": {
+        "video": {
+          "label": "원본 동영상"
+        },
+        "template": {
+          "label": "향상 템플릿",
+          "choiceLabels": {
+            "live-action-enhance-720p": "실사 향상 · 720p",
+            "live-action-enhance-1080p": "실사 향상 · 1080p",
+            "live-action-enhance-2k": "실사 향상 · 2K",
+            "live-action-enhance-4k": "실사 향상 · 4K",
+            "anime-enhance-720p": "애니메이션 향상 · 720p",
+            "anime-enhance-1080p": "애니메이션 향상 · 1080p",
+            "anime-enhance-2k": "애니메이션 향상 · 2K",
+            "anime-enhance-4k": "애니메이션 향상 · 4K",
+            "restore-720p": "오래되거나 저화질인 영상 복원 · 720p",
+            "restore-1080p": "오래되거나 저화질인 영상 복원 · 1080p",
+            "restore-2k": "오래되거나 저화질인 영상 복원 · 2K",
+            "restore-4k": "오래되거나 저화질인 영상 복원 · 4K",
+            "live-action-smallface-720p": "실사 속 멀리 있는 얼굴 개선 · 720p",
+            "live-action-smallface-1080p": "실사 속 멀리 있는 얼굴 개선 · 1080p",
+            "live-action-smallface-2k": "실사 속 멀리 있는 얼굴 개선 · 2K",
+            "live-action-smallface-4k": "실사 속 멀리 있는 얼굴 개선 · 4K",
+            "anime-smallface-720p": "애니메이션 속 멀리 있는 얼굴 개선 · 720p",
+            "anime-smallface-1080p": "애니메이션 속 멀리 있는 얼굴 개선 · 1080p",
+            "anime-smallface-2k": "애니메이션 속 멀리 있는 얼굴 개선 · 2K",
+            "anime-smallface-4k": "애니메이션 속 멀리 있는 얼굴 개선 · 4K",
+            "seedance2-enhance-720p": "Seedance 2 향상 · 720p",
+            "seedance2-enhance-1080p": "Seedance 2 향상 · 1080p",
+            "seedance2-enhance-2k": "Seedance 2 향상 · 2K",
+            "seedance2-enhance-4k": "Seedance 2 향상 · 4K"
+          }
+        },
+        "short": {
+          "label": "출력 짧은 변"
+        },
+        "fps": {
+          "label": "목표 프레임 레이트"
+        },
+        "keep_metadata": {
+          "label": "메타데이터 유지"
+        }
+      },
+      "parameterLayout": {
+        "video": {
+          "help": "향상할 동영상 한 개를 업로드하세요."
+        },
+        "template": {
+          "help": "장면과 해상도 단계를 선택하세요. 기본값은 애니메이션 향상 4K입니다."
+        },
+        "short": {
+          "help": "0을 입력하면 원본 해상도를 유지합니다. 720p는 1~720, 1080p는 721~1080, 2K는 1081~1440, 4K는 1441~2160픽셀을 입력하세요."
+        },
+        "fps": {
+          "help": "1 이상의 정수를 입력하세요. 비워 두면 원본 프레임 레이트를 유지합니다."
+        },
+        "keep_metadata": {
+          "help": "원본 영상의 미디어 메타데이터를 유지합니다."
+        }
+      }
+    }
+  }
+}

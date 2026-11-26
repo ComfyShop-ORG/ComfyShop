@@ -1,0 +1,317 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-atlascloud-qwen-image-edit",
+  "name": "Atlas Cloud Qwen Image 图像编辑",
+  "description": "用文字指令编辑已有图片，可增删元素、调整物体或替换画面中的文字。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "image_source",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "image",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "image_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "atlascloud/qwen-image/edit",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "seed": "seed",
+        "enable_sync_mode": "enable_sync_mode",
+        "enable_base64_output": "enable_base64_output"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["image"],
+          "external_sources_field": "image_source",
+          "min_items": 1,
+          "external_urls_only": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Atlas Cloud Qwen Image 图像编辑",
+      "description": "用文字指令编辑已有图片，可增删元素、调整物体或替换画面中的文字。",
+      "fields": {
+        "image": {
+          "label": "原图"
+        },
+        "prompt": {
+          "label": "编辑指令"
+        },
+        "image_source": {
+          "label": "原图来源"
+        },
+        "seed": {
+          "label": "种子"
+        },
+        "enable_sync_mode": {
+          "label": "同步响应"
+        },
+        "enable_base64_output": {
+          "label": "Base64 输出"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "上传要编辑的图片，也可在高级参数填写图片 URL。"
+        },
+        "prompt": {
+          "help": "描述要调整的元素、布局或图中文字。"
+        },
+        "image_source": {
+          "help": "填写一个可公开访问的图片 URL，作为上传图片的替代来源。"
+        },
+        "seed": {
+          "help": "填写整数。-1 使用随机种子。"
+        },
+        "enable_sync_mode": {
+          "help": "开启后，Atlas 在图像生成结束后直接返回结果。默认关闭。"
+        },
+        "enable_base64_output": {
+          "help": "开启后，Atlas 返回 Base64 图像数据。默认返回图片 URL。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Atlas Cloud Qwen Image 圖像編輯",
+      "description": "用文字指令編輯已有圖片，可增刪元素、調整物件或替換畫面中的文字。",
+      "fields": {
+        "image": {
+          "label": "原圖"
+        },
+        "prompt": {
+          "label": "編輯指令"
+        },
+        "image_source": {
+          "label": "原圖來源"
+        },
+        "seed": {
+          "label": "種子"
+        },
+        "enable_sync_mode": {
+          "label": "同步回應"
+        },
+        "enable_base64_output": {
+          "label": "Base64 輸出"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "上傳要編輯的圖片，也可在進階參數填寫圖片 URL。"
+        },
+        "prompt": {
+          "help": "描述要調整的元素、版面或圖中文字。"
+        },
+        "image_source": {
+          "help": "填寫可公開存取的圖片 URL，作為上傳圖片的替代來源。"
+        },
+        "seed": {
+          "help": "填寫整數。-1 使用隨機種子。"
+        },
+        "enable_sync_mode": {
+          "help": "開啟後，Atlas 在圖片生成結束後直接回傳結果。預設關閉。"
+        },
+        "enable_base64_output": {
+          "help": "開啟後，Atlas 回傳 Base64 圖片資料。預設回傳圖片 URL。"
+        }
+      }
+    },
+    "en": {
+      "name": "Atlas Cloud Qwen Image Edit",
+      "description": "Edit an existing image with text instructions to add or remove elements, change an object, or replace lettering.",
+      "fields": {
+        "image": {
+          "label": "Source image"
+        },
+        "prompt": {
+          "label": "Edit instructions"
+        },
+        "image_source": {
+          "label": "Source image URL"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "enable_sync_mode": {
+          "label": "Synchronous response"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "Upload an image to edit, or enter its URL under Advanced."
+        },
+        "prompt": {
+          "help": "Describe the elements, layout, or lettering to change."
+        },
+        "image_source": {
+          "help": "Enter one public image URL in place of an upload."
+        },
+        "seed": {
+          "help": "Enter a whole number. Use -1 for a random seed."
+        },
+        "enable_sync_mode": {
+          "help": "Atlas returns the result when generation finishes. Off by default."
+        },
+        "enable_base64_output": {
+          "help": "Atlas returns Base64 image data when enabled. The default response uses image URLs."
+        }
+      }
+    },
+    "ja": {
+      "name": "Atlas Cloud Qwen Image 画像編集",
+      "description": "テキストの指示で、画像の要素の追加や削除、オブジェクトの調整、文字の差し替えができます。",
+      "fields": {
+        "image": {
+          "label": "元画像"
+        },
+        "prompt": {
+          "label": "編集指示"
+        },
+        "image_source": {
+          "label": "元画像の URL"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "編集する画像をアップロードするか、詳細設定で画像 URL を入力します。"
+        },
+        "prompt": {
+          "help": "変更する要素、配置、画像内の文字を指定します。"
+        },
+        "image_source": {
+          "help": "アップロードの代わりに、公開された画像 URL を一つ入力します。"
+        },
+        "seed": {
+          "help": "整数を入力します。ランダムにする場合は -1 を指定します。"
+        },
+        "enable_sync_mode": {
+          "help": "有効にすると、生成完了時に Atlas が結果を直接返します。既定はオフです。"
+        },
+        "enable_base64_output": {
+          "help": "有効にすると、Atlas が Base64 画像データを返します。既定では画像 URL が返ります。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Atlas Cloud Qwen Image 이미지 편집",
+      "description": "텍스트 지시로 기존 이미지에 요소를 추가하거나 제거하고, 대상을 조정하거나 글자를 바꿉니다.",
+      "fields": {
+        "image": {
+          "label": "원본 이미지"
+        },
+        "prompt": {
+          "label": "편집 지시"
+        },
+        "image_source": {
+          "label": "원본 이미지 URL"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "enable_sync_mode": {
+          "label": "동기 응답"
+        },
+        "enable_base64_output": {
+          "label": "Base64 출력"
+        }
+      },
+      "parameterLayout": {
+        "image": {
+          "help": "편집할 이미지를 업로드하거나 고급 설정에 이미지 URL을 입력하세요."
+        },
+        "prompt": {
+          "help": "변경할 요소, 배치 또는 이미지 속 글자를 설명하세요."
+        },
+        "image_source": {
+          "help": "업로드 대신 공개 이미지 URL을 하나 입력하세요."
+        },
+        "seed": {
+          "help": "정수를 입력하세요. -1은 무작위 시드를 사용합니다."
+        },
+        "enable_sync_mode": {
+          "help": "켜면 생성이 완료된 뒤 Atlas가 결과를 바로 반환합니다. 기본값은 꺼짐입니다."
+        },
+        "enable_base64_output": {
+          "help": "켜면 Atlas가 Base64 이미지 데이터를 반환합니다. 기본값은 이미지 URL입니다."
+        }
+      }
+    }
+  }
+}

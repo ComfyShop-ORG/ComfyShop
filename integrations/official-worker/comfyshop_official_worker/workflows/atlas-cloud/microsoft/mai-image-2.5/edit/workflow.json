@@ -1,0 +1,282 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-mai25-edit",
+  "name": "MAI-Image 2.5 图片编辑",
+  "description": "根据提示词编辑一张图片。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "input_image",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "input_image_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "input_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "input_image_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "microsoft/mai-image-2.5/edit",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "enable_base64_output": "enable_base64_output",
+        "enable_sync_mode": "enable_sync_mode"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["input_image"],
+          "external_sources_field": "input_image_source",
+          "min_items": 1,
+          "content_types": ["image/jpeg", "image/png"],
+          "allow_raw_base64": true,
+          "image_bounds": {
+            "max_pixels": 1376255
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "MAI-Image 2.5 图片编辑",
+      "description": "根据提示词编辑一张图片。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        },
+        "input_image": {
+          "label": "原图"
+        },
+        "input_image_source": {
+          "label": "原图来源"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "上传一张 JPEG 或 PNG，总像素须小于 1,376,256。"
+        },
+        "prompt": {
+          "help": "描述需要修改和保留的内容。Atlas 的上下文上限为 32,000 个令牌。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas 以 Base64 返回图片，由工作机解码保存。"
+        },
+        "enable_sync_mode": {
+          "help": "等待 Atlas 生成完成后从提交响应取成品。"
+        },
+        "input_image_source": {
+          "help": "填写公开图片 URL、Base64 Data URI 或原始 Base64，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "MAI-Image 2.5 圖片編輯",
+      "description": "依提示詞編輯一張圖片。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "enable_sync_mode": {
+          "label": "同步傳回"
+        },
+        "input_image": {
+          "label": "原圖"
+        },
+        "input_image_source": {
+          "label": "原圖來源"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "上傳一張 JPEG 或 PNG，總像素須小於 1,376,256。"
+        },
+        "prompt": {
+          "help": "描述需要修改與保留的內容。Atlas 的上下文上限為 32,000 個權杖。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas 以 Base64 傳回圖片，由工作機解碼儲存。"
+        },
+        "enable_sync_mode": {
+          "help": "等待 Atlas 生成完成，再從提交回應取得成品。"
+        },
+        "input_image_source": {
+          "help": "填寫公開圖片網址、Base64 Data URI 或原始 Base64，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "MAI-Image 2.5 Image Edit",
+      "description": "Edit one image using a text prompt.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "enable_sync_mode": {
+          "label": "Synchronous output"
+        },
+        "input_image": {
+          "label": "Original image"
+        },
+        "input_image_source": {
+          "label": "Original image source"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "Upload one JPEG or PNG with fewer than 1,376,256 pixels."
+        },
+        "prompt": {
+          "help": "Describe the changes and what to preserve. Atlas supports a context of up to 32,000 tokens."
+        },
+        "enable_base64_output": {
+          "help": "Return images as Base64 for the worker to decode and save."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for Atlas to finish and obtain the image in the submission response."
+        },
+        "input_image_source": {
+          "help": "Provide a public image URL, Base64 data URI, or raw Base64, or upload an image."
+        }
+      }
+    },
+    "ja": {
+      "name": "MAI-Image 2.5 画像編集",
+      "description": "プロンプトで画像を 1 枚編集します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        },
+        "enable_sync_mode": {
+          "label": "同期出力"
+        },
+        "input_image": {
+          "label": "元画像"
+        },
+        "input_image_source": {
+          "label": "元画像の入力元"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "1,376,256 ピクセル未満の JPEG または PNG を 1 枚アップロードします。"
+        },
+        "prompt": {
+          "help": "変更内容と残したい要素を記述します。Atlas のコンテキスト上限は 32,000 トークンです。"
+        },
+        "enable_base64_output": {
+          "help": "画像を Base64 で受け取り、ワーカーがデコードして保存します。"
+        },
+        "enable_sync_mode": {
+          "help": "Atlas の生成完了を待ち、送信への応答から画像を受け取ります。"
+        },
+        "input_image_source": {
+          "help": "公開画像 URL、Base64 Data URI、Base64 文字列の入力、または画像のアップロードを選びます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "MAI-Image 2.5 이미지 편집",
+      "description": "프롬프트로 이미지 한 장을 편집합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        },
+        "enable_sync_mode": {
+          "label": "동기 응답"
+        },
+        "input_image": {
+          "label": "원본 이미지"
+        },
+        "input_image_source": {
+          "label": "원본 이미지 소스"
+        }
+      },
+      "parameterLayout": {
+        "input_image": {
+          "help": "전체 1,376,256픽셀 미만의 JPEG 또는 PNG를 한 장 업로드하세요."
+        },
+        "prompt": {
+          "help": "수정할 부분과 유지할 내용을 설명하세요. Atlas의 컨텍스트 한도는 32,000토큰입니다."
+        },
+        "enable_base64_output": {
+          "help": "Base64 이미지 데이터를 받아 워커가 디코딩 후 저장합니다."
+        },
+        "enable_sync_mode": {
+          "help": "Atlas의 생성이 끝나면 제출 응답에서 이미지를 받습니다."
+        },
+        "input_image_source": {
+          "help": "공개 이미지 URL, Base64 Data URI, Base64 문자열을 입력하거나 이미지를 업로드하세요."
+        }
+      }
+    }
+  }
+}

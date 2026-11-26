@@ -1,0 +1,26 @@
+[extend]
+useDefault = true
+
+[[rules]]
+id = "comfyshop-work-machine-key"
+description = "ComfyShop work machine API key"
+regex = '''\b(cs_[A-Za-z0-9_-]{48})(?:$|[^A-Za-z0-9_-])'''
+secretGroup = 1
+keywords = ["cs_"]
+
+[[allowlists]]
+description = "The uv workspace lists local source directories"
+targetRules = ["generic-api-key"]
+condition = "AND"
+regexTarget = "secret"
+paths = ['''^pyproject\.toml$''']
+regexes = ['''^integrations/comfyui$''']
+
+
+[[allowlists]]
+description = "The client test uses a fixed request idempotency key"
+targetRules = ["generic-api-key"]
+condition = "AND"
+regexTarget = "line"
+paths = ['''^packages/api-client/src/client\.test\.ts$''']
+regexes = ['''^\s*idempotencyKey: 'same-intent-key-1234',\s*$''']

@@ -1,0 +1,1580 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "nano-banana-21-developer-reference-image",
+  "name": "Nano Banana 2.1 Developer 参考视频生图",
+  "description": "从一段参考视频、提示词和可选图片生成静态画面，可用作封面、海报或信息图。",
+  "category": "image_tool",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "optional": true,
+      "default": "auto",
+      "choices": [
+        "auto",
+        "1:1",
+        "3:2",
+        "2:3",
+        "3:4",
+        "4:3",
+        "4:5",
+        "5:4",
+        "9:16",
+        "16:9",
+        "21:9",
+        "4:1",
+        "1:4",
+        "8:1",
+        "1:8"
+      ]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "optional": true,
+      "default": "1k",
+      "choices": ["1k", "2k", "4k"]
+    },
+    {
+      "name": "thinking_level",
+      "kind": "choice",
+      "optional": true,
+      "default": "default",
+      "choices": ["default", "minimal", "medium", "high"]
+    },
+    {
+      "name": "enable_web_search",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "enable_image_search",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "top_p",
+      "kind": "number",
+      "optional": true,
+      "default": 0.95,
+      "minimum": "0",
+      "maximum": "1"
+    },
+    {
+      "name": "temperature",
+      "kind": "number",
+      "optional": true,
+      "default": 1,
+      "minimum": "0",
+      "maximum": "1"
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true,
+      "default": -1
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "reference_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_4",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_5",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_6",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_7",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_8",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_9",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_10",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_11",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_12",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_13",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_14",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "media_resolution",
+      "kind": "choice",
+      "optional": true,
+      "default": "default",
+      "choices": ["default", "low", "medium", "high"]
+    },
+    {
+      "name": "video",
+      "kind": "video",
+      "optional": true
+    },
+    {
+      "name": "video_source",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    },
+    {
+      "name": "video_start",
+      "kind": "number",
+      "optional": true,
+      "default": 0,
+      "minimum": "0"
+    },
+    {
+      "name": "video_end",
+      "kind": "number",
+      "optional": true,
+      "default": 0,
+      "minimum": "0"
+    },
+    {
+      "name": "video_fps",
+      "kind": "number",
+      "optional": true,
+      "default": 1,
+      "minimum": "0",
+      "maximum": "24"
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "video",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_1",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "thinking_level",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_web_search",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_image_search",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "top_p",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "temperature",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_2",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_3",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_4",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_5",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_6",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_7",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_8",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_9",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_10",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_11",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_12",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_13",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_14",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "reference_sources",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "media_resolution",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_start",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_end",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "video_fps",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "operation": "image",
+      "model": "google/nano-banana-2.1-developer/reference-to-image",
+      "parameters": {
+        "prompt": "prompt",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "thinking_level": "thinking_level",
+        "enable_web_search": "enable_web_search",
+        "enable_image_search": "enable_image_search",
+        "top_p": "top_p",
+        "temperature": "temperature",
+        "seed": "seed",
+        "enable_sync_mode": "enable_sync_mode",
+        "enable_base64_output": "enable_base64_output",
+        "media_resolution": "media_resolution"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "reference_images": {
+          "kind": "image",
+          "fields": [
+            "reference_1",
+            "reference_2",
+            "reference_3",
+            "reference_4",
+            "reference_5",
+            "reference_6",
+            "reference_7",
+            "reference_8",
+            "reference_9",
+            "reference_10",
+            "reference_11",
+            "reference_12",
+            "reference_13",
+            "reference_14"
+          ],
+          "array": true,
+          "content_types": ["image/png", "image/jpeg", "image/webp", "image/heic", "image/heif"],
+          "external_sources_field": "reference_sources",
+          "max_bytes": 7000000
+        },
+        "video_clips": {
+          "kind": "video",
+          "fields": ["video"],
+          "array": true,
+          "min_items": 1,
+          "max_duration_ms": 1500000,
+          "external_sources_field": "video_source",
+          "video_clip": {
+            "start": "video_start",
+            "ends": "video_end",
+            "fps": "video_fps"
+          }
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Nano Banana 2.1 Developer 参考视频生图",
+      "description": "从一段参考视频、提示词和可选图片生成静态画面，可用作封面、海报或信息图。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "auto": "自动",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9",
+            "4:1": "4:1",
+            "1:4": "1:4",
+            "8:1": "8:1",
+            "1:8": "1:8"
+          }
+        },
+        "resolution": {
+          "label": "成品分辨率",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "思考档位",
+          "choiceLabels": {
+            "default": "模型默认",
+            "minimal": "最少",
+            "medium": "中等",
+            "high": "高"
+          }
+        },
+        "enable_web_search": {
+          "label": "网页搜索"
+        },
+        "enable_image_search": {
+          "label": "图片搜索"
+        },
+        "top_p": {
+          "label": "Top-p"
+        },
+        "temperature": {
+          "label": "温度"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "reference_1": {
+          "label": "参考图 1"
+        },
+        "reference_2": {
+          "label": "参考图 2"
+        },
+        "reference_3": {
+          "label": "参考图 3"
+        },
+        "reference_4": {
+          "label": "参考图 4"
+        },
+        "reference_5": {
+          "label": "参考图 5"
+        },
+        "reference_6": {
+          "label": "参考图 6"
+        },
+        "reference_7": {
+          "label": "参考图 7"
+        },
+        "reference_8": {
+          "label": "参考图 8"
+        },
+        "reference_9": {
+          "label": "参考图 9"
+        },
+        "reference_10": {
+          "label": "参考图 10"
+        },
+        "reference_11": {
+          "label": "参考图 11"
+        },
+        "reference_12": {
+          "label": "参考图 12"
+        },
+        "reference_13": {
+          "label": "参考图 13"
+        },
+        "reference_14": {
+          "label": "参考图 14"
+        },
+        "reference_sources": {
+          "label": "参考图地址或 Base64"
+        },
+        "media_resolution": {
+          "label": "参考素材处理分辨率",
+          "choiceLabels": {
+            "default": "模型默认",
+            "low": "低",
+            "medium": "中等",
+            "high": "高"
+          }
+        },
+        "video": {
+          "label": "参考视频"
+        },
+        "video_source": {
+          "label": "参考视频地址"
+        },
+        "video_start": {
+          "label": "开始时间（秒）"
+        },
+        "video_end": {
+          "label": "结束时间（秒）"
+        },
+        "video_fps": {
+          "label": "采样帧率"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要生成的画面，可指定视频中的主体、场景或关键时刻。"
+        },
+        "video": {
+          "help": "上传一段最长 25 分钟的视频，也可在高级区填写公开视频地址。"
+        },
+        "reference_1": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "aspect_ratio": {
+          "help": "自动时由模型决定比例，也可选择预设比例。"
+        },
+        "resolution": {
+          "help": "选择 1K、2K 或 4K。"
+        },
+        "thinking_level": {
+          "help": "提高档位可增加复杂构图或文字生成前的思考时间。模型默认使用中等档。"
+        },
+        "enable_web_search": {
+          "help": "通过 Google 网页搜索为生成内容提供实时信息。"
+        },
+        "enable_image_search": {
+          "help": "通过 Google 图片搜索为生成提供视觉参考，可单独启用。"
+        },
+        "top_p": {
+          "help": "采样的累计概率阈值，范围为 0 至 1。"
+        },
+        "temperature": {
+          "help": "创意采样强度，范围为 0 至 1。默认 1。"
+        },
+        "seed": {
+          "help": "填 -1 时随机，也可填整数帮助复现。"
+        },
+        "enable_sync_mode": {
+          "help": "等待 Atlas 完成后在提交响应中取结果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 返回图片。工作机解码后保存图片原件。"
+        },
+        "reference_2": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_3": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_4": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_5": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_6": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_7": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_8": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_9": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_10": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_11": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_12": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_13": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_14": {
+          "help": "上传参考图。上传槽位按编号发送，随后发送文本区的素材。"
+        },
+        "reference_sources": {
+          "help": "每行一个公开 HTTP(S) 图片地址或 Base64 data URL。连同上传图最多 14 张。HEIC、HEIF 可用此方式。"
+        },
+        "media_resolution": {
+          "help": "高档保留更多视频帧与图像细节。默认由模型决定。"
+        },
+        "video_source": {
+          "help": "填写一个公开的 HTTP(S) 视频或 YouTube 地址，视频最长 25 分钟。使用地址时留空上传槽位。"
+        },
+        "video_start": {
+          "help": "填写从视频起点计算的秒数，默认 0。"
+        },
+        "video_end": {
+          "help": "填 0 时采样至视频末尾。指定时间须大于开始时间。"
+        },
+        "video_fps": {
+          "help": "每秒采样帧数，可填 0 至 24，默认 1。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Nano Banana 2.1 Developer 參考影片生圖",
+      "description": "從一段參考影片、提示詞和選填圖片產生靜態畫面，可用於封面、海報或資訊圖表。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "auto": "自動",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9",
+            "4:1": "4:1",
+            "1:4": "1:4",
+            "8:1": "8:1",
+            "1:8": "1:8"
+          }
+        },
+        "resolution": {
+          "label": "成品解析度",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "思考級別",
+          "choiceLabels": {
+            "default": "模型預設",
+            "minimal": "最少",
+            "medium": "中等",
+            "high": "高"
+          }
+        },
+        "enable_web_search": {
+          "label": "網頁搜尋"
+        },
+        "enable_image_search": {
+          "label": "圖片搜尋"
+        },
+        "top_p": {
+          "label": "Top-p"
+        },
+        "temperature": {
+          "label": "溫度"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "enable_sync_mode": {
+          "label": "同步回傳"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "reference_1": {
+          "label": "參考圖 1"
+        },
+        "reference_2": {
+          "label": "參考圖 2"
+        },
+        "reference_3": {
+          "label": "參考圖 3"
+        },
+        "reference_4": {
+          "label": "參考圖 4"
+        },
+        "reference_5": {
+          "label": "參考圖 5"
+        },
+        "reference_6": {
+          "label": "參考圖 6"
+        },
+        "reference_7": {
+          "label": "參考圖 7"
+        },
+        "reference_8": {
+          "label": "參考圖 8"
+        },
+        "reference_9": {
+          "label": "參考圖 9"
+        },
+        "reference_10": {
+          "label": "參考圖 10"
+        },
+        "reference_11": {
+          "label": "參考圖 11"
+        },
+        "reference_12": {
+          "label": "參考圖 12"
+        },
+        "reference_13": {
+          "label": "參考圖 13"
+        },
+        "reference_14": {
+          "label": "參考圖 14"
+        },
+        "reference_sources": {
+          "label": "參考圖網址或 Base64"
+        },
+        "media_resolution": {
+          "label": "參考素材處理解析度",
+          "choiceLabels": {
+            "default": "模型預設",
+            "low": "低",
+            "medium": "中等",
+            "high": "高"
+          }
+        },
+        "video": {
+          "label": "參考影片"
+        },
+        "video_source": {
+          "label": "參考影片網址"
+        },
+        "video_start": {
+          "label": "開始時間（秒）"
+        },
+        "video_end": {
+          "label": "結束時間（秒）"
+        },
+        "video_fps": {
+          "label": "取樣影格率"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要產生的畫面，可指定影片中的主體、場景或關鍵時刻。"
+        },
+        "video": {
+          "help": "上傳一段最長 25 分鐘的影片，也可在進階區填寫公開影片網址。"
+        },
+        "reference_1": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "aspect_ratio": {
+          "help": "自動時由模型決定比例，也可選擇預設比例。"
+        },
+        "resolution": {
+          "help": "選擇 1K、2K 或 4K。"
+        },
+        "thinking_level": {
+          "help": "更高級別會增加複雜構圖或文字產生前的思考時間。模型預設為中等。"
+        },
+        "enable_web_search": {
+          "help": "透過 Google 網頁搜尋提供即時資訊。"
+        },
+        "enable_image_search": {
+          "help": "透過 Google 圖片搜尋提供視覺參考，可單獨啟用。"
+        },
+        "top_p": {
+          "help": "取樣的累積機率門檻，範圍為 0 至 1。"
+        },
+        "temperature": {
+          "help": "創意取樣強度，範圍為 0 至 1。預設 1。"
+        },
+        "seed": {
+          "help": "輸入 -1 會使用隨機種子，也可輸入整數以便重現。"
+        },
+        "enable_sync_mode": {
+          "help": "等 Atlas 完成後，從提交回應取得結果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 回傳圖片。工作機解碼後儲存圖片原始檔案。"
+        },
+        "reference_2": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_3": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_4": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_5": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_6": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_7": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_8": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_9": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_10": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_11": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_12": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_13": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_14": {
+          "help": "上傳參考圖。上傳欄位依編號傳送，再傳送文字區的素材。"
+        },
+        "reference_sources": {
+          "help": "每列填寫公開 HTTP(S) 圖片網址或 Base64 data URL。連同上傳圖片最多 14 張。HEIC、HEIF 可透過此方式提供。"
+        },
+        "media_resolution": {
+          "help": "高級別保留更多影片影格與圖片細節。預設由模型決定。"
+        },
+        "video_source": {
+          "help": "填寫一個公開的 HTTP(S) 影片或 YouTube 網址，影片最長 25 分鐘。用網址時留空上傳欄位。"
+        },
+        "video_start": {
+          "help": "填寫從影片起點計算的秒數，預設 0。"
+        },
+        "video_end": {
+          "help": "填 0 會取樣至影片末尾。指定時間須大於開始時間。"
+        },
+        "video_fps": {
+          "help": "每秒取樣影格數，可填寫 0 至 24，預設 1。"
+        }
+      }
+    },
+    "en": {
+      "name": "Nano Banana 2.1 Developer Reference Video to Image",
+      "description": "Use one video, a prompt, and optional images to generate a still image such as a thumbnail, poster, or infographic.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "auto": "Auto",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9",
+            "4:1": "4:1",
+            "1:4": "1:4",
+            "8:1": "8:1",
+            "1:8": "1:8"
+          }
+        },
+        "resolution": {
+          "label": "Output resolution",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "Thinking level",
+          "choiceLabels": {
+            "default": "Model default",
+            "minimal": "Minimal",
+            "medium": "Medium",
+            "high": "High"
+          }
+        },
+        "enable_web_search": {
+          "label": "Web search"
+        },
+        "enable_image_search": {
+          "label": "Image search"
+        },
+        "top_p": {
+          "label": "Top-p"
+        },
+        "temperature": {
+          "label": "Temperature"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "enable_sync_mode": {
+          "label": "Wait for result"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "reference_1": {
+          "label": "Reference image 1"
+        },
+        "reference_2": {
+          "label": "Reference image 2"
+        },
+        "reference_3": {
+          "label": "Reference image 3"
+        },
+        "reference_4": {
+          "label": "Reference image 4"
+        },
+        "reference_5": {
+          "label": "Reference image 5"
+        },
+        "reference_6": {
+          "label": "Reference image 6"
+        },
+        "reference_7": {
+          "label": "Reference image 7"
+        },
+        "reference_8": {
+          "label": "Reference image 8"
+        },
+        "reference_9": {
+          "label": "Reference image 9"
+        },
+        "reference_10": {
+          "label": "Reference image 10"
+        },
+        "reference_11": {
+          "label": "Reference image 11"
+        },
+        "reference_12": {
+          "label": "Reference image 12"
+        },
+        "reference_13": {
+          "label": "Reference image 13"
+        },
+        "reference_14": {
+          "label": "Reference image 14"
+        },
+        "reference_sources": {
+          "label": "Reference URLs or Base64"
+        },
+        "media_resolution": {
+          "label": "Input media resolution",
+          "choiceLabels": {
+            "default": "Model default",
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High"
+          }
+        },
+        "video": {
+          "label": "Reference video"
+        },
+        "video_source": {
+          "label": "Reference video URL"
+        },
+        "video_start": {
+          "label": "Start time (seconds)"
+        },
+        "video_end": {
+          "label": "End time (seconds)"
+        },
+        "video_fps": {
+          "label": "Sampling frame rate"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the image to generate. Refer to a subject, scene, or key moment in the video."
+        },
+        "video": {
+          "help": "Upload one video up to 25 minutes long, or enter a public video URL in advanced settings."
+        },
+        "reference_1": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "aspect_ratio": {
+          "help": "Let the model choose the aspect ratio or select a preset."
+        },
+        "resolution": {
+          "help": "Choose 1K, 2K, or 4K."
+        },
+        "thinking_level": {
+          "help": "Higher levels give the model more time to reason about complex composition and text. The model defaults to medium."
+        },
+        "enable_web_search": {
+          "help": "Use Google web search to provide up-to-date information for generation."
+        },
+        "enable_image_search": {
+          "help": "Use Google Image Search as visual context. It can be enabled on its own."
+        },
+        "top_p": {
+          "help": "The cumulative sampling probability threshold, from 0 to 1."
+        },
+        "temperature": {
+          "help": "Controls sampling variation, from 0 to 1. The default is 1."
+        },
+        "seed": {
+          "help": "Use -1 for a random seed. Set an integer for more repeatable results."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for Atlas to return a finished result in the submit response."
+        },
+        "enable_base64_output": {
+          "help": "Request a Base64 response. The work machine decodes it and stores the original image."
+        },
+        "reference_2": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_3": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_4": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_5": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_6": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_7": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_8": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_9": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_10": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_11": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_12": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_13": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_14": {
+          "help": "Upload reference images. Numbered upload slots are sent first, followed by the text sources."
+        },
+        "reference_sources": {
+          "help": "Enter one public HTTP(S) image URL or Base64 data URL per line. Use up to 14 including uploads. HEIC and HEIF can be supplied here."
+        },
+        "media_resolution": {
+          "help": "High preserves more detail from video frames and images. The model chooses by default."
+        },
+        "video_source": {
+          "help": "Enter one public HTTP(S) video or YouTube URL, up to 25 minutes long. Leave the upload field empty."
+        },
+        "video_start": {
+          "help": "Enter the offset from the beginning of the video. The default is 0."
+        },
+        "video_end": {
+          "help": "Use 0 to sample through the end. A specified end must be later than the start."
+        },
+        "video_fps": {
+          "help": "Enter 0 to 24 frames per second. The default is 1."
+        }
+      }
+    },
+    "ja": {
+      "name": "Nano Banana 2.1 Developer 参考動画から画像",
+      "description": "動画 1 本、指示文、任意の参考画像から、サムネイルやポスター、インフォグラフィックなどの静止画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "指示文"
+        },
+        "aspect_ratio": {
+          "label": "縦横比",
+          "choiceLabels": {
+            "auto": "自動",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9",
+            "4:1": "4:1",
+            "1:4": "1:4",
+            "8:1": "8:1",
+            "1:8": "1:8"
+          }
+        },
+        "resolution": {
+          "label": "出力解像度",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "思考レベル",
+          "choiceLabels": {
+            "default": "モデルの既定値",
+            "minimal": "最小",
+            "medium": "中",
+            "high": "高"
+          }
+        },
+        "enable_web_search": {
+          "label": "ウェブ検索"
+        },
+        "enable_image_search": {
+          "label": "画像検索"
+        },
+        "top_p": {
+          "label": "Top-p"
+        },
+        "temperature": {
+          "label": "温度"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        },
+        "reference_1": {
+          "label": "参考画像 1"
+        },
+        "reference_2": {
+          "label": "参考画像 2"
+        },
+        "reference_3": {
+          "label": "参考画像 3"
+        },
+        "reference_4": {
+          "label": "参考画像 4"
+        },
+        "reference_5": {
+          "label": "参考画像 5"
+        },
+        "reference_6": {
+          "label": "参考画像 6"
+        },
+        "reference_7": {
+          "label": "参考画像 7"
+        },
+        "reference_8": {
+          "label": "参考画像 8"
+        },
+        "reference_9": {
+          "label": "参考画像 9"
+        },
+        "reference_10": {
+          "label": "参考画像 10"
+        },
+        "reference_11": {
+          "label": "参考画像 11"
+        },
+        "reference_12": {
+          "label": "参考画像 12"
+        },
+        "reference_13": {
+          "label": "参考画像 13"
+        },
+        "reference_14": {
+          "label": "参考画像 14"
+        },
+        "reference_sources": {
+          "label": "参考画像の URL または Base64"
+        },
+        "media_resolution": {
+          "label": "参考素材の処理解像度",
+          "choiceLabels": {
+            "default": "モデルの既定値",
+            "low": "低",
+            "medium": "中",
+            "high": "高"
+          }
+        },
+        "video": {
+          "label": "参考動画"
+        },
+        "video_source": {
+          "label": "参考動画の URL"
+        },
+        "video_start": {
+          "label": "開始時間（秒）"
+        },
+        "video_end": {
+          "label": "終了時間（秒）"
+        },
+        "video_fps": {
+          "label": "サンプリングフレームレート"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "生成したい画像を記述します。動画内の被写体、場面、瞬間を指定できます。"
+        },
+        "video": {
+          "help": "25 分以内の動画を 1 本アップロードします。詳細設定から公開動画 URL を指定することもできます。"
+        },
+        "reference_1": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "aspect_ratio": {
+          "help": "自動ではモデルが縦横比を決めます。プリセットも選べます。"
+        },
+        "resolution": {
+          "help": "1K、2K、4K から選びます。"
+        },
+        "thinking_level": {
+          "help": "高いレベルでは複雑な構図や文字の生成前に考える時間が増えます。モデルの既定値は中です。"
+        },
+        "enable_web_search": {
+          "help": "Google のウェブ検索で最新の情報を参照します。"
+        },
+        "enable_image_search": {
+          "help": "Google 画像検索を視覚的な参考にします。単独でも有効にできます。"
+        },
+        "top_p": {
+          "help": "サンプリングの累積確率のしきい値です。0～1 を指定します。"
+        },
+        "temperature": {
+          "help": "サンプリングの変化を 0～1 の範囲で指定します。既定値は 1 です。"
+        },
+        "seed": {
+          "help": "-1 でランダムなシードを使います。再現性を高める場合は整数を指定します。"
+        },
+        "enable_sync_mode": {
+          "help": "Atlas の完了を待ち、送信時の応答で結果を取得します。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas に Base64 での返却を求めます。ワーカーが復号して元の画像を保存します。"
+        },
+        "reference_2": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_3": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_4": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_5": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_6": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_7": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_8": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_9": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_10": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_11": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_12": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_13": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_14": {
+          "help": "参考画像をアップロードします。番号順のアップロード画像の後に、テキスト欄の素材が続きます。"
+        },
+        "reference_sources": {
+          "help": "公開 HTTP(S) 画像 URL または Base64 データ URL を 1 行に 1 件入力します。アップロード画像と合わせて最大 14 枚です。HEIC と HEIF にも対応します。"
+        },
+        "media_resolution": {
+          "help": "高では動画フレームや画像の細部を多く保持します。既定値はモデルが決定します。"
+        },
+        "video_source": {
+          "help": "公開 HTTP(S) 動画 URL または YouTube URL を 1 件入力します。動画は 25 分以内とし、アップロード欄は空にします。"
+        },
+        "video_start": {
+          "help": "動画の先頭からの秒数を指定します。既定値は 0 です。"
+        },
+        "video_end": {
+          "help": "0 で末尾までを対象にします。秒数を指定する場合は開始より後にします。"
+        },
+        "video_fps": {
+          "help": "1 秒あたり 0～24 フレームを指定します。既定値は 1 です。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Nano Banana 2.1 Developer 참고 영상으로 이미지 생성",
+      "description": "참고 영상 한 편과 프롬프트, 선택한 이미지로 썸네일, 포스터, 인포그래픽 같은 정지 이미지를 만듭니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "가로세로 비율",
+          "choiceLabels": {
+            "auto": "자동",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9",
+            "4:1": "4:1",
+            "1:4": "1:4",
+            "8:1": "8:1",
+            "1:8": "1:8"
+          }
+        },
+        "resolution": {
+          "label": "출력 해상도",
+          "choiceLabels": {
+            "1k": "1K",
+            "2k": "2K",
+            "4k": "4K"
+          }
+        },
+        "thinking_level": {
+          "label": "사고 수준",
+          "choiceLabels": {
+            "default": "모델 기본값",
+            "minimal": "최소",
+            "medium": "중간",
+            "high": "높음"
+          }
+        },
+        "enable_web_search": {
+          "label": "웹 검색"
+        },
+        "enable_image_search": {
+          "label": "이미지 검색"
+        },
+        "top_p": {
+          "label": "Top-p"
+        },
+        "temperature": {
+          "label": "온도"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "enable_sync_mode": {
+          "label": "결과 기다리기"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        },
+        "reference_1": {
+          "label": "참고 이미지 1"
+        },
+        "reference_2": {
+          "label": "참고 이미지 2"
+        },
+        "reference_3": {
+          "label": "참고 이미지 3"
+        },
+        "reference_4": {
+          "label": "참고 이미지 4"
+        },
+        "reference_5": {
+          "label": "참고 이미지 5"
+        },
+        "reference_6": {
+          "label": "참고 이미지 6"
+        },
+        "reference_7": {
+          "label": "참고 이미지 7"
+        },
+        "reference_8": {
+          "label": "참고 이미지 8"
+        },
+        "reference_9": {
+          "label": "참고 이미지 9"
+        },
+        "reference_10": {
+          "label": "참고 이미지 10"
+        },
+        "reference_11": {
+          "label": "참고 이미지 11"
+        },
+        "reference_12": {
+          "label": "참고 이미지 12"
+        },
+        "reference_13": {
+          "label": "참고 이미지 13"
+        },
+        "reference_14": {
+          "label": "참고 이미지 14"
+        },
+        "reference_sources": {
+          "label": "참고 이미지 URL 또는 Base64"
+        },
+        "media_resolution": {
+          "label": "참고 소재 처리 해상도",
+          "choiceLabels": {
+            "default": "모델 기본값",
+            "low": "낮음",
+            "medium": "중간",
+            "high": "높음"
+          }
+        },
+        "video": {
+          "label": "참고 영상"
+        },
+        "video_source": {
+          "label": "참고 영상 URL"
+        },
+        "video_start": {
+          "label": "시작 시간(초)"
+        },
+        "video_end": {
+          "label": "종료 시간(초)"
+        },
+        "video_fps": {
+          "label": "샘플링 프레임률"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "생성할 이미지를 설명하세요. 영상 속 피사체, 장면이나 순간을 지정할 수 있습니다."
+        },
+        "video": {
+          "help": "최대 25분인 영상 한 편을 업로드하거나 고급 설정에 공개 영상 주소를 입력하세요."
+        },
+        "reference_1": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "aspect_ratio": {
+          "help": "자동은 모델이 가로세로 비율을 정합니다. 프리셋을 선택할 수도 있습니다."
+        },
+        "resolution": {
+          "help": "1K, 2K, 4K 중에서 고르세요."
+        },
+        "thinking_level": {
+          "help": "높은 수준은 복잡한 구도나 문구를 생성하기 전에 더 오래 추론합니다. 모델 기본값은 중간입니다."
+        },
+        "enable_web_search": {
+          "help": "Google 웹 검색의 최신 정보를 생성에 사용합니다."
+        },
+        "enable_image_search": {
+          "help": "Google 이미지 검색을 시각 참고로 사용합니다. 단독으로 켤 수 있습니다."
+        },
+        "top_p": {
+          "help": "샘플링 누적 확률의 임곗값이며 범위는 0~1입니다."
+        },
+        "temperature": {
+          "help": "샘플링의 변화 정도입니다. 0~1을 입력하며 기본값은 1입니다."
+        },
+        "seed": {
+          "help": "-1은 무작위 시드를 사용합니다. 재현성을 높이려면 정수를 입력하세요."
+        },
+        "enable_sync_mode": {
+          "help": "Atlas 생성이 완료되면 제출 응답에서 결과를 받습니다."
+        },
+        "enable_base64_output": {
+          "help": "Atlas에 Base64 결과를 요청합니다. 작업 머신에서 디코딩해 이미지 원본을 저장합니다."
+        },
+        "reference_2": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_3": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_4": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_5": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_6": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_7": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_8": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_9": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_10": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_11": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_12": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_13": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_14": {
+          "help": "참고 이미지를 업로드하세요. 번호 순서대로 전송한 후 텍스트 항목의 이미지를 추가합니다."
+        },
+        "reference_sources": {
+          "help": "공개 HTTP(S) 이미지 URL이나 Base64 데이터 URL을 한 줄에 하나씩 입력하세요. 업로드를 포함해 최대 14장이며 HEIC, HEIF도 지원합니다."
+        },
+        "media_resolution": {
+          "help": "높음은 영상 프레임과 이미지의 세부 사항을 더 많이 보존합니다. 기본값은 모델이 결정합니다."
+        },
+        "video_source": {
+          "help": "최대 25분인 공개 HTTP(S) 영상이나 YouTube URL 하나를 입력하세요. 업로드 슬롯은 비워 두세요."
+        },
+        "video_start": {
+          "help": "영상 시작점 기준으로 초를 입력하세요. 기본값은 0입니다."
+        },
+        "video_end": {
+          "help": "0이면 영상 끝까지 사용합니다. 지정할 때는 시작 시간보다 커야 합니다."
+        },
+        "video_fps": {
+          "help": "초당 0~24프레임을 입력하세요. 기본값은 1입니다."
+        }
+      }
+    }
+  }
+}

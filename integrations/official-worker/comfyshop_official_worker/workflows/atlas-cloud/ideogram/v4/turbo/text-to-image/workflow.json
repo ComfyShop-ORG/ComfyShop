@@ -1,0 +1,302 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-ideo-turbo",
+  "name": "Ideogram v4 Turbo 文生图",
+  "description": "用提示词生成图片，支持多种横竖构图和 JPEG、PNG 输出。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 2000
+    },
+    {
+      "name": "size_preset",
+      "kind": "choice",
+      "choices": [
+        "square_hd",
+        "square",
+        "portrait_3_4",
+        "portrait_9_16",
+        "landscape_4_3",
+        "landscape_16_9"
+      ],
+      "optional": true,
+      "default": "landscape_16_9"
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "default": "jpeg",
+      "optional": true,
+      "choices": ["jpeg", "png"]
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "minimum": "0",
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size_preset",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "ideogram/v4/turbo/text-to-image",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "image_size": "size_preset",
+        "output_format": "output_format",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 2000
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Ideogram v4 Turbo 文生图",
+      "description": "用提示词生成图片，支持多种横竖构图和 JPEG、PNG 输出。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size_preset": {
+          "label": "尺寸预设",
+          "choiceLabels": {
+            "square_hd": "高清方图（1024×1024）",
+            "square": "方图（512×512）",
+            "portrait_3_4": "竖屏 3:4",
+            "portrait_9_16": "竖屏 9:16",
+            "landscape_4_3": "横屏 4:3",
+            "landscape_16_9": "横屏 16:9"
+          }
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "seed": {
+          "label": "随机种子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要生成的图片，最多 2,000 字符。"
+        },
+        "size_preset": {
+          "help": "选择输出图片的尺寸预设，默认横屏 16:9。"
+        },
+        "output_format": {
+          "help": "选择 JPEG 或 PNG，默认 JPEG。"
+        },
+        "seed": {
+          "help": "输入大于等于 0 的整数。留空时随机选择。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Ideogram v4 Turbo 文生圖",
+      "description": "使用提示詞生成圖片，支援多種橫直構圖及 JPEG、PNG 輸出。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size_preset": {
+          "label": "尺寸預設",
+          "choiceLabels": {
+            "square_hd": "高畫質方形（1024×1024）",
+            "square": "方形（512×512）",
+            "portrait_3_4": "直式 3:4",
+            "portrait_9_16": "直式 9:16",
+            "landscape_4_3": "橫式 4:3",
+            "landscape_16_9": "橫式 16:9"
+          }
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "seed": {
+          "label": "隨機種子"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要生成的圖片，最多 2,000 個字元。"
+        },
+        "size_preset": {
+          "help": "選擇輸出圖片的尺寸預設，預設橫式 16:9。"
+        },
+        "output_format": {
+          "help": "選擇 JPEG 或 PNG，預設 JPEG。"
+        },
+        "seed": {
+          "help": "輸入大於或等於 0 的整數。留空時隨機選擇。"
+        }
+      }
+    },
+    "en": {
+      "name": "Ideogram v4 Turbo Text-to-Image",
+      "description": "Generate images from a prompt with landscape and portrait presets and JPEG or PNG output.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size_preset": {
+          "label": "Size preset",
+          "choiceLabels": {
+            "square_hd": "Square HD (1024×1024)",
+            "square": "Square (512×512)",
+            "portrait_3_4": "Portrait 3:4",
+            "portrait_9_16": "Portrait 9:16",
+            "landscape_4_3": "Landscape 4:3",
+            "landscape_16_9": "Landscape 16:9"
+          }
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "seed": {
+          "label": "Seed"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the image in up to 2,000 characters."
+        },
+        "size_preset": {
+          "help": "Choose an output size preset. The default is landscape 16:9."
+        },
+        "output_format": {
+          "help": "Choose JPEG or PNG. The default is JPEG."
+        },
+        "seed": {
+          "help": "Enter a non-negative integer or leave blank for a random seed."
+        }
+      }
+    },
+    "ja": {
+      "name": "Ideogram v4 Turbo テキストから画像",
+      "description": "プロンプトから画像を生成し、横長・縦長のプリセットと JPEG・PNG 形式を選べます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size_preset": {
+          "label": "サイズプリセット",
+          "choiceLabels": {
+            "square_hd": "高解像度の正方形（1024×1024）",
+            "square": "正方形（512×512）",
+            "portrait_3_4": "縦長 3:4",
+            "portrait_9_16": "縦長 9:16",
+            "landscape_4_3": "横長 4:3",
+            "landscape_16_9": "横長 16:9"
+          }
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "seed": {
+          "label": "シード"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "生成する画像を 2,000 文字以内で記述します。"
+        },
+        "size_preset": {
+          "help": "画像サイズのプリセットを選びます。既定値は横長 16:9 です。"
+        },
+        "output_format": {
+          "help": "JPEG または PNG を選びます。既定値は JPEG です。"
+        },
+        "seed": {
+          "help": "0 以上の整数を入力します。空欄ならランダムです。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Ideogram v4 Turbo 텍스트로 이미지 생성",
+      "description": "프롬프트로 이미지를 생성하고 가로형 또는 세로형 크기와 JPEG 또는 PNG 형식을 선택합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size_preset": {
+          "label": "크기 사전 설정",
+          "choiceLabels": {
+            "square_hd": "고해상도 정사각형(1024×1024)",
+            "square": "정사각형(512×512)",
+            "portrait_3_4": "세로 3:4",
+            "portrait_9_16": "세로 9:16",
+            "landscape_4_3": "가로 4:3",
+            "landscape_16_9": "가로 16:9"
+          }
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "jpeg": "JPEG",
+            "png": "PNG"
+          }
+        },
+        "seed": {
+          "label": "시드"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "생성할 이미지를 최대 2,000자까지 설명하세요."
+        },
+        "size_preset": {
+          "help": "출력 크기 사전 설정을 선택하세요. 기본값은 가로 16:9입니다."
+        },
+        "output_format": {
+          "help": "JPEG 또는 PNG를 선택하세요. 기본값은 JPEG입니다."
+        },
+        "seed": {
+          "help": "0 이상의 정수를 입력하세요. 비우면 무작위입니다."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+<!doctype html>
+<html
+  lang="zh-CN"
+  data-theme="dark"
+  data-glass="off"
+  data-full-width="off"
+  data-workflow-fullscreen="off"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <script>
+      // 在样式和应用加载前恢复外观。
+      try {
+        if (localStorage.getItem('comfyshop.theme') === 'light') {
+          document.documentElement.dataset.theme = 'light';
+          document.querySelector('meta[name="color-scheme"]').content = 'light';
+        }
+        for (const preference of ['glass', 'fullWidth', 'workflowFullscreen']) {
+          if (localStorage.getItem(`comfyshop.${preference}`) === 'on') {
+            document.documentElement.dataset[preference] = 'on';
+          }
+        }
+      } catch {
+        // 浏览器禁止访问存储时使用默认外观。
+      }
+    </script>
+    <meta name="description" content="ComfyShop 工作流与创作空间" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/app-icon-180.png" />
+    <title>ComfyShop</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

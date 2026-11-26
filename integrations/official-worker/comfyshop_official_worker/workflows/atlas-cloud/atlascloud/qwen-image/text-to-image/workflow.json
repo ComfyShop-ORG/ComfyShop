@@ -1,0 +1,276 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-atlascloud-qwen-image-text-to-image",
+  "name": "Atlas Cloud Qwen Image 文生图",
+  "description": "根据文字生成图片，适合制作海报、插画和带有文字的图像。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "size",
+      "kind": "string",
+      "default": "1024*1024",
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "default": -1,
+      "optional": true
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "atlascloud/qwen-image/text-to-image",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "seed": "seed",
+        "enable_sync_mode": "enable_sync_mode",
+        "enable_base64_output": "enable_base64_output",
+        "size": "size"
+      },
+      "required_text": ["prompt"],
+      "omit_blank_parameters": ["size"],
+      "image_size_limits": {
+        "min_side": 512,
+        "max_side": 2048,
+        "allow_auto": false
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Atlas Cloud Qwen Image 文生图",
+      "description": "根据文字生成图片，适合制作海报、插画和带有文字的图像。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "图片尺寸"
+        },
+        "seed": {
+          "label": "种子"
+        },
+        "enable_sync_mode": {
+          "label": "同步响应"
+        },
+        "enable_base64_output": {
+          "label": "Base64 输出"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述画面主体、风格与要呈现的文字。"
+        },
+        "size": {
+          "help": "输入宽*高，每边 512 至 2048 像素。默认 1024*1024。"
+        },
+        "seed": {
+          "help": "填写整数。-1 使用随机种子。"
+        },
+        "enable_sync_mode": {
+          "help": "开启后，Atlas 在图像生成结束后直接返回结果。默认关闭。"
+        },
+        "enable_base64_output": {
+          "help": "开启后，Atlas 返回 Base64 图像数据。默认返回图片 URL。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Atlas Cloud Qwen Image 文生圖",
+      "description": "根據文字生成圖片，適合製作海報、插畫和含有文字的圖像。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "圖片尺寸"
+        },
+        "seed": {
+          "label": "種子"
+        },
+        "enable_sync_mode": {
+          "label": "同步回應"
+        },
+        "enable_base64_output": {
+          "label": "Base64 輸出"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述畫面主體、風格和要呈現的文字。"
+        },
+        "size": {
+          "help": "輸入寬*高，每邊 512 至 2048 像素。預設 1024*1024。"
+        },
+        "seed": {
+          "help": "填寫整數。-1 使用隨機種子。"
+        },
+        "enable_sync_mode": {
+          "help": "開啟後，Atlas 在圖片生成結束後直接回傳結果。預設關閉。"
+        },
+        "enable_base64_output": {
+          "help": "開啟後，Atlas 回傳 Base64 圖片資料。預設回傳圖片 URL。"
+        }
+      }
+    },
+    "en": {
+      "name": "Atlas Cloud Qwen Image Text to Image",
+      "description": "Generate posters, illustrations, and images with lettering from a text prompt.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Image size"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "enable_sync_mode": {
+          "label": "Synchronous response"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, style, and lettering to render."
+        },
+        "size": {
+          "help": "Enter width*height, with each side from 512 to 2048 pixels. The default is 1024*1024."
+        },
+        "seed": {
+          "help": "Enter a whole number. Use -1 for a random seed."
+        },
+        "enable_sync_mode": {
+          "help": "Atlas returns the result when generation finishes. Off by default."
+        },
+        "enable_base64_output": {
+          "help": "Atlas returns Base64 image data when enabled. The default response uses image URLs."
+        }
+      }
+    },
+    "ja": {
+      "name": "Atlas Cloud Qwen Image テキストから画像生成",
+      "description": "テキストから、ポスター、イラスト、文字入りの画像を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "画像サイズ"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、画風、画像に表示する文字を記述します。"
+        },
+        "size": {
+          "help": "幅*高さで入力します。各辺は 512〜2048 ピクセル、既定は 1024*1024 です。"
+        },
+        "seed": {
+          "help": "整数を入力します。ランダムにする場合は -1 を指定します。"
+        },
+        "enable_sync_mode": {
+          "help": "有効にすると、生成完了時に Atlas が結果を直接返します。既定はオフです。"
+        },
+        "enable_base64_output": {
+          "help": "有効にすると、Atlas が Base64 画像データを返します。既定では画像 URL が返ります。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Atlas Cloud Qwen Image 텍스트 이미지 생성",
+      "description": "텍스트로 포스터, 일러스트, 글자가 들어간 이미지를 만듭니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "이미지 크기"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "enable_sync_mode": {
+          "label": "동기 응답"
+        },
+        "enable_base64_output": {
+          "label": "Base64 출력"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 스타일, 이미지에 넣을 문구를 설명하세요."
+        },
+        "size": {
+          "help": "너비*높이 형식으로 각 변을 512~2048픽셀로 입력하세요. 기본값은 1024*1024입니다."
+        },
+        "seed": {
+          "help": "정수를 입력하세요. -1은 무작위 시드를 사용합니다."
+        },
+        "enable_sync_mode": {
+          "help": "켜면 생성이 완료된 뒤 Atlas가 결과를 바로 반환합니다. 기본값은 꺼짐입니다."
+        },
+        "enable_base64_output": {
+          "help": "켜면 Atlas가 Base64 이미지 데이터를 반환합니다. 기본값은 이미지 URL입니다."
+        }
+      }
+    }
+  }
+}

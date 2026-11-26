@@ -1,0 +1,1120 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "xai-tts-v1",
+  "name": "xAI TTS v1 文本转语音",
+  "description": "把文字合成为自然语音，可切换语言和音色，并用标签控制停顿、轻声等表达。",
+  "category": "audio",
+  "fields": [
+    {
+      "name": "text",
+      "kind": "string",
+      "maxLength": 15000,
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "voice_id",
+      "kind": "choice",
+      "choices": [
+        "ara",
+        "eve",
+        "leo",
+        "rex",
+        "sal",
+        "jpi39icg",
+        "d18jlf6v",
+        "33g9t0jl",
+        "26w6ihxi",
+        "dr8gqysu",
+        "wy0m9l5w",
+        "om17cury",
+        "x7avnu1k",
+        "bcs7l2c3",
+        "hqxr4yub",
+        "h27ltdnz",
+        "89q2pnko",
+        "73xd5dum",
+        "0p0rt7o1",
+        "hbxkrnwm",
+        "69smp8rm",
+        "yis75yfp",
+        "ekhwx401",
+        "jupvcf34",
+        "0hhfxxqq",
+        "0ih5oi34",
+        "gwnexu6y",
+        "97zmdc6s",
+        "fc7de6afcf6c",
+        "7a9ee820b342",
+        "0895a5b8ce5c",
+        "f8cf5c2c78d4",
+        "96819d0bd28d",
+        "79f3a8b96d43",
+        "78a495fdbb39",
+        "e22152e06fd8",
+        "490ea3be50b1",
+        "1f046a033914",
+        "dfe7b9e7d217",
+        "c3a2c594479e",
+        "83c6f4fea98e",
+        "34fd4dce1ba3",
+        "d634b6da3d3b",
+        "670a0c3ac005",
+        "182a91893636",
+        "d0cb9ff07d95",
+        "b1a7441b97a1",
+        "bf9fe5b5f981",
+        "b5ae17439907",
+        "a0401c9101f8",
+        "23be42535a45",
+        "abfbdf26f115",
+        "6da5baee46d0",
+        "3d030bc92a87",
+        "a13662ba951c",
+        "58d27475085e",
+        "247783ebdd51",
+        "244e27b39200",
+        "97fabd54445f",
+        "37329fd8895a",
+        "2badb5f46b1e",
+        "1b12d5daee6b",
+        "908c4626660f",
+        "4ff93971bfdc",
+        "70013edeb8e8",
+        "35c8d7f60dc8",
+        "23468361b4ef",
+        "458705c07139",
+        "41321eb41295",
+        "40f31906b23d",
+        "3a7889066fa2"
+      ],
+      "default": "eve",
+      "optional": true
+    },
+    {
+      "name": "language",
+      "kind": "choice",
+      "choices": [
+        "auto",
+        "en",
+        "zh",
+        "ar-EG",
+        "ar-SA",
+        "ar-AE",
+        "bn",
+        "fr",
+        "de",
+        "hi",
+        "id",
+        "it",
+        "ja",
+        "ko",
+        "pt-BR",
+        "pt-PT",
+        "ru",
+        "es-MX",
+        "es-ES",
+        "tr",
+        "vi"
+      ],
+      "default": "auto"
+    },
+    {
+      "name": "codec",
+      "kind": "choice",
+      "choices": ["mp3", "wav", "pcm", "mulaw", "alaw"],
+      "default": "mp3",
+      "optional": true
+    },
+    {
+      "name": "sample_rate",
+      "kind": "choice",
+      "choices": [8000, 16000, 22050, 24000, 44100, 48000],
+      "default": 24000,
+      "optional": true
+    },
+    {
+      "name": "bit_rate",
+      "kind": "choice",
+      "choices": [32000, 64000, 96000, 128000, 192000],
+      "default": 128000,
+      "optional": true
+    },
+    {
+      "name": "speed",
+      "kind": "number",
+      "default": 1,
+      "optional": true,
+      "minimum": "0.7",
+      "maximum": "1.5"
+    },
+    {
+      "name": "text_normalization",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "optimize_streaming_latency",
+      "kind": "choice",
+      "choices": [0, 1, 2],
+      "default": 0,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "text",
+      "section": "default"
+    },
+    {
+      "fieldId": "voice_id",
+      "section": "default"
+    },
+    {
+      "fieldId": "language",
+      "section": "default"
+    },
+    {
+      "fieldId": "codec",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "sample_rate",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "bit_rate",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "speed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "text_normalization",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "optimize_streaming_latency",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "audio",
+    "config": {
+      "operation": "audio",
+      "model": "xai/tts-v1",
+      "parameters": {
+        "text": "text",
+        "voice_id": "voice_id",
+        "language": "language",
+        "codec": "codec",
+        "sample_rate": "sample_rate",
+        "bit_rate": "bit_rate",
+        "speed": "speed",
+        "text_normalization": "text_normalization",
+        "optimize_streaming_latency": "optimize_streaming_latency"
+      },
+      "required_text": ["text"],
+      "text_max_lengths": {
+        "text": 15000
+      },
+      "choice_constraints": {
+        "language": {
+          "parameter": "voice_id",
+          "default_value": "auto",
+          "values": {
+            "jpi39icg": "zh",
+            "d18jlf6v": "zh",
+            "33g9t0jl": "zh",
+            "26w6ihxi": "ru",
+            "dr8gqysu": "ru",
+            "wy0m9l5w": "ru",
+            "om17cury": "ru",
+            "x7avnu1k": "it",
+            "bcs7l2c3": "it",
+            "hqxr4yub": "it",
+            "h27ltdnz": "it",
+            "89q2pnko": "hi",
+            "73xd5dum": "hi",
+            "0p0rt7o1": "fr",
+            "hbxkrnwm": "fr",
+            "69smp8rm": "fr",
+            "yis75yfp": "es-ES",
+            "ekhwx401": "es-ES",
+            "jupvcf34": "es-ES",
+            "0hhfxxqq": "es-ES",
+            "fc7de6afcf6c": "vi",
+            "7a9ee820b342": "vi",
+            "0895a5b8ce5c": "vi",
+            "f8cf5c2c78d4": "en",
+            "96819d0bd28d": "en",
+            "79f3a8b96d43": "en",
+            "78a495fdbb39": "en",
+            "d634b6da3d3b": "tr",
+            "670a0c3ac005": "tr",
+            "182a91893636": "tr",
+            "d0cb9ff07d95": "ja",
+            "b1a7441b97a1": "ja",
+            "bf9fe5b5f981": "ko",
+            "b5ae17439907": "ko",
+            "a0401c9101f8": "ko",
+            "23be42535a45": "ko",
+            "abfbdf26f115": "pt-PT",
+            "6da5baee46d0": "pt-PT",
+            "3d030bc92a87": "pt-PT",
+            "70013edeb8e8": "ar-EG",
+            "35c8d7f60dc8": "ar-EG",
+            "23468361b4ef": "ar-EG",
+            "458705c07139": "de",
+            "41321eb41295": "de",
+            "40f31906b23d": "de",
+            "3a7889066fa2": "de"
+          }
+        }
+      },
+      "enabled_by": {
+        "bit_rate": {
+          "parameter": "codec",
+          "equals": "mp3"
+        }
+      },
+      "audio_suffix_parameter": "codec",
+      "audio_suffixes": {
+        "pcm": ".pcm",
+        "mulaw": ".ulaw",
+        "alaw": ".alaw"
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "xAI TTS v1 文本转语音",
+      "description": "把文字合成为自然语音，可切换语言和音色，并用标签控制停顿、轻声等表达。",
+      "fields": {
+        "text": {
+          "label": "朗读文本"
+        },
+        "voice_id": {
+          "label": "音色",
+          "choiceLabels": {
+            "ara": "Ara · 多语种",
+            "eve": "Eve · 多语种",
+            "leo": "Leo · 多语种",
+            "rex": "Rex · 多语种",
+            "sal": "Sal · 多语种",
+            "jpi39icg": "Jian · 普通话",
+            "d18jlf6v": "Hao · 普通话",
+            "33g9t0jl": "Xia · 普通话",
+            "26w6ihxi": "Pavel · 俄语",
+            "dr8gqysu": "Andrei · 俄语",
+            "wy0m9l5w": "Dmitri · 俄语",
+            "om17cury": "Irina · 俄语",
+            "x7avnu1k": "Enzo · 意大利语",
+            "bcs7l2c3": "Matteo · 意大利语",
+            "hqxr4yub": "Luca · 意大利语",
+            "h27ltdnz": "Alessandro · 意大利语",
+            "89q2pnko": "Karan · 印地语",
+            "73xd5dum": "Ananya · 印地语",
+            "0p0rt7o1": "Remi · 法语",
+            "hbxkrnwm": "Hugo · 法语",
+            "69smp8rm": "Camille · 法语",
+            "yis75yfp": "Manuel · 欧洲西班牙语",
+            "ekhwx401": "Javier · 欧洲西班牙语",
+            "jupvcf34": "Diego · 欧洲西班牙语",
+            "0hhfxxqq": "Andres · 欧洲西班牙语",
+            "0ih5oi34": "Kasper · 丹麦语",
+            "gwnexu6y": "Lars · 丹麦语",
+            "97zmdc6s": "Ida · 丹麦语",
+            "fc7de6afcf6c": "Duc · 越南语",
+            "7a9ee820b342": "Minh · 越南语",
+            "0895a5b8ce5c": "Mai · 越南语",
+            "f8cf5c2c78d4": "Grace · 英语",
+            "96819d0bd28d": "Daniel · 英语",
+            "79f3a8b96d43": "Claire · 英语",
+            "78a495fdbb39": "James · 英语",
+            "e22152e06fd8": "Axel · 瑞典语（瑞典）",
+            "490ea3be50b1": "Saga · 瑞典语（瑞典）",
+            "1f046a033914": "Erik · 瑞典语（瑞典）",
+            "dfe7b9e7d217": "Valtteri · 芬兰语",
+            "c3a2c594479e": "Helmi · 芬兰语",
+            "83c6f4fea98e": "Eero · 芬兰语",
+            "34fd4dce1ba3": "Elina · 芬兰语",
+            "d634b6da3d3b": "Aylin · 土耳其语",
+            "670a0c3ac005": "Emre · 土耳其语",
+            "182a91893636": "Kaan · 土耳其语",
+            "d0cb9ff07d95": "Sakura · 日语",
+            "b1a7441b97a1": "Ren · 日语",
+            "bf9fe5b5f981": "Jun-seo · 韩语",
+            "b5ae17439907": "Min-jun · 韩语",
+            "a0401c9101f8": "Seo-yeon · 韩语",
+            "23be42535a45": "Ji-yeon · 韩语",
+            "abfbdf26f115": "Mateus · 欧洲葡萄牙语",
+            "6da5baee46d0": "Beatriz · 欧洲葡萄牙语",
+            "3d030bc92a87": "Rafael · 欧洲葡萄牙语",
+            "a13662ba951c": "Thijs · 荷兰语",
+            "58d27475085e": "Femke · 荷兰语",
+            "247783ebdd51": "Noor · 荷兰语",
+            "244e27b39200": "Ruben · 荷兰语",
+            "97fabd54445f": "Katarzyna · 波兰语",
+            "37329fd8895a": "Mateusz · 波兰语",
+            "2badb5f46b1e": "Jakub · 波兰语",
+            "1b12d5daee6b": "Aleksandra · 波兰语",
+            "908c4626660f": "Krit · 泰语",
+            "4ff93971bfdc": "Aroon · 泰语",
+            "70013edeb8e8": "Khalid · 阿拉伯语（埃及）",
+            "35c8d7f60dc8": "Layla · 阿拉伯语（埃及）",
+            "23468361b4ef": "Tariq · 阿拉伯语（埃及）",
+            "458705c07139": "Clara · 德语",
+            "41321eb41295": "Moritz · 德语",
+            "40f31906b23d": "Niklas · 德语",
+            "3a7889066fa2": "Lena · 德语"
+          }
+        },
+        "language": {
+          "label": "语言",
+          "choiceLabels": {
+            "auto": "自动检测",
+            "en": "英语",
+            "zh": "普通话",
+            "ar-EG": "阿拉伯语（埃及）",
+            "ar-SA": "阿拉伯语（沙特阿拉伯）",
+            "ar-AE": "阿拉伯语（阿拉伯联合酋长国）",
+            "bn": "孟加拉语",
+            "fr": "法语",
+            "de": "德语",
+            "hi": "印地语",
+            "id": "印度尼西亚语",
+            "it": "意大利语",
+            "ja": "日语",
+            "ko": "韩语",
+            "pt-BR": "巴西葡萄牙语",
+            "pt-PT": "欧洲葡萄牙语",
+            "ru": "俄语",
+            "es-MX": "墨西哥西班牙语",
+            "es-ES": "欧洲西班牙语",
+            "tr": "土耳其语",
+            "vi": "越南语"
+          }
+        },
+        "codec": {
+          "label": "输出编码",
+          "choiceLabels": {
+            "mp3": "MP3",
+            "wav": "WAV",
+            "pcm": "PCM",
+            "mulaw": "μ-law",
+            "alaw": "A-law"
+          }
+        },
+        "sample_rate": {
+          "label": "采样率"
+        },
+        "bit_rate": {
+          "label": "MP3 码率"
+        },
+        "speed": {
+          "label": "语速"
+        },
+        "text_normalization": {
+          "label": "文本规范化"
+        },
+        "optimize_streaming_latency": {
+          "label": "流式延迟优化"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "最多 15000 字符。可插入 [pause] 表示停顿，或用 <whisper> 与 </whisper> 包住低声朗读的内容。"
+        },
+        "voice_id": {
+          "help": "选择多语种音色或面向特定语言的音色。"
+        },
+        "language": {
+          "help": "选自动检测时，有指定语言要求的音色会使用所需语言。"
+        },
+        "codec": {
+          "help": "裸 PCM、μ-law 和 A-law 可下载原文件。"
+        },
+        "sample_rate": {
+          "help": "每秒采样数，单位 Hz。"
+        },
+        "bit_rate": {
+          "help": "仅 MP3 使用。"
+        },
+        "speed": {
+          "help": "1 为正常速度，可设置 0.7 至 1.5。"
+        },
+        "text_normalization": {
+          "help": "先把数字、缩写和符号转换成便于朗读的形式。"
+        },
+        "optimize_streaming_latency": {
+          "help": "优化首段音频的延迟，等级越高，分段衔接处可能越明显。 0 最佳音质 · 1 降低延迟 · 2 最低延迟"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "xAI TTS v1 文字轉語音",
+      "description": "將文字合成自然語音，可切換語言與音色，並用標記控制停頓或輕聲朗讀。",
+      "fields": {
+        "text": {
+          "label": "朗讀文字"
+        },
+        "voice_id": {
+          "label": "音色",
+          "choiceLabels": {
+            "ara": "Ara · 多語言",
+            "eve": "Eve · 多語言",
+            "leo": "Leo · 多語言",
+            "rex": "Rex · 多語言",
+            "sal": "Sal · 多語言",
+            "jpi39icg": "Jian · 華語",
+            "d18jlf6v": "Hao · 華語",
+            "33g9t0jl": "Xia · 華語",
+            "26w6ihxi": "Pavel · 俄文",
+            "dr8gqysu": "Andrei · 俄文",
+            "wy0m9l5w": "Dmitri · 俄文",
+            "om17cury": "Irina · 俄文",
+            "x7avnu1k": "Enzo · 義大利文",
+            "bcs7l2c3": "Matteo · 義大利文",
+            "hqxr4yub": "Luca · 義大利文",
+            "h27ltdnz": "Alessandro · 義大利文",
+            "89q2pnko": "Karan · 印地文",
+            "73xd5dum": "Ananya · 印地文",
+            "0p0rt7o1": "Remi · 法文",
+            "hbxkrnwm": "Hugo · 法文",
+            "69smp8rm": "Camille · 法文",
+            "yis75yfp": "Manuel · 西班牙文（西班牙）",
+            "ekhwx401": "Javier · 西班牙文（西班牙）",
+            "jupvcf34": "Diego · 西班牙文（西班牙）",
+            "0hhfxxqq": "Andres · 西班牙文（西班牙）",
+            "0ih5oi34": "Kasper · 丹麥文",
+            "gwnexu6y": "Lars · 丹麥文",
+            "97zmdc6s": "Ida · 丹麥文",
+            "fc7de6afcf6c": "Duc · 越南文",
+            "7a9ee820b342": "Minh · 越南文",
+            "0895a5b8ce5c": "Mai · 越南文",
+            "f8cf5c2c78d4": "Grace · 英文",
+            "96819d0bd28d": "Daniel · 英文",
+            "79f3a8b96d43": "Claire · 英文",
+            "78a495fdbb39": "James · 英文",
+            "e22152e06fd8": "Axel · 瑞典文（瑞典）",
+            "490ea3be50b1": "Saga · 瑞典文（瑞典）",
+            "1f046a033914": "Erik · 瑞典文（瑞典）",
+            "dfe7b9e7d217": "Valtteri · 芬蘭文",
+            "c3a2c594479e": "Helmi · 芬蘭文",
+            "83c6f4fea98e": "Eero · 芬蘭文",
+            "34fd4dce1ba3": "Elina · 芬蘭文",
+            "d634b6da3d3b": "Aylin · 土耳其文",
+            "670a0c3ac005": "Emre · 土耳其文",
+            "182a91893636": "Kaan · 土耳其文",
+            "d0cb9ff07d95": "Sakura · 日文",
+            "b1a7441b97a1": "Ren · 日文",
+            "bf9fe5b5f981": "Jun-seo · 韓文",
+            "b5ae17439907": "Min-jun · 韓文",
+            "a0401c9101f8": "Seo-yeon · 韓文",
+            "23be42535a45": "Ji-yeon · 韓文",
+            "abfbdf26f115": "Mateus · 葡萄牙文（葡萄牙）",
+            "6da5baee46d0": "Beatriz · 葡萄牙文（葡萄牙）",
+            "3d030bc92a87": "Rafael · 葡萄牙文（葡萄牙）",
+            "a13662ba951c": "Thijs · 荷蘭文",
+            "58d27475085e": "Femke · 荷蘭文",
+            "247783ebdd51": "Noor · 荷蘭文",
+            "244e27b39200": "Ruben · 荷蘭文",
+            "97fabd54445f": "Katarzyna · 波蘭文",
+            "37329fd8895a": "Mateusz · 波蘭文",
+            "2badb5f46b1e": "Jakub · 波蘭文",
+            "1b12d5daee6b": "Aleksandra · 波蘭文",
+            "908c4626660f": "Krit · 泰文",
+            "4ff93971bfdc": "Aroon · 泰文",
+            "70013edeb8e8": "Khalid · 阿拉伯文（埃及）",
+            "35c8d7f60dc8": "Layla · 阿拉伯文（埃及）",
+            "23468361b4ef": "Tariq · 阿拉伯文（埃及）",
+            "458705c07139": "Clara · 德文",
+            "41321eb41295": "Moritz · 德文",
+            "40f31906b23d": "Niklas · 德文",
+            "3a7889066fa2": "Lena · 德文"
+          }
+        },
+        "language": {
+          "label": "語言",
+          "choiceLabels": {
+            "auto": "自動偵測",
+            "en": "英文",
+            "zh": "華語",
+            "ar-EG": "阿拉伯文（埃及）",
+            "ar-SA": "阿拉伯文（沙烏地阿拉伯）",
+            "ar-AE": "阿拉伯文（阿拉伯聯合大公國）",
+            "bn": "孟加拉文",
+            "fr": "法文",
+            "de": "德文",
+            "hi": "印地文",
+            "id": "印尼文",
+            "it": "義大利文",
+            "ja": "日文",
+            "ko": "韓文",
+            "pt-BR": "葡萄牙文（巴西）",
+            "pt-PT": "葡萄牙文（葡萄牙）",
+            "ru": "俄文",
+            "es-MX": "西班牙文（墨西哥）",
+            "es-ES": "西班牙文（西班牙）",
+            "tr": "土耳其文",
+            "vi": "越南文"
+          }
+        },
+        "codec": {
+          "label": "輸出編碼",
+          "choiceLabels": {
+            "mp3": "MP3",
+            "wav": "WAV",
+            "pcm": "PCM",
+            "mulaw": "μ-law",
+            "alaw": "A-law"
+          }
+        },
+        "sample_rate": {
+          "label": "取樣率"
+        },
+        "bit_rate": {
+          "label": "MP3 位元率"
+        },
+        "speed": {
+          "label": "語速"
+        },
+        "text_normalization": {
+          "label": "文字正規化"
+        },
+        "optimize_streaming_latency": {
+          "label": "串流延遲最佳化"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "最多 15000 個字元。可插入 [pause] 表示停頓，或用 <whisper> 與 </whisper> 包住輕聲朗讀的內容。"
+        },
+        "voice_id": {
+          "help": "可選多語言音色或針對特定語言的音色。"
+        },
+        "language": {
+          "help": "使用自動偵測時，有指定語言要求的音色會採用所需語言。"
+        },
+        "codec": {
+          "help": "裸 PCM、μ-law 與 A-law 可下載原始檔案。"
+        },
+        "sample_rate": {
+          "help": "每秒取樣數，單位為 Hz。"
+        },
+        "bit_rate": {
+          "help": "只有 MP3 使用。"
+        },
+        "speed": {
+          "help": "1 為正常速度，可設定 0.7 至 1.5。"
+        },
+        "text_normalization": {
+          "help": "先將數字、縮寫與符號轉換為適合朗讀的形式。"
+        },
+        "optimize_streaming_latency": {
+          "help": "縮短首段音訊的延遲。等級越高，片段銜接處可能越明顯。 0 最佳音質 · 1 降低延遲 · 2 最低延遲"
+        }
+      }
+    },
+    "en": {
+      "name": "xAI TTS v1 Text to Speech",
+      "description": "Synthesize speech with multilingual voices and tags for pauses, whispers, and other delivery styles.",
+      "fields": {
+        "text": {
+          "label": "Text to read"
+        },
+        "voice_id": {
+          "label": "Voice",
+          "choiceLabels": {
+            "ara": "Ara · Multilingual",
+            "eve": "Eve · Multilingual",
+            "leo": "Leo · Multilingual",
+            "rex": "Rex · Multilingual",
+            "sal": "Sal · Multilingual",
+            "jpi39icg": "Jian · Mandarin Chinese",
+            "d18jlf6v": "Hao · Mandarin Chinese",
+            "33g9t0jl": "Xia · Mandarin Chinese",
+            "26w6ihxi": "Pavel · Russian",
+            "dr8gqysu": "Andrei · Russian",
+            "wy0m9l5w": "Dmitri · Russian",
+            "om17cury": "Irina · Russian",
+            "x7avnu1k": "Enzo · Italian",
+            "bcs7l2c3": "Matteo · Italian",
+            "hqxr4yub": "Luca · Italian",
+            "h27ltdnz": "Alessandro · Italian",
+            "89q2pnko": "Karan · Hindi",
+            "73xd5dum": "Ananya · Hindi",
+            "0p0rt7o1": "Remi · French",
+            "hbxkrnwm": "Hugo · French",
+            "69smp8rm": "Camille · French",
+            "yis75yfp": "Manuel · European Spanish",
+            "ekhwx401": "Javier · European Spanish",
+            "jupvcf34": "Diego · European Spanish",
+            "0hhfxxqq": "Andres · European Spanish",
+            "0ih5oi34": "Kasper · Danish",
+            "gwnexu6y": "Lars · Danish",
+            "97zmdc6s": "Ida · Danish",
+            "fc7de6afcf6c": "Duc · Vietnamese",
+            "7a9ee820b342": "Minh · Vietnamese",
+            "0895a5b8ce5c": "Mai · Vietnamese",
+            "f8cf5c2c78d4": "Grace · English",
+            "96819d0bd28d": "Daniel · English",
+            "79f3a8b96d43": "Claire · English",
+            "78a495fdbb39": "James · English",
+            "e22152e06fd8": "Axel · Swedish (Sweden)",
+            "490ea3be50b1": "Saga · Swedish (Sweden)",
+            "1f046a033914": "Erik · Swedish (Sweden)",
+            "dfe7b9e7d217": "Valtteri · Finnish",
+            "c3a2c594479e": "Helmi · Finnish",
+            "83c6f4fea98e": "Eero · Finnish",
+            "34fd4dce1ba3": "Elina · Finnish",
+            "d634b6da3d3b": "Aylin · Turkish",
+            "670a0c3ac005": "Emre · Turkish",
+            "182a91893636": "Kaan · Turkish",
+            "d0cb9ff07d95": "Sakura · Japanese",
+            "b1a7441b97a1": "Ren · Japanese",
+            "bf9fe5b5f981": "Jun-seo · Korean",
+            "b5ae17439907": "Min-jun · Korean",
+            "a0401c9101f8": "Seo-yeon · Korean",
+            "23be42535a45": "Ji-yeon · Korean",
+            "abfbdf26f115": "Mateus · European Portuguese",
+            "6da5baee46d0": "Beatriz · European Portuguese",
+            "3d030bc92a87": "Rafael · European Portuguese",
+            "a13662ba951c": "Thijs · Dutch",
+            "58d27475085e": "Femke · Dutch",
+            "247783ebdd51": "Noor · Dutch",
+            "244e27b39200": "Ruben · Dutch",
+            "97fabd54445f": "Katarzyna · Polish",
+            "37329fd8895a": "Mateusz · Polish",
+            "2badb5f46b1e": "Jakub · Polish",
+            "1b12d5daee6b": "Aleksandra · Polish",
+            "908c4626660f": "Krit · Thai",
+            "4ff93971bfdc": "Aroon · Thai",
+            "70013edeb8e8": "Khalid · Arabic (Egypt)",
+            "35c8d7f60dc8": "Layla · Arabic (Egypt)",
+            "23468361b4ef": "Tariq · Arabic (Egypt)",
+            "458705c07139": "Clara · German",
+            "41321eb41295": "Moritz · German",
+            "40f31906b23d": "Niklas · German",
+            "3a7889066fa2": "Lena · German"
+          }
+        },
+        "language": {
+          "label": "Language",
+          "choiceLabels": {
+            "auto": "Auto detect",
+            "en": "English",
+            "zh": "Mandarin Chinese",
+            "ar-EG": "Arabic (Egypt)",
+            "ar-SA": "Arabic (Saudi Arabia)",
+            "ar-AE": "Arabic (United Arab Emirates)",
+            "bn": "Bangla",
+            "fr": "French",
+            "de": "German",
+            "hi": "Hindi",
+            "id": "Indonesian",
+            "it": "Italian",
+            "ja": "Japanese",
+            "ko": "Korean",
+            "pt-BR": "Brazilian Portuguese",
+            "pt-PT": "European Portuguese",
+            "ru": "Russian",
+            "es-MX": "Mexican Spanish",
+            "es-ES": "European Spanish",
+            "tr": "Turkish",
+            "vi": "Vietnamese"
+          }
+        },
+        "codec": {
+          "label": "Audio codec",
+          "choiceLabels": {
+            "mp3": "MP3",
+            "wav": "WAV",
+            "pcm": "PCM",
+            "mulaw": "μ-law",
+            "alaw": "A-law"
+          }
+        },
+        "sample_rate": {
+          "label": "Sample rate"
+        },
+        "bit_rate": {
+          "label": "MP3 bitrate"
+        },
+        "speed": {
+          "label": "Speech speed"
+        },
+        "text_normalization": {
+          "label": "Text normalization"
+        },
+        "optimize_streaming_latency": {
+          "label": "Streaming latency optimization"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "Enter up to 15,000 characters. Use [pause] for a pause or wrap text in <whisper> and </whisper> to whisper."
+        },
+        "voice_id": {
+          "help": "Choose a multilingual voice or a voice tuned for a specific language."
+        },
+        "language": {
+          "help": "Auto detect uses the required language for voices that specify one."
+        },
+        "codec": {
+          "help": "Download raw PCM, μ-law, and A-law files as originals."
+        },
+        "sample_rate": {
+          "help": "Samples per second in Hz."
+        },
+        "bit_rate": {
+          "help": "Used for MP3 only."
+        },
+        "speed": {
+          "help": "1 is normal speed. Set a multiplier from 0.7 to 1.5."
+        },
+        "text_normalization": {
+          "help": "Convert written numbers, abbreviations, and symbols to spoken forms first."
+        },
+        "optimize_streaming_latency": {
+          "help": "Higher levels reduce initial audio latency and can make segment boundaries more noticeable. 0 Best quality · 1 Lower latency · 2 Lowest latency"
+        }
+      }
+    },
+    "ja": {
+      "name": "xAI TTS v1 テキスト読み上げ",
+      "description": "多言語の音声でテキストを読み上げます。タグで間を置いたり、ささやいたりできます。",
+      "fields": {
+        "text": {
+          "label": "読み上げテキスト"
+        },
+        "voice_id": {
+          "label": "音色",
+          "choiceLabels": {
+            "ara": "Ara · 多言語",
+            "eve": "Eve · 多言語",
+            "leo": "Leo · 多言語",
+            "rex": "Rex · 多言語",
+            "sal": "Sal · 多言語",
+            "jpi39icg": "Jian · 中国語（普通話）",
+            "d18jlf6v": "Hao · 中国語（普通話）",
+            "33g9t0jl": "Xia · 中国語（普通話）",
+            "26w6ihxi": "Pavel · ロシア語",
+            "dr8gqysu": "Andrei · ロシア語",
+            "wy0m9l5w": "Dmitri · ロシア語",
+            "om17cury": "Irina · ロシア語",
+            "x7avnu1k": "Enzo · イタリア語",
+            "bcs7l2c3": "Matteo · イタリア語",
+            "hqxr4yub": "Luca · イタリア語",
+            "h27ltdnz": "Alessandro · イタリア語",
+            "89q2pnko": "Karan · ヒンディー語",
+            "73xd5dum": "Ananya · ヒンディー語",
+            "0p0rt7o1": "Remi · フランス語",
+            "hbxkrnwm": "Hugo · フランス語",
+            "69smp8rm": "Camille · フランス語",
+            "yis75yfp": "Manuel · スペイン語 (イベリア半島)",
+            "ekhwx401": "Javier · スペイン語 (イベリア半島)",
+            "jupvcf34": "Diego · スペイン語 (イベリア半島)",
+            "0hhfxxqq": "Andres · スペイン語 (イベリア半島)",
+            "0ih5oi34": "Kasper · デンマーク語",
+            "gwnexu6y": "Lars · デンマーク語",
+            "97zmdc6s": "Ida · デンマーク語",
+            "fc7de6afcf6c": "Duc · ベトナム語",
+            "7a9ee820b342": "Minh · ベトナム語",
+            "0895a5b8ce5c": "Mai · ベトナム語",
+            "f8cf5c2c78d4": "Grace · 英語",
+            "96819d0bd28d": "Daniel · 英語",
+            "79f3a8b96d43": "Claire · 英語",
+            "78a495fdbb39": "James · 英語",
+            "e22152e06fd8": "Axel · スウェーデン語 (スウェーデン)",
+            "490ea3be50b1": "Saga · スウェーデン語 (スウェーデン)",
+            "1f046a033914": "Erik · スウェーデン語 (スウェーデン)",
+            "dfe7b9e7d217": "Valtteri · フィンランド語",
+            "c3a2c594479e": "Helmi · フィンランド語",
+            "83c6f4fea98e": "Eero · フィンランド語",
+            "34fd4dce1ba3": "Elina · フィンランド語",
+            "d634b6da3d3b": "Aylin · トルコ語",
+            "670a0c3ac005": "Emre · トルコ語",
+            "182a91893636": "Kaan · トルコ語",
+            "d0cb9ff07d95": "Sakura · 日本語",
+            "b1a7441b97a1": "Ren · 日本語",
+            "bf9fe5b5f981": "Jun-seo · 韓国語",
+            "b5ae17439907": "Min-jun · 韓国語",
+            "a0401c9101f8": "Seo-yeon · 韓国語",
+            "23be42535a45": "Ji-yeon · 韓国語",
+            "abfbdf26f115": "Mateus · ポルトガル語 (イベリア半島)",
+            "6da5baee46d0": "Beatriz · ポルトガル語 (イベリア半島)",
+            "3d030bc92a87": "Rafael · ポルトガル語 (イベリア半島)",
+            "a13662ba951c": "Thijs · オランダ語",
+            "58d27475085e": "Femke · オランダ語",
+            "247783ebdd51": "Noor · オランダ語",
+            "244e27b39200": "Ruben · オランダ語",
+            "97fabd54445f": "Katarzyna · ポーランド語",
+            "37329fd8895a": "Mateusz · ポーランド語",
+            "2badb5f46b1e": "Jakub · ポーランド語",
+            "1b12d5daee6b": "Aleksandra · ポーランド語",
+            "908c4626660f": "Krit · タイ語",
+            "4ff93971bfdc": "Aroon · タイ語",
+            "70013edeb8e8": "Khalid · アラビア語 (エジプト)",
+            "35c8d7f60dc8": "Layla · アラビア語 (エジプト)",
+            "23468361b4ef": "Tariq · アラビア語 (エジプト)",
+            "458705c07139": "Clara · ドイツ語",
+            "41321eb41295": "Moritz · ドイツ語",
+            "40f31906b23d": "Niklas · ドイツ語",
+            "3a7889066fa2": "Lena · ドイツ語"
+          }
+        },
+        "language": {
+          "label": "言語",
+          "choiceLabels": {
+            "auto": "自動検出",
+            "en": "英語",
+            "zh": "中国語（普通話）",
+            "ar-EG": "アラビア語 (エジプト)",
+            "ar-SA": "アラビア語 (サウジアラビア)",
+            "ar-AE": "アラビア語 (アラブ首長国連邦)",
+            "bn": "ベンガル語",
+            "fr": "フランス語",
+            "de": "ドイツ語",
+            "hi": "ヒンディー語",
+            "id": "インドネシア語",
+            "it": "イタリア語",
+            "ja": "日本語",
+            "ko": "韓国語",
+            "pt-BR": "ポルトガル語 (ブラジル)",
+            "pt-PT": "ポルトガル語 (イベリア半島)",
+            "ru": "ロシア語",
+            "es-MX": "スペイン語 (メキシコ)",
+            "es-ES": "スペイン語 (イベリア半島)",
+            "tr": "トルコ語",
+            "vi": "ベトナム語"
+          }
+        },
+        "codec": {
+          "label": "出力コーデック",
+          "choiceLabels": {
+            "mp3": "MP3",
+            "wav": "WAV",
+            "pcm": "PCM",
+            "mulaw": "μ-law",
+            "alaw": "A-law"
+          }
+        },
+        "sample_rate": {
+          "label": "サンプルレート"
+        },
+        "bit_rate": {
+          "label": "MP3 ビットレート"
+        },
+        "speed": {
+          "label": "読み上げ速度"
+        },
+        "text_normalization": {
+          "label": "テキストの正規化"
+        },
+        "optimize_streaming_latency": {
+          "label": "ストリーミング遅延の最適化"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "15000 文字まで入力できます。[pause] で間を置き、<whisper> と </whisper> で囲むとささやき声になります。"
+        },
+        "voice_id": {
+          "help": "多言語に対応した音色や、特定の言語に適した音色を選べます。"
+        },
+        "language": {
+          "help": "自動検出では、言語指定のある音色に必要な言語が使われます。"
+        },
+        "codec": {
+          "help": "生の PCM、μ-law、A-law は元ファイルをダウンロードできます。"
+        },
+        "sample_rate": {
+          "help": "1 秒あたりのサンプル数を Hz で指定します。"
+        },
+        "bit_rate": {
+          "help": "MP3 のときに使用されます。"
+        },
+        "speed": {
+          "help": "標準は 1 です。0.7 から 1.5 まで設定できます。"
+        },
+        "text_normalization": {
+          "help": "数字、略語、記号を読み上げやすい形に変換します。"
+        },
+        "optimize_streaming_latency": {
+          "help": "レベルを上げると最初の音声の遅延が短くなり、区切りが目立ちやすくなります。 0 最高音質 · 1 低遅延 · 2 最短遅延"
+        }
+      }
+    },
+    "ko": {
+      "name": "xAI TTS v1 텍스트 음성 변환",
+      "description": "다국어 음색으로 텍스트를 읽고 태그로 멈춤, 속삭임 등 표현을 제어합니다.",
+      "fields": {
+        "text": {
+          "label": "읽을 텍스트"
+        },
+        "voice_id": {
+          "label": "음색",
+          "choiceLabels": {
+            "ara": "Ara · 다국어",
+            "eve": "Eve · 다국어",
+            "leo": "Leo · 다국어",
+            "rex": "Rex · 다국어",
+            "sal": "Sal · 다국어",
+            "jpi39icg": "Jian · 표준 중국어",
+            "d18jlf6v": "Hao · 표준 중국어",
+            "33g9t0jl": "Xia · 표준 중국어",
+            "26w6ihxi": "Pavel · 러시아어",
+            "dr8gqysu": "Andrei · 러시아어",
+            "wy0m9l5w": "Dmitri · 러시아어",
+            "om17cury": "Irina · 러시아어",
+            "x7avnu1k": "Enzo · 이탈리아어",
+            "bcs7l2c3": "Matteo · 이탈리아어",
+            "hqxr4yub": "Luca · 이탈리아어",
+            "h27ltdnz": "Alessandro · 이탈리아어",
+            "89q2pnko": "Karan · 힌디어",
+            "73xd5dum": "Ananya · 힌디어",
+            "0p0rt7o1": "Remi · 프랑스어",
+            "hbxkrnwm": "Hugo · 프랑스어",
+            "69smp8rm": "Camille · 프랑스어",
+            "yis75yfp": "Manuel · 스페인어(유럽)",
+            "ekhwx401": "Javier · 스페인어(유럽)",
+            "jupvcf34": "Diego · 스페인어(유럽)",
+            "0hhfxxqq": "Andres · 스페인어(유럽)",
+            "0ih5oi34": "Kasper · 덴마크어",
+            "gwnexu6y": "Lars · 덴마크어",
+            "97zmdc6s": "Ida · 덴마크어",
+            "fc7de6afcf6c": "Duc · 베트남어",
+            "7a9ee820b342": "Minh · 베트남어",
+            "0895a5b8ce5c": "Mai · 베트남어",
+            "f8cf5c2c78d4": "Grace · 영어",
+            "96819d0bd28d": "Daniel · 영어",
+            "79f3a8b96d43": "Claire · 영어",
+            "78a495fdbb39": "James · 영어",
+            "e22152e06fd8": "Axel · 스웨덴어(스웨덴)",
+            "490ea3be50b1": "Saga · 스웨덴어(스웨덴)",
+            "1f046a033914": "Erik · 스웨덴어(스웨덴)",
+            "dfe7b9e7d217": "Valtteri · 핀란드어",
+            "c3a2c594479e": "Helmi · 핀란드어",
+            "83c6f4fea98e": "Eero · 핀란드어",
+            "34fd4dce1ba3": "Elina · 핀란드어",
+            "d634b6da3d3b": "Aylin · 튀르키예어",
+            "670a0c3ac005": "Emre · 튀르키예어",
+            "182a91893636": "Kaan · 튀르키예어",
+            "d0cb9ff07d95": "Sakura · 일본어",
+            "b1a7441b97a1": "Ren · 일본어",
+            "bf9fe5b5f981": "Jun-seo · 한국어",
+            "b5ae17439907": "Min-jun · 한국어",
+            "a0401c9101f8": "Seo-yeon · 한국어",
+            "23be42535a45": "Ji-yeon · 한국어",
+            "abfbdf26f115": "Mateus · 포르투갈어(유럽)",
+            "6da5baee46d0": "Beatriz · 포르투갈어(유럽)",
+            "3d030bc92a87": "Rafael · 포르투갈어(유럽)",
+            "a13662ba951c": "Thijs · 네덜란드어",
+            "58d27475085e": "Femke · 네덜란드어",
+            "247783ebdd51": "Noor · 네덜란드어",
+            "244e27b39200": "Ruben · 네덜란드어",
+            "97fabd54445f": "Katarzyna · 폴란드어",
+            "37329fd8895a": "Mateusz · 폴란드어",
+            "2badb5f46b1e": "Jakub · 폴란드어",
+            "1b12d5daee6b": "Aleksandra · 폴란드어",
+            "908c4626660f": "Krit · 태국어",
+            "4ff93971bfdc": "Aroon · 태국어",
+            "70013edeb8e8": "Khalid · 아랍어(이집트)",
+            "35c8d7f60dc8": "Layla · 아랍어(이집트)",
+            "23468361b4ef": "Tariq · 아랍어(이집트)",
+            "458705c07139": "Clara · 독일어",
+            "41321eb41295": "Moritz · 독일어",
+            "40f31906b23d": "Niklas · 독일어",
+            "3a7889066fa2": "Lena · 독일어"
+          }
+        },
+        "language": {
+          "label": "언어",
+          "choiceLabels": {
+            "auto": "자동 감지",
+            "en": "영어",
+            "zh": "표준 중국어",
+            "ar-EG": "아랍어(이집트)",
+            "ar-SA": "아랍어(사우디아라비아)",
+            "ar-AE": "아랍어(아랍에미리트)",
+            "bn": "벵골어",
+            "fr": "프랑스어",
+            "de": "독일어",
+            "hi": "힌디어",
+            "id": "인도네시아어",
+            "it": "이탈리아어",
+            "ja": "일본어",
+            "ko": "한국어",
+            "pt-BR": "포르투갈어(브라질)",
+            "pt-PT": "포르투갈어(유럽)",
+            "ru": "러시아어",
+            "es-MX": "스페인어(멕시코)",
+            "es-ES": "스페인어(유럽)",
+            "tr": "튀르키예어",
+            "vi": "베트남어"
+          }
+        },
+        "codec": {
+          "label": "출력 코덱",
+          "choiceLabels": {
+            "mp3": "MP3",
+            "wav": "WAV",
+            "pcm": "PCM",
+            "mulaw": "μ-law",
+            "alaw": "A-law"
+          }
+        },
+        "sample_rate": {
+          "label": "샘플레이트"
+        },
+        "bit_rate": {
+          "label": "MP3 비트레이트"
+        },
+        "speed": {
+          "label": "말하기 속도"
+        },
+        "text_normalization": {
+          "label": "텍스트 정규화"
+        },
+        "optimize_streaming_latency": {
+          "label": "스트리밍 지연 최적화"
+        }
+      },
+      "parameterLayout": {
+        "text": {
+          "help": "최대 15000자를 입력하세요. [pause]를 넣으면 멈추고, <whisper>와 </whisper>로 감싸면 속삭입니다."
+        },
+        "voice_id": {
+          "help": "다국어 음색이나 특정 언어에 최적화된 음색을 선택하세요."
+        },
+        "language": {
+          "help": "자동 감지를 선택하면 지정 언어가 있는 음색에 해당 언어가 적용됩니다."
+        },
+        "codec": {
+          "help": "원시 PCM, μ-law, A-law를 원본으로 다운로드할 수 있습니다."
+        },
+        "sample_rate": {
+          "help": "초당 샘플 수를 Hz로 지정합니다."
+        },
+        "bit_rate": {
+          "help": "MP3에서만 사용됩니다."
+        },
+        "speed": {
+          "help": "1은 기본 속도입니다. 0.7부터 1.5까지 지정할 수 있습니다."
+        },
+        "text_normalization": {
+          "help": "숫자, 약어, 기호를 발화하기 쉬운 형태로 먼저 변환합니다."
+        },
+        "optimize_streaming_latency": {
+          "help": "단계를 높이면 첫 오디오가 빨리 나오고 구간 사이 이음매가 두드러질 수 있습니다. 0 최고 음질 · 1 낮은 지연 · 2 최소 지연"
+        }
+      }
+    }
+  }
+}

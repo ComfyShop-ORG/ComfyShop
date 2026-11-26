@@ -1,0 +1,559 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-qwen3p-alter",
+  "name": "Qwen Image 3.0 Pro 图片编辑",
+  "description": "按提示词编辑图片，可使用 1 至 3 张参考图。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": ""
+    },
+    {
+      "name": "size",
+      "kind": "string",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "image_count",
+      "kind": "integer",
+      "minimum": "1",
+      "maximum": "4",
+      "optional": true,
+      "default": 1
+    },
+    {
+      "name": "negative_prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "minimum": "0",
+      "maximum": "2147483647",
+      "optional": true
+    },
+    {
+      "name": "prompt_extend",
+      "kind": "boolean",
+      "optional": true,
+      "default": true
+    },
+    {
+      "name": "prompt_extend_mode",
+      "kind": "choice",
+      "choices": ["direct"],
+      "optional": true,
+      "default": "direct"
+    },
+    {
+      "name": "reference_image_1",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_2",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_3",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "reference_image_sources",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "reference_image_1",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_2",
+      "section": "default"
+    },
+    {
+      "fieldId": "reference_image_3",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "size",
+      "section": "default"
+    },
+    {
+      "fieldId": "image_count",
+      "section": "default"
+    },
+    {
+      "fieldId": "negative_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "prompt_extend",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "prompt_extend_mode",
+      "section": "hidden"
+    },
+    {
+      "fieldId": "reference_image_sources",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "model": "qwen-image-3.0-pro/edit",
+      "operation": "image",
+      "parameters": {
+        "prompt": "prompt",
+        "size": "size",
+        "n": "image_count",
+        "negative_prompt": "negative_prompt",
+        "seed": "seed",
+        "prompt_extend": "prompt_extend",
+        "prompt_extend_mode": "prompt_extend_mode"
+      },
+      "required_text": ["prompt"],
+      "image_size_limits": {
+        "min_side": 512,
+        "max_side": 1440,
+        "allow_auto": false
+      },
+      "omit_blank_parameters": ["size", "negative_prompt"],
+      "enabled_by": {
+        "prompt_extend_mode": "prompt_extend"
+      },
+      "media": {
+        "reference_image_urls": {
+          "kind": "image",
+          "array": true,
+          "fields": ["reference_image_1", "reference_image_2", "reference_image_3"],
+          "min_items": 1,
+          "external_sources_field": "reference_image_sources",
+          "content_types": [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/bmp",
+            "image/tiff",
+            "image/gif"
+          ],
+          "max_bytes": 10000000,
+          "allow_oss_references": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Qwen Image 3.0 Pro 图片编辑",
+      "description": "按提示词编辑图片，可使用 1 至 3 张参考图。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "size": {
+          "label": "输出尺寸"
+        },
+        "image_count": {
+          "label": "图片数量"
+        },
+        "negative_prompt": {
+          "label": "负面提示词"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "prompt_extend": {
+          "label": "改写提示词"
+        },
+        "prompt_extend_mode": {
+          "label": "改写策略",
+          "choiceLabels": {
+            "direct": "直接改写（DPE）"
+          }
+        },
+        "reference_image_1": {
+          "label": "参考图 1"
+        },
+        "reference_image_2": {
+          "label": "参考图 2"
+        },
+        "reference_image_3": {
+          "label": "参考图 3"
+        },
+        "reference_image_sources": {
+          "label": "参考图来源"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "每张最多 10 MB，建议宽、高为 384 至 2,048 像素。合计提供 1 至 3 张。"
+        },
+        "reference_image_2": {
+          "help": "每张最多 10 MB，建议宽、高为 384 至 2,048 像素。合计提供 1 至 3 张。"
+        },
+        "reference_image_3": {
+          "help": "每张最多 10 MB，建议宽、高为 384 至 2,048 像素。合计提供 1 至 3 张。"
+        },
+        "prompt": {
+          "help": "描述要修改的内容，以及希望保留的部分。"
+        },
+        "size": {
+          "help": "输入宽*高，宽、高均在 512 至 1,440 像素之间。留空由模型选择。"
+        },
+        "image_count": {
+          "help": "每次生成 1 至 4 张，默认 1 张。"
+        },
+        "negative_prompt": {
+          "help": "填写希望避免的画面元素、风格或瑕疵。"
+        },
+        "seed": {
+          "help": "填写 0 至 2,147,483,647 的整数。留空时由模型选取。"
+        },
+        "prompt_extend": {
+          "help": "由模型扩充提示词，补充画面细节。"
+        },
+        "prompt_extend_mode": {
+          "help": "此档位使用直接改写（DPE）。"
+        },
+        "reference_image_sources": {
+          "help": "每行填写一个公开 HTTP(S) 图片地址、OSS 临时地址或 Base64 Data URI。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Qwen Image 3.0 Pro 圖片編輯",
+      "description": "依提示詞編輯圖片，可使用 1 至 3 張參考圖。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "size": {
+          "label": "輸出尺寸"
+        },
+        "image_count": {
+          "label": "圖片數量"
+        },
+        "negative_prompt": {
+          "label": "負面提示詞"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "prompt_extend": {
+          "label": "改寫提示詞"
+        },
+        "prompt_extend_mode": {
+          "label": "改寫策略",
+          "choiceLabels": {
+            "direct": "直接改寫（DPE）"
+          }
+        },
+        "reference_image_1": {
+          "label": "參考圖 1"
+        },
+        "reference_image_2": {
+          "label": "參考圖 2"
+        },
+        "reference_image_3": {
+          "label": "參考圖 3"
+        },
+        "reference_image_sources": {
+          "label": "參考圖來源"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "每張最多 10 MB，寬、高建議為 384 至 2,048 像素。合計提供 1 至 3 張。"
+        },
+        "reference_image_2": {
+          "help": "每張最多 10 MB，寬、高建議為 384 至 2,048 像素。合計提供 1 至 3 張。"
+        },
+        "reference_image_3": {
+          "help": "每張最多 10 MB，寬、高建議為 384 至 2,048 像素。合計提供 1 至 3 張。"
+        },
+        "prompt": {
+          "help": "描述要修改的內容，以及希望保留的部分。"
+        },
+        "size": {
+          "help": "輸入寬*高，寬、高均為 512 至 1,440 像素。留空由模型選擇。"
+        },
+        "image_count": {
+          "help": "每次生成 1 至 4 張，預設 1 張。"
+        },
+        "negative_prompt": {
+          "help": "填寫希望避免的畫面元素、風格或瑕疵。"
+        },
+        "seed": {
+          "help": "填寫 0 至 2,147,483,647 的整數。留空時由模型選取。"
+        },
+        "prompt_extend": {
+          "help": "由模型擴充提示詞，補充畫面細節。"
+        },
+        "prompt_extend_mode": {
+          "help": "此方案使用直接改寫（DPE）。"
+        },
+        "reference_image_sources": {
+          "help": "每行填入一個公開 HTTP(S) 圖片網址、OSS 暫存網址或 Base64 Data URI。"
+        }
+      }
+    },
+    "en": {
+      "name": "Qwen Image 3.0 Pro Image Edit",
+      "description": "Edit an image with a prompt and one to three reference images.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "size": {
+          "label": "Output size"
+        },
+        "image_count": {
+          "label": "Image count"
+        },
+        "negative_prompt": {
+          "label": "Negative prompt"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "prompt_extend": {
+          "label": "Rewrite prompt"
+        },
+        "prompt_extend_mode": {
+          "label": "Rewrite strategy",
+          "choiceLabels": {
+            "direct": "Direct rewrite (DPE)"
+          }
+        },
+        "reference_image_1": {
+          "label": "Reference image 1"
+        },
+        "reference_image_2": {
+          "label": "Reference image 2"
+        },
+        "reference_image_3": {
+          "label": "Reference image 3"
+        },
+        "reference_image_sources": {
+          "label": "Reference image sources"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "Provide one to three images, up to 10 MB each. Recommended dimensions are 384 to 2,048 pixels per side."
+        },
+        "reference_image_2": {
+          "help": "Provide one to three images, up to 10 MB each. Recommended dimensions are 384 to 2,048 pixels per side."
+        },
+        "reference_image_3": {
+          "help": "Provide one to three images, up to 10 MB each. Recommended dimensions are 384 to 2,048 pixels per side."
+        },
+        "prompt": {
+          "help": "Describe the changes and what to preserve."
+        },
+        "size": {
+          "help": "Enter width*height with both sides between 512 and 1,440 pixels. Leave blank for the model to choose."
+        },
+        "image_count": {
+          "help": "Generate one to four images. The default is one."
+        },
+        "negative_prompt": {
+          "help": "Describe elements, styles, or artifacts to avoid."
+        },
+        "seed": {
+          "help": "Enter an integer between 0 and 2,147,483,647. Leave blank for a random seed."
+        },
+        "prompt_extend": {
+          "help": "Let the model expand the prompt with more image details."
+        },
+        "prompt_extend_mode": {
+          "help": "This variant uses direct rewriting (DPE)."
+        },
+        "reference_image_sources": {
+          "help": "Enter one public HTTP(S) image URL, temporary OSS URL, or Base64 data URI per line."
+        }
+      }
+    },
+    "ja": {
+      "name": "Qwen Image 3.0 Pro 画像編集",
+      "description": "プロンプトと 1〜3 枚の参照画像から画像を編集します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "size": {
+          "label": "出力サイズ"
+        },
+        "image_count": {
+          "label": "画像の枚数"
+        },
+        "negative_prompt": {
+          "label": "ネガティブプロンプト"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "prompt_extend": {
+          "label": "プロンプトを書き換え"
+        },
+        "prompt_extend_mode": {
+          "label": "書き換え方式",
+          "choiceLabels": {
+            "direct": "直接書き換え（DPE）"
+          }
+        },
+        "reference_image_1": {
+          "label": "参照画像 1"
+        },
+        "reference_image_2": {
+          "label": "参照画像 2"
+        },
+        "reference_image_3": {
+          "label": "参照画像 3"
+        },
+        "reference_image_sources": {
+          "label": "参照画像の入力元"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "各 10 MB 以下で合計 1〜3 枚です。各辺は 384〜2,048 ピクセルを推奨します。"
+        },
+        "reference_image_2": {
+          "help": "各 10 MB 以下で合計 1〜3 枚です。各辺は 384〜2,048 ピクセルを推奨します。"
+        },
+        "reference_image_3": {
+          "help": "各 10 MB 以下で合計 1〜3 枚です。各辺は 384〜2,048 ピクセルを推奨します。"
+        },
+        "prompt": {
+          "help": "変更する内容と残したい部分を記述します。"
+        },
+        "size": {
+          "help": "幅*高さで入力します。各辺は 512〜1,440 ピクセルです。空欄の場合はモデルが決定します。"
+        },
+        "image_count": {
+          "help": "1〜4 枚を生成します。既定値は 1 枚です。"
+        },
+        "negative_prompt": {
+          "help": "避けたい要素、画風、画像の乱れを記述します。"
+        },
+        "seed": {
+          "help": "0〜2,147,483,647 の整数を入力します。空欄の場合はランダムです。"
+        },
+        "prompt_extend": {
+          "help": "モデルがプロンプトに画像の詳細を加えます。"
+        },
+        "prompt_extend_mode": {
+          "help": "このモデルでは直接書き換え（DPE）を使います。"
+        },
+        "reference_image_sources": {
+          "help": "公開 HTTP(S) 画像 URL、OSS の一時 URL、または Base64 Data URI を 1 行に 1 件入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Qwen Image 3.0 Pro 이미지 편집",
+      "description": "프롬프트와 참조 이미지 1~3장으로 이미지를 편집합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "size": {
+          "label": "출력 크기"
+        },
+        "image_count": {
+          "label": "이미지 수"
+        },
+        "negative_prompt": {
+          "label": "부정 프롬프트"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "prompt_extend": {
+          "label": "프롬프트 재작성"
+        },
+        "prompt_extend_mode": {
+          "label": "재작성 방식",
+          "choiceLabels": {
+            "direct": "직접 재작성(DPE)"
+          }
+        },
+        "reference_image_1": {
+          "label": "참조 이미지 1"
+        },
+        "reference_image_2": {
+          "label": "참조 이미지 2"
+        },
+        "reference_image_3": {
+          "label": "참조 이미지 3"
+        },
+        "reference_image_sources": {
+          "label": "참조 이미지 소스"
+        }
+      },
+      "parameterLayout": {
+        "reference_image_1": {
+          "help": "이미지 한 장당 최대 10 MB이며 가로와 세로 권장 범위는 384~2,048픽셀입니다. 총 1~3장을 제공하세요."
+        },
+        "reference_image_2": {
+          "help": "이미지 한 장당 최대 10 MB이며 가로와 세로 권장 범위는 384~2,048픽셀입니다. 총 1~3장을 제공하세요."
+        },
+        "reference_image_3": {
+          "help": "이미지 한 장당 최대 10 MB이며 가로와 세로 권장 범위는 384~2,048픽셀입니다. 총 1~3장을 제공하세요."
+        },
+        "prompt": {
+          "help": "바꿀 부분과 유지할 내용을 설명하세요."
+        },
+        "size": {
+          "help": "너비*높이를 입력하세요. 각 변은 512~1,440픽셀입니다. 비워 두면 모델이 선택합니다."
+        },
+        "image_count": {
+          "help": "1~4장을 생성합니다. 기본값은 1장입니다."
+        },
+        "negative_prompt": {
+          "help": "피하고 싶은 요소, 화풍 또는 이미지 결함을 설명하세요."
+        },
+        "seed": {
+          "help": "0~2,147,483,647의 정수를 입력하세요. 비워 두면 무작위입니다."
+        },
+        "prompt_extend": {
+          "help": "모델이 프롬프트에 이미지 세부 사항을 추가합니다."
+        },
+        "prompt_extend_mode": {
+          "help": "이 모델은 직접 재작성(DPE)을 사용합니다."
+        },
+        "reference_image_sources": {
+          "help": "공개 HTTP(S) 이미지 URL, OSS 임시 URL 또는 Base64 Data URI를 한 줄에 하나씩 입력하세요."
+        }
+      }
+    }
+  }
+}

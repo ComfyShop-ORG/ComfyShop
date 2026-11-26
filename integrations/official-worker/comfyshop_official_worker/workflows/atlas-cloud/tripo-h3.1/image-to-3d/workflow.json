@@ -1,0 +1,564 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "tripo-h31-image-to-3d",
+  "name": "Tripo H3.1 图生 3D",
+  "description": "根据一张参考图生成带纹理的 3D 模型，可选择几何精度、材质和网格拓扑。",
+  "category": "3d",
+  "fields": [
+    {
+      "name": "reference_image",
+      "kind": "image"
+    },
+    {
+      "name": "texture",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "pbr",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "texture_quality",
+      "kind": "choice",
+      "choices": ["standard", "detailed"],
+      "default": "standard",
+      "optional": true
+    },
+    {
+      "name": "geometry_quality",
+      "kind": "choice",
+      "choices": ["standard", "detailed"],
+      "default": "standard",
+      "optional": true
+    },
+    {
+      "name": "texture_alignment",
+      "kind": "choice",
+      "choices": ["original_image", "geometry"],
+      "default": "original_image",
+      "optional": true
+    },
+    {
+      "name": "orientation",
+      "kind": "choice",
+      "choices": ["default", "align_image"],
+      "default": "default",
+      "optional": true
+    },
+    {
+      "name": "face_limit",
+      "kind": "integer",
+      "minimum": "1000",
+      "maximum": "2000000",
+      "optional": true
+    },
+    {
+      "name": "model_seed",
+      "kind": "integer",
+      "optional": true
+    },
+    {
+      "name": "texture_seed",
+      "kind": "integer",
+      "optional": true
+    },
+    {
+      "name": "auto_size",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "quad",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "reference_image",
+      "section": "default"
+    },
+    {
+      "fieldId": "texture",
+      "section": "default"
+    },
+    {
+      "fieldId": "pbr",
+      "section": "default"
+    },
+    {
+      "fieldId": "texture_quality",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "geometry_quality",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "texture_alignment",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "orientation",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "face_limit",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "model_seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "texture_seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "auto_size",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "quad",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "3d",
+    "additionalOutputKinds": ["image"],
+    "config": {
+      "operation": "image",
+      "model": "tripo-h3.1/image-to-3d",
+      "parameters": {
+        "texture": "texture",
+        "pbr": "pbr",
+        "texture_quality": "texture_quality",
+        "geometry_quality": "geometry_quality",
+        "texture_alignment": "texture_alignment",
+        "orientation": "orientation",
+        "face_limit": "face_limit",
+        "model_seed": "model_seed",
+        "texture_seed": "texture_seed",
+        "auto_size": "auto_size",
+        "quad": "quad"
+      },
+      "media": {
+        "image_url": {
+          "kind": "image",
+          "fields": ["reference_image"],
+          "min_items": 1
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Tripo H3.1 图生 3D",
+      "description": "根据一张参考图生成带纹理的 3D 模型，可选择几何精度、材质和网格拓扑。",
+      "fields": {
+        "reference_image": {
+          "label": "参考图片"
+        },
+        "texture": {
+          "label": "生成纹理"
+        },
+        "pbr": {
+          "label": "生成 PBR 材质"
+        },
+        "texture_quality": {
+          "label": "纹理质量"
+        },
+        "geometry_quality": {
+          "label": "几何质量"
+        },
+        "texture_alignment": {
+          "label": "纹理对齐"
+        },
+        "orientation": {
+          "label": "模型朝向"
+        },
+        "face_limit": {
+          "label": "目标面数"
+        },
+        "model_seed": {
+          "label": "几何种子"
+        },
+        "texture_seed": {
+          "label": "纹理种子"
+        },
+        "auto_size": {
+          "label": "按实物尺寸缩放"
+        },
+        "quad": {
+          "label": "四边面网格"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "上传清晰展示物体的图片。"
+        },
+        "texture": {
+          "help": "为网格生成纹理。"
+        },
+        "pbr": {
+          "help": "生成基于物理的渲染材质。"
+        },
+        "texture_quality": {
+          "help": "选择标准或精细纹理。"
+        },
+        "geometry_quality": {
+          "help": "选择标准或精细几何结构。"
+        },
+        "texture_alignment": {
+          "help": "按原图或网格几何对齐纹理。"
+        },
+        "orientation": {
+          "help": "使用默认朝向或与参考图片对齐。"
+        },
+        "face_limit": {
+          "help": "输入 1000 至 2000000 个面。初始为空，由模型自适应决定。"
+        },
+        "model_seed": {
+          "help": "指定用于复现几何的整数种子。"
+        },
+        "texture_seed": {
+          "help": "指定用于复现纹理的整数种子。"
+        },
+        "auto_size": {
+          "help": "自动将模型缩放到以米为单位的实物尺寸。"
+        },
+        "quad": {
+          "help": "开启时生成四边面网格，交付可下载的 FBX。默认交付可预览的 GLB。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Tripo H3.1 圖生 3D",
+      "description": "根據一張參考圖產生帶紋理的 3D 模型，可選擇幾何精度、材質和網格拓撲。",
+      "fields": {
+        "reference_image": {
+          "label": "參考圖片"
+        },
+        "texture": {
+          "label": "產生紋理"
+        },
+        "pbr": {
+          "label": "產生 PBR 材質"
+        },
+        "texture_quality": {
+          "label": "紋理品質"
+        },
+        "geometry_quality": {
+          "label": "幾何品質"
+        },
+        "texture_alignment": {
+          "label": "紋理對齊"
+        },
+        "orientation": {
+          "label": "模型朝向"
+        },
+        "face_limit": {
+          "label": "目標面數"
+        },
+        "model_seed": {
+          "label": "幾何種子"
+        },
+        "texture_seed": {
+          "label": "紋理種子"
+        },
+        "auto_size": {
+          "label": "按實物尺寸縮放"
+        },
+        "quad": {
+          "label": "四邊面網格"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "上傳清楚展示物件的圖片。"
+        },
+        "texture": {
+          "help": "為網格產生紋理。"
+        },
+        "pbr": {
+          "help": "產生基於物理的渲染材質。"
+        },
+        "texture_quality": {
+          "help": "選擇標準或精細紋理。"
+        },
+        "geometry_quality": {
+          "help": "選擇標準或精細幾何結構。"
+        },
+        "texture_alignment": {
+          "help": "將紋理與原圖或網格幾何對齊。"
+        },
+        "orientation": {
+          "help": "使用預設朝向或與參考圖片對齊。"
+        },
+        "face_limit": {
+          "help": "輸入 1000 至 2000000 個面。預設為空，由模型自動決定。"
+        },
+        "model_seed": {
+          "help": "指定可重現幾何結構的整數種子。"
+        },
+        "texture_seed": {
+          "help": "指定可重現紋理的整數種子。"
+        },
+        "auto_size": {
+          "help": "自動將模型縮放到以公尺為單位的實物尺寸。"
+        },
+        "quad": {
+          "help": "啟用後產生四邊面網格並提供 FBX 下載。預設輸出為可預覽的 GLB。"
+        }
+      }
+    },
+    "en": {
+      "name": "Tripo H3.1 Image-to-3D",
+      "description": "Create a textured 3D model from an image. Configure geometry, materials, and mesh topology.",
+      "fields": {
+        "reference_image": {
+          "label": "Reference image"
+        },
+        "texture": {
+          "label": "Generate texture"
+        },
+        "pbr": {
+          "label": "Generate PBR materials"
+        },
+        "texture_quality": {
+          "label": "Texture quality"
+        },
+        "geometry_quality": {
+          "label": "Geometry quality"
+        },
+        "texture_alignment": {
+          "label": "Texture alignment"
+        },
+        "orientation": {
+          "label": "Orientation"
+        },
+        "face_limit": {
+          "label": "Target face count"
+        },
+        "model_seed": {
+          "label": "Geometry seed"
+        },
+        "texture_seed": {
+          "label": "Texture seed"
+        },
+        "auto_size": {
+          "label": "Scale to real-world size"
+        },
+        "quad": {
+          "label": "Quad topology"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "Upload an image that clearly shows the object."
+        },
+        "texture": {
+          "help": "Generate a texture for the mesh."
+        },
+        "pbr": {
+          "help": "Generate physically based materials."
+        },
+        "texture_quality": {
+          "help": "Choose standard or detailed textures."
+        },
+        "geometry_quality": {
+          "help": "Choose standard or detailed geometry."
+        },
+        "texture_alignment": {
+          "help": "Align the texture to the original image or generated geometry."
+        },
+        "orientation": {
+          "help": "Use the default orientation or align with the reference image."
+        },
+        "face_limit": {
+          "help": "Enter 1,000 to 2,000,000 faces. The model picks a count when the field is unset."
+        },
+        "model_seed": {
+          "help": "Use an integer seed to reproduce geometry."
+        },
+        "texture_seed": {
+          "help": "Use an integer seed to reproduce textures."
+        },
+        "auto_size": {
+          "help": "Scale the model automatically to real-world dimensions in meters."
+        },
+        "quad": {
+          "help": "Enable quad topology to get a downloadable FBX file. The default GLB supports preview."
+        }
+      }
+    },
+    "ja": {
+      "name": "Tripo H3.1 画像から 3D",
+      "description": "参照画像1枚からテクスチャ付きの3Dモデルを生成します。形状の精度、素材、メッシュの構成を設定できます。",
+      "fields": {
+        "reference_image": {
+          "label": "参照画像"
+        },
+        "texture": {
+          "label": "テクスチャを生成"
+        },
+        "pbr": {
+          "label": "PBR マテリアルを生成"
+        },
+        "texture_quality": {
+          "label": "テクスチャ品質"
+        },
+        "geometry_quality": {
+          "label": "形状の品質"
+        },
+        "texture_alignment": {
+          "label": "テクスチャの位置合わせ"
+        },
+        "orientation": {
+          "label": "モデルの向き"
+        },
+        "face_limit": {
+          "label": "目標面数"
+        },
+        "model_seed": {
+          "label": "形状のシード"
+        },
+        "texture_seed": {
+          "label": "テクスチャのシード"
+        },
+        "auto_size": {
+          "label": "実寸に合わせる"
+        },
+        "quad": {
+          "label": "四角形メッシュ"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "被写体がはっきり見える画像をアップロードします。"
+        },
+        "texture": {
+          "help": "メッシュのテクスチャを生成します。"
+        },
+        "pbr": {
+          "help": "物理ベースレンダリング用のマテリアルを生成します。"
+        },
+        "texture_quality": {
+          "help": "標準または詳細なテクスチャを選択します。"
+        },
+        "geometry_quality": {
+          "help": "標準または詳細な形状を選択します。"
+        },
+        "texture_alignment": {
+          "help": "元の画像または生成した形状に合わせてテクスチャを配置します。"
+        },
+        "orientation": {
+          "help": "既定の向きか参照画像に合わせる向きを選びます。"
+        },
+        "face_limit": {
+          "help": "1000～2000000面を指定します。初期状態ではモデルが自動で決めます。"
+        },
+        "model_seed": {
+          "help": "形状を再現するための整数シードを指定します。"
+        },
+        "texture_seed": {
+          "help": "テクスチャを再現するための整数シードを指定します。"
+        },
+        "auto_size": {
+          "help": "メートルを単位として自動的に実寸に合わせます。"
+        },
+        "quad": {
+          "help": "有効にすると四角形メッシュをFBXでダウンロードできます。既定のGLBはプレビューできます。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Tripo H3.1 이미지로 3D 생성",
+      "description": "참고 이미지 한 장에서 텍스처가 있는 3D 모델을 만듭니다. 형상 품질과 재질, 메시 구조를 설정할 수 있습니다.",
+      "fields": {
+        "reference_image": {
+          "label": "참고 이미지"
+        },
+        "texture": {
+          "label": "텍스처 생성"
+        },
+        "pbr": {
+          "label": "PBR 재질 생성"
+        },
+        "texture_quality": {
+          "label": "텍스처 품질"
+        },
+        "geometry_quality": {
+          "label": "형상 품질"
+        },
+        "texture_alignment": {
+          "label": "텍스처 정렬"
+        },
+        "orientation": {
+          "label": "모델 방향"
+        },
+        "face_limit": {
+          "label": "목표 면 개수"
+        },
+        "model_seed": {
+          "label": "형상 시드"
+        },
+        "texture_seed": {
+          "label": "텍스처 시드"
+        },
+        "auto_size": {
+          "label": "실제 크기로 조절"
+        },
+        "quad": {
+          "label": "사각형 메시"
+        }
+      },
+      "parameterLayout": {
+        "reference_image": {
+          "help": "물체가 잘 보이는 이미지를 업로드합니다."
+        },
+        "texture": {
+          "help": "메시의 텍스처를 생성합니다."
+        },
+        "pbr": {
+          "help": "물리 기반 렌더링 재질을 생성합니다."
+        },
+        "texture_quality": {
+          "help": "표준 또는 고품질 텍스처를 선택합니다."
+        },
+        "geometry_quality": {
+          "help": "표준 또는 고품질 형상을 선택합니다."
+        },
+        "texture_alignment": {
+          "help": "원본 이미지 또는 생성한 형상에 텍스처를 맞춥니다."
+        },
+        "orientation": {
+          "help": "기본 방향을 사용하거나 참고 이미지에 맞춥니다."
+        },
+        "face_limit": {
+          "help": "1,000~2,000,000개의 면을 지정합니다. 초기에는 모델이 면 개수를 자동으로 선택합니다."
+        },
+        "model_seed": {
+          "help": "형상을 재현할 정수 시드를 지정합니다."
+        },
+        "texture_seed": {
+          "help": "텍스처를 재현할 정수 시드를 지정합니다."
+        },
+        "auto_size": {
+          "help": "미터 단위의 실제 크기에 자동으로 맞춥니다."
+        },
+        "quad": {
+          "help": "켜면 사각형 메시를 FBX로 내려받을 수 있습니다. 기본 GLB는 미리보기를 지원합니다."
+        }
+      }
+    }
+  }
+}

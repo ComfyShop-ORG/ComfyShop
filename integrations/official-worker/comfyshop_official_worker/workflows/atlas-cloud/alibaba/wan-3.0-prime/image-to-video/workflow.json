@@ -1,0 +1,513 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-alibaba-wan-3-0-prime-image-to-video",
+  "name": "Wan 3.0 Prime 图生视频",
+  "description": "根据起始图和提示词生成视频，可指定结束图。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true,
+      "maxLength": 20000
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1080p",
+      "optional": true,
+      "choices": ["1080p", "720p", "480p", "720p-esr", "1080p-esr", "1440p-esr", "4k-esr"]
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 5,
+      "optional": true,
+      "choices": [
+        -1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+        26, 27, 28, 29, 30
+      ]
+    },
+    {
+      "name": "audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true
+    },
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    },
+    {
+      "name": "last_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "last_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": "",
+      "multiline": true,
+      "maxLength": 4194304
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "last_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "last_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "alibaba/wan-3.0-prime/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "duration": "duration",
+        "audio": "audio",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "external_sources_field": "first_frame_source",
+          "min_items": 1,
+          "max_bytes": 20000000,
+          "content_types": ["image/jpeg", "image/png", "image/bmp", "image/webp"],
+          "external_urls_only": true,
+          "image_bounds": {
+            "min_side": 240,
+            "max_side": 8000,
+            "max_aspect_ratio": 8
+          },
+          "reject_png_alpha": true
+        },
+        "last_image": {
+          "kind": "image",
+          "fields": ["last_frame"],
+          "external_sources_field": "last_frame_source",
+          "max_bytes": 20000000,
+          "content_types": ["image/jpeg", "image/png", "image/bmp", "image/webp"],
+          "external_urls_only": true,
+          "image_bounds": {
+            "min_side": 240,
+            "max_side": 8000,
+            "max_aspect_ratio": 8
+          },
+          "reject_png_alpha": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Wan 3.0 Prime 图生视频",
+      "description": "根据起始图和提示词生成视频，可指定结束图。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "720p": "720p",
+            "480p": "480p",
+            "720p-esr": "720p ESR",
+            "1080p-esr": "1080p ESR",
+            "1440p-esr": "1440p ESR",
+            "4k-esr": "4K ESR"
+          }
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "audio": {
+          "label": "生成音频"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "first_frame": {
+          "label": "起始帧"
+        },
+        "first_frame_source": {
+          "label": "起始帧地址"
+        },
+        "last_frame": {
+          "label": "结束帧"
+        },
+        "last_frame_source": {
+          "label": "结束帧地址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要添加的动作、镜头与首尾帧之间的变化。最多 20,000 字符。"
+        },
+        "first_frame": {
+          "help": "上传 JPEG、无透明通道的 PNG、BMP 或 WebP。宽高各 240 至 8000 像素，长短边比例最多 8:1，每张最多 20 MB。"
+        },
+        "last_frame": {
+          "help": "上传 JPEG、无透明通道的 PNG、BMP 或 WebP。宽高各 240 至 8000 像素，长短边比例最多 8:1，每张最多 20 MB。"
+        },
+        "resolution": {
+          "help": "原生分辨率为 480p、720p 或 1080p。带 ESR 的选项由模型放大。"
+        },
+        "duration": {
+          "help": "选择 2 至 30 秒。选择 -1 时由模型决定。默认 5 秒。"
+        },
+        "audio": {
+          "help": "控制成品是否包含音轨，默认开启。"
+        },
+        "seed": {
+          "help": "留空由模型决定。输入 -1 使用随机种子，或填写一个固定整数。"
+        },
+        "first_frame_source": {
+          "help": "填写一个公开图片 URL，与上传二选一。"
+        },
+        "last_frame_source": {
+          "help": "填写一个公开图片 URL，与上传二选一。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Wan 3.0 Prime 圖生影片",
+      "description": "依起始圖與提示詞產生影片，可指定結尾圖。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "720p": "720p",
+            "480p": "480p",
+            "720p-esr": "720p ESR",
+            "1080p-esr": "1080p ESR",
+            "1440p-esr": "1440p ESR",
+            "4k-esr": "4K ESR"
+          }
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "audio": {
+          "label": "生成音訊"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "first_frame": {
+          "label": "起始影格"
+        },
+        "first_frame_source": {
+          "label": "起始影格網址"
+        },
+        "last_frame": {
+          "label": "結尾影格"
+        },
+        "last_frame_source": {
+          "label": "結尾影格網址"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述要加入的動作、運鏡及首尾影格之間的變化。最多 20,000 字元。"
+        },
+        "first_frame": {
+          "help": "上傳 JPEG、無透明通道的 PNG、BMP 或 WebP。寬高各 240 至 8000 像素，長短邊比例最多 8:1，每張最多 20 MB。"
+        },
+        "last_frame": {
+          "help": "上傳 JPEG、無透明通道的 PNG、BMP 或 WebP。寬高各 240 至 8000 像素，長短邊比例最多 8:1，每張最多 20 MB。"
+        },
+        "resolution": {
+          "help": "原生解析度為 480p、720p 或 1080p。帶有 ESR 的選項由模型放大。"
+        },
+        "duration": {
+          "help": "選擇 2 至 30 秒。選擇 -1 時交由模型決定。預設為 5 秒。"
+        },
+        "audio": {
+          "help": "控制成片是否包含音軌，預設為開啟。"
+        },
+        "seed": {
+          "help": "留空由模型決定。輸入 -1 使用隨機種子，或填寫固定整數。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個公開圖片網址，與上傳擇一。"
+        },
+        "last_frame_source": {
+          "help": "填寫一個公開圖片網址，與上傳擇一。"
+        }
+      }
+    },
+    "en": {
+      "name": "Wan 3.0 Prime Image to Video",
+      "description": "Generate video from an opening image and a prompt with an optional closing image.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "720p": "720p",
+            "480p": "480p",
+            "720p-esr": "720p ESR",
+            "1080p-esr": "1080p ESR",
+            "1440p-esr": "1440p ESR",
+            "4k-esr": "4K ESR"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "audio": {
+          "label": "Generate audio"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "first_frame": {
+          "label": "First frame"
+        },
+        "first_frame_source": {
+          "label": "First frame URL"
+        },
+        "last_frame": {
+          "label": "Last frame"
+        },
+        "last_frame_source": {
+          "label": "Last frame URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the motion, camera direction, and changes between the frames. Use up to 20,000 characters."
+        },
+        "first_frame": {
+          "help": "Upload JPEG, PNG without an alpha channel, BMP, or WebP. Each side must be 240–8,000 pixels, the longer side at most 8 times the shorter, and the image up to 20 MB."
+        },
+        "last_frame": {
+          "help": "Upload JPEG, PNG without an alpha channel, BMP, or WebP. Each side must be 240–8,000 pixels, the longer side at most 8 times the shorter, and the image up to 20 MB."
+        },
+        "resolution": {
+          "help": "Native options are 480p, 720p, and 1080p. ESR options are upscaled."
+        },
+        "duration": {
+          "help": "Choose 2 to 30 seconds or select -1 to let the model decide. The default is 5 seconds."
+        },
+        "audio": {
+          "help": "Include an audio track in the result. On by default."
+        },
+        "seed": {
+          "help": "Leave blank to let the model choose. Enter -1 for a random seed or an integer for a fixed seed."
+        },
+        "first_frame_source": {
+          "help": "Enter one public image URL in place of an upload."
+        },
+        "last_frame_source": {
+          "help": "Enter one public image URL in place of an upload."
+        }
+      }
+    },
+    "ja": {
+      "name": "Wan 3.0 Prime 画像から動画",
+      "description": "開始画像とプロンプトから動画を生成し、終了画像を任意で指定できます。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "720p": "720p",
+            "480p": "480p",
+            "720p-esr": "720p ESR",
+            "1080p-esr": "1080p ESR",
+            "1440p-esr": "1440p ESR",
+            "4k-esr": "4K ESR"
+          }
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "audio": {
+          "label": "音声を生成"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "first_frame": {
+          "label": "開始フレーム"
+        },
+        "first_frame_source": {
+          "label": "開始フレームのURL"
+        },
+        "last_frame": {
+          "label": "終了フレーム"
+        },
+        "last_frame_source": {
+          "label": "終了フレームのURL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "追加する動き、カメラワーク、開始と終了の間の変化を記述します。最大20,000文字です。"
+        },
+        "first_frame": {
+          "help": "JPEG、アルファチャンネルなしのPNG、BMP、またはWebPをアップロードします。縦横240〜8,000ピクセル、長辺と短辺の比は最大8:1、各20 MBまでです。"
+        },
+        "last_frame": {
+          "help": "JPEG、アルファチャンネルなしのPNG、BMP、またはWebPをアップロードします。縦横240〜8,000ピクセル、長辺と短辺の比は最大8:1、各20 MBまでです。"
+        },
+        "resolution": {
+          "help": "ネイティブ解像度は480p、720p、1080pです。ESRの選択肢ではアップスケールします。"
+        },
+        "duration": {
+          "help": "2〜30秒から選択します。-1を選ぶとモデルが長さを決定します。既定値は5秒です。"
+        },
+        "audio": {
+          "help": "動画に音声トラックを追加します。既定では有効です。"
+        },
+        "seed": {
+          "help": "空欄の場合はモデルが選択します。ランダムなら-1、固定するには整数を入力します。"
+        },
+        "first_frame_source": {
+          "help": "アップロードの代わりに公開画像のURLを1件入力します。"
+        },
+        "last_frame_source": {
+          "help": "アップロードの代わりに公開画像のURLを1件入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Wan 3.0 Prime 이미지로 동영상 생성",
+      "description": "첫 이미지와 프롬프트로 동영상을 만들고 마지막 이미지를 선택할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "1080p": "1080p",
+            "720p": "720p",
+            "480p": "480p",
+            "720p-esr": "720p ESR",
+            "1080p-esr": "1080p ESR",
+            "1440p-esr": "1440p ESR",
+            "4k-esr": "4K ESR"
+          }
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "audio": {
+          "label": "오디오 생성"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "first_frame": {
+          "label": "첫 프레임"
+        },
+        "first_frame_source": {
+          "label": "첫 프레임 URL"
+        },
+        "last_frame": {
+          "label": "마지막 프레임"
+        },
+        "last_frame_source": {
+          "label": "마지막 프레임 URL"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "추가할 동작, 카메라 움직임, 첫 프레임과 마지막 프레임 사이의 변화를 설명합니다. 최대 20,000자입니다."
+        },
+        "first_frame": {
+          "help": "JPEG, 알파 채널이 없는 PNG, BMP 또는 WebP를 업로드합니다. 가로와 세로는 각각 240~8,000픽셀, 긴 변과 짧은 변의 비율은 최대 8:1, 이미지당 최대 20 MB입니다."
+        },
+        "last_frame": {
+          "help": "JPEG, 알파 채널이 없는 PNG, BMP 또는 WebP를 업로드합니다. 가로와 세로는 각각 240~8,000픽셀, 긴 변과 짧은 변의 비율은 최대 8:1, 이미지당 최대 20 MB입니다."
+        },
+        "resolution": {
+          "help": "기본 생성 해상도는 480p, 720p, 1080p입니다. ESR 옵션은 업스케일을 적용합니다."
+        },
+        "duration": {
+          "help": "2초에서 30초 중 선택하거나 -1로 모델에 맡깁니다. 기본값은 5초입니다."
+        },
+        "audio": {
+          "help": "동영상에 오디오 트랙을 포함합니다. 기본값은 켜짐입니다."
+        },
+        "seed": {
+          "help": "비워 두면 모델이 선택합니다. 무작위를 사용하려면 -1, 고정하려면 정수를 입력합니다."
+        },
+        "first_frame_source": {
+          "help": "업로드 대신 공개 이미지 URL을 하나 입력합니다."
+        },
+        "last_frame_source": {
+          "help": "업로드 대신 공개 이미지 URL을 하나 입력합니다."
+        }
+      }
+    }
+  }
+}

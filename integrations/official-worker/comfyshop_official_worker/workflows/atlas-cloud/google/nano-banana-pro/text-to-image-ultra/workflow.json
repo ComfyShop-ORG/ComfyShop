@@ -1,0 +1,420 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-google-nano-banana-pro-text-to-image-ultra",
+  "name": "Nano Banana Pro Ultra 文生图",
+  "description": "用文字生成 4K 或 8K 图片，可选择输出比例及格式。",
+  "category": "image",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "multiline": true
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "optional": true,
+      "default": "",
+      "choices": ["", "1:1", "3:2", "2:3", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "21:9"]
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "optional": true,
+      "default": "4k",
+      "choices": ["4k", "8k"]
+    },
+    {
+      "name": "enable_sync_mode",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "enable_base64_output",
+      "kind": "boolean",
+      "optional": true,
+      "default": false
+    },
+    {
+      "name": "output_format",
+      "kind": "choice",
+      "optional": true,
+      "default": "jpeg",
+      "choices": ["png", "jpeg"]
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "default"
+    },
+    {
+      "fieldId": "output_format",
+      "section": "default"
+    },
+    {
+      "fieldId": "enable_sync_mode",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "enable_base64_output",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "image",
+    "config": {
+      "operation": "image",
+      "model": "google/nano-banana-pro/text-to-image-ultra",
+      "parameters": {
+        "prompt": "prompt",
+        "aspect_ratio": "aspect_ratio",
+        "resolution": "resolution",
+        "enable_sync_mode": "enable_sync_mode",
+        "enable_base64_output": "enable_base64_output",
+        "output_format": "output_format"
+      },
+      "required_text": ["prompt"],
+      "omit_blank_parameters": ["aspect_ratio"]
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Nano Banana Pro Ultra 文生图",
+      "description": "用文字生成 4K 或 8K 图片，可选择输出比例及格式。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "": "模型默认",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9"
+          }
+        },
+        "resolution": {
+          "label": "成品分辨率",
+          "choiceLabels": {
+            "4k": "4K",
+            "8k": "8K"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步返回"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "output_format": {
+          "label": "输出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主体、场景、构图和风格。需要准确绘制的文字请放在引号里。"
+        },
+        "aspect_ratio": {
+          "help": "选择预设比例，或留给模型决定。"
+        },
+        "resolution": {
+          "help": "选择 4K 或 8K。默认 4K。"
+        },
+        "output_format": {
+          "help": "选择 PNG 或 JPEG。默认 JPEG。"
+        },
+        "enable_sync_mode": {
+          "help": "等待 Atlas 完成后在提交响应中取结果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 返回图片。工作机解码后保存图片原件。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Nano Banana Pro Ultra 文生圖",
+      "description": "用文字產生 4K 或 8K 圖片，可選擇輸出比例與格式。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "": "模型預設",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9"
+          }
+        },
+        "resolution": {
+          "label": "成品解析度",
+          "choiceLabels": {
+            "4k": "4K",
+            "8k": "8K"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同步回傳"
+        },
+        "enable_base64_output": {
+          "label": "Base64 成品"
+        },
+        "output_format": {
+          "label": "輸出格式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述主體、場景、構圖和風格。需要精確繪製的文字請放在引號內。"
+        },
+        "aspect_ratio": {
+          "help": "選擇預設比例，或交由模型決定。"
+        },
+        "resolution": {
+          "help": "選擇 4K 或 8K。預設為 4K。"
+        },
+        "output_format": {
+          "help": "選擇 PNG 或 JPEG。預設為 JPEG。"
+        },
+        "enable_sync_mode": {
+          "help": "等 Atlas 完成後，從提交回應取得結果。"
+        },
+        "enable_base64_output": {
+          "help": "要求 Atlas 以 Base64 回傳圖片。工作機解碼後儲存圖片原始檔案。"
+        }
+      }
+    },
+    "en": {
+      "name": "Nano Banana Pro Ultra Text to Image",
+      "description": "Generate 4K or 8K images from text with a choice of aspect ratio and output format.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "": "Model default",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9"
+          }
+        },
+        "resolution": {
+          "label": "Output resolution",
+          "choiceLabels": {
+            "4k": "4K",
+            "8k": "8K"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "Wait for result"
+        },
+        "enable_base64_output": {
+          "label": "Base64 output"
+        },
+        "output_format": {
+          "label": "Output format",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe the subject, scene, composition, and style. Put any exact text to render in quotation marks."
+        },
+        "aspect_ratio": {
+          "help": "Choose a preset ratio or let the model decide."
+        },
+        "resolution": {
+          "help": "Choose 4K or 8K. The default is 4K."
+        },
+        "output_format": {
+          "help": "Choose PNG or JPEG. The default is JPEG."
+        },
+        "enable_sync_mode": {
+          "help": "Wait for Atlas to return a finished result in the submit response."
+        },
+        "enable_base64_output": {
+          "help": "Request a Base64 response. The work machine decodes it and stores the original image."
+        }
+      }
+    },
+    "ja": {
+      "name": "Nano Banana Pro Ultra テキストから画像",
+      "description": "テキストから4Kまたは8Kの画像を生成し、比率と出力形式を選択できます。",
+      "fields": {
+        "prompt": {
+          "label": "指示文"
+        },
+        "aspect_ratio": {
+          "label": "縦横比",
+          "choiceLabels": {
+            "": "モデルの既定値",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9"
+          }
+        },
+        "resolution": {
+          "label": "出力解像度",
+          "choiceLabels": {
+            "4k": "4K",
+            "8k": "8K"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "同期応答"
+        },
+        "enable_base64_output": {
+          "label": "Base64 出力"
+        },
+        "output_format": {
+          "label": "出力形式",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "被写体、場面、構図、スタイルを記述します。正確に描画する文字は引用符で囲みます。"
+        },
+        "aspect_ratio": {
+          "help": "縦横比のプリセットを選ぶか、モデルに任せます。"
+        },
+        "resolution": {
+          "help": "4Kまたは8Kを選択します。既定値は4Kです。"
+        },
+        "output_format": {
+          "help": "PNGまたはJPEGを選択します。既定値はJPEGです。"
+        },
+        "enable_sync_mode": {
+          "help": "Atlas の完了を待ち、送信時の応答で結果を取得します。"
+        },
+        "enable_base64_output": {
+          "help": "Atlas に Base64 での返却を求めます。ワーカーが復号して元の画像を保存します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Nano Banana Pro Ultra 텍스트로 이미지 생성",
+      "description": "텍스트로 4K 또는 8K 이미지를 만들고 화면 비율과 출력 형식을 선택합니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "가로세로 비율",
+          "choiceLabels": {
+            "": "모델 기본값",
+            "1:1": "1:1",
+            "3:2": "3:2",
+            "2:3": "2:3",
+            "3:4": "3:4",
+            "4:3": "4:3",
+            "4:5": "4:5",
+            "5:4": "5:4",
+            "9:16": "9:16",
+            "16:9": "16:9",
+            "21:9": "21:9"
+          }
+        },
+        "resolution": {
+          "label": "출력 해상도",
+          "choiceLabels": {
+            "4k": "4K",
+            "8k": "8K"
+          }
+        },
+        "enable_sync_mode": {
+          "label": "결과 기다리기"
+        },
+        "enable_base64_output": {
+          "label": "Base64 결과"
+        },
+        "output_format": {
+          "label": "출력 형식",
+          "choiceLabels": {
+            "png": "PNG",
+            "jpeg": "JPEG"
+          }
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "피사체, 장면, 구도와 스타일을 설명하세요. 정확하게 그릴 문구는 따옴표로 묶으세요."
+        },
+        "aspect_ratio": {
+          "help": "가로세로 비율 프리셋을 고르거나 모델이 정하도록 하세요."
+        },
+        "resolution": {
+          "help": "4K 또는 8K를 선택합니다. 기본값은 4K입니다."
+        },
+        "output_format": {
+          "help": "PNG 또는 JPEG를 선택합니다. 기본값은 JPEG입니다."
+        },
+        "enable_sync_mode": {
+          "help": "Atlas 생성이 완료되면 제출 응답에서 결과를 받습니다."
+        },
+        "enable_base64_output": {
+          "help": "Atlas에 Base64 결과를 요청합니다. 작업 머신에서 디코딩해 이미지 원본을 저장합니다."
+        }
+      }
+    }
+  }
+}

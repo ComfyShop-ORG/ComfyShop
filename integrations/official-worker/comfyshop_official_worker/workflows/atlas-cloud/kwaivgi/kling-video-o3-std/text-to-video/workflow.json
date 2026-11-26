@@ -1,0 +1,393 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-kwaivgi-kling-video-o3-std-text-to-video",
+  "name": "可灵 O3 标准版 文生视频",
+  "description": "用文字生成 720p 视频，可指定画面比例、分镜和主体引用。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "prompt",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true,
+      "maxLength": 2500
+    },
+    {
+      "name": "aspect_ratio",
+      "kind": "choice",
+      "default": "16:9",
+      "optional": true,
+      "choices": ["16:9", "9:16", "1:1"]
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 5,
+      "choices": [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "optional": true
+    },
+    {
+      "name": "multi_shot",
+      "kind": "boolean",
+      "default": false,
+      "optional": true
+    },
+    {
+      "name": "multi_prompt",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "elements",
+      "kind": "string",
+      "default": "",
+      "optional": true,
+      "multiline": true
+    },
+    {
+      "name": "sound",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "aspect_ratio",
+      "section": "default"
+    },
+    {
+      "fieldId": "duration",
+      "section": "default"
+    },
+    {
+      "fieldId": "multi_shot",
+      "section": "default"
+    },
+    {
+      "fieldId": "multi_prompt",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "elements",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "sound",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "kwaivgi/kling-video-o3-std/text-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "duration": "duration",
+        "multi_shot": "multi_shot",
+        "sound": "sound",
+        "aspect_ratio": "aspect_ratio"
+      },
+      "omit_blank_parameters": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 2500
+      },
+      "kling_storyboard_field": "multi_prompt",
+      "kling_elements": {
+        "field": "elements",
+        "max_items": 6,
+        "max_video_subjects": 3,
+        "max_image_subjects_with_video": 4,
+        "require_reference_type": true
+      },
+      "kling_storyboard_encoding": "indexed_string_duration"
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "可灵 O3 标准版 文生视频",
+      "description": "用文字生成 720p 视频，可指定画面比例、分镜和主体引用。",
+      "fields": {
+        "prompt": {
+          "label": "提示词"
+        },
+        "aspect_ratio": {
+          "label": "画面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "时长（秒）"
+        },
+        "multi_shot": {
+          "label": "多镜头"
+        },
+        "multi_prompt": {
+          "label": "分镜方案"
+        },
+        "elements": {
+          "label": "主体引用"
+        },
+        "sound": {
+          "label": "生成声音"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述动作和运镜，最多 2,500 字符。未提供自定义分镜时必填，主体引用写作 <<<element_1>>>。"
+        },
+        "aspect_ratio": {
+          "help": "选择 16:9、9:16 或 1:1。默认 16:9。"
+        },
+        "duration": {
+          "help": "选择 3 至 15 秒的整数时长。默认 5 秒。"
+        },
+        "multi_shot": {
+          "help": "开启后可在高级参数输入自定义分镜。留空时模型根据提示词自动分镜。"
+        },
+        "multi_prompt": {
+          "help": "开启多镜头后可填 1 至 6 项 JSON 数组。每项填写 prompt（最多 512 字符）和 duration（1 至 15 秒）。工作机按顺序生成 index 并将时长转为字符串。各段时长之和须等于总时长。"
+        },
+        "elements": {
+          "help": "可填最多 6 项的 JSON 数组。最多 3 项视频主体，混合时最多 4 项图片主体。填已有主体的 element_id，或用名称、类型和素材 URL 新建。按数组顺序引用。"
+        },
+        "sound": {
+          "help": "开启后生成同步声音。默认开启。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "可靈 O3 標準版 文生影片",
+      "description": "用文字生成 720p 影片，可指定畫面比例、分鏡和主體引用。",
+      "fields": {
+        "prompt": {
+          "label": "提示詞"
+        },
+        "aspect_ratio": {
+          "label": "畫面比例",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "長度（秒）"
+        },
+        "multi_shot": {
+          "label": "多鏡頭"
+        },
+        "multi_prompt": {
+          "label": "分鏡方案"
+        },
+        "elements": {
+          "label": "主體引用"
+        },
+        "sound": {
+          "label": "生成聲音"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "描述動作和運鏡，最多 2,500 字元。未提供自訂分鏡時必填，主體引用寫作 <<<element_1>>>。"
+        },
+        "aspect_ratio": {
+          "help": "選擇 16:9、9:16 或 1:1。預設 16:9。"
+        },
+        "duration": {
+          "help": "選擇 3 至 15 秒的整數長度。預設 5 秒。"
+        },
+        "multi_shot": {
+          "help": "開啟後可在進階參數輸入自訂分鏡。空白時模型依提示詞自動分鏡。"
+        },
+        "multi_prompt": {
+          "help": "開啟多鏡頭後可填 1 至 6 項的 JSON 陣列。每項包含 prompt（最多 512 字元）和 duration（1 至 15 秒）。工作機依序生成 index 並將長度轉為字串。各段長度總和須等於影片長度。"
+        },
+        "elements": {
+          "help": "可填最多 6 項的 JSON 陣列。最多 3 項影片主體，混合時最多 4 項圖片主體。填既有主體的 element_id，或透過名稱、類型和素材 URL 新建。依陣列順序引用。"
+        },
+        "sound": {
+          "help": "開啟後生成同步聲音。預設開啟。"
+        }
+      }
+    },
+    "en": {
+      "name": "Kling O3 Standard Text to Video",
+      "description": "Generate 720p video from text with a selectable aspect ratio, storyboard, and subject references.",
+      "fields": {
+        "prompt": {
+          "label": "Prompt"
+        },
+        "aspect_ratio": {
+          "label": "Aspect ratio",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "multi_shot": {
+          "label": "Multiple shots"
+        },
+        "multi_prompt": {
+          "label": "Storyboard"
+        },
+        "elements": {
+          "label": "Subject references"
+        },
+        "sound": {
+          "label": "Generate audio"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "Describe movement and camera direction in up to 2,500 characters. Required without custom shots. Use <<<element_1>>> to refer to a subject."
+        },
+        "aspect_ratio": {
+          "help": "Choose 16:9, 9:16, or 1:1. The default is 16:9."
+        },
+        "duration": {
+          "help": "Choose a whole number from 3 to 15. The default is 5."
+        },
+        "multi_shot": {
+          "help": "Enable to enter a custom storyboard under Advanced. Leave it blank to split the prompt into shots automatically."
+        },
+        "multi_prompt": {
+          "help": "With multiple shots enabled, enter a JSON array of one to six shots. Each needs a prompt of up to 512 characters and a duration of one to fifteen seconds. The worker sets index in array order and sends duration as a string. Durations must add up to the total."
+        },
+        "elements": {
+          "help": "Enter a JSON array of up to six subjects. Use at most three video subjects and, when mixing types, at most four image subjects. Use an existing element_id or create a subject with its name, type, and media URLs. Mention subjects in array order."
+        },
+        "sound": {
+          "help": "Generate synchronized sound. On by default."
+        }
+      }
+    },
+    "ja": {
+      "name": "Kling O3 Standard テキストから動画生成",
+      "description": "画面比率、ショット構成、参照する主体を指定して、テキストから 720p 動画を生成します。",
+      "fields": {
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "aspect_ratio": {
+          "label": "アスペクト比",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "長さ（秒）"
+        },
+        "multi_shot": {
+          "label": "複数ショット"
+        },
+        "multi_prompt": {
+          "label": "ショット構成"
+        },
+        "elements": {
+          "label": "主体参照"
+        },
+        "sound": {
+          "label": "音声生成"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "動きやカメラワークを 2,500 文字以内で記述します。ショットを指定しない場合は必須です。主体の参照には <<<element_1>>> を使います。"
+        },
+        "aspect_ratio": {
+          "help": "16:9、9:16、1:1 から選択します。既定は 16:9 です。"
+        },
+        "duration": {
+          "help": "3〜15 秒の整数から選択します。既定は 5 秒です。"
+        },
+        "multi_shot": {
+          "help": "詳細設定でショット構成を入力できます。空欄の場合、Atlas はプロンプトに沿って自動でショットを分割します。"
+        },
+        "multi_prompt": {
+          "help": "複数ショットをオンにし、1〜6 項目の JSON 配列を入力します。各項目に prompt（512 文字以内）と duration（1〜15 秒）を指定します。ワーカーが配列順に index を設定し、長さを文字列で送信します。合計は動画の長さと一致させます。"
+        },
+        "elements": {
+          "help": "最大 6 項目の JSON 配列を入力します。動画の主体は最大 3 件、種類を混ぜる場合は画像の主体が最大 4 件です。既存の element_id か、名前、種類、素材 URL で主体を指定します。配列の順番で参照します。"
+        },
+        "sound": {
+          "help": "有効にすると同期した音声を生成します。既定はオンです。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Kling O3 Standard 텍스트 동영상 생성",
+      "description": "텍스트로 720p 동영상을 만들고 화면 비율, 스토리보드, 피사체 참조를 지정할 수 있습니다.",
+      "fields": {
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "aspect_ratio": {
+          "label": "화면 비율",
+          "choiceLabels": {
+            "16:9": "16:9",
+            "9:16": "9:16",
+            "1:1": "1:1"
+          }
+        },
+        "duration": {
+          "label": "길이(초)"
+        },
+        "multi_shot": {
+          "label": "여러 숏"
+        },
+        "multi_prompt": {
+          "label": "스토리보드"
+        },
+        "elements": {
+          "label": "피사체 참조"
+        },
+        "sound": {
+          "label": "오디오 생성"
+        }
+      },
+      "parameterLayout": {
+        "prompt": {
+          "help": "움직임과 카메라 구도를 최대 2,500자로 설명하세요. 개별 숏을 지정하지 않으면 필수입니다. <<<element_1>>>로 피사체를 참조할 수 있습니다."
+        },
+        "aspect_ratio": {
+          "help": "16:9, 9:16 또는 1:1 중에서 선택하세요. 기본값은 16:9입니다."
+        },
+        "duration": {
+          "help": "3~15초 사이의 정수를 선택하세요. 기본값은 5초입니다."
+        },
+        "multi_shot": {
+          "help": "켜면 고급 설정에서 숏을 지정할 수 있습니다. 비우면 프롬프트에 맞게 숏을 자동으로 나눕니다."
+        },
+        "multi_prompt": {
+          "help": "여러 숏을 켠 뒤 1~6개 항목의 JSON 배열을 입력하세요. 각 항목에 prompt(최대 512자)와 duration(1~15초)을 입력합니다. 워커가 배열 순서대로 index를 지정하고 길이를 문자열로 보냅니다. 길이의 합은 전체 영상 길이와 같아야 합니다."
+        },
+        "elements": {
+          "help": "최대 6개의 피사체를 JSON 배열로 입력하세요. 동영상 피사체는 최대 3개이며 두 유형을 섞으면 이미지 피사체는 최대 4개입니다. 기존 element_id를 쓰거나 이름, 유형, 소재 URL로 피사체를 만들고 배열 순서로 참조하세요."
+        },
+        "sound": {
+          "help": "켜면 영상에 맞는 소리를 생성합니다. 기본값은 켜짐입니다."
+        }
+      }
+    }
+  }
+}

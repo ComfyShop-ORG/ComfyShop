@@ -1,0 +1,491 @@
+{
+  "format": "service",
+  "workerKind": "official",
+  "key": "atlas-vidu-q1-image-to-video",
+  "name": "Vidu Q1 图生视频",
+  "description": "从一张起始图生成 5 秒的 1080p 视频，可控制动作幅度、音频和背景音乐。",
+  "category": "video",
+  "fields": [
+    {
+      "name": "first_frame",
+      "kind": "image",
+      "optional": true
+    },
+    {
+      "name": "prompt",
+      "kind": "string",
+      "multiline": true,
+      "default": "",
+      "maxLength": 5000
+    },
+    {
+      "name": "resolution",
+      "kind": "choice",
+      "default": "1080p",
+      "choices": ["1080p"],
+      "optional": true
+    },
+    {
+      "name": "duration",
+      "kind": "choice",
+      "default": 5,
+      "choices": [5],
+      "optional": true
+    },
+    {
+      "name": "movement_amplitude",
+      "kind": "choice",
+      "default": "auto",
+      "choices": ["auto", "small", "medium", "large"],
+      "optional": true
+    },
+    {
+      "name": "generate_audio",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "bgm",
+      "kind": "boolean",
+      "default": true,
+      "optional": true
+    },
+    {
+      "name": "seed",
+      "kind": "integer",
+      "optional": true
+    },
+    {
+      "name": "first_frame_source",
+      "kind": "string",
+      "optional": true,
+      "default": ""
+    }
+  ],
+  "parameterLayout": [
+    {
+      "fieldId": "first_frame",
+      "section": "default"
+    },
+    {
+      "fieldId": "prompt",
+      "section": "default"
+    },
+    {
+      "fieldId": "resolution",
+      "section": "hidden"
+    },
+    {
+      "fieldId": "duration",
+      "section": "hidden"
+    },
+    {
+      "fieldId": "movement_amplitude",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "generate_audio",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "bgm",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "seed",
+      "section": "advanced"
+    },
+    {
+      "fieldId": "first_frame_source",
+      "section": "advanced"
+    }
+  ],
+  "execution": {
+    "adapter": "atlas-cloud",
+    "outputKind": "video",
+    "config": {
+      "model": "vidu/q1/image-to-video",
+      "operation": "video",
+      "parameters": {
+        "prompt": "prompt",
+        "resolution": "resolution",
+        "duration": "duration",
+        "movement_amplitude": "movement_amplitude",
+        "generate_audio": "generate_audio",
+        "bgm": "bgm",
+        "seed": "seed"
+      },
+      "required_text": ["prompt"],
+      "text_max_lengths": {
+        "prompt": 5000
+      },
+      "media": {
+        "image": {
+          "kind": "image",
+          "fields": ["first_frame"],
+          "min_items": 1,
+          "external_sources_field": "first_frame_source",
+          "external_urls_only": true
+        }
+      }
+    }
+  },
+  "translations": {
+    "zh": {
+      "name": "Vidu Q1 图生视频",
+      "description": "从一张起始图生成 5 秒的 1080p 视频，可控制动作幅度、音频和背景音乐。",
+      "fields": {
+        "first_frame": {
+          "label": "起始图"
+        },
+        "prompt": {
+          "label": "提示词"
+        },
+        "resolution": {
+          "label": "分辨率",
+          "choiceLabels": {
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "成品时长（秒）"
+        },
+        "movement_amplitude": {
+          "label": "动作幅度",
+          "choiceLabels": {
+            "auto": "自动",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音频"
+        },
+        "bgm": {
+          "label": "背景音乐"
+        },
+        "seed": {
+          "label": "随机种子"
+        },
+        "first_frame_source": {
+          "label": "起始图 URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上传用于生成视频的起始图，也可在高级区填写公开地址。"
+        },
+        "prompt": {
+          "help": "描述画面的主体、场景、动作和镜头。 最多 5,000 字符。"
+        },
+        "resolution": {
+          "help": "此接口固定输出 1080p。"
+        },
+        "duration": {
+          "help": "此接口固定生成 5 秒视频。"
+        },
+        "movement_amplitude": {
+          "help": "控制画面中主体的动作幅度，默认自动。"
+        },
+        "generate_audio": {
+          "help": "是否生成视频的音频，默认开启。"
+        },
+        "bgm": {
+          "help": "是否给视频添加背景音乐，默认开启。"
+        },
+        "seed": {
+          "help": "填写整数以指定种子，-1 表示随机。留空时省略。"
+        },
+        "first_frame_source": {
+          "help": "填写一个可公开访问的图片 URL。"
+        }
+      }
+    },
+    "zh-tw": {
+      "name": "Vidu Q1 圖生影片",
+      "description": "從一張起始圖生成 5 秒的 1080p 影片，可控制動作幅度、音訊和背景音樂。",
+      "fields": {
+        "first_frame": {
+          "label": "起始圖"
+        },
+        "prompt": {
+          "label": "提示詞"
+        },
+        "resolution": {
+          "label": "解析度",
+          "choiceLabels": {
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "成品長度（秒）"
+        },
+        "movement_amplitude": {
+          "label": "動作幅度",
+          "choiceLabels": {
+            "auto": "自動",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "generate_audio": {
+          "label": "生成音訊"
+        },
+        "bgm": {
+          "label": "背景音樂"
+        },
+        "seed": {
+          "label": "隨機種子"
+        },
+        "first_frame_source": {
+          "label": "起始圖網址"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "上傳用於生成影片的起始圖，也可在進階區填寫公開網址。"
+        },
+        "prompt": {
+          "help": "描述畫面的主體、場景、動作和鏡頭。 最多 5,000 字元。"
+        },
+        "resolution": {
+          "help": "此介面固定輸出 1080p。"
+        },
+        "duration": {
+          "help": "此介面固定生成 5 秒影片。"
+        },
+        "movement_amplitude": {
+          "help": "控制畫面中主體的動作幅度，預設自動。"
+        },
+        "generate_audio": {
+          "help": "是否生成影片的音訊，預設開啟。"
+        },
+        "bgm": {
+          "help": "是否為影片加入背景音樂，預設開啟。"
+        },
+        "seed": {
+          "help": "填寫整數以指定種子，-1 表示隨機。留空時省略。"
+        },
+        "first_frame_source": {
+          "help": "填寫一個可公開存取的圖片網址。"
+        }
+      }
+    },
+    "en": {
+      "name": "Vidu Q1 Image to Video",
+      "description": "Animate a starting image into a five-second 1080p video with motion, audio and background music controls.",
+      "fields": {
+        "first_frame": {
+          "label": "Starting image"
+        },
+        "prompt": {
+          "label": "Prompt"
+        },
+        "resolution": {
+          "label": "Resolution",
+          "choiceLabels": {
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "Duration (seconds)"
+        },
+        "movement_amplitude": {
+          "label": "Motion amplitude",
+          "choiceLabels": {
+            "auto": "Auto",
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large"
+          }
+        },
+        "generate_audio": {
+          "label": "Generate audio"
+        },
+        "bgm": {
+          "label": "Background music"
+        },
+        "seed": {
+          "label": "Seed"
+        },
+        "first_frame_source": {
+          "label": "Starting image URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "Upload a starting image or enter its public URL in advanced settings."
+        },
+        "prompt": {
+          "help": "Describe the subjects, scene, action and camera movement. Up to 5,000 characters."
+        },
+        "resolution": {
+          "help": "This endpoint outputs 1080p."
+        },
+        "duration": {
+          "help": "This endpoint generates a five-second video."
+        },
+        "movement_amplitude": {
+          "help": "Choose how much objects in the frame move. Auto is the default."
+        },
+        "generate_audio": {
+          "help": "Generate audio for the video. On by default."
+        },
+        "bgm": {
+          "help": "Add background music to the video. On by default."
+        },
+        "seed": {
+          "help": "Enter an integer to specify the seed. Use −1 for random, or leave blank to omit."
+        },
+        "first_frame_source": {
+          "help": "Enter one publicly accessible image URL."
+        }
+      }
+    },
+    "ja": {
+      "name": "Vidu Q1 画像から動画",
+      "description": "開始画像 1 枚から 5 秒の 1080p 動画を生成し、動きの大きさ、音声、BGM を設定できます。",
+      "fields": {
+        "first_frame": {
+          "label": "開始画像"
+        },
+        "prompt": {
+          "label": "プロンプト"
+        },
+        "resolution": {
+          "label": "解像度",
+          "choiceLabels": {
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "動画の長さ（秒）"
+        },
+        "movement_amplitude": {
+          "label": "動きの大きさ",
+          "choiceLabels": {
+            "auto": "自動",
+            "small": "小",
+            "medium": "中",
+            "large": "大"
+          }
+        },
+        "generate_audio": {
+          "label": "音声を生成"
+        },
+        "bgm": {
+          "label": "BGM"
+        },
+        "seed": {
+          "label": "シード"
+        },
+        "first_frame_source": {
+          "label": "開始画像の URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "開始画像をアップロードするか、詳細設定で公開 URL を指定します。"
+        },
+        "prompt": {
+          "help": "被写体、場面、動き、カメラワークを記述します。 最大 5,000 文字です。"
+        },
+        "resolution": {
+          "help": "このエンドポイントは 1080p で出力します。"
+        },
+        "duration": {
+          "help": "このエンドポイントは 5 秒の動画を生成します。"
+        },
+        "movement_amplitude": {
+          "help": "画面内の被写体の動きの大きさを選択します。既定は自動です。"
+        },
+        "generate_audio": {
+          "help": "動画の音声を生成します。既定はオンです。"
+        },
+        "bgm": {
+          "help": "動画に BGM を追加します。既定はオンです。"
+        },
+        "seed": {
+          "help": "整数を入力してシードを指定します。-1 はランダムです。空欄では省略します。"
+        },
+        "first_frame_source": {
+          "help": "公開されている画像 URL を 1 つ入力します。"
+        }
+      }
+    },
+    "ko": {
+      "name": "Vidu Q1 이미지에서 동영상",
+      "description": "시작 이미지 한 장으로 5초짜리 1080p 동영상을 만들며, 움직임의 크기, 오디오와 배경 음악을 설정할 수 있습니다.",
+      "fields": {
+        "first_frame": {
+          "label": "시작 이미지"
+        },
+        "prompt": {
+          "label": "프롬프트"
+        },
+        "resolution": {
+          "label": "해상도",
+          "choiceLabels": {
+            "1080p": "1080p"
+          }
+        },
+        "duration": {
+          "label": "동영상 길이(초)"
+        },
+        "movement_amplitude": {
+          "label": "움직임 크기",
+          "choiceLabels": {
+            "auto": "자동",
+            "small": "작게",
+            "medium": "보통",
+            "large": "크게"
+          }
+        },
+        "generate_audio": {
+          "label": "오디오 생성"
+        },
+        "bgm": {
+          "label": "배경 음악"
+        },
+        "seed": {
+          "label": "시드"
+        },
+        "first_frame_source": {
+          "label": "시작 이미지 URL"
+        }
+      },
+      "parameterLayout": {
+        "first_frame": {
+          "help": "시작 이미지를 업로드하거나 고급 설정에 공개 URL을 입력하세요."
+        },
+        "prompt": {
+          "help": "피사체, 장면, 움직임과 카메라 동작을 설명하세요. 최대 5,000자입니다."
+        },
+        "resolution": {
+          "help": "이 인터페이스는 1080p로 출력합니다."
+        },
+        "duration": {
+          "help": "이 인터페이스는 5초짜리 동영상을 생성합니다."
+        },
+        "movement_amplitude": {
+          "help": "화면 속 피사체의 움직임 크기를 선택하세요. 기본값은 자동입니다."
+        },
+        "generate_audio": {
+          "help": "동영상의 오디오를 생성합니다. 기본값은 켜짐입니다."
+        },
+        "bgm": {
+          "help": "동영상에 배경 음악을 추가합니다. 기본값은 켜짐입니다."
+        },
+        "seed": {
+          "help": "정수를 입력해 시드를 정하세요. -1은 무작위이며 빈칸은 생략합니다."
+        },
+        "first_frame_source": {
+          "help": "공개적으로 접근할 수 있는 이미지 URL 하나를 입력하세요."
+        }
+      }
+    }
+  }
+}
